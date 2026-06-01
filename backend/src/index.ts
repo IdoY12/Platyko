@@ -36,7 +36,6 @@ server.listen(port, host, () => {
     port,
     host,
     localUrl: `http://localhost:${port}`,
-    lanUrlExample: `http://192.168.1.158:${port}`,
   });
 });
 

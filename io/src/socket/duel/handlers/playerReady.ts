@@ -12,7 +12,7 @@ import { logError, logInfo } from "../../../utils/logger.js";
 import { resolveDuelPlayerSlot } from "../resolveDuelPlayerSlot.js";
 import { isThrottled } from "../../../utils/socketThrottle.js";
 import { sessions } from "../state.js";
-import { startRound } from "../session.js";
+import { startRound } from "../startRound.js";
 import type { DuelNamespace } from "../types.js";
 
 export function registerPlayerReady(socket: Socket, duel: DuelNamespace) {

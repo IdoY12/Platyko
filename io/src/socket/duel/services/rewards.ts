@@ -1,5 +1,6 @@
 import { levelFromXpTotal } from "@project/xp-constants";
 import { activeExperienceLevelOf, getProgressForActiveUser, handleStreakQualifyingXpForUser, prisma } from "@project/db";
+import { logError } from "../../../utils/logger.js";
 
 export async function applyXpReward(userId: string, xpToAdd: number, streakLocalDate: string | null): Promise<number> {
   const level = await activeExperienceLevelOf(prisma, userId);
@@ -24,7 +25,7 @@ export async function applyXpReward(userId: string, xpToAdd: number, streakLocal
       },
     });
   } catch (err) {
-    console.error("applyXpReward: failed to persist XP for user", userId, err);
+    logError("[DUEL]", err, { phase: "applyXpReward", userId });
     return 0;
   }
 

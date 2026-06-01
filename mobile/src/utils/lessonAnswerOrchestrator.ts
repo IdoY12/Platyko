@@ -22,10 +22,6 @@ type LessonAnswerOrchestratorArgs = {
   setExerciseIndex: (n: number) => void;
 };
 
-function grantXp(addXp: AddXp, xp: number): void {
-  addXp(xp);
-}
-
 function hapticForCorrect(isAnswerCorrect: boolean): void {
   void Haptics.notificationAsync(
     isAnswerCorrect ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Error,
@@ -55,7 +51,7 @@ export async function orchestrateLessonAnswer(a: LessonAnswerOrchestratorArgs): 
   const nextCorrect = isAnswerCorrect ? a.correctCount + 1 : a.correctCount;
   a.setAttemptedCount(nextAttempted);
   if (isAnswerCorrect) a.setCorrectCount(nextCorrect);
-  if (isAnswerCorrect) grantXp(a.addXp, xpEarned);
+  if (isAnswerCorrect) a.addXp(xpEarned);
   if (isAnswerCorrect && xpEarned > 0) a.onQualifyingLessonXpEarned?.();
   hapticForCorrect(isAnswerCorrect);
   const accuracy = Math.round((nextCorrect / nextAttempted) * 100);

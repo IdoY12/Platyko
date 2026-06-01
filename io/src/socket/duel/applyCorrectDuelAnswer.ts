@@ -11,7 +11,8 @@ import { XP_PER_CORRECT_EXERCISE } from "@project/xp-constants";
 import { DUEL_ROUND_COUNT, DUEL_BETWEEN_ROUNDS_DELAY_MS } from "../../constants/duelRoundConstants.js";
 import { applyXpReward } from "./services/rewards.js";
 import { sessions } from "./state.js";
-import { endSession, startRound } from "./session.js";
+import { endSession } from "./endSession.js";
+import { startRound } from "./startRound.js";
 import type { CachedQuestion, DuelNamespace, SessionState } from "./types.js";
 
 export function advanceDuelRoundNoWinner(
