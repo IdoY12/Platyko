@@ -35,20 +35,20 @@ export async function startRound(io: DuelNamespace, sessionOrId: string | Sessio
 
     if (!session) return;
 
-    session.round += 1;
-    session.readyUserIds.clear();
-    session.answered = false;
-    session.player1Attempts = 0;
-    session.player2Attempts = 0;
-    session.roundNonce += 1;
-
-    const question = await pickQuestionForSession(session);
+    const nextRound = session.round + 1;
+    const question = await pickQuestionForSession(session, nextRound);
 
     if (!question) {
       logInfo("[DUEL]", "question:none-available", { sessionId: session.sessionId });
       void endSession(io, session);
       return;
     }
+
+    session.round = nextRound;
+    session.readyUserIds.clear();
+    session.answered = false;
+    session.player1Attempts = 0;
+    session.player2Attempts = 0;
     session.currentQuestionId = question.id;
     session.currentQuestion = {
       id: question.id,

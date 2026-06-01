@@ -52,7 +52,7 @@ export function makeSession(sessionId: string, roomId: string, p1: QueueEntry, p
     score: { player1: 0, player2: 0 }, round: 0,
     readyUserIds: new Set<string>(),
     currentQuestionId: null, currentQuestion: null, answered: false,
-    player1Attempts: 0, player2Attempts: 0, roundNonce: 0, roundReplay: [],
+    player1Attempts: 0, player2Attempts: 0, roundReplay: [],
     player1StreakLocalDate: null, player2StreakLocalDate: null,
     xpGrantedP1: 0, xpGrantedP2: 0, askedQuestionIds: new Set<string>(),
   };

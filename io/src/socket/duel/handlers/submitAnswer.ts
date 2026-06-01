@@ -32,6 +32,11 @@ export function registerSubmitAnswer(socket: Socket, duel: DuelNamespace) {
           return;
         }
 
+        if (!Number.isFinite(payload.time_taken_ms) || payload.time_taken_ms < 0) {
+          socket.emit("error", { message: "invalid_time_taken" });
+          return;
+        }
+
         const { correctAnswer } = session.currentQuestion;
         const streakDate =
           typeof payload.streak_local_date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(payload.streak_local_date)

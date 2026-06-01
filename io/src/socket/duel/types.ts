@@ -29,7 +29,6 @@ export interface SessionState {
   answered: boolean;
   player1Attempts: number;
   player2Attempts: number;
-  roundNonce: number;
   roundReplay: Array<{
     roundNumber: number;
     winnerUserId: string | null;

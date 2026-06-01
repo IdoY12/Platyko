@@ -1,12 +1,4 @@
-/**
- * Authenticated user profile, progress, preferences, and account management routes.
- *
- * Responsibility: mount user handlers behind authMiddleware.
- * Layer: backend HTTP
- * Depends on: controllers/user/index.js, authMiddleware, validateBody/validateQuery/validateParams middleware, validators/userValidators
- * Consumers: app.ts
- */
-
+import rateLimit from "express-rate-limit";
 import { raw, Router } from "express";
 import {
   deleteAccount,
@@ -36,7 +28,10 @@ import {
   progressSummaryQuerySchema,
 } from "../validators/userValidators.js";
 
+const userLimiter = rateLimit({ windowMs: 60_000, max: 60, standardHeaders: true, legacyHeaders: false });
+
 export const userRouter = Router();
+userRouter.use(userLimiter);
 userRouter.use(authMiddleware);
 
 userRouter.get("/profile", getProfile);

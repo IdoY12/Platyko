@@ -1,10 +1,6 @@
 import { NextFunction, Response } from "express";
 import { prisma } from "@project/db";
 import type { AuthenticatedRequest } from "../@types/auth.js";
-import {
-  readCachedTokenVersionForUser,
-  writeCachedTokenVersionForUser,
-} from "../utils/authenticatedUserTokenVersionCache.js";
 import { logError, logInfo, logWarn } from "../utils/logger.js";
 import { verifyAccessToken } from "../utils/sessionJwtTokens.js";
 
@@ -24,18 +20,6 @@ export async function authMiddleware(
 
   try {
     const decoded = verifyAccessToken(token);
-    const cachedVersion = readCachedTokenVersionForUser(decoded.userId);
-
-    if (cachedVersion !== undefined && cachedVersion === decoded.tokenVersion) {
-      request.user = {
-        userId: decoded.userId,
-        email: decoded.email,
-        tokenVersion: decoded.tokenVersion,
-      };
-      logInfo("[AUTH]", "access-token-validated-cache", { userId: decoded.userId, path: request.originalUrl });
-      next();
-      return;
-    }
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
       select: { id: true, tokenVersion: true },
@@ -46,15 +30,13 @@ export async function authMiddleware(
       response.status(401).json({ error: "Invalid token" });
       return;
     }
-
     if (user.tokenVersion !== decoded.tokenVersion) {
       logWarn("[AUTH]", "token-version-mismatch", { userId: decoded.userId, path: request.originalUrl });
       response.status(401).json({ error: "Invalid token" });
       return;
     }
-    writeCachedTokenVersionForUser(user.id, user.tokenVersion);
     logInfo("[AUTH]", "access-token-validated", { userId: decoded.userId, path: request.originalUrl });
-    request.user = { userId: decoded.userId, email: decoded.email, tokenVersion: decoded.tokenVersion };
+    request.user = { userId: decoded.userId, email: decoded.email };
     next();
   } catch (error) {
     logError("[AUTH]", error, { path: request.originalUrl, reason: "invalid-access-token" });
@@ -77,22 +59,19 @@ export async function optionalAuthMiddleware(
   const token = authHeader.slice(7);
   try {
     const decoded = verifyAccessToken(token);
-    const cachedVersion = readCachedTokenVersionForUser(decoded.userId);
-    if (cachedVersion !== undefined && cachedVersion === decoded.tokenVersion) {
-      request.user = { userId: decoded.userId, email: decoded.email, tokenVersion: decoded.tokenVersion };
-      next();
-      return;
-    }
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
       select: { id: true, tokenVersion: true },
     });
-    if (!user || user.tokenVersion !== decoded.tokenVersion) {
+    if (!user) {
       next();
       return;
     }
-    writeCachedTokenVersionForUser(user.id, user.tokenVersion);
-    request.user = { userId: decoded.userId, email: decoded.email, tokenVersion: decoded.tokenVersion };
+    if (user.tokenVersion !== decoded.tokenVersion) {
+      next();
+      return;
+    }
+    request.user = { userId: decoded.userId, email: decoded.email };
   } catch {
     // Invalid token on an optional-auth route: treat as anonymous.
   }

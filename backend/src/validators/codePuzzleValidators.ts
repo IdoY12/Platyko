@@ -5,7 +5,7 @@ export const codePuzzleSubmitParamsSchema = z.object({
 });
 
 export const codePuzzleSubmitBodySchema = z.object({
-  answer: z.string(),
+  answer: z.string().max(2000),
   clientLocalDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
 });
 

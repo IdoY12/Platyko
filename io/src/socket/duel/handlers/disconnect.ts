@@ -50,8 +50,8 @@ export function registerDisconnect(socket: Socket, duel: DuelNamespace) {
     });
 
     rematchEntries.forEach((entry, sessionId) => {
-      const isPlayer1 = entry.player1.socketId === socket.id;
-      const isPlayer2 = entry.player2.socketId === socket.id;
+      const isPlayer1 = entry.player1.socketId === socket.id || entry.requests.get(entry.player1.userId) === socket.id;
+      const isPlayer2 = entry.player2.socketId === socket.id || entry.requests.get(entry.player2.userId) === socket.id;
       if (!isPlayer1 && !isPlayer2) return;
 
       if (entry.timer) clearTimeout(entry.timer);

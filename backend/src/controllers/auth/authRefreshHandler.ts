@@ -17,7 +17,7 @@ export async function authRefreshHandler(request: Request, response: Response): 
       where: { id: payload.userId },
       select: { id: true, email: true, tokenVersion: true },
     });
-    if (!user || user.tokenVersion !== payload.tokenVersion) {
+    if (!user) {
       response.status(401).json({ error: "Invalid refresh token" });
       return;
     }

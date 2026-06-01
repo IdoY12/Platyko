@@ -36,16 +36,9 @@ export async function authLoginHandler(request: Request, response: Response): Pr
     }
     const progress = await ensureUserProgressForLogin(user);
     await touchUserLastActive(user.id);
-    const accessToken = signAccessToken({
-      userId: user.id,
-      email: user.email,
-      tokenVersion: user.tokenVersion,
-    });
-    const refreshToken = signRefreshToken({
-      userId: user.id,
-      email: user.email,
-      tokenVersion: user.tokenVersion,
-    });
+    const tokenPayload = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
+    const accessToken = signAccessToken(tokenPayload);
+    const refreshToken = signRefreshToken(tokenPayload);
     await storeRefreshToken(user.id, refreshToken, randomUUID());
     logInfo("[AUTH]", "login:success", { userId: user.id });
     response.json({

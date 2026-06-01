@@ -15,9 +15,5 @@ export function parseVerifiedPayload(payload: unknown): AuthTokenPayload {
     throw new Error("Invalid token shape");
   }
 
-  return {
-    userId: record.userId,
-    email: record.email,
-    tokenVersion: record.tokenVersion,
-  };
+  return { userId: record.userId, email: record.email, tokenVersion: record.tokenVersion };
 }

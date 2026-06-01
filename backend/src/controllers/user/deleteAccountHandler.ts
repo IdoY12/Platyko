@@ -1,16 +1,6 @@
-/**
- * DELETE /api/user/account — hard-deletes user data after typed confirmation.
- *
- * Responsibility: transactional cleanup of related rows and optional avatar delete.
- * Layer: backend user HTTP handlers
- * Depends on: Prisma, storage, logger, token cache
- * Consumers: user router
- */
-
 import type { Response } from "express";
 import { prisma } from "@project/db";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
-import { invalidateCachedTokenVersionForUser } from "../../utils/authenticatedUserTokenVersionCache.js";
 import { deleteAvatarObject, extractAvatarKeyFromUrl } from "../../utils/storage.js";
 import { logWarn } from "../../utils/logger.js";
 
@@ -25,12 +15,7 @@ export async function deleteAccount(req: AuthenticatedRequest, res: Response) {
 
   const avatarKey = user.avatarUrl ? extractAvatarKeyFromUrl(user.avatarUrl) : null;
 
-  invalidateCachedTokenVersionForUser(userId);
   await prisma.$transaction(async (tx) => {
-    await tx.user.update({
-      where: { id: userId },
-      data: { tokenVersion: { increment: 1 } },
-    });
     await tx.duelSession.updateMany({
       where: { winnerId: userId },
       data: { winnerId: null },

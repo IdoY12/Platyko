@@ -20,12 +20,16 @@ export function registerPlayerReady(socket: Socket, duel: DuelNamespace) {
     "player_ready",
     async (payload: { session_id: string; streak_local_date?: string }) => {
       try {
+        if (!socket.data.authenticatedUserId) {
+          socket.emit("auth_error", { message: "Authentication required" });
+          return;
+        }
         if (isThrottled(socket, "player_ready", 1000)) return;
         const session = sessions.get(payload.session_id);
 
         if (!session) return;
 
-        const slot = resolveDuelPlayerSlot(session, socket, socket.data.authenticatedUserId as string | undefined);
+        const slot = resolveDuelPlayerSlot(session, socket, socket.data.authenticatedUserId);
 
         if (!slot) {
           logInfo("[DUEL]", "player_ready:rejected-non-participant", { socketId: socket.id });

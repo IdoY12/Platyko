@@ -7,7 +7,7 @@ export async function authMeHandler(request: AuthenticatedRequest, response: Res
     const userId = request.user!.userId;
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true, email: true, username: true, avatarUrl: true, tokenVersion: true },
+      select: { id: true, email: true, username: true, avatarUrl: true },
     });
 
     if (!user) {

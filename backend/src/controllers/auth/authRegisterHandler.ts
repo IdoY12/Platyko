@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
 import { randomUUID } from "crypto";
-import { prisma } from "@project/db";
-import { logError, logInfo, logWarn } from "../../utils/logger.js";
+import { logError, logInfo } from "../../utils/logger.js";
 import { USERNAME_TAKEN_MESSAGE } from "@project/user-credentials";
 import {
   DATABASE_UNAVAILABLE_MESSAGE,
@@ -17,26 +16,10 @@ export async function authRegisterHandler(request: Request, response: Response):
   const { email, username, password } = request.validatedBody as RegisterBody;
   logInfo("[AUTH]", "register:attempt", { email, username });
   try {
-    const existing = await prisma.user.findUnique({ where: { email } });
-
-    if (existing) {
-      logWarn("[AUTH]", "register:email-exists", { email });
-      response.status(409).json({ error: "Email already exists" });
-      return;
-    }
     const user = await createRegisteredUserWithDefaults({ email, username, password });
-    const accessToken = signAccessToken({
-      userId: user.id,
-      email: user.email,
-      // Stamp the JWT with the same tokenVersion as the User row so later requests compare DB vs claim; bumping the DB invalidates every old token at once (JWTs otherwise stay valid until expiry).
-      // Column: packages/db/prisma/models/user.prisma (`User.tokenVersion`, default 0). Bump: backend/src/utils/revokeAllSessionsForUser.ts (e.g. logout), backend/src/controllers/user/postChangePasswordHandler.ts, backend/src/controllers/user/deleteAccountHandler.ts.
-      tokenVersion: user.tokenVersion,
-    });
-    const refreshToken = signRefreshToken({
-      userId: user.id,
-      email: user.email,
-      tokenVersion: user.tokenVersion,
-    });
+    const tokenPayload = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
+    const accessToken = signAccessToken(tokenPayload);
+    const refreshToken = signRefreshToken(tokenPayload);
     await storeRefreshToken(user.id, refreshToken, randomUUID());
     logInfo("[AUTH]", "register:success", { userId: user.id, email: user.email });
     response.status(201).json({

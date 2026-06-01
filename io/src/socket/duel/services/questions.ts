@@ -3,7 +3,10 @@ import { prisma } from "@project/db";
 import type { SessionState } from "../types.js";
 
 const LEVELS = new Set<string>(["JUNIOR", "MID", "SENIOR"]);
-const questionCache = new Map<string, DuelQuestion[]>();
+const CACHE_TTL_MS = 5 * 60 * 1000;
+
+interface CacheEntry { questions: DuelQuestion[]; cachedAt: number }
+const questionCache = new Map<string, CacheEntry>();
 
 function asDifficulty(value: string): Difficulty | null {
   if (LEVELS.has(value)) return value as Difficulty;
@@ -12,24 +15,28 @@ function asDifficulty(value: string): Difficulty | null {
 
 async function pickRandomDuelQuestion(difficulty?: Difficulty, exclude?: Set<string>): Promise<DuelQuestion | null> {
   const key = difficulty ?? "all";
-  if (!questionCache.has(key)) questionCache.set(key, await prisma.duelQuestion.findMany({ where: difficulty ? { difficulty } : undefined }));
-  const pool = (questionCache.get(key) ?? []).filter((q) => !exclude?.has(q.id));
+  const cached = questionCache.get(key);
+  if (!cached || Date.now() - cached.cachedAt > CACHE_TTL_MS) {
+    const questions = await prisma.duelQuestion.findMany({ where: difficulty ? { difficulty } : undefined });
+    questionCache.set(key, { questions, cachedAt: Date.now() });
+  }
+  const pool = (questionCache.get(key)?.questions ?? []).filter((q) => !exclude?.has(q.id));
   if (pool.length === 0) return null;
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
 /**
  * Picks duel question difficulty from both players' experience levels and current round.
- * Odd session.round → first band in each mixed pair; even → second (see product rules in task spec).
+ * Odd round → first band in each mixed pair; even → second (see product rules in task spec).
  */
-export async function pickQuestionForSession(session: SessionState) {
+export async function pickQuestionForSession(session: SessionState, round: number) {
   const p1 = asDifficulty(session.player1.experienceLevel);
   const p2 = asDifficulty(session.player2.experienceLevel);
   const ex = session.askedQuestionIds;
 
   if (!p1 || !p2) return pickRandomDuelQuestion(undefined, ex);
 
-  const odd = session.round % 2 === 1;
+  const odd = round % 2 === 1;
   let targetDifficulty: Difficulty;
 
   if (p1 === p2) {
