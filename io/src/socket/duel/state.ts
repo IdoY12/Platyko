@@ -19,10 +19,9 @@ export const queue: QueueEntry[] = [];
 export const sessions = new Map<string, SessionState>();
 
 export function findActiveSessionForUser(userId: string): SessionState | undefined {
-  for (const session of sessions.values()) {
-    if (session.player1.userId === userId || session.player2.userId === userId) return session;
-  }
-  return undefined;
+  return Array.from(sessions.values()).find(
+    (session) => session.player1.userId === userId || session.player2.userId === userId,
+  );
 }
 
 export function userInActiveDuel(userId: string): boolean {

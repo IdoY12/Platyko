@@ -7,9 +7,9 @@
  */
 
 import type { Response } from "express";
-import { prisma } from "@project/db";
+import { Prisma } from "@prisma/client";
+import { prisma, getProgressForActiveUser } from "@project/db";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
-import { getProgressForActiveUser } from "@project/db";
 import { logInfo } from "../../utils/logger.js";
 import type { PostPracticeLogBody } from "../../validators/userValidators.js";
 
@@ -18,24 +18,32 @@ export async function postPracticeLog(req: AuthenticatedRequest, res: Response) 
   logInfo("[TASKS]", "practice-log:write-attempt", { userId: req.user?.userId, dateKey });
 
   const userId = req.user!.userId;
-  const progress = await getProgressForActiveUser(prisma, userId);
+  let nextSeconds: number | null = null;
 
-  if (!progress) {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      nextSeconds = await prisma.$transaction(async (tx) => {
+        const progress = await getProgressForActiveUser(tx, userId);
+        if (!progress) return null;
+        const sameDay = progress.practiceLogDateKey === dateKey;
+        const seconds = sameDay ? progress.practiceLogSeconds + practicedSeconds : practicedSeconds;
+        await tx.userProgress.update({
+          where: { id: progress.id },
+          data: { practiceLogDateKey: dateKey, practiceLogSeconds: seconds },
+        });
+        return seconds;
+      }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
+      break;
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2034" && attempt < 2) continue;
+      throw e;
+    }
+  }
+
+  if (nextSeconds === null) {
     return res.status(404).json({ error: "Progress not found" });
   }
 
-  const sameDay = progress.practiceLogDateKey === dateKey;
-  const nextSeconds = sameDay ? progress.practiceLogSeconds + practicedSeconds : practicedSeconds;
-
-  await prisma.userProgress.update({
-    where: { id: progress.id },
-    data: {
-      practiceLogDateKey: dateKey,
-      practiceLogSeconds: nextSeconds,
-    },
-  });
-
   logInfo("[TASKS]", "practice-log:write-success", { userId: req.user?.userId, practicedSeconds: nextSeconds });
-
   return res.json({ practicedSeconds: nextSeconds });
 }
