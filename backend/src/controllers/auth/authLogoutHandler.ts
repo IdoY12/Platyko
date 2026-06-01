@@ -28,6 +28,6 @@ export async function authLogoutHandler(request: Request, response: Response): P
     response.json({ ok: true });
   } catch (error) {
     logError("[AUTH]", error, { phase: "logout" });
-    response.status(401).json({ error: "Invalid credentials" });
+    response.status(500).json({ error: "Invalid credentials" });
   }
 }

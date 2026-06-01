@@ -52,6 +52,6 @@ export async function authRefreshHandler(request: Request, response: Response): 
     response.json({ accessToken, refreshToken: newRefreshToken });
   } catch (error) {
     logError("[AUTH]", error, { phase: "refresh" });
-    response.status(401).json({ error: "Invalid refresh token" });
+    response.status(500).json({ error: "Invalid refresh token" });
   }
 }

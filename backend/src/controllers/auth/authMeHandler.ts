@@ -1,5 +1,6 @@
 import type { Response } from "express";
 import { prisma } from "@project/db";
+import { logError } from "../../utils/logger.js";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
 
 export async function authMeHandler(request: AuthenticatedRequest, response: Response): Promise<void> {
@@ -15,7 +16,8 @@ export async function authMeHandler(request: AuthenticatedRequest, response: Res
       return;
     }
     response.json(user);
-  } catch {
+  } catch (error) {
+    logError("[AUTH]", error, { phase: "me" });
     response.status(500).json({ error: "Failed to load profile" });
   }
 }
