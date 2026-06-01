@@ -34,6 +34,10 @@ export async function authRefreshHandler(request: Request, response: Response): 
       response.status(401).json({ error: "Invalid refresh token" });
       return;
     }
+    if (stored.expiresAt < new Date()) {
+      response.status(401).json({ error: "Invalid refresh token" });
+      return;
+    }
     const tokenPayload = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
     const accessToken = signAccessToken(tokenPayload);
     const newRefreshToken = signRefreshToken(tokenPayload);
