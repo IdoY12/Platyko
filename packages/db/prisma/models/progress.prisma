@@ -18,7 +18,8 @@ model UserProgress {
   notificationsEnabled   Boolean           @default(true)
   xpTotal                Int               @default(0)
   level                  Int               @default(1)
-  streakCurrent Int @default(0)
+  streakCurrent          Int               @default(0)
+  blockProgress          Json              @default("{}")
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, experienceLevel])

@@ -4,7 +4,7 @@ import type { Commitment } from "@/redux/profile-slice";
 import { hydrateProfile, setUserIdentity } from "@/redux/profile-slice";
 import { resetXp } from "@/redux/xp-slice";
 import { resetStreak } from "@/redux/streak-slice";
-import { resetLesson } from "@/redux/lesson-slice";
+import { hydrateLesson, resetLesson } from "@/redux/lesson-slice";
 import { resetStats } from "@/redux/duel-slice";
 import { logAuth } from "@/utils/logger";
 import type User from "@/models/User";
@@ -41,5 +41,12 @@ export function dispatchSignInSuccess(
   dispatch(resetXp());
   dispatch(resetStreak());
   dispatch(resetLesson());
+  if (user.blockProgress && Object.keys(user.blockProgress).length > 0) {
+    const level = user.experienceLevel ?? "JUNIOR";
+    const bp = Object.fromEntries(
+      Object.entries(user.blockProgress).map(([bi, ei]) => [`${level}_block${bi}`, ei]),
+    );
+    dispatch(hydrateLesson({ blockProgress: bp }));
+  }
   dispatch(resetStats());
 }

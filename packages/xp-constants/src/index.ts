@@ -1,6 +1,9 @@
 /** XP for one correct lesson exercise, code puzzle solve, or duel round answer (single source of truth). */
 export const XP_PER_CORRECT_EXERCISE = 250;
 
+/** Hard ceiling on xpTotal — no write path may exceed this. */
+export const MAX_XP_TOTAL = 100_000;
+
 export const PUZZLE_MAX_XP_SOLVES = 10;
 
 export type PuzzleXpSolveCounts = Record<string, number>;

@@ -28,7 +28,7 @@ describe("syncDailyPracticeReminder", () => {
     getStateMock.mockReset();
   });
 
-  it("guest: schedules daily 20:00 and body includes dailyGoalMinutes from commitment", async () => {
+  it("guest: schedules daily 19:00 and body includes dailyGoalMinutes from commitment", async () => {
     getStateMock.mockReturnValue({
       session: { hasHydrated: true, isGuest: true, isAuthenticated: false },
       profile: { commitment: "15", notificationsEnabled: false },
@@ -41,7 +41,7 @@ describe("syncDailyPracticeReminder", () => {
     expect(Notifications.scheduleNotificationAsync).toHaveBeenCalledTimes(1);
     const req = vi.mocked(Notifications.scheduleNotificationAsync).mock.calls[0][0];
     expect(req.content.body).toContain("15");
-    expect(req.trigger).toEqual({ type: "daily", hour: 20, minute: 0 });
+    expect(req.trigger).toEqual({ type: "daily", hour: 19, minute: 0 });
     expect(AsyncStorage.multiSet).toHaveBeenCalledWith([
       ["scheduledNotificationId", "nid-guest"],
       ["dailyPracticeReminderFp", "true|15|true|false"],

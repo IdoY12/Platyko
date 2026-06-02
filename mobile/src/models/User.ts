@@ -7,4 +7,5 @@ export default interface User {
     experienceLevel: "JUNIOR" | "MID" | "SENIOR" | null
     dailyCommitmentMinutes: number | null
     notificationsEnabled: boolean | null
+    blockProgress?: Record<string, number>
 }

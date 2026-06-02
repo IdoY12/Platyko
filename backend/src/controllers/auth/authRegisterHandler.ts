@@ -13,25 +13,33 @@ import { createRegisteredUserWithDefaults } from "../../services/auth/registerUs
 import { storeRefreshToken } from "../../utils/storeRefreshToken.js";
 
 export async function authRegisterHandler(request: Request, response: Response): Promise<void> {
-  const { email, username, password } = request.validatedBody as RegisterBody;
+  const {
+    email, username, password, experienceLevel, goal, dailyCommitmentMinutes, blockProgress,
+    notificationsEnabled, xpTotal, streakCurrent, streakLastActivityDate, streakLastCheckedDate, puzzleXpSolveCounts,
+  } = request.validatedBody as RegisterBody;
   logInfo("[AUTH]", "register:attempt", { email, username });
   try {
-    const user = await createRegisteredUserWithDefaults({ email, username, password });
+    const user = await createRegisteredUserWithDefaults({
+      email, username, password, experienceLevel, goal, dailyCommitmentMinutes, blockProgress,
+      notificationsEnabled, xpTotal, streakCurrent, streakLastActivityDate, streakLastCheckedDate, puzzleXpSolveCounts,
+    });
     const tokenPayload = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
     const accessToken = signAccessToken(tokenPayload);
     const refreshToken = signRefreshToken(tokenPayload);
     await storeRefreshToken(user.id, refreshToken, randomUUID());
     logInfo("[AUTH]", "register:success", { userId: user.id, email: user.email });
+    const activeLevel = experienceLevel ?? "JUNIOR";
     response.status(201).json({
       user: {
         id: user.id,
         email: user.email,
         username: user.username,
         avatarUrl: user.avatarUrl,
-        goal: null,
-        experienceLevel: null,
-        dailyCommitmentMinutes: 15,
-        notificationsEnabled: true,
+        goal: goal ?? null,
+        experienceLevel: experienceLevel ?? null,
+        dailyCommitmentMinutes: dailyCommitmentMinutes ?? 15,
+        notificationsEnabled: notificationsEnabled ?? true,
+        blockProgress: blockProgress?.[activeLevel] ?? {},
       },
       accessToken,
       refreshToken,

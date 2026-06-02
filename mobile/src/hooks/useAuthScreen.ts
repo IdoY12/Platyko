@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { passwordPolicyError, registerValidationError } from "@project/user-credentials";
-import type { AppDispatch } from "@/redux/store";
+import store, { type AppDispatch } from "@/redux/store";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
 import { logAuth, logError, logNav } from "@/utils/logger";
-import authService from "@/services/auth";
+import authService, { buildGuestLocalState } from "@/services/auth";
 
 export function useAuthScreen(dispatch: AppDispatch) {
   const navigation = useNavigation();
@@ -47,7 +47,7 @@ export function useAuthScreen(dispatch: AppDispatch) {
     try {
       const response = isLogin
         ? await authService.login(email, password)
-        : await authService.register(email, username, password);
+        : await authService.register(email, username, password, buildGuestLocalState(store.getState()));
       dispatchSignInSuccess(dispatch, response.user, response.accessToken, response.refreshToken);
       navigation.goBack();
       logAuth("submit:success", { mode: isLogin ? "login" : "register", userId: response.user.id });

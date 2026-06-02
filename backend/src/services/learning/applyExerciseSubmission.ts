@@ -1,6 +1,6 @@
 import { ensureProgressRow, handleStreakQualifyingXpForUser, prisma, type DbClient } from "@project/db";
 import { normaliseExerciseAnswer } from "@project/exercise-answer";
-import { levelFromXpTotal, XP_PER_CORRECT_EXERCISE } from "@project/xp-constants";
+import { levelFromXpTotal, MAX_XP_TOTAL, XP_PER_CORRECT_EXERCISE } from "@project/xp-constants";
 import type { ExerciseSubmitResponseDto } from "../../dto/exerciseSubmitResponseDto.js";
 
 const dateKeyRegex = /^\d{4}-\d{2}-\d{2}$/;
@@ -33,7 +33,7 @@ export async function applyExerciseSubmission(input: SubmitInput): Promise<Exerc
 
       if (!progress) return;
 
-      const nextXp = progress.xpTotal + XP_PER_CORRECT_EXERCISE;
+      const nextXp = Math.min(progress.xpTotal + XP_PER_CORRECT_EXERCISE, MAX_XP_TOTAL);
       const nextIdx = Math.max(progress.currentExerciseIndex, exercise.orderIndex + 1);
       const updated = await tx.userProgress.update({
         where: { id: progress.id },

@@ -1,4 +1,4 @@
-import { levelFromXpTotal } from "@project/xp-constants";
+import { levelFromXpTotal, MAX_XP_TOTAL } from "@project/xp-constants";
 import { activeExperienceLevelOf, getProgressForActiveUser, handleStreakQualifyingXpForUser, prisma } from "@project/db";
 import { logError } from "../../../utils/logger.js";
 
@@ -15,12 +15,12 @@ export async function applyXpReward(userId: string, xpToAdd: number, streakLocal
 
   if (!progress) return 0;
 
-  const nextXp = progress.xpTotal + xpToAdd;
+  const nextXp = Math.min(progress.xpTotal + xpToAdd, MAX_XP_TOTAL);
   try {
     await prisma.userProgress.update({
       where: { id: progress.id },
       data: {
-        xpTotal: { increment: xpToAdd },
+        xpTotal: nextXp,
         level: levelFromXpTotal(nextXp),
       },
     });

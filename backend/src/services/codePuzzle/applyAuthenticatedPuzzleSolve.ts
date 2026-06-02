@@ -9,6 +9,7 @@ import {
 } from "@project/db";
 import {
   levelFromXpTotal,
+  MAX_XP_TOTAL,
   nextPuzzleXpSolveCounts,
   XP_PER_CORRECT_EXERCISE,
 } from "@project/xp-constants";
@@ -43,7 +44,7 @@ export async function applyAuthenticatedPuzzleSolve(
     const xpEarned = grantXp ? XP_PER_CORRECT_EXERCISE : 0;
     let xpTotal = progress.xpTotal;
     if (grantXp) {
-      xpTotal = progress.xpTotal + XP_PER_CORRECT_EXERCISE;
+      xpTotal = Math.min(progress.xpTotal + XP_PER_CORRECT_EXERCISE, MAX_XP_TOTAL);
       await tx.userProgress.update({
         where: { id: progress.id },
         data: { xpTotal, level: levelFromXpTotal(xpTotal) },

@@ -1,16 +1,13 @@
 import type { Response } from "express";
 import type { Request } from "express";
 import { prisma } from "@project/db";
-import type { ExperienceLevel } from "@prisma/client";
 import { mapExerciseRowToClientDto } from "../../mappers/mapExerciseRowToClientDto.js";
 import { logError, logInfo } from "../../utils/logger.js";
-
-const levels: ExperienceLevel[] = ["JUNIOR", "MID", "SENIOR"];
+import type { ExperienceLevelParams } from "../../validators/learningValidators.js";
 
 export async function learningGetExercisesHandler(request: Request, response: Response): Promise<void> {
   try {
-    const raw = String(request.params.experienceLevel ?? "").toUpperCase();
-    const experienceLevel = (levels.includes(raw as ExperienceLevel) ? raw : "JUNIOR") as ExperienceLevel;
+    const { experienceLevel } = request.validatedParams as ExperienceLevelParams;
     logInfo("[TASKS]", "exercises:fetch", { experienceLevel });
     const exercises = await prisma.exercise.findMany({
       where: { experienceLevel },
