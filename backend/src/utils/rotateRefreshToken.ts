@@ -1,6 +1,6 @@
 import type { RefreshToken } from "@prisma/client";
 import { prisma } from "@project/db";
-import { hashRefreshToken, REFRESH_TOKEN_TTL_MS } from "./storeRefreshToken.js";
+import { cleanupExpiredRefreshTokens, hashRefreshToken, REFRESH_TOKEN_TTL_MS } from "./storeRefreshToken.js";
 
 /**
  * Marks `stored` as used and persists the replacement token in one transaction.
@@ -14,6 +14,7 @@ export async function rotateRefreshToken(userId: string, stored: RefreshToken, n
       data: { used: true },
     });
     if (claimed.count === 0) return false;
+    await cleanupExpiredRefreshTokens(tx, userId);
     await tx.refreshToken.create({
       data: {
         userId,

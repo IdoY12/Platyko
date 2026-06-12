@@ -37,7 +37,6 @@ services:
       - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET:?Set JWT_ACCESS_SECRET in .env — copy from .env.example}
       - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET:?Set JWT_REFRESH_SECRET in .env — copy from .env.example}
       - CORS_ORIGIN=${CORS_ORIGIN:?Set CORS_ORIGIN in .env — copy from .env.example}
-      - IO_CORS_ORIGIN=${IO_CORS_ORIGIN:?Set IO_CORS_ORIGIN in .env — copy from .env.example}
     depends_on:
       postgres:
         condition: service_healthy

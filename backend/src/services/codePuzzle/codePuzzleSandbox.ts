@@ -1,5 +1,6 @@
 import { isDeepStrictEqual } from "node:util";
 import type { Prisma } from "@prisma/client";
+import { prepareCodePuzzleExpression } from "@project/exercise-answer";
 import { runExpression } from "./codePuzzleSandboxRunner.js";
 
 type CaseRow = { inputContext: Record<string, unknown>; expectedOutput: unknown };
@@ -7,7 +8,7 @@ type CaseRow = { inputContext: Record<string, unknown>; expectedOutput: unknown 
 export function codePuzzleAllTestCasesPass(answer: string, raw: Prisma.JsonValue | null): boolean {
   const cases = parseCases(raw);
   if (!cases) return false;
-  const preparedAnswer = answer.trim().replace(/;$/, "");
+  const preparedAnswer = prepareCodePuzzleExpression(answer);
   return cases.every((row) => {
     try {
       return isDeepStrictEqual(runExpression(preparedAnswer, row.inputContext), row.expectedOutput);

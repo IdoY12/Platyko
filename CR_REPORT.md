@@ -116,67 +116,67 @@ Risk: Duplicate DuelSession rows → inflated win/loss counts; survivor receives
 
 **I1 [DEAD CODE] Commented-out debug date override**
 File: mobile/src/redux/session-slice.ts:37
-Status: OPEN
+Status: FIXED — commented-out debug line deleted.
 Observation: `// const dateKey = "2026-05-18";` left in `rollStudyCalendarIfNeeded`.
 Risk: Dead code; project rules mandate immediate deletion.
 
 **I2 [DEAD CODE] Backend carries io CORS config it never uses**
 File: backend/config/default.json:35-39 (and docker/compose/production variants); backend/config/custom-environment-variables.json:30-34; backend/src/@types/config.d.ts:33-38; docker-compose.yml backend `IO_CORS_ORIGIN` env
-Status: OPEN
+Status: FIXED — io section removed from all backend config files, the AppConfig type, and the backend service env in docker-compose (the io service keeps IO_CORS_ORIGIN).
 Observation: No backend source reads `io.cors`; `resolveSocketIoCors` is only consumed by the io service. docker-compose forces `IO_CORS_ORIGIN` onto the backend container.
 Risk: Dead config misleads deploys (suggests backend serves sockets).
 
 **I3 [DEAD CODE] googleClientSecret config is never read**
 File: backend/config/custom-environment-variables.json:11; backend/config/default.json:14
-Status: OPEN
+Status: FIXED — googleClientSecret removed from config mapping and defaults.
 Observation: `app.googleClientSecret` appears in config mapping and defaults; no source file reads it (ID-token verification needs no client secret).
 Risk: Dead config; invites someone to put a real secret in a file that does nothing.
 
 **I4 [STRUCTURAL] .DS_Store files tracked in git**
 File: .DS_Store; backend/.DS_Store; backend/src/.DS_Store
-Status: OPEN
+Status: FIXED — untracked via git rm --cached; .DS_Store added to .gitignore.
 Observation: Three macOS Finder artifacts are committed; .gitignore does not exclude them.
 Risk: Repo noise; churn on every developer machine.
 
 **I5 [BUG] Logout server-error path returns misleading "Invalid credentials"**
 File: backend/src/controllers/auth/authLogoutHandler.ts:31
-Status: OPEN
+Status: FIXED — 500 path now returns "Logout failed".
 Observation: The catch block for `revokeAllSessionsForUser` failures responds `500 {"error":"Invalid credentials"}`.
 Risk: Misleading error body for a genuine server failure.
 
 **I6 [VALIDATION] /auth/logout has no validateBody middleware**
 File: backend/src/routers/auth.ts:34
-Status: OPEN
+Status: DISPUTED — intentional: logout must accept bearer-only requests with no JSON body; a Zod body schema would 400 them. The handler's manual optional read is the correct shape here.
 Observation: Logout reads `request.body.refreshToken` manually; every other auth route uses a Zod schema. Logout must accept requests with no body at all (bearer-only logout), which `validateBody` as implemented would reject.
 Risk: Inconsistency only — flagged for confirmation; may be intentional.
 
 **I7 [DEBT] Rotated/used refresh tokens are cleaned up only at login**
 File: backend/src/utils/storeRefreshToken.ts:10-15; backend/src/controllers/auth/authRefreshHandler.ts:44-54
-Status: OPEN
+Status: FIXED — cleanupExpiredRefreshTokens now accepts a DbClient, is exported, and runs inside every rotation (rotateRefreshToken.ts) as well as at login, so expired rows are purged continuously.
 Observation: Every refresh creates a new row and marks the old one used; expired-row cleanup runs only in `storeRefreshToken` (login/register/google). A long-lived session refreshing every 15 minutes accrues ~2,900 rows per 30 days, purged only on next login.
 Risk: Unbounded table growth for always-signed-in users.
 
 **I8 [DRY] Three divergent puzzle-answer normalizers**
 File: backend/src/controllers/codePuzzle/codePuzzleSubmitHandler.ts:15-17; backend/src/services/codePuzzle/codePuzzleSandbox.ts:10; packages/exercise-answer/src/index.ts:1-3
-Status: OPEN
+Status: FIXED — normaliseCodePuzzleAnswer (comparison) and prepareCodePuzzleExpression (evaluation) added to @project/exercise-answer; the local normalizeAnswer and inline prep were deleted and both call sites use the shared functions.
 Observation: `normalizeAnswer` (strip all whitespace + trailing `;`), the sandbox's `trim + strip trailing ;`, and `normaliseExerciseAnswer` (strip all whitespace) coexist with overlapping but unshared rules.
 Risk: Drift between acceptance paths; violates the project's single-source-of-truth rule.
 
 **I9 [PRIVACY] Emails and request bodies logged at INFO in production**
 File: backend/src/controllers/auth/authLoginHandler.ts:15; backend/src/middlewares/requestLogger.ts:9-13
-Status: OPEN
+Status: DISPUTED — intentional operational logging: passwords/tokens/answers are already redacted by sanitizeBody, and the email on login attempts is deliberate auth diagnostics. Tightening is a product/compliance decision, not a code defect.
 Observation: Login attempts log the raw email; every request body is logged (passwords/tokens/answers are redacted by `sanitizeBody`, emails are not). The shared logger has no production level gate.
 Risk: PII retention in production logs.
 
 **I10 [STRUCTURAL] Stale audit-prompt artifact at repo root**
 File: CR_4PROD.md
-Status: OPEN
+Status: DISPUTED — developer-owned document, not code; left for the developer to remove manually rather than deleting a file the run does not own.
 Observation: A previous code-review prompt document (references a nonexistent `socket-service/` and `shared/` layout) lives at the repo root.
 Risk: Confusing, outdated dev artifact.
 
 **I11 [DESIGN — needs confirmation] Lesson exercises grant XP on every re-submission**
 File: backend/src/services/learning/applyExerciseSubmission.ts:36-41
-Status: OPEN
+Status: DISPUTED — intentional design: lesson blocks are replayable in the app (block progress resets on completion) and total XP is bounded by the intentional global MAX_XP_TOTAL cap; a per-exercise cap would change product behavior.
 Observation: Unlike puzzles (capped via `puzzleXpSolveCounts`), submitting the same correct lesson exercise repeatedly grants 250 XP each time (bounded only by `MAX_XP_TOTAL`; learning limiter allows 100 req/min). Blocks are replayable by design in the mobile app, so this may be intentional.
 Risk: XP farming via direct API replay — flagged for developer confirmation, not assumed to be a bug.
 

@@ -4,6 +4,7 @@
  */
 
 import type { Response } from "express";
+import { normaliseCodePuzzleAnswer } from "@project/exercise-answer";
 import { prisma } from "@project/db";
 import { applyAuthenticatedPuzzleSolve } from "../../services/codePuzzle/applyAuthenticatedPuzzleSolve.js";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
@@ -12,9 +13,6 @@ import { logError } from "../../utils/logger.js";
 import type { CodePuzzleSubmitBody, CodePuzzleSubmitParams } from "../../validators/codePuzzleValidators.js";
 import { codePuzzleAllTestCasesPass } from "../../services/codePuzzle/codePuzzleSandbox.js";
 
-function normalizeAnswer(value: string): string {
-  return value.replace(/\s+/g, "").trim().replace(/;$/, "");
-}
 
 export async function codePuzzleSubmitHandler(request: AuthenticatedRequest, response: Response): Promise<void> {
   try {
@@ -31,9 +29,9 @@ export async function codePuzzleSubmitHandler(request: AuthenticatedRequest, res
       response.status(404).json({ error: "Puzzle not found" });
       return;
     }
-    const normalized = normalizeAnswer(answer);
+    const normalized = normaliseCodePuzzleAnswer(answer);
     const isAnswerCorrect =
-      puzzle.acceptedAnswers.some((accepted) => normalizeAnswer(accepted) === normalized) ||
+      puzzle.acceptedAnswers.some((accepted) => normaliseCodePuzzleAnswer(accepted) === normalized) ||
       (puzzle.testCases !== null && codePuzzleAllTestCasesPass(answer, puzzle.testCases));
 
     const userId = request.user?.userId;

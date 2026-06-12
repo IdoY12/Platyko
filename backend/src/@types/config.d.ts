@@ -30,12 +30,6 @@ declare global {
         forcePathStyle: boolean;
       };
     };
-    io: {
-      cors: {
-        origin: string;
-        methods: string[];
-      };
-    };
   }
 }
 

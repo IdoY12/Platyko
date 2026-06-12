@@ -34,7 +34,6 @@ type SignInPayload = {
 
 function rollStudyCalendarIfNeeded(state: SessionState) {
   const dateKey = new Date().toLocaleDateString("en-CA");
-  // const dateKey = "2026-05-18";
   if (state.studyDateKey !== dateKey) {
     state.studyDateKey = dateKey;
     state.studySecondsToday = 0;
