@@ -15,7 +15,9 @@ function getExpoHost(): string | null {
     // Cast needed because TypeScript no longer includes expoGoConfig in the Constants type definitions
     (Constants as unknown as { expoGoConfig?: { debuggerHost?: string } }).expoGoConfig?.debuggerHost ??
 
-    // Both null/undefined — native build with no Metro connection, caller handles this
+    // Fallback: LAN IP written to mobile/.env by ios-device.sh before native build
+    process.env.EXPO_PUBLIC_DEV_HOST ??
+    // No host available — native build without ios-device.sh, caller handles this
     null;
   if (!hostUri) return null;
   return hostUri.split(":")[0] ?? null;
