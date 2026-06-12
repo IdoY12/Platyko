@@ -1,4 +1,4 @@
-import { ensureProgressRow, handleStreakQualifyingXpForUser, prisma, type DbClient } from "@project/db";
+import { ensureProgressRow, handleStreakQualifyingXpForUser, prisma, runSerializableWithRetry, type DbClient } from "@project/db";
 import { normaliseExerciseAnswer } from "@project/exercise-answer";
 import { levelFromXpTotal, MAX_XP_TOTAL, XP_PER_CORRECT_EXERCISE } from "@project/xp-constants";
 import type { ExerciseSubmitResponseDto } from "../../dto/exerciseSubmitResponseDto.js";
@@ -23,7 +23,7 @@ export async function applyExerciseSubmission(input: SubmitInput): Promise<Exerc
   let streakCurrent: number | undefined;
 
   if (isCorrect) {
-    await prisma.$transaction(async (tx: DbClient) => {
+    await runSerializableWithRetry(prisma, async (tx: DbClient) => {
       await ensureProgressRow(tx, input.userId, exercise.experienceLevel);
       const progress = await tx.userProgress.findUnique({
         where: {

@@ -7,3 +7,4 @@ export * from "@prisma/client";
 export * from "./userProgressActive.js";
 export * from "./userStreak.js";
 export * from "./puzzleXpSolveCounts.js";
+export * from "./serializableTransaction.js";

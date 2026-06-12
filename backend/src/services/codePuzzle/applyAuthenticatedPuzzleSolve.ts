@@ -5,6 +5,7 @@ import {
   getProgressForActiveUser,
   handleStreakQualifyingXpForUser,
   parsePuzzleXpSolveCounts,
+  runSerializableWithRetry,
   type DbClient,
 } from "@project/db";
 import {
@@ -27,7 +28,7 @@ export async function applyAuthenticatedPuzzleSolve(
   puzzleId: number,
   clientLocalDate: string | undefined,
 ): Promise<AuthenticatedPuzzleSolveResult> {
-  return prisma.$transaction(async (tx: DbClient) => {
+  return runSerializableWithRetry(prisma, async (tx: DbClient) => {
     const user = await tx.user.findUnique({ where: { id: userId }, select: { puzzleXpSolveCounts: true } });
     const { counts, countAfter, grantXp } = nextPuzzleXpSolveCounts(
       parsePuzzleXpSolveCounts(user?.puzzleXpSolveCounts),

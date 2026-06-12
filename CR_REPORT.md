@@ -24,31 +24,31 @@ Risk: Permanent memory leak on the io process; affected users can never duel aga
 
 **H1 [DATA INTEGRITY] Duel XP reward is a non-transactional read-modify-write**
 File: io/src/socket/duel/services/rewards.ts:5-37
-Status: OPEN
+Status: FIXED — applyXpReward now runs inside runSerializableWithRetry (new shared helper in packages/db/src/serializableTransaction.ts); XP + streak update are atomic.
 Observation: `applyXpReward` reads `progress.xpTotal`, computes `nextXp` in JS, then updates — no transaction, no atomic increment. It runs concurrently per answered round and concurrently with backend lesson/puzzle XP writes for the same row.
 Risk: Lost XP updates under concurrency (duel + lesson on two devices, or rapid rounds); level/xpTotal silently wrong.
 
 **H2 [DATA INTEGRITY] Lesson/puzzle XP and puzzle solve counts race at default isolation**
 File: backend/src/services/learning/applyExerciseSubmission.ts:26-52; backend/src/services/codePuzzle/applyAuthenticatedPuzzleSolve.ts:30-60
-Status: OPEN
+Status: FIXED — both transactions now use runSerializableWithRetry (SERIALIZABLE + P2034 retry); postPracticeLogHandler refactored onto the same shared helper (DRY).
 Observation: Both wrap read-then-write of `xpTotal` (and the `puzzleXpSolveCounts` JSON column) in `prisma.$transaction` at default READ COMMITTED isolation; two concurrent requests both read the same prior value and one write is lost. `postPracticeLog` (backend/src/controllers/user/postPracticeLogHandler.ts:23-41) already solves this with Serializable + retry, so the codebase has two divergent patterns for the same problem.
 Risk: Lost XP, and lost-update on solve counts lets a user collect more than `PUZZLE_MAX_XP_SOLVES` XP grants per puzzle by submitting in parallel.
 
 **H3 [SECURITY] Refresh-token rotation race defeats reuse detection**
 File: backend/src/controllers/auth/authRefreshHandler.ts:24-54
-Status: OPEN
+Status: FIXED — rotation now claims the token via conditional updateMany({id, used:false}); a lost race counts as reuse and triggers revokeAllSessionsForUser + 401.
 Observation: The handler reads `stored.used`, checks it in JS, then unconditionally sets `used: true` inside the transaction. Two concurrent refreshes with the same token both pass the check and both mint new token pairs; the second is not detected as reuse and `revokeAllSessionsForUser` is never called.
 Risk: A stolen refresh token can be used in parallel with the victim's without triggering family revocation — the exact attack the rotation scheme exists to stop.
 
 **H4 [PROD READINESS] Database seed deletes all user progress**
 File: backend/prisma/seed/seedCleanup.ts:14
-Status: OPEN
+Status: FIXED — removed prisma.userProgress.deleteMany(); seed cleanup now wipes content tables only (header documents the invariant).
 Observation: `seedCleanup` runs `prisma.userProgress.deleteMany()` before re-seeding content tables. UserProgress holds XP, level, streak, practice log, goals for every registered user and has no relation to the content tables being re-seeded.
 Risk: Running `npm run prisma:seed` against the production database irreversibly wipes every user's XP, streaks, and preferences.
 
 **H5 [STRUCTURAL] 5,863 node_modules files are committed to git**
 File: io/node_modules/** and node_modules/** (tracked); .gitignore:1 covers them but they were added before the rule
-Status: OPEN
+Status: FIXED — git rm -r --cached removed all 5,863 tracked node_modules files; .gitignore already excludes them going forward.
 Observation: `git ls-files` shows 5,863 tracked files under `io/node_modules/` (socket.io, engine.io, tsx, .prisma generated client, .bin) and root `node_modules/` — 93% of all tracked files in the repo.
 Risk: Stale vendored dependencies shadow lockfile installs, repo bloat, generated Prisma client checked in, and dependency updates silently diverge from what is committed.
 

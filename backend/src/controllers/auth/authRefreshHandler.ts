@@ -41,8 +41,14 @@ export async function authRefreshHandler(request: Request, response: Response): 
     const tokenPayload = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
     const accessToken = signAccessToken(tokenPayload);
     const newRefreshToken = signRefreshToken(tokenPayload);
-    await prisma.$transaction(async (tx) => {
-      await tx.refreshToken.update({ where: { id: stored.id }, data: { used: true } });
+    // Conditional claim: a concurrent refresh with the same token loses the
+    // updateMany race and is treated as reuse, triggering family revocation.
+    const rotated = await prisma.$transaction(async (tx) => {
+      const claimed = await tx.refreshToken.updateMany({
+        where: { id: stored.id, used: false },
+        data: { used: true },
+      });
+      if (claimed.count === 0) return false;
       await tx.refreshToken.create({
         data: {
           userId: user.id,
@@ -51,7 +57,14 @@ export async function authRefreshHandler(request: Request, response: Response): 
           expiresAt: new Date(Date.now() + REFRESH_TOKEN_TTL_MS),
         },
       });
+      return true;
     });
+    if (!rotated) {
+      await revokeAllSessionsForUser(user.id);
+      logError("[AUTH]", new Error("Refresh token reuse detected"), { userId: user.id });
+      response.status(401).json({ error: "Invalid refresh token" });
+      return;
+    }
     logInfo("[AUTH]", "refresh:success", { userId: user.id });
     response.json({ accessToken, refreshToken: newRefreshToken });
   } catch (error) {
