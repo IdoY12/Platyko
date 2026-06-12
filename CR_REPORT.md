@@ -106,7 +106,7 @@ Risk: Inconsistent validation surface; future edits to this handler bypass the e
 
 **M9 [DATA INTEGRITY] Disconnect vs round-advance timer can double-persist DuelSession**
 File: io/src/socket/duel/handlers/disconnect.ts:10-36; io/src/socket/duel/endSession.ts:10-16; io/src/socket/duel/applyCorrectDuelAnswer.ts:30-33,72-75
-Status: FIXED — abandon path deletes the session from the map synchronously (before async XP work) and endSession returns early for abandonInProgress sessions; round timers see an empty map and no-op.
+Status: FIXED — abandon path deletes the session from the map synchronously (before async XP work) and endSession returns early for abandonInProgress sessions; round timers see an empty map and no-op. Phase-3 verification additionally moved endSession's sessions.delete before its persist await, closing the inverse window (disconnect during endSession's DB write).
 Observation: `onDuelParticipantGone` persists the session, then deletes it from the `sessions` Map only inside an async `.then` after `applyXpReward` resolves. The 4 s between-round timer checks `sessions.has(...)` and calls `endSession`, which persists again. `endSession` never checks `abandonInProgress`.
 Risk: Duplicate DuelSession rows → inflated win/loss counts; survivor receives two conflicting `duel_end` events.
 

@@ -11,12 +11,13 @@ const REMATCH_EXPIRY_MS = 60_000;
 export async function endSession(io: DuelNamespace, session: SessionState) {
   if (session.abandonInProgress) return;
   clearSessionRoundTimer(session);
+  // Remove from the map before any await so a concurrent disconnect cannot
+  // run the abandon flow and persist this duel a second time.
+  sessions.delete(session.sessionId);
   const isTied = session.score.player1 === session.score.player2;
   const winner = session.score.player1 >= session.score.player2 ? session.player1 : session.player2;
 
   await persistDuelSession(session);
-
-  sessions.delete(session.sessionId);
 
   const isSolo = session.player1.userId === session.player2.userId;
   rematchEntries.set(session.sessionId, {
