@@ -44,6 +44,8 @@ export interface SessionState {
   xpGrantedP2: number;
   abandonInProgress?: boolean;
   askedQuestionIds: Set<string>;
+  /** Pending ready/round timeout; cleared on session end or abandon (see roundTimeout.ts). */
+  roundTimer?: ReturnType<typeof setTimeout>;
 }
 
 export type DuelNamespace = ReturnType<Server["of"]>;

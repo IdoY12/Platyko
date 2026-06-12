@@ -8,13 +8,13 @@ Baseline: HEAD `60150e3` (clean tree). Scope: backend/, io/, mobile/, packages/,
 
 **C1 [SECURITY] Malformed socket payload crashes the entire io process**
 File: io/src/socket/duel/handlers/rematchRequest.ts:23,40; io/src/socket/duel/handlers/joinQueue.ts:38
-Status: OPEN
+Status: FIXED — guarded payload access (`typeof payload?.session_id === "string"`, safe username read) in rematchRequest.ts and joinQueue.ts.
 Observation: `rematch_request` and `rematch_abandoned` listeners dereference `payload.session_id` without guarding `payload`. A client emitting either event with no payload throws a synchronous TypeError inside the listener; io/src/index.ts:19-22 installs an `uncaughtException` handler that calls `process.exit(1)`. `join_queue` similarly evaluates `payload.username` (async handler → unhandledRejection → exit) when the DB user lookup returns null.
 Risk: Any authenticated user can kill the duel server for everyone with a single crafted emit; all in-memory duel sessions are lost.
 
 **C2 [EDGE CASE] No duel round or ready timeout — sessions leak forever and lock users out**
 File: io/src/socket/duel/startRound.ts; io/src/socket/duel/queue.ts:36-49; io/src/socket/duel/state.ts:19
-Status: OPEN
+Status: FIXED — new io/src/socket/duel/roundTimeout.ts (ready timeout 120 s expires never-started sessions; round timeout 60 s resolves stalled rounds as no-winner); wired into queue.ts, startRound.ts, endSession.ts, handlers/disconnect.ts; SessionState.roundTimer added in types.ts.
 Observation: After `match_found`, if a player never emits `player_ready`, or mid-duel neither player answers (without exhausting 3 wrong attempts), no server-side timer ever fires. The `SessionState` stays in the `sessions` Map indefinitely. `handleQueueJoin` rejects re-queue with `already_in_duel` for any user with a stale session. `io/dist/socket/duel/roundTimeoutFlow.js` exists in the stale build output but has no source counterpart — a timeout feature was removed from src.
 Risk: Permanent memory leak on the io process; affected users can never duel again until server restart.
 

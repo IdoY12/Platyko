@@ -19,25 +19,27 @@ function cacheSocketId(duel: DuelNamespace, userId: string, into: Map<string, st
 }
 
 export function registerRematchAbandoned(socket: Socket, duel: DuelNamespace) {
-  socket.on("rematch_abandoned", (payload: { session_id: string }) => {
-    const entry = rematchEntries.get(payload.session_id);
+  socket.on("rematch_abandoned", (payload: { session_id?: unknown } | undefined) => {
+    const sessionId = typeof payload?.session_id === "string" ? payload.session_id : "";
+    const entry = rematchEntries.get(sessionId);
     if (!entry) return;
     const userId = socket.data.authenticatedUserId as string | undefined;
     if (!userId) return;
     if (entry.player1.userId !== userId && entry.player2.userId !== userId) return;
     if (entry.timer) clearTimeout(entry.timer);
-    rematchEntries.delete(payload.session_id);
+    rematchEntries.delete(sessionId);
     const otherUserId = entry.player1.userId === userId ? entry.player2.userId : entry.player1.userId;
     cacheSocketId(duel, otherUserId, entry.requests);
     const waitingSocketId = entry.requests.get(otherUserId);
     if (waitingSocketId) duel.to(waitingSocketId).emit("rematch_declined", { reason: "opponent_left" });
-    logInfo("[DUEL]", "rematch:abandoned", { userId, sessionId: payload.session_id });
+    logInfo("[DUEL]", "rematch:abandoned", { userId, sessionId });
   });
 }
 
 export function registerRematchRequest(socket: Socket, duel: DuelNamespace) {
-  socket.on("rematch_request", (payload: { session_id: string }) => {
-    const entry = rematchEntries.get(payload.session_id);
+  socket.on("rematch_request", (payload: { session_id?: unknown } | undefined) => {
+    const sessionId = typeof payload?.session_id === "string" ? payload.session_id : "";
+    const entry = rematchEntries.get(sessionId);
     if (!entry) {
       socket.emit("rematch_declined", { reason: "expired" });
       return;
@@ -53,11 +55,11 @@ export function registerRematchRequest(socket: Socket, duel: DuelNamespace) {
     entry.requests.set(userId, socket.id);
     const opponentUserId = isPlayer1 ? entry.player2.userId : entry.player1.userId;
     cacheSocketId(duel, opponentUserId, entry.requests);
-    logInfo("[DUEL]", "rematch:request", { userId, sessionId: payload.session_id });
+    logInfo("[DUEL]", "rematch:request", { userId, sessionId });
 
     if (entry.isSolo || entry.requests.size >= 2) {
       if (entry.timer) clearTimeout(entry.timer);
-      rematchEntries.delete(payload.session_id);
+      rematchEntries.delete(sessionId);
 
       const p1SocketId = entry.requests.get(entry.player1.userId);
       const p2SocketId = entry.isSolo ? `solo:${p1SocketId}` : entry.requests.get(entry.player2.userId);

@@ -4,18 +4,21 @@ import { applyXpReward } from "../services/rewards.js";
 import { persistDuelSession } from "../persistence.js";
 import { logInfo } from "../../../utils/logger.js";
 import { clearSoloMatchTimer } from "../queue.js";
+import { clearSessionRoundTimer } from "../roundTimeout.js";
 import { broadcastQueueStatus, queue, sessions, rematchEntries } from "../state.js";
 import type { DuelNamespace, SessionState } from "../types.js";
 
 function onDuelParticipantGone(duel: DuelNamespace, leaverSocketId: string, session: SessionState, sessionId: string) {
   const soloOpponent = session.player2.socketId.startsWith("solo:");
   if (soloOpponent && session.player1.socketId === leaverSocketId) {
+    clearSessionRoundTimer(session);
     sessions.delete(sessionId);
     return;
   }
   if (session.player1.socketId !== leaverSocketId && session.player2.socketId !== leaverSocketId) return;
   if (session.abandonInProgress) return;
   session.abandonInProgress = true;
+  clearSessionRoundTimer(session);
   const survivor = session.player1.socketId === leaverSocketId ? session.player2 : session.player1;
   const survivorIsP1 = survivor === session.player1;
   void persistDuelSession(session, survivor.userId);

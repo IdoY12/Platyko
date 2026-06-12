@@ -11,6 +11,7 @@ import type { DuelQuestion } from "@prisma/client";
 import { logError, logInfo } from "../../utils/logger.js";
 import { pickQuestionForSession } from "./services/questions.js";
 import { endSession } from "./endSession.js";
+import { scheduleRoundTimeout } from "./roundTimeout.js";
 import { sessions } from "./state.js";
 import type { DuelNamespace, SessionState } from "./types.js";
 
@@ -57,6 +58,7 @@ export async function startRound(io: DuelNamespace, sessionOrId: string | Sessio
     };
     session.askedQuestionIds.add(question.id);
     io.to(session.roomId).emit("round_start", roundStartPayload(session, question));
+    scheduleRoundTimeout(io, session);
   } catch (error) {
     logError("[DUEL]", error, { phase: "start-round" });
   }

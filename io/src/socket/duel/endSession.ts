@@ -2,12 +2,14 @@
 
 import { persistDuelSession } from "./persistence.js";
 import { prisma, getProgressForActiveUser } from "@project/db";
+import { clearSessionRoundTimer } from "./roundTimeout.js";
 import { sessions, rematchEntries } from "./state.js";
 import type { DuelNamespace, SessionState } from "./types.js";
 
 const REMATCH_EXPIRY_MS = 60_000;
 
 export async function endSession(io: DuelNamespace, session: SessionState) {
+  clearSessionRoundTimer(session);
   const isTied = session.score.player1 === session.score.player2;
   const winner = session.score.player1 >= session.score.player2 ? session.player1 : session.player2;
 

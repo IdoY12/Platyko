@@ -15,7 +15,7 @@ import { isThrottled } from "../../../utils/socketThrottle.js";
 import type { DuelNamespace, QueueEntry } from "../types.js";
 
 export function registerJoinQueue(socket: Socket, duel: DuelNamespace) {
-  socket.on("join_queue", async (payload: { username?: string }) => {
+  socket.on("join_queue", async (payload: { username?: unknown } | undefined) => {
     if (isThrottled(socket, "join_queue", 2000)) return;
     const authenticatedUserId = socket.data.authenticatedUserId;
 
@@ -35,7 +35,7 @@ export function registerJoinQueue(socket: Socket, duel: DuelNamespace) {
     const entry: QueueEntry = {
       socketId: socket.id,
       userId: authenticatedUserId,
-      username: user?.username ?? payload.username ?? "Anonymous",
+      username: user?.username ?? (typeof payload?.username === "string" ? payload.username : "Anonymous"),
       avatarUrl: user?.avatarUrl ?? null,
       experienceLevel: progress?.experienceLevel ?? level,
       joinedAt: Date.now(),

@@ -1,6 +1,7 @@
 import type { Socket } from "socket.io";
 import { logInfo } from "../../utils/logger.js";
 import { broadcastQueueStatus, evictUserFromQueue, makeSession, queue, sessions, soloMatchTimers, userInActiveDuel } from "./state.js";
+import { scheduleReadyTimeout } from "./roundTimeout.js";
 import type { DuelNamespace, QueueEntry } from "./types.js";
 
 /** Wait this long with no opponent before matching the player into a solo duel (real server session). */
@@ -41,7 +42,9 @@ export function finalizeMatch(duel: DuelNamespace, player1: QueueEntry, player2:
   p1Socket?.join(roomId);
   p2Socket?.join(roomId);
 
-  sessions.set(sessionId, makeSession(sessionId, roomId, player1, player2));
+  const session = makeSession(sessionId, roomId, player1, player2);
+  sessions.set(sessionId, session);
+  scheduleReadyTimeout(duel, session);
   logInfo("[DUEL]", "match:created", { sessionId, player1: player1.userId, player2: player2.userId });
 
   duel.to(player1.socketId).emit("match_found", { session_id: sessionId, opponent: { username: player2.username, avatar_url: player2.avatarUrl } });
