@@ -189,3 +189,43 @@ Risk: XP farming via direct API replay — flagged for developer confirmation, n
 - Tracked `node_modules/` contents — counted and flagged (H5) but not audited file-by-file.
 - `*/dist/` build outputs — skimmed only to detect src/dist drift (which surfaced the removed round-timeout feature, see C2).
 - `package-lock.json` dependency tree CVE audit — `npm audit` not run against the network in this pass.
+
+---
+
+## NEW FILES IN RESTRICTED FOLDERS
+
+None. No files were created in `mobile/src/hooks` or `mobile/src/utils` during this run. New files were placed in `io/src/socket/duel/roundTimeout.ts`, `backend/src/utils/rotateRefreshToken.ts`, and `packages/db/src/serializableTransaction.ts` — all within their layers' existing conventions.
+
+---
+
+## RUN SUMMARY
+
+**Status counts (27 findings):**
+- FIXED: 23 — C1, C2, H1, H2, H3, H4, H5, M1, M2, M3, M4, M5, M6, M7, M8, M9, I1, I2, I3, I4, I5, I7, I8
+- DISPUTED: 4 — I6 (bearer-only logout must accept empty body), I9 (intentional operational logging; secrets already redacted), I10 (developer-owned doc, left for manual removal), I11 (replayable lesson blocks + global MAX_XP_TOTAL cap are intentional design)
+- BLOCKED: 0
+- REOPENED during verification: 0 (one residual M9 race window found in Phase 3 and closed in the same pass)
+
+**Commits made (baseline 60150e3):**
+1. `90836c1` — Add pre-production code review report (CR_REPORT.md)
+2. `0780e84` — Fix CRITICAL findings C1, C2
+3. `55055ca` — Fix HIGH findings H1–H5
+4. `61aa8b2` — Fix MEDIUM findings M1–M9
+5. `afed255` — Fix INFORMATIONAL findings I1–I5, I7, I8 (I6/I9/I10/I11 disputed)
+6. `35de843` — Phase 3 verification: close residual M9 window in endSession
+7. (this commit) — Run summary
+
+**Verification results (Phase 3, single iteration):**
+- `npm run typecheck:all` — all 11 workspaces pass.
+- `npm --prefix mobile test` — 17/17 vitest tests pass.
+- io duel module import cycle (startRound ↔ roundTimeout ↔ applyCorrectDuelAnswer) smoke-tested via tsx — loads cleanly.
+- zod `partialRecord` register-schema semantics verified at runtime (valid/partial accepted; bogus keys and out-of-range values rejected).
+- No ESLint config exists in the repo; lint step not applicable.
+- Live server boot not exercised: local Postgres/Docker not running in this environment.
+
+**Items needing developer attention:**
+- DISPUTED I10: delete `CR_4PROD.md` manually if it is no longer wanted.
+- DISPUTED I11: confirm that repeatable lesson-exercise XP (bounded by MAX_XP_TOTAL) is intended; add a per-exercise cap if not.
+- DISPUTED I9: decide whether emails in production INFO logs are acceptable for your compliance posture.
+- C2 introduced two product constants (ready timeout 120 s, round timeout 60 s in `io/src/socket/duel/roundTimeout.ts`) — tune if product wants different pacing.
+- H5/I4 removed `node_modules` and `.DS_Store` from the git index only; files remain on disk. Collaborators should expect a large deletion diff on pull.
