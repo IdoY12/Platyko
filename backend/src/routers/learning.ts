@@ -5,8 +5,12 @@ import { learningGetResumeHandler } from "../controllers/learning/learningGetRes
 import { learningResetProgressHandler } from "../controllers/learning/learningResetProgressHandler.js";
 import { learningSubmitExerciseHandler } from "../controllers/learning/learningSubmitExerciseHandler.js";
 import { authMiddleware } from "../middlewares/auth.js";
-import { validateBody, validateParams } from "../middlewares/validateBody.js";
-import { experienceLevelParamsSchema, learningSubmitExerciseBodySchema } from "../validators/learningValidators.js";
+import { validateBody, validateParams, validateQuery } from "../middlewares/validateBody.js";
+import {
+  experienceLevelParamsSchema,
+  learningResumeQuerySchema,
+  learningSubmitExerciseBodySchema,
+} from "../validators/learningValidators.js";
 
 const learningLimiter = rateLimit({ windowMs: 60_000, max: 100, standardHeaders: true, legacyHeaders: false });
 
@@ -20,5 +24,5 @@ learningRouter.post(
   validateBody(learningSubmitExerciseBodySchema),
   learningSubmitExerciseHandler,
 );
-learningRouter.get("/resume", authMiddleware, learningGetResumeHandler);
+learningRouter.get("/resume", authMiddleware, validateQuery(learningResumeQuerySchema), learningGetResumeHandler);
 learningRouter.delete("/progress", authMiddleware, learningResetProgressHandler);

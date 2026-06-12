@@ -35,7 +35,9 @@ export const registerBodySchema = z.object({
   experienceLevel: z.enum(["JUNIOR", "MID", "SENIOR"]).optional(),
   goal: z.enum(["JOB", "WORK", "FUN", "PROJECT"]).optional(),
   dailyCommitmentMinutes: z.number().int().refine((v) => v === 10 || v === 15 || v === 25).optional(),
-  blockProgress: z.record(z.string(), z.record(z.string(), z.number().int().min(0).max(9))).optional(),
+  blockProgress: z
+    .partialRecord(z.enum(["JUNIOR", "MID", "SENIOR"]), z.record(z.string(), z.number().int().min(0).max(9)))
+    .optional(),
   xpTotal: z.number().int().min(0).max(MAX_XP_TOTAL).optional(),
   streakCurrent: z.number().int().min(0).max(365).optional(),
   streakLastActivityDate: z.string().regex(dateRegex).optional(),

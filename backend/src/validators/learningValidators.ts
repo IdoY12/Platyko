@@ -10,5 +10,10 @@ export const learningSubmitExerciseBodySchema = z.object({
   clientLocalDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
 });
 
+export const learningResumeQuerySchema = z.object({
+  experienceLevel: z.enum(["JUNIOR", "MID", "SENIOR"]).optional(),
+});
+
 export type ExperienceLevelParams = z.infer<typeof experienceLevelParamsSchema>;
 export type LearningSubmitExerciseBody = z.infer<typeof learningSubmitExerciseBodySchema>;
+export type LearningResumeQuery = z.infer<typeof learningResumeQuerySchema>;

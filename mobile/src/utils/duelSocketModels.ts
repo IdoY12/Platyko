@@ -15,22 +15,22 @@ export interface DuelRound {
   prompt: string;
   codeSnippet: string;
   options: string[];
-  correctAnswer?: string;
   type: "MCQ" | "PUZZLE";
 }
 
-/** Line-tap answers for seeded bug questions stay `MCQ`; infer from prompt and numeric line index. */
-function isDuelLineTapRound(prompt: string, codeSnippet: string, correctAnswer: string): boolean {
+/** Line-tap answers for seeded bug questions stay `MCQ`; infer from prompt and numeric line options. */
+function isDuelLineTapRound(prompt: string, codeSnippet: string, options: string[]): boolean {
   const lines = codeSnippet.split("\n");
-  const ca = correctAnswer.trim();
-  if (lines.length < 2 || !/^\d+$/.test(ca)) return false;
-  const n = Number(ca);
-  if (n < 1 || n > lines.length) return false;
-  return /line|bug/i.test(prompt);
+  if (lines.length < 2 || options.length === 0) return false;
+  const allLineNumbers = options.every((option) => {
+    const trimmed = option.trim();
+    return /^\d+$/.test(trimmed) && Number(trimmed) >= 1 && Number(trimmed) <= lines.length;
+  });
+  return allLineNumbers && /line|bug/i.test(prompt);
 }
 
 export function duelRoundUsesLinePick(round: DuelRound): boolean {
-  return round.type === "MCQ" && isDuelLineTapRound(round.prompt, round.codeSnippet, round.correctAnswer ?? "");
+  return round.type === "MCQ" && isDuelLineTapRound(round.prompt, round.codeSnippet, round.options);
 }
 
 export interface DuelReplayRow {

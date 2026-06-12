@@ -19,6 +19,8 @@ function onDuelParticipantGone(duel: DuelNamespace, leaverSocketId: string, sess
   if (session.abandonInProgress) return;
   session.abandonInProgress = true;
   clearSessionRoundTimer(session);
+  // Remove synchronously so pending round timers and endSession cannot persist this duel a second time.
+  sessions.delete(sessionId);
   const survivor = session.player1.socketId === leaverSocketId ? session.player2 : session.player1;
   const survivorIsP1 = survivor === session.player1;
   void persistDuelSession(session, survivor.userId);
@@ -35,7 +37,6 @@ function onDuelParticipantGone(duel: DuelNamespace, leaverSocketId: string, sess
         round_replay: session.roundReplay,
         streak_current: streakCurrent,
       });
-      sessions.delete(sessionId);
     });
 }
 

@@ -58,55 +58,55 @@ Risk: Stale vendored dependencies shadow lockfile installs, repo bloat, generate
 
 **M1 [SECURITY] Refresh endpoint does not enforce tokenVersion**
 File: backend/src/controllers/auth/authRefreshHandler.ts:16-23
-Status: OPEN
+Status: FIXED — handler now rejects with 401 when user.tokenVersion !== payload.tokenVersion.
 Observation: The handler verifies the refresh JWT and loads the user but never compares `payload.tokenVersion` to `user.tokenVersion` (access-token middleware and socket auth both do). It is currently shielded only because every tokenVersion bump also deletes RefreshToken rows.
 Risk: Single point of failure — any future code path that bumps tokenVersion without deleting rows silently re-arms revoked refresh tokens.
 
 **M2 [BUG] Invalid/expired refresh token returns 500 instead of 401**
 File: backend/src/controllers/auth/authRefreshHandler.ts:57-60
-Status: OPEN
+Status: FIXED — verifyRefreshToken wrapped in its own guard returning 401; rotation transaction extracted to backend/src/utils/rotateRefreshToken.ts to keep the handler within the 80-line rule; remaining catch-all returns 500 "Refresh failed" only for genuine server errors.
 Observation: `verifyRefreshToken` throws for malformed/expired JWTs; the catch-all returns `500 {"error":"Invalid refresh token"}`.
 Risk: Client errors are misreported as server failures (monitoring noise, wrong HTTP semantics).
 
 **M3 [VALIDATION] register blockProgress accepts arbitrary level keys → Prisma enum error → 500**
 File: backend/src/validators/authValidators.ts:38; backend/src/services/auth/registerUser.ts:51-62
-Status: OPEN
+Status: FIXED — blockProgress keys constrained via z.partialRecord(z.enum(["JUNIOR","MID","SENIOR"]), …); invalid keys now fail validation with 400.
 Observation: `blockProgress` is `z.record(z.string(), …)`; `registerUser` casts the keys `as ExperienceLevel[]` and feeds them to `userProgress.create`. A request with `blockProgress: {"BOGUS": {}}` throws a Prisma validation error → 500 "Registration failed".
 Risk: Unvalidated input reaches the DB layer; trivially triggerable 500s on a public endpoint.
 
 **M4 [BUG] Change-password client validates 6 chars, server requires 8**
 File: mobile/src/hooks/useProfileAccountHandlers.ts:34-37
-Status: OPEN
+Status: FIXED — client now uses passwordPolicyError from @project/user-credentials (same source of truth as the server).
 Observation: Client gate is `newPassword.length < 6`; server schema (backend/src/validators/userValidators.ts:26-29) requires `PASSWORD_MIN_LEN = 8`. A 6–7 char password passes the client, gets a generic 400, and the user sees "Check your current password and try again."
 Risk: Misleading failure; duplicated policy violating the shared `@project/user-credentials` source of truth.
 
 **M5 [RACE] Duplicate startRound from repeated player_ready**
 File: io/src/socket/duel/startRound.ts:38-47; io/src/socket/duel/handlers/playerReady.ts:48-53
-Status: OPEN
+Status: FIXED — startRound re-checks session.round after the awaited question pick and bails if a concurrent call already advanced the round.
 Observation: `playerReady` checks `session.round === 0` synchronously, then `startRound` awaits `pickQuestionForSession` before incrementing `session.round`. Two qualifying `player_ready` events arriving within the await window both pass the check and both emit `round_start` (round advances to 2, two different questions broadcast).
 Risk: Corrupted round state at match start; clients render conflicting questions.
 
 **M6 [RESOURCE] Compiled isolate scripts are never released**
 File: backend/src/services/codePuzzle/codePuzzleSandboxRunner.ts:55-66
-Status: OPEN
+Status: FIXED — compiled scripts are released in the finally block alongside the context.
 Observation: `runExpression` compiles a new `ivm.Script` per test case and releases the context but never the script. All scripts accumulate inside the single shared 32 MB isolate until it OOMs and gets disposed/reset.
 Risk: Slow memory growth and periodic isolate disposal under puzzle-submission load; in-flight evaluations on a disposed isolate fail.
 
 **M7 [BUG] Duel line-pick answer UI is unreachable dead code**
 File: mobile/src/utils/duelSocketModels.ts:23-34; mobile/src/utils/duelInboundSocket.ts:44; io/src/socket/duel/startRound.ts:17-30
-Status: OPEN
+Status: FIXED — line-pick inference now uses the round's options (all numeric, within line range) instead of the never-sent correctAnswer; dead DuelRound.correctAnswer field and the q.correct_answer mapping deleted.
 Observation: `duelRoundUsesLinePick` requires `round.correctAnswer`, mapped from `q.correct_answer` — but the server's `roundStartPayload` never includes `correct_answer` (correctly, to prevent cheating). The predicate always returns false; the line-tap rendering branch in DuelActiveAnswerZone.tsx:14-27 and the `DuelRound.correctAnswer` field are dead. Seeded "bug" questions fall back to plain "1"–"4" option buttons.
 Risk: Dead feature code; intended line-tap UX never shows.
 
 **M8 [VALIDATION] Resume endpoint parses query manually instead of via Zod middleware**
 File: backend/src/controllers/learning/learningGetResumeHandler.ts:21-23
-Status: OPEN
+Status: FIXED — /learning/resume now uses validateQuery(learningResumeQuerySchema); handler reads validatedQuery and the inline allow-list was deleted.
 Observation: Every other route validates input through `validateBody/Query/Params`; this handler reads `request.query.experienceLevel` raw and allow-lists it inline.
 Risk: Inconsistent validation surface; future edits to this handler bypass the established validation layer.
 
 **M9 [DATA INTEGRITY] Disconnect vs round-advance timer can double-persist DuelSession**
 File: io/src/socket/duel/handlers/disconnect.ts:10-36; io/src/socket/duel/endSession.ts:10-16; io/src/socket/duel/applyCorrectDuelAnswer.ts:30-33,72-75
-Status: OPEN
+Status: FIXED — abandon path deletes the session from the map synchronously (before async XP work) and endSession returns early for abandonInProgress sessions; round timers see an empty map and no-op.
 Observation: `onDuelParticipantGone` persists the session, then deletes it from the `sessions` Map only inside an async `.then` after `applyXpReward` resolves. The 4 s between-round timer checks `sessions.has(...)` and calls `endSession`, which persists again. `endSession` never checks `abandonInProgress`.
 Risk: Duplicate DuelSession rows → inflated win/loss counts; survivor receives two conflicting `duel_end` events.
 

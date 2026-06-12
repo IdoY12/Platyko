@@ -1,4 +1,5 @@
 import React from "react";
+import { passwordPolicyError } from "@project/user-credentials";
 import { Alert } from "react-native";
 import { useAppDispatch } from "@/redux/hooks";
 import LearningService from "@/services/auth-aware/LearningService";
@@ -31,8 +32,9 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
   const onChangePassword = React.useCallback(async () => {
     if (!r.accessToken || !user || d.busyAction) return;
 
-    if (d.newPassword.length < 6) {
-      Alert.alert("Invalid password", "New password should be at least 6 characters.");
+    const passwordError = passwordPolicyError(d.newPassword);
+    if (passwordError) {
+      Alert.alert("Invalid password", passwordError);
       return;
     }
     d.setBusyAction("password");

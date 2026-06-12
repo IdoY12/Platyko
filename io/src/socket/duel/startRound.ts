@@ -39,6 +39,9 @@ export async function startRound(io: DuelNamespace, sessionOrId: string | Sessio
     const nextRound = session.round + 1;
     const question = await pickQuestionForSession(session, nextRound);
 
+    // A concurrent startRound may have advanced the session while we awaited.
+    if (session.round + 1 !== nextRound) return;
+
     if (!question) {
       logInfo("[DUEL]", "question:none-available", { sessionId: session.sessionId });
       void endSession(io, session);

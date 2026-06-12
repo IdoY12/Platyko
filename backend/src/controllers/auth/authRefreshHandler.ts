@@ -1,9 +1,11 @@
 import type { Request, Response } from "express";
+import type { AuthTokenPayload } from "@project/auth-jwt/authTokenPayload";
 import { prisma } from "@project/db";
 import { logError, logInfo } from "../../utils/logger.js";
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../../utils/sessionJwtTokens.js";
 import { revokeAllSessionsForUser } from "../../utils/revokeAllSessionsForUser.js";
-import { hashRefreshToken, REFRESH_TOKEN_TTL_MS } from "../../utils/storeRefreshToken.js";
+import { hashRefreshToken } from "../../utils/storeRefreshToken.js";
+import { rotateRefreshToken } from "../../utils/rotateRefreshToken.js";
 
 export async function authRefreshHandler(request: Request, response: Response): Promise<void> {
   const refreshTokenValue = String(request.body?.refreshToken ?? "");
@@ -11,54 +13,35 @@ export async function authRefreshHandler(request: Request, response: Response): 
     response.status(400).json({ error: "Missing refresh token" });
     return;
   }
+  let payload: AuthTokenPayload;
   try {
-    const payload = verifyRefreshToken(refreshTokenValue);
+    payload = verifyRefreshToken(refreshTokenValue);
+  } catch {
+    response.status(401).json({ error: "Invalid refresh token" });
+    return;
+  }
+  try {
     const user = await prisma.user.findUnique({
       where: { id: payload.userId },
       select: { id: true, email: true, tokenVersion: true },
     });
-    if (!user) {
+    if (!user || user.tokenVersion !== payload.tokenVersion) {
       response.status(401).json({ error: "Invalid refresh token" });
       return;
     }
     const stored = await prisma.refreshToken.findUnique({
       where: { tokenHash: hashRefreshToken(refreshTokenValue) },
     });
-    if (!stored) {
-      response.status(401).json({ error: "Invalid refresh token" });
-      return;
-    }
-    if (stored.used) {
-      await revokeAllSessionsForUser(user.id);
-      logError("[AUTH]", new Error("Refresh token reuse detected"), { userId: user.id });
-      response.status(401).json({ error: "Invalid refresh token" });
-      return;
-    }
-    if (stored.expiresAt < new Date()) {
+    if (!stored || stored.expiresAt < new Date()) {
       response.status(401).json({ error: "Invalid refresh token" });
       return;
     }
     const tokenPayload = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
     const accessToken = signAccessToken(tokenPayload);
     const newRefreshToken = signRefreshToken(tokenPayload);
-    // Conditional claim: a concurrent refresh with the same token loses the
-    // updateMany race and is treated as reuse, triggering family revocation.
-    const rotated = await prisma.$transaction(async (tx) => {
-      const claimed = await tx.refreshToken.updateMany({
-        where: { id: stored.id, used: false },
-        data: { used: true },
-      });
-      if (claimed.count === 0) return false;
-      await tx.refreshToken.create({
-        data: {
-          userId: user.id,
-          family: stored.family,
-          tokenHash: hashRefreshToken(newRefreshToken),
-          expiresAt: new Date(Date.now() + REFRESH_TOKEN_TTL_MS),
-        },
-      });
-      return true;
-    });
+    // A token already marked used — or one losing the conditional claim inside
+    // rotateRefreshToken — is treated as reuse and revokes the whole family.
+    const rotated = stored.used ? false : await rotateRefreshToken(user.id, stored, newRefreshToken);
     if (!rotated) {
       await revokeAllSessionsForUser(user.id);
       logError("[AUTH]", new Error("Refresh token reuse detected"), { userId: user.id });
@@ -69,6 +52,6 @@ export async function authRefreshHandler(request: Request, response: Response): 
     response.json({ accessToken, refreshToken: newRefreshToken });
   } catch (error) {
     logError("[AUTH]", error, { phase: "refresh" });
-    response.status(500).json({ error: "Invalid refresh token" });
+    response.status(500).json({ error: "Refresh failed" });
   }
 }

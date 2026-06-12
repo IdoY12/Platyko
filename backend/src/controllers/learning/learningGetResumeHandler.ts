@@ -2,15 +2,13 @@ import type { Response } from "express";
 import { prisma } from "@project/db";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
 import { activeExperienceLevelOf } from "@project/db";
-import type { ExperienceLevel } from "@prisma/client";
 import { logError, logInfo } from "../../utils/logger.js";
+import type { LearningResumeQuery } from "../../validators/learningValidators.js";
 
 type LearningResumeResponse = {
   experienceLevel: string;
   currentExerciseIndex: number;
 };
-
-const levels: ExperienceLevel[] = ["JUNIOR", "MID", "SENIOR"];
 
 export async function learningGetResumeHandler(
   request: AuthenticatedRequest,
@@ -18,8 +16,7 @@ export async function learningGetResumeHandler(
 ): Promise<void> {
   try {
     logInfo("[TASKS]", "resume:fetch", { userId: request.user?.userId });
-    const raw = String(request.query.experienceLevel ?? "").toUpperCase();
-    const requested = levels.includes(raw as ExperienceLevel) ? (raw as ExperienceLevel) : null;
+    const { experienceLevel: requested } = request.validatedQuery as LearningResumeQuery;
     const experienceLevel = requested ?? (await activeExperienceLevelOf(prisma, request.user!.userId));
     const progress = await prisma.userProgress.findUnique({
       where: { userId_experienceLevel: { userId: request.user!.userId, experienceLevel } },

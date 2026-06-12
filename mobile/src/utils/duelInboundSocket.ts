@@ -41,7 +41,7 @@ export function bindDuelSocketEvents(socket: Socket) {
     const q = p.question ?? {};
     store.dispatch(roundStarted({ round: {
       roundNumber: p.round_number, prompt: q.prompt, codeSnippet: q.code_snippet,
-      options: q.options ?? [], correctAnswer: q.correct_answer, type: q.type ?? "MCQ",
+      options: q.options ?? [], type: q.type ?? "MCQ",
     } }));
   });
   socket.on("round_result", (p) => {
