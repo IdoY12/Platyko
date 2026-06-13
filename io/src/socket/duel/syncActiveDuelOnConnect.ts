@@ -57,6 +57,8 @@ export async function syncActiveDuelOnConnect(socket: Socket): Promise<void> {
   }
 
   if (!session.currentQuestionId) return;
-  const question = await prisma.duelQuestion.findUnique({ where: { id: session.currentQuestionId } });
+  const question = await prisma.duelQuestion
+    .findUnique({ where: { id: session.currentQuestionId } })
+    .catch(() => null);
   if (question) socket.emit("round_start", roundStartPayload(session, question));
 }

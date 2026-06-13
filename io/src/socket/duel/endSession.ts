@@ -34,10 +34,10 @@ export async function endSession(io: DuelNamespace, session: SessionState) {
   });
 
   const [streakP1, streakP2] = await Promise.all([
-    getProgressForActiveUser(prisma, session.player1.userId).then((p) => p?.streakCurrent ?? 0),
+    getProgressForActiveUser(prisma, session.player1.userId).then((p) => p?.streakCurrent ?? 0).catch(() => 0),
     isSolo
       ? Promise.resolve(0)
-      : getProgressForActiveUser(prisma, session.player2.userId).then((p) => p?.streakCurrent ?? 0),
+      : getProgressForActiveUser(prisma, session.player2.userId).then((p) => p?.streakCurrent ?? 0).catch(() => 0),
   ]);
   const streakP2Out = isSolo ? streakP1 : streakP2;
 

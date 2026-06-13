@@ -25,7 +25,7 @@ export function registerJoinQueue(socket: Socket, duel: DuelNamespace) {
       return;
     }
 
-    const level = await activeExperienceLevelOf(prisma, authenticatedUserId);
+    const level = await activeExperienceLevelOf(prisma, authenticatedUserId).catch(() => "JUNIOR" as const);
     const [user, progress] = await Promise.all([
       prisma.user.findUnique({ where: { id: authenticatedUserId } }).catch(() => null),
       prisma.userProgress
