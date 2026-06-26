@@ -44,7 +44,7 @@ export function DuelResultsScreen({ route, navigation }: DuelResultsScreenProps)
       <ScrollView contentContainerStyle={styles.duelContent}>
         <Text style={styles.title}>{tied ? "Tied!" : won ? "Victory!" : "Defeat"}</Text>
         <Text style={styles.sub}>Final score: {score}</Text>
-        <Text style={styles.sub}>{tied ? "It's a tie." : won ? "You won this duel." : "You lost this duel."} You earned {xpEarned} XP.</Text>
+        <Text style={styles.sub}>{tied ? "It's a tie." : won ? "You won this duel." : "You lost this duel."}{xpEarned > 0 ? ` You earned ${xpEarned} XP.` : " Well done!"}</Text>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Code Replay</Text>
           {replay.length === 0 ? <Text style={styles.sub}>Replay is unavailable for this duel.</Text> : replay.map((item) => {

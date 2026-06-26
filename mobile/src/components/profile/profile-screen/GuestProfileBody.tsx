@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updatePreferences } from "@/redux/profile-slice";
 import { resetLesson } from "@/redux/lesson-slice";
 import { logNav } from "@/utils/logger";
+import { AppIcon } from "@/components/common/AppIcon/AppIcon";
+import { colors } from "@/theme/theme";
 import { styles } from "./ProfileScreen.styles";
 
 export function GuestProfileBody() {
@@ -69,7 +71,10 @@ export function GuestProfileBody() {
         <View style={[styles.guestCard, styles.guestDangerCard]}>
           <Text style={styles.guestDangerHeader}>Danger Zone</Text>
           <Pressable style={({ pressed }) => [styles.guestDangerRow, pressed && styles.guestDangerRowPress]} onPress={onResetPress}>
-            <Text style={styles.guestDangerLbl}>🔄  Reset Learn Progress</Text>
+            <View style={styles.guestDangerLeft}>
+              <AppIcon name="refresh" size={18} color={colors.danger} />
+              <Text style={styles.guestDangerLbl}>Reset Learn Progress</Text>
+            </View>
             <Text style={styles.guestChev}>›</Text>
           </Pressable>
         </View>

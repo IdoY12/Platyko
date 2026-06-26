@@ -45,6 +45,9 @@ const server = http.createServer((req, res) => {
 // "Upgrade: websocket" header, Socket.IO intercepts it and handles the handshake.
 const io = new Server(server, {
   cors: resolveSocketIoCors(),
+  // Min detection: 9 s (> client 8 s grace); max detection: 3 + 9 = 12 s.
+  pingInterval: 3_000,
+  pingTimeout: 9_000,
 });
 
 // 3. Attach application logic (Namespaces/Events) to the IO instance.

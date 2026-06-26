@@ -12,9 +12,8 @@ export function puzzleXpCountFor(puzzleId: number | string, counts: PuzzleXpSolv
   return counts[String(puzzleId)] ?? 0;
 }
 
-export function puzzleXpGrantForSolve(countBeforeSolve: number): { grantXp: boolean; xpEarned: number } {
-  const grantXp = countBeforeSolve < PUZZLE_MAX_XP_SOLVES;
-  return { grantXp, xpEarned: grantXp ? XP_PER_CORRECT_EXERCISE : 0 };
+export function puzzleXpGrantForSolve(countBeforeSolve: number): { grantXp: boolean } {
+  return { grantXp: countBeforeSolve < PUZZLE_MAX_XP_SOLVES };
 }
 
 export function nextPuzzleXpSolveCounts(
@@ -36,8 +35,8 @@ export function levelFromXpTotal(xpTotal: number): number {
   return Math.max(1, Math.floor(xpTotal / XP_PER_CORRECT_EXERCISE) + 1);
 }
 
-export function puzzleSolveFeedbackMessage(xpEarned: number): string {
-  return xpEarned > 0
-    ? `Puzzle solved! +${xpEarned} XP.`
-    : "Puzzle solved! (no XP — limit reached for this puzzle)";
+export function puzzleSolveFeedbackMessage(xpEarned: number, xpAtCap = false): string {
+  if (xpEarned > 0) return `Puzzle solved! +${xpEarned} XP.`;
+  if (xpAtCap) return "Well done!";
+  return "Puzzle solved! (no XP — limit reached for this puzzle)";
 }

@@ -4,6 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppSelector } from "@/redux/hooks";
 import { logNav } from "@/utils/logger";
 import type { LessonResultsNavigation } from "@/types/learnNavigation.types";
+import { AppIcon } from "@/components/common/AppIcon/AppIcon";
+import { colors } from "@/theme/theme";
 import { lessonResultsStyles } from "./LessonResultsScreen.styles";
 
 type RouteParams = { accuracy?: number; lessonTitle?: string; experienceLevel?: "JUNIOR" | "MID" | "SENIOR" };
@@ -34,7 +36,11 @@ export function LessonResultsScreen({ navigation, route }: Props) {
         <Text style={lessonResultsStyles.resultText}>Accuracy: {accuracy}%</Text>
         <Text style={lessonResultsStyles.resultText}>Level: {level}</Text>
         <Text style={lessonResultsStyles.resultText}>Total XP: {xp}</Text>
-        <Text style={lessonResultsStyles.starRow}>{"⭐".repeat(stars)}</Text>
+        <View style={lessonResultsStyles.starRow}>
+          {Array.from({ length: stars }, (_, i) => (
+            <AppIcon key={i} name="star" size={28} color={colors.accent} />
+          ))}
+        </View>
         <Pressable style={lessonResultsStyles.lessonButton} onPress={() => navigation.navigate("LearnRoadmap")}>
           <Text style={lessonResultsStyles.lessonButtonLabel}>Continue</Text>
         </Pressable>

@@ -18,6 +18,7 @@ export function useCodePuzzle() {
   const appRef = useRef(AppState.currentState as AppStateStatus);
   const isGuest = useAppSelector((s) => s.session.isGuest);
   const xpSolveCounts = useAppSelector((s) => s.puzzle.xpSolveCounts);
+  const xpTotal = useAppSelector((s) => s.xp.xpTotal);
   const puzzleService = useAuthenticatedService(PuzzleService);
   const [puzzles, setPuzzles] = useState<Puzzle[]>([]);
   const [puzzleIndex, setPuzzleIndex] = useState(0);
@@ -59,11 +60,11 @@ export function useCodePuzzle() {
       if (!submitResult.correct) { setFeedbackMessage("Not quite. Try another valid one-line expression."); return; }
       setFeedbackMessage(
         isGuest
-          ? applyGuestPuzzleSolve(dispatch, puzzle.id, xpSolveCounts, calendarDateISO)
+          ? applyGuestPuzzleSolve(dispatch, puzzle.id, xpSolveCounts, calendarDateISO, xpTotal)
           : applyRegisteredPuzzleSolve(dispatch, submitResult, calendarDateISO),
       );
     } catch { setFeedbackMessage("Failed to submit. Please try again."); }
-  }, [dispatch, input, isGuest, puzzle, puzzleService, xpSolveCounts]);
+  }, [dispatch, input, isGuest, puzzle, puzzleService, xpSolveCounts, xpTotal]);
   const revealReferenceAnswer = useCallback(() => setRefOpen(true), []);
   const setCurrentIndex = useCallback((u: SetStateAction<number>) => { setRefOpen(false); setPuzzleIndex(u); }, []);
   return {

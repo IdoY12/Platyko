@@ -14,5 +14,5 @@ export const lessonResultsStyles = StyleSheet.create({
   },
   lessonButtonLabel: { color: "#111", fontWeight: "800" },
   resultText: { color: colors.textSecondary, fontSize: fontSize.md, marginTop: spacing.md },
-  starRow: { fontSize: fontSize.xl, marginTop: spacing.lg },
+  starRow: { flexDirection: "row", gap: spacing.xs, marginTop: spacing.lg },
 });

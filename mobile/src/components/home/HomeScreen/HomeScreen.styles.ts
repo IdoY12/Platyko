@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
   card: { backgroundColor: colors.card, borderRadius: radius.card, padding: spacing.lg, borderWidth: 1, borderColor: colors.border },
   heroCard: { backgroundColor: "#243b53", borderRadius: radius.card, padding: spacing.xl, borderWidth: 1, borderColor: colors.border },
   cardTitle: { color: colors.textPrimary, fontWeight: "800", fontSize: fontSize.md },
+  titleRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
   row: { flexDirection: "row", gap: spacing.sm, marginTop: spacing.md },
   dot: { width: 12, height: 12, borderRadius: 6, backgroundColor: colors.textMuted },
   dotDone: { backgroundColor: colors.accent },

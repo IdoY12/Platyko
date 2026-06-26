@@ -21,6 +21,7 @@ export async function applyExerciseSubmission(input: SubmitInput): Promise<Exerc
     normaliseExerciseAnswer(input.answer) === normaliseExerciseAnswer(exercise.correctAnswer);
 
   let streakCurrent: number | undefined;
+  let xpActuallyAdded = 0;
 
   if (isCorrect) {
     await runSerializableWithRetry(prisma, async (tx: DbClient) => {
@@ -34,6 +35,7 @@ export async function applyExerciseSubmission(input: SubmitInput): Promise<Exerc
       if (!progress) return;
 
       const nextXp = Math.min(progress.xpTotal + XP_PER_CORRECT_EXERCISE, MAX_XP_TOTAL);
+      xpActuallyAdded = nextXp - progress.xpTotal;
       const nextIdx = Math.max(progress.currentExerciseIndex, exercise.orderIndex + 1);
       const updated = await tx.userProgress.update({
         where: { id: progress.id },
@@ -53,7 +55,7 @@ export async function applyExerciseSubmission(input: SubmitInput): Promise<Exerc
   }
 
   return {
-    xpEarned: isCorrect ? XP_PER_CORRECT_EXERCISE : 0,
+    xpEarned: xpActuallyAdded,
     explanation: exercise.explanation,
     ...(streakCurrent !== undefined ? { streakCurrent } : {}),
   };

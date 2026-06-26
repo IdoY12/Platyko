@@ -1,6 +1,7 @@
 import { ActivityIndicator, Image, Pressable, Text, View } from "react-native";
 import { colors } from "@/theme/theme";
 import type { UseProfileScreenReturn } from "@/hooks/useProfileScreen";
+import { AppIcon } from "@/components/common/AppIcon/AppIcon";
 import { t } from "./ProfileAuthenticatedTop.styles";
 
 export function ProfileAuthenticatedTop({ p }: { p: UseProfileScreenReturn }) {
@@ -31,7 +32,7 @@ export function ProfileAuthenticatedTop({ p }: { p: UseProfileScreenReturn }) {
             </View>
           )}
           <View style={t.camBadge}>
-            <Text style={t.camTxt}>✎</Text>
+            <AppIcon name="pencil" size={16} color="#111" />
           </View>
         </Pressable>
         <Text style={t.name}>{p.username}</Text>
@@ -49,7 +50,7 @@ export function ProfileAuthenticatedTop({ p }: { p: UseProfileScreenReturn }) {
       <View style={t.statsRow}>
         {p.stats.map((item) => (
           <View key={item.label} style={t.pill}>
-            <Text style={t.pillIcon}>{item.icon}</Text>
+            <AppIcon name={item.icon} color={colors.accent} />
             <Text style={t.pillVal}>{item.value}</Text>
             <Text style={t.pillLbl}>{item.label}</Text>
           </View>

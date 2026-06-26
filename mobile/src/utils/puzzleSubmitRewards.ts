@@ -1,8 +1,10 @@
 import {
   levelFromXpTotal,
+  MAX_XP_TOTAL,
   puzzleSolveFeedbackMessage,
   puzzleXpCountFor,
   puzzleXpGrantForSolve,
+  XP_PER_CORRECT_EXERCISE,
   type PuzzleXpSolveCounts,
 } from "@project/xp-constants";
 import type { AppDispatch } from "@/redux/store";
@@ -16,15 +18,18 @@ export function applyGuestPuzzleSolve(
   puzzleId: number,
   xpSolveCounts: PuzzleXpSolveCounts,
   calendarDate: string,
+  currentXpTotal: number,
 ): string {
-  const { grantXp, xpEarned } = puzzleXpGrantForSolve(puzzleXpCountFor(puzzleId, xpSolveCounts));
+  const { grantXp } = puzzleXpGrantForSolve(puzzleXpCountFor(puzzleId, xpSolveCounts));
   dispatch(incrementPuzzleXpSolveCount(puzzleId));
   if (grantXp) {
+    const actualDelta = Math.min(XP_PER_CORRECT_EXERCISE, Math.max(0, MAX_XP_TOTAL - currentXpTotal));
     dispatch(runStreakAppOpen({ today: calendarDate }));
     dispatch(runStreakQualifyingExercise({ today: calendarDate }));
-    dispatch(addXp(xpEarned));
+    dispatch(addXp(actualDelta));
+    return puzzleSolveFeedbackMessage(actualDelta, actualDelta === 0);
   }
-  return puzzleSolveFeedbackMessage(xpEarned);
+  return puzzleSolveFeedbackMessage(0);
 }
 
 export function applyRegisteredPuzzleSolve(
@@ -45,5 +50,5 @@ export function applyRegisteredPuzzleSolve(
       }),
     );
   }
-  return puzzleSolveFeedbackMessage(xpEarned);
+  return puzzleSolveFeedbackMessage(xpEarned, submitResult.xpAtCap ?? false);
 }

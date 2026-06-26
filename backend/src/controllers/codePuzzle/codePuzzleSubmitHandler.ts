@@ -42,7 +42,7 @@ export async function codePuzzleSubmitHandler(request: AuthenticatedRequest, res
       extras = {
         puzzleSolveCount: applied.puzzleSolveCount,
         ...(clientLocalDate
-          ? { xpEarned: applied.xpEarned, xpTotal: applied.xpTotal, streakCurrent: applied.streakCurrent }
+          ? { xpEarned: applied.xpEarned, xpAtCap: applied.xpAtCap, xpTotal: applied.xpTotal, streakCurrent: applied.streakCurrent }
           : {}),
       };
     }

@@ -4,6 +4,8 @@ import { useHomeScreen } from "@/hooks/useHomeScreen";
 import { useAppSelector } from "@/redux/hooks";
 import type { HomeMainScreenProps } from "@/types/homeNavigation.types";
 import { guardDuelAccess } from "@/utils/formatHelpers";
+import { AppIcon } from "@/components/common/AppIcon/AppIcon";
+import { colors } from "@/theme/theme";
 import { styles } from "./HomeScreen.styles";
 
 export function HomeScreen({ navigation }: HomeMainScreenProps) {
@@ -19,7 +21,10 @@ export function HomeScreen({ navigation }: HomeMainScreenProps) {
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-        <Text style={styles.greeting}>Good morning, {home.username} 👋</Text>
+        <View style={styles.titleRow}>
+          <Text style={styles.greeting}>Good morning, {home.username}</Text>
+          <AppIcon name="hand-wave" color={colors.accent} />
+        </View>
         <Text style={styles.date}>{new Date().toDateString()}</Text>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Practice time today</Text>
@@ -31,7 +36,10 @@ export function HomeScreen({ navigation }: HomeMainScreenProps) {
           </View>
         </View>
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>🔥 {home.streak}-day streak!</Text>
+          <View style={styles.titleRow}>
+            <AppIcon name="fire" color={colors.accent} />
+            <Text style={styles.cardTitle}>{home.streak}-day streak!</Text>
+          </View>
           <Text style={styles.subText}>
             Complete at least one exercise every day to keep your streak alive.
           </Text>
@@ -59,14 +67,20 @@ export function HomeScreen({ navigation }: HomeMainScreenProps) {
           </Pressable>
         </View>
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>🧩 Code Puzzle</Text>
+          <View style={styles.titleRow}>
+            <AppIcon name="puzzle" color={colors.accent} />
+            <Text style={styles.cardTitle}>Code Puzzle</Text>
+          </View>
           <Text style={styles.subText}>Solve expression puzzles and earn bonus XP.</Text>
           <Pressable style={styles.secondary} onPress={() => navigation.navigate("CodePuzzle")}>
             <Text style={styles.secondaryText}>Open Puzzle</Text>
           </Pressable>
         </View>
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>⚔️ Duel Mode</Text>
+          <View style={styles.titleRow}>
+            <AppIcon name="sword-cross" color={colors.duel} />
+            <Text style={styles.cardTitle}>Duel Mode</Text>
+          </View>
           <Text style={styles.subText}>Challenge players worldwide.</Text>
           <Pressable style={styles.secondary} onPress={onDuelPress}>
             <Text style={styles.secondaryText}>Find a Match</Text>

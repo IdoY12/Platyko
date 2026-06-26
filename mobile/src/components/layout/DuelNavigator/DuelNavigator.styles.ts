@@ -6,6 +6,8 @@ export const styles = StyleSheet.create({
   duelContent: { gap: spacing.md, paddingBottom: spacing.massive },
   title: { color: colors.textPrimary, fontSize: fontSize.xl, fontWeight: "800" },
   sub: { color: colors.textSecondary, marginTop: spacing.sm },
+  subRow: { flexDirection: "row", alignItems: "center", gap: spacing.xs, marginTop: spacing.sm },
+  subRowLabel: { marginTop: 0 },
   card: { marginTop: spacing.xl, backgroundColor: colors.card, borderRadius: radius.card, borderColor: colors.border, borderWidth: 1, padding: spacing.lg },
   cardTitle: { color: colors.textPrimary, fontWeight: "700", fontSize: fontSize.md, marginTop: spacing.lg },
   matchBtn: { marginTop: spacing.xxl, backgroundColor: colors.duel, borderRadius: radius.button, padding: spacing.lg, alignItems: "center" },

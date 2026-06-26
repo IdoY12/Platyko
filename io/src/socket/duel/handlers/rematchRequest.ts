@@ -13,11 +13,6 @@ import { finalizeMatch } from "../queue.js";
 import { rematchEntries } from "../state.js";
 import type { DuelNamespace, QueueEntry } from "../types.js";
 
-function cacheSocketId(duel: DuelNamespace, userId: string, into: Map<string, string>): void {
-  if (into.has(userId)) return;
-  for (const [sid, sock] of duel.sockets) if (sock.data.authenticatedUserId === userId) { into.set(userId, sid); break; }
-}
-
 export function registerRematchAbandoned(socket: Socket, duel: DuelNamespace) {
   socket.on("rematch_abandoned", (payload: { session_id?: unknown } | undefined) => {
     const sessionId = typeof payload?.session_id === "string" ? payload.session_id : "";
@@ -28,8 +23,9 @@ export function registerRematchAbandoned(socket: Socket, duel: DuelNamespace) {
     if (entry.player1.userId !== userId && entry.player2.userId !== userId) return;
     if (entry.timer) clearTimeout(entry.timer);
     rematchEntries.delete(sessionId);
+    // Only a genuine requester (already in entry.requests) may be told the opponent
+    // left; a player merely viewing Results never asked, so they stay undisturbed.
     const otherUserId = entry.player1.userId === userId ? entry.player2.userId : entry.player1.userId;
-    cacheSocketId(duel, otherUserId, entry.requests);
     const waitingSocketId = entry.requests.get(otherUserId);
     if (waitingSocketId) duel.to(waitingSocketId).emit("rematch_declined", { reason: "opponent_left" });
     logInfo("[DUEL]", "rematch:abandoned", { userId, sessionId });
@@ -52,9 +48,9 @@ export function registerRematchRequest(socket: Socket, duel: DuelNamespace) {
     const isPlayer2 = entry.player2.userId === userId;
     if (!isPlayer1 && !isPlayer2) return;
 
+    // Only genuine rematch_request emitters count toward the gate; seeding the
+    // opponent here would fabricate a session they never agreed to (orphaned duel).
     entry.requests.set(userId, socket.id);
-    const opponentUserId = isPlayer1 ? entry.player2.userId : entry.player1.userId;
-    cacheSocketId(duel, opponentUserId, entry.requests);
     logInfo("[DUEL]", "rematch:request", { userId, sessionId });
 
     if (entry.isSolo || entry.requests.size >= 2) {

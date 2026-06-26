@@ -168,6 +168,22 @@ If you upgrade **react-native**, re-run `npx patch-package react-native` after r
 
 ## Running locally
 
+### TL;DR — 2 containers + 3 terminals
+
+```bash
+# One-time setup
+npm install
+docker compose up -d postgres localstack   # 2 containers: Postgres + LocalStack S3
+npm run db:generate
+npm --prefix backend run prisma:migrate
+npm --prefix backend run prisma:seed
+
+# Then run each in its own terminal:
+npm run backend:dev    # Terminal 1 — REST API (port 4000)
+npm run io:dev         # Terminal 2 — Socket.IO realtime (port 4001)
+npm run mobile:start   # Terminal 3 — Expo / Metro
+```
+
 ### Prerequisites
 
 - Node.js (see `react-native` / `expo` docs for recommended version; engine hints may appear in package metadata).

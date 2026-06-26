@@ -11,11 +11,13 @@ interface DuelState {
   round: DuelRound | null; score: { me: number; opp: number }; wrongAnswerCount: number;
   duelEnd: DuelEnd | null; rematchStatus: "opponent_left" | null;
   lastCorrectAnswer: string | null; queueRejected: string | null; opponentLeft: boolean;
+  connectionLost: boolean;
 }
 const initialState: DuelState = {
   playersOnline: 0, sessionId: null, opponent: null, round: null,
   score: { me: 0, opp: 0 }, wrongAnswerCount: 0, duelEnd: null,
   rematchStatus: null, lastCorrectAnswer: null, queueRejected: null, opponentLeft: false,
+  connectionLost: false,
 };
 const duelLiveSlice = createSlice({
   name: "duelLive",
@@ -35,17 +37,17 @@ const duelLiveSlice = createSlice({
       s.score = p.score; s.lastCorrectAnswer = p.lastCorrectAnswer;
     },
     duelEnded: (s, { payload: p }: PayloadAction<{ duelEnd: DuelEnd }>) => { s.duelEnd = p.duelEnd; },
-    opponentDisconnected: (s, { payload: p }: PayloadAction<{ xpEarned: number }>) => {
-      s.duelEnd = { won: true, xpEarned: p.xpEarned, roundReplay: [], finalScore: "W-0", opponentDisconnected: true };
-    },
     opponentLeftReceived: (s) => { s.opponentLeft = true; },
     wrongAnswerIncremented: (s) => { s.wrongAnswerCount += 1; },
     rematchDeclined: (s) => { s.rematchStatus = "opponent_left"; },
+    connectionLostSet: (s) => { s.connectionLost = true; },
+    connectionLostCleared: (s) => { s.connectionLost = false; },
     duelReset: () => initialState,
   },
 });
 export const {
   queueRejected, playersOnlineSet, matchFound, roundStarted, roundResultReceived,
-  duelEnded, opponentDisconnected, opponentLeftReceived, wrongAnswerIncremented, rematchDeclined, duelReset,
+  duelEnded, opponentLeftReceived, wrongAnswerIncremented, rematchDeclined,
+  connectionLostSet, connectionLostCleared, duelReset,
 } = duelLiveSlice.actions;
 export default duelLiveSlice.reducer;

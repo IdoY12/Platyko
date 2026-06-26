@@ -4,29 +4,14 @@ import { logDuel, logError } from "@/utils/logger";
 import { duelConnectionRefs, normalizeDuelReplayEntry } from "@/utils/duelSocketModels";
 import store from "@/redux/store";
 import {
-  duelEnded, matchFound, opponentDisconnected, opponentLeftReceived, playersOnlineSet, queueRejected, rematchDeclined,
-  roundResultReceived, roundStarted, wrongAnswerIncremented,
+  connectionLostCleared, connectionLostSet, duelEnded, matchFound, opponentLeftReceived,
+  playersOnlineSet, queueRejected, rematchDeclined, roundResultReceived, roundStarted,
+  wrongAnswerIncremented,
 } from "@/redux/duel-live-slice";
 
 export function bindDuelSocketEvents(socket: Socket) {
-  socket.on("connect", () => {
-    logDuel("socket:connected", { socketId: socket.id });
-    if (duelConnectionRefs.disconnectTimer) {
-      clearTimeout(duelConnectionRefs.disconnectTimer);
-      duelConnectionRefs.disconnectTimer = null;
-    }
-  });
-  socket.on("disconnect", (reason) => {
-    logDuel("socket:disconnected", { reason });
-    const { sessionId, round } = store.getState().duelLive;
-    if (!sessionId || !round) return;
-    duelConnectionRefs.disconnectTimer = setTimeout(() => {
-      duelConnectionRefs.disconnectTimer = null;
-      if (store.getState().duelLive.sessionId && store.getState().duelLive.round) {
-        store.dispatch(opponentDisconnected({ xpEarned: 0 }));
-      }
-    }, 8_000);
-  });
+  socket.on("connect", () => { logDuel("socket:connected", { socketId: socket.id }); store.dispatch(connectionLostCleared()); });
+  socket.on("disconnect", (reason) => { logDuel("socket:disconnected", { reason }); store.dispatch(connectionLostSet()); });
   socket.on("connect_error", (e) => logError("[DUEL]", e, { phase: "socket-connect" }));
   socket.on("queue_rejected", (p: { reason?: string }) => {
     logDuel("queue:rejected", { reason: p?.reason });

@@ -9,6 +9,7 @@
 
 import { logInfo } from "../../utils/logger.js";
 import { advanceDuelRoundNoWinner } from "./applyCorrectDuelAnswer.js";
+import { endSession } from "./endSession.js";
 import { sessions, tryClaimDuelRound } from "./state.js";
 import type { DuelNamespace, SessionState } from "./types.js";
 
@@ -27,9 +28,11 @@ export function scheduleReadyTimeout(duel: DuelNamespace, session: SessionState)
   clearSessionRoundTimer(session);
   session.roundTimer = setTimeout(() => {
     if (!sessions.has(session.sessionId) || session.round !== 0) return;
-    sessions.delete(session.sessionId);
-    duel.to(session.roomId).emit("opponent_disconnected", { at_round: 0 });
     logInfo("[DUEL]", "session:expired-before-start", { sessionId: session.sessionId });
+    duel.to(session.roomId).emit("opponent_disconnected", { at_round: 0 });
+    // Drive a real terminal end (duel_end + teardown) via the canonical path,
+    // instead of leaving the remaining player on "calculating result…".
+    void endSession(duel, session);
   }, DUEL_READY_TIMEOUT_MS);
 }
 

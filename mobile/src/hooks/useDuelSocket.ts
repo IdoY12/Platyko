@@ -1,7 +1,5 @@
-/** Per-screen selector bundles for duel-live state. Each bundle selects only the fields its screen renders.
- * Do not return new objects/arrays from selector bodies — use direct state references only.
- * Runtime socket/userId refs live in duelConnectionRefs (duelSocketModels.ts), not Redux. */
 import { useCallback, useEffect, useMemo, useRef } from "react";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import store from "@/redux/store";
 import { DUEL_SOCKET_URL } from "../config/network";
@@ -9,6 +7,8 @@ import { duelConnectionRefs } from "@/utils/duelSocketModels";
 import { connectDuelSocket } from "@/utils/duelSocketIo";
 import { refreshSessionOrLogoutOnForeground } from "@/utils/appShellPersistence";
 import { duelJoinQueue, duelLeaveQueue, duelRequestRematch } from "@/utils/duelSocketCommands";
+import { duelReset } from "@/redux/duel-live-slice";
+import type { DuelStackParamList } from "@/types/duelNavigation.types";
 
 export function useDuelSocketBootstrap() {
   const accessToken = useAppSelector((s) => s.session.accessToken);
@@ -22,10 +22,6 @@ export function useDuelSocketBootstrap() {
   useEffect(() => {
     connectDuelSocket(url, accessTokenRef.current);
     return () => {
-      if (duelConnectionRefs.disconnectTimer) {
-        clearTimeout(duelConnectionRefs.disconnectTimer);
-        duelConnectionRefs.disconnectTimer = null;
-      }
       duelConnectionRefs.socket?.disconnect();
       duelConnectionRefs.socket = null;
     };
@@ -55,6 +51,19 @@ export function useDuelResultsSocket() {
   const sessionId = useAppSelector((s) => s.duelLive.sessionId);
   const rematchStatus = useAppSelector((s) => s.duelLive.rematchStatus);
   return { sessionId, rematchStatus, requestRematch: duelRequestRematch };
+}
+
+export function useDuelConnectionGuard(navigation: NativeStackNavigationProp<DuelStackParamList, "ActiveDuel">, hasDuelEnd: boolean): boolean {
+  const dispatch = useAppDispatch();
+  const connectionLost = useAppSelector((s) => s.duelLive.connectionLost);
+  const pendingRef = useRef(false);
+  useEffect(() => {
+    pendingRef.current = connectionLost && !hasDuelEnd;
+    if (!pendingRef.current) return;
+    const t = setTimeout(() => { if (pendingRef.current) { dispatch(duelReset()); navigation.popToTop(); } }, 8_000);
+    return () => clearTimeout(t);
+  }, [connectionLost, hasDuelEnd, dispatch, navigation]);
+  return connectionLost;
 }
 
 export function useDuelActiveDuelLive() {

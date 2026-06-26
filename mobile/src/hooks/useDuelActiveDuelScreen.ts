@@ -7,16 +7,16 @@ import { addXp } from "@/redux/xp-slice";
 import { addStudySeconds } from "@/redux/session-slice";
 import { applyDuelResult } from "@/redux/duel-slice";
 import { hydrateStreak, runStreakAppOpen, runStreakQualifyingExercise } from "@/redux/streak-slice";
-import { opponentDisconnected } from "@/redux/duel-live-slice";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { logDuel, logNav } from "@/utils/logger";
-import { useDuelActiveDuelLive } from "@/hooks/useDuelSocket";
+import { useDuelActiveDuelLive, useDuelConnectionGuard } from "@/hooks/useDuelSocket";
 import { duelSubmitAnswer, duelPlayerReady } from "@/utils/duelSocketCommands";
 import type { DuelStackParamList } from "@/types/duelNavigation.types";
 import { DUEL_MAX_ATTEMPTS_PER_ROUND } from "@project/duel-constants";
 export function useDuelActiveDuelScreen(navigation: NativeStackNavigationProp<DuelStackParamList, "ActiveDuel">) {
   const dispatch = useAppDispatch();
   const { round, score, sessionId, duelEnd, opponent, lastCorrectAnswer, wrongAnswerCount, opponentLeft } = useDuelActiveDuelLive();
+  const connectionLost = useDuelConnectionGuard(navigation, duelEnd != null);
   const userId = useAppSelector((s) => s.session.userId);
   const isGuest = useAppSelector((s) => s.session.isGuest);
   const username = useAppSelector((s) => s.profile.username);
@@ -48,11 +48,6 @@ export function useDuelActiveDuelScreen(navigation: NativeStackNavigationProp<Du
   }, [round]);
   useEffect(() => { setSubmitted(false); }, [wrongAnswerCount]);
   useEffect(() => { if (sessionId && userId) duelPlayerReady(sessionId); }, [sessionId, userId]);
-  useEffect(() => {
-    if (round !== null) return;
-    const id = setTimeout(() => dispatch(opponentDisconnected({ xpEarned: 0 })), 15_000);
-    return () => clearTimeout(id);
-  }, [dispatch, round]);
 
   useEffect(() => {
     if (!duelEnd || duelEndNavigatedRef.current) return;
@@ -76,5 +71,5 @@ export function useDuelActiveDuelScreen(navigation: NativeStackNavigationProp<Du
     setSelected(answer);
     setSubmitted(true);
   }, [sessionId, userId, round?.roundNumber]);
-  return { round, username, opponentName: opponent?.username ?? "Opponent", opponentAvatarUrl: opponent?.avatarUrl ?? null, roundNumber: round?.roundNumber ?? 0, selected, myScore: score.me, oppScore: score.opp, overlayVisible: lastCorrectAnswer !== null, lastCorrectAnswer, locked, attemptsLeft: DUEL_MAX_ATTEMPTS_PER_ROUND - wrongAnswerCount, submit, sessionId, skipLeaveAfterEndRef, opponentLeft };
+  return { round, username, opponentName: opponent?.username ?? "Opponent", opponentAvatarUrl: opponent?.avatarUrl ?? null, roundNumber: round?.roundNumber ?? 0, selected, myScore: score.me, oppScore: score.opp, overlayVisible: lastCorrectAnswer !== null, lastCorrectAnswer, locked, attemptsLeft: DUEL_MAX_ATTEMPTS_PER_ROUND - wrongAnswerCount, submit, sessionId, skipLeaveAfterEndRef, opponentLeft, connectionLost };
 }

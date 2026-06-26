@@ -6,10 +6,6 @@ import { duelConnectionRefs } from "@/utils/duelSocketModels";
 export function connectDuelSocket(url: string, authToken: string | null): Socket {
   const tokenKey = authToken ?? "";
   if (duelConnectionRefs.socket && duelConnectionRefs.lastAuthTokenKey === tokenKey) return duelConnectionRefs.socket;
-  if (duelConnectionRefs.disconnectTimer) {
-    clearTimeout(duelConnectionRefs.disconnectTimer);
-    duelConnectionRefs.disconnectTimer = null;
-  }
   if (duelConnectionRefs.socket) {
     duelConnectionRefs.socket.removeAllListeners();
     duelConnectionRefs.socket.disconnect();

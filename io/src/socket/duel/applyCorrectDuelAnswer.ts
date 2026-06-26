@@ -45,14 +45,15 @@ export function applyCorrectDuelAnswer(
 
   if (answeredByPlayer1) {
     session.score.player1 += 1;
-    session.xpGrantedP1 += XP_PER_CORRECT_EXERCISE;
   } else {
     session.score.player2 += 1;
-    session.xpGrantedP2 += XP_PER_CORRECT_EXERCISE;
   }
   const xpUserId = answeredByPlayer1 ? session.player1.userId : session.player2.userId;
   const xpStreakDate = answeredByPlayer1 ? session.player1StreakLocalDate : session.player2StreakLocalDate;
-  void applyXpReward(xpUserId, XP_PER_CORRECT_EXERCISE, xpStreakDate);
+  void applyXpReward(xpUserId, XP_PER_CORRECT_EXERCISE, xpStreakDate).then(({ xpAdded }) => {
+    if (answeredByPlayer1) session.xpGrantedP1 += xpAdded;
+    else session.xpGrantedP2 += xpAdded;
+  });
   session.roundReplay.push({
     roundNumber: session.round,
     winnerUserId: answeredByPlayer1 ? session.player1.userId : session.player2.userId,

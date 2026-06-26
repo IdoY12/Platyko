@@ -14,7 +14,6 @@ export const profileFormRowsStyles = StyleSheet.create({
     alignItems: "center",
   },
   rowLeft: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
-  rowIcon: { fontSize: fontSize.md },
   rowText: { color: colors.textPrimary, fontWeight: "600" },
   rowSubText: { color: colors.textSecondary, fontSize: fontSize.sm },
 });

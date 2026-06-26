@@ -7,6 +7,8 @@ import { duelQueueRejectMessage } from "@/utils/formatHelpers";
 import { logDuel, logNav } from "@/utils/logger";
 import { duelLeaveDuel } from "@/utils/duelSocketCommands";
 import type { MatchmakingScreenProps } from "@/types/duelNavigation.types";
+import { AppIcon } from "@/components/common/AppIcon/AppIcon";
+import { colors } from "@/theme/theme";
 import { styles } from "./DuelNavigator.styles";
 
 const QUEUE_TIMER_INTERVAL_MS = 1000;
@@ -56,7 +58,10 @@ export function DuelMatchmakingScreen({ navigation }: MatchmakingScreenProps) {
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <Text style={styles.searching}>Searching for an opponent...</Text>
-      <Text style={styles.sub}>⚡ {playersOnline === 1 ? "1 player" : `${playersOnline} players`} online</Text>
+      <View style={styles.subRow}>
+        <AppIcon name="lightning-bolt" size={16} color={colors.textSecondary} />
+        <Text style={[styles.sub, styles.subRowLabel]}>{playersOnline === 1 ? "1 player" : `${playersOnline} players`} online</Text>
+      </View>
       <Text style={styles.sub}>Estimated wait: {seconds}s</Text>
       {opponent ? (
         <View style={styles.matchOppRow}>

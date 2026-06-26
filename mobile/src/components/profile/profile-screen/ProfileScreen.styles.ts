@@ -50,6 +50,7 @@ export const styles = StyleSheet.create({
   guestDangerHeader: { color: colors.danger, fontWeight: "800", marginBottom: spacing.md, fontSize: fontSize.md },
   guestDangerRow: { flexDirection: "row" as const, justifyContent: "space-between" as const, alignItems: "center" as const, minHeight: 44, borderWidth: 1, borderColor: colors.border, borderRadius: radius.button, paddingHorizontal: spacing.md },
   guestDangerRowPress: { opacity: 0.75 },
+  guestDangerLeft: { flexDirection: "row" as const, alignItems: "center" as const, gap: spacing.sm },
   guestDangerLbl: { color: colors.danger, fontWeight: "700" as const },
   guestChev: { color: colors.textSecondary, fontSize: fontSize.lg },
 });

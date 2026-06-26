@@ -18,6 +18,7 @@ import {
 export type AuthenticatedPuzzleSolveResult = {
   puzzleSolveCount: number;
   xpEarned?: number;
+  xpAtCap?: boolean;
   xpTotal?: number;
   streakCurrent?: number;
 };
@@ -42,7 +43,6 @@ export async function applyAuthenticatedPuzzleSolve(
     const progress = await getProgressForActiveUser(tx, userId);
     if (!progress) return { puzzleSolveCount: countAfter, xpEarned: 0 };
 
-    const xpEarned = grantXp ? XP_PER_CORRECT_EXERCISE : 0;
     let xpTotal = progress.xpTotal;
     if (grantXp) {
       xpTotal = Math.min(progress.xpTotal + XP_PER_CORRECT_EXERCISE, MAX_XP_TOTAL);
@@ -51,12 +51,14 @@ export async function applyAuthenticatedPuzzleSolve(
         data: { xpTotal, level: levelFromXpTotal(xpTotal) },
       });
     }
+    const xpEarned = grantXp ? xpTotal - progress.xpTotal : 0;
+    const xpAtCap = grantXp && xpEarned === 0;
     const streakCurrent = await handleStreakQualifyingXpForUser(
       tx,
       userId,
       clientLocalDate,
       grantXp ? XP_PER_CORRECT_EXERCISE : 0,
     );
-    return { puzzleSolveCount: countAfter, xpEarned, xpTotal, streakCurrent };
+    return { puzzleSolveCount: countAfter, xpEarned, xpAtCap, xpTotal, streakCurrent };
   });
 }

@@ -10,5 +10,6 @@ export type CodePuzzleSubmitDto = {
   streakCurrent?: number;
   xpTotal?: number;
   xpEarned?: number;
+  xpAtCap?: boolean;
   puzzleSolveCount?: number;
 };

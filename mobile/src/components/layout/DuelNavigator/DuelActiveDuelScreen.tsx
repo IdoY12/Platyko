@@ -12,8 +12,6 @@ export function DuelActiveDuelScreen({ navigation }: ActiveDuelScreenProps) {
   const u = useDuelActiveDuelScreen(navigation);
   const emittedRef = useRef(false);
 
-  // Guard: if we arrive here without a valid session (stale navigation, deep link),
-  // go back immediately rather than waiting on socket events that will never come.
   useEffect(() => {
     if (!u.sessionId) navigation.goBack();
   }, [u.sessionId, navigation]);
@@ -28,38 +26,34 @@ export function DuelActiveDuelScreen({ navigation }: ActiveDuelScreenProps) {
     return navigation.addListener("beforeRemove", leave);
   }, [navigation, u.sessionId]);
 
-  if (!u.round) {
-    return (
-      <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-        <Text style={styles.sub}>{u.opponentLeft ? "Opponent left, calculating result…" : "Waiting for round start..."}</Text>
-      </SafeAreaView>
-    );
-  }
-
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.duelContent} showsVerticalScrollIndicator={false}>
-        <View style={styles.scoreRow}>
-          <Text style={styles.score}>{u.username} {u.myScore}</Text>
-          <Text style={styles.score}>Round {u.roundNumber}/5</Text>
-          <View style={styles.scoreCellEnd}>
-            {u.opponentAvatarUrl ? (
-              <Image source={{ uri: u.opponentAvatarUrl }} style={styles.duelMiniAvatar} />
-            ) : (
-              <View style={styles.duelMiniInitial}>
-                <Text style={styles.duelMiniInitialTxt}>{(u.opponentName || "?").slice(0, 1).toUpperCase()}</Text>
-              </View>
-            )}
-            <Text style={styles.score} numberOfLines={1}>{u.opponentName} {u.oppScore}</Text>
+      {!u.round ? (
+        <Text style={styles.sub}>{u.opponentLeft ? "Opponent left, calculating result…" : "Waiting for round start..."}</Text>
+      ) : (
+        <ScrollView style={styles.container} contentContainerStyle={styles.duelContent} showsVerticalScrollIndicator={false}>
+          <View style={styles.scoreRow}>
+            <Text style={styles.score}>{u.username} {u.myScore}</Text>
+            <Text style={styles.score}>Round {u.roundNumber}/5</Text>
+            <View style={styles.scoreCellEnd}>
+              {u.opponentAvatarUrl ? (
+                <Image source={{ uri: u.opponentAvatarUrl }} style={styles.duelMiniAvatar} />
+              ) : (
+                <View style={styles.duelMiniInitial}>
+                  <Text style={styles.duelMiniInitialTxt}>{(u.opponentName || "?").slice(0, 1).toUpperCase()}</Text>
+                </View>
+              )}
+              <Text style={styles.score} numberOfLines={1}>{u.opponentName} {u.oppScore}</Text>
+            </View>
           </View>
-        </View>
-        <Text style={styles.sub}>You can choose up to 3 answers. ({u.attemptsLeft} remaining)</Text>
-        <Text style={styles.cardTitle}>{u.round.prompt}</Text>
-        <View style={styles.codeWrap}><CodeSnippet code={u.round.codeSnippet} /></View>
-        <View style={styles.card}>
-          <DuelActiveAnswerZone round={u.round} selected={u.selected} locked={u.locked} submit={u.submit} />
-        </View>
-      </ScrollView>
+          <Text style={styles.sub}>You can choose up to 3 answers. ({u.attemptsLeft} remaining)</Text>
+          <Text style={styles.cardTitle}>{u.round.prompt}</Text>
+          <View style={styles.codeWrap}><CodeSnippet code={u.round.codeSnippet} /></View>
+          <View style={styles.card}>
+            <DuelActiveAnswerZone round={u.round} selected={u.selected} locked={u.locked} submit={u.submit} />
+          </View>
+        </ScrollView>
+      )}
       {u.overlayVisible ? (
         <View style={styles.overlay}>
           <Text style={styles.overlayTitle}>Round Over</Text>
@@ -69,6 +63,9 @@ export function DuelActiveDuelScreen({ navigation }: ActiveDuelScreenProps) {
           </Text>
           <Text style={styles.overlayText}>Score: {u.myScore} - {u.oppScore}</Text>
         </View>
+      ) : null}
+      {u.connectionLost ? (
+        <View style={styles.overlay}><Text style={styles.overlayTitle}>Connection lost — reconnecting…</Text></View>
       ) : null}
     </SafeAreaView>
   );

@@ -6,6 +6,7 @@ export type PuzzleSubmitResponse = {
   streakCurrent?: number;
   xpTotal?: number;
   xpEarned?: number;
+  xpAtCap?: boolean;
   puzzleSolveCount?: number;
 };
 type PuzzleSubmitBody = { answer: string; clientLocalDate: string };

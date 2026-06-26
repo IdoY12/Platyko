@@ -1,8 +1,8 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Text, View } from "react-native";
 import { useAppSelector } from "@/redux/hooks";
+import { AppIcon } from "@/components/common/AppIcon/AppIcon";
 import { HomeScreen } from "@/components/home/HomeScreen/HomeScreen";
 import { CodePuzzleScreen } from "@/components/code-puzzle/CodePuzzleScreen/CodePuzzleScreen";
 import { LearnNavigator } from "@/components/layout/LearnNavigator/LearnNavigator";
@@ -16,7 +16,7 @@ import { guardDuelAccess } from "@/utils/formatHelpers";
 const Tabs = createBottomTabNavigator<MainTabParamList>();
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 
-const TabIcon = React.memo(({ label }: { label: string }) => <View><Text>{label}</Text></View>);
+type TabIconProps = { color: string; size: number };
 
 const HOME_STACK_OPTIONS = {
   headerStyle: { backgroundColor: colors.background },
@@ -41,10 +41,10 @@ const TABS_OPTIONS = {
   tabBarActiveTintColor: colors.accent,
   tabBarInactiveTintColor: colors.textSecondary,
 };
-const homeIcon = () => <TabIcon label="🏠" />;
-const learnIcon = () => <TabIcon label="📚" />;
-const duelIcon = () => <TabIcon label="⚔️" />;
-const profileIcon = () => <TabIcon label="👤" />;
+const homeIcon = ({ color, size }: TabIconProps) => <AppIcon name="home" color={color} size={size} />;
+const learnIcon = ({ color, size }: TabIconProps) => <AppIcon name="book-open-variant" color={color} size={size} />;
+const duelIcon = ({ color, size }: TabIconProps) => <AppIcon name="sword-cross" color={color} size={size} />;
+const profileIcon = ({ color, size }: TabIconProps) => <AppIcon name="account" color={color} size={size} />;
 const HOME_TAB_OPTS = { tabBarIcon: homeIcon, tabBarLabel: "Home" };
 const LEARN_TAB_OPTS = { tabBarIcon: learnIcon, tabBarLabel: "Learn" };
 const DUEL_TAB_OPTS = { tabBarIcon: duelIcon, tabBarLabel: "Duel" };
