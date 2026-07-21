@@ -26,7 +26,7 @@ export function AppShell() {
           {bootstrapError ? (
             <View style={[styles.bootstrapBanner, !isConnected && { top: 120 }]}>
               <Text style={styles.bootstrapText}>{bootstrapError}</Text>
-              <PressableScale onPress={retryBootstrap} style={styles.bootstrapRetry} haptic accessibilityLabel="Retry loading account">
+              <PressableScale onPress={retryBootstrap} style={styles.bootstrapRetry} haptic="light" accessibilityLabel="Retry loading account">
                 <Text style={styles.bootstrapRetryLabel}>Retry</Text>
               </PressableScale>
             </View>

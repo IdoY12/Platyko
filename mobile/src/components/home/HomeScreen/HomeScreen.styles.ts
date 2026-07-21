@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
   statRow: { flexDirection: "row", gap: spacing.xl },
   statCell: { flex: 1, gap: spacing.sm },
   statDivider: { width: 1, backgroundColor: colors.border },
+  statValueRow: { flexDirection: "row", alignItems: "baseline" },
   statValue: { color: colors.textPrimary, fontSize: fontSize.xl, fontWeight: "800", fontVariant: ["tabular-nums"] },
   statUnit: { color: colors.textSecondary, fontSize: fontSize.sm, fontWeight: "600" },
   statLabel: { color: colors.textMuted, fontFamily: font.mono, fontSize: fontSize.xs, letterSpacing: 1 },

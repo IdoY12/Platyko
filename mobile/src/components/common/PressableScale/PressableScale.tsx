@@ -7,12 +7,12 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type Props = Omit<PressableProps, "style"> & {
   style?: StyleProp<ViewStyle>;
-  /** Fire a light impact haptic on press-in (reserve for primary actions). */
-  haptic?: boolean;
+  /** Impact haptic on press-in: "medium" for the screen's hero action, "light" for the rest. */
+  haptic?: "light" | "medium";
 };
 
 /** Drop-in Pressable with a physical spring press-scale and optional haptic tick. */
-export function PressableScale({ style, haptic = false, onPressIn, onPressOut, ...pressableProps }: Props) {
+export function PressableScale({ style, haptic, onPressIn, onPressOut, ...pressableProps }: Props) {
   const scale = useSharedValue(1);
   const pressStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
 
@@ -22,7 +22,10 @@ export function PressableScale({ style, haptic = false, onPressIn, onPressOut, .
       style={[style, pressStyle]}
       onPressIn={(event) => {
         scale.value = withSpring(motion.pressScale, motion.spring);
-        if (haptic) void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        if (haptic)
+          void Haptics.impactAsync(
+            haptic === "medium" ? Haptics.ImpactFeedbackStyle.Medium : Haptics.ImpactFeedbackStyle.Light,
+          );
         onPressIn?.(event);
       }}
       onPressOut={(event) => {

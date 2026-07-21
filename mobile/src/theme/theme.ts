@@ -53,8 +53,9 @@ export const font = {
   mono: Platform.select({ ios: "Menlo", default: "monospace" }) as string,
 };
 
-/** Shared motion feel: quick physical springs, subtle press scale. */
+/** Shared motion feel: quick physical springs, subtle press scale, slow idle drift. */
 export const motion = {
   pressScale: 0.97,
   spring: { damping: 18, stiffness: 260 },
+  springSoft: { damping: 40, stiffness: 60 },
 };

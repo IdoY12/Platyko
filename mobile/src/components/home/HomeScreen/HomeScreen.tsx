@@ -1,12 +1,15 @@
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useHomeScreen } from "@/hooks/useHomeScreen";
 import { useAppSelector } from "@/redux/hooks";
 import type { HomeMainScreenProps } from "@/types/homeNavigation.types";
 import { guardDuelAccess } from "@/utils/formatHelpers";
 import { AppIcon } from "@/components/common/AppIcon/AppIcon";
+import { EntranceRise } from "@/components/common/EntranceRise/EntranceRise";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
+import { TypewriterText } from "@/components/common/TypewriterText/TypewriterText";
 import { colors } from "@/theme/theme";
+import { HomeHeroAction } from "./HomeHeroAction";
 import { HomeTodayPanel } from "./HomeTodayPanel";
 import { styles } from "./HomeScreen.styles";
 
@@ -23,28 +26,34 @@ export function HomeScreen({ navigation }: HomeMainScreenProps) {
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-        <Text style={styles.date}>{`// ${new Date().toDateString()}`}</Text>
-        <Text style={styles.greeting}>Good morning, {home.username}</Text>
-        <HomeTodayPanel home={home} />
-        <PressableScale style={styles.hero} haptic onPress={() => navigation.navigate("LearnTab")}>
-          <View>
-            <Text style={styles.heroTitle}>Continue Learning</Text>
-            <Text style={styles.heroSub}>Pick up where you left off</Text>
-          </View>
-          <AppIcon name="arrow-right" color={colors.onAccent} size={24} />
-        </PressableScale>
-        <View style={styles.tileRow}>
-          <PressableScale style={styles.tile} onPress={() => navigation.navigate("CodePuzzle")}>
+        <EntranceRise slot={0}>
+          <Text style={styles.date}>{`// ${new Date().toDateString()}`}</Text>
+        </EntranceRise>
+        <TypewriterText
+          text={`Good morning, ${home.username}`}
+          style={styles.greeting}
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.7}
+        />
+        <EntranceRise slot={2}>
+          <HomeTodayPanel home={home} />
+        </EntranceRise>
+        <EntranceRise slot={3}>
+          <HomeHeroAction onPress={() => navigation.navigate("LearnTab")} />
+        </EntranceRise>
+        <EntranceRise slot={4} style={styles.tileRow}>
+          <PressableScale style={styles.tile} haptic="light" onPress={() => navigation.navigate("CodePuzzle")}>
             <AppIcon name="puzzle" color={colors.accent} size={24} />
             <Text style={styles.tileTitle}>Code Puzzle</Text>
             <Text style={styles.tileSub}>bonus XP</Text>
           </PressableScale>
-          <PressableScale style={[styles.tile, styles.tileDuel]} onPress={onDuelPress}>
+          <PressableScale style={[styles.tile, styles.tileDuel]} haptic="light" onPress={onDuelPress}>
             <AppIcon name="sword-cross" color={colors.duel} size={24} />
             <Text style={styles.tileTitle}>Duel Mode</Text>
             <Text style={styles.tileSub}>1v1 · live</Text>
           </PressableScale>
-        </View>
+        </EntranceRise>
       </ScrollView>
     </SafeAreaView>
   );
