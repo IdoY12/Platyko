@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, Text, View } from "react-native";
-import { styles } from "./CodeSnippet.styles";
+import { styles, syntax } from "./CodeSnippet.styles";
 
 interface Props {
   code: string;
@@ -50,25 +50,25 @@ function highlightJavaScript(code: string): Array<Array<{ text: string; color: s
       });
     };
 
-    collect(new RegExp(stringRegex), "#FCA5A5");
-    collect(new RegExp(numberRegex), "#93C5FD");
-    collect(new RegExp(keywordRegex), "#FCD34D");
+    collect(new RegExp(stringRegex), syntax.string);
+    collect(new RegExp(numberRegex), syntax.number);
+    collect(new RegExp(keywordRegex), syntax.keyword);
     matches.sort((a, b) => a.start - b.start);
 
     matches.forEach((match) => {
       if (match.start < cursor) return;
 
       if (match.start > cursor) {
-        tokens.push({ text: line.slice(cursor, match.start), color: "#D1D5DB" });
+        tokens.push({ text: line.slice(cursor, match.start), color: syntax.plain });
       }
       tokens.push({ text: line.slice(match.start, match.end), color: match.color });
       cursor = match.end;
     });
 
     if (cursor < line.length) {
-      tokens.push({ text: line.slice(cursor), color: "#D1D5DB" });
+      tokens.push({ text: line.slice(cursor), color: syntax.plain });
     }
 
-    return tokens.length > 0 ? tokens : [{ text: line || " ", color: "#D1D5DB" }];
+    return tokens.length > 0 ? tokens : [{ text: line || " ", color: syntax.plain }];
   });
 }

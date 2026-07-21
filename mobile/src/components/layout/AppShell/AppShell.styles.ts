@@ -1,41 +1,40 @@
 import { StyleSheet } from "react-native";
-import { colors } from "@/theme/theme";
+import { colors, fontSize, radius, spacing } from "@/theme/theme";
+
+const banner = {
+  position: "absolute" as const,
+  top: 52,
+  left: spacing.md,
+  right: spacing.md,
+  backgroundColor: colors.card,
+  borderWidth: 1,
+  borderColor: colors.border,
+  borderLeftWidth: 3,
+  borderRadius: radius.button,
+  padding: spacing.md,
+};
 
 export const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   offlineBanner: {
-    position: "absolute",
-    top: 52,
+    ...banner,
     zIndex: 50,
-    left: 12,
-    right: 12,
-    backgroundColor: "#422006",
-    borderWidth: 1,
-    borderColor: "rgba(247,223,30,0.25)",
-    borderRadius: 12,
-    padding: 10,
+    borderLeftColor: colors.accent,
   },
-  offlineText: { color: colors.accent, textAlign: "center", fontWeight: "700" },
+  offlineText: { color: colors.textPrimary, fontSize: fontSize.sm, fontWeight: "600" },
   bootstrapBanner: {
-    position: "absolute",
-    top: 52,
+    ...banner,
     zIndex: 51,
-    left: 12,
-    right: 12,
-    backgroundColor: "#3b0d0d",
-    borderWidth: 1,
-    borderColor: "rgba(248,113,113,0.35)",
-    borderRadius: 12,
-    padding: 12,
-    gap: 10,
+    borderLeftColor: colors.danger,
+    gap: spacing.sm,
   },
-  bootstrapText: { color: "#fecaca", textAlign: "center", fontWeight: "600" },
+  bootstrapText: { color: colors.danger, fontSize: fontSize.sm, fontWeight: "600" },
   bootstrapRetry: {
-    alignSelf: "center",
+    alignSelf: "flex-start",
     backgroundColor: colors.accent,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.lg,
+    borderRadius: radius.button,
   },
-  bootstrapRetryLabel: { color: colors.background, fontWeight: "700" },
+  bootstrapRetryLabel: { color: colors.onAccent, fontWeight: "800" },
 });

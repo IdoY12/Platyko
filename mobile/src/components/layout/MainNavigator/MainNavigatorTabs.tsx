@@ -37,9 +37,10 @@ function HomeNavigator() {
 
 const TABS_OPTIONS = {
   headerShown: false as const,
-  tabBarStyle: { backgroundColor: colors.card, borderTopColor: colors.border },
+  tabBarStyle: { backgroundColor: colors.background, borderTopColor: colors.border },
   tabBarActiveTintColor: colors.accent,
   tabBarInactiveTintColor: colors.textSecondary,
+  tabBarLabelStyle: { fontSize: 11, fontWeight: "600" as const },
 };
 const homeIcon = ({ color, size }: TabIconProps) => <AppIcon name="home" color={color} size={size} />;
 const learnIcon = ({ color, size }: TabIconProps) => <AppIcon name="book-open-variant" color={color} size={size} />;

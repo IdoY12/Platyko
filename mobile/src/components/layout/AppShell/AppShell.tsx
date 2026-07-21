@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppNavigator } from "@/components/layout/AppNavigator/AppNavigator";
@@ -25,9 +26,9 @@ export function AppShell() {
           {bootstrapError ? (
             <View style={[styles.bootstrapBanner, !isConnected && { top: 120 }]}>
               <Text style={styles.bootstrapText}>{bootstrapError}</Text>
-              <Pressable onPress={retryBootstrap} style={styles.bootstrapRetry} accessibilityLabel="Retry loading account">
+              <PressableScale onPress={retryBootstrap} style={styles.bootstrapRetry} haptic accessibilityLabel="Retry loading account">
                 <Text style={styles.bootstrapRetryLabel}>Retry</Text>
-              </Pressable>
+              </PressableScale>
             </View>
           ) : null}
           <AppNavigator />
