@@ -5,7 +5,6 @@ export interface QueueEntry {
   userId: string;
   username: string;
   avatarUrl: string | null;
-  experienceLevel: string;
   joinedAt: number;
 }
 

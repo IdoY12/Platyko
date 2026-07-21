@@ -7,6 +7,7 @@ import store from "@/redux/store";
 import { addStudySeconds } from "@/redux/session-slice";
 import { useAuthenticatedService } from "@/hooks/useAuthenticatedService";
 import PuzzleService, { type Puzzle } from "@/services/auth-aware/PuzzleService";
+import { SUBMIT_FAILED_MESSAGE } from "@/constants/feedbackMessages";
 import { applyGuestPuzzleSolve, applyRegisteredPuzzleSolve } from "@/utils/puzzleSubmitRewards";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
 
@@ -63,7 +64,7 @@ export function useCodePuzzle() {
           ? applyGuestPuzzleSolve(dispatch, puzzle.id, xpSolveCounts, calendarDateISO, xpTotal)
           : applyRegisteredPuzzleSolve(dispatch, submitResult, calendarDateISO),
       );
-    } catch { setFeedbackMessage("Failed to submit. Please try again."); }
+    } catch { setFeedbackMessage(SUBMIT_FAILED_MESSAGE); }
   }, [dispatch, input, isGuest, puzzle, puzzleService, xpSolveCounts, xpTotal]);
   const revealReferenceAnswer = useCallback(() => setRefOpen(true), []);
   const setCurrentIndex = useCallback((u: SetStateAction<number>) => { setRefOpen(false); setPuzzleIndex(u); }, []);

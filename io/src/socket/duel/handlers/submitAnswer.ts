@@ -37,15 +37,15 @@ export function registerSubmitAnswer(socket: Socket, duel: DuelNamespace) {
           return;
         }
 
+        const attempts = slot === "player1" ? session.player1Attempts : session.player2Attempts;
+        if (attempts >= DUEL_MAX_ATTEMPTS_PER_ROUND) return;
+
         const { correctAnswer } = session.currentQuestion;
         const streakDate =
           typeof payload.streak_local_date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(payload.streak_local_date)
             ? payload.streak_local_date : null;
 
         if (payload.answer !== correctAnswer) {
-          if (session.answered) return;
-          const attempts = slot === "player1" ? session.player1Attempts : session.player2Attempts;
-          if (attempts >= DUEL_MAX_ATTEMPTS_PER_ROUND) return;
           if (slot === "player1") session.player1Attempts += 1;
           else session.player2Attempts += 1;
           socket.emit("answer_feedback", { isCorrect: false });

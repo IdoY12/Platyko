@@ -7,6 +7,7 @@ import { useLessonLoad } from "@/hooks/useLessonLoad";
 import { useAppSelector } from "@/redux/hooks";
 import type { LessonExerciseCompletionContext } from "@/types/lessonExerciseCompletion.types";
 import { useLessonExerciseCompleteHandler } from "@/hooks/useLessonExerciseCompleteHandler";
+import { LESSON_LOAD_FAILED_MESSAGE } from "@/constants/feedbackMessages";
 import { CodeSnippet } from "@/components/common/CodeSnippet/CodeSnippet";
 import { ExerciseView } from "@/components/learn/ExerciseView/ExerciseView";
 import { lessonScreenStyles } from "./LessonScreen.styles";
@@ -36,7 +37,9 @@ export function LessonScreen({ navigation, route }: LessonScreenProps) {
     return (
       <SafeAreaView style={lessonScreenStyles.container} edges={["top", "bottom"]}>
         <View style={lessonScreenStyles.content}>
-          <Text style={lessonScreenStyles.title}>No exercises for this level yet.</Text>
+          <Text style={lessonScreenStyles.title}>
+            {load.loadError ? LESSON_LOAD_FAILED_MESSAGE : "No exercises for this level yet."}
+          </Text>
         </View>
       </SafeAreaView>
     );

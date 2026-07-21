@@ -7,6 +7,7 @@ export type LessonExerciseSetters = {
   setExerciseIndex: (n: number) => void;
   setCorrectCount: (n: number) => void;
   setAttemptedCount: (n: number) => void;
+  setLoadError: (hasError: boolean) => void;
 };
 
 export function evaluateExerciseLocally(

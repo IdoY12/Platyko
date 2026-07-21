@@ -1,13 +1,15 @@
 /**
- * Inserts flat curriculum exercises (no Lesson/Chapter tables).
+ * Upserts flat curriculum exercises (no Lesson/Chapter tables).
  *
- * Responsibility: seed helper for lesson blocks; assigns global order per experience level.
+ * Responsibility: seed helper for lesson blocks; assigns global order per
+ * experience level and upserts each exercise keyed by (experienceLevel,
+ * orderIndex) so ids stay stable across re-seeds.
  * Layer: backend prisma seed
  * Depends on: seedExerciseTypes.ts, @prisma/client
  * Consumers: seed/lessons/*.ts
  */
 
-import type { ExperienceLevel, PrismaClient } from "@prisma/client";
+import type { ExperienceLevel, Prisma } from "@prisma/client";
 import type { SeedExercise } from "./seedExerciseTypes.js";
 
 export type GlobalExerciseOrder = Record<ExperienceLevel, number>;
@@ -17,7 +19,7 @@ export function createGlobalOrderCounters(): GlobalExerciseOrder {
 }
 
 export async function createLessonWithExercises(
-  prisma: PrismaClient,
+  prisma: Prisma.TransactionClient,
   params: {
     chapterTitle: string;
     title: string;
@@ -39,23 +41,27 @@ export async function createLessonWithExercises(
     await prev;
     const idx = order[experienceLevel];
     order[experienceLevel] += 1;
-    const created = await prisma.exercise.create({
-      data: {
-        experienceLevel,
-        orderIndex: idx,
-        sectionLabel,
-        type: exercise.type,
-        prompt: exercise.prompt,
-        codeSnippet: exercise.codeSnippet,
-        correctAnswer: exercise.correctAnswer,
-        explanation: exercise.explanation,
-      },
+    const content = {
+      sectionLabel,
+      type: exercise.type,
+      prompt: exercise.prompt,
+      codeSnippet: exercise.codeSnippet,
+      correctAnswer: exercise.correctAnswer,
+      explanation: exercise.explanation,
+    };
+    // Upsert keyed by (experienceLevel, orderIndex) so an exercise keeps its id
+    // across re-seeds — mobile installs cache ids and submit against them.
+    const persisted = await prisma.exercise.upsert({
+      where: { experienceLevel_orderIndex: { experienceLevel, orderIndex: idx } },
+      update: content,
+      create: { experienceLevel, orderIndex: idx, ...content },
     });
 
+    await prisma.exerciseOption.deleteMany({ where: { exerciseId: persisted.id } });
     if (exercise.options && exercise.options.length > 0) {
       await prisma.exerciseOption.createMany({
         data: exercise.options.map((option) => ({
-          exerciseId: created.id,
+          exerciseId: persisted.id,
           text: option,
           isCorrect: option === exercise.correctAnswer,
         })),

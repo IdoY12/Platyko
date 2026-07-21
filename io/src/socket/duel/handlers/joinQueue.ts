@@ -8,7 +8,7 @@
  */
 
 import type { Socket } from "socket.io";
-import { activeExperienceLevelOf, prisma } from "@project/db";
+import { prisma } from "@project/db";
 import { logInfo } from "../../../utils/logger.js";
 import { handleQueueJoin } from "../queue.js";
 import { isThrottled } from "../../../utils/socketThrottle.js";
@@ -25,19 +25,12 @@ export function registerJoinQueue(socket: Socket, duel: DuelNamespace) {
       return;
     }
 
-    const level = await activeExperienceLevelOf(prisma, authenticatedUserId).catch(() => "JUNIOR" as const);
-    const [user, progress] = await Promise.all([
-      prisma.user.findUnique({ where: { id: authenticatedUserId } }).catch(() => null),
-      prisma.userProgress
-        .findUnique({ where: { userId_experienceLevel: { userId: authenticatedUserId, experienceLevel: level } } })
-        .catch(() => null),
-    ]);
+    const user = await prisma.user.findUnique({ where: { id: authenticatedUserId } }).catch(() => null);
     const entry: QueueEntry = {
       socketId: socket.id,
       userId: authenticatedUserId,
       username: user?.username ?? (typeof payload?.username === "string" ? payload.username : "Anonymous"),
       avatarUrl: user?.avatarUrl ?? null,
-      experienceLevel: progress?.experienceLevel ?? level,
       joinedAt: Date.now(),
     };
     handleQueueJoin(socket, duel, entry);

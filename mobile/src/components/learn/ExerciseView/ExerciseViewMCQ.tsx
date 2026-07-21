@@ -46,6 +46,9 @@ export function ExerciseViewMCQ({ exercise, accessToken, onLessonExerciseComplet
       >
         <Text style={exerciseViewStyles.lessonButtonLabel}>Check</Text>
       </Pressable>
+      {pickOne.submitError ? (
+        <Text style={[exerciseViewStyles.feedback, exerciseViewStyles.feedbackBad]}>{pickOne.submitError}</Text>
+      ) : null}
       {pickOne.hasChecked && pickOne.isAnswerCorrect ? (
         <>
           <Text style={[exerciseViewStyles.feedback, exerciseViewStyles.feedbackGood]}>{successHeadline}</Text>

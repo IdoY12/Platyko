@@ -7,13 +7,16 @@ import { readSecureSessionTokens, writeSecureSessionTokens } from "@/utils/secur
 
 type RetryableConfig = InternalAxiosRequestConfig & { _retry?: boolean };
 
+// Without a timeout, a request to an unreachable dev host hangs indefinitely and loading spinners never resolve.
+const REQUEST_TIMEOUT_MS = 10_000;
+
 let refreshInFlight: Promise<{ accessToken: string; refreshToken: string }> | null = null;
 
 export default abstract class AuthAware {
   protected axiosInstance: AxiosInstance;
 
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: API_BASE_URL });
+    this.axiosInstance = axios.create({ baseURL: API_BASE_URL, timeout: REQUEST_TIMEOUT_MS });
 
     this.axiosInstance.interceptors.request.use((config) => {
       const { accessToken, isGuest } = store.getState().session;
@@ -40,7 +43,7 @@ export default abstract class AuthAware {
         try {
           if (!refreshInFlight) {
             refreshInFlight = axios
-              .post<{ accessToken: string; refreshToken: string }>(`${API_BASE_URL}/auth/refresh`, { refreshToken })
+              .post<{ accessToken: string; refreshToken: string }>(`${API_BASE_URL}/auth/refresh`, { refreshToken }, { timeout: REQUEST_TIMEOUT_MS })
               .then((r) => r.data)
               .finally(() => { refreshInFlight = null; });
           }

@@ -1,17 +1,49 @@
 import type { Dispatch, SetStateAction } from "react";
+import type Exercise from "@/models/Exercise";
 import type ExerciseSubmitResult from "@/models/ExerciseSubmitResult";
 import LearningService from "@/services/auth-aware/LearningService";
+import { SUBMIT_FAILED_MESSAGE } from "@/constants/feedbackMessages";
+import { evaluateExerciseLocally } from "@/utils/lessonExerciseState";
+import { logError } from "@/utils/logger";
 
-export async function persistLessonExerciseOnCorrect(
+export type LessonCheckSetters = {
+  setServerResult: Dispatch<SetStateAction<ExerciseSubmitResult | null>>;
+  setIsAnswerCorrect: (isCorrect: boolean) => void;
+  setHasChecked: (hasChecked: boolean) => void;
+  setSubmitError: (message: string | null) => void;
+};
+
+/**
+ * Evaluates an answer and commits the check result. Guests (no accessToken) and
+ * incorrect answers commit the local evaluation directly. For authenticated users
+ * a correct answer is committed only after the server confirms it — a failed
+ * submission sets submitError and commits nothing, so unconfirmed XP is never shown.
+ */
+export async function runLessonExerciseCheck(
   learning: LearningService,
-  exerciseId: string,
+  accessToken: string | null,
+  exercise: Exercise,
   answer: string,
-  setServerResult: Dispatch<SetStateAction<ExerciseSubmitResult | null>>,
+  setters: LessonCheckSetters,
 ): Promise<void> {
-  const persisted = await learning.submitExercise(exerciseId, answer);
-  setServerResult((prev) => ({
-    xpEarned: persisted.xpEarned,
-    explanation: persisted.explanation ?? prev?.explanation,
-    streakCurrent: persisted.streakCurrent,
-  }));
+  setters.setSubmitError(null);
+  const localResult = evaluateExerciseLocally(exercise, answer);
+  if (localResult.isAnswerCorrect && accessToken) {
+    try {
+      const persisted = await learning.submitExercise(exercise.id, answer);
+      setters.setServerResult({
+        xpEarned: persisted.xpEarned,
+        explanation: persisted.explanation ?? localResult.explanation,
+        streakCurrent: persisted.streakCurrent,
+      });
+    } catch (error) {
+      logError("[LESSON]", error, { phase: "submit-exercise" });
+      setters.setSubmitError(SUBMIT_FAILED_MESSAGE);
+      return;
+    }
+  } else {
+    setters.setServerResult({ xpEarned: localResult.xpEarned, explanation: localResult.explanation });
+  }
+  setters.setIsAnswerCorrect(localResult.isAnswerCorrect);
+  setters.setHasChecked(true);
 }

@@ -10,7 +10,7 @@ model Exercise {
   explanation      String
   options          ExerciseOption[]
 
-  @@index([experienceLevel, orderIndex])
+  @@unique([experienceLevel, orderIndex])
 }
 
 model ExerciseOption {

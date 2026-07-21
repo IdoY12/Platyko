@@ -4,9 +4,7 @@ import type ExerciseSubmitResult from "@/models/ExerciseSubmitResult";
 import type { LessonExerciseCompletionContext } from "@/types/lessonExerciseCompletion.types";
 import { useAuthenticatedService } from "@/hooks/useAuthenticatedService";
 import LearningService from "@/services/auth-aware/LearningService";
-import { evaluateExerciseLocally } from "@/utils/lessonExerciseState";
-import { persistLessonExerciseOnCorrect } from "@/hooks/useLessonExerciseInteractions";
-import { logError } from "@/utils/logger";
+import { runLessonExerciseCheck } from "@/hooks/useLessonExerciseInteractions";
 
 export function usePickOneLessonExercise(
   exercise: Exercise,
@@ -19,6 +17,7 @@ export function usePickOneLessonExercise(
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
   const [serverResult, setServerResult] = useState<ExerciseSubmitResult | null>(null);
   const [lastCheckedAnswer, setLastCheckedAnswer] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     setSelected(null);
@@ -26,24 +25,20 @@ export function usePickOneLessonExercise(
     setIsAnswerCorrect(null);
     setServerResult(null);
     setLastCheckedAnswer(null);
+    setSubmitError(null);
   }, [exercise.id]);
 
   const canCheck = Boolean(selected) && isAnswerCorrect !== true;
 
   const runCheck = useCallback(async () => {
     if (!selected) return;
-    try {
-      setLastCheckedAnswer(selected);
-      const ev = evaluateExerciseLocally(exercise, selected);
-      setServerResult({ xpEarned: ev.xpEarned, explanation: ev.explanation });
-      setIsAnswerCorrect(ev.isAnswerCorrect);
-      setHasChecked(true);
-      if (accessToken && learning && ev.isAnswerCorrect) {
-        await persistLessonExerciseOnCorrect(learning, exercise.id, selected, setServerResult);
-      }
-    } catch (error) {
-      logError("[LESSON]", error, { phase: "run-check" });
-    }
+    setLastCheckedAnswer(selected);
+    await runLessonExerciseCheck(learning, accessToken, exercise, selected, {
+      setServerResult,
+      setIsAnswerCorrect,
+      setHasChecked,
+      setSubmitError,
+    });
   }, [accessToken, exercise, learning, selected]);
 
   const goNext = useCallback(() => {
@@ -63,6 +58,7 @@ export function usePickOneLessonExercise(
     isAnswerCorrect,
     serverResult,
     lastCheckedAnswer,
+    submitError,
     canCheck,
     runCheck,
     goNext,

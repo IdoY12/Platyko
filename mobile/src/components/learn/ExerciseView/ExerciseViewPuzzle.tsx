@@ -41,6 +41,9 @@ export function ExerciseViewPuzzle({ exercise, accessToken, onLessonExerciseComp
       >
         <Text style={exerciseViewStyles.lessonButtonLabel}>Submit</Text>
       </Pressable>
+      {builtAnswer.submitError ? (
+        <Text style={[exerciseViewStyles.feedback, exerciseViewStyles.feedbackBad]}>{builtAnswer.submitError}</Text>
+      ) : null}
       {builtAnswer.hasChecked && builtAnswer.isAnswerCorrect ? (
         <>
           <Text style={[exerciseViewStyles.feedback, exerciseViewStyles.feedbackGood]}>Nice work.</Text>

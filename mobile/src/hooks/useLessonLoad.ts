@@ -26,6 +26,7 @@ export function useLessonLoad(experienceLevel: Experience, accessToken: string |
   );
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [exerciseIndex, setExerciseIndex] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [attemptedCount, setAttemptedCount] = useState(0);
@@ -55,6 +56,7 @@ export function useLessonLoad(experienceLevel: Experience, accessToken: string |
       setExerciseIndex,
       setCorrectCount,
       setAttemptedCount,
+      setLoadError,
     });
     return () => {
       active = false;
@@ -95,6 +97,7 @@ export function useLessonLoad(experienceLevel: Experience, accessToken: string |
   return {
     exercises,
     loading,
+    loadError,
     exerciseIndex,
     setExerciseIndex,
     correctCount,

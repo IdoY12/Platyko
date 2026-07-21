@@ -4,11 +4,8 @@ model DuelQuestion {
   codeSnippet   String
   correctAnswer String
   type          ExerciseType
-  difficulty    Difficulty
   options       Json?
   explanation   String       @default("")
-
-  @@index([difficulty])
 }
 
 model DuelSession {

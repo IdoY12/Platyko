@@ -33,7 +33,10 @@ export function DuelActiveDuelScreen({ navigation }: ActiveDuelScreenProps) {
       ) : (
         <ScrollView style={styles.container} contentContainerStyle={styles.duelContent} showsVerticalScrollIndicator={false}>
           <View style={styles.scoreRow}>
-            <Text style={styles.score}>{u.username} {u.myScore}</Text>
+            <View style={styles.scoreCellStart}>
+              <Text style={[styles.score, styles.scoreName]} numberOfLines={1}>{u.username}</Text>
+              <Text style={styles.score}>{u.myScore}</Text>
+            </View>
             <Text style={styles.score}>Round {u.roundNumber}/5</Text>
             <View style={styles.scoreCellEnd}>
               {u.opponentAvatarUrl ? (
@@ -43,7 +46,8 @@ export function DuelActiveDuelScreen({ navigation }: ActiveDuelScreenProps) {
                   <Text style={styles.duelMiniInitialTxt}>{(u.opponentName || "?").slice(0, 1).toUpperCase()}</Text>
                 </View>
               )}
-              <Text style={styles.score} numberOfLines={1}>{u.opponentName} {u.oppScore}</Text>
+              <Text style={[styles.score, styles.scoreName]} numberOfLines={1}>{u.opponentName}</Text>
+              <Text style={styles.score}>{u.oppScore}</Text>
             </View>
           </View>
           <Text style={styles.sub}>You can choose up to 3 answers. ({u.attemptsLeft} remaining)</Text>

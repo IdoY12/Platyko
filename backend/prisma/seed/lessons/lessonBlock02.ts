@@ -7,13 +7,13 @@
  * Consumers: runAllLessonBlocks.ts
  */
 
-import type { PrismaClient } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { createLessonWithExercises } from "../lib/createLessonWithExercises.js";
 import type { GlobalExerciseOrder } from "../lib/createLessonWithExercises.js";
 
 import { block02Exercises } from "./data/block02.js";
 
-export async function seedLessonBlock_02(prisma: PrismaClient, order: GlobalExerciseOrder): Promise<void> {
+export async function seedLessonBlock_02(prisma: Prisma.TransactionClient, order: GlobalExerciseOrder): Promise<void> {
   await createLessonWithExercises(prisma, {
     chapterTitle: "Junior track",
     title: "Operators, conditionals, and loops",

@@ -1,7 +1,8 @@
 /**
- * Prisma seed orchestrator: wipes, flat curriculum, duel content, code puzzles.
+ * Prisma seed orchestrator: duel wipe, curriculum + code puzzle upserts.
  *
- * Responsibility: call ordered seed steps and disconnect Prisma.
+ * Responsibility: run ordered seed steps in one transaction (a mid-seed crash
+ * must never leave content tables empty or partial) and disconnect Prisma.
  * Layer: backend prisma seed
  * Consumers: prisma CLI via package.json script
  */
@@ -18,10 +19,15 @@ injectDatabaseUrlFromConfig();
 const prisma = new PrismaClient();
 
 async function main(): Promise<void> {
-  await seedCleanup(prisma);
-  await runAllLessonBlocks(prisma);
-  await persistDuelQuestions(prisma);
-  await seedCodePuzzles(prisma);
+  await prisma.$transaction(
+    async (tx) => {
+      await seedCleanup(tx);
+      await runAllLessonBlocks(tx);
+      await persistDuelQuestions(tx);
+      await seedCodePuzzles(tx);
+    },
+    { timeout: 120_000 },
+  );
   console.log("Seed complete: exercises, duel questions, code puzzles.");
 }
 

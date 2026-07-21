@@ -7,7 +7,7 @@
  * Consumers: runMain.ts
  */
 
-import type { PrismaClient } from "@prisma/client";
+import type { ExperienceLevel, Prisma } from "@prisma/client";
 import { createGlobalOrderCounters } from "../lib/createLessonWithExercises.js";
 import { seedLessonBlock_01 } from "./lessonBlock01.js";
 import { seedLessonBlock_02 } from "./lessonBlock02.js";
@@ -31,11 +31,19 @@ const blocks = [
   seedLessonBlock_09,
 ] as const;
 
-export async function runAllLessonBlocks(prisma: PrismaClient): Promise<void> {
+export async function runAllLessonBlocks(prisma: Prisma.TransactionClient): Promise<void> {
   const order = createGlobalOrderCounters();
 
   await blocks.reduce<Promise<void>>(async (prev, block) => {
     await prev;
     await block(prisma, order);
   }, Promise.resolve());
+
+  // Prune exercises dropped from the seed list (options cascade); rows the
+  // blocks still author were upserted in place above, keeping their ids.
+  for (const level of Object.keys(order) as ExperienceLevel[]) {
+    await prisma.exercise.deleteMany({
+      where: { experienceLevel: level, orderIndex: { gte: order[level] } },
+    });
+  }
 }

@@ -17,6 +17,7 @@ export async function runLessonExerciseLoad(
   set: LessonExerciseSetters,
 ): Promise<void> {
   setLoading(true);
+  set.setLoadError(false);
 
   try {
     const allExercises = await fetchCurriculumExercisesForLevel(experienceLevel, jwt);
@@ -46,6 +47,7 @@ export async function runLessonExerciseLoad(
     if (active()) applyLessonExercisePayload(set, blockExercises, startIndex);
   } catch (e) {
     logError("[TASKS]", e, { phase: "load-exercises", experienceLevel, blockIndex });
+    if (active()) set.setLoadError(true);
   } finally {
     if (active()) setLoading(false);
   }
