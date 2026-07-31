@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, fontSize, radius, spacing } from "@/theme/theme";
+import { colors, font, fontSize, glow, radius, spacing } from "@/theme/theme";
 
 export const profileSectionCardStyles = StyleSheet.create({
   card: {
@@ -9,7 +9,7 @@ export const profileSectionCardStyles = StyleSheet.create({
     borderColor: colors.border,
     padding: spacing.lg,
   },
-  sectionHeader: { color: colors.textPrimary, fontSize: fontSize.md, fontWeight: "700", marginBottom: spacing.md },
+  sectionHeader: { color: colors.textPrimary, fontFamily: font.mono, fontSize: fontSize.md, fontWeight: "700", marginBottom: spacing.md },
   fieldLabel: { color: colors.textSecondary, marginTop: spacing.md, marginBottom: spacing.sm, fontWeight: "700" },
   saveButton: {
     marginTop: spacing.lg,
@@ -17,6 +17,7 @@ export const profileSectionCardStyles = StyleSheet.create({
     borderRadius: radius.button,
     paddingVertical: spacing.md,
     alignItems: "center",
+    ...glow.accent,
   },
   saveButtonDisabled: { opacity: 0.5 },
   saveButtonLabel: { color: colors.onAccent, fontWeight: "800" },

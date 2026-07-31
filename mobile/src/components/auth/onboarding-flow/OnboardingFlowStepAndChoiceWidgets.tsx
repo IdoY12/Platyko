@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import Animated, { SlideInRight } from "react-native-reanimated";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { onboardingFlowStyles } from "./OnboardingFlow.styles";
 
 export function OnboardingWizardStepFrame({
@@ -25,9 +26,9 @@ export function OnboardingWizardStepFrame({
         </ScrollView>
       </View>
       <View style={onboardingFlowStyles.stepFooter}>
-        <Pressable disabled={!enabled} onPress={onContinue} style={[onboardingFlowStyles.cta, !enabled && onboardingFlowStyles.ctaDisabled]}>
+        <PressableScale disabled={!enabled} haptic="medium" onPress={onContinue} style={[onboardingFlowStyles.cta, !enabled && onboardingFlowStyles.ctaDisabled]}>
           <Text style={onboardingFlowStyles.ctaLabel}>{continueLabel}</Text>
-        </Pressable>
+        </PressableScale>
       </View>
     </Animated.View>
   );
@@ -45,10 +46,10 @@ export function OnboardingGoalOptionCard({
   onPress: () => void;
 }) {
   return (
-    <Pressable onPress={onPress} style={[onboardingFlowStyles.choiceCard, selected && onboardingFlowStyles.choiceCardOn]}>
+    <PressableScale onPress={onPress} haptic="light" style={[onboardingFlowStyles.choiceCard, selected && onboardingFlowStyles.choiceCardOn]}>
       <Text style={onboardingFlowStyles.choiceTitle}>{title}</Text>
       <Text style={onboardingFlowStyles.choiceSub}>{subtitle}</Text>
-    </Pressable>
+    </PressableScale>
   );
 }
 

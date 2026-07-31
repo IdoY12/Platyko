@@ -1,4 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
+import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
 import { useOnboardingWizard } from "@/hooks/useOnboardingWizard";
 import { logOnboarding } from "@/utils/logger";
 import { ONBOARDING_COMMITMENTS, ONBOARDING_GOALS, ONBOARDING_LEVELS } from "@/constants/onboardingCatalog";
@@ -15,6 +16,7 @@ export function OnboardingFlow({ onPersistedToDevice }: OnboardingFlowProps) {
   const wizard = useOnboardingWizard({ onPersistedToDevice });
   return (
     <SafeAreaView style={onboardingFlowStyles.container} edges={["top", "bottom"]}>
+      <MatrixRain opacity={0.12} />
       {wizard.step === 1 && (
         <OnboardingWizardStepFrame
           title="What's your level?"

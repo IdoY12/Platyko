@@ -8,6 +8,7 @@ import { updatePreferences } from "@/redux/profile-slice";
 import { resetLesson } from "@/redux/lesson-slice";
 import { logNav } from "@/utils/logger";
 import { AppIcon } from "@/components/common/AppIcon/AppIcon";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { colors } from "@/theme/theme";
 import { styles } from "./ProfileScreen.styles";
 
@@ -45,9 +46,9 @@ export function GuestProfileBody() {
         <View style={styles.guestCard}>
           <Text style={styles.guestSection}>Account</Text>
           <Text style={styles.guestShield}>Ranked 1v1 Duels require a free account. Your lesson progress is saved on this device until you sign in.</Text>
-          <Pressable style={styles.guestBtn} onPress={onSignIn} accessibilityLabel="Sign in or create account">
+          <PressableScale style={styles.guestBtn} haptic="medium" onPress={onSignIn} accessibilityLabel="Sign in or create account">
             <Text style={styles.guestBtnLbl}>Sign in or create account</Text>
-          </Pressable>
+          </PressableScale>
         </View>
         <View style={styles.guestCard}>
           <Text style={styles.guestSection}>Learning Preferences</Text>

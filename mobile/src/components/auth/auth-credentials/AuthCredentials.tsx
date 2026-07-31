@@ -1,6 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { colors } from "@/theme/theme";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { styles } from "./AuthCredentials.styles";
 
 type Props = {
@@ -63,14 +64,15 @@ export function AuthCredentials(p: Props) {
         </Pressable>
       </View>
       {p.passwordHint ? <Text style={styles.errorText}>{p.passwordHint}</Text> : null}
-      <Pressable
+      <PressableScale
         disabled={!p.canSubmit}
         style={[styles.primaryButton, !p.canSubmit && styles.disabled]}
+        haptic="medium"
         onPress={p.onSubmit}
         accessibilityLabel={a11y}
       >
         <Text style={styles.primaryLabel}>{p.loading ? "Please wait..." : label}</Text>
-      </Pressable>
+      </PressableScale>
       {p.error ? <Text style={styles.errorText}>{p.error}</Text> : null}
     </>
   );

@@ -2,6 +2,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { Pressable, ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuthScreen } from "@/hooks/useAuthScreen";
+import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
 import { useAppDispatch } from "@/redux/hooks";
 import type { AppDispatch } from "@/redux/store";
 import { AuthCredentials } from "../auth-credentials/AuthCredentials";
@@ -27,6 +28,7 @@ export function AuthScreen() {
   const a = useAuthScreen(dispatch);
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+      <MatrixRain opacity={0.15} />
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         <AuthCredentials {...a} />
         <AuthFooter dispatch={dispatch} isLogin={a.isLogin} setIsLogin={a.setIsLogin} />

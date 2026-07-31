@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, fontSize, radius, spacing } from "@/theme/theme";
+import { colors, font, fontSize, glow, radius, spacing } from "@/theme/theme";
 
 export const onboardingFlowStyles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
@@ -7,6 +7,7 @@ export const onboardingFlowStyles = StyleSheet.create({
   mainContent: { flex: 1 },
   stepTitle: {
     color: colors.textPrimary,
+    fontFamily: font.mono,
     fontSize: fontSize.xl,
     fontWeight: "800",
     marginBottom: spacing.xl,
@@ -19,6 +20,7 @@ export const onboardingFlowStyles = StyleSheet.create({
     borderRadius: radius.button,
     paddingVertical: spacing.lg,
     alignItems: "center",
+    ...glow.accent,
   },
   ctaLabel: { color: colors.onAccent, fontWeight: "800", fontSize: fontSize.base },
   ctaDisabled: { opacity: 0.5 },
@@ -29,7 +31,7 @@ export const onboardingFlowStyles = StyleSheet.create({
     borderRadius: radius.card,
     padding: spacing.lg,
   },
-  choiceCardOn: { borderColor: colors.accent, shadowColor: colors.accent, shadowOpacity: 0.3, shadowRadius: 12 },
+  choiceCardOn: { borderColor: colors.accent, ...glow.accent },
   choiceTitle: { color: colors.textPrimary, fontSize: fontSize.md, fontWeight: "700" },
   choiceSub: { color: colors.textSecondary, marginTop: spacing.sm },
   node: { alignItems: "center", gap: spacing.sm },
