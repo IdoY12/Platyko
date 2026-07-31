@@ -12,7 +12,7 @@ import Animated, {
 import { motion } from "@/theme/theme";
 import { styles } from "./MatrixRain.styles";
 
-type Props = { x: number; height: number; animate: boolean };
+type Props = { x: number; height: number; animate: boolean; color?: string };
 
 const randomBetween = (min: number, max: number) => min + Math.random() * (max - min);
 
@@ -20,7 +20,7 @@ const randomBetween = (min: number, max: number) => min + Math.random() * (max -
  * One falling column of 0/1 glyphs. The glyph string is built once; the fall is a
  * single repeated UI-thread timing loop — zero JS-thread work per frame.
  */
-export function MatrixRainColumn({ x, height, animate }: Props) {
+export function MatrixRainColumn({ x, height, animate, color }: Props) {
   const glyphs = useMemo(() => {
     const glyphCount = Math.ceil(height / motion.rain.glyphLineHeight);
     return Array.from({ length: glyphCount }, () => (Math.random() < 0.5 ? "0" : "1")).join("\n");
@@ -43,7 +43,7 @@ export function MatrixRainColumn({ x, height, animate }: Props) {
 
   return (
     <Animated.View style={[styles.column, { left: x, opacity: columnOpacity }, fallStyle]}>
-      <Text style={styles.glyphs}>{glyphs}</Text>
+      <Text style={[styles.glyphs, color != null && { color }]}>{glyphs}</Text>
     </Animated.View>
   );
 }

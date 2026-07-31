@@ -60,7 +60,7 @@ export function DuelMatchmakingScreen({ navigation }: MatchmakingScreenProps) {
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <MatrixRain opacity={0.2} />
+      <MatrixRain opacity={0.45} color={colors.duel} />
       <Text style={styles.searching}>Searching for an opponent...</Text>
       <View style={styles.subRow}>
         <AppIcon name="lightning-bolt" size={16} color={colors.textSecondary} />

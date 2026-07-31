@@ -18,7 +18,7 @@ export function CodePuzzleScreen({ navigation }: CodePuzzleScreenProps) {
   if (loading) {
     return (
       <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-        <MatrixRain opacity={0.3} />
+        <MatrixRain opacity={0.5} />
         <View style={styles.loadingInner}>
           <ActivityIndicator color={colors.accent} size="large" />
         </View>

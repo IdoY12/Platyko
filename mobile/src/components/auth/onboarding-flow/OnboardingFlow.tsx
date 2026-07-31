@@ -17,7 +17,7 @@ export function OnboardingFlow({ onPersistedToDevice }: OnboardingFlowProps) {
   const wizard = useOnboardingWizard({ onPersistedToDevice });
   return (
     <SafeAreaView style={onboardingFlowStyles.container} edges={["top", "bottom"]}>
-      <MatrixRain opacity={0.12} />
+      <MatrixRain opacity={0.25} />
       {wizard.step === 1 && (
         <OnboardingWizardStepFrame
           title="What's your level?"

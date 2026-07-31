@@ -26,7 +26,7 @@ export function LessonScreen({ navigation, route }: LessonScreenProps) {
   if (load.loading) {
     return (
       <SafeAreaView style={lessonScreenStyles.container} edges={["top", "bottom"]}>
-        <MatrixRain opacity={0.25} />
+        <MatrixRain opacity={0.45} />
         <View style={lessonScreenStyles.content}>
           <Text style={lessonScreenStyles.title}>Loading lesson...</Text>
           <ActivityIndicator color={colors.accent} />

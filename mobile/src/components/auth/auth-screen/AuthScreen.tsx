@@ -28,7 +28,7 @@ export function AuthScreen() {
   const a = useAuthScreen(dispatch);
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <MatrixRain opacity={0.15} />
+      <MatrixRain opacity={0.3} />
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         <AuthCredentials {...a} />
         <AuthFooter dispatch={dispatch} isLogin={a.isLogin} setIsLogin={a.setIsLogin} />

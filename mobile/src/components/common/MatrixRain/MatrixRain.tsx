@@ -7,10 +7,12 @@ import { MatrixRainColumn } from "./MatrixRainColumn";
 import { styles } from "./MatrixRain.styles";
 
 type Props = {
-  /** Layer opacity — keep low (≤ 0.35) when used behind screen content. */
+  /** Layer opacity — must stay clearly visible at arm's length; go ≥ 0.4 for feature zones. */
   opacity?: number;
   /** 0–1 fraction of the width-derived column budget (hard max 20 columns). */
   intensity?: number;
+  /** Glyph color — JS-yellow by default; pass colors.duel for the arena. */
+  color?: string;
 };
 
 /**
@@ -20,7 +22,7 @@ type Props = {
  * navigator too (no NavigationContext → always treated as focused).
  * Reduced motion: renders the glyph columns statically, no animation.
  */
-export function MatrixRain({ opacity = 0.3, intensity = 1 }: Props) {
+export function MatrixRain({ opacity = 0.4, intensity = 1, color }: Props) {
   const { width, height } = useWindowDimensions();
   const reduceMotion = useReducedMotion();
   const navigation = useContext(NavigationContext);
@@ -55,6 +57,7 @@ export function MatrixRain({ opacity = 0.3, intensity = 1 }: Props) {
           x={(index + 0.25) * (width / columnCount)}
           height={height}
           animate={!reduceMotion}
+          color={color}
         />
       ))}
     </View>

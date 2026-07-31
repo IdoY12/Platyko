@@ -7,7 +7,7 @@ import { styles } from "./HydrationLoadingScreen.styles";
 export function HydrationLoadingScreen() {
   return (
     <SafeAreaView style={styles.root} edges={["top", "bottom"]}>
-      <MatrixRain opacity={0.35} />
+      <MatrixRain opacity={0.55} />
       <TypewriterText text="> BOOTING CODEQUEST..." style={styles.text} accessibilityLabel="Loading" />
     </SafeAreaView>
   );

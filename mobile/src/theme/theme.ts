@@ -1,29 +1,30 @@
 import { Platform } from "react-native";
 
-/** CYBERDECK art direction: phosphor-green terminal on near-black, cyan/magenta signal accents. */
+/** CYBERDECK × JS art direction: hacker terminal in JavaScript colors — JS-yellow phosphor
+ *  on warm near-black, magenta (duel) and cyan (XP/info) as sparing signal accents. */
 export const colors = {
-  background: "#050A08",
-  card: "#0A140E",
-  surface: "#0F1D14",
-  accent: "#00FF9C",
-  onAccent: "#021208",
-  cyan: "#22D9F0",
-  success: "#54FF9F",
+  background: "#0A0A08",
+  card: "#14130E",
+  surface: "#1C1A12",
+  accent: "#F7DF1E",
+  onAccent: "#131309",
+  cyan: "#21E6F5",
+  success: "#4ADE80",
   danger: "#FF4D6D",
   duel: "#FF2E88",
-  textPrimary: "#D8FFEA",
-  textSecondary: "#7FAE96",
-  textMuted: "#44634F",
-  border: "rgba(0,255,156,0.16)",
+  textPrimary: "#F2EFE4",
+  textSecondary: "#A8A494",
+  textMuted: "#5F5B4C",
+  border: "rgba(247,223,30,0.16)",
 };
 
 /** Translucent washes for selected / correct / wrong states — every tint stays on-palette. */
 export const tint = {
-  accent: "rgba(0,255,156,0.12)",
-  cyan: "rgba(34,217,240,0.12)",
+  accent: "rgba(247,223,30,0.12)",
+  cyan: "rgba(33,230,245,0.12)",
   duel: "rgba(255,46,136,0.14)",
   danger: "rgba(255,77,109,0.16)",
-  success: "rgba(84,255,159,0.14)",
+  success: "rgba(74,222,128,0.14)",
 };
 
 export const spacing = {
