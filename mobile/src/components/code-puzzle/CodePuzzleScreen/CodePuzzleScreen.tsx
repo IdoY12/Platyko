@@ -6,6 +6,7 @@ import { useCodePuzzle } from "@/hooks/useCodePuzzle";
 import { GlyphScrambleText } from "@/components/common/GlyphScrambleText/GlyphScrambleText";
 import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
+import { CodePuzzleNavRow } from "./CodePuzzleNavRow";
 import { styles } from "./CodePuzzleScreen.styles";
 
 export function CodePuzzleScreen({ navigation }: CodePuzzleScreenProps) {
@@ -38,27 +39,12 @@ export function CodePuzzleScreen({ navigation }: CodePuzzleScreenProps) {
           autoCorrect={false} placeholder="Type one-line expression" placeholderTextColor={colors.textMuted}
           multiline={false} accessibilityLabel="Code puzzle answer input"
         />
-        <View style={styles.navRow}>
-          <PressableScale
-            style={[styles.navButton, currentIndex === 0 && styles.navButtonDisabled]}
-            haptic="light"
-            onPress={() => { setCurrentIndex((i) => Math.max(0, i - 1)); setInput(""); }}
-            disabled={currentIndex === 0} accessibilityLabel="Previous puzzle"
-          >
-            <Text style={styles.navLabel}>← Prev</Text>
-          </PressableScale>
-          <PressableScale style={styles.navButton} haptic="light" onPress={() => setInput("")} accessibilityLabel="Reset answer">
-            <Text style={styles.navLabel}>Reset</Text>
-          </PressableScale>
-          <PressableScale
-            style={[styles.navButton, currentIndex === lastPuzzleIndex && styles.navButtonDisabled]}
-            haptic="light"
-            onPress={() => { setCurrentIndex((i) => Math.min(lastPuzzleIndex, i + 1)); setInput(""); }}
-            disabled={currentIndex === lastPuzzleIndex} accessibilityLabel="Next puzzle"
-          >
-            <Text style={styles.navLabel}>Next →</Text>
-          </PressableScale>
-        </View>
+        <CodePuzzleNavRow
+          currentIndex={currentIndex}
+          lastPuzzleIndex={lastPuzzleIndex}
+          onGoTo={(index) => { setCurrentIndex(index); setInput(""); }}
+          onReset={() => setInput("")}
+        />
         <PressableScale style={styles.submitButton} haptic="medium" onPress={() => void onSubmit()} accessibilityLabel="Submit code puzzle answer">
           <Text style={styles.submitLabel}>Submit Puzzle</Text>
         </PressableScale>
