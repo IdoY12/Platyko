@@ -3,9 +3,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "@/theme/theme";
 import type { CodePuzzleScreenProps } from "@/types/homeNavigation.types";
 import { useCodePuzzle } from "@/hooks/useCodePuzzle";
-import { GlyphScrambleText } from "@/components/common/GlyphScrambleText/GlyphScrambleText";
 import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
+import { TerminalHeader } from "@/components/common/TerminalHeader/TerminalHeader";
 import { CodePuzzleNavRow } from "./CodePuzzleNavRow";
 import { styles } from "./CodePuzzleScreen.styles";
 
@@ -18,6 +18,7 @@ export function CodePuzzleScreen({ navigation }: CodePuzzleScreenProps) {
   if (loading) {
     return (
       <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+        <TerminalHeader title="~/home/puzzle $" onBack={() => navigation.goBack()} />
         <MatrixRain opacity={0.5} />
         <View style={styles.loadingInner}>
           <ActivityIndicator color={colors.accent} size="large" />
@@ -30,8 +31,8 @@ export function CodePuzzleScreen({ navigation }: CodePuzzleScreenProps) {
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+      <TerminalHeader title="~/home/puzzle $" onBack={() => navigation.goBack()} />
       <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollInner} keyboardShouldPersistTaps="handled">
-        <GlyphScrambleText text="Code Puzzle" style={styles.title} />
         {puzzle && <Text style={styles.counter}>{puzzle.orderIndex + 1} / {puzzles.length}</Text>}
         <Text style={styles.prompt}>{puzzle?.prompt ?? ""}</Text>
         <TextInput

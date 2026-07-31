@@ -25,7 +25,7 @@ const HOME_STACK_OPTIONS = {
   contentStyle: { backgroundColor: colors.background },
 };
 const HOME_MAIN_OPTS = { headerShown: false as const, title: "Home" };
-const CODE_PUZZLE_OPTS = { title: "Code Puzzle" };
+const CODE_PUZZLE_OPTS = { headerShown: false as const };
 
 function HomeNavigator() {
   return (

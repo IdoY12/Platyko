@@ -6,7 +6,6 @@ export const styles = StyleSheet.create({
   scroll: { flex: 1 },
   loadingInner: { flex: 1, justifyContent: "center", alignItems: "center", paddingHorizontal: spacing.xxl },
   scrollInner: { flexGrow: 1, padding: spacing.xxl, paddingTop: spacing.giant, gap: spacing.lg },
-  title: { color: colors.textPrimary, fontFamily: font.mono, fontSize: fontSize.xl, fontWeight: "800" },
   counter: { color: colors.textMuted, fontFamily: font.mono, fontSize: fontSize.sm, fontVariant: ["tabular-nums"] },
   prompt: { color: colors.textSecondary, fontSize: fontSize.md, lineHeight: 28 },
   input: {
