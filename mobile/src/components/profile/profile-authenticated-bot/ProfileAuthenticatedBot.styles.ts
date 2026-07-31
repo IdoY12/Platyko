@@ -15,14 +15,7 @@ export const b = StyleSheet.create({
   },
   rowPress: { opacity: 0.75 },
   chev: { color: colors.textSecondary, fontSize: fontSize.lg },
-  dangerCard: {
-    backgroundColor: colors.card,
-    borderRadius: radius.card,
-    borderWidth: 1,
-    borderColor: colors.danger,
-    padding: spacing.lg,
-  },
-  dangerHeader: { color: colors.danger, fontWeight: "800", marginBottom: spacing.md },
+  dangerCard: { borderColor: colors.danger },
   dangerLbl: { color: colors.danger },
   logoutBtn: {
     marginTop: spacing.md,

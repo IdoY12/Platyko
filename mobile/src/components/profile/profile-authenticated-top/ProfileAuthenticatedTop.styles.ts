@@ -8,7 +8,7 @@ export const t = StyleSheet.create({
   skSm: { width: 130, height: 14, borderRadius: 8, backgroundColor: colors.surface },
   skRow: { flexDirection: "row", gap: spacing.sm },
   skCard: { width: 95, height: 70, borderRadius: radius.card, backgroundColor: colors.surface },
-  hero: { alignItems: "center", backgroundColor: colors.card, borderRadius: radius.card, padding: spacing.xl, borderWidth: 1, borderColor: colors.border },
+  hero: { alignItems: "center", overflow: "hidden" },
   avatarShell: { width: 120, height: 120, borderRadius: 60, alignItems: "center", justifyContent: "center" },
   avatarImg: { width: 120, height: 120, borderRadius: 60, borderWidth: 2, borderColor: colors.border },
   initialsAv: { width: 120, height: 120, borderRadius: 60, backgroundColor: colors.surface, borderWidth: 2, borderColor: colors.border, alignItems: "center", justifyContent: "center" },
@@ -20,7 +20,7 @@ export const t = StyleSheet.create({
   upCard: { backgroundColor: colors.card, borderRadius: radius.card, padding: spacing.md, borderColor: colors.border, borderWidth: 1, flexDirection: "row", gap: spacing.sm, alignItems: "center" },
   upTxt: { color: colors.textSecondary, fontWeight: "700" },
   statsRow: { flexDirection: "row", gap: spacing.md },
-  pill: { flex: 1, backgroundColor: colors.card, borderColor: colors.border, borderWidth: 1, borderRadius: radius.card, alignItems: "center", paddingVertical: spacing.md },
+  pill: { flex: 1, alignItems: "center", paddingVertical: spacing.md, paddingHorizontal: spacing.sm },
   pillVal: { marginTop: spacing.xs, color: colors.textPrimary, fontFamily: font.mono, fontWeight: "800", fontSize: fontSize.md, fontVariant: ["tabular-nums"] },
   pillLbl: { marginTop: spacing.xs, color: colors.textSecondary, fontSize: fontSize.sm },
 });

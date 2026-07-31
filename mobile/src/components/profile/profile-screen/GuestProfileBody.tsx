@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Pressable, Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { commitmentOptions, levels } from "@/constants/learningSettings";
@@ -7,10 +7,12 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updatePreferences } from "@/redux/profile-slice";
 import { resetLesson } from "@/redux/lesson-slice";
 import { logNav } from "@/utils/logger";
-import { AppIcon } from "@/components/common/AppIcon/AppIcon";
+import { EntranceRise } from "@/components/common/EntranceRise/EntranceRise";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
-import { colors } from "@/theme/theme";
+import { TerminalFrame } from "@/components/common/TerminalFrame/TerminalFrame";
+import { TerminalHeader } from "@/components/common/TerminalHeader/TerminalHeader";
 import { GuestPreferenceChips } from "./GuestPreferenceChips";
+import { GuestProfileDangerCard } from "./GuestProfileDangerCard";
 import { styles } from "./ProfileScreen.styles";
 
 export function GuestProfileBody() {
@@ -38,36 +40,34 @@ export function GuestProfileBody() {
   );
   return (
     <SafeAreaView style={styles.guestContainer} edges={["top", "bottom"]}>
+      <TerminalHeader title="~/profile $" />
       <View style={styles.guestMain}>
-        <View style={styles.guestHero}>
-          <Text style={styles.guestName}>Guest</Text>
-          <Text style={styles.guestEmail}>Practice locally. Sign in to sync progress and play Duels.</Text>
-          <Text style={styles.guestMeta}>Level {level} · {xp} XP (on this device)</Text>
-        </View>
-        <View style={styles.guestCard}>
-          <Text style={styles.guestSection}>Account</Text>
-          <Text style={styles.guestShield}>Ranked 1v1 Duels require a free account. Your lesson progress is saved on this device until you sign in.</Text>
-          <PressableScale style={styles.guestBtn} haptic="medium" onPress={onSignIn} accessibilityLabel="Sign in or create account">
-            <Text style={styles.guestBtnLbl}>Sign in or create account</Text>
-          </PressableScale>
-        </View>
-        <View style={styles.guestCard}>
-          <Text style={styles.guestSection}>Learning Preferences</Text>
-          <Text style={styles.guestField}>My JavaScript Level</Text>
-          <GuestPreferenceChips options={levels} selectedKey={experienceLevel} onSelect={onSelectExperience} />
-          <Text style={styles.guestField}>Daily Practice Goal</Text>
-          <GuestPreferenceChips options={commitmentOptions} selectedKey={commitment} onSelect={onSelectCommitment} />
-        </View>
-        <View style={[styles.guestCard, styles.guestDangerCard]}>
-          <Text style={styles.guestDangerHeader}>Danger Zone</Text>
-          <Pressable style={({ pressed }) => [styles.guestDangerRow, pressed && styles.guestDangerRowPress]} onPress={onResetPress}>
-            <View style={styles.guestDangerLeft}>
-              <AppIcon name="refresh" size={18} color={colors.danger} />
-              <Text style={styles.guestDangerLbl}>Reset Learn Progress</Text>
-            </View>
-            <Text style={styles.guestChev}>›</Text>
-          </Pressable>
-        </View>
+        <EntranceRise slot={0}>
+          <TerminalFrame label="guest" style={styles.guestHero}>
+            <Text style={styles.guestName}>Guest</Text>
+            <Text style={styles.guestEmail}>Practice locally. Sign in to sync progress and play Duels.</Text>
+            <Text style={styles.guestMeta}>Level {level} · {xp} XP (on this device)</Text>
+          </TerminalFrame>
+        </EntranceRise>
+        <EntranceRise slot={1}>
+          <TerminalFrame label="account">
+            <Text style={styles.guestShield}>Ranked 1v1 Duels require a free account. Your lesson progress is saved on this device until you sign in.</Text>
+            <PressableScale style={styles.guestBtn} haptic="medium" onPress={onSignIn} accessibilityLabel="Sign in or create account">
+              <Text style={styles.guestBtnLbl}>Sign in or create account</Text>
+            </PressableScale>
+          </TerminalFrame>
+        </EntranceRise>
+        <EntranceRise slot={2}>
+          <TerminalFrame label="learn.prefs">
+            <Text style={styles.guestField}>My JavaScript Level</Text>
+            <GuestPreferenceChips options={levels} selectedKey={experienceLevel} onSelect={onSelectExperience} />
+            <Text style={styles.guestField}>Daily Practice Goal</Text>
+            <GuestPreferenceChips options={commitmentOptions} selectedKey={commitment} onSelect={onSelectCommitment} />
+          </TerminalFrame>
+        </EntranceRise>
+        <EntranceRise slot={3}>
+          <GuestProfileDangerCard onResetPress={onResetPress} />
+        </EntranceRise>
       </View>
     </SafeAreaView>
   );
