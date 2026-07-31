@@ -10,6 +10,7 @@ import { LESSON_LOAD_FAILED_MESSAGE } from "@/constants/feedbackMessages";
 import { CodeSnippet } from "@/components/common/CodeSnippet/CodeSnippet";
 import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
 import { ProgressHairline } from "@/components/common/ProgressHairline/ProgressHairline";
+import { TerminalHeader } from "@/components/common/TerminalHeader/TerminalHeader";
 import { ExerciseView } from "@/components/learn/ExerciseView/ExerciseView";
 import { lessonScreenStyles } from "./LessonScreen.styles";
 
@@ -26,6 +27,7 @@ export function LessonScreen({ navigation, route }: LessonScreenProps) {
   if (load.loading) {
     return (
       <SafeAreaView style={lessonScreenStyles.container} edges={["top", "bottom"]}>
+        <TerminalHeader title="~/learn/lesson $" onBack={() => navigation.goBack()} />
         <MatrixRain opacity={0.45} />
         <View style={lessonScreenStyles.content}>
           <Text style={lessonScreenStyles.title}>Loading lesson...</Text>
@@ -38,6 +40,7 @@ export function LessonScreen({ navigation, route }: LessonScreenProps) {
   if (!exercise) {
     return (
       <SafeAreaView style={lessonScreenStyles.container} edges={["top", "bottom"]}>
+        <TerminalHeader title="~/learn/lesson $" onBack={() => navigation.goBack()} />
         <View style={lessonScreenStyles.content}>
           <Text style={lessonScreenStyles.title}>
             {load.loadError ? LESSON_LOAD_FAILED_MESSAGE : "No exercises for this level yet."}
@@ -52,6 +55,7 @@ export function LessonScreen({ navigation, route }: LessonScreenProps) {
 
   return (
     <SafeAreaView style={lessonScreenStyles.container} edges={["top", "bottom"]}>
+      <TerminalHeader title="~/learn/lesson $" onBack={() => navigation.goBack()} />
       <ScrollView style={lessonScreenStyles.container} contentContainerStyle={lessonScreenStyles.content}>
         <Text style={lessonScreenStyles.chapterDesc}>{`// ${lessonTitle}`}</Text>
         <ProgressHairline pct={progress} />

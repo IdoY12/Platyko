@@ -10,6 +10,7 @@ import { GlyphScrambleText } from "@/components/common/GlyphScrambleText/GlyphSc
 import { MatrixBurst } from "@/components/common/MatrixBurst/MatrixBurst";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { TerminalFrame } from "@/components/common/TerminalFrame/TerminalFrame";
+import { TerminalHeader } from "@/components/common/TerminalHeader/TerminalHeader";
 import { colors } from "@/theme/theme";
 import { lessonResultsStyles } from "./LessonResultsScreen.styles";
 
@@ -35,6 +36,7 @@ export function LessonResultsScreen({ navigation, route }: Props) {
 
   return (
     <SafeAreaView style={lessonResultsStyles.container} edges={["top", "bottom"]}>
+      <TerminalHeader title="~/learn/results $" onBack={() => navigation.goBack()} />
       <View style={lessonResultsStyles.content}>
         <GlyphScrambleText text="Lesson Complete" style={lessonResultsStyles.title} />
         <EntranceRise slot={1}>
