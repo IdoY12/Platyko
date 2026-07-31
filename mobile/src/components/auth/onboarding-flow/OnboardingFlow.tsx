@@ -3,7 +3,8 @@ import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
 import { useOnboardingWizard } from "@/hooks/useOnboardingWizard";
 import { logOnboarding } from "@/utils/logger";
 import { ONBOARDING_COMMITMENTS, ONBOARDING_GOALS, ONBOARDING_LEVELS } from "@/constants/onboardingCatalog";
-import { OnboardingGoalOptionCard, OnboardingWizardStepFrame } from "./OnboardingFlowStepAndChoiceWidgets";
+import { OnboardingChoiceList } from "./OnboardingChoiceCards";
+import { OnboardingWizardStepFrame } from "./OnboardingFlowStepFrame";
 import { OnboardingLearningPathPreview } from "./OnboardingFlowLearningPathPreview";
 import { onboardingFlowStyles } from "./OnboardingFlow.styles";
 
@@ -26,15 +27,7 @@ export function OnboardingFlow({ onPersistedToDevice }: OnboardingFlowProps) {
           }}
           enabled={!!wizard.level}
         >
-          {ONBOARDING_LEVELS.map((opt) => (
-            <OnboardingGoalOptionCard
-              key={opt.key}
-              selected={wizard.level === opt.key}
-              title={opt.title}
-              subtitle={opt.subtitle}
-              onPress={() => wizard.setLevel(opt.key)}
-            />
-          ))}
+          <OnboardingChoiceList options={ONBOARDING_LEVELS} selectedKey={wizard.level} onSelect={wizard.setLevel} />
         </OnboardingWizardStepFrame>
       )}
       {wizard.step === 2 && (
@@ -46,15 +39,7 @@ export function OnboardingFlow({ onPersistedToDevice }: OnboardingFlowProps) {
           }}
           enabled={!!wizard.goal}
         >
-          {ONBOARDING_GOALS.map((opt) => (
-            <OnboardingGoalOptionCard
-              key={opt.key}
-              selected={wizard.goal === opt.key}
-              title={opt.title}
-              subtitle={opt.subtitle}
-              onPress={() => wizard.setGoal(opt.key)}
-            />
-          ))}
+          <OnboardingChoiceList options={ONBOARDING_GOALS} selectedKey={wizard.goal} onSelect={wizard.setGoal} />
         </OnboardingWizardStepFrame>
       )}
       {wizard.step === 3 && (
@@ -67,15 +52,7 @@ export function OnboardingFlow({ onPersistedToDevice }: OnboardingFlowProps) {
           enabled
           continueLabel={wizard.submitting ? "Saving..." : "Get Started"}
         >
-          {ONBOARDING_COMMITMENTS.map((opt) => (
-            <OnboardingGoalOptionCard
-              key={opt.key}
-              selected={wizard.commitment === opt.key}
-              title={opt.title}
-              subtitle={opt.subtitle}
-              onPress={() => wizard.setCommitment(opt.key)}
-            />
-          ))}
+          <OnboardingChoiceList options={ONBOARDING_COMMITMENTS} selectedKey={wizard.commitment} onSelect={wizard.setCommitment} />
           <OnboardingLearningPathPreview pathText={wizard.pathText} submitting={wizard.submitting} error={wizard.error} />
         </OnboardingWizardStepFrame>
       )}

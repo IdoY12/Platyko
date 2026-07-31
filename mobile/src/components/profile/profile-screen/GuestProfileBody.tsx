@@ -10,6 +10,7 @@ import { logNav } from "@/utils/logger";
 import { AppIcon } from "@/components/common/AppIcon/AppIcon";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { colors } from "@/theme/theme";
+import { GuestPreferenceChips } from "./GuestPreferenceChips";
 import { styles } from "./ProfileScreen.styles";
 
 export function GuestProfileBody() {
@@ -53,21 +54,9 @@ export function GuestProfileBody() {
         <View style={styles.guestCard}>
           <Text style={styles.guestSection}>Learning Preferences</Text>
           <Text style={styles.guestField}>My JavaScript Level</Text>
-          <View style={styles.guestRow}>
-            {levels.map((item) => (
-              <Pressable key={item.key} onPress={() => onSelectExperience(item.key)} style={[styles.guestChip, experienceLevel === item.key && styles.guestChipOn]}>
-                <Text style={[styles.guestChipText, experienceLevel === item.key && styles.guestChipTextOn]}>{item.label}</Text>
-              </Pressable>
-            ))}
-          </View>
+          <GuestPreferenceChips options={levels} selectedKey={experienceLevel} onSelect={onSelectExperience} />
           <Text style={styles.guestField}>Daily Practice Goal</Text>
-          <View style={styles.guestRow}>
-            {commitmentOptions.map((item) => (
-              <Pressable key={item.key} onPress={() => onSelectCommitment(item.key)} style={[styles.guestChip, commitment === item.key && styles.guestChipOn]}>
-                <Text style={[styles.guestChipText, commitment === item.key && styles.guestChipTextOn]}>{item.label}</Text>
-              </Pressable>
-            ))}
-          </View>
+          <GuestPreferenceChips options={commitmentOptions} selectedKey={commitment} onSelect={onSelectCommitment} />
         </View>
         <View style={[styles.guestCard, styles.guestDangerCard]}>
           <Text style={styles.guestDangerHeader}>Danger Zone</Text>

@@ -33,31 +33,3 @@ export function OnboardingWizardStepFrame({
     </Animated.View>
   );
 }
-
-export function OnboardingGoalOptionCard({
-  title,
-  subtitle,
-  selected,
-  onPress,
-}: {
-  title: string;
-  subtitle: string;
-  selected: boolean;
-  onPress: () => void;
-}) {
-  return (
-    <PressableScale onPress={onPress} haptic="light" style={[onboardingFlowStyles.choiceCard, selected && onboardingFlowStyles.choiceCardOn]}>
-      <Text style={onboardingFlowStyles.choiceTitle}>{title}</Text>
-      <Text style={onboardingFlowStyles.choiceSub}>{subtitle}</Text>
-    </PressableScale>
-  );
-}
-
-export function OnboardingPathMilestoneChip({ label }: { label: string }) {
-  return (
-    <View style={onboardingFlowStyles.node}>
-      <View style={onboardingFlowStyles.nodeDot} />
-      <Text style={onboardingFlowStyles.nodeLabel}>{label}</Text>
-    </View>
-  );
-}

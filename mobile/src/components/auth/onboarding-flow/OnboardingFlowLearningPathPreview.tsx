@@ -1,9 +1,17 @@
 import { ActivityIndicator, Text, View } from "react-native";
 import { colors, spacing } from "@/theme/theme";
-import { OnboardingPathMilestoneChip } from "./OnboardingFlowStepAndChoiceWidgets";
 import { onboardingFlowStyles } from "./OnboardingFlow.styles";
 
 const PATH_LABELS = ["Foundations", "Logic", "Projects", "Mastery"] as const;
+
+function OnboardingPathMilestoneChip({ label }: { label: string }) {
+  return (
+    <View style={onboardingFlowStyles.node}>
+      <View style={onboardingFlowStyles.nodeDot} />
+      <Text style={onboardingFlowStyles.nodeLabel}>{label}</Text>
+    </View>
+  );
+}
 
 export function OnboardingLearningPathPreview({
   pathText,
