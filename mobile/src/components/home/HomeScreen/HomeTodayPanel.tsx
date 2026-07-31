@@ -3,6 +3,7 @@ import { AppIcon } from "@/components/common/AppIcon/AppIcon";
 import { CountUpText } from "@/components/common/CountUpText/CountUpText";
 import { EntranceRise } from "@/components/common/EntranceRise/EntranceRise";
 import { ProgressHairline } from "@/components/common/ProgressHairline/ProgressHairline";
+import { TerminalFrame } from "@/components/common/TerminalFrame/TerminalFrame";
 import type { useHomeScreen } from "@/hooks/useHomeScreen";
 import { colors } from "@/theme/theme";
 import { styles } from "./HomeScreen.styles";
@@ -16,7 +17,7 @@ const BAR_DELAY_MS = 320;
 /** "Today" status panel: practice minutes + streak side by side, level progress as footer line. */
 export function HomeTodayPanel({ home }: Props) {
   return (
-    <View style={styles.todayPanel}>
+    <TerminalFrame label="today" style={styles.todayPanel}>
       <View style={styles.statRow}>
         <View style={styles.statCell}>
           <View style={styles.statValueRow}>
@@ -52,6 +53,6 @@ export function HomeTodayPanel({ home }: Props) {
           <Text style={styles.levelXp}> / {home.nextLevelXp} XP</Text>
         </View>
       </View>
-    </View>
+    </TerminalFrame>
   );
 }

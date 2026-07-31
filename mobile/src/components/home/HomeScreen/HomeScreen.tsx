@@ -6,6 +6,7 @@ import type { HomeMainScreenProps } from "@/types/homeNavigation.types";
 import { guardDuelAccess } from "@/utils/formatHelpers";
 import { AppIcon } from "@/components/common/AppIcon/AppIcon";
 import { EntranceRise } from "@/components/common/EntranceRise/EntranceRise";
+import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { TypewriterText } from "@/components/common/TypewriterText/TypewriterText";
 import { colors } from "@/theme/theme";
@@ -25,7 +26,8 @@ export function HomeScreen({ navigation }: HomeMainScreenProps) {
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      <MatrixRain opacity={0.12} intensity={0.8} />
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
         <EntranceRise slot={0}>
           <Text style={styles.date}>{`// ${new Date().toDateString()}`}</Text>
         </EntranceRise>

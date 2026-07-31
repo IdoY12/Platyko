@@ -15,7 +15,7 @@ import { styles } from "./HomeScreen.styles";
 
 type Props = { onPress: () => void };
 
-/** Yellow hero action. The arrow drifts on a slow soft spring — alive and waiting. */
+/** Phosphor hero action. The arrow drifts on a slow soft spring — alive and waiting. */
 export function HomeHeroAction({ onPress }: Props) {
   const reduceMotion = useReducedMotion();
   const drift = useSharedValue(0);

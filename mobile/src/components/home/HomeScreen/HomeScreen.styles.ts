@@ -1,12 +1,13 @@
 import { StyleSheet } from "react-native";
-import { colors, font, fontSize, radius, spacing, tint } from "@/theme/theme";
+import { colors, font, fontSize, glow, radius, spacing, tint } from "@/theme/theme";
 
 export const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
+  scroll: { flex: 1 },
   content: { padding: spacing.xxl, paddingBottom: spacing.massive },
   date: { color: colors.textMuted, fontFamily: font.mono, fontSize: fontSize.xs, letterSpacing: 1, textTransform: "lowercase" },
   greeting: { color: colors.textPrimary, fontSize: fontSize.xl, fontWeight: "800", marginTop: spacing.sm, marginBottom: spacing.xxl },
-  todayPanel: { backgroundColor: colors.card, borderRadius: radius.card, borderWidth: 1, borderColor: colors.border, padding: spacing.xl, marginBottom: spacing.xxxl },
+  todayPanel: { marginBottom: spacing.xxxl },
   statRow: { flexDirection: "row", gap: spacing.xl },
   statCell: { flex: 1, gap: spacing.sm },
   statDivider: { width: 1, backgroundColor: colors.border },
@@ -22,7 +23,7 @@ export const styles = StyleSheet.create({
   levelChip: { color: colors.accent, fontFamily: font.mono, fontSize: fontSize.xs, letterSpacing: 1 },
   levelBar: { flex: 1 },
   levelXp: { color: colors.textSecondary, fontFamily: font.mono, fontSize: fontSize.xs, fontVariant: ["tabular-nums"] },
-  hero: { backgroundColor: colors.accent, borderRadius: radius.card, padding: spacing.xl, flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: spacing.lg },
+  hero: { backgroundColor: colors.accent, borderRadius: radius.card, padding: spacing.xl, flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: spacing.lg, ...glow.accent },
   heroTitle: { color: colors.onAccent, fontSize: fontSize.lg, fontWeight: "800" },
   heroSub: { color: colors.onAccent, opacity: 0.65, marginTop: 2, fontWeight: "600", fontSize: fontSize.sm },
   tileRow: { flexDirection: "row", gap: spacing.lg },
