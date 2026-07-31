@@ -1,11 +1,13 @@
 import { useEffect } from "react";
-import { Pressable, Text } from "react-native";
+import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppSelector } from "@/redux/hooks";
 import { duelResetMatch } from "@/utils/duelSocketCommands";
 import { guardDuelAccess } from "@/utils/formatHelpers";
 import { logDuel, logNav } from "@/utils/logger";
 import type { DuelHomeScreenProps } from "@/types/duelNavigation.types";
+import { GlyphScrambleText } from "@/components/common/GlyphScrambleText/GlyphScrambleText";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { styles } from "./DuelNavigator.styles";
 
 export function DuelHomeScreen({ navigation }: DuelHomeScreenProps) {
@@ -25,10 +27,11 @@ export function DuelHomeScreen({ navigation }: DuelHomeScreenProps) {
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <Text style={styles.title}>Duels</Text>
+      <GlyphScrambleText text="Duels" style={styles.title} />
       <Text style={styles.sub}>Wins / Losses: {duelWins} / {duelLosses}</Text>
-      <Pressable
+      <PressableScale
         style={styles.matchBtn}
+        haptic="medium"
         onPress={() => {
           guardDuelAccess(
             isGuest,
@@ -38,7 +41,7 @@ export function DuelHomeScreen({ navigation }: DuelHomeScreenProps) {
         }}
       >
         <Text style={styles.matchLabel}>Find a Match</Text>
-      </Pressable>
+      </PressableScale>
     </SafeAreaView>
   );
 }

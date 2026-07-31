@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { GlyphScrambleText } from "@/components/common/GlyphScrambleText/GlyphScrambleText";
+import { MatrixBurst } from "@/components/common/MatrixBurst/MatrixBurst";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
+import { TerminalFrame } from "@/components/common/TerminalFrame/TerminalFrame";
+import { colors } from "@/theme/theme";
 import { logNav } from "@/utils/logger";
 import { duelConnectionRefs } from "@/utils/duelSocketModels";
 import { duelResetMatch } from "@/utils/duelSocketCommands";
@@ -34,7 +39,7 @@ export function DuelResultsScreen({ route, navigation }: DuelResultsScreenProps)
     return (
       <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
         <Text style={styles.title}>Opponent left</Text>
-        <Pressable style={styles.matchBtn} onPress={goHome}><Text style={styles.matchLabel}>Back to Duel Home</Text></Pressable>
+        <PressableScale style={styles.matchBtn} haptic="light" onPress={goHome}><Text style={styles.matchLabel}>Back to Duel Home</Text></PressableScale>
       </SafeAreaView>
     );
   }
@@ -42,11 +47,11 @@ export function DuelResultsScreen({ route, navigation }: DuelResultsScreenProps)
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <ScrollView contentContainerStyle={styles.duelContent}>
-        <Text style={styles.title}>{tied ? "Tied!" : won ? "Victory!" : "Defeat"}</Text>
+        <GlyphScrambleText text={tied ? "Tied!" : won ? "Victory!" : "Defeat"} style={styles.title} />
+        {won ? <MatrixBurst color={colors.duel} /> : null}
         <Text style={styles.sub}>Final score: {score}</Text>
         <Text style={styles.sub}>{tied ? "It's a tie." : won ? "You won this duel." : "You lost this duel."}{xpEarned > 0 ? ` You earned ${xpEarned} XP.` : " Well done!"}</Text>
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Code Replay</Text>
+        <TerminalFrame label="code.replay" style={styles.replayCard}>
           {replay.length === 0 ? <Text style={styles.sub}>Replay is unavailable for this duel.</Text> : replay.map((item) => {
             const total = Math.max(1, item.player1TimeMs + item.player2TimeMs);
             return (
@@ -59,11 +64,11 @@ export function DuelResultsScreen({ route, navigation }: DuelResultsScreenProps)
               </View>
             );
           })}
-        </View>
-        <Pressable style={styles.matchBtn} onPress={goHome}><Text style={styles.matchLabel}>Back to Duel Home</Text></Pressable>
-        <Pressable style={styles.secondaryBtn} onPress={() => { if (sessionId) { setIsWaiting(true); requestRematch(sessionId); } }}>
+        </TerminalFrame>
+        <PressableScale style={styles.matchBtn} haptic="medium" onPress={goHome}><Text style={styles.matchLabel}>Back to Duel Home</Text></PressableScale>
+        <PressableScale style={styles.secondaryBtn} haptic="light" onPress={() => { if (sessionId) { setIsWaiting(true); requestRematch(sessionId); } }}>
           <Text style={styles.secondaryLabel}>Play Again</Text>
-        </Pressable>
+        </PressableScale>
         {isWaiting ? <Text style={styles.searching}>Waiting for opponent to confirm rematch…</Text> : null}
       </ScrollView>
     </SafeAreaView>

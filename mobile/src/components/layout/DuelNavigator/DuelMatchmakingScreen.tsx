@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppSelector } from "@/redux/hooks";
 import { useDuelMatchmakingSocket } from "@/hooks/useDuelSocket";
@@ -8,6 +8,9 @@ import { logDuel, logNav } from "@/utils/logger";
 import { duelLeaveDuel } from "@/utils/duelSocketCommands";
 import type { MatchmakingScreenProps } from "@/types/duelNavigation.types";
 import { AppIcon } from "@/components/common/AppIcon/AppIcon";
+import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
+import { DuelMatchmakingOpponent } from "./DuelMatchmakingOpponent";
 import { colors } from "@/theme/theme";
 import { styles } from "./DuelNavigator.styles";
 
@@ -48,36 +51,26 @@ export function DuelMatchmakingScreen({ navigation }: MatchmakingScreenProps) {
     return (
       <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
         <Text style={styles.sub}>{duelQueueRejectMessage(queueRejected)}</Text>
-        <Pressable style={styles.secondaryBtn} onPress={() => navigation.goBack()}>
+        <PressableScale style={styles.secondaryBtn} haptic="light" onPress={() => navigation.goBack()}>
           <Text style={styles.secondaryLabel}>Go Back</Text>
-        </Pressable>
+        </PressableScale>
       </SafeAreaView>
     );
   }
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+      <MatrixRain opacity={0.2} />
       <Text style={styles.searching}>Searching for an opponent...</Text>
       <View style={styles.subRow}>
         <AppIcon name="lightning-bolt" size={16} color={colors.textSecondary} />
         <Text style={[styles.sub, styles.subRowLabel]}>{playersOnline === 1 ? "1 player" : `${playersOnline} players`} online</Text>
       </View>
       <Text style={styles.sub}>Estimated wait: {seconds}s</Text>
-      {opponent ? (
-        <View style={styles.matchOppRow}>
-          {opponent.avatarUrl ? (
-            <Image source={{ uri: opponent.avatarUrl }} style={styles.matchOppAvatar} />
-          ) : (
-            <View style={styles.matchOppInitial}>
-              <Text style={styles.matchOppInitialTxt}>{(opponent.username || "?").slice(0, 1).toUpperCase()}</Text>
-            </View>
-          )}
-          <Text style={styles.vsInline}>VS {opponent.username} · {countdown}</Text>
-        </View>
-      ) : null}
-      <Pressable style={styles.secondaryBtn} onPress={() => navigation.goBack()}>
+      {opponent ? <DuelMatchmakingOpponent opponent={opponent} countdown={countdown} /> : null}
+      <PressableScale style={styles.secondaryBtn} haptic="light" onPress={() => navigation.goBack()}>
         <Text style={styles.secondaryLabel}>Cancel</Text>
-      </Pressable>
+      </PressableScale>
     </SafeAreaView>
   );
 }

@@ -1,20 +1,20 @@
 import { StyleSheet } from "react-native";
-import { colors, fontSize, radius, spacing, tint } from "@/theme/theme";
+import { colors, font, fontSize, glow, radius, spacing, tint } from "@/theme/theme";
 
 export const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background, padding: spacing.xxl },
   duelContent: { gap: spacing.md, paddingBottom: spacing.massive },
-  title: { color: colors.textPrimary, fontSize: fontSize.xl, fontWeight: "800" },
+  title: { color: colors.textPrimary, fontFamily: font.mono, fontSize: fontSize.xl, fontWeight: "800" },
   sub: { color: colors.textSecondary, marginTop: spacing.sm },
   subRow: { flexDirection: "row", alignItems: "center", gap: spacing.xs, marginTop: spacing.sm },
   subRowLabel: { marginTop: 0 },
   card: { marginTop: spacing.xl, backgroundColor: colors.card, borderRadius: radius.card, borderColor: colors.border, borderWidth: 1, padding: spacing.lg },
   cardTitle: { color: colors.textPrimary, fontWeight: "700", fontSize: fontSize.md, marginTop: spacing.lg },
-  matchBtn: { marginTop: spacing.xxl, backgroundColor: colors.duel, borderRadius: radius.button, padding: spacing.lg, alignItems: "center" },
+  matchBtn: { marginTop: spacing.xxl, backgroundColor: colors.duel, borderRadius: radius.button, padding: spacing.lg, alignItems: "center", ...glow.duel },
   matchLabel: { color: colors.textPrimary, fontWeight: "800" },
   secondaryBtn: { marginTop: spacing.xl, borderRadius: radius.button, borderWidth: 1, borderColor: colors.border, padding: spacing.md, alignItems: "center" },
   secondaryLabel: { color: colors.textPrimary },
-  searching: { color: colors.duel, fontWeight: "800", fontSize: fontSize.lg },
+  searching: { color: colors.duel, fontFamily: font.mono, fontWeight: "800", fontSize: fontSize.lg },
   matchOppRow: { flexDirection: "row", alignItems: "center", marginTop: spacing.xl, gap: spacing.md, flexWrap: "wrap" },
   vsInline: { color: colors.textPrimary, fontSize: fontSize.xl, fontWeight: "800", flex: 1, flexShrink: 1 },
   matchOppAvatar: { width: 48, height: 48, borderRadius: 24, backgroundColor: colors.surface },
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
   },
   duelMiniInitialTxt: { color: colors.textPrimary, fontWeight: "800", fontSize: fontSize.xs },
   scoreRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm, marginBottom: spacing.sm },
-  score: { color: colors.textPrimary, fontWeight: "800" },
+  score: { color: colors.textPrimary, fontFamily: font.mono, fontWeight: "800", fontVariant: ["tabular-nums"] },
   option: { padding: spacing.md, borderRadius: radius.button, borderWidth: 1, borderColor: colors.border, marginTop: spacing.sm },
   optionSelected: { borderColor: colors.duel, backgroundColor: tint.duel },
   optionLabel: { color: colors.textPrimary, flexShrink: 1, lineHeight: 20 },
@@ -59,9 +59,10 @@ export const styles = StyleSheet.create({
     padding: spacing.lg,
     alignItems: "center",
   },
-  overlayTitle: { color: colors.textPrimary, fontWeight: "800", fontSize: fontSize.md },
+  overlayTitle: { color: colors.textPrimary, fontFamily: font.mono, fontWeight: "800", fontSize: fontSize.md },
   overlayText: { color: colors.textSecondary, marginTop: spacing.sm },
   codeWrap: { maxHeight: 220 },
+  replayCard: { marginTop: spacing.xl },
   replayRow: { marginTop: spacing.md },
   replayTrack: {
     height: 10,
