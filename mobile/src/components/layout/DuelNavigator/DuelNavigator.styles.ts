@@ -2,8 +2,10 @@ import { StyleSheet } from "react-native";
 import { colors, font, fontSize, glow, radius, spacing, tint } from "@/theme/theme";
 
 export const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background, padding: spacing.xxl },
-  duelContent: { gap: spacing.md, paddingBottom: spacing.massive },
+  arenaContainer: { flex: 1, backgroundColor: colors.background },
+  screenBody: { flex: 1, padding: spacing.xxl, overflow: "hidden" },
+  list: { flex: 1 },
+  duelContent: { padding: spacing.xxl, paddingBottom: spacing.massive, gap: spacing.md },
   title: { color: colors.textPrimary, fontFamily: font.mono, fontSize: fontSize.xl, fontWeight: "800" },
   sub: { color: colors.textSecondary, marginTop: spacing.sm },
   subRow: { flexDirection: "row", alignItems: "center", gap: spacing.xs, marginTop: spacing.sm },

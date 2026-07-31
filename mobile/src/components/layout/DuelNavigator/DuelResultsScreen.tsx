@@ -5,6 +5,8 @@ import { GlyphScrambleText } from "@/components/common/GlyphScrambleText/GlyphSc
 import { MatrixBurst } from "@/components/common/MatrixBurst/MatrixBurst";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { TerminalFrame } from "@/components/common/TerminalFrame/TerminalFrame";
+import { TerminalHeader } from "@/components/common/TerminalHeader/TerminalHeader";
+import { DuelReplayList } from "./DuelReplayList";
 import { colors } from "@/theme/theme";
 import { logNav } from "@/utils/logger";
 import { duelConnectionRefs } from "@/utils/duelSocketModels";
@@ -37,33 +39,26 @@ export function DuelResultsScreen({ route, navigation }: DuelResultsScreenProps)
 
   if (rematchStatus === "opponent_left" || opponentDisconnected) {
     return (
-      <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-        <Text style={styles.title}>Opponent left</Text>
-        <PressableScale style={styles.matchBtn} haptic="light" onPress={goHome}><Text style={styles.matchLabel}>Back to Duel Home</Text></PressableScale>
+      <SafeAreaView style={styles.arenaContainer} edges={["top", "bottom"]}>
+        <TerminalHeader title="~/duel/results $" onBack={() => navigation.goBack()} />
+        <View style={styles.screenBody}>
+          <Text style={styles.title}>Opponent left</Text>
+          <PressableScale style={styles.matchBtn} haptic="light" onPress={goHome}><Text style={styles.matchLabel}>Back to Duel Home</Text></PressableScale>
+        </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <ScrollView contentContainerStyle={styles.duelContent}>
+    <SafeAreaView style={styles.arenaContainer} edges={["top", "bottom"]}>
+      <TerminalHeader title="~/duel/results $" onBack={() => navigation.goBack()} />
+      <ScrollView style={styles.list} contentContainerStyle={styles.duelContent}>
         <GlyphScrambleText text={tied ? "Tied!" : won ? "Victory!" : "Defeat"} style={styles.title} />
         {won ? <MatrixBurst color={colors.duel} /> : null}
         <Text style={styles.sub}>Final score: {score}</Text>
         <Text style={styles.sub}>{tied ? "It's a tie." : won ? "You won this duel." : "You lost this duel."}{xpEarned > 0 ? ` You earned ${xpEarned} XP.` : " Well done!"}</Text>
         <TerminalFrame label="code.replay" style={styles.replayCard}>
-          {replay.length === 0 ? <Text style={styles.sub}>Replay is unavailable for this duel.</Text> : replay.map((item) => {
-            const total = Math.max(1, item.player1TimeMs + item.player2TimeMs);
-            return (
-              <View key={`replay-${item.roundNumber}`} style={styles.replayRow}>
-                <Text style={styles.sub}>Round {item.roundNumber}</Text>
-                <View style={styles.replayTrack}>
-                  <View style={[styles.replayBarMine, { flex: Math.max(0.25, item.player1TimeMs / total) }]} />
-                  <View style={[styles.replayBarOpp, { flex: Math.max(0.25, item.player2TimeMs / total) }]} />
-                </View>
-              </View>
-            );
-          })}
+          <DuelReplayList replay={replay} />
         </TerminalFrame>
         <PressableScale style={styles.matchBtn} haptic="medium" onPress={goHome}><Text style={styles.matchLabel}>Back to Duel Home</Text></PressableScale>
         <PressableScale style={styles.secondaryBtn} haptic="light" onPress={() => { if (sessionId) { setIsWaiting(true); requestRematch(sessionId); } }}>

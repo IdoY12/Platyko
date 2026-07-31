@@ -1,16 +1,28 @@
 import { useEffect, useRef } from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CodeSnippet } from "@/components/common/CodeSnippet/CodeSnippet";
+import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
+import { TerminalHeader } from "@/components/common/TerminalHeader/TerminalHeader";
 import { useDuelActiveDuelScreen } from "@/hooks/useDuelActiveDuelScreen";
 import type { ActiveDuelScreenProps } from "@/types/duelNavigation.types";
 import { duelLeaveDuel } from "@/utils/duelSocketCommands";
+import { colors } from "@/theme/theme";
 import { DuelActiveAnswerZone } from "./DuelActiveAnswerZone";
+import { DuelRoundOverlay } from "./DuelRoundOverlay";
+import { DuelScoreRow } from "./DuelScoreRow";
 import { styles } from "./DuelNavigator.styles";
 
 export function DuelActiveDuelScreen({ navigation }: ActiveDuelScreenProps) {
   const u = useDuelActiveDuelScreen(navigation);
   const emittedRef = useRef(false);
+  /** Score shown on the previous round overlay — lets the overlay know a round was just won. */
+  const lastShownScoreRef = useRef(0);
+  const wonRound = u.overlayVisible && u.myScore > lastShownScoreRef.current;
+
+  useEffect(() => {
+    if (u.overlayVisible) lastShownScoreRef.current = u.myScore;
+  }, [u.overlayVisible, u.myScore]);
 
   useEffect(() => {
     if (!u.sessionId) navigation.goBack();
@@ -27,29 +39,23 @@ export function DuelActiveDuelScreen({ navigation }: ActiveDuelScreenProps) {
   }, [navigation, u.sessionId]);
 
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.arenaContainer} edges={["top", "bottom"]}>
+      <TerminalHeader title="~/duel/live $" onBack={() => navigation.goBack()} />
       {!u.round ? (
-        <Text style={styles.sub}>{u.opponentLeft ? "Opponent left, calculating result…" : "Waiting for round start..."}</Text>
+        <View style={styles.screenBody}>
+          <MatrixRain opacity={0.4} color={colors.duel} />
+          <Text style={styles.sub}>{u.opponentLeft ? "Opponent left, calculating result…" : "Waiting for round start..."}</Text>
+        </View>
       ) : (
-        <ScrollView style={styles.container} contentContainerStyle={styles.duelContent} showsVerticalScrollIndicator={false}>
-          <View style={styles.scoreRow}>
-            <View style={styles.scoreCellStart}>
-              <Text style={[styles.score, styles.scoreName]} numberOfLines={1}>{u.username}</Text>
-              <Text style={styles.score}>{u.myScore}</Text>
-            </View>
-            <Text style={styles.score}>Round {u.roundNumber}/5</Text>
-            <View style={styles.scoreCellEnd}>
-              {u.opponentAvatarUrl ? (
-                <Image source={{ uri: u.opponentAvatarUrl }} style={styles.duelMiniAvatar} />
-              ) : (
-                <View style={styles.duelMiniInitial}>
-                  <Text style={styles.duelMiniInitialTxt}>{(u.opponentName || "?").slice(0, 1).toUpperCase()}</Text>
-                </View>
-              )}
-              <Text style={[styles.score, styles.scoreName]} numberOfLines={1}>{u.opponentName}</Text>
-              <Text style={styles.score}>{u.oppScore}</Text>
-            </View>
-          </View>
+        <ScrollView style={styles.list} contentContainerStyle={styles.duelContent} showsVerticalScrollIndicator={false}>
+          <DuelScoreRow
+            username={u.username}
+            myScore={u.myScore}
+            oppScore={u.oppScore}
+            roundNumber={u.roundNumber}
+            opponentName={u.opponentName}
+            opponentAvatarUrl={u.opponentAvatarUrl}
+          />
           <Text style={styles.sub}>You can choose up to 3 answers. ({u.attemptsLeft} remaining)</Text>
           <Text style={styles.cardTitle}>{u.round.prompt}</Text>
           <View style={styles.codeWrap}><CodeSnippet code={u.round.codeSnippet} /></View>
@@ -58,19 +64,14 @@ export function DuelActiveDuelScreen({ navigation }: ActiveDuelScreenProps) {
           </View>
         </ScrollView>
       )}
-      {u.overlayVisible ? (
-        <View style={styles.overlay}>
-          <Text style={styles.overlayTitle}>Round Over</Text>
-          <Text style={styles.overlayText}>Correct answer: {u.lastCorrectAnswer}</Text>
-          <Text style={styles.overlayText}>
-            {u.myScore === u.oppScore ? "Tie round" : u.myScore > u.oppScore ? "You lead" : "Opponent leads"}
-          </Text>
-          <Text style={styles.overlayText}>Score: {u.myScore} - {u.oppScore}</Text>
-        </View>
-      ) : null}
-      {u.connectionLost ? (
-        <View style={styles.overlay}><Text style={styles.overlayTitle}>Connection lost — reconnecting…</Text></View>
-      ) : null}
+      <DuelRoundOverlay
+        visible={u.overlayVisible}
+        connectionLost={u.connectionLost}
+        lastCorrectAnswer={u.lastCorrectAnswer}
+        myScore={u.myScore}
+        oppScore={u.oppScore}
+        wonRound={wonRound}
+      />
     </SafeAreaView>
   );
 }

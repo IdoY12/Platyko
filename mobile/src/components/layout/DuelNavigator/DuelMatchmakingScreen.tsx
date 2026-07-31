@@ -7,10 +7,11 @@ import { duelQueueRejectMessage } from "@/utils/formatHelpers";
 import { logDuel, logNav } from "@/utils/logger";
 import { duelLeaveDuel } from "@/utils/duelSocketCommands";
 import type { MatchmakingScreenProps } from "@/types/duelNavigation.types";
-import { AppIcon } from "@/components/common/AppIcon/AppIcon";
 import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
+import { TerminalHeader } from "@/components/common/TerminalHeader/TerminalHeader";
 import { DuelMatchmakingOpponent } from "./DuelMatchmakingOpponent";
+import { DuelQueueStatus } from "./DuelQueueStatus";
 import { colors } from "@/theme/theme";
 import { styles } from "./DuelNavigator.styles";
 
@@ -49,28 +50,29 @@ export function DuelMatchmakingScreen({ navigation }: MatchmakingScreenProps) {
 
   if (queueRejected) {
     return (
-      <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-        <Text style={styles.sub}>{duelQueueRejectMessage(queueRejected)}</Text>
-        <PressableScale style={styles.secondaryBtn} haptic="light" onPress={() => navigation.goBack()}>
-          <Text style={styles.secondaryLabel}>Go Back</Text>
-        </PressableScale>
+      <SafeAreaView style={styles.arenaContainer} edges={["top", "bottom"]}>
+        <TerminalHeader title="~/duel/queue $" onBack={() => navigation.goBack()} />
+        <View style={styles.screenBody}>
+          <Text style={styles.sub}>{duelQueueRejectMessage(queueRejected)}</Text>
+          <PressableScale style={styles.secondaryBtn} haptic="light" onPress={() => navigation.goBack()}>
+            <Text style={styles.secondaryLabel}>Go Back</Text>
+          </PressableScale>
+        </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <MatrixRain opacity={0.45} color={colors.duel} />
-      <Text style={styles.searching}>Searching for an opponent...</Text>
-      <View style={styles.subRow}>
-        <AppIcon name="lightning-bolt" size={16} color={colors.textSecondary} />
-        <Text style={[styles.sub, styles.subRowLabel]}>{playersOnline === 1 ? "1 player" : `${playersOnline} players`} online</Text>
+    <SafeAreaView style={styles.arenaContainer} edges={["top", "bottom"]}>
+      <TerminalHeader title="~/duel/queue $" onBack={() => navigation.goBack()} />
+      <View style={styles.screenBody}>
+        <MatrixRain opacity={0.45} color={colors.duel} />
+        <DuelQueueStatus playersOnline={playersOnline} seconds={seconds} />
+        {opponent ? <DuelMatchmakingOpponent opponent={opponent} countdown={countdown} /> : null}
+        <PressableScale style={styles.secondaryBtn} haptic="light" onPress={() => navigation.goBack()}>
+          <Text style={styles.secondaryLabel}>Cancel</Text>
+        </PressableScale>
       </View>
-      <Text style={styles.sub}>Estimated wait: {seconds}s</Text>
-      {opponent ? <DuelMatchmakingOpponent opponent={opponent} countdown={countdown} /> : null}
-      <PressableScale style={styles.secondaryBtn} haptic="light" onPress={() => navigation.goBack()}>
-        <Text style={styles.secondaryLabel}>Cancel</Text>
-      </PressableScale>
     </SafeAreaView>
   );
 }

@@ -9,24 +9,17 @@ import { DuelResultsScreen } from "./DuelResultsScreen";
 
 const Stack = createNativeStackNavigator<DuelStackParamList>();
 
-const STACK_OPTIONS = {
-  headerStyle: { backgroundColor: colors.background },
-  headerTintColor: colors.textPrimary,
-  contentStyle: { backgroundColor: colors.background },
-};
-const HOME_OPTS = { title: "Duel" };
-const MATCHMAKING_OPTS = { title: "Matchmaking" };
-const ACTIVE_DUEL_OPTS = { title: "Live Duel" };
-const RESULTS_OPTS = { title: "Results" };
+const STACK_OPTIONS = { headerShown: false as const, contentStyle: { backgroundColor: colors.background } };
 
+/** Screens render their own TerminalHeader — stock navigation headers are disabled. */
 export function DuelNavigator() {
   useDuelSocketBootstrap();
   return (
     <Stack.Navigator screenOptions={STACK_OPTIONS}>
-      <Stack.Screen name="DuelHome" component={DuelHomeScreen} options={HOME_OPTS} />
-      <Stack.Screen name="Matchmaking" component={DuelMatchmakingScreen} options={MATCHMAKING_OPTS} />
-      <Stack.Screen name="ActiveDuel" component={DuelActiveDuelScreen} options={ACTIVE_DUEL_OPTS} />
-      <Stack.Screen name="DuelResults" component={DuelResultsScreen} options={RESULTS_OPTS} />
+      <Stack.Screen name="DuelHome" component={DuelHomeScreen} />
+      <Stack.Screen name="Matchmaking" component={DuelMatchmakingScreen} />
+      <Stack.Screen name="ActiveDuel" component={DuelActiveDuelScreen} />
+      <Stack.Screen name="DuelResults" component={DuelResultsScreen} />
     </Stack.Navigator>
   );
 }
