@@ -25,6 +25,6 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   disabled: { opacity: 0.45 },
-  primaryLabel: { color: "#111", fontWeight: "800" },
+  primaryLabel: { color: colors.onAccent, fontWeight: "800" },
   errorText: { color: colors.danger, marginTop: spacing.md, textAlign: "center" },
 });

@@ -12,7 +12,7 @@ export const lessonResultsStyles = StyleSheet.create({
     alignItems: "center",
     marginTop: spacing.md,
   },
-  lessonButtonLabel: { color: "#111", fontWeight: "800" },
+  lessonButtonLabel: { color: colors.onAccent, fontWeight: "800" },
   resultText: { color: colors.textSecondary, fontSize: fontSize.md, marginTop: spacing.md },
   starRow: { flexDirection: "row", gap: spacing.xs, marginTop: spacing.lg },
 });

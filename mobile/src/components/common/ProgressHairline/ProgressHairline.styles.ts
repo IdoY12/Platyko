@@ -11,5 +11,7 @@ export const styles = StyleSheet.create({
   fill: {
     height: "100%",
     borderRadius: radius.pill,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 0 },
   },
 });

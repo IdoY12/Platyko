@@ -1,5 +1,5 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator, type BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAppSelector } from "@/redux/hooks";
 import { AppIcon } from "@/components/common/AppIcon/AppIcon";
@@ -7,6 +7,7 @@ import { HomeScreen } from "@/components/home/HomeScreen/HomeScreen";
 import { CodePuzzleScreen } from "@/components/code-puzzle/CodePuzzleScreen/CodePuzzleScreen";
 import { LearnNavigator } from "@/components/layout/LearnNavigator/LearnNavigator";
 import { DuelNavigator } from "@/components/layout/DuelNavigator/DuelNavigator";
+import { TabBarCyber } from "./TabBarCyber";
 import { ProfileScreen } from "@/components/profile/ProfileScreen";
 import { colors } from "@/theme/theme";
 import type { HomeStackParamList } from "@/types/homeNavigation.types";
@@ -35,13 +36,8 @@ function HomeNavigator() {
   );
 }
 
-const TABS_OPTIONS = {
-  headerShown: false as const,
-  tabBarStyle: { backgroundColor: colors.background, borderTopColor: colors.border },
-  tabBarActiveTintColor: colors.accent,
-  tabBarInactiveTintColor: colors.textSecondary,
-  tabBarLabelStyle: { fontSize: 11, fontWeight: "600" as const },
-};
+const TABS_OPTIONS = { headerShown: false as const };
+const renderTabBarCyber = (props: BottomTabBarProps) => <TabBarCyber {...props} />;
 const homeIcon = ({ color, size }: TabIconProps) => <AppIcon name="home" color={color} size={size} />;
 const learnIcon = ({ color, size }: TabIconProps) => <AppIcon name="book-open-variant" color={color} size={size} />;
 const duelIcon = ({ color, size }: TabIconProps) => <AppIcon name="sword-cross" color={color} size={size} />;
@@ -63,7 +59,7 @@ export function MainTabs() {
     [isGuest],
   );
   return (
-    <Tabs.Navigator screenOptions={TABS_OPTIONS}>
+    <Tabs.Navigator screenOptions={TABS_OPTIONS} tabBar={renderTabBarCyber}>
       <Tabs.Screen name="Home" component={HomeNavigator} options={HOME_TAB_OPTS} />
       <Tabs.Screen name="LearnTab" component={LearnNavigator} options={LEARN_TAB_OPTS} />
       <Tabs.Screen name="DuelTab" component={DuelNavigator} options={DUEL_TAB_OPTS} listeners={duelListeners} />

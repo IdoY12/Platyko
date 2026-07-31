@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: spacing.md,
   },
-  submitLabel: { color: "#111", fontWeight: "800", fontSize: fontSize.md },
+  submitLabel: { color: colors.onAccent, fontWeight: "800", fontSize: fontSize.md },
   message: { color: colors.textSecondary, fontSize: fontSize.md, lineHeight: 24 },
   footerSpacer: { flex: 1 },
   showAnswerBtn: {

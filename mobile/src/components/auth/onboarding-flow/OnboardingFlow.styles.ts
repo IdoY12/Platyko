@@ -20,7 +20,7 @@ export const onboardingFlowStyles = StyleSheet.create({
     paddingVertical: spacing.lg,
     alignItems: "center",
   },
-  ctaLabel: { color: "#111", fontWeight: "800", fontSize: fontSize.base },
+  ctaLabel: { color: colors.onAccent, fontWeight: "800", fontSize: fontSize.base },
   ctaDisabled: { opacity: 0.5 },
   choiceCard: {
     backgroundColor: colors.card,

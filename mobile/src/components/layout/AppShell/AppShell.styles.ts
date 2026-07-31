@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, fontSize, radius, spacing } from "@/theme/theme";
+import { colors, font, fontSize, radius, spacing } from "@/theme/theme";
 
 const banner = {
   position: "absolute" as const,
@@ -21,14 +21,14 @@ export const styles = StyleSheet.create({
     zIndex: 50,
     borderLeftColor: colors.accent,
   },
-  offlineText: { color: colors.textPrimary, fontSize: fontSize.sm, fontWeight: "600" },
+  offlineText: { color: colors.textPrimary, fontFamily: font.mono, fontSize: fontSize.sm },
   bootstrapBanner: {
     ...banner,
     zIndex: 51,
     borderLeftColor: colors.danger,
     gap: spacing.sm,
   },
-  bootstrapText: { color: colors.danger, fontSize: fontSize.sm, fontWeight: "600" },
+  bootstrapText: { color: colors.danger, fontFamily: font.mono, fontSize: fontSize.sm },
   bootstrapRetry: {
     alignSelf: "flex-start",
     backgroundColor: colors.accent,

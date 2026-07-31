@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, fontSize, radius, spacing } from "@/theme/theme";
+import { colors, fontSize, radius, spacing, tint } from "@/theme/theme";
 
 export const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background, padding: spacing.xxl },
@@ -43,10 +43,10 @@ export const styles = StyleSheet.create({
   scoreRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm, marginBottom: spacing.sm },
   score: { color: colors.textPrimary, fontWeight: "800" },
   option: { padding: spacing.md, borderRadius: radius.button, borderWidth: 1, borderColor: colors.border, marginTop: spacing.sm },
-  optionSelected: { borderColor: colors.duel, backgroundColor: "rgba(138,43,226,0.12)" },
+  optionSelected: { borderColor: colors.duel, backgroundColor: tint.duel },
   optionLabel: { color: colors.textPrimary, flexShrink: 1, lineHeight: 20 },
-  correct: { borderColor: colors.success, backgroundColor: "rgba(78,205,196,0.2)" },
-  wrong: { borderColor: colors.danger, backgroundColor: "rgba(255,107,107,0.2)" },
+  correct: { borderColor: colors.success, backgroundColor: tint.success },
+  wrong: { borderColor: colors.danger, backgroundColor: tint.danger },
   overlay: {
     position: "absolute",
     left: spacing.xxl,

@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     alignItems: "center",
   },
-  guestBtnLbl: { color: "#111", fontWeight: "800" },
+  guestBtnLbl: { color: colors.onAccent, fontWeight: "800" },
   guestDangerCard: { borderColor: colors.danger },
   guestDangerHeader: { color: colors.danger, fontWeight: "800", marginBottom: spacing.md, fontSize: fontSize.md },
   guestDangerRow: { flexDirection: "row" as const, justifyContent: "space-between" as const, alignItems: "center" as const, minHeight: 44, borderWidth: 1, borderColor: colors.border, borderRadius: radius.button, paddingHorizontal: spacing.md },

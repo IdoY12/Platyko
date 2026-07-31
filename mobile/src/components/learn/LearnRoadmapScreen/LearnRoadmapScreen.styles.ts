@@ -26,6 +26,6 @@ export const learnRoadmapStyles = StyleSheet.create({
     alignItems: "center",
     marginTop: spacing.md,
   },
-  lessonButtonLabel: { color: "#111", fontWeight: "800" },
+  lessonButtonLabel: { color: colors.onAccent, fontWeight: "800" },
   disabled: { opacity: 0.5 },
 });

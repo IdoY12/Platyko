@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, fontSize, radius, spacing } from "@/theme/theme";
+import { colors, fontSize, radius, spacing, tint } from "@/theme/theme";
 
 /** Shared styles for lesson exercise panels (card, MCQ options, PUZZLE fill). */
 export const exerciseViewStyles = StyleSheet.create({
@@ -21,8 +21,8 @@ export const exerciseViewStyles = StyleSheet.create({
     marginTop: spacing.sm,
   },
   optionLabel: { color: colors.textPrimary },
-  correct: { borderColor: colors.success, backgroundColor: "rgba(78,205,196,0.2)" },
-  wrong: { borderColor: colors.danger, backgroundColor: "rgba(255,107,107,0.2)" },
+  correct: { borderColor: colors.success, backgroundColor: tint.success },
+  wrong: { borderColor: colors.danger, backgroundColor: tint.danger },
   optionSelected: { borderColor: colors.accent },
   lessonButton: {
     backgroundColor: colors.accent,
@@ -31,7 +31,7 @@ export const exerciseViewStyles = StyleSheet.create({
     alignItems: "center",
     marginTop: spacing.md,
   },
-  lessonButtonLabel: { color: "#111", fontWeight: "800" },
+  lessonButtonLabel: { color: colors.onAccent, fontWeight: "800" },
   disabled: { opacity: 0.5 },
   feedback: { marginTop: spacing.md, fontWeight: "700", color: colors.textPrimary },
   feedbackGood: { color: colors.success },

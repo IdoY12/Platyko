@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, font, fontSize, radius, spacing } from "@/theme/theme";
+import { colors, font, fontSize, radius, spacing, tint } from "@/theme/theme";
 
 export const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
   heroSub: { color: colors.onAccent, opacity: 0.65, marginTop: 2, fontWeight: "600", fontSize: fontSize.sm },
   tileRow: { flexDirection: "row", gap: spacing.lg },
   tile: { flex: 1, backgroundColor: colors.card, borderRadius: radius.card, borderWidth: 1, borderColor: colors.border, padding: spacing.lg, gap: spacing.xs },
-  tileDuel: { borderColor: "rgba(255,78,106,0.35)" },
+  tileDuel: { borderColor: colors.duel, backgroundColor: tint.duel },
   tileTitle: { color: colors.textPrimary, fontWeight: "700", fontSize: fontSize.base, marginTop: spacing.sm },
   tileSub: { color: colors.textMuted, fontFamily: font.mono, fontSize: fontSize.xs, letterSpacing: 1 },
 });

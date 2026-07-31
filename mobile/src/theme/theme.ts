@@ -1,61 +1,61 @@
 import { Platform } from "react-native";
 
-/** Editor-grade art direction: warm ink ground, hairline borders, JS-yellow signature accent. */
+/** CYBERDECK art direction: phosphor-green terminal on near-black, cyan/magenta signal accents. */
 export const colors = {
-  background: "#0B0B0C",
-  card: "#151517",
-  surface: "#1C1C1F",
-  accent: "#F7DF1E",
-  onAccent: "#131309",
-  success: "#4ADE80",
-  danger: "#F87171",
-  duel: "#FF4E6A",
-  textPrimary: "#F2F2F0",
-  textSecondary: "#A0A0A8",
-  textMuted: "#5C5C66",
-  border: "rgba(255,255,255,0.09)",
+  background: "#050A08",
+  card: "#0A140E",
+  surface: "#0F1D14",
+  accent: "#00FF9C",
+  onAccent: "#021208",
+  cyan: "#22D9F0",
+  success: "#54FF9F",
+  danger: "#FF4D6D",
+  duel: "#FF2E88",
+  textPrimary: "#D8FFEA",
+  textSecondary: "#7FAE96",
+  textMuted: "#44634F",
+  border: "rgba(0,255,156,0.16)",
+};
+
+/** Translucent washes for selected / correct / wrong states — every tint stays on-palette. */
+export const tint = {
+  accent: "rgba(0,255,156,0.12)",
+  cyan: "rgba(34,217,240,0.12)",
+  duel: "rgba(255,46,136,0.14)",
+  danger: "rgba(255,77,109,0.16)",
+  success: "rgba(84,255,159,0.14)",
 };
 
 export const spacing = {
-  xs: 4,
-  sm: 8,
-  md: 12,
-  lg: 16,
-  xl: 20,
-  xxl: 24,
-  xxxl: 32,
-  huge: 40,
-  giant: 48,
-  massive: 64,
+  xs: 4, sm: 8, md: 12, lg: 16, xl: 20, xxl: 24, xxxl: 32, huge: 40, giant: 48, massive: 64,
 };
 
-export const radius = {
-  chip: 6,
-  button: 12,
-  card: 16,
-  modal: 24,
-  pill: 999,
-};
+export const radius = { chip: 4, button: 8, card: 10, modal: 14, pill: 999 };
 
-export const fontSize = {
-  xs: 12,
-  sm: 14,
-  base: 16,
-  md: 18,
-  lg: 22,
-  xl: 28,
-  xxl: 36,
-  xxxl: 48,
-};
+export const fontSize = { xs: 12, sm: 14, base: 16, md: 18, lg: 22, xl: 28, xxl: 36, xxxl: 48 };
 
-/** Monospace is the accent voice: code, meta-labels, and numbers that matter. */
+/** Monospace is the primary voice: headings, numbers, labels — the whole deck talks in code. */
 export const font = {
   mono: Platform.select({ ios: "Menlo", default: "monospace" }) as string,
 };
 
-/** Shared motion feel: quick physical springs, subtle press scale, slow idle drift. */
+const neon = (shadowColor: string) => ({
+  shadowColor,
+  shadowOpacity: 0.45,
+  shadowRadius: 12,
+  shadowOffset: { width: 0, height: 0 },
+  elevation: 6,
+});
+
+/** Neon glow shadow presets for buttons, bars, and the tab indicator. */
+export const glow = { accent: neon(colors.accent), cyan: neon(colors.cyan), duel: neon(colors.duel) };
+
+/** Shared motion feel: physical springs, boot-up stagger, and terminal effect timing. */
 export const motion = {
   pressScale: 0.97,
   spring: { damping: 18, stiffness: 260 },
   springSoft: { damping: 40, stiffness: 60 },
+  bootStaggerMs: 55,
+  scrambleMs: 420,
+  rain: { columnMax: 20, columnWidth: 18, fallMsMin: 2800, fallMsMax: 6200, glyphLineHeight: 18 },
 };

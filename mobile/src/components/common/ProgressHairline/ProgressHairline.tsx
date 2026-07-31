@@ -1,14 +1,19 @@
 import { useEffect } from "react";
 import { View, type StyleProp, type ViewStyle } from "react-native";
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
   withDelay,
+  withRepeat,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 import { colors, motion } from "@/theme/theme";
 import { styles } from "./ProgressHairline.styles";
+
+const PULSE_MS = 1200;
 
 type Props = {
   /** 0–100. The bar spring-fills on mount and whenever the value changes. */
@@ -19,21 +24,33 @@ type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-/** Thin hairline progress bar with a physical spring fill. */
+/** Thin hairline progress bar: physical spring fill with a slow neon glow pulse. */
 export function ProgressHairline({ pct, delayMs = 0, color = colors.accent, style }: Props) {
   const reduceMotion = useReducedMotion();
   const target = Math.min(100, Math.max(0, pct));
   const fill = useSharedValue(reduceMotion ? target : 0);
+  const glowPulse = useSharedValue(0.35);
 
   useEffect(() => {
     fill.value = reduceMotion ? target : withDelay(delayMs, withSpring(target, motion.spring));
   }, [target, delayMs, fill, reduceMotion]);
 
-  const fillStyle = useAnimatedStyle(() => ({ width: `${fill.value}%` }));
+  useEffect(() => {
+    if (reduceMotion) return;
+    glowPulse.value = withRepeat(withTiming(0.8, { duration: PULSE_MS }), -1, true);
+    return () => cancelAnimation(glowPulse);
+  }, [glowPulse, reduceMotion]);
+
+  const fillStyle = useAnimatedStyle(() => ({
+    width: `${fill.value}%`,
+    shadowOpacity: glowPulse.value,
+  }));
 
   return (
     <View style={[styles.track, style]}>
-      <Animated.View style={[styles.fill, { backgroundColor: color }, fillStyle]} />
+      <Animated.View
+        style={[styles.fill, { backgroundColor: color, shadowColor: color }, fillStyle]}
+      />
     </View>
   );
 }

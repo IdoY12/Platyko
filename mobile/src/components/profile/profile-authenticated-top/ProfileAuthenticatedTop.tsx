@@ -32,7 +32,7 @@ export function ProfileAuthenticatedTop({ p }: { p: UseProfileScreenReturn }) {
             </View>
           )}
           <View style={t.camBadge}>
-            <AppIcon name="pencil" size={16} color="#111" />
+            <AppIcon name="pencil" size={16} color={colors.onAccent} />
           </View>
         </Pressable>
         <Text style={t.name}>{p.username}</Text>

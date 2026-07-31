@@ -38,7 +38,7 @@ export const m = StyleSheet.create({
     paddingVertical: spacing.sm,
     paddingHorizontal: spacing.md,
   },
-  primaryTxt: { color: "#111", fontWeight: "800" },
+  primaryTxt: { color: colors.onAccent, fontWeight: "800" },
   danger: {
     backgroundColor: colors.danger,
     borderRadius: radius.button,

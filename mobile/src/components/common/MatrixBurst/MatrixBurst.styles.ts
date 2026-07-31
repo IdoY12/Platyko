@@ -1,17 +1,18 @@
 import { StyleSheet } from "react-native";
-import { colors, font, fontSize } from "@/theme/theme";
+import { font, fontSize } from "@/theme/theme";
 
 export const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: colors.background,
+  center: {
+    position: "absolute",
+    alignSelf: "center",
+    top: "40%",
     alignItems: "center",
     justifyContent: "center",
   },
-  text: {
-    color: colors.accent,
+  glyph: {
+    position: "absolute",
     fontFamily: font.mono,
     fontSize: fontSize.md,
-    letterSpacing: 1,
+    fontWeight: "700",
   },
 });

@@ -9,11 +9,10 @@ import Animated, {
 } from "react-native-reanimated";
 import { motion } from "@/theme/theme";
 
-const SLOT_STAGGER_MS = 55;
 const RISE_DISTANCE = 14;
 
 type Props = PropsWithChildren<{
-  /** Choreography beat: delay = slot × 55 ms, so siblings assemble in sequence. */
+  /** Choreography beat: delay = slot × motion.bootStaggerMs, so siblings boot in sequence. */
   slot?: number;
   style?: StyleProp<ViewStyle>;
 }>;
@@ -25,7 +24,7 @@ export function EntranceRise({ slot = 0, style, children }: Props) {
 
   useEffect(() => {
     if (reduceMotion) return;
-    progress.value = withDelay(slot * SLOT_STAGGER_MS, withSpring(1, motion.spring));
+    progress.value = withDelay(slot * motion.bootStaggerMs, withSpring(1, motion.spring));
   }, [progress, slot, reduceMotion]);
 
   const entranceStyle = useAnimatedStyle(() => ({

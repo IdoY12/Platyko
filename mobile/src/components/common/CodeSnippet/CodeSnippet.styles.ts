@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native";
 import { colors, font, fontSize, radius, spacing } from "@/theme/theme";
 
-/** Editor syntax voice: warm, monokai-leaning tones on ink. */
+/** Terminal syntax voice, straight from the CYBERDECK palette. */
 export const syntax = {
-  keyword: "#FFD866",
-  string: "#A9DC76",
-  number: "#78DCE8",
-  plain: "#E8E8E6",
+  keyword: colors.duel,
+  string: colors.accent,
+  number: colors.cyan,
+  plain: colors.textPrimary,
 };
 
 export const styles = StyleSheet.create({

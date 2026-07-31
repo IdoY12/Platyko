@@ -19,6 +19,6 @@ export const profileSectionCardStyles = StyleSheet.create({
     alignItems: "center",
   },
   saveButtonDisabled: { opacity: 0.5 },
-  saveButtonLabel: { color: "#111", fontWeight: "800" },
+  saveButtonLabel: { color: colors.onAccent, fontWeight: "800" },
   saveMessage: { marginTop: spacing.sm, color: colors.success, fontWeight: "700" },
 });
