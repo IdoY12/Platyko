@@ -1,13 +1,13 @@
 import { StyleSheet } from "react-native";
-import { colors, fontSize, radius, spacing } from "@/theme/theme";
+import { colors, font, fontSize, glow, radius, spacing } from "@/theme/theme";
 
 export const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   scroll: { flex: 1 },
   loadingInner: { flex: 1, justifyContent: "center", alignItems: "center", paddingHorizontal: spacing.xxl },
   scrollInner: { flexGrow: 1, padding: spacing.xxl, paddingTop: spacing.giant, gap: spacing.lg },
-  title: { color: colors.textPrimary, fontSize: fontSize.xl, fontWeight: "800" },
-  counter: { color: colors.textMuted, fontSize: fontSize.sm },
+  title: { color: colors.textPrimary, fontFamily: font.mono, fontSize: fontSize.xl, fontWeight: "800" },
+  counter: { color: colors.textMuted, fontFamily: font.mono, fontSize: fontSize.sm, fontVariant: ["tabular-nums"] },
   prompt: { color: colors.textSecondary, fontSize: fontSize.md, lineHeight: 28 },
   input: {
     borderWidth: 1,
@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     minHeight: 54,
     paddingHorizontal: spacing.lg,
     fontSize: fontSize.base,
+    fontFamily: font.mono,
   },
   navRow: { flexDirection: "row", gap: spacing.sm },
   navButton: {
@@ -38,6 +39,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: spacing.md,
+    ...glow.accent,
   },
   submitLabel: { color: colors.onAccent, fontWeight: "800", fontSize: fontSize.md },
   message: { color: colors.textSecondary, fontSize: fontSize.md, lineHeight: 24 },
@@ -58,7 +60,7 @@ export const styles = StyleSheet.create({
     color: colors.textSecondary,
     fontSize: fontSize.md,
     lineHeight: 24,
-    fontFamily: "monospace",
+    fontFamily: font.mono,
   },
   secondaryButton: {
     minHeight: 48,

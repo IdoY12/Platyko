@@ -1,8 +1,11 @@
-import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "@/theme/theme";
 import type { CodePuzzleScreenProps } from "@/types/homeNavigation.types";
 import { useCodePuzzle } from "@/hooks/useCodePuzzle";
+import { GlyphScrambleText } from "@/components/common/GlyphScrambleText/GlyphScrambleText";
+import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { styles } from "./CodePuzzleScreen.styles";
 
 export function CodePuzzleScreen({ navigation }: CodePuzzleScreenProps) {
@@ -14,6 +17,7 @@ export function CodePuzzleScreen({ navigation }: CodePuzzleScreenProps) {
   if (loading) {
     return (
       <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+        <MatrixRain opacity={0.3} />
         <View style={styles.loadingInner}>
           <ActivityIndicator color={colors.accent} size="large" />
         </View>
@@ -26,7 +30,7 @@ export function CodePuzzleScreen({ navigation }: CodePuzzleScreenProps) {
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollInner} keyboardShouldPersistTaps="handled">
-        <Text style={styles.title}>Code Puzzle</Text>
+        <GlyphScrambleText text="Code Puzzle" style={styles.title} />
         {puzzle && <Text style={styles.counter}>{puzzle.orderIndex + 1} / {puzzles.length}</Text>}
         <Text style={styles.prompt}>{puzzle?.prompt ?? ""}</Text>
         <TextInput
@@ -35,41 +39,43 @@ export function CodePuzzleScreen({ navigation }: CodePuzzleScreenProps) {
           multiline={false} accessibilityLabel="Code puzzle answer input"
         />
         <View style={styles.navRow}>
-          <Pressable
+          <PressableScale
             style={[styles.navButton, currentIndex === 0 && styles.navButtonDisabled]}
+            haptic="light"
             onPress={() => { setCurrentIndex((i) => Math.max(0, i - 1)); setInput(""); }}
             disabled={currentIndex === 0} accessibilityLabel="Previous puzzle"
           >
             <Text style={styles.navLabel}>← Prev</Text>
-          </Pressable>
-          <Pressable style={styles.navButton} onPress={() => setInput("")} accessibilityLabel="Reset answer">
+          </PressableScale>
+          <PressableScale style={styles.navButton} haptic="light" onPress={() => setInput("")} accessibilityLabel="Reset answer">
             <Text style={styles.navLabel}>Reset</Text>
-          </Pressable>
-          <Pressable
+          </PressableScale>
+          <PressableScale
             style={[styles.navButton, currentIndex === lastPuzzleIndex && styles.navButtonDisabled]}
+            haptic="light"
             onPress={() => { setCurrentIndex((i) => Math.min(lastPuzzleIndex, i + 1)); setInput(""); }}
             disabled={currentIndex === lastPuzzleIndex} accessibilityLabel="Next puzzle"
           >
             <Text style={styles.navLabel}>Next →</Text>
-          </Pressable>
+          </PressableScale>
         </View>
-        <Pressable style={styles.submitButton} onPress={() => void onSubmit()} accessibilityLabel="Submit code puzzle answer">
+        <PressableScale style={styles.submitButton} haptic="medium" onPress={() => void onSubmit()} accessibilityLabel="Submit code puzzle answer">
           <Text style={styles.submitLabel}>Submit Puzzle</Text>
-        </Pressable>
+        </PressableScale>
         {message ? <Text style={styles.message}>{message}</Text> : null}
         <View style={styles.footerSpacer} />
-        <Pressable style={styles.showAnswerBtn} onPress={revealReferenceAnswer} accessibilityLabel="Show reference answer">
+        <PressableScale style={styles.showAnswerBtn} haptic="light" onPress={revealReferenceAnswer} accessibilityLabel="Show reference answer">
           <Text style={styles.showAnswerLabel}>Stuck? Reveal answer</Text>
-        </Pressable>
+        </PressableScale>
         {referenceSnippet !== null ? (
           <View accessibilityLabel="Reference answer read-only">
             <Text style={styles.refHeading}>Reference answer:</Text>
             <Text selectable style={styles.refBody}>{referenceSnippet}</Text>
           </View>
         ) : null}
-        <Pressable style={styles.secondaryButton} onPress={() => navigation.goBack()} accessibilityLabel="Close code puzzle">
+        <PressableScale style={styles.secondaryButton} haptic="light" onPress={() => navigation.goBack()} accessibilityLabel="Close code puzzle">
           <Text style={styles.secondaryLabel}>Back to Home</Text>
-        </Pressable>
+        </PressableScale>
       </ScrollView>
     </SafeAreaView>
   );
