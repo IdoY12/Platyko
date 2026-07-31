@@ -1,8 +1,10 @@
-import { FlatList, Pressable, Text, View } from "react-native";
+import { FlatList, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { colors } from "@/theme/theme";
 import { useLearnRoadmapData } from "@/hooks/useLearnRoadmapData";
 import type { LearnRoadmapNavigation } from "@/types/learnNavigation.types";
+import { EntranceRise } from "@/components/common/EntranceRise/EntranceRise";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
+import { TerminalFrame } from "@/components/common/TerminalFrame/TerminalFrame";
 import { learnRoadmapStyles as s } from "./LearnRoadmapScreen.styles";
 
 type Props = { navigation: LearnRoadmapNavigation };
@@ -20,30 +22,29 @@ export function LearnRoadmapScreen({ navigation }: Props) {
         ListHeaderComponent={
           <Text style={s.title}>
             {activeExperience.charAt(0) + activeExperience.slice(1).toLowerCase()} track{"\n"}
-            <Text style={{ color: colors.textSecondary, fontSize: 14 }}>
-              3 blocks · 10 exercises each. Change your level in Profile.
-            </Text>
+            <Text style={s.subtitle}>3 blocks · 10 exercises each. Change your level in Profile.</Text>
           </Text>
         }
-        renderItem={({ item }) => (
-          <View style={s.nodeWrap}>
-            <View style={s.chapterNode}>
+        renderItem={({ item, index }) => (
+          <EntranceRise slot={index}>
+            <TerminalFrame label={`block.0${item.blockIndex + 1}`}>
               <Text style={s.chapterTitle}>{item.title}</Text>
               <Text style={s.chapterDesc}>{item.description}</Text>
-            </View>
-            <Pressable
-              style={s.lessonButton}
-              onPress={() =>
-                navigation.navigate("Lesson", {
-                  experienceLevel: activeExperience,
-                  lessonTitle: item.title,
-                  blockIndex: item.blockIndex,
-                })
-              }
-            >
-              <Text style={s.lessonButtonLabel}>Start</Text>
-            </Pressable>
-          </View>
+              <PressableScale
+                style={s.lessonButton}
+                haptic="light"
+                onPress={() =>
+                  navigation.navigate("Lesson", {
+                    experienceLevel: activeExperience,
+                    lessonTitle: item.title,
+                    blockIndex: item.blockIndex,
+                  })
+                }
+              >
+                <Text style={s.lessonButtonLabel}>Start</Text>
+              </PressableScale>
+            </TerminalFrame>
+          </EntranceRise>
         )}
       />
     </SafeAreaView>

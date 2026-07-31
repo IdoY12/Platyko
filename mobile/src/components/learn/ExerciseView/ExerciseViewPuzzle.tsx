@@ -4,6 +4,9 @@ import type Exercise from "@/models/Exercise";
 import { DEFAULT_PUZZLE_HINT_TOKENS } from "@/constants/puzzleHintDefaults";
 import { useBuiltAnswerLessonExercise } from "@/hooks/useBuiltAnswerLessonExercise";
 import type { LessonExerciseCompletionContext } from "@/types/lessonExerciseCompletion.types";
+import { MatrixBurst } from "@/components/common/MatrixBurst/MatrixBurst";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
+import { TerminalFrame } from "@/components/common/TerminalFrame/TerminalFrame";
 import { exerciseViewStyles } from "./ExerciseView.styles";
 
 type ExerciseViewPuzzleProps = {
@@ -18,7 +21,7 @@ export function ExerciseViewPuzzle({ exercise, accessToken, onLessonExerciseComp
     exercise.options.length > 0 ? exercise.options.map((exerciseOption) => exerciseOption.text) : [...DEFAULT_PUZZLE_HINT_TOKENS];
 
   return (
-    <View style={exerciseViewStyles.exerciseCard}>
+    <TerminalFrame label="exercise.puzzle">
       <TextInput
         style={exerciseViewStyles.codePuzzleTextInput}
         value={builtAnswer.input}
@@ -34,13 +37,14 @@ export function ExerciseViewPuzzle({ exercise, accessToken, onLessonExerciseComp
           </Pressable>
         ))}
       </View>
-      <Pressable
+      <PressableScale
         style={[exerciseViewStyles.lessonButton, !builtAnswer.canCheck && exerciseViewStyles.disabled]}
         disabled={!builtAnswer.canCheck}
+        haptic="light"
         onPress={() => void builtAnswer.runCheck()}
       >
         <Text style={exerciseViewStyles.lessonButtonLabel}>Submit</Text>
-      </Pressable>
+      </PressableScale>
       {builtAnswer.submitError ? (
         <Text style={[exerciseViewStyles.feedback, exerciseViewStyles.feedbackBad]}>{builtAnswer.submitError}</Text>
       ) : null}
@@ -48,13 +52,14 @@ export function ExerciseViewPuzzle({ exercise, accessToken, onLessonExerciseComp
         <>
           <Text style={[exerciseViewStyles.feedback, exerciseViewStyles.feedbackGood]}>Nice work.</Text>
           {builtAnswer.serverResult?.explanation ? <Text style={exerciseViewStyles.feedback}>{builtAnswer.serverResult.explanation}</Text> : null}
-          <Pressable style={exerciseViewStyles.lessonButton} onPress={builtAnswer.goNext}>
+          <PressableScale style={exerciseViewStyles.lessonButton} haptic="medium" onPress={builtAnswer.goNext}>
             <Text style={exerciseViewStyles.lessonButtonLabel}>Next</Text>
-          </Pressable>
+          </PressableScale>
+          <MatrixBurst />
         </>
       ) : builtAnswer.hasChecked ? (
         <Text style={[exerciseViewStyles.feedback, exerciseViewStyles.feedbackBad]}>Try again.</Text>
       ) : null}
-    </View>
+    </TerminalFrame>
   );
 }

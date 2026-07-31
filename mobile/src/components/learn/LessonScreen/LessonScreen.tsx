@@ -2,13 +2,14 @@ import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "@/theme/theme";
 import type { LessonScreenProps } from "@/types/learnNavigation.types";
-import { progressWidthStyle } from "@/utils/formatHelpers";
 import { useLessonLoad } from "@/hooks/useLessonLoad";
 import { useAppSelector } from "@/redux/hooks";
 import type { LessonExerciseCompletionContext } from "@/types/lessonExerciseCompletion.types";
 import { useLessonExerciseCompleteHandler } from "@/hooks/useLessonExerciseCompleteHandler";
 import { LESSON_LOAD_FAILED_MESSAGE } from "@/constants/feedbackMessages";
 import { CodeSnippet } from "@/components/common/CodeSnippet/CodeSnippet";
+import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
+import { ProgressHairline } from "@/components/common/ProgressHairline/ProgressHairline";
 import { ExerciseView } from "@/components/learn/ExerciseView/ExerciseView";
 import { lessonScreenStyles } from "./LessonScreen.styles";
 
@@ -25,6 +26,7 @@ export function LessonScreen({ navigation, route }: LessonScreenProps) {
   if (load.loading) {
     return (
       <SafeAreaView style={lessonScreenStyles.container} edges={["top", "bottom"]}>
+        <MatrixRain opacity={0.25} />
         <View style={lessonScreenStyles.content}>
           <Text style={lessonScreenStyles.title}>Loading lesson...</Text>
           <ActivityIndicator color={colors.accent} />
@@ -51,10 +53,8 @@ export function LessonScreen({ navigation, route }: LessonScreenProps) {
   return (
     <SafeAreaView style={lessonScreenStyles.container} edges={["top", "bottom"]}>
       <ScrollView style={lessonScreenStyles.container} contentContainerStyle={lessonScreenStyles.content}>
-        <Text style={lessonScreenStyles.chapterDesc}>{lessonTitle}</Text>
-        <View style={lessonScreenStyles.progressTrack}>
-          <View style={[lessonScreenStyles.progressFill, progressWidthStyle(progress)]} />
-        </View>
+        <Text style={lessonScreenStyles.chapterDesc}>{`// ${lessonTitle}`}</Text>
+        <ProgressHairline pct={progress} />
         <Text style={lessonScreenStyles.progressText}>
           {load.exerciseIndex + 1}/{load.exercises.length}
         </Text>

@@ -1,7 +1,10 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text } from "react-native";
 import type Exercise from "@/models/Exercise";
 import { usePickOneLessonExercise } from "@/hooks/usePickOneLessonExercise";
 import type { LessonExerciseCompletionContext } from "@/types/lessonExerciseCompletion.types";
+import { MatrixBurst } from "@/components/common/MatrixBurst/MatrixBurst";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
+import { TerminalFrame } from "@/components/common/TerminalFrame/TerminalFrame";
 import { exerciseViewStyles } from "./ExerciseView.styles";
 
 type ExerciseViewMCQProps = {
@@ -27,7 +30,7 @@ export function ExerciseViewMCQ({ exercise, accessToken, onLessonExerciseComplet
   const successHeadline = promptAsksForTokenTap ? "Token identified." : "Correct!";
 
   return (
-    <View style={exerciseViewStyles.exerciseCard}>
+    <TerminalFrame label="exercise.mcq">
       {promptAsksForTokenTap ? <Text style={exerciseViewStyles.hint}>Tap the correct token from this list.</Text> : null}
       {pickOne.options.map((optionText, optionIndex) => (
         <Pressable
@@ -39,13 +42,14 @@ export function ExerciseViewMCQ({ exercise, accessToken, onLessonExerciseComplet
           <Text style={exerciseViewStyles.optionLabel}>{optionText}</Text>
         </Pressable>
       ))}
-      <Pressable
+      <PressableScale
         style={[exerciseViewStyles.lessonButton, !pickOne.canCheck && exerciseViewStyles.disabled]}
         disabled={!pickOne.canCheck}
+        haptic="light"
         onPress={() => void pickOne.runCheck()}
       >
         <Text style={exerciseViewStyles.lessonButtonLabel}>Check</Text>
-      </Pressable>
+      </PressableScale>
       {pickOne.submitError ? (
         <Text style={[exerciseViewStyles.feedback, exerciseViewStyles.feedbackBad]}>{pickOne.submitError}</Text>
       ) : null}
@@ -53,13 +57,14 @@ export function ExerciseViewMCQ({ exercise, accessToken, onLessonExerciseComplet
         <>
           <Text style={[exerciseViewStyles.feedback, exerciseViewStyles.feedbackGood]}>{successHeadline}</Text>
           {pickOne.serverResult?.explanation ? <Text style={exerciseViewStyles.feedback}>{pickOne.serverResult.explanation}</Text> : null}
-          <Pressable style={exerciseViewStyles.lessonButton} onPress={pickOne.goNext}>
+          <PressableScale style={exerciseViewStyles.lessonButton} haptic="medium" onPress={pickOne.goNext}>
             <Text style={exerciseViewStyles.lessonButtonLabel}>Next</Text>
-          </Pressable>
+          </PressableScale>
+          <MatrixBurst />
         </>
       ) : pickOne.hasChecked ? (
         <Text style={[exerciseViewStyles.feedback, exerciseViewStyles.feedbackBad]}>Try again.</Text>
       ) : null}
-    </View>
+    </TerminalFrame>
   );
 }

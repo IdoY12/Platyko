@@ -1,19 +1,22 @@
 import { StyleSheet } from "react-native";
-import { colors, fontSize, spacing } from "@/theme/theme";
+import { colors, font, fontSize, spacing } from "@/theme/theme";
 
 export const lessonScreenStyles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   content: { padding: spacing.xxl, gap: spacing.lg },
-  title: { color: colors.textPrimary, fontSize: fontSize.xl, fontWeight: "800" },
-  chapterDesc: { color: colors.textSecondary, marginTop: spacing.sm, marginBottom: spacing.lg },
-  progressTrack: {
-    width: "100%",
-    height: 8,
-    backgroundColor: colors.surface,
-    borderRadius: 5,
-    overflow: "hidden",
+  title: { color: colors.textPrimary, fontFamily: font.mono, fontSize: fontSize.xl, fontWeight: "800" },
+  chapterDesc: {
+    color: colors.textSecondary,
+    fontFamily: font.mono,
+    fontSize: fontSize.sm,
+    letterSpacing: 1,
+    marginTop: spacing.sm,
   },
-  progressFill: { height: 8, backgroundColor: colors.accent },
-  progressText: { color: colors.textSecondary },
+  progressText: {
+    color: colors.textSecondary,
+    fontFamily: font.mono,
+    fontSize: fontSize.xs,
+    fontVariant: ["tabular-nums"],
+  },
   prompt: { color: colors.textPrimary, fontSize: fontSize.md, fontWeight: "700" },
 });
