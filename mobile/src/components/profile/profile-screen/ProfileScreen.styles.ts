@@ -4,7 +4,8 @@ import { colors, font, fontSize, glow, radius, spacing } from "@/theme/theme";
 export const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
   guestContainer: { flex: 1, backgroundColor: colors.background },
-  guestMain: { flex: 1, justifyContent: "center", padding: spacing.xxl, gap: spacing.lg },
+  guestScroll: { flex: 1 },
+  guestMain: { flexGrow: 1, justifyContent: "center", padding: spacing.xxl, gap: spacing.lg },
   guestHero: { alignItems: "center", overflow: "hidden" },
   guestName: { marginTop: spacing.md, color: colors.textPrimary, fontFamily: font.mono, fontSize: fontSize.lg, fontWeight: "800" },
   guestEmail: { color: colors.textSecondary, marginTop: spacing.xs, textAlign: "center" },

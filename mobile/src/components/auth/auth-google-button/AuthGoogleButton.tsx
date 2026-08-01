@@ -7,7 +7,7 @@ import type { AppDispatch } from "@/redux/store";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
 import authService from "@/services/auth";
 import { logAuth, logError } from "@/utils/logger";
-import { GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from "@/config/googleOAuth";
+import { googleAuthRequestConfig, googleSignInUnavailableReason } from "@/config/googleOAuth";
 import { styles } from "../auth-screen/AuthScreen.styles";
 
 WebBrowser.maybeCompleteAuthSession();
@@ -15,11 +15,7 @@ WebBrowser.maybeCompleteAuthSession();
 export function AuthGoogleButton({ dispatch }: { dispatch: AppDispatch }) {
   const navigation = useNavigation();
   const [busy, setBusy] = useState(false);
-  const [req, res, promptAsync] = Google.useAuthRequest({
-    androidClientId: GOOGLE_WEB_CLIENT_ID,
-    iosClientId: GOOGLE_IOS_CLIENT_ID,
-    webClientId: GOOGLE_WEB_CLIENT_ID,
-  });
+  const [req, res, promptAsync] = Google.useAuthRequest(googleAuthRequestConfig);
   const finish = useCallback(
     async (idToken: string) => {
       setBusy(true);
@@ -38,17 +34,29 @@ export function AuthGoogleButton({ dispatch }: { dispatch: AppDispatch }) {
     [dispatch, navigation],
   );
   useEffect(() => {
+    if (req) logAuth("google:request", { redirectUri: req.redirectUri, clientId: req.clientId });
+  }, [req]);
+  useEffect(() => {
     if (res?.type !== "success") return;
     const id =
       res.authentication?.idToken ?? (typeof res.params?.id_token === "string" ? res.params.id_token : undefined);
     if (!id) return;
     void finish(id);
   }, [res, finish]);
+  const start = useCallback(() => {
+    const unavailable = googleSignInUnavailableReason();
+    if (unavailable) {
+      logAuth("google:unavailable", { reason: unavailable });
+      Alert.alert("Google sign-in", unavailable);
+      return;
+    }
+    void promptAsync();
+  }, [promptAsync]);
   return (
     <Pressable
       disabled={!req || busy}
       style={({ pressed }) => [styles.secondaryButton, pressed && styles.secondaryPressed]}
-      onPress={() => void promptAsync()}
+      onPress={start}
       accessibilityLabel="Continue with Google"
     >
       <Text style={styles.secondaryLabel}>Continue with Google</Text>

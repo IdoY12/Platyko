@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Text, View } from "react-native";
+import { Alert, ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { commitmentOptions, levels } from "@/constants/learningSettings";
@@ -41,7 +41,7 @@ export function GuestProfileBody() {
   return (
     <SafeAreaView style={styles.guestContainer} edges={["top", "bottom"]}>
       <TerminalHeader title="~/profile $" />
-      <View style={styles.guestMain}>
+      <ScrollView style={styles.guestScroll} contentContainerStyle={styles.guestMain}>
         <EntranceRise slot={0}>
           <TerminalFrame label="guest" style={styles.guestHero}>
             <Text style={styles.guestName}>Guest</Text>
@@ -68,7 +68,7 @@ export function GuestProfileBody() {
         <EntranceRise slot={3}>
           <GuestProfileDangerCard onResetPress={onResetPress} />
         </EntranceRise>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
