@@ -38,6 +38,19 @@ function groupBlockProgressByLevel(local: Record<string, number>): Record<string
   return result;
 }
 
+function guestStateRequestBody(local?: GuestLocalState) {
+  return {
+    experienceLevel: local?.experienceLevel, goal: local?.goal,
+    dailyCommitmentMinutes: local?.commitment ? Number(local.commitment) : undefined,
+    notificationsEnabled: local?.notificationsEnabled,
+    blockProgress: local?.blockProgress ? groupBlockProgressByLevel(local.blockProgress) : undefined,
+    xpTotal: local?.xpTotal, streakCurrent: local?.streakCurrent,
+    streakLastActivityDate: local?.streakLastActivityDate,
+    streakLastCheckedDate: local?.streakLastCheckedDate,
+    puzzleXpSolveCounts: local?.puzzleXpSolveCounts,
+  };
+}
+
 class AuthService {
   async login(email: string, password: string): Promise<AuthResponse> {
     const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/login`, { email, password });
@@ -46,28 +59,16 @@ class AuthService {
 
   async register(email: string, username: string, password: string, local?: GuestLocalState): Promise<AuthResponse> {
     try {
-      const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/register`, {
-        email, username, password,
-        experienceLevel: local?.experienceLevel,
-        goal: local?.goal,
-        dailyCommitmentMinutes: local?.commitment ? Number(local.commitment) : undefined,
-        notificationsEnabled: local?.notificationsEnabled,
-        blockProgress: local?.blockProgress ? groupBlockProgressByLevel(local.blockProgress) : undefined,
-        xpTotal: local?.xpTotal,
-        streakCurrent: local?.streakCurrent,
-        streakLastActivityDate: local?.streakLastActivityDate,
-        streakLastCheckedDate: local?.streakLastCheckedDate,
-        puzzleXpSolveCounts: local?.puzzleXpSolveCounts,
-      });
+      const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/register`, { email, username, password, ...guestStateRequestBody(local) });
       return data;
     } catch (e) {
       throw new Error(apiErrorMessage(e));
     }
   }
 
-  async loginWithGoogle(idToken: string): Promise<AuthResponse> {
+  async loginWithGoogle(idToken: string, local?: GuestLocalState): Promise<AuthResponse> {
     try {
-      const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/google`, { idToken });
+      const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/google`, { idToken, ...guestStateRequestBody(local) });
       return data;
     } catch (e) {
       throw new Error(apiErrorMessage(e));

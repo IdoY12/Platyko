@@ -1,7 +1,8 @@
 import { randomBytes } from "node:crypto";
-import { prisma, type User } from "@project/db";
+import { parsePuzzleXpSolveCounts, prisma, type User } from "@project/db";
 import { USERNAME_MAX_LEN, USERNAME_MIN_LEN } from "@project/user-credentials";
 import { isUniqueConstraintError } from "../../utils/dbErrors.js";
+import { createProgressRowsFromSnapshot, type GuestSnapshot } from "./guestSnapshotMigration.js";
 
 const USERNAME_SUFFIX_RETRIES = 12;
 const USERNAME_RANDOM_RETRIES = 8;
@@ -24,7 +25,9 @@ function randomUsername(): string {
   return `g${randomBytes(12).toString("hex")}`.slice(0, USERNAME_MAX_LEN).padEnd(USERNAME_MIN_LEN, "x");
 }
 
-export async function createGoogleUserWithProgress(googleId: string, email: string, displayName?: string): Promise<User> {
+export async function createGoogleUserWithProgress(
+  googleId: string, email: string, displayName?: string, snapshot: GuestSnapshot = {},
+): Promise<User> {
   let candidate = deriveGoogleUsername(email, displayName);
   const max = USERNAME_SUFFIX_RETRIES + USERNAME_RANDOM_RETRIES;
   for (let attempt = 0; attempt < max; attempt++) {
@@ -36,17 +39,11 @@ export async function createGoogleUserWithProgress(googleId: string, email: stri
             googleId,
             username: candidate,
             hashedPassword: null,
-            activeExperienceLevel: "JUNIOR",
+            activeExperienceLevel: snapshot.experienceLevel ?? "JUNIOR",
+            puzzleXpSolveCounts: parsePuzzleXpSolveCounts(snapshot.puzzleXpSolveCounts ?? null),
           },
         });
-        await tx.userProgress.create({
-          data: {
-            userId: created.id,
-            experienceLevel: "JUNIOR",
-            notificationsEnabled: true,
-            dailyCommitmentMinutes: 15,
-          },
-        });
+        await createProgressRowsFromSnapshot(tx, created.id, snapshot);
         return created;
       });
     } catch (error) {

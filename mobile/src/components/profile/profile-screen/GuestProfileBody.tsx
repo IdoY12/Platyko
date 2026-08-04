@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, ScrollView, Text } from "react-native";
+import { Alert, ScrollView, Switch, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { commitmentOptions, levels } from "@/constants/learningSettings";
@@ -11,6 +11,7 @@ import { EntranceRise } from "@/components/common/EntranceRise/EntranceRise";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { TerminalFrame } from "@/components/common/TerminalFrame/TerminalFrame";
 import { TerminalHeader } from "@/components/common/TerminalHeader/TerminalHeader";
+import { profileFormRowsStyles } from "@/theme/profileFormRows";
 import { GuestPreferenceChips } from "./GuestPreferenceChips";
 import { GuestProfileDangerCard } from "./GuestProfileDangerCard";
 import { styles } from "./ProfileScreen.styles";
@@ -29,10 +30,8 @@ export function GuestProfileBody() {
     return () => logNav("screen:leave", { screen: "GuestProfileScreen" });
   }, []);
   const onSignIn = () => navigation.getParent()?.navigate("Auth" as never);
-  const onSelectExperience = (v: "JUNIOR" | "MID" | "SENIOR") =>
-    dispatch(updatePreferences({ goal, experienceLevel: v, commitment, notificationsEnabled }));
-  const onSelectCommitment = (v: "10" | "15" | "25") =>
-    dispatch(updatePreferences({ goal, experienceLevel, commitment: v, notificationsEnabled }));
+  const setPref = (patch: Partial<Parameters<typeof updatePreferences>[0]>) =>
+    void dispatch(updatePreferences({ goal, experienceLevel, commitment, notificationsEnabled, ...patch }));
   const onResetPress = () => Alert.alert(
     "Reset Learn Progress",
     "This will permanently delete all your learning progress and cannot be undone.",
@@ -60,9 +59,13 @@ export function GuestProfileBody() {
         <EntranceRise slot={2}>
           <TerminalFrame label="learn.prefs">
             <Text style={styles.guestField}>My JavaScript Level</Text>
-            <GuestPreferenceChips options={levels} selectedKey={experienceLevel} onSelect={onSelectExperience} />
+            <GuestPreferenceChips options={levels} selectedKey={experienceLevel} onSelect={(v) => setPref({ experienceLevel: v })} />
             <Text style={styles.guestField}>Daily Practice Goal</Text>
-            <GuestPreferenceChips options={commitmentOptions} selectedKey={commitment} onSelect={onSelectCommitment} />
+            <GuestPreferenceChips options={commitmentOptions} selectedKey={commitment} onSelect={(v) => setPref({ commitment: v })} />
+            <View style={profileFormRowsStyles.rowWithSwitch}>
+              <Text style={profileFormRowsStyles.rowText}>Notifications</Text>
+              <Switch value={notificationsEnabled} onValueChange={(v) => setPref({ notificationsEnabled: v })} />
+            </View>
           </TerminalFrame>
         </EntranceRise>
         <EntranceRise slot={3}>

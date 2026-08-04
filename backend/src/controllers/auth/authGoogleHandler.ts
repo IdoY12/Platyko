@@ -11,7 +11,7 @@ import { ensureUserProgressForLogin, touchUserLastActive } from "../../services/
 import { storeRefreshToken } from "../../utils/storeRefreshToken.js";
 
 export async function authGoogleHandler(request: Request, response: Response): Promise<void> {
-  const { idToken } = request.validatedBody as GoogleAuthBody;
+  const { idToken, ...guestSnapshot } = request.validatedBody as GoogleAuthBody;
   let email: string;
   let googleId: string;
   let name: string | undefined;
@@ -22,7 +22,7 @@ export async function authGoogleHandler(request: Request, response: Response): P
     return;
   }
   try {
-    const { user, isNew } = await findOrCreateGoogleUser(googleId, email, name);
+    const { user, isNew } = await findOrCreateGoogleUser(googleId, email, name, guestSnapshot);
     const progress = await ensureUserProgressForLogin(user);
     await touchUserLastActive(user.id);
     const tp = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
@@ -40,6 +40,7 @@ export async function authGoogleHandler(request: Request, response: Response): P
         experienceLevel: resolveExperienceLevel(progress.experienceLevel),
         dailyCommitmentMinutes: progress.dailyCommitmentMinutes ?? 15,
         notificationsEnabled: progress.notificationsEnabled ?? true,
+        ...(isNew ? { blockProgress: (progress.blockProgress ?? {}) as Record<string, number> } : {}),
       },
       accessToken,
       refreshToken,

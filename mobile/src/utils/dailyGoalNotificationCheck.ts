@@ -12,7 +12,7 @@ export async function syncDailyPracticeReminder(): Promise<void> {
 
   const dailyGoalMinutes = Number(profile.commitment);
   const notificationsEnabled = profile.notificationsEnabled;
-  const allow = session.isGuest || (session.isAuthenticated && notificationsEnabled);
+  const allow = (session.isGuest || session.isAuthenticated) && notificationsEnabled;
   const fp = `${allow}|${dailyGoalMinutes}|${session.isGuest}|${session.isAuthenticated}`;
 
   const fpStored = await AsyncStorage.getItem(dailyPracticeReminderFpKey);

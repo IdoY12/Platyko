@@ -1,5 +1,6 @@
 import { prisma, type User } from "@project/db";
 import { createGoogleUserWithProgress } from "./createGoogleUser.js";
+import type { GuestSnapshot } from "./guestSnapshotMigration.js";
 
 export class GoogleSignInBlockedError extends Error {
   constructor(m: string) {
@@ -8,10 +9,12 @@ export class GoogleSignInBlockedError extends Error {
   }
 }
 
+/** The guest snapshot is applied only when a NEW user is created; existing server data always wins. */
 export async function findOrCreateGoogleUser(
   googleId: string,
   email: string,
   displayName?: string,
+  guestSnapshot?: GuestSnapshot,
 ): Promise<{ user: User; isNew: boolean }> {
   const bySub = await prisma.user.findUnique({ where: { googleId } });
   if (bySub) return { user: bySub, isNew: false };
@@ -28,6 +31,6 @@ export async function findOrCreateGoogleUser(
     const updated = await prisma.user.update({ where: { id: byEmail.id }, data: { googleId } });
     return { user: updated, isNew: false };
   }
-  const user = await createGoogleUserWithProgress(googleId, email, displayName);
+  const user = await createGoogleUserWithProgress(googleId, email, displayName, guestSnapshot);
   return { user, isNew: true };
 }

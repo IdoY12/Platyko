@@ -31,6 +31,22 @@ export function openSupportUrl(url: string): void {
   void Linking.openURL(url).catch(() => Alert.alert("Unavailable", "Could not open this link right now."));
 }
 
+export function applyNotificationsToggle(
+  enabled: boolean, user: UserService | null, dispatch: AppDispatch, setDraftNotifications: (value: boolean) => void,
+  prefs: { accessToken: string | null; goal?: GoalKey; experienceLevel?: LevelKey; commitment: CommitmentKey },
+): void {
+  setDraftNotifications(enabled);
+  dispatch(setNotificationsEnabled(enabled));
+  if (!user || !prefs.accessToken || !prefs.goal || !prefs.experienceLevel) return;
+  const body = { goal: prefs.goal, experienceLevel: prefs.experienceLevel, dailyCommitmentMinutes: Number(prefs.commitment), notificationsEnabled: enabled };
+  user.patchPreferences(body).catch((error) => {
+    logError("[PROFILE]", error, { phase: "save-notifications" });
+    setDraftNotifications(!enabled);
+    dispatch(setNotificationsEnabled(!enabled));
+    Alert.alert("Notifications", "Could not update notifications right now.");
+  });
+}
+
 export async function patchLearningSettings(
   user: UserService,
   draftGoal: GoalKey,

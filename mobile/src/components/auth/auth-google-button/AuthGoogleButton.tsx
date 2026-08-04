@@ -3,9 +3,9 @@ import { Alert, Pressable, Text } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import { useNavigation } from "@react-navigation/native";
-import type { AppDispatch } from "@/redux/store";
+import store, { type AppDispatch } from "@/redux/store";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
-import authService from "@/services/auth";
+import authService, { buildGuestLocalState } from "@/services/auth";
 import { logAuth, logError } from "@/utils/logger";
 import { googleAuthRequestConfig, googleSignInUnavailableReason } from "@/config/googleOAuth";
 import { styles } from "../auth-screen/AuthScreen.styles";
@@ -20,7 +20,8 @@ export function AuthGoogleButton({ dispatch }: { dispatch: AppDispatch }) {
     async (idToken: string) => {
       setBusy(true);
       try {
-        const r = await authService.loginWithGoogle(idToken);
+        const state = store.getState();
+        const r = await authService.loginWithGoogle(idToken, state.session.isGuest ? buildGuestLocalState(state) : undefined);
         dispatchSignInSuccess(dispatch, r.user, r.accessToken, r.refreshToken);
         navigation.goBack();
         logAuth("submit:success", { mode: "google", userId: r.user.id });

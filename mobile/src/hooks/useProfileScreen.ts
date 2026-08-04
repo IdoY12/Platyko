@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useAppDispatch } from "@/redux/hooks";
-import { setNotificationsEnabled } from "@/redux/profile-slice";
+import { applyNotificationsToggle } from "@/utils/profileUiAndPreferences";
 import type { AppDispatch } from "@/redux/store";
 import { logNav } from "@/utils/logger";
 import type UserService from "@/services/auth-aware/UserService";
@@ -67,11 +67,9 @@ export function useProfileScreen() {
   const { setDraftNotifications } = profileDraft;
 
   const onNotificationsEnabledChange = useCallback(
-    (notificationsEnabled: boolean) => {
-      setDraftNotifications(notificationsEnabled);
-      dispatch(setNotificationsEnabled(notificationsEnabled));
-    },
-    [dispatch, setDraftNotifications],
+    (notificationsEnabled: boolean) =>
+      applyNotificationsToggle(notificationsEnabled, user, dispatch, setDraftNotifications, profileRedux),
+    [dispatch, profileRedux, setDraftNotifications, user],
   );
 
   return { ...profileRedux, ...profileDraft, onSaveLearningSettings, onAvatarPress, onNotificationsEnabledChange, ...handlers };

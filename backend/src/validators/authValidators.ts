@@ -18,6 +18,22 @@ import { MAX_XP_TOTAL } from "@project/xp-constants";
 
 const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
+/** Guest local-progress snapshot fields shared by register and Google sign-in bodies. */
+const guestSnapshotShape = {
+  experienceLevel: z.enum(["JUNIOR", "MID", "SENIOR"]).optional(),
+  goal: z.enum(["JOB", "WORK", "FUN", "PROJECT"]).optional(),
+  dailyCommitmentMinutes: z.number().int().refine((v) => v === 10 || v === 15 || v === 25).optional(),
+  blockProgress: z
+    .partialRecord(z.enum(["JUNIOR", "MID", "SENIOR"]), z.record(z.string(), z.number().int().min(0).max(9)))
+    .optional(),
+  xpTotal: z.number().int().min(0).max(MAX_XP_TOTAL).optional(),
+  streakCurrent: z.number().int().min(0).max(365).optional(),
+  streakLastActivityDate: z.string().regex(dateRegex).optional(),
+  streakLastCheckedDate: z.string().regex(dateRegex).optional(),
+  notificationsEnabled: z.boolean().optional(),
+  puzzleXpSolveCounts: z.record(z.string(), z.number().int().min(0)).optional(),
+};
+
 export const registerBodySchema = z.object({
   email: z
     .string()
@@ -32,18 +48,7 @@ export const registerBodySchema = z.object({
     .string()
     .min(PASSWORD_MIN_LEN, { message: PASSWORD_TOO_SHORT })
     .max(PASSWORD_MAX_LEN, { message: PASSWORD_TOO_LONG }),
-  experienceLevel: z.enum(["JUNIOR", "MID", "SENIOR"]).optional(),
-  goal: z.enum(["JOB", "WORK", "FUN", "PROJECT"]).optional(),
-  dailyCommitmentMinutes: z.number().int().refine((v) => v === 10 || v === 15 || v === 25).optional(),
-  blockProgress: z
-    .partialRecord(z.enum(["JUNIOR", "MID", "SENIOR"]), z.record(z.string(), z.number().int().min(0).max(9)))
-    .optional(),
-  xpTotal: z.number().int().min(0).max(MAX_XP_TOTAL).optional(),
-  streakCurrent: z.number().int().min(0).max(365).optional(),
-  streakLastActivityDate: z.string().regex(dateRegex).optional(),
-  streakLastCheckedDate: z.string().regex(dateRegex).optional(),
-  notificationsEnabled: z.boolean().optional(),
-  puzzleXpSolveCounts: z.record(z.string(), z.number().int().min(0)).optional(),
+  ...guestSnapshotShape,
 });
 
 export const loginBodySchema = z.object({
@@ -64,6 +69,7 @@ export const refreshBodySchema = z.object({
 
 export const googleAuthBodySchema = z.object({
   idToken: z.string().min(1, { message: "ID token is required" }),
+  ...guestSnapshotShape,
 });
 
 export type RegisterBody = z.infer<typeof registerBodySchema>;

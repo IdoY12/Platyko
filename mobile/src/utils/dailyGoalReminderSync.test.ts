@@ -31,7 +31,7 @@ describe("syncDailyPracticeReminder", () => {
   it("guest: schedules daily 19:00 and body includes dailyGoalMinutes from commitment", async () => {
     getStateMock.mockReturnValue({
       session: { hasHydrated: true, isGuest: true, isAuthenticated: false },
-      profile: { commitment: "15", notificationsEnabled: false },
+      profile: { commitment: "15", notificationsEnabled: true },
     });
     vi.mocked(AsyncStorage.getItem).mockResolvedValue(null);
     vi.mocked(Notifications.scheduleNotificationAsync).mockResolvedValue("nid-guest");
