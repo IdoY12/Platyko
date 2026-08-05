@@ -1,4 +1,4 @@
-import { Modal, Pressable, Text, TextInput, View } from "react-native";
+import { KeyboardAvoidingView, Modal, Platform, Pressable, Text, TextInput, View } from "react-native";
 import { colors } from "@/theme/theme";
 import type { UseProfileScreenReturn } from "@/hooks/useProfileScreen";
 import { profileSectionCardStyles } from "@/theme/profileSectionCard";
@@ -19,7 +19,7 @@ export function ProfileModal({ p }: { p: UseProfileScreenReturn }) {
 
   return (
     <Modal visible={!!mode} transparent animationType="fade" onRequestClose={close}>
-      <View style={m.backdrop}>
+      <KeyboardAvoidingView style={m.backdrop} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <View style={m.card}>
           <Text style={m.title}>{mode === "u" ? "Edit Username" : mode === "p" ? "Change Password" : "Delete Account"}</Text>
           {mode === "u" ? (
@@ -54,7 +54,7 @@ export function ProfileModal({ p }: { p: UseProfileScreenReturn }) {
             ) : null}
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }

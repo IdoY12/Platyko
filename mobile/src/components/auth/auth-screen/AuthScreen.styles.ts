@@ -3,6 +3,7 @@ import { colors, fontSize, radius, spacing } from "@/theme/theme";
 
 export const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
+  keyboardAvoid: { flex: 1 },
   content: {
     flexGrow: 1,
     justifyContent: "center",

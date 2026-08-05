@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppSelector } from "@/redux/hooks";
 import { logNav } from "@/utils/logger";
@@ -37,7 +37,7 @@ export function LessonResultsScreen({ navigation, route }: Props) {
   return (
     <SafeAreaView style={lessonResultsStyles.container} edges={["top"]}>
       <TerminalHeader title="~/learn/results $" onBack={() => navigation.goBack()} />
-      <View style={lessonResultsStyles.content}>
+      <ScrollView contentContainerStyle={lessonResultsStyles.content}>
         <GlyphScrambleText text="Lesson Complete" style={lessonResultsStyles.title} />
         <EntranceRise slot={1}>
           <TerminalFrame label="results" style={lessonResultsStyles.resultsCard}>
@@ -62,7 +62,7 @@ export function LessonResultsScreen({ navigation, route }: Props) {
           </PressableScale>
         </EntranceRise>
         <MatrixBurst />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

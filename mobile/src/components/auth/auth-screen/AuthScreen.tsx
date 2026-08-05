@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
-import { Pressable, ScrollView, Text } from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuthScreen } from "@/hooks/useAuthScreen";
 import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
@@ -29,10 +29,12 @@ export function AuthScreen() {
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <MatrixRain opacity={0.3} />
-      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
-        <AuthCredentials {...a} />
-        <AuthFooter dispatch={dispatch} isLogin={a.isLogin} setIsLogin={a.setIsLogin} />
-      </ScrollView>
+      <KeyboardAvoidingView style={styles.keyboardAvoid} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+        <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+          <AuthCredentials {...a} />
+          <AuthFooter dispatch={dispatch} isLogin={a.isLogin} setIsLogin={a.setIsLogin} />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

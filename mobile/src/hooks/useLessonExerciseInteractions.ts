@@ -11,6 +11,7 @@ export type LessonCheckSetters = {
   setIsAnswerCorrect: (isCorrect: boolean) => void;
   setHasChecked: (hasChecked: boolean) => void;
   setSubmitError: (message: string | null) => void;
+  onExplanationRevealed?: (explanation: string | null) => void;
 };
 
 /**
@@ -28,12 +29,14 @@ export async function runLessonExerciseCheck(
 ): Promise<void> {
   setters.setSubmitError(null);
   const localResult = evaluateExerciseLocally(exercise, answer);
+  let explanationShown = localResult.explanation;
   if (localResult.isAnswerCorrect && accessToken) {
     try {
       const persisted = await learning.submitExercise(exercise.id, answer);
+      explanationShown = persisted.explanation ?? localResult.explanation;
       setters.setServerResult({
         xpEarned: persisted.xpEarned,
-        explanation: persisted.explanation ?? localResult.explanation,
+        explanation: explanationShown,
         streakCurrent: persisted.streakCurrent,
       });
     } catch (error) {
@@ -44,6 +47,7 @@ export async function runLessonExerciseCheck(
   } else {
     setters.setServerResult({ xpEarned: localResult.xpEarned, explanation: localResult.explanation });
   }
+  if (localResult.isAnswerCorrect) setters.onExplanationRevealed?.(explanationShown ?? null);
   setters.setIsAnswerCorrect(localResult.isAnswerCorrect);
   setters.setHasChecked(true);
 }

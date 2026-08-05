@@ -10,6 +10,7 @@ export function usePickOneLessonExercise(
   exercise: Exercise,
   accessToken: string | null,
   onLessonExerciseComplete: (a: string, c: LessonExerciseCompletionContext) => void,
+  onExplanationRevealed?: (explanation: string | null) => void,
 ) {
   const learning = useAuthenticatedService(LearningService);
   const [selected, setSelected] = useState<string | null>(null);
@@ -38,8 +39,9 @@ export function usePickOneLessonExercise(
       setIsAnswerCorrect,
       setHasChecked,
       setSubmitError,
+      onExplanationRevealed,
     });
-  }, [accessToken, exercise, learning, selected]);
+  }, [accessToken, exercise, learning, onExplanationRevealed, selected]);
 
   const goNext = useCallback(() => {
     if (!selected || !serverResult || isAnswerCorrect !== true) return;

@@ -35,7 +35,7 @@ export function HomeScreen({ navigation }: HomeMainScreenProps) {
             <Text style={styles.date}>{`// ${new Date().toDateString()}`}</Text>
           </EntranceRise>
           <TypewriterText
-            text={`> Good morning, ${home.username}`}
+            text={`> ${home.greeting}, ${home.username}`}
             style={styles.greeting}
             numberOfLines={1}
             adjustsFontSizeToFit

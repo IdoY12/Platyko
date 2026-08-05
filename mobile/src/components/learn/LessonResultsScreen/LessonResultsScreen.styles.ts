@@ -4,7 +4,7 @@ import { primaryButton, primaryButtonLabel } from "@/theme/primaryButton";
 
 export const lessonResultsStyles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
-  content: { flex: 1, padding: spacing.xxl, gap: spacing.lg, justifyContent: "center" },
+  content: { flexGrow: 1, padding: spacing.xxl, gap: spacing.lg, justifyContent: "center" },
   title: { color: colors.textPrimary, fontFamily: font.mono, fontSize: fontSize.xl, fontWeight: "800" },
   lessonButton: { ...primaryButton },
   lessonButtonLabel: { ...primaryButtonLabel },

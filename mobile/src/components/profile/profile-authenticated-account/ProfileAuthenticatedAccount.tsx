@@ -27,7 +27,7 @@ export function ProfileAuthenticatedAccount({ p }: { p: UseProfileScreenReturn }
           <AppIcon name="bell" />
           <Text style={profileFormRowsStyles.rowText}>Notifications</Text>
         </View>
-        <Switch value={p.draftNotifications} onValueChange={p.onNotificationsEnabledChange} />
+        <Switch style={profileFormRowsStyles.switchControl} value={p.draftNotifications} onValueChange={p.onNotificationsEnabledChange} />
       </View>
     </TerminalFrame>
   );

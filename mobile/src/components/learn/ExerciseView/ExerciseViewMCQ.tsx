@@ -11,11 +11,12 @@ type ExerciseViewMCQProps = {
   exercise: Exercise;
   accessToken: string | null;
   onLessonExerciseComplete: (answer: string, context: LessonExerciseCompletionContext) => void;
+  onExplanationRevealed: (explanation: string | null) => void;
 };
 
 /** List UI for curriculum `MCQ` exercises (typed answer selection). */
-export function ExerciseViewMCQ({ exercise, accessToken, onLessonExerciseComplete }: ExerciseViewMCQProps) {
-  const pickOne = usePickOneLessonExercise(exercise, accessToken, onLessonExerciseComplete);
+export function ExerciseViewMCQ({ exercise, accessToken, onLessonExerciseComplete, onExplanationRevealed }: ExerciseViewMCQProps) {
+  const pickOne = usePickOneLessonExercise(exercise, accessToken, onLessonExerciseComplete, onExplanationRevealed);
 
   const styleForOptionAfterInteraction = (optionText: string) => {
     if (pickOne.lastCheckedAnswer === optionText && pickOne.isAnswerCorrect) return [exerciseViewStyles.option, exerciseViewStyles.correct];
@@ -56,7 +57,6 @@ export function ExerciseViewMCQ({ exercise, accessToken, onLessonExerciseComplet
       {pickOne.hasChecked && pickOne.isAnswerCorrect ? (
         <>
           <Text style={[exerciseViewStyles.feedback, exerciseViewStyles.feedbackGood]}>{successHeadline}</Text>
-          {pickOne.serverResult?.explanation ? <Text style={exerciseViewStyles.feedback}>{pickOne.serverResult.explanation}</Text> : null}
           <PressableScale style={exerciseViewStyles.lessonButton} haptic="medium" onPress={pickOne.goNext}>
             <Text style={exerciseViewStyles.lessonButtonLabel}>Next</Text>
           </PressableScale>

@@ -39,9 +39,11 @@ export const styles = StyleSheet.create({
     textTransform: "uppercase",
     marginBottom: spacing.sm,
   },
+  outputScroll: { maxHeight: 120 },
   outputValue: {
     color: colors.success,
     fontSize: fontSize.sm,
     fontFamily: font.mono,
+    lineHeight: 20,
   },
 });

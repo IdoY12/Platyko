@@ -18,7 +18,7 @@ const INDICATOR_FRACTION = 0.5;
 export function TabBarCyber({ state, descriptors, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const tabWidth = width / state.routes.length;
+  const tabWidth = (width - insets.left - insets.right) / state.routes.length;
   const indicatorInset = (tabWidth * (1 - INDICATOR_FRACTION)) / 2;
   const indicatorX = useSharedValue(state.index * tabWidth + indicatorInset);
 
@@ -29,7 +29,7 @@ export function TabBarCyber({ state, descriptors, navigation }: BottomTabBarProp
   const indicatorStyle = useAnimatedStyle(() => ({ transform: [{ translateX: indicatorX.value }] }));
 
   return (
-    <View style={[styles.bar, { paddingBottom: insets.bottom }]}>
+    <View style={[styles.bar, { paddingBottom: insets.bottom, paddingLeft: insets.left, paddingRight: insets.right }]}>
       <Animated.View style={[styles.indicator, { width: tabWidth * INDICATOR_FRACTION }, indicatorStyle]} />
       {state.routes.map((route, index) => {
         const isFocused = state.index === index;

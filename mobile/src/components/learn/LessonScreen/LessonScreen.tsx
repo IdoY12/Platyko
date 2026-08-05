@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "@/theme/theme";
@@ -21,6 +22,9 @@ export function LessonScreen({ navigation, route }: LessonScreenProps) {
   const accessToken = useAppSelector((s) => s.session.accessToken);
   const load = useLessonLoad(experienceLevel, accessToken, blockIndex);
   const exercise = load.exercises[load.exerciseIndex];
+  const [explanation, setExplanation] = useState<string | null>(null);
+
+  useEffect(() => setExplanation(null), [exercise?.id]);
   const onLessonExerciseComplete = useLessonExerciseCompleteHandler(navigation, experienceLevel, lessonTitle, blockIndex, load);
   const progress = load.exercises.length > 0 ? ((load.exerciseIndex + 1) / load.exercises.length) * 100 : 0;
 
@@ -63,8 +67,8 @@ export function LessonScreen({ navigation, route }: LessonScreenProps) {
           {load.exerciseIndex + 1}/{load.exercises.length}
         </Text>
         <Text style={lessonScreenStyles.prompt}>{exercise.prompt}</Text>
-        <CodeSnippet code={exercise.codeSnippet} />
-        <ExerciseView exercise={exercise} accessToken={accessToken} onLessonExerciseComplete={complete} />
+        <CodeSnippet code={exercise.codeSnippet} output={explanation} />
+        <ExerciseView exercise={exercise} accessToken={accessToken} onLessonExerciseComplete={complete} onExplanationRevealed={setExplanation} />
       </ScrollView>
     </SafeAreaView>
   );

@@ -5,6 +5,13 @@ export const onboardingFlowStyles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   step: { flex: 1, paddingTop: spacing.huge, paddingHorizontal: spacing.xxl, justifyContent: "space-between" },
   mainContent: { flex: 1 },
+  stepProgress: {
+    color: colors.textSecondary,
+    fontFamily: font.mono,
+    fontSize: fontSize.sm,
+    letterSpacing: 1,
+    marginBottom: spacing.md,
+  },
   stepTitle: {
     color: colors.textPrimary,
     fontFamily: font.mono,
@@ -12,6 +19,7 @@ export const onboardingFlowStyles = StyleSheet.create({
     fontWeight: "800",
     marginBottom: spacing.xl,
     lineHeight: 40,
+    minHeight: 80,
   },
   scrollContent: { gap: spacing.md, flexGrow: 1, paddingBottom: spacing.md },
   stepFooter: { paddingTop: spacing.lg, paddingBottom: spacing.xxl },

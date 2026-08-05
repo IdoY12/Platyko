@@ -13,6 +13,8 @@ export const profileFormRowsStyles = StyleSheet.create({
     alignItems: "center",
   },
   rowLeft: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
+  /* Scales about the center, so the switch stays vertically centered inside the 52pt row. */
+  switchControl: { alignSelf: "center", transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }] },
   rowText: { color: colors.textPrimary, fontWeight: "600" },
   rowSubText: { color: colors.textSecondary, fontSize: fontSize.sm },
 });

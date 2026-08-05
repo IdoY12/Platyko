@@ -4,7 +4,6 @@ import { primaryButton, primaryButtonLabel } from "@/theme/primaryButton";
 
 /** Shared styles for lesson exercise panels (MCQ options, PUZZLE fill) inside a TerminalFrame. */
 export const exerciseViewStyles = StyleSheet.create({
-  explanation: { color: colors.textSecondary, lineHeight: 22 },
   hint: { color: colors.textSecondary, lineHeight: 22 },
   option: {
     padding: spacing.md,

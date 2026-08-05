@@ -1,12 +1,15 @@
 import React from "react";
 import { ScrollView, Text, View } from "react-native";
+import { TypewriterText } from "@/components/common/TypewriterText/TypewriterText";
 import { styles, syntax } from "./CodeSnippet.styles";
 
 interface Props {
   code: string;
+  /** When set, typed into the Live Output panel instead of the placeholder. */
+  output?: string | null;
 }
 
-export function CodeSnippet({ code }: Props) {
+export function CodeSnippet({ code, output }: Props) {
   const highlighted = React.useMemo(() => highlightJavaScript(code), [code]);
 
   return (
@@ -28,7 +31,9 @@ export function CodeSnippet({ code }: Props) {
       </ScrollView>
       <View style={styles.output}>
         <Text style={styles.outputTitle}>Live Output</Text>
-        <Text style={styles.outputValue}>$ output preview ready</Text>
+        <ScrollView style={styles.outputScroll} nestedScrollEnabled>
+          {output ? <TypewriterText text={output} style={styles.outputValue} /> : <Text style={styles.outputValue}>$ output preview ready</Text>}
+        </ScrollView>
       </View>
     </View>
   );

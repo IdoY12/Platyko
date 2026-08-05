@@ -7,11 +7,12 @@ type ExerciseViewProps = {
   exercise: Exercise;
   accessToken: string | null;
   onLessonExerciseComplete: (answer: string, context: LessonExerciseCompletionContext) => void;
+  onExplanationRevealed: (explanation: string | null) => void;
 };
 
 export function ExerciseView(props: ExerciseViewProps) {
-  const { exercise, accessToken, onLessonExerciseComplete } = props;
-  const sharedProps = { exercise, accessToken, onLessonExerciseComplete };
+  const { exercise, accessToken, onLessonExerciseComplete, onExplanationRevealed } = props;
+  const sharedProps = { exercise, accessToken, onLessonExerciseComplete, onExplanationRevealed };
 
   return exercise.type === "PUZZLE" ? <ExerciseViewPuzzle {...sharedProps} /> : <ExerciseViewMCQ {...sharedProps} />;
 }

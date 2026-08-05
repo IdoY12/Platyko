@@ -1,8 +1,17 @@
 import { XP_PER_CORRECT_EXERCISE } from "@project/xp-constants";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { AppState } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import { useAppSelector } from "@/redux/hooks";
 import { logNav } from "@/utils/logger";
 import { buildStreakDotHighlights, shouldShowStreakDotRow } from "@/utils/dailyXpStreakCore";
+
+function greetingForHour(hour: number): string {
+  if (hour >= 5 && hour < 12) return "Good morning";
+  if (hour >= 12 && hour < 18) return "Good afternoon";
+  if (hour >= 18 && hour < 22) return "Good evening";
+  return "Good night";
+}
 
 export function useHomeScreen() {
   const username = useAppSelector((s) => s.profile.username);
@@ -13,6 +22,17 @@ export function useHomeScreen() {
   const streakShowsDots = shouldShowStreakDotRow(streak);
   const practiceMinutesToday = useAppSelector((s) => Math.floor(s.session.studySecondsToday / 60));
   const commitment = useAppSelector((s) => s.profile.commitment);
+  const [greeting, setGreeting] = useState(() => greetingForHour(new Date().getHours()));
+
+  useFocusEffect(
+    useCallback(() => {
+      setGreeting(greetingForHour(new Date().getHours()));
+      const appStateSub = AppState.addEventListener("change", (next) => {
+        if (next === "active") setGreeting(greetingForHour(new Date().getHours()));
+      });
+      return () => appStateSub.remove();
+    }, []),
+  );
 
   useEffect(() => {
     logNav("screen:enter", { screen: "HomeScreen" });
@@ -29,6 +49,7 @@ export function useHomeScreen() {
 
   return {
     username,
+    greeting,
     level,
     xp,
     streak,

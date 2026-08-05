@@ -13,10 +13,11 @@ type ExerciseViewPuzzleProps = {
   exercise: Exercise;
   accessToken: string | null;
   onLessonExerciseComplete: (answer: string, context: LessonExerciseCompletionContext) => void;
+  onExplanationRevealed: (explanation: string | null) => void;
 };
 
-export function ExerciseViewPuzzle({ exercise, accessToken, onLessonExerciseComplete }: ExerciseViewPuzzleProps) {
-  const builtAnswer = useBuiltAnswerLessonExercise(exercise, accessToken, onLessonExerciseComplete);
+export function ExerciseViewPuzzle({ exercise, accessToken, onLessonExerciseComplete, onExplanationRevealed }: ExerciseViewPuzzleProps) {
+  const builtAnswer = useBuiltAnswerLessonExercise(exercise, accessToken, onLessonExerciseComplete, onExplanationRevealed);
   const hintTokens =
     exercise.options.length > 0 ? exercise.options.map((exerciseOption) => exerciseOption.text) : [...DEFAULT_PUZZLE_HINT_TOKENS];
 
@@ -51,7 +52,6 @@ export function ExerciseViewPuzzle({ exercise, accessToken, onLessonExerciseComp
       {builtAnswer.hasChecked && builtAnswer.isAnswerCorrect ? (
         <>
           <Text style={[exerciseViewStyles.feedback, exerciseViewStyles.feedbackGood]}>Nice work.</Text>
-          {builtAnswer.serverResult?.explanation ? <Text style={exerciseViewStyles.feedback}>{builtAnswer.serverResult.explanation}</Text> : null}
           <PressableScale style={exerciseViewStyles.lessonButton} haptic="medium" onPress={builtAnswer.goNext}>
             <Text style={exerciseViewStyles.lessonButtonLabel}>Next</Text>
           </PressableScale>

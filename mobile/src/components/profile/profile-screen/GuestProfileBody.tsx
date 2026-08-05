@@ -64,7 +64,7 @@ export function GuestProfileBody() {
             <GuestPreferenceChips options={commitmentOptions} selectedKey={commitment} onSelect={(v) => setPref({ commitment: v })} />
             <View style={[profileFormRowsStyles.rowWithSwitch, styles.guestNotifRow]}>
               <Text style={profileFormRowsStyles.rowText}>Notifications</Text>
-              <Switch value={notificationsEnabled} onValueChange={(v) => setPref({ notificationsEnabled: v })} />
+              <Switch style={profileFormRowsStyles.switchControl} value={notificationsEnabled} onValueChange={(v) => setPref({ notificationsEnabled: v })} />
             </View>
           </TerminalFrame>
         </EntranceRise>

@@ -10,6 +10,7 @@ export function useBuiltAnswerLessonExercise(
   exercise: Exercise,
   accessToken: string | null,
   onLessonExerciseComplete: (answer: string, completionContext: LessonExerciseCompletionContext) => void,
+  onExplanationRevealed?: (explanation: string | null) => void,
 ) {
   const learning = useAuthenticatedService(LearningService);
   const [input, setInput] = useState("");
@@ -36,8 +37,9 @@ export function useBuiltAnswerLessonExercise(
       setIsAnswerCorrect,
       setHasChecked,
       setSubmitError,
+      onExplanationRevealed,
     });
-  }, [accessToken, exercise, input, learning]);
+  }, [accessToken, exercise, input, learning, onExplanationRevealed]);
 
   const goNext = useCallback(() => {
     const answer = input.trim();

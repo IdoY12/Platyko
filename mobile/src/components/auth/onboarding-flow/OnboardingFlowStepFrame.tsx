@@ -4,14 +4,18 @@ import Animated, { SlideInRight } from "react-native-reanimated";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { onboardingFlowStyles } from "./OnboardingFlow.styles";
 
+const TOTAL_STEPS = 3;
+
 export function OnboardingWizardStepFrame({
   title,
+  stepNumber,
   onContinue,
   enabled,
   continueLabel = "Continue",
   children,
 }: {
   title: string;
+  stepNumber: number;
   onContinue: () => void;
   enabled: boolean;
   continueLabel?: string;
@@ -20,6 +24,7 @@ export function OnboardingWizardStepFrame({
   return (
     <Animated.View entering={SlideInRight.duration(300)} style={onboardingFlowStyles.step}>
       <View style={onboardingFlowStyles.mainContent}>
+        <Text style={onboardingFlowStyles.stepProgress}>{`// step ${stepNumber}/${TOTAL_STEPS}`}</Text>
         <Text style={onboardingFlowStyles.stepTitle}>{title}</Text>
         <ScrollView contentContainerStyle={onboardingFlowStyles.scrollContent} showsVerticalScrollIndicator={false}>
           {children}

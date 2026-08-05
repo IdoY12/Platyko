@@ -3,7 +3,6 @@ import { colors, font, fontSize, radius, spacing } from "@/theme/theme";
 
 const banner = {
   position: "absolute" as const,
-  top: 52,
   left: spacing.md,
   right: spacing.md,
   backgroundColor: colors.card,

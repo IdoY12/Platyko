@@ -21,6 +21,7 @@ export function OnboardingFlow({ onPersistedToDevice }: OnboardingFlowProps) {
       {wizard.step === 1 && (
         <OnboardingWizardStepFrame
           title="What's your level?"
+          stepNumber={1}
           onContinue={() => {
             logOnboarding("step:complete", { step: 1, level: wizard.level });
             wizard.setStep(2);
@@ -33,6 +34,7 @@ export function OnboardingFlow({ onPersistedToDevice }: OnboardingFlowProps) {
       {wizard.step === 2 && (
         <OnboardingWizardStepFrame
           title="What is your goal?"
+          stepNumber={2}
           onContinue={() => {
             logOnboarding("step:complete", { step: 2, goal: wizard.goal });
             wizard.setStep(3);
@@ -45,6 +47,7 @@ export function OnboardingFlow({ onPersistedToDevice }: OnboardingFlowProps) {
       {wizard.step === 3 && (
         <OnboardingWizardStepFrame
           title="How many minutes do you plan to study per day?"
+          stepNumber={3}
           onContinue={() => {
             logOnboarding("step:complete", { step: 3, commitment: wizard.commitment });
             wizard.submitOnboarding();
