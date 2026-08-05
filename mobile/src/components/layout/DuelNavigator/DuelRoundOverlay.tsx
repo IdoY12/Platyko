@@ -21,7 +21,7 @@ export function DuelRoundOverlay({ visible, connectionLost, lastCorrectAnswer, m
         <View style={styles.overlay}>
           {wonRound ? <MatrixBurst color={colors.duel} /> : null}
           <Text style={styles.overlayTitle}>Round Over</Text>
-          <Text style={styles.overlayText}>Correct answer: {lastCorrectAnswer}</Text>
+          <Text style={styles.overlayText} numberOfLines={2}>Correct answer: {lastCorrectAnswer}</Text>
           <Text style={styles.overlayText}>
             {myScore === oppScore ? "Tie round" : myScore > oppScore ? "You lead" : "Opponent leads"}
           </Text>
@@ -29,7 +29,7 @@ export function DuelRoundOverlay({ visible, connectionLost, lastCorrectAnswer, m
         </View>
       ) : null}
       {connectionLost ? (
-        <View style={styles.overlay}>
+        <View style={[styles.overlay, styles.overlayConnection]}>
           <Text style={styles.overlayTitle}>Connection lost — reconnecting…</Text>
         </View>
       ) : null}

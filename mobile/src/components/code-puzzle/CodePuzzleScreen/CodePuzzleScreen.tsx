@@ -17,7 +17,7 @@ export function CodePuzzleScreen({ navigation }: CodePuzzleScreenProps) {
 
   if (loading) {
     return (
-      <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+      <SafeAreaView style={styles.container} edges={["top"]}>
         <TerminalHeader title="~/home/puzzle $" onBack={() => navigation.goBack()} />
         <MatrixRain opacity={0.5} />
         <View style={styles.loadingInner}>
@@ -30,7 +30,7 @@ export function CodePuzzleScreen({ navigation }: CodePuzzleScreenProps) {
   const lastPuzzleIndex = puzzles.length - 1;
 
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
       <TerminalHeader title="~/home/puzzle $" onBack={() => navigation.goBack()} />
       <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollInner} keyboardShouldPersistTaps="handled">
         {puzzle && <Text style={styles.counter}>{puzzle.orderIndex + 1} / {puzzles.length}</Text>}

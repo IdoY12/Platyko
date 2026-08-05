@@ -50,7 +50,7 @@ export function HomeTodayPanel({ home }: Props) {
         <ProgressHairline pct={home.currentLevelProgress} delayMs={BAR_DELAY_MS} style={styles.levelBar} />
         <View style={styles.statValueRow}>
           <CountUpText value={home.xp} delayMs={COUNT_DELAY_MS} style={styles.levelXp} />
-          <Text style={styles.levelXp}> / {home.nextLevelXp} XP</Text>
+          <Text style={styles.levelXp} numberOfLines={1}> / {home.nextLevelXp} XP</Text>
         </View>
       </View>
     </TerminalFrame>

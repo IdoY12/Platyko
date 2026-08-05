@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL } from "@/config/network";
 import type AuthResponse from "@/models/AuthResponse";
+import type RegisterResponse from "@/models/RegisterResponse";
 import type { RootState } from "@/redux/store";
 
 export function apiErrorMessage(error: unknown): string {
@@ -57,9 +58,9 @@ class AuthService {
     return data;
   }
 
-  async register(email: string, username: string, password: string, local?: GuestLocalState): Promise<AuthResponse> {
+  async register(email: string, username: string, password: string, local?: GuestLocalState): Promise<RegisterResponse> {
     try {
-      const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/register`, { email, username, password, ...guestStateRequestBody(local) });
+      const { data } = await axios.post<RegisterResponse>(`${API_BASE_URL}/auth/register`, { email, username, password, ...guestStateRequestBody(local) });
       return data;
     } catch (e) {
       throw new Error(apiErrorMessage(e));

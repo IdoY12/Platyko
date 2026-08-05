@@ -34,6 +34,11 @@ export async function authLoginHandler(request: Request, response: Response): Pr
       response.status(401).json({ error: "Invalid credentials" });
       return;
     }
+    if (!user.emailVerified) {
+      logWarn("[AUTH]", "login:email-not-verified", { userId: user.id });
+      response.status(403).json({ error: "Verify your email to continue", code: "EMAIL_NOT_VERIFIED" });
+      return;
+    }
     const progress = await ensureUserProgressForLogin(user);
     await touchUserLastActive(user.id);
     const tokenPayload = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };

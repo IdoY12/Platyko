@@ -32,9 +32,9 @@ export function HomeHeroAction({ onPress }: Props) {
 
   return (
     <PressableScale style={styles.hero} haptic="medium" onPress={onPress}>
-      <View>
-        <Text style={styles.heroTitle}>Continue Learning</Text>
-        <Text style={styles.heroSub}>Pick up where you left off</Text>
+      <View style={styles.heroText}>
+        <Text style={styles.heroTitle} numberOfLines={2}>Continue Learning</Text>
+        <Text style={styles.heroSub} numberOfLines={1}>Pick up where you left off</Text>
       </View>
       <Animated.View style={driftStyle}>
         <AppIcon name="arrow-right" color={colors.onAccent} size={24} />

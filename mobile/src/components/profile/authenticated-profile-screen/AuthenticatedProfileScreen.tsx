@@ -14,7 +14,7 @@ export function AuthenticatedProfileScreen() {
   const p = useProfileScreen();
 
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
       <TerminalHeader title="~/profile $" />
       <ScrollView style={styles.container} contentContainerStyle={styles.content}>
         <EntranceRise slot={0} style={styles.sectionStack}>
@@ -26,7 +26,7 @@ export function AuthenticatedProfileScreen() {
         <EntranceRise slot={2}>
           <ProfileAuthenticatedLearn p={p} />
         </EntranceRise>
-        <EntranceRise slot={3}>
+        <EntranceRise slot={3} style={styles.sectionStack}>
           <ProfileAuthenticatedBot p={p} />
         </EntranceRise>
       </ScrollView>

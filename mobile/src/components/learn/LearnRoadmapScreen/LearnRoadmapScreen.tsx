@@ -16,7 +16,7 @@ export function LearnRoadmapScreen({ navigation }: Props) {
   const { activeExperience, blocks } = useLearnRoadmapData();
 
   return (
-    <SafeAreaView style={s.container} edges={["top", "bottom"]}>
+    <SafeAreaView style={s.container} edges={["top"]}>
       <TerminalHeader title="~/learn $" />
       <FlatList
         style={s.list}

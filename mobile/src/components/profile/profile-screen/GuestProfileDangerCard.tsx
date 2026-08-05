@@ -13,7 +13,7 @@ export function GuestProfileDangerCard({ onResetPress }: { onResetPress: () => v
         onPress={onResetPress}
       >
         <View style={styles.guestDangerLeft}>
-          <AppIcon name="refresh" size={18} color={colors.danger} />
+          <AppIcon name="refresh" color={colors.danger} />
           <Text style={styles.guestDangerLbl}>Reset Learn Progress</Text>
         </View>
         <Text style={styles.guestChev}>›</Text>

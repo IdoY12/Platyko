@@ -30,7 +30,7 @@ export function TerminalHeader({ title, onBack }: Props) {
         {title}
       </Text>
       <Text style={styles.caret}>▍</Text>
-      <View style={styles.scanline} />
+      <View style={[styles.scanline, onBack ? styles.scanlineShifted : null]} />
     </View>
   );
 }

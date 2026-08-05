@@ -10,7 +10,15 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
-  back: { marginLeft: -spacing.sm, marginRight: spacing.xs },
+  back: {
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: -spacing.lg,
+    marginRight: 0,
+    marginVertical: -spacing.md,
+  },
   title: {
     color: colors.textPrimary,
     fontFamily: font.mono,
@@ -34,4 +42,5 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.accent,
     ...glow.accent,
   },
+  scanlineShifted: { left: spacing.giant + spacing.xs },
 });

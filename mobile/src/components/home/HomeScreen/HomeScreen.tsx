@@ -27,7 +27,7 @@ export function HomeScreen({ navigation }: HomeMainScreenProps) {
     );
 
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
         <View style={styles.heroZone}>
           <MatrixRain opacity={0.45} intensity={0.9} />

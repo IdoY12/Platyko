@@ -1,7 +1,7 @@
 import { S3Client } from "@aws-sdk/client-s3";
 import config from "config";
 
-function trimmedOrEmpty(value: string | undefined): string {
+export function trimmedOrEmpty(value: string | undefined): string {
   return value?.trim() ?? "";
 }
 

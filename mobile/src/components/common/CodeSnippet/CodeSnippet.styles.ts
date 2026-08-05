@@ -16,7 +16,6 @@ export const styles = StyleSheet.create({
     borderColor: colors.border,
     backgroundColor: colors.surface,
     overflow: "hidden",
-    marginVertical: spacing.lg,
   },
   codeVerticalScroll: { maxHeight: 170 },
   code: {

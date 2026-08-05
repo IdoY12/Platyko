@@ -8,10 +8,10 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     padding: spacing.xxl,
     paddingTop: spacing.huge,
-    paddingBottom: spacing.xl,
+    paddingBottom: spacing.xxl,
   },
   secondaryButton: {
-    marginTop: spacing.md,
+    marginTop: spacing.lg,
     backgroundColor: colors.surface,
     borderRadius: radius.button,
     minHeight: 52,
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   },
   secondaryPressed: { opacity: 0.85 },
   secondaryLabel: { color: colors.textPrimary, fontWeight: "700" },
-  terms: { marginTop: spacing.xl, color: colors.textSecondary, fontSize: fontSize.sm, textAlign: "center" },
-  switchAuthBtn: { marginTop: spacing.lg, alignItems: "center" },
+  terms: { marginTop: spacing.lg, color: colors.textSecondary, fontSize: fontSize.sm, textAlign: "center" },
+  switchAuthBtn: { marginTop: spacing.lg, minHeight: 44, alignItems: "center", justifyContent: "center" },
   switchAuthText: { color: colors.accent, fontWeight: "700" },
 });

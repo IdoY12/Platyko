@@ -48,7 +48,7 @@ export function DuelHomeScreen({ navigation }: DuelHomeScreenProps) {
   const ctaPulseStyle = useAnimatedStyle(() => ({ transform: [{ scale: ctaPulse.value }] }));
 
   return (
-    <SafeAreaView style={styles.arenaContainer} edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.arenaContainer} edges={["top"]}>
       <TerminalHeader title="// DUEL.ARENA" />
       <View style={arenaStyles.arena}>
         <MatrixRain opacity={0.3} intensity={0.7} color={colors.duel} />

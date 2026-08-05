@@ -6,14 +6,16 @@ model User {
   googleId               String?           @unique
   avatarUrl              String?
   tokenVersion           Int               @default(0)
+  emailVerified          Boolean           @default(false)
   createdAt              DateTime          @default(now())
   updatedAt              DateTime          @updatedAt
   lastActiveAt           DateTime?
   activeExperienceLevel  ExperienceLevel?
   puzzleXpSolveCounts    Json                  @default("{}")
 
-  progressRows    UserProgress[]
-  refreshTokens   RefreshToken[]
+  progressRows      UserProgress[]
+  refreshTokens     RefreshToken[]
+  emailVerification EmailVerification?
   duelSessionsP1  DuelSession[] @relation("Player1Sessions")
   duelSessionsP2  DuelSession[] @relation("Player2Sessions")
   wonSessions     DuelSession[] @relation("WinnerSessions")

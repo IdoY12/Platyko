@@ -10,7 +10,6 @@ export const lessonScreenStyles = StyleSheet.create({
     fontFamily: font.mono,
     fontSize: fontSize.sm,
     letterSpacing: 1,
-    marginTop: spacing.sm,
   },
   progressText: {
     color: colors.textSecondary,

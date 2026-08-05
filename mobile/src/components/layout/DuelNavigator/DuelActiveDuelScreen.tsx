@@ -39,7 +39,7 @@ export function DuelActiveDuelScreen({ navigation }: ActiveDuelScreenProps) {
   }, [navigation, u.sessionId]);
 
   return (
-    <SafeAreaView style={styles.arenaContainer} edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.arenaContainer} edges={["top"]}>
       <TerminalHeader title="~/duel/live $" onBack={() => navigation.goBack()} />
       {!u.round ? (
         <View style={styles.screenBody}>
@@ -58,7 +58,7 @@ export function DuelActiveDuelScreen({ navigation }: ActiveDuelScreenProps) {
           />
           <Text style={styles.sub}>You can choose up to 3 answers. ({u.attemptsLeft} remaining)</Text>
           <Text style={styles.cardTitle}>{u.round.prompt}</Text>
-          <View style={styles.codeWrap}><CodeSnippet code={u.round.codeSnippet} /></View>
+          <CodeSnippet code={u.round.codeSnippet} />
           <View style={styles.card}>
             <DuelActiveAnswerZone round={u.round} selected={u.selected} locked={u.locked} submit={u.submit} />
           </View>

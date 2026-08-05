@@ -39,6 +39,8 @@ export async function createGoogleUserWithProgress(
             googleId,
             username: candidate,
             hashedPassword: null,
+            // Google already proved ownership of this email — no OTP round trip needed
+            emailVerified: true,
             activeExperienceLevel: snapshot.experienceLevel ?? "JUNIOR",
             puzzleXpSolveCounts: parsePuzzleXpSolveCounts(snapshot.puzzleXpSolveCounts ?? null),
           },

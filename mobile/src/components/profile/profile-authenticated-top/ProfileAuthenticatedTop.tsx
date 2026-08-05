@@ -25,7 +25,9 @@ export function ProfileAuthenticatedTop({ p }: { p: UseProfileScreenReturn }) {
   return (
     <>
       <TerminalFrame label="user" style={t.hero}>
-        <MatrixRain opacity={0.18} intensity={0.6} />
+        <View style={t.rainClip} pointerEvents="none">
+          <MatrixRain opacity={0.18} intensity={0.6} />
+        </View>
         <Pressable style={t.avatarShell} onPress={p.onAvatarPress}>
           {p.avatarUrl ? (
             <Image source={{ uri: p.avatarUrl }} style={t.avatarImg} />
@@ -38,8 +40,8 @@ export function ProfileAuthenticatedTop({ p }: { p: UseProfileScreenReturn }) {
             <AppIcon name="pencil" size={16} color={colors.onAccent} />
           </View>
         </Pressable>
-        <Text style={t.name}>{p.username}</Text>
-        <Text style={t.email}>{p.email}</Text>
+        <Text style={t.name} numberOfLines={1} ellipsizeMode="tail">{p.username}</Text>
+        <Text style={t.email} numberOfLines={1} ellipsizeMode="tail">{p.email}</Text>
         <Text style={t.meta}>
           Level {p.level} · Duels {p.duelWins}W / {p.duelLosses}L · {p.duelWinRate} win rate
         </Text>

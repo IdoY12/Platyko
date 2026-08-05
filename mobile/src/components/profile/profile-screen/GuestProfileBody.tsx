@@ -38,7 +38,7 @@ export function GuestProfileBody() {
     [{ text: "Cancel", style: "cancel" }, { text: "Reset", style: "destructive", onPress: () => dispatch(resetLesson()) }],
   );
   return (
-    <SafeAreaView style={styles.guestContainer} edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.guestContainer} edges={["top"]}>
       <TerminalHeader title="~/profile $" />
       <ScrollView style={styles.guestScroll} contentContainerStyle={styles.guestMain}>
         <EntranceRise slot={0}>
@@ -62,7 +62,7 @@ export function GuestProfileBody() {
             <GuestPreferenceChips options={levels} selectedKey={experienceLevel} onSelect={(v) => setPref({ experienceLevel: v })} />
             <Text style={styles.guestField}>Daily Practice Goal</Text>
             <GuestPreferenceChips options={commitmentOptions} selectedKey={commitment} onSelect={(v) => setPref({ commitment: v })} />
-            <View style={profileFormRowsStyles.rowWithSwitch}>
+            <View style={[profileFormRowsStyles.rowWithSwitch, styles.guestNotifRow]}>
               <Text style={profileFormRowsStyles.rowText}>Notifications</Text>
               <Switch value={notificationsEnabled} onValueChange={(v) => setPref({ notificationsEnabled: v })} />
             </View>

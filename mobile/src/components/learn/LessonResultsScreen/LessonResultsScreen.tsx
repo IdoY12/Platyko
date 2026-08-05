@@ -35,13 +35,13 @@ export function LessonResultsScreen({ navigation, route }: Props) {
   const stars = accuracy > 90 ? 3 : accuracy > 70 ? 2 : 1;
 
   return (
-    <SafeAreaView style={lessonResultsStyles.container} edges={["top", "bottom"]}>
+    <SafeAreaView style={lessonResultsStyles.container} edges={["top"]}>
       <TerminalHeader title="~/learn/results $" onBack={() => navigation.goBack()} />
       <View style={lessonResultsStyles.content}>
         <GlyphScrambleText text="Lesson Complete" style={lessonResultsStyles.title} />
         <EntranceRise slot={1}>
-          <TerminalFrame label="results">
-            <Text style={lessonResultsStyles.resultText}>{lessonTitle}</Text>
+          <TerminalFrame label="results" style={lessonResultsStyles.resultsCard}>
+            <Text style={lessonResultsStyles.resultText} numberOfLines={2}>{lessonTitle}</Text>
             <Text style={lessonResultsStyles.resultText}>Accuracy: {accuracy}%</Text>
             <Text style={lessonResultsStyles.resultText}>Level: {level}</Text>
             <Text style={lessonResultsStyles.resultText}>Total XP: {xp}</Text>

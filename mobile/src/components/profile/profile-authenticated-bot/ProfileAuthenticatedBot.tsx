@@ -11,9 +11,9 @@ import { b } from "./ProfileAuthenticatedBot.styles";
 export function ProfileAuthenticatedBot({ p }: { p: UseProfileScreenReturn }) {
   return (
     <>
-      <TerminalFrame label="support">
+      <TerminalFrame label="support" style={b.cardStack}>
         {p.supportRows.map((row) => (
-          <Pressable key={row.label} style={({ pressed }) => [b.row, pressed && b.rowPress]} onPress={() => openSupportUrl(row.url)}>
+          <Pressable key={row.label} style={({ pressed }) => [profileFormRowsStyles.rowWithSwitch, pressed && b.rowPress]} onPress={() => openSupportUrl(row.url)}>
             <View style={profileFormRowsStyles.rowLeft}>
               <AppIcon name={row.icon} />
               <Text style={profileFormRowsStyles.rowText}>{row.label}</Text>
@@ -22,15 +22,15 @@ export function ProfileAuthenticatedBot({ p }: { p: UseProfileScreenReturn }) {
           </Pressable>
         ))}
       </TerminalFrame>
-      <TerminalFrame label="danger.zone" bracketColor={colors.danger} style={b.dangerCard}>
-        <Pressable style={({ pressed }) => [b.row, pressed && b.rowPress]} onPress={p.onResetLearningProgress}>
+      <TerminalFrame label="danger.zone" bracketColor={colors.danger} style={[b.cardStack, b.dangerCard]}>
+        <Pressable style={({ pressed }) => [profileFormRowsStyles.rowWithSwitch, pressed && b.rowPress]} onPress={p.onResetLearningProgress}>
           <View style={profileFormRowsStyles.rowLeft}>
             <AppIcon name="refresh" color={colors.danger} />
             <Text style={[profileFormRowsStyles.rowText, b.dangerLbl]}>Reset Learn Progress</Text>
           </View>
           <Text style={b.chev}>›</Text>
         </Pressable>
-        <Pressable style={({ pressed }) => [b.row, pressed && b.rowPress]} onPress={() => p.setDeleteModalVisible(true)}>
+        <Pressable style={({ pressed }) => [profileFormRowsStyles.rowWithSwitch, pressed && b.rowPress]} onPress={() => p.setDeleteModalVisible(true)}>
           <View style={profileFormRowsStyles.rowLeft}>
             <AppIcon name="trash-can" color={colors.danger} />
             <Text style={[profileFormRowsStyles.rowText, b.dangerLbl]}>Delete Account</Text>

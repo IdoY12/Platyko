@@ -17,7 +17,7 @@ export function DuelMatchmakingOpponent({ opponent, countdown }: Props) {
           <Text style={styles.matchOppInitialTxt}>{(opponent.username || "?").slice(0, 1).toUpperCase()}</Text>
         </View>
       )}
-      <Text style={styles.vsInline}>VS {opponent.username} · {countdown}</Text>
+      <Text style={styles.vsInline} numberOfLines={1} ellipsizeMode="tail">VS {opponent.username} · {countdown}</Text>
     </View>
   );
 }

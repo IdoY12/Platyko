@@ -1,5 +1,4 @@
 import type { Request, Response } from "express";
-import { randomUUID } from "crypto";
 import { logError, logInfo } from "../../utils/logger.js";
 import { USERNAME_TAKEN_MESSAGE } from "@project/user-credentials";
 import {
@@ -7,10 +6,10 @@ import {
   isDatabaseUnavailableError,
   isUniqueConstraintError,
 } from "../../utils/dbErrors.js";
-import { signAccessToken, signRefreshToken } from "../../utils/sessionJwtTokens.js";
 import type { RegisterBody } from "../../validators/authValidators.js";
 import { createRegisteredUserWithDefaults } from "../../services/auth/registerUser.js";
-import { storeRefreshToken } from "../../utils/storeRefreshToken.js";
+import { createVerificationCode } from "../../services/auth/emailVerificationCodes.js";
+import { sendVerificationCodeEmail } from "../../services/auth/sendVerificationEmail.js";
 
 export async function authRegisterHandler(request: Request, response: Response): Promise<void> {
   const {
@@ -23,10 +22,9 @@ export async function authRegisterHandler(request: Request, response: Response):
       email, username, password, experienceLevel, goal, dailyCommitmentMinutes, blockProgress,
       notificationsEnabled, xpTotal, streakCurrent, streakLastActivityDate, streakLastCheckedDate, puzzleXpSolveCounts,
     });
-    const tokenPayload = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
-    const accessToken = signAccessToken(tokenPayload);
-    const refreshToken = signRefreshToken(tokenPayload);
-    await storeRefreshToken(user.id, refreshToken, randomUUID());
+    // No session tokens yet: the account stays locked until /auth/verify-email succeeds.
+    const verificationCode = await createVerificationCode(user.id);
+    await sendVerificationCodeEmail(user.email, verificationCode);
     logInfo("[AUTH]", "register:success", { userId: user.id, email: user.email });
     const activeLevel = experienceLevel ?? "JUNIOR";
     response.status(201).json({
@@ -41,8 +39,7 @@ export async function authRegisterHandler(request: Request, response: Response):
         notificationsEnabled: notificationsEnabled ?? true,
         blockProgress: blockProgress?.[activeLevel] ?? {},
       },
-      accessToken,
-      refreshToken,
+      requiresEmailVerification: true,
     });
   } catch (error) {
     logError("[AUTH]", error, { phase: "register" });

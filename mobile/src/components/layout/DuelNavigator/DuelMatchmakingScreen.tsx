@@ -50,10 +50,10 @@ export function DuelMatchmakingScreen({ navigation }: MatchmakingScreenProps) {
 
   if (queueRejected) {
     return (
-      <SafeAreaView style={styles.arenaContainer} edges={["top", "bottom"]}>
+      <SafeAreaView style={styles.arenaContainer} edges={["top"]}>
         <TerminalHeader title="~/duel/queue $" onBack={() => navigation.goBack()} />
         <View style={styles.screenBody}>
-          <Text style={styles.sub}>{duelQueueRejectMessage(queueRejected)}</Text>
+          <Text style={[styles.sub, styles.subRowLabel]}>{duelQueueRejectMessage(queueRejected)}</Text>
           <PressableScale style={styles.secondaryBtn} haptic="light" onPress={() => navigation.goBack()}>
             <Text style={styles.secondaryLabel}>Go Back</Text>
           </PressableScale>
@@ -63,7 +63,7 @@ export function DuelMatchmakingScreen({ navigation }: MatchmakingScreenProps) {
   }
 
   return (
-    <SafeAreaView style={styles.arenaContainer} edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.arenaContainer} edges={["top"]}>
       <TerminalHeader title="~/duel/queue $" onBack={() => navigation.goBack()} />
       <View style={styles.screenBody}>
         <MatrixRain opacity={0.45} color={colors.duel} />

@@ -39,7 +39,7 @@ export function DuelResultsScreen({ route, navigation }: DuelResultsScreenProps)
 
   if (rematchStatus === "opponent_left" || opponentDisconnected) {
     return (
-      <SafeAreaView style={styles.arenaContainer} edges={["top", "bottom"]}>
+      <SafeAreaView style={styles.arenaContainer} edges={["top"]}>
         <TerminalHeader title="~/duel/results $" onBack={() => navigation.goBack()} />
         <View style={styles.screenBody}>
           <Text style={styles.title}>Opponent left</Text>
@@ -50,7 +50,7 @@ export function DuelResultsScreen({ route, navigation }: DuelResultsScreenProps)
   }
 
   return (
-    <SafeAreaView style={styles.arenaContainer} edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.arenaContainer} edges={["top"]}>
       <TerminalHeader title="~/duel/results $" onBack={() => navigation.goBack()} />
       <ScrollView style={styles.list} contentContainerStyle={styles.duelContent}>
         <GlyphScrambleText text={tied ? "Tied!" : won ? "Victory!" : "Defeat"} style={styles.title} />

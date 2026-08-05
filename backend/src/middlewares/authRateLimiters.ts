@@ -24,3 +24,7 @@ export const authRegisterRateLimiter = process.env.NODE_ENV === "production" ? l
 export const authLoginRateLimiter = limiter(8);
 export const authRefreshRateLimiter = limiter(60);
 export const authLogoutRateLimiter = limiter(40);
+// Wrong-code attempts are also capped per code in the DB (5); this only stops floods
+export const authVerifyEmailRateLimiter = limiter(30);
+// Resend is additionally throttled per user (60 s cooldown via EmailVerification.lastSentAt)
+export const authResendVerificationRateLimiter = limiter(10);

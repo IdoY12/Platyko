@@ -30,6 +30,17 @@ declare global {
         forcePathStyle: boolean;
       };
     };
+    ses: {
+      fromEmail: string;
+      connection: {
+        endpoint: string;
+        region: string;
+        credentials: {
+          accessKeyId: string;
+          secretAccessKey: string;
+        };
+      };
+    };
   }
 }
 

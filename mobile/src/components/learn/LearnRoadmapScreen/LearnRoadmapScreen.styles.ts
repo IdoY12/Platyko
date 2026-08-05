@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
-import { colors, font, fontSize, glow, radius, spacing } from "@/theme/theme";
+import { colors, font, fontSize, glow, spacing } from "@/theme/theme";
+import { primaryButton, primaryButtonLabel } from "@/theme/primaryButton";
 
 export const learnRoadmapStyles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
@@ -28,15 +29,9 @@ export const learnRoadmapStyles = StyleSheet.create({
     ...glow.accent,
   },
   chapterTitle: { color: colors.textPrimary, fontSize: fontSize.md, fontWeight: "700" },
-  chapterDesc: { color: colors.textSecondary, marginTop: spacing.sm, marginBottom: spacing.lg },
-  lessonButton: {
-    backgroundColor: colors.accent,
-    padding: spacing.md,
-    borderRadius: radius.button,
-    alignItems: "center",
-    ...glow.accent,
-  },
-  lessonButtonLabel: { color: colors.onAccent, fontWeight: "800" },
+  chapterDesc: { color: colors.textSecondary, marginTop: spacing.sm, marginBottom: spacing.md },
+  lessonButton: { ...primaryButton },
+  lessonButtonLabel: { ...primaryButtonLabel },
   footerZone: {
     flex: 1,
     minHeight: 110,

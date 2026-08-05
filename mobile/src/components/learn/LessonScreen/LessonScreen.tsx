@@ -26,10 +26,10 @@ export function LessonScreen({ navigation, route }: LessonScreenProps) {
 
   if (load.loading) {
     return (
-      <SafeAreaView style={lessonScreenStyles.container} edges={["top", "bottom"]}>
+      <SafeAreaView style={lessonScreenStyles.container} edges={["top"]}>
         <TerminalHeader title="~/learn/lesson $" onBack={() => navigation.goBack()} />
-        <MatrixRain opacity={0.45} />
         <View style={lessonScreenStyles.content}>
+          <MatrixRain opacity={0.45} />
           <Text style={lessonScreenStyles.title}>Loading lesson...</Text>
           <ActivityIndicator color={colors.accent} />
         </View>
@@ -39,7 +39,7 @@ export function LessonScreen({ navigation, route }: LessonScreenProps) {
 
   if (!exercise) {
     return (
-      <SafeAreaView style={lessonScreenStyles.container} edges={["top", "bottom"]}>
+      <SafeAreaView style={lessonScreenStyles.container} edges={["top"]}>
         <TerminalHeader title="~/learn/lesson $" onBack={() => navigation.goBack()} />
         <View style={lessonScreenStyles.content}>
           <Text style={lessonScreenStyles.title}>
@@ -54,7 +54,7 @@ export function LessonScreen({ navigation, route }: LessonScreenProps) {
     void onLessonExerciseComplete(answer, context);
 
   return (
-    <SafeAreaView style={lessonScreenStyles.container} edges={["top", "bottom"]}>
+    <SafeAreaView style={lessonScreenStyles.container} edges={["top"]}>
       <TerminalHeader title="~/learn/lesson $" onBack={() => navigation.goBack()} />
       <ScrollView style={lessonScreenStyles.container} contentContainerStyle={lessonScreenStyles.content}>
         <Text style={lessonScreenStyles.chapterDesc}>{`// ${lessonTitle}`}</Text>

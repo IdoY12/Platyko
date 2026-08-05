@@ -5,6 +5,7 @@ import store, { type AppDispatch } from "@/redux/store";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
 import { logAuth, logError, logNav } from "@/utils/logger";
 import authService, { buildGuestLocalState } from "@/services/auth";
+import { isEmailNotVerifiedError } from "@/services/emailVerification";
 
 export function useAuthScreen(dispatch: AppDispatch) {
   const navigation = useNavigation();
@@ -32,6 +33,11 @@ export function useAuthScreen(dispatch: AppDispatch) {
     return () => logNav("screen:leave", { screen: "AuthScreen" });
   }, []);
 
+  const goToVerifyEmail = useCallback(
+    (codeJustSent: boolean) => (navigation as unknown as { navigate: (name: string, params: object) => void }).navigate("VerifyEmail", { email, codeJustSent }),
+    [email, navigation],
+  );
+
   const onSubmit = useCallback(async () => {
     if (!canSubmit || loading) return;
     if (!isLogin) {
@@ -45,35 +51,30 @@ export function useAuthScreen(dispatch: AppDispatch) {
     setLoading(true);
     setError(null);
     try {
-      const response = isLogin
-        ? await authService.login(email, password)
-        : await authService.register(email, username, password, buildGuestLocalState(store.getState()));
-      dispatchSignInSuccess(dispatch, response.user, response.accessToken, response.refreshToken);
-      navigation.goBack();
-      logAuth("submit:success", { mode: isLogin ? "login" : "register", userId: response.user.id });
+      if (isLogin) {
+        const response = await authService.login(email, password);
+        dispatchSignInSuccess(dispatch, response.user, response.accessToken, response.refreshToken);
+        navigation.goBack();
+      } else {
+        await authService.register(email, username, password, buildGuestLocalState(store.getState()));
+        goToVerifyEmail(true);
+      }
+      logAuth("submit:success", { mode: isLogin ? "login" : "register", email });
     } catch (submitError) {
-      logError("[AUTH]", submitError, { mode: isLogin ? "login" : "register" });
-      setError(submitError instanceof Error ? submitError.message : "Unable to continue");
+      if (isEmailNotVerifiedError(submitError)) {
+        logAuth("submit:needs-verification", { email });
+        goToVerifyEmail(false);
+      } else {
+        logError("[AUTH]", submitError, { mode: isLogin ? "login" : "register" });
+        setError(submitError instanceof Error ? submitError.message : "Unable to continue");
+      }
     } finally {
       setLoading(false);
     }
   }, [canSubmit, dispatch, email, isLogin, loading, navigation, password, username]);
 
   return {
-    email,
-    setEmail,
-    username,
-    setUsername,
-    password,
-    setPassword,
-    secure,
-    setSecure,
-    isLogin,
-    setIsLogin,
-    loading,
-    error,
-    passwordHint,
-    canSubmit,
-    onSubmit,
+    email, setEmail, username, setUsername, password, setPassword, secure, setSecure,
+    isLogin, setIsLogin, loading, error, passwordHint, canSubmit, onSubmit,
   };
 }

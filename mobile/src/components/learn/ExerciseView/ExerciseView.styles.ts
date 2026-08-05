@@ -1,33 +1,28 @@
 import { StyleSheet } from "react-native";
-import { colors, fontSize, glow, radius, spacing, tint } from "@/theme/theme";
+import { colors, fontSize, radius, spacing, tint } from "@/theme/theme";
+import { primaryButton, primaryButtonLabel } from "@/theme/primaryButton";
 
 /** Shared styles for lesson exercise panels (MCQ options, PUZZLE fill) inside a TerminalFrame. */
 export const exerciseViewStyles = StyleSheet.create({
-  root: { flex: 1 },
   explanation: { color: colors.textSecondary, lineHeight: 22 },
-  hint: { color: colors.textSecondary, lineHeight: 22, marginBottom: spacing.xs },
+  hint: { color: colors.textSecondary, lineHeight: 22 },
   option: {
     padding: spacing.md,
     borderRadius: radius.button,
     borderColor: colors.border,
     borderWidth: 1,
     marginTop: spacing.sm,
+    minHeight: 44,
+    justifyContent: "center",
   },
   optionLabel: { color: colors.textPrimary },
   correct: { borderColor: colors.success, backgroundColor: tint.success },
   wrong: { borderColor: colors.danger, backgroundColor: tint.danger },
   optionSelected: { borderColor: colors.accent, backgroundColor: tint.accent },
-  lessonButton: {
-    backgroundColor: colors.accent,
-    padding: spacing.md,
-    borderRadius: radius.button,
-    alignItems: "center",
-    marginTop: spacing.md,
-    ...glow.accent,
-  },
-  lessonButtonLabel: { color: colors.onAccent, fontWeight: "800" },
+  lessonButton: { ...primaryButton, marginTop: spacing.md },
+  lessonButtonLabel: { ...primaryButtonLabel },
   disabled: { opacity: 0.5 },
-  feedback: { marginTop: spacing.md, fontWeight: "700", color: colors.textPrimary },
+  feedback: { marginTop: spacing.sm, fontWeight: "700", color: colors.textPrimary },
   feedbackGood: { color: colors.success },
   feedbackBad: { color: colors.danger },
   codePuzzleTextInput: {
@@ -37,15 +32,19 @@ export const exerciseViewStyles = StyleSheet.create({
     backgroundColor: colors.surface,
     color: colors.textPrimary,
     padding: spacing.md,
+    minHeight: 44,
     marginBottom: spacing.md,
   },
-  codePuzzleTokenRow: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm, marginBottom: spacing.md },
+  codePuzzleTokenRow: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
   codePuzzleTokenChip: {
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: radius.pill,
     paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
+    minHeight: 44,
+    minWidth: 44,
+    alignItems: "center",
+    justifyContent: "center",
   },
   codePuzzleTokenChipLabel: { color: colors.accent, fontSize: fontSize.sm },
 });

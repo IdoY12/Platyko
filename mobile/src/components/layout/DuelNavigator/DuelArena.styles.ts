@@ -9,11 +9,11 @@ export const arenaStyles = StyleSheet.create({
     justifyContent: "center",
     gap: spacing.huge,
     paddingHorizontal: spacing.xxl,
-    overflow: "hidden",
+    paddingVertical: spacing.xl,
   },
   swordGlyph: { ...glow.duel },
   hud: { alignSelf: "stretch" },
-  hudRow: { flexDirection: "row", alignItems: "center" },
+  hudRow: { flexDirection: "row", alignItems: "center", gap: spacing.lg },
   hudCell: { flex: 1, alignItems: "center", gap: spacing.xs },
   hudDivider: { width: 1, alignSelf: "stretch", backgroundColor: colors.border },
   hudValue: {
