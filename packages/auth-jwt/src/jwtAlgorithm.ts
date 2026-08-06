@@ -1,5 +1,5 @@
 /**
- * Fixed JWT algorithm for HS256 symmetric signing used across CodeQuest services.
+ * Fixed JWT algorithm for HS256 symmetric signing used across Platybit services.
  *
  * Responsibility: prevent algorithm confusion by pinning verify/sign options.
  * Layer: @project/auth-jwt

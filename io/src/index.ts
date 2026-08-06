@@ -1,5 +1,5 @@
 /**
- * Boots the CodeQuest Socket.IO duel server with health checks and CORS.
+ * Boots the Platybit Socket.IO duel server with health checks and CORS.
  */
 
 import config from "config";
@@ -32,7 +32,7 @@ const server = http.createServer((req, res) => {
   // Providing a standard HTTP endpoint for infrastructure health checks
   if (req.url === "/health") {
     res.writeHead(200, { "content-type": "application/json" });
-    res.end(JSON.stringify({ ok: true, service: "codequest-io" }));
+    res.end(JSON.stringify({ ok: true, service: "platybit-io" }));
     return;
   }
   // Catch-all for any other regular HTTP requests that aren't Socket.IO related

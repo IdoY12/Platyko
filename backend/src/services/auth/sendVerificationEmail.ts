@@ -14,12 +14,12 @@ export async function sendVerificationCodeEmail(toEmail: string, code: string): 
     Source: sesFromEmail,
     Destination: { ToAddresses: [toEmail] },
     Message: {
-      Subject: { Charset: "UTF-8", Data: "Your CodeQuest JS verification code" },
+      Subject: { Charset: "UTF-8", Data: "Your Platybit verification code" },
       Body: {
-        Text: { Charset: "UTF-8", Data: `Your CodeQuest JS verification code is ${code}. ${expiry}` },
+        Text: { Charset: "UTF-8", Data: `Your Platybit verification code is ${code}. ${expiry}` },
         Html: {
           Charset: "UTF-8",
-          Data: `<p>Your CodeQuest JS verification code is:</p><h1>${code}</h1><p>${expiry}</p>`,
+          Data: `<p>Your Platybit verification code is:</p><h1>${code}</h1><p>${expiry}</p>`,
         },
       },
     },

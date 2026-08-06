@@ -1,4 +1,4 @@
-You are performing a deep, strict, uncompromising code review of the CodeQuest_JS monorepo.
+You are performing a deep, strict, uncompromising code review of the Platybit monorepo.
 
 **CRITICAL RULE: Do NOT modify any code. Do NOT suggest refactors. Only produce a written report.**
 

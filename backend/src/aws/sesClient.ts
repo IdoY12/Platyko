@@ -14,7 +14,7 @@ const sesEndpoint = trimmedOrEmpty(conn.endpoint) || undefined;
 const accessKeyId = trimmedOrEmpty(conn.credentials?.accessKeyId) || (sesEndpoint ? "test" : undefined);
 const secretAccessKey = trimmedOrEmpty(conn.credentials?.secretAccessKey) || (sesEndpoint ? "test" : undefined);
 
-export const sesFromEmail = trimmedOrEmpty(sesCfg.fromEmail) || "CodeQuest JS <noreply@codequestjs.com>";
+export const sesFromEmail = trimmedOrEmpty(sesCfg.fromEmail) || "Platybit <noreply@platybit.com>";
 
 export const sesClient = new SESClient({
   region: trimmedOrEmpty(conn.region) || "us-east-1",
