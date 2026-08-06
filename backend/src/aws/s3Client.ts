@@ -17,7 +17,7 @@ function resolveEndpoint(): string | undefined {
   return fromConfig || undefined;
 }
 
-export const avatarS3Bucket = trimmedOrEmpty(s3cfg.bucket) || "questcode-avatars";
+export const avatarS3Bucket = trimmedOrEmpty(s3cfg.bucket) || "platybit-avatars";
 export const avatarS3Region = trimmedOrEmpty(conn.region) || "us-east-1";
 export const avatarS3Endpoint = resolveEndpoint();
 const usePathStyle =

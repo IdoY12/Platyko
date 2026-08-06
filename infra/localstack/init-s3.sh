@@ -1,9 +1,9 @@
 #!/bin/sh
 set -e
 
-awslocal s3 mb s3://questcode-avatars || true
+awslocal s3 mb s3://platybit-avatars || true
 awslocal s3api put-bucket-cors \
-  --bucket questcode-avatars \
+  --bucket platybit-avatars \
   --cors-configuration '{
     "CORSRules": [
       {
