@@ -40,7 +40,7 @@ app.use(
 app.use(express.json({ limit: config.get<string>("app.bodyParserJsonLimit") }));
 app.use(requestLogger);
 
-app.get("/health", (_req, res) => res.json({ ok: true, service: "platybit-backend" }));
+app.get("/health", (_req, res) => res.json({ ok: true, service: "platyko-backend" }));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/learning", learningRouter);

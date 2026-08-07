@@ -10,7 +10,7 @@ import { hydratePuzzle } from "@/redux/puzzle-slice";
 import { logAuth, logError } from "@/utils/logger";
 import { readSecureSessionTokens } from "@/utils/secureSessionTokens";
 
-export const REDUX_PERSIST_KEY = "platybit-redux-store";
+export const REDUX_PERSIST_KEY = "platyko-redux-store";
 
 type PersistedReduxSnapshot = {
   session?: Record<string, unknown>;

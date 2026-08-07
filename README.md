@@ -1,4 +1,4 @@
-# Platybit — code review guide
+# Platyko — code review guide
 
 This document is a **human-readable map of the repository**: what each part does, how requests and data move through the system, and where to look when reviewing or changing behavior.
 
@@ -6,7 +6,7 @@ This document is a **human-readable map of the repository**: what each part does
 
 ## What this project is
 
-**Platybit** is a monorepo for a coding-learning and duel experience:
+**Platyko** is a monorepo for a coding-learning and duel experience:
 
 - **Mobile app** (Expo / React Native): lessons, exercises, profile, daily challenges, real-time duels.
 - **REST backend** (Express): authentication, user profile, learning content APIs, duels metadata, and daily puzzles.
@@ -107,7 +107,7 @@ flowchart LR
 | Logging | `backend/src/utils/logger.ts` | Correlation with `@project/server-kit` patterns where used. |
 | Config | `backend/config/` | `config` npm package; `NODE_CONFIG_ENV` selects default vs compose vs production files. |
 
-**Health check**: `GET /health` returns JSON `{ ok: true, service: "platybit-backend" }` (used by Docker).
+**Health check**: `GET /health` returns JSON `{ ok: true, service: "platyko-backend" }` (used by Docker).
 
 ---
 

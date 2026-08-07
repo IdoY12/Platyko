@@ -2,8 +2,8 @@ import Constants from "expo-constants";
 
 const DEV_BACKEND_PORT = "4000";
 const DEV_IO_PORT = "4001";
-const PROD_API_BASE_URL = "https://api.questcodejs.com/api";
-const PROD_DUEL_SOCKET_URL = "https://io.questcodejs.com/duel";
+const PROD_API_BASE_URL = "https://api.platyko.com/api";
+const PROD_DUEL_SOCKET_URL = "https://io.platyko.com/duel";
 
 function getExpoHost(): string | null {
   const hostUri =

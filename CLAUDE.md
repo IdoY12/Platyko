@@ -73,7 +73,7 @@
 
 ## Project Overview
 
-**Platybit** — a React Native mobile app for deliberate daily JavaScript practice.
+**Platyko** — a React Native mobile app for deliberate daily JavaScript practice.
 Target users: JS developers at Junior / Mid / Senior levels. Core loop: learn → streak → duel.
 
 ### Features

@@ -1,5 +1,5 @@
 /**
- * Fixed JWT algorithm for HS256 symmetric signing used across Platybit services.
+ * Fixed JWT algorithm for HS256 symmetric signing used across Platyko services.
  *
  * Responsibility: prevent algorithm confusion by pinning verify/sign options.
  * Layer: @project/auth-jwt

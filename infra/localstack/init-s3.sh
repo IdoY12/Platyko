@@ -1,9 +1,9 @@
 #!/bin/sh
 set -e
 
-awslocal s3 mb s3://platybit-avatars || true
+awslocal s3 mb s3://platyko-avatars || true
 awslocal s3api put-bucket-cors \
-  --bucket platybit-avatars \
+  --bucket platyko-avatars \
   --cors-configuration '{
     "CORSRules": [
       {

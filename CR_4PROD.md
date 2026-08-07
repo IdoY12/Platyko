@@ -1,4 +1,4 @@
-You are performing a deep, strict, uncompromising code review of the Platybit monorepo.
+You are performing a deep, strict, uncompromising code review of the Platyko monorepo.
 
 **CRITICAL RULE: Do NOT modify any code. Do NOT suggest refactors. Only produce a written report.**
 

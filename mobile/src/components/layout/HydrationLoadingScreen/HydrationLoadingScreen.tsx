@@ -8,7 +8,7 @@ export function HydrationLoadingScreen() {
   return (
     <SafeAreaView style={styles.root} edges={["top", "bottom"]}>
       <MatrixRain opacity={0.55} />
-      <TypewriterText text="> BOOTING PLATYBIT..." style={styles.text} accessibilityLabel="Loading" />
+      <TypewriterText text="> BOOTING PLATYKO..." style={styles.text} accessibilityLabel="Loading" />
     </SafeAreaView>
   );
 }
