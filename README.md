@@ -66,3 +66,33 @@ Key technical decisions:
 - **Sandboxed puzzle evaluation** — puzzle test cases run in a locked-down V8 isolate with only `Math.max/min` and `Object.keys` bridged in.
 - **Single source of truth for game rules** — `XP_PER_CORRECT_EXERCISE = 250` and the streak functions ship as shared packages consumed by backend, io, and mobile, so the three runtimes can never drift.
 - **Guest-first design** — the app is fully usable without an account; registration only unlocks Duel Mode and server sync.
+
+## Project Structure
+
+```
+Platyko/
+├── mobile/               # Expo / React Native app
+│   └── src/              # components, redux, services, hooks, theme, ...
+├── backend/              # Express REST API
+│   ├── src/              # routers, controllers, services, validators, ...
+│   ├── prisma/seed/      # curriculum, duel, and code-puzzle seed data
+│   └── config/           # node-config environments
+├── io/                   # Socket.IO real-time service (/duel namespace)
+│   ├── src/socket/duel/  # matchmaking + in-match event handlers
+│   └── config/           # node-config environments
+├── packages/
+│   ├── db/               # Prisma schema (multi-file) + singleton client
+│   ├── auth-jwt/         # JWT sign/verify helpers
+│   ├── xp-constants/     # XP_PER_CORRECT_EXERCISE and level math
+│   ├── streak-logic/     # pure streak functions
+│   ├── duel-constants/   # duel rules shared by io + mobile
+│   ├── exercise-answer/  # shared answer normalization/checking
+│   ├── user-credentials/ # credential limits + validation messages
+│   └── server-kit/       # CORS, logging, env validation utilities
+├── infra/                # LocalStack init scripts
+└── docker-compose.yml    # postgres + localstack + backend + io
+```
+
+Database models (Prisma): `User`, `UserProgress`, `Exercise`, `ExerciseOption`, `DuelQuestion`, `DuelSession`, `CodePuzzle`, plus `RefreshToken` and `EmailVerification`.
+
+Redux slices on mobile: `session`, `profile`, `xp`, `streak`, `lesson`, `duel` (stats), `duelLive` (transient, not persisted), and `puzzle`.
