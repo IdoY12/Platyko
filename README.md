@@ -96,3 +96,33 @@ Platyko/
 Database models (Prisma): `User`, `UserProgress`, `Exercise`, `ExerciseOption`, `DuelQuestion`, `DuelSession`, `CodePuzzle`, plus `RefreshToken` and `EmailVerification`.
 
 Redux slices on mobile: `session`, `profile`, `xp`, `streak`, `lesson`, `duel` (stats), `duelLive` (transient, not persisted), and `puzzle`.
+
+## Installation
+
+### Prerequisites
+
+- **Node.js 20+** and **npm**
+- **Docker** (for PostgreSQL and LocalStack)
+- **Xcode** (iOS) or **Android Studio** (Android) for running the mobile app
+
+### Setup
+
+```bash
+# 1. Clone and install all workspaces (postinstall applies patch-package patches)
+git clone https://github.com/IdoY12/Platyko.git
+cd Platyko
+npm install
+
+# 2. Create your local env file
+cp .env.example .env
+
+# 3. Start local infrastructure (PostgreSQL 16 + LocalStack S3)
+docker compose up -d postgres localstack
+
+# 4. Generate the Prisma client
+npm run db:generate
+
+# 5. Apply migrations and seed curriculum, duel, and puzzle data
+npm --prefix backend run prisma:migrate
+npm --prefix backend run prisma:seed
+```
