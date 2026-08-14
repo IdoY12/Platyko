@@ -126,3 +126,31 @@ npm run db:generate
 npm --prefix backend run prisma:migrate
 npm --prefix backend run prisma:seed
 ```
+
+## Usage
+
+### Run the services (development)
+
+```bash
+npm run backend:dev    # Express API on http://localhost:4000
+npm run io:dev         # Socket.IO service on http://localhost:4001
+npm run mobile:start   # Expo dev server (Metro) on :8081
+```
+
+Then launch the app:
+
+```bash
+npm run ios            # iOS simulator
+npm run android        # Android emulator
+npm run ios:device     # physical iOS device
+```
+
+Both services expose a `GET /health` endpoint. The mobile app's API base URL is configured in `mobile/src/config/network.ts`.
+
+### Run everything in Docker
+
+```bash
+docker compose up --build
+```
+
+This builds and starts PostgreSQL, LocalStack (S3), the backend (`:4000`), and the io service (`:4001`), with health checks and correct startup ordering. The required secrets come from `.env` (see [Configuration](#configuration)).
