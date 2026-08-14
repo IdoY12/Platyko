@@ -41,3 +41,28 @@ This repository is an npm-workspaces monorepo containing the Expo/React Native m
 | Local infra | `docker-compose.yml` | PostgreSQL, LocalStack, backend, io |
 
 Everything is written in TypeScript. Service configuration uses [`node-config`](https://github.com/node-config/node-config) with per-environment files under `backend/config/` and `io/config/`.
+
+## Architecture
+
+```mermaid
+flowchart LR
+  RN[Mobile app<br/>Expo / React Native]
+  BE[REST API<br/>Express :4000]
+  IO[Realtime<br/>Socket.IO :4001]
+  DB[(PostgreSQL 16)]
+  S3[(S3 / LocalStack)]
+  RN -->|HTTPS JSON| BE
+  RN -->|WebSocket /duel| IO
+  BE --> DB
+  IO --> DB
+  BE --> S3
+```
+
+Key technical decisions:
+
+- **JWT token versioning** — a `tokenVersion` column on `User`; bumping it instantly invalidates all outstanding tokens (logout, password change, account deletion).
+- **Dual token storage** — JWTs live in `expo-secure-store`; the Redux/AsyncStorage snapshot keeps tokens zeroed out.
+- **In-memory duel state** — active sessions, the matchmaking queue, and rematch entries live in Maps on the `io` process; only finished `DuelSession` rows are persisted.
+- **Sandboxed puzzle evaluation** — puzzle test cases run in a locked-down V8 isolate with only `Math.max/min` and `Object.keys` bridged in.
+- **Single source of truth for game rules** — `XP_PER_CORRECT_EXERCISE = 250` and the streak functions ship as shared packages consumed by backend, io, and mobile, so the three runtimes can never drift.
+- **Guest-first design** — the app is fully usable without an account; registration only unlocks Duel Mode and server sync.
