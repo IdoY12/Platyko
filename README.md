@@ -26,3 +26,18 @@ This repository is an npm-workspaces monorepo containing the Expo/React Native m
 - **Accounts & auth** — email + password registration with OTP email verification (AWS SES), Google Sign-In, JWT access/refresh tokens, password change, and account deletion.
 - **Profile** — avatar upload to S3, username, and preference management.
 - **Guest mode** — full Learn and Code Puzzle access without an account; XP and streak are kept locally. Registering unlocks Duel Mode and server sync.
+
+## Tech Stack
+
+| Layer | Path | Technology |
+|-------|------|------------|
+| Mobile app | `mobile/` | React Native 0.81, Expo 54, Redux Toolkit, React Navigation 7 |
+| HTTP API | `backend/` | Express 5, Prisma 6, Zod, JWT (HS256), `isolated-vm` |
+| Real-time | `io/` | Socket.IO 4 — `/duel` namespace |
+| Database | `packages/db/` | PostgreSQL 16, Prisma multi-file schema, singleton client |
+| Shared logic | `packages/*` | `auth-jwt`, `xp-constants`, `streak-logic`, `duel-constants`, `exercise-answer`, `user-credentials`, `server-kit` |
+| Storage | AWS S3 (LocalStack locally) | Avatar images |
+| Email | AWS SES | Registration OTP emails |
+| Local infra | `docker-compose.yml` | PostgreSQL, LocalStack, backend, io |
+
+Everything is written in TypeScript. Service configuration uses [`node-config`](https://github.com/node-config/node-config) with per-environment files under `backend/config/` and `io/config/`.
