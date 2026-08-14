@@ -154,3 +154,30 @@ docker compose up --build
 ```
 
 This builds and starts PostgreSQL, LocalStack (S3), the backend (`:4000`), and the io service (`:4001`), with health checks and correct startup ordering. The required secrets come from `.env` (see [Configuration](#configuration)).
+
+## Configuration
+
+Copy `.env.example` to `.env` (gitignored, local Docker Compose only):
+
+| Variable | Purpose |
+|----------|---------|
+| `JWT_ACCESS_SECRET` / `JWT_REFRESH_SECRET` | HS256 signing secrets (min 32 chars) |
+| `CORS_ORIGIN` / `IO_CORS_ORIGIN` | Allowed origins for the API and Socket.IO |
+| `SES_FROM_EMAIL`, `SES_REGION`, `SES_ENDPOINT` | AWS SES sender for registration OTP emails |
+| `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` | Shared AWS credentials (S3 + SES) |
+
+Non-secret settings (ports, database URL, S3 bucket, Google Sign-In client IDs) live in the `node-config` files under `backend/config/` and `io/config/`, with `custom-environment-variables.json` mapping env vars over them per environment (`default`, `compose`, `docker`, `production`).
+
+## Development
+
+```bash
+npm run typecheck:all           # typecheck every workspace
+npm --prefix mobile run test    # mobile unit tests (Vitest)
+```
+
+Other useful commands:
+
+- `npm --prefix backend run prisma:migrate:reset` — reset the local database (skips seeding).
+- `npm run backend:build` / `npm run io:build` — compile the services with `tsc`.
+
+Contribution ground rules for this codebase live in [CLAUDE.md](CLAUDE.md): no dead code, files capped at 80 lines, strict DRY, and self-explanatory naming.
