@@ -34,7 +34,7 @@ export function useAuthScreen(dispatch: AppDispatch) {
   }, []);
 
   const goToVerifyEmail = useCallback(
-    (codeJustSent: boolean) => (navigation as unknown as { navigate: (name: string, params: object) => void }).navigate("VerifyEmail", { email, codeJustSent }),
+    (codeJustSent: boolean) => navigation.navigate("VerifyEmail", { email, codeJustSent }),
     [email, navigation],
   );
 
@@ -53,8 +53,8 @@ export function useAuthScreen(dispatch: AppDispatch) {
     try {
       if (isLogin) {
         const response = await authService.login(email, password);
+        // No navigation on success: the signIn dispatch remounts the navigator (see rootNavigation.types.ts).
         dispatchSignInSuccess(dispatch, response.user, response.accessToken, response.refreshToken);
-        navigation.goBack();
       } else {
         await authService.register(email, username, password, buildGuestLocalState(store.getState()));
         goToVerifyEmail(true);

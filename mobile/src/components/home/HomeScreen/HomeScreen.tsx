@@ -22,7 +22,7 @@ export function HomeScreen({ navigation }: HomeMainScreenProps) {
   const onDuelPress = () =>
     guardDuelAccess(
       isGuest,
-      () => navigation.getParent()?.getParent()?.navigate("Auth" as never),
+      () => navigation.navigate("Auth"),
       () => navigation.navigate("DuelTab"),
     );
 

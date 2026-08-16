@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Alert, Pressable, Text } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
-import { useNavigation } from "@react-navigation/native";
 import store, { type AppDispatch } from "@/redux/store";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
 import authService, { buildGuestLocalState } from "@/services/auth";
@@ -13,7 +12,6 @@ import { styles } from "../auth-screen/AuthScreen.styles";
 WebBrowser.maybeCompleteAuthSession();
 
 export function AuthGoogleButton({ dispatch }: { dispatch: AppDispatch }) {
-  const navigation = useNavigation();
   const [busy, setBusy] = useState(false);
   const [req, res, promptAsync] = Google.useAuthRequest(googleAuthRequestConfig);
   const finish = useCallback(
@@ -22,8 +20,8 @@ export function AuthGoogleButton({ dispatch }: { dispatch: AppDispatch }) {
       try {
         const state = store.getState();
         const r = await authService.loginWithGoogle(idToken, state.session.isGuest ? buildGuestLocalState(state) : undefined);
+        // No navigation on success: the signIn dispatch remounts the navigator (see rootNavigation.types.ts).
         dispatchSignInSuccess(dispatch, r.user, r.accessToken, r.refreshToken);
-        navigation.goBack();
         logAuth("submit:success", { mode: "google", userId: r.user.id });
       } catch (e) {
         logError("[AUTH]", e, { mode: "google" });
@@ -32,7 +30,7 @@ export function AuthGoogleButton({ dispatch }: { dispatch: AppDispatch }) {
         setBusy(false);
       }
     },
-    [dispatch, navigation],
+    [dispatch],
   );
   useEffect(() => {
     if (req) logAuth("google:request", { redirectUri: req.redirectUri, clientId: req.clientId });

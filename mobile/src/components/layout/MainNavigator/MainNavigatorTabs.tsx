@@ -50,9 +50,9 @@ const PROFILE_TAB_OPTS = { tabBarIcon: profileIcon, tabBarLabel: "Profile" };
 export function MainTabs() {
   const isGuest = useAppSelector((s) => s.session.isGuest);
   const duelListeners = React.useCallback(
-    ({ navigation }: { navigation: { getParent: () => { navigate: (r: never) => void } | undefined } }) => ({
+    ({ navigation }: { navigation: { navigate: (route: "Auth") => void } }) => ({
       tabPress: (e: { preventDefault: () => void }) => {
-        guardDuelAccess(isGuest, () => navigation.getParent()?.navigate("Auth" as never), () => {});
+        guardDuelAccess(isGuest, () => navigation.navigate("Auth"), () => {});
         if (isGuest) e.preventDefault();
       },
     }),

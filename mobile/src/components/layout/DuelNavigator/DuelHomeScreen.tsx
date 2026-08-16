@@ -61,7 +61,7 @@ export function DuelHomeScreen({ navigation }: DuelHomeScreenProps) {
           onPress={() => {
             guardDuelAccess(
               isGuest,
-              () => navigation.getParent()?.getParent()?.navigate("Auth" as never),
+              () => navigation.navigate("Auth"),
               () => { logDuel("matchmaking:start"); duelResetMatch(); navigation.navigate("Matchmaking"); },
             );
           }}

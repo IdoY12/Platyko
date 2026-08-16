@@ -10,6 +10,9 @@ import { DuelResultsScreen } from "./DuelResultsScreen";
 const Stack = createNativeStackNavigator<DuelStackParamList>();
 
 const STACK_OPTIONS = { headerShown: false as const, contentStyle: { backgroundColor: colors.background } };
+// gestureEnabled false: an accidental swipe-back mid-duel would forfeit the match;
+// leaving is only via the explicit header back / hardware back (which emits leave_duel).
+const ACTIVE_DUEL_OPTIONS = { gestureEnabled: false };
 
 /** Screens render their own TerminalHeader — stock navigation headers are disabled. */
 export function DuelNavigator() {
@@ -18,7 +21,7 @@ export function DuelNavigator() {
     <Stack.Navigator screenOptions={STACK_OPTIONS}>
       <Stack.Screen name="DuelHome" component={DuelHomeScreen} />
       <Stack.Screen name="Matchmaking" component={DuelMatchmakingScreen} />
-      <Stack.Screen name="ActiveDuel" component={DuelActiveDuelScreen} />
+      <Stack.Screen name="ActiveDuel" component={DuelActiveDuelScreen} options={ACTIVE_DUEL_OPTIONS} />
       <Stack.Screen name="DuelResults" component={DuelResultsScreen} />
     </Stack.Navigator>
   );

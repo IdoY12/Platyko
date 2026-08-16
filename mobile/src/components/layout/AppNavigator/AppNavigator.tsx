@@ -21,6 +21,8 @@ const APP_NAV_THEME: Theme = {
 export const AppNavigator = React.memo(function AppNavigator() {
   const hasHydrated = useAppSelector((s) => s.session.hasHydrated);
   const authChecked = useAppSelector((s) => s.session.authChecked);
+  /** Keys the container: any identity change (guest<->user) remounts it, resetting every stack. */
+  const userId = useAppSelector((s) => s.session.userId);
   /** `null` while reading AsyncStorage; then whether the wizard has completed on this device. */
   const [onboardingSeenOnDevice, setOnboardingSeenOnDevice] = React.useState<boolean | null>(null);
   const routeNameRef = React.useRef<string | undefined>(undefined);
@@ -46,7 +48,10 @@ export const AppNavigator = React.memo(function AppNavigator() {
   }
 
   return (
+    // The `key` is the navigation convention's reset mechanism (types/rootNavigation.types.ts):
+    // auth transitions never navigate — they remount here into the correct clean root.
     <NavigationContainer
+      key={userId ?? "guest"}
       onReady={() => {
         const currentRoute = routeNameRef.current;
         logNav("screen:enter", { screen: currentRoute ?? "Home" });

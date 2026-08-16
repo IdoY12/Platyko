@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { useAppDispatch } from "@/redux/hooks";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
 import { logAuth, logError, logNav } from "@/utils/logger";
@@ -11,7 +11,6 @@ type VerifyEmailRouteParams = { email: string; codeJustSent: boolean };
 
 export function useVerifyEmailScreen() {
   const dispatch = useAppDispatch();
-  const navigation = useNavigation();
   const params = useRoute().params as VerifyEmailRouteParams | undefined;
   const email = params?.email ?? "";
   const [code, setCodeState] = useState("");
@@ -39,17 +38,17 @@ export function useVerifyEmailScreen() {
     setError(null);
     try {
       const response = await emailVerificationService.verifyEmail(email, code);
+      // No navigation on success: the signIn dispatch remounts the navigator onto a
+      // clean authenticated root (Home), dropping both auth modals (see rootNavigation.types.ts).
       dispatchSignInSuccess(dispatch, response.user, response.accessToken, response.refreshToken);
       logAuth("verify-email:success", { userId: response.user.id });
-      // Popping back to MainTabs dismisses both the verify and the auth modals.
-      navigation.navigate("MainTabs" as never);
     } catch (verifyError) {
       logError("[AUTH]", verifyError, { mode: "verify-email" });
       setError(verifyError instanceof Error ? verifyError.message : "Unable to verify the code");
     } finally {
       setLoading(false);
     }
-  }, [code, dispatch, email, loading, navigation]);
+  }, [code, dispatch, email, loading]);
 
   const onResend = useCallback(async () => {
     if (resendSecondsLeft > 0 || loading) return;

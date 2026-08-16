@@ -29,7 +29,7 @@ export function GuestProfileBody() {
     logNav("screen:enter", { screen: "GuestProfileScreen" });
     return () => logNav("screen:leave", { screen: "GuestProfileScreen" });
   }, []);
-  const onSignIn = () => navigation.getParent()?.navigate("Auth" as never);
+  const onSignIn = () => navigation.navigate("Auth");
   const setPref = (patch: Partial<Parameters<typeof updatePreferences>[0]>) =>
     void dispatch(updatePreferences({ goal, experienceLevel, commitment, notificationsEnabled, ...patch }));
   const onResetPress = () => Alert.alert(

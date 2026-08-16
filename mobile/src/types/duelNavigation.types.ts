@@ -1,4 +1,6 @@
+import type { CompositeScreenProps } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { RootStackParamList } from "./rootNavigation.types";
 
 type DuelReplayRound = {
   roundNumber: number;
@@ -22,7 +24,11 @@ export type DuelStackParamList = {
   };
 };
 
-export type DuelHomeScreenProps = NativeStackScreenProps<DuelStackParamList, "DuelHome">;
+/** Composite includes the root stack so the guest guard can `navigate("Auth")` (action bubbles up). */
+export type DuelHomeScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<DuelStackParamList, "DuelHome">,
+  NativeStackScreenProps<RootStackParamList>
+>;
 
 export type MatchmakingScreenProps = NativeStackScreenProps<DuelStackParamList, "Matchmaking">;
 

@@ -1,4 +1,5 @@
-import { View } from "react-native";
+import { useEffect } from "react";
+import { BackHandler, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
 import { useOnboardingWizard } from "@/hooks/useOnboardingWizard";
@@ -16,6 +17,13 @@ type OnboardingFlowProps = {
 
 export function OnboardingFlow({ onPersistedToDevice }: OnboardingFlowProps) {
   const wizard = useOnboardingWizard({ onPersistedToDevice });
+  const { step, setStep } = wizard;
+  // Android hardware back steps the wizard back instead of exiting the app (exit only from step 1).
+  useEffect(() => {
+    if (step === 1) return;
+    const sub = BackHandler.addEventListener("hardwareBackPress", () => { setStep(step - 1); return true; });
+    return () => sub.remove();
+  }, [step, setStep]);
   // Insets applied as plain padding (not SafeAreaView): guarantees every step mounts with the
   // same top offset — the native SafeAreaView could miss the first frame and shift step 1 up.
   const insets = useSafeAreaInsets();
