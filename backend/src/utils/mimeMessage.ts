@@ -33,8 +33,9 @@ function textPart(mimeType: string, content: string): string {
 }
 
 function imagePart(image: InlineImage): string {
+  const mimeType = image.filename.endsWith(".png") ? "image/png" : "image/jpeg";
   return [
-    `Content-Type: image/png; name="${image.filename}"`,
+    `Content-Type: ${mimeType}; name="${image.filename}"`,
     "Content-Transfer-Encoding: base64",
     `Content-ID: <${image.contentId}>`,
     `Content-Disposition: inline; filename="${image.filename}"`,

@@ -12,9 +12,9 @@ function loadEmailAsset(filename: string): Buffer {
 }
 
 const inlineImages: InlineImage[] = [
-  { contentId: "platyko-banner", filename: "email-banner.png", data: loadEmailAsset("email-banner.png") },
-  { contentId: "platyko-icon", filename: "email-icon.png", data: loadEmailAsset("email-icon.png") },
-  { contentId: "platyko-mascot", filename: "email-mascot.png", data: loadEmailAsset("email-mascot.png") },
+  { contentId: "platyko-banner", filename: "email-banner.jpg", data: loadEmailAsset("email-banner.jpg") },
+  { contentId: "platyko-icon", filename: "email-icon.jpg", data: loadEmailAsset("email-icon.jpg") },
+  { contentId: "platyko-mascot", filename: "email-mascot.jpg", data: loadEmailAsset("email-mascot.jpg") },
 ];
 
 function buildVerificationEmailText(code: string): string {
