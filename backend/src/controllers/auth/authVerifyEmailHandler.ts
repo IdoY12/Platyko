@@ -3,18 +3,9 @@ import { prisma } from "@project/db";
 import { logError, logInfo, logWarn } from "../../utils/logger.js";
 import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
 import type { VerifyEmailBody } from "../../validators/emailVerificationValidators.js";
-import {
-  consumeVerificationCode,
-  type VerificationOutcome,
-} from "../../services/auth/emailVerificationCodes.js";
+import { consumeVerificationCode } from "../../services/auth/emailVerificationCodes.js";
+import { OTP_OUTCOME_ERRORS } from "../../services/auth/otpCodes.js";
 import { issueSessionForUser } from "../../services/auth/issueSessionForUser.js";
-
-const OUTCOME_ERRORS: Record<Exclude<VerificationOutcome, "ok">, string> = {
-  invalid: "Incorrect code. Please try again.",
-  expired: "This code has expired. Request a new one.",
-  locked: "Too many wrong attempts. Request a new code.",
-  missing: "No active code for this account. Request a new one.",
-};
 
 export async function authVerifyEmailHandler(request: Request, response: Response): Promise<void> {
   const { email, code } = request.validatedBody as VerifyEmailBody;
@@ -32,7 +23,7 @@ export async function authVerifyEmailHandler(request: Request, response: Respons
     const outcome = await consumeVerificationCode(user.id, code);
     if (outcome !== "ok") {
       logWarn("[AUTH]", "verify-email:rejected", { userId: user.id, outcome });
-      response.status(400).json({ error: OUTCOME_ERRORS[outcome] });
+      response.status(400).json({ error: OTP_OUTCOME_ERRORS[outcome] });
       return;
     }
     const session = await issueSessionForUser(user);

@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
     borderColor: colors.border,
   },
   secondaryPressed: { opacity: 0.85 },
+  appleButton: { marginTop: spacing.lg, height: 52 },
   secondaryLabel: { color: colors.textPrimary, fontWeight: "700" },
   terms: { marginTop: spacing.lg, color: colors.textSecondary, fontSize: fontSize.sm, textAlign: "center" },
   switchAuthBtn: { marginTop: spacing.lg, minHeight: 44, alignItems: "center", justifyContent: "center" },

@@ -1,5 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AuthScreen } from "@/components/auth/auth-screen/AuthScreen";
+import { ForgotPasswordScreen } from "@/components/auth/forgot-password/ForgotPasswordScreen";
+import { ResetPasswordScreen } from "@/components/auth/reset-password/ResetPasswordScreen";
 import { VerifyEmailScreen } from "@/components/auth/verify-email/VerifyEmailScreen";
 import { useAppSelector } from "@/redux/hooks";
 import { colors } from "@/theme/theme";
@@ -19,6 +21,9 @@ const AUTH_SCREEN_OPTIONS = {
 // gestureEnabled false: a mid-OTP swipe-dismiss would silently abandon verification;
 // leaving is only via the explicit header back (returns to the Auth form).
 const VERIFY_EMAIL_SCREEN_OPTIONS = { ...AUTH_SCREEN_OPTIONS, title: "Verify email", gestureEnabled: false };
+const FORGOT_PASSWORD_SCREEN_OPTIONS = { ...AUTH_SCREEN_OPTIONS, title: "Forgot password" };
+// Same rationale as VerifyEmail: a mid-OTP swipe-dismiss would abandon the reset.
+const RESET_PASSWORD_SCREEN_OPTIONS = { ...AUTH_SCREEN_OPTIONS, title: "Reset password", gestureEnabled: false };
 
 /**
  * Root stack. Auth screens are registered only while unauthenticated — on sign-in
@@ -35,6 +40,8 @@ export function MainNavigator() {
         <>
           <RootStack.Screen name="Auth" component={AuthScreen} options={AUTH_SCREEN_OPTIONS} />
           <RootStack.Screen name="VerifyEmail" component={VerifyEmailScreen} options={VERIFY_EMAIL_SCREEN_OPTIONS} />
+          <RootStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={FORGOT_PASSWORD_SCREEN_OPTIONS} />
+          <RootStack.Screen name="ResetPassword" component={ResetPasswordScreen} options={RESET_PASSWORD_SCREEN_OPTIONS} />
         </>
       )}
     </RootStack.Navigator>

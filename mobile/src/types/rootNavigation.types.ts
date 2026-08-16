@@ -1,4 +1,5 @@
 import type { NavigatorScreenParams } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import type { MainTabParamList } from "./mainTab.types";
 
 /**
@@ -19,7 +20,12 @@ export type RootStackParamList = {
   MainTabs: NavigatorScreenParams<MainTabParamList> | undefined;
   Auth: undefined;
   VerifyEmail: { email: string; codeJustSent: boolean };
+  ForgotPassword: { email?: string };
+  ResetPassword: { email: string };
 };
+
+export type ForgotPasswordNavigation = NativeStackNavigationProp<RootStackParamList, "ForgotPassword">;
+export type ResetPasswordNavigation = NativeStackNavigationProp<RootStackParamList, "ResetPassword">;
 
 declare global {
   namespace ReactNavigation {

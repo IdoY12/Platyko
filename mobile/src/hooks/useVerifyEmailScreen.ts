@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import { useAppDispatch } from "@/redux/hooks";
+import { useOtpCodeEntry } from "@/hooks/useOtpCodeEntry";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
 import { logAuth, logError, logNav } from "@/utils/logger";
 import emailVerificationService from "@/services/emailVerification";
-
-const RESEND_COOLDOWN_SECONDS = 60;
 
 type VerifyEmailRouteParams = { email: string; codeJustSent: boolean };
 
@@ -13,23 +12,15 @@ export function useVerifyEmailScreen() {
   const dispatch = useAppDispatch();
   const params = useRoute().params as VerifyEmailRouteParams | undefined;
   const email = params?.email ?? "";
-  const [code, setCodeState] = useState("");
+  const { code, setCode, resendSecondsLeft, restartResendCooldown } = useOtpCodeEntry(params?.codeJustSent ?? false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [resendSecondsLeft, setResendSecondsLeft] = useState(params?.codeJustSent ? RESEND_COOLDOWN_SECONDS : 0);
 
   useEffect(() => {
     logNav("screen:enter", { screen: "VerifyEmailScreen" });
     return () => logNav("screen:leave", { screen: "VerifyEmailScreen" });
   }, []);
 
-  useEffect(() => {
-    if (resendSecondsLeft <= 0) return;
-    const timer = setTimeout(() => setResendSecondsLeft((s) => s - 1), 1000);
-    return () => clearTimeout(timer);
-  }, [resendSecondsLeft]);
-
-  const setCode = useCallback((text: string) => setCodeState(text.replace(/\D/g, "").slice(0, 6)), []);
   const canVerify = code.length === 6 && !loading;
 
   const onVerify = useCallback(async () => {
@@ -56,12 +47,12 @@ export function useVerifyEmailScreen() {
     try {
       await emailVerificationService.resendCode(email);
       logAuth("verify-email:resend", { email });
-      setResendSecondsLeft(RESEND_COOLDOWN_SECONDS);
+      restartResendCooldown();
     } catch (resendError) {
       logError("[AUTH]", resendError, { mode: "verify-email-resend" });
       setError(resendError instanceof Error ? resendError.message : "Unable to resend the code");
     }
-  }, [email, loading, resendSecondsLeft]);
+  }, [email, loading, resendSecondsLeft, restartResendCooldown]);
 
   return { email, code, setCode, loading, error, resendSecondsLeft, canVerify, onVerify, onResend };
 }

@@ -6,7 +6,7 @@ import { storeRefreshToken } from "../../utils/storeRefreshToken.js";
 import { ensureUserProgressForLogin, touchUserLastActive } from "./loginSideEffects.js";
 
 /** Runs login side effects and builds the same session payload /auth/login returns. */
-export async function issueSessionForUser(user: User) {
+export async function issueSessionForUser(user: User, includeBlockProgress = false) {
   const progress = await ensureUserProgressForLogin(user);
   await touchUserLastActive(user.id);
   const tokenPayload = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
@@ -23,6 +23,7 @@ export async function issueSessionForUser(user: User) {
       experienceLevel: resolveExperienceLevel(progress.experienceLevel),
       dailyCommitmentMinutes: progress.dailyCommitmentMinutes ?? 15,
       notificationsEnabled: progress.notificationsEnabled ?? true,
+      ...(includeBlockProgress ? { blockProgress: (progress.blockProgress ?? {}) as Record<string, number> } : {}),
     },
     accessToken,
     refreshToken,

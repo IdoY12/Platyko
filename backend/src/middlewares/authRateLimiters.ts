@@ -28,3 +28,7 @@ export const authLogoutRateLimiter = limiter(40);
 export const authVerifyEmailRateLimiter = limiter(30);
 // Resend is additionally throttled per user (60 s cooldown via EmailVerification.lastSentAt)
 export const authResendVerificationRateLimiter = limiter(10);
+// Reset request sends an email; also throttled per user (60 s cooldown via PasswordReset.lastSentAt)
+export const authPasswordResetRequestRateLimiter = limiter(10);
+// Wrong-code attempts are also capped per code in the DB (5); this only stops floods
+export const authPasswordResetConfirmRateLimiter = limiter(30);

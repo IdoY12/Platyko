@@ -7,7 +7,10 @@ import { createProgressRowsFromSnapshot, type GuestSnapshot } from "./guestSnaps
 const USERNAME_SUFFIX_RETRIES = 12;
 const USERNAME_RANDOM_RETRIES = 8;
 
-function deriveGoogleUsername(email: string, displayName?: string): string {
+/** Provider identity column(s) to store on the new user row. */
+export type SocialProvider = { googleId: string } | { appleSub: string };
+
+function deriveUsername(email: string, displayName?: string): string {
   const named = displayName?.trim().replace(/\s+/g, "_").slice(0, USERNAME_MAX_LEN);
   const local = (email.split("@")[0] || "user").slice(0, USERNAME_MAX_LEN);
   let u = named && named.length >= USERNAME_MIN_LEN ? named : local;
@@ -25,10 +28,10 @@ function randomUsername(): string {
   return `g${randomBytes(12).toString("hex")}`.slice(0, USERNAME_MAX_LEN).padEnd(USERNAME_MIN_LEN, "x");
 }
 
-export async function createGoogleUserWithProgress(
-  googleId: string, email: string, displayName?: string, snapshot: GuestSnapshot = {},
+export async function createSocialUserWithProgress(
+  provider: SocialProvider, email: string, displayName?: string, snapshot: GuestSnapshot = {},
 ): Promise<User> {
-  let candidate = deriveGoogleUsername(email, displayName);
+  let candidate = deriveUsername(email, displayName);
   const max = USERNAME_SUFFIX_RETRIES + USERNAME_RANDOM_RETRIES;
   for (let attempt = 0; attempt < max; attempt++) {
     try {
@@ -36,10 +39,10 @@ export async function createGoogleUserWithProgress(
         const created = await tx.user.create({
           data: {
             email,
-            googleId,
+            ...provider,
             username: candidate,
             hashedPassword: null,
-            // Google already proved ownership of this email — no OTP round trip needed
+            // The provider already proved ownership of this email — no OTP round trip needed
             emailVerified: true,
             activeExperienceLevel: snapshot.experienceLevel ?? "JUNIOR",
             puzzleXpSolveCounts: parsePuzzleXpSolveCounts(snapshot.puzzleXpSolveCounts ?? null),
@@ -52,9 +55,9 @@ export async function createGoogleUserWithProgress(
       if (!isUniqueConstraintError(error, "username")) throw error;
       candidate =
         attempt + 1 < USERNAME_SUFFIX_RETRIES
-          ? usernameWithCollisionSuffix(deriveGoogleUsername(email, displayName))
+          ? usernameWithCollisionSuffix(deriveUsername(email, displayName))
           : randomUsername();
     }
   }
-  throw new Error("Google signup: username collision after retries");
+  throw new Error("Social signup: username collision after retries");
 }

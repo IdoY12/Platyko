@@ -4,7 +4,8 @@ import { passwordPolicyError, registerValidationError } from "@project/user-cred
 import store, { type AppDispatch } from "@/redux/store";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
 import { logAuth, logError, logNav } from "@/utils/logger";
-import authService, { buildGuestLocalState } from "@/services/auth";
+import authService from "@/services/auth";
+import { buildGuestLocalState } from "@/services/authGuestState";
 import { isEmailNotVerifiedError } from "@/services/emailVerification";
 
 export function useAuthScreen(dispatch: AppDispatch) {

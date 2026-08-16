@@ -18,8 +18,8 @@ import { MAX_XP_TOTAL } from "@project/xp-constants";
 
 const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
-/** Guest local-progress snapshot fields shared by register and Google sign-in bodies. */
-const guestSnapshotShape = {
+/** Guest local-progress snapshot fields shared by register, Google, and Apple sign-in bodies. */
+export const guestSnapshotShape = {
   experienceLevel: z.enum(["JUNIOR", "MID", "SENIOR"]).optional(),
   goal: z.enum(["JOB", "WORK", "FUN", "PROJECT"]).optional(),
   dailyCommitmentMinutes: z.number().int().refine((v) => v === 10 || v === 15 || v === 25).optional(),

@@ -4,6 +4,7 @@ model User {
   username               String            @unique
   hashedPassword         String?
   googleId               String?           @unique
+  appleSub               String?           @unique
   avatarUrl              String?
   tokenVersion           Int               @default(0)
   emailVerified          Boolean           @default(false)
@@ -16,6 +17,7 @@ model User {
   progressRows      UserProgress[]
   refreshTokens     RefreshToken[]
   emailVerification EmailVerification?
+  passwordReset     PasswordReset?
   duelSessionsP1  DuelSession[] @relation("Player1Sessions")
   duelSessionsP2  DuelSession[] @relation("Player2Sessions")
   wonSessions     DuelSession[] @relation("WinnerSessions")

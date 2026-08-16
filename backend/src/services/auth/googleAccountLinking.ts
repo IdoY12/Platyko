@@ -1,5 +1,5 @@
 import { prisma, type User } from "@project/db";
-import { createGoogleUserWithProgress } from "./createGoogleUser.js";
+import { createSocialUserWithProgress } from "./createSocialUser.js";
 import type { GuestSnapshot } from "./guestSnapshotMigration.js";
 
 export class GoogleSignInBlockedError extends Error {
@@ -31,6 +31,6 @@ export async function findOrCreateGoogleUser(
     const updated = await prisma.user.update({ where: { id: byEmail.id }, data: { googleId } });
     return { user: updated, isNew: false };
   }
-  const user = await createGoogleUserWithProgress(googleId, email, displayName, guestSnapshot);
+  const user = await createSocialUserWithProgress({ googleId }, email, displayName, guestSnapshot);
   return { user, isNew: true };
 }
