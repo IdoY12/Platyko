@@ -1,4 +1,5 @@
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
 import { useOnboardingWizard } from "@/hooks/useOnboardingWizard";
 import { logOnboarding } from "@/utils/logger";
@@ -15,8 +16,11 @@ type OnboardingFlowProps = {
 
 export function OnboardingFlow({ onPersistedToDevice }: OnboardingFlowProps) {
   const wizard = useOnboardingWizard({ onPersistedToDevice });
+  // Insets applied as plain padding (not SafeAreaView): guarantees every step mounts with the
+  // same top offset — the native SafeAreaView could miss the first frame and shift step 1 up.
+  const insets = useSafeAreaInsets();
   return (
-    <SafeAreaView style={onboardingFlowStyles.container} edges={["top", "bottom"]}>
+    <View style={[onboardingFlowStyles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
       <MatrixRain opacity={0.25} />
       {wizard.step === 1 && (
         <OnboardingWizardStepFrame
@@ -59,6 +63,6 @@ export function OnboardingFlow({ onPersistedToDevice }: OnboardingFlowProps) {
           <OnboardingLearningPathPreview pathText={wizard.pathText} submitting={wizard.submitting} error={wizard.error} />
         </OnboardingWizardStepFrame>
       )}
-    </SafeAreaView>
+    </View>
   );
 }
