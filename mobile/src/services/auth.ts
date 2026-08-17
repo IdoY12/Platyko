@@ -8,13 +8,19 @@ export function apiErrorMessage(error: unknown): string {
   if (axios.isAxiosError(error) && error.response?.data && typeof error.response.data === "object" && "error" in error.response.data) {
     return String((error.response.data as { error: unknown }).error);
   }
-  return error instanceof Error ? error.message : "Unable to continue";
+  // Raw axios/internal messages ("Request failed with status code 401") must never reach the UI.
+  return "Something went wrong. Please try again.";
 }
 
 class AuthService {
   async login(email: string, password: string): Promise<AuthResponse> {
-    const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/login`, { email, password });
-    return data;
+    try {
+      const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/login`, { email, password });
+      return data;
+    } catch (e) {
+      // cause keeps the server response inspectable (isEmailNotVerifiedError) behind the safe message.
+      throw new Error(apiErrorMessage(e), { cause: e });
+    }
   }
 
   async register(email: string, username: string, password: string, local?: GuestLocalState): Promise<RegisterResponse> {

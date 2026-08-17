@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Alert, Pressable, Text } from "react-native";
+import { Alert, Image, Pressable, Text } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import store, { type AppDispatch } from "@/redux/store";
@@ -59,6 +59,7 @@ export function AuthGoogleButton({ dispatch }: { dispatch: AppDispatch }) {
       onPress={start}
       accessibilityLabel="Continue with Google"
     >
+      <Image source={require("../../../../assets/google-g-logo.png")} style={styles.googleLogo} />
       <Text style={styles.secondaryLabel}>Continue with Google</Text>
     </Pressable>
   );

@@ -44,5 +44,5 @@ export function isUniqueConstraintError(error: unknown, field?: string): boolean
   return target.includes(field);
 }
 
-export const DATABASE_UNAVAILABLE_MESSAGE =
-  "Database unavailable. Start PostgreSQL and set database.url via config (e.g. DATABASE_URL when using custom-environment-variables).";
+// Client-facing: the real cause is already logged server-side by every handler.
+export const DATABASE_UNAVAILABLE_MESSAGE = "Service is temporarily unavailable. Please try again.";

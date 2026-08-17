@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import type { Commitment, Experience, Goal } from "@/redux/profile-slice";
 import { completeOnboarding, setOnboarding } from "@/redux/profile-slice";
 import { useAuthenticatedService } from "@/hooks/useAuthenticatedService";
+import { apiErrorMessage } from "@/services/auth";
 import UserService from "@/services/auth-aware/UserService";
 
 type UseOnboardingWizardOptions = {
@@ -80,7 +81,7 @@ export function useOnboardingWizard(options: UseOnboardingWizardOptions) {
       options?.onPersistedToDevice?.();
     } catch (e) {
       logError("[ONBOARDING]", e, { phase: "submit" });
-      setError(e instanceof Error ? e.message : "We could not save your setup. Please try again.");
+      setError(apiErrorMessage(e));
     } finally {
       setSubmitting(false);
     }

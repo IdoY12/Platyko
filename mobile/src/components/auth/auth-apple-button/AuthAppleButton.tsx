@@ -50,7 +50,7 @@ export function AuthAppleButton({ dispatch }: { dispatch: AppDispatch }) {
   return (
     <AppleAuthentication.AppleAuthenticationButton
       buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE}
-      buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}
+      buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
       cornerRadius={radius.button}
       style={styles.appleButton}
       onPress={() => void start()}

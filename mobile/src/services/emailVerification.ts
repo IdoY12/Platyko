@@ -5,9 +5,11 @@ import { apiErrorMessage } from "./auth";
 
 /** True when the server rejected login because the account's email is not verified yet. */
 export function isEmailNotVerifiedError(error: unknown): boolean {
+  // Login wraps the axios error behind a safe message and keeps it in `cause`.
+  const candidate = error instanceof Error && error.cause !== undefined ? error.cause : error;
   return (
-    axios.isAxiosError(error) &&
-    (error.response?.data as { code?: string } | undefined)?.code === "EMAIL_NOT_VERIFIED"
+    axios.isAxiosError(candidate) &&
+    (candidate.response?.data as { code?: string } | undefined)?.code === "EMAIL_NOT_VERIFIED"
   );
 }
 
