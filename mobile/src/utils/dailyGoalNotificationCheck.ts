@@ -6,7 +6,15 @@ import store from "@/redux/store";
 const dailyPracticeReminderFpKey = "dailyPracticeReminderFp";
 const scheduledNotificationIdKey = "scheduledNotificationId";
 
-export async function syncDailyPracticeReminder(): Promise<void> {
+let syncQueue: Promise<void> = Promise.resolve();
+
+export function syncDailyPracticeReminder(): Promise<void> {
+  // Serialized: overlapping calls run one after another so they can never double-schedule.
+  syncQueue = syncQueue.then(runReminderSync, runReminderSync);
+  return syncQueue;
+}
+
+async function runReminderSync(): Promise<void> {
   const { session, profile } = store.getState();
   if (!session.hasHydrated) return;
 
@@ -17,15 +25,13 @@ export async function syncDailyPracticeReminder(): Promise<void> {
 
   const fpStored = await AsyncStorage.getItem(dailyPracticeReminderFpKey);
   const scheduledNotificationIdStored = await AsyncStorage.getItem(scheduledNotificationIdKey);
-  if (fpStored === fp && scheduledNotificationIdStored) return;
+  const scheduledIds = (await Notifications.getAllScheduledNotificationsAsync()).map((n) => n.identifier);
+  const osMatchesStored = scheduledIds.length === 1 && scheduledIds[0] === scheduledNotificationIdStored;
+  if (fpStored === fp && scheduledNotificationIdStored && osMatchesStored) return;
 
-  if (scheduledNotificationIdStored) {
-    try {
-      await Notifications.cancelScheduledNotificationAsync(scheduledNotificationIdStored);
-    } catch {
-      /* ignore stale scheduledNotificationId */
-    }
-  }
+  // The daily reminder is the only notification this app schedules, so cancelling all
+  // scheduled notifications also heals orphans left behind by past double-scheduling.
+  await Notifications.cancelAllScheduledNotificationsAsync();
 
   if (!allow) {
     await AsyncStorage.multiRemove([scheduledNotificationIdKey, dailyPracticeReminderFpKey]);

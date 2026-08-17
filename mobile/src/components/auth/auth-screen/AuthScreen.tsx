@@ -2,7 +2,9 @@ import type { Dispatch, SetStateAction } from "react";
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import { PRIVACY_POLICY_URL, TERMS_OF_USE_URL } from "@/constants/legalLinks";
 import { useAuthScreen } from "@/hooks/useAuthScreen";
+import { openExternalUrl } from "@/utils/profileUiAndPreferences";
 import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
 import { useAppDispatch } from "@/redux/hooks";
 import type { AppDispatch } from "@/redux/store";
@@ -22,7 +24,11 @@ function AuthFooter({ dispatch, email, isLogin, setIsLogin }: { dispatch: AppDis
       ) : null}
       <AuthGoogleButton dispatch={dispatch} />
       <AuthAppleButton dispatch={dispatch} />
-      <Text style={styles.terms}>By continuing, you agree to our Terms and Privacy Policy.</Text>
+      <Text style={styles.terms}>
+        By continuing, you agree to our{" "}
+        <Text style={styles.termsLink} onPress={() => openExternalUrl(TERMS_OF_USE_URL)}>Terms</Text> and{" "}
+        <Text style={styles.termsLink} onPress={() => openExternalUrl(PRIVACY_POLICY_URL)}>Privacy Policy</Text>.
+      </Text>
       <Pressable onPress={() => setIsLogin((v) => !v)} style={styles.switchAuthBtn}>
         <Text style={styles.switchAuthText}>
           {isLogin ? "Need an account? Register" : "Already have an account? Sign in"}

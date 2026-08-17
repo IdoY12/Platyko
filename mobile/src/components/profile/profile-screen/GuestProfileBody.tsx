@@ -12,6 +12,7 @@ import { PressableScale } from "@/components/common/PressableScale/PressableScal
 import { TerminalFrame } from "@/components/common/TerminalFrame/TerminalFrame";
 import { TerminalHeader } from "@/components/common/TerminalHeader/TerminalHeader";
 import { profileFormRowsStyles } from "@/theme/profileFormRows";
+import { LegalLinksCard } from "@/components/profile/legal-links-card/LegalLinksCard";
 import { GuestPreferenceChips } from "./GuestPreferenceChips";
 import { GuestProfileDangerCard } from "./GuestProfileDangerCard";
 import { styles } from "./ProfileScreen.styles";
@@ -68,7 +69,8 @@ export function GuestProfileBody() {
             </View>
           </TerminalFrame>
         </EntranceRise>
-        <EntranceRise slot={3}>
+        <EntranceRise slot={3}><LegalLinksCard /></EntranceRise>
+        <EntranceRise slot={4}>
           <GuestProfileDangerCard onResetPress={onResetPress} />
         </EntranceRise>
       </ScrollView>

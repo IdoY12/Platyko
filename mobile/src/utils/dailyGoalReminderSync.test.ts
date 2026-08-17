@@ -8,7 +8,8 @@ vi.mock("@react-native-async-storage/async-storage", () => ({
 vi.mock("expo-notifications", () => ({
   SchedulableTriggerInputTypes: { DAILY: "daily" },
   scheduleNotificationAsync: vi.fn(),
-  cancelScheduledNotificationAsync: vi.fn(),
+  cancelAllScheduledNotificationsAsync: vi.fn(),
+  getAllScheduledNotificationsAsync: vi.fn(),
 }));
 
 const getStateMock = vi.fn();
@@ -20,12 +21,8 @@ import { syncDailyPracticeReminder } from "@/utils/dailyGoalNotificationCheck";
 
 describe("syncDailyPracticeReminder", () => {
   beforeEach(() => {
-    vi.mocked(AsyncStorage.getItem).mockReset();
-    vi.mocked(AsyncStorage.multiSet).mockReset();
-    vi.mocked(AsyncStorage.multiRemove).mockReset();
-    vi.mocked(Notifications.scheduleNotificationAsync).mockReset();
-    vi.mocked(Notifications.cancelScheduledNotificationAsync).mockReset();
-    getStateMock.mockReset();
+    vi.clearAllMocks();
+    vi.mocked(Notifications.getAllScheduledNotificationsAsync).mockResolvedValue([]);
   });
 
   it("guest: schedules daily 19:00 and body includes dailyGoalMinutes from commitment", async () => {
@@ -48,7 +45,7 @@ describe("syncDailyPracticeReminder", () => {
     ]);
   });
 
-  it("signed-in notifications off: cancels stored id and clears AsyncStorage keys", async () => {
+  it("signed-in notifications off: cancels all scheduled notifications and clears AsyncStorage keys", async () => {
     getStateMock.mockReturnValue({
       session: { hasHydrated: true, isGuest: false, isAuthenticated: true },
       profile: { commitment: "10", notificationsEnabled: false },
@@ -57,12 +54,12 @@ describe("syncDailyPracticeReminder", () => {
 
     await syncDailyPracticeReminder();
 
-    expect(Notifications.cancelScheduledNotificationAsync).toHaveBeenCalledWith("prev-id");
+    expect(Notifications.cancelAllScheduledNotificationsAsync).toHaveBeenCalledTimes(1);
     expect(Notifications.scheduleNotificationAsync).not.toHaveBeenCalled();
     expect(AsyncStorage.multiRemove).toHaveBeenCalledWith(["scheduledNotificationId", "dailyPracticeReminderFp"]);
   });
 
-  it("skips schedule when fingerprint and scheduledNotificationId unchanged", async () => {
+  it("skips schedule when fingerprint, stored id, and OS state are unchanged", async () => {
     getStateMock.mockReturnValue({
       session: { hasHydrated: true, isGuest: true, isAuthenticated: false },
       profile: { commitment: "25", notificationsEnabled: true },
@@ -71,9 +68,13 @@ describe("syncDailyPracticeReminder", () => {
     vi.mocked(AsyncStorage.getItem).mockImplementation(async (k: string) =>
       k === "dailyPracticeReminderFp" ? fp : k === "scheduledNotificationId" ? "same" : null,
     );
+    vi.mocked(Notifications.getAllScheduledNotificationsAsync).mockResolvedValue([
+      { identifier: "same" } as Awaited<ReturnType<typeof Notifications.getAllScheduledNotificationsAsync>>[number],
+    ]);
 
     await syncDailyPracticeReminder();
 
     expect(Notifications.scheduleNotificationAsync).not.toHaveBeenCalled();
+    expect(Notifications.cancelAllScheduledNotificationsAsync).not.toHaveBeenCalled();
   });
 });

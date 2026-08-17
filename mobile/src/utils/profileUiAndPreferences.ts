@@ -3,7 +3,7 @@ import type { AppDispatch } from "@/redux/store";
 import type UserService from "@/services/auth-aware/UserService";
 import { logError } from "@/utils/logger";
 import { setNotificationsEnabled, updatePreferences } from "@/redux/profile-slice";
-import type { CommitmentKey, GoalKey, LevelKey, StatItem, SupportRowItem } from "@/types/profile.types";
+import type { CommitmentKey, GoalKey, LevelKey, StatItem } from "@/types/profile.types";
 
 type StatsSource = { streakCurrent: number; xp: number; lessonsCompleted: number };
 
@@ -15,19 +15,11 @@ export function profileStatsFromRedux(r: StatsSource): StatItem[] {
   ];
 }
 
-export function profileSupportRows(): SupportRowItem[] {
-  return [
-    { icon: "help-circle", label: "Help Center", url: "https://docs.expo.dev" },
-    { icon: "star", label: "Rate the App", url: "https://apps.apple.com" },
-    { icon: "shield-lock", label: "Privacy Policy", url: "https://docs.expo.dev/privacy/" },
-  ];
-}
-
 export function profileInitials(username: string): string {
   return (username || "C").trim().charAt(0).toUpperCase();
 }
 
-export function openSupportUrl(url: string): void {
+export function openExternalUrl(url: string): void {
   void Linking.openURL(url).catch(() => Alert.alert("Unavailable", "Could not open this link right now."));
 }
 

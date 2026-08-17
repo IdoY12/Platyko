@@ -1,6 +1,6 @@
 import React from "react";
 import { commitmentOptions, goals, levels } from "@/constants/learningSettings";
-import { profileInitials, profileStatsFromRedux, profileSupportRows } from "@/utils/profileUiAndPreferences";
+import { profileInitials, profileStatsFromRedux } from "@/utils/profileUiAndPreferences";
 import type { ProfileReduxState } from "./useProfileRedux";
 
 export function useProfileDraftState(r: ProfileReduxState) {
@@ -26,7 +26,6 @@ export function useProfileDraftState(r: ProfileReduxState) {
 
   const initials = profileInitials(r.username);
   const stats = React.useMemo(() => profileStatsFromRedux(r), [r.streakCurrent, r.xp, r.lessonsCompleted]);
-  const supportRows = React.useMemo(() => profileSupportRows(), []);
 
   return {
     draftGoal,
@@ -65,7 +64,6 @@ export function useProfileDraftState(r: ProfileReduxState) {
     setBusyAction,
     initials,
     stats,
-    supportRows,
     goals,
     levels,
     commitmentOptions,

@@ -18,6 +18,8 @@ export function useOnboardingWizard(options: UseOnboardingWizardOptions) {
   const dispatch = useAppDispatch();
   const user = useAuthenticatedService(UserService);
   const accessToken = useAppSelector((s) => s.session.accessToken);
+  // Preserves a server-synced opt-out when onboarding re-runs (e.g. after reinstall); true only for new users.
+  const notificationsEnabled = useAppSelector((s) => s.profile.notificationsEnabled);
   const [step, setStep] = useState(1);
   const [level, setLevel] = useState<Experience | undefined>(undefined);
   const [goal, setGoal] = useState<Goal | undefined>(undefined);
@@ -58,7 +60,7 @@ export function useOnboardingWizard(options: UseOnboardingWizardOptions) {
           goal,
           experienceLevel: level,
           dailyCommitmentMinutes: Number(commitment),
-          notificationsEnabled: true,
+          notificationsEnabled,
         });
         if (!response.experienceLevel) {
           setError("Could not save your setup");
@@ -74,7 +76,7 @@ export function useOnboardingWizard(options: UseOnboardingWizardOptions) {
           }),
         );
       } else {
-        dispatch(completeOnboarding({ experienceLevel: level, goal, commitment, notificationsEnabled: true }));
+        dispatch(completeOnboarding({ experienceLevel: level, goal, commitment, notificationsEnabled }));
       }
 
       await AsyncStorage.setItem(ONBOARDING_SEEN_STORAGE_KEY, "1");

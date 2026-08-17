@@ -29,6 +29,7 @@ export const styles = StyleSheet.create({
   googleLogo: { width: 18, height: 18, resizeMode: "contain" },
   secondaryLabel: { color: colors.textPrimary, fontWeight: "700", fontSize: fontSize.md },
   terms: { marginTop: spacing.lg, color: colors.textSecondary, fontSize: fontSize.sm, textAlign: "center" },
+  termsLink: { color: colors.accent, textDecorationLine: "underline" },
   switchAuthBtn: { marginTop: spacing.lg, minHeight: 44, alignItems: "center", justifyContent: "center" },
   switchAuthText: { color: colors.accent, fontWeight: "700" },
 });

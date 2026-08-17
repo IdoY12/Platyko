@@ -17,4 +17,6 @@ export const profileFormRowsStyles = StyleSheet.create({
   switchControl: { alignSelf: "center", transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }] },
   rowText: { color: colors.textPrimary, fontWeight: "600" },
   rowSubText: { color: colors.textSecondary, fontSize: fontSize.sm },
+  rowPress: { opacity: 0.75 },
+  rowChevron: { color: colors.textSecondary, fontSize: fontSize.lg },
 });
