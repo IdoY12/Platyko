@@ -11,7 +11,7 @@ export async function authPasswordResetConfirmHandler(request: Request, response
   logInfo("[AUTH]", "password-reset-confirm:attempt", { email });
   try {
     const user = await prisma.user.findUnique({ where: { email } });
-    if (!user?.hashedPassword) {
+    if (!user) {
       // Same body as a wrong code: never reveal whether the email belongs to an account.
       response.status(400).json({ error: OTP_OUTCOME_ERRORS.missing });
       return;

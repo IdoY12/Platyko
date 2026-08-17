@@ -21,9 +21,11 @@ const AUTH_SCREEN_OPTIONS = {
 // gestureEnabled false: a mid-OTP swipe-dismiss would silently abandon verification;
 // leaving is only via the explicit header back (returns to the Auth form).
 const VERIFY_EMAIL_SCREEN_OPTIONS = { ...AUTH_SCREEN_OPTIONS, title: "Verify email", gestureEnabled: false };
-const FORGOT_PASSWORD_SCREEN_OPTIONS = { ...AUTH_SCREEN_OPTIONS, title: "Forgot password" };
-// Same rationale as VerifyEmail: a mid-OTP swipe-dismiss would abandon the reset.
-const RESET_PASSWORD_SCREEN_OPTIONS = { ...AUTH_SCREEN_OPTIONS, title: "Reset password", gestureEnabled: false };
+// Reset screens must stay escapable: header back visible and dismiss gesture on
+// (both are plain stack pops back to the Auth form — abandoning a reset is harmless,
+// unlike VerifyEmail where it would strand a just-registered account).
+const FORGOT_PASSWORD_SCREEN_OPTIONS = { ...AUTH_SCREEN_OPTIONS, title: "Forgot password", headerBackVisible: true };
+const RESET_PASSWORD_SCREEN_OPTIONS = { ...AUTH_SCREEN_OPTIONS, title: "Reset password", headerBackVisible: true };
 
 /**
  * Root stack. Auth screens are registered only while unauthenticated — on sign-in

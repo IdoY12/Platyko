@@ -8,15 +8,17 @@ import { sendPasswordResetCodeEmail } from "../../services/auth/sendPasswordRese
 
 /**
  * Always answers 200 with the same body — the response must never reveal
- * whether the email belongs to an account. Social-only accounts (no password)
- * and per-user cooldown hits are skipped silently for the same reason.
+ * whether the email belongs to an account. Unknown emails and per-user
+ * cooldown hits are skipped silently for the same reason. Social-only
+ * accounts (no password yet) DO get a code: confirming it sets their first
+ * password — the standard email-OTP "add a password" pattern.
  */
 export async function authPasswordResetRequestHandler(request: Request, response: Response): Promise<void> {
   const { email } = request.validatedBody as RequestPasswordResetBody;
   logInfo("[AUTH]", "password-reset-request:attempt", { email });
   try {
     const user = await prisma.user.findUnique({ where: { email } });
-    if (user?.hashedPassword && (await passwordResetCooldownSecondsLeft(user.id)) === 0) {
+    if (user && (await passwordResetCooldownSecondsLeft(user.id)) === 0) {
       const code = await createPasswordResetCode(user.id);
       await sendPasswordResetCodeEmail(user.email, code);
       logInfo("[AUTH]", "password-reset-request:sent", { userId: user.id });
