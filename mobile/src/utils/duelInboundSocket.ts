@@ -27,6 +27,7 @@ export function bindDuelSocketEvents(socket: Socket) {
     store.dispatch(roundStarted({ round: {
       roundNumber: p.round_number, prompt: q.prompt, codeSnippet: q.code_snippet,
       options: q.options ?? [], type: q.type ?? "MCQ",
+      endsAt: typeof p.ends_in_ms === "number" && p.ends_in_ms > 0 ? Date.now() + p.ends_in_ms : 0,
     } }));
   });
   socket.on("round_result", (p) => {

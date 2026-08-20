@@ -45,6 +45,8 @@ export interface SessionState {
   askedQuestionIds: Set<string>;
   /** Pending ready/round timeout; cleared on session end or abandon (see roundTimeout.ts). */
   roundTimer?: ReturnType<typeof setTimeout>;
+  /** Absolute epoch ms when the running round times out; mirrors roundTimer so clients can render a synced countdown. */
+  roundDeadlineAt?: number;
 }
 
 export type DuelNamespace = ReturnType<Server["of"]>;

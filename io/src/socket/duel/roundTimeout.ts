@@ -21,6 +21,7 @@ const DUEL_ROUND_TIMEOUT_MS = 60_000;
 export function clearSessionRoundTimer(session: SessionState): void {
   if (session.roundTimer) clearTimeout(session.roundTimer);
   session.roundTimer = undefined;
+  session.roundDeadlineAt = undefined;
 }
 
 /** Drops a matched session whose players never started round 1 and frees both users. */
@@ -39,6 +40,7 @@ export function scheduleReadyTimeout(duel: DuelNamespace, session: SessionState)
 /** Resolves a stalled round as no-winner so the duel always advances or ends. */
 export function scheduleRoundTimeout(duel: DuelNamespace, session: SessionState): void {
   clearSessionRoundTimer(session);
+  session.roundDeadlineAt = Date.now() + DUEL_ROUND_TIMEOUT_MS;
   const expectedRound = session.round;
   session.roundTimer = setTimeout(() => {
     if (!sessions.has(session.sessionId) || session.round !== expectedRound) return;

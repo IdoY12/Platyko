@@ -16,6 +16,8 @@ export interface DuelRound {
   codeSnippet: string;
   options: string[];
   type: "MCQ" | "PUZZLE";
+  /** Device-clock epoch ms when the server round timer expires; 0 when the server sent no deadline. */
+  endsAt: number;
 }
 
 /** Line-tap answers for seeded bug questions stay `MCQ`; infer from prompt and numeric line options. */

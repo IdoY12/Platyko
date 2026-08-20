@@ -27,6 +27,8 @@ export function roundStartPayload(session: SessionState, question: DuelQuestion)
       options,
     },
     starts_at: Date.now(),
+    /** Remaining round time so clients can render a countdown synced to the server timer. */
+    ends_in_ms: Math.max(0, (session.roundDeadlineAt ?? 0) - Date.now()),
   };
 }
 
@@ -60,8 +62,9 @@ export async function startRound(io: DuelNamespace, sessionOrId: string | Sessio
       explanation: question.explanation,
     };
     session.askedQuestionIds.add(question.id);
-    io.to(session.roomId).emit("round_start", roundStartPayload(session, question));
+    // Deadline must exist before the payload is built, so the timeout is scheduled first.
     scheduleRoundTimeout(io, session);
+    io.to(session.roomId).emit("round_start", roundStartPayload(session, question));
   } catch (error) {
     logError("[DUEL]", error, { phase: "start-round" });
   }

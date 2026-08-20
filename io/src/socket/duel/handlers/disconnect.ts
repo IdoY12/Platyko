@@ -1,43 +1,9 @@
 import type { Socket } from "socket.io";
-import { XP_PER_CORRECT_EXERCISE } from "@project/xp-constants";
-import { applyXpReward } from "../services/rewards.js";
-import { persistDuelSession } from "../persistence.js";
 import { logInfo } from "../../../utils/logger.js";
 import { clearSoloMatchTimer } from "../queue.js";
-import { clearSessionRoundTimer } from "../roundTimeout.js";
+import { onDuelParticipantGone } from "../duelParticipantGone.js";
 import { broadcastQueueStatus, queue, sessions, rematchEntries } from "../state.js";
-import type { DuelNamespace, SessionState } from "../types.js";
-
-function onDuelParticipantGone(duel: DuelNamespace, leaverSocketId: string, session: SessionState, sessionId: string) {
-  const soloOpponent = session.player2.socketId.startsWith("solo:");
-  if (soloOpponent && session.player1.socketId === leaverSocketId) {
-    clearSessionRoundTimer(session);
-    sessions.delete(sessionId);
-    return;
-  }
-  if (session.player1.socketId !== leaverSocketId && session.player2.socketId !== leaverSocketId) return;
-  if (session.abandonInProgress) return;
-  session.abandonInProgress = true;
-  clearSessionRoundTimer(session);
-  // Remove synchronously so pending round timers and endSession cannot persist this duel a second time.
-  sessions.delete(sessionId);
-  const survivor = session.player1.socketId === leaverSocketId ? session.player2 : session.player1;
-  const survivorIsP1 = survivor === session.player1;
-  void persistDuelSession(session, survivor.userId);
-  duel.to(survivor.socketId).emit("opponent_disconnected", { at_round: session.round });
-  const survivorStreakDate = survivorIsP1 ? session.player1StreakLocalDate : session.player2StreakLocalDate;
-  void applyXpReward(survivor.userId, XP_PER_CORRECT_EXERCISE, survivorStreakDate)
-    .then(({ xpAdded, streakCurrent }) => {
-      duel.to(survivor.socketId).emit("duel_end", {
-        winner_user_id: survivor.userId,
-        my_score: survivorIsP1 ? session.score.player1 : session.score.player2,
-        opp_score: survivorIsP1 ? session.score.player2 : session.score.player1,
-        xp_earned: xpAdded,
-        round_replay: session.roundReplay,
-        streak_current: streakCurrent,
-      });
-    });
-}
+import type { DuelNamespace } from "../types.js";
 
 export function registerDisconnect(socket: Socket, duel: DuelNamespace) {
   socket.on("disconnect", () => {
@@ -48,7 +14,7 @@ export function registerDisconnect(socket: Socket, duel: DuelNamespace) {
 
     sessions.forEach((session, sessionId) => {
       if (session.player1.socketId === socket.id || session.player2.socketId === socket.id) {
-        onDuelParticipantGone(duel, socket.id, session, sessionId);
+        onDuelParticipantGone(duel, socket.id, session, sessionId, true);
       }
     });
 
@@ -73,6 +39,6 @@ export function registerDisconnect(socket: Socket, duel: DuelNamespace) {
     if (!sessionId) return;
     const session = sessions.get(sessionId);
     if (!session) return;
-    onDuelParticipantGone(duel, socket.id, session, sessionId);
+    onDuelParticipantGone(duel, socket.id, session, sessionId, false);
   });
 }

@@ -10,6 +10,7 @@ import { duelLeaveDuel } from "@/utils/duelSocketCommands";
 import { colors } from "@/theme/theme";
 import { DuelActiveAnswerZone } from "./DuelActiveAnswerZone";
 import { DuelRoundOverlay } from "./DuelRoundOverlay";
+import { DuelRoundTimer } from "./DuelRoundTimer";
 import { DuelScoreRow } from "./DuelScoreRow";
 import { styles } from "./DuelNavigator.styles";
 
@@ -56,6 +57,7 @@ export function DuelActiveDuelScreen({ navigation }: ActiveDuelScreenProps) {
             opponentName={u.opponentName}
             opponentAvatarUrl={u.opponentAvatarUrl}
           />
+          <DuelRoundTimer endsAt={u.round.endsAt} />
           <Text style={styles.sub}>You can choose up to 3 answers. ({u.attemptsLeft} remaining)</Text>
           <Text style={styles.cardTitle}>{u.round.prompt}</Text>
           <CodeSnippet code={u.round.codeSnippet} />
