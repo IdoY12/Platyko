@@ -15,8 +15,9 @@ function getExpoHost(): string | null {
     // Cast needed because TypeScript no longer includes expoGoConfig in the Constants type definitions
     (Constants as unknown as { expoGoConfig?: { debuggerHost?: string } }).expoGoConfig?.debuggerHost ??
 
-    // Fallback: LAN IP written to mobile/.env by ios-device.sh before native build
-    process.env.EXPO_PUBLIC_DEV_HOST ??
+    // Fallback: LAN IP written to mobile/.env by ios-device.sh before native build.
+    // React Native types process.env values as `any`, so pin the real type here.
+    (process.env.EXPO_PUBLIC_DEV_HOST as string | undefined) ??
     // No host available — native build without ios-device.sh, caller handles this
     null;
   if (!hostUri) return null;

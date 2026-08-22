@@ -9,6 +9,16 @@ import {
   wrongAnswerIncremented,
 } from "@/redux/duel-live-slice";
 
+type RoundStartWire = {
+  round_number?: number;
+  question?: { prompt?: string; code_snippet?: string; options?: string[]; type?: string };
+  ends_in_ms?: number;
+};
+type DuelEndWire = {
+  tied?: boolean; winner_user_id?: string | null; xp_earned?: number; my_score?: number;
+  opp_score?: number; round_replay?: unknown[]; streak_current?: unknown;
+};
+
 export function bindDuelSocketEvents(socket: Socket) {
   socket.on("connect", () => { logDuel("socket:connected", { socketId: socket.id }); store.dispatch(connectionLostCleared()); });
   socket.on("disconnect", (reason) => { logDuel("socket:disconnected", { reason }); store.dispatch(connectionLostSet()); });
