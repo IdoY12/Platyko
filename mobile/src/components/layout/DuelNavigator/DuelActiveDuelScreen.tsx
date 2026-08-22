@@ -37,7 +37,7 @@ export function DuelActiveDuelScreen({ navigation }: ActiveDuelScreenProps) {
       emittedRef.current = true; duelLeaveDuel(sid);
     };
     return navigation.addListener("beforeRemove", leave);
-  }, [navigation, u.sessionId]);
+  }, [navigation, u.sessionId, u.skipLeaveAfterEndRef]);
 
   return (
     <SafeAreaView style={styles.arenaContainer} edges={["top"]}>

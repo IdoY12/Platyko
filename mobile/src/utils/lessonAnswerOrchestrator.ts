@@ -44,7 +44,7 @@ function finishOrAdvance(
   setIndex(nextIndex);
 }
 
-export async function orchestrateLessonAnswer(a: LessonAnswerOrchestratorArgs): Promise<void> {
+export function orchestrateLessonAnswer(a: LessonAnswerOrchestratorArgs): void {
   const { isAnswerCorrect } = a.completion;
   const { xpEarned } = a.completion.submitResult;
   const nextAttempted = a.attemptedCount + 1;

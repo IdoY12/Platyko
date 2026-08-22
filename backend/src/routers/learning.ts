@@ -1,5 +1,5 @@
 import rateLimit from "express-rate-limit";
-import { Router, type RequestHandler } from "express";
+import { Router } from "express";
 import { learningGetExercisesHandler } from "../controllers/learning/learningGetExercisesHandler.js";
 import { learningGetResumeHandler } from "../controllers/learning/learningGetResumeHandler.js";
 import { learningResetProgressHandler } from "../controllers/learning/learningResetProgressHandler.js";
@@ -12,7 +12,7 @@ import {
   learningSubmitExerciseBodySchema,
 } from "../validators/learningValidators.js";
 
-const learningLimiter: RequestHandler = rateLimit({ windowMs: 60_000, max: 100, standardHeaders: true, legacyHeaders: false });
+const learningLimiter = rateLimit({ windowMs: 60_000, max: 100, standardHeaders: true, legacyHeaders: false });
 
 export const learningRouter = Router();
 

@@ -14,7 +14,7 @@ export function highlightJavaScript(lines: string[]): HighlightedToken[][] {
 
     const collect = (regex: RegExp, color: string) => {
       [...line.matchAll(regex)].forEach((match) => {
-        matches.push({ start: match.index!, end: match.index! + match[0].length, color });
+        matches.push({ start: match.index, end: match.index + match[0].length, color });
       });
     };
 

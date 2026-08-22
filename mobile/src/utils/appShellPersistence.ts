@@ -58,7 +58,7 @@ export async function ensureAppShellNotificationSetup(): Promise<void> {
 
   // If not already "granted", show the one-time system popup to the user.
   // Note: If they previously said "No", the OS will silently block this prompt for us.
-  if (permission.status !== "granted") {
+  if (permission.status !== Notifications.PermissionStatus.GRANTED) {
     await Notifications.requestPermissionsAsync();
   }
 }

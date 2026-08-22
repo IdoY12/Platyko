@@ -38,8 +38,8 @@ export function useLessonExerciseCompleteHandler(
   }, [dispatch, isGuest]);
 
   return useCallback(
-    async (_answer: string, completion: LessonExerciseCompletionContext) => {
-      await orchestrateLessonAnswer({
+    (_answer: string, completion: LessonExerciseCompletionContext) => {
+      orchestrateLessonAnswer({
         completion,
         addXp,
         onQualifyingLessonXpEarned,

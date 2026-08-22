@@ -16,7 +16,7 @@ const MS_DAY = 1000 * 60 * 60 * 24;
 export function useCodePuzzle() {
   const dispatch = useAppDispatch();
   const focused = useIsFocused();
-  const appRef = useRef(AppState.currentState as AppStateStatus);
+  const appRef = useRef<AppStateStatus>(AppState.currentState);
   const isGuest = useAppSelector((s) => s.session.isGuest);
   const xpSolveCounts = useAppSelector((s) => s.puzzle.xpSolveCounts);
   const xpTotal = useAppSelector((s) => s.xp.xpTotal);

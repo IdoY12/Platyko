@@ -9,13 +9,14 @@ export function attachAppShellForegroundInfrastructure(setIsConnected: (next: bo
   void ensureAppShellNotificationSetup();
   // Intentionally permanent for the app's lifetime — Expo provides no teardown API for this.
   Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: false,
-      shouldShowBanner: true,
-      shouldShowList: true,
-    }),
+    handleNotification: () =>
+      Promise.resolve({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+        shouldShowBanner: true,
+        shouldShowList: true,
+      }),
   });
   const unsubscribeNetInfo = NetInfo.addEventListener((state) => setIsConnected(Boolean(state.isConnected)));
   const unsubscribeUnhandledRejectionLogger = registerUnhandledRejectionLogger();

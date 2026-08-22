@@ -29,7 +29,7 @@ export function useProfileAvatarHandlers(r: ProfileReduxState, d: ProfileDraftSt
         }, 250);
       }
     },
-    [r.accessToken, d.uploadingAvatar, dispatch, d.setUploadingAvatar, d.setUploadProgress, user],
+    [r.accessToken, d, dispatch, user],
   );
 
   const onAvatarPress = React.useCallback(() => {

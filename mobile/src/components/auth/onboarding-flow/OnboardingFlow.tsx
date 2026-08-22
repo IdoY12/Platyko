@@ -62,7 +62,7 @@ export function OnboardingFlow({ onPersistedToDevice }: OnboardingFlowProps) {
           stepNumber={3}
           onContinue={() => {
             logOnboarding("step:complete", { step: 3, commitment: wizard.commitment });
-            wizard.submitOnboarding();
+            void wizard.submitOnboarding();
           }}
           enabled
           continueLabel={wizard.submitting ? "Saving..." : "Get Started"}

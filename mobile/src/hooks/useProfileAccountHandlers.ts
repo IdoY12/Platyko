@@ -20,14 +20,14 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
     d.setSaveMessage(null);
     await patchLearningSettings(user, d.draftGoal, d.draftLevel, d.draftCommitment, d.draftNotifications, dispatch, d.setSaveMessage);
     d.setSaving(false);
-  }, [r.accessToken, d.saving, d.draftGoal, d.draftLevel, d.draftCommitment, d.draftNotifications, dispatch, d.setSaving, d.setSaveMessage, user]);
+  }, [r.accessToken, d, dispatch, user]);
 
   const onSaveUsername = React.useCallback(async () => {
     if (!r.accessToken || !user || !d.draftUsername.trim() || d.busyAction) return;
     d.setBusyAction("username");
     await updateUsername(user, d.draftUsername.trim(), dispatch, () => d.setUsernameModalVisible(false), d.setSaveMessage);
     d.setBusyAction(null);
-  }, [r.accessToken, d.draftUsername, d.busyAction, dispatch, d.setBusyAction, d.setUsernameModalVisible, d.setSaveMessage, user]);
+  }, [r.accessToken, d, dispatch, user]);
 
   const onChangePassword = React.useCallback(async () => {
     if (!r.accessToken || !user || d.busyAction) return;
@@ -44,7 +44,7 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
       d.setPasswordModalVisible(false);
     }, d.setSaveMessage);
     d.setBusyAction(null);
-  }, [r.accessToken, d.busyAction, d.newPassword, d.currentPassword, d.setBusyAction, d.setCurrentPassword, d.setNewPassword, d.setPasswordModalVisible, d.setSaveMessage, user]);
+  }, [r.accessToken, d, user]);
 
   const onDeleteAccount = React.useCallback(async () => {
     if (!r.accessToken || !user || d.confirmDeleteText !== "DELETE" || d.busyAction) return;
@@ -54,7 +54,7 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
       d.setConfirmDeleteText("");
     });
     d.setBusyAction(null);
-  }, [r.accessToken, d.confirmDeleteText, d.busyAction, dispatch, d.setBusyAction, d.setDeleteModalVisible, d.setConfirmDeleteText, user]);
+  }, [r.accessToken, d, dispatch, user]);
 
   const onLogoutPress = React.useCallback(() => {
     Alert.alert("Log out", "Are you sure you want to log out?", [
@@ -64,18 +64,15 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
   }, [dispatch, r.accessToken, r.refreshToken]);
   const onResetLearningProgress = React.useCallback(() => {
     if (!r.accessToken) return;
+    const resetRemoteThenLocal = async () => { try { await new LearningService().resetProgress(); } catch { /**/ } dispatch(resetLesson()); };
     Alert.alert("Reset Learn Progress", "This will permanently delete all your learning progress and cannot be undone.", [
       { text: "Cancel", style: "cancel" },
-      { text: "Reset", style: "destructive", onPress: async () => { try { await new LearningService().resetProgress(); } catch { /**/ } dispatch(resetLesson()); } },
+      { text: "Reset", style: "destructive", onPress: () => void resetRemoteThenLocal() },
     ]);
   }, [dispatch, r.accessToken]);
 
   return {
-    onSaveLearningSettings,
-    onSaveUsername,
-    onChangePassword,
-    onDeleteAccount,
-    onLogoutPress,
-    onResetLearningProgress,
+    onSaveLearningSettings, onSaveUsername, onChangePassword,
+    onDeleteAccount, onLogoutPress, onResetLearningProgress,
   };
 }

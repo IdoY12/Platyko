@@ -20,7 +20,7 @@ export async function runLessonExerciseLoad(
   set.setLoadError(false);
 
   try {
-    const allExercises = await fetchCurriculumExercisesForLevel(experienceLevel, jwt);
+    const allExercises = await fetchCurriculumExercisesForLevel(experienceLevel);
     const blockStart = blockIndex * EXERCISES_PER_BLOCK;
     const blockExercises = allExercises.slice(blockStart, blockStart + EXERCISES_PER_BLOCK);
 

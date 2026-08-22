@@ -72,7 +72,7 @@ export function useAuthScreen(dispatch: AppDispatch) {
     } finally {
       setLoading(false);
     }
-  }, [canSubmit, dispatch, email, isLogin, loading, navigation, password, username]);
+  }, [canSubmit, dispatch, email, goToVerifyEmail, isLogin, loading, password, username]);
 
   return {
     email, setEmail, username, setUsername, password, setPassword, secure, setSecure,

@@ -12,7 +12,7 @@ vi.mock("expo-notifications", () => ({
   getAllScheduledNotificationsAsync: vi.fn(),
 }));
 
-const getStateMock = vi.fn();
+const getStateMock = vi.fn<() => unknown>();
 vi.mock("@/redux/store", () => ({ default: { getState: () => getStateMock() } }));
 
 import AsyncStorage from "@react-native-async-storage/async-storage";

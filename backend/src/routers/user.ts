@@ -1,5 +1,5 @@
 import rateLimit from "express-rate-limit";
-import { raw, Router, type RequestHandler } from "express";
+import { raw, Router } from "express";
 import {
   deleteAccount,
   getPreferences,
@@ -24,7 +24,7 @@ import {
   progressSummaryQuerySchema,
 } from "../validators/userValidators.js";
 
-const userLimiter: RequestHandler = rateLimit({ windowMs: 60_000, max: 60, standardHeaders: true, legacyHeaders: false });
+const userLimiter = rateLimit({ windowMs: 60_000, max: 60, standardHeaders: true, legacyHeaders: false });
 
 export const userRouter = Router();
 userRouter.use(userLimiter);

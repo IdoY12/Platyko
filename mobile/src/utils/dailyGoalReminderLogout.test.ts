@@ -14,11 +14,10 @@ vi.mock("expo-notifications", () => ({
 vi.mock("@/utils/secureSessionTokens", () => ({ clearSecureSessionTokens: vi.fn(async () => {}) }));
 vi.mock("@/services/auth", () => ({ apiErrorMessage: () => "error" }));
 
-const getStateMock = vi.fn();
+const getStateMock = vi.fn<() => unknown>();
 vi.mock("@/redux/store", () => ({ default: { getState: () => getStateMock() } }));
 
 import * as Notifications from "expo-notifications";
-import type { AppDispatch } from "@/redux/store";
 import type UserService from "@/services/auth-aware/UserService";
 import { setNotificationsEnabled } from "@/redux/profile-slice";
 import { resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
@@ -44,14 +43,14 @@ describe("logout and account deletion clear the daily reminder", () => {
 
   it("logout: disables notifications and leaves nothing scheduled", async () => {
     const dispatch = vi.fn();
-    resetStoresAfterLogout(dispatch as unknown as AppDispatch);
+    resetStoresAfterLogout(dispatch);
     await expectReminderCleared(dispatch);
   });
 
   it("account deletion: disables notifications and leaves nothing scheduled", async () => {
     const dispatch = vi.fn();
     const user = { deleteAccount: vi.fn(async () => {}) } as unknown as UserService;
-    await deleteAccountRequest(user, dispatch as unknown as AppDispatch, vi.fn());
+    await deleteAccountRequest(user, dispatch, vi.fn());
     await expectReminderCleared(dispatch);
   });
 });

@@ -8,10 +8,7 @@ import LearningService from "@/services/auth-aware/LearningService";
  * Returns the curriculum exercise list for one level, using the lesson slice as a session cache
  * so repeat visits do not call GET /learning/exercises/:experienceLevel again.
  */
-export async function fetchCurriculumExercisesForLevel(
-  experienceLevel: Experience,
-  accessToken: string | null,
-): Promise<Exercise[]> {
+export async function fetchCurriculumExercisesForLevel(experienceLevel: Experience): Promise<Exercise[]> {
   const cached = store.getState().lesson.exercisesByExperienceLevel[experienceLevel];
   if (cached && cached.length > 0) {
     return cached;

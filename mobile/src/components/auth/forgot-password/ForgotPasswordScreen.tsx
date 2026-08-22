@@ -16,7 +16,7 @@ export function ForgotPasswordScreen() {
       <ScrollView contentContainerStyle={authStyles.content} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         <Text style={credentialStyles.title}>Forgot your password?</Text>
         <Text style={verifyStyles.subtitle}>
-          Enter your account email and we'll send you a 6-digit code to reset your password.
+          Enter your account email and we&apos;ll send you a 6-digit code to reset your password.
         </Text>
         <TextInput
           value={f.email}

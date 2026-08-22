@@ -23,7 +23,6 @@ export function useAppShell() {
   const hasHydrated = useAppSelector((s) => s.session.hasHydrated);
   const isAuthenticated = useAppSelector((s) => s.session.isAuthenticated);
   const isGuest = useAppSelector((s) => s.session.isGuest);
-  const accessToken = useAppSelector((s) => s.session.accessToken);
   const commitment = useAppSelector((s) => s.profile.commitment);
   const notificationsEnabled = useAppSelector((s) => s.profile.notificationsEnabled);
   const appStateRef = useRef<AppStateStatus>(AppState.currentState);
@@ -41,7 +40,9 @@ export function useAppShell() {
 
   useEffect(() => {
     if (!hasHydrated) return;
-    logAuth("bootstrap:start", { isAuthenticated, hasAccessToken: Boolean(accessToken) });
+    // Read the token from the store directly: it is only logged here, and selecting
+    // it would re-run this bootstrap effect on every token refresh.
+    logAuth("bootstrap:start", { isAuthenticated, hasAccessToken: Boolean(store.getState().session.accessToken) });
     if (isGuest) dispatch(runStreakAppOpen({ today: getStreakCalendarDate() }));
     void bootstrapSession(dispatch);
   }, [dispatch, hasHydrated, isAuthenticated, isGuest]);

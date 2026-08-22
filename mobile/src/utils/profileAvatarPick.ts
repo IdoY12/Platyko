@@ -9,7 +9,7 @@ export async function ensurePickerPermission(source: "camera" | "library"): Prom
     source === "camera"
       ? await ImagePicker.requestCameraPermissionsAsync()
       : await ImagePicker.requestMediaLibraryPermissionsAsync();
-  if (result.status === "granted") return true;
+  if (result.status === ImagePicker.PermissionStatus.GRANTED) return true;
   Alert.alert("Permission needed", "Please allow photo access to upload an avatar.");
   return false;
 }

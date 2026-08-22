@@ -9,6 +9,7 @@ import { buildGuestLocalState } from "@/services/authGuestState";
 import { logAuth, logError } from "@/utils/logger";
 import { googleAuthRequestConfig, googleSignInUnavailableReason } from "@/config/googleOAuth";
 import { styles } from "../auth-screen/AuthScreen.styles";
+import googleLogo from "../../../../assets/google-g-logo.png";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -59,7 +60,7 @@ export function AuthGoogleButton({ dispatch }: { dispatch: AppDispatch }) {
       onPress={start}
       accessibilityLabel="Continue with Google"
     >
-      <Image source={require("../../../../assets/google-g-logo.png")} style={styles.googleLogo} />
+      <Image source={googleLogo} style={styles.googleLogo} />
       <Text style={styles.secondaryLabel}>Continue with Google</Text>
     </Pressable>
   );

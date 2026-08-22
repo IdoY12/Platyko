@@ -4,12 +4,13 @@
 
 import config from "config";
 import http from "http";
-import { Server } from "socket.io";
+import { Server, type DefaultEventsMap } from "socket.io";
 import { connectDatabase, prisma } from "@project/db";
 import { resolveSocketIoCors } from "@project/server-kit/cors";
 import { logError, logInfo } from "@project/server-kit/logger";
 import { validateIoProductionSecuritySettings } from "@project/server-kit/validateIoSecurity";
 import { attachDuelNamespace } from "./socket/duel/index.js";
+import type { DuelSocketData } from "./socket/duel/types.js";
 
 // Global error handlers to prevent the process from crashing silently
 process.on("unhandledRejection", (reason) => {
@@ -43,7 +44,7 @@ const server = http.createServer((req, res) => {
 // 2. Initialize Socket.IO on top of the HTTP Server.
 // Socket.IO "binds" to the server. When a client sends a request with an 
 // "Upgrade: websocket" header, Socket.IO intercepts it and handles the handshake.
-const io = new Server(server, {
+const io = new Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, DuelSocketData>(server, {
   cors: resolveSocketIoCors(),
   // Min detection: 9 s (> client 8 s grace); max detection: 3 + 9 = 12 s.
   pingInterval: 3_000,

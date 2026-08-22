@@ -37,7 +37,7 @@ export const fontSize = { xs: 12, sm: 14, base: 16, md: 18, lg: 22, xl: 28, xxl:
 
 /** Monospace is the primary voice: headings, numbers, labels — the whole deck talks in code. */
 export const font = {
-  mono: Platform.select({ ios: "Menlo", default: "monospace" }) as string,
+  mono: Platform.select({ ios: "Menlo", default: "monospace" }),
 };
 
 const neon = (shadowColor: string) => ({

@@ -22,7 +22,7 @@ vi.mock("expo-notifications", () => ({
   getAllScheduledNotificationsAsync: async () => fakes.scheduled.map((identifier) => ({ identifier })),
 }));
 
-const getStateMock = vi.fn();
+const getStateMock = vi.fn<() => unknown>();
 vi.mock("@/redux/store", () => ({ default: { getState: () => getStateMock() } }));
 
 import { syncDailyPracticeReminder } from "@/utils/dailyGoalNotificationCheck";
