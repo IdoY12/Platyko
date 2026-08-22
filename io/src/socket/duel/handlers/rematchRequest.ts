@@ -31,7 +31,7 @@ export function registerRematchAbandoned(socket: DuelSocket, duel: DuelNamespace
   });
 }
 
-export function registerRematchRequest(socket: Socket, duel: DuelNamespace) {
+export function registerRematchRequest(socket: DuelSocket, duel: DuelNamespace) {
   socket.on("rematch_request", (payload: { session_id?: unknown } | undefined) => {
     const sessionId = typeof payload?.session_id === "string" ? payload.session_id : "";
     const entry = rematchEntries.get(sessionId);
