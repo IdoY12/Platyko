@@ -55,7 +55,7 @@ export async function authLoginHandler(request: Request, response: Response): Pr
         goal: progress.goal,
         experienceLevel: resolveExperienceLevel(progress.experienceLevel),
         dailyCommitmentMinutes: progress.dailyCommitmentMinutes ?? 15,
-        notificationsEnabled: progress.notificationsEnabled ?? true,
+        notificationsEnabled: user.notificationsEnabled,
       },
       accessToken,
       refreshToken,

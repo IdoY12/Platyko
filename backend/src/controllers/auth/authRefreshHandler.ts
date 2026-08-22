@@ -8,7 +8,8 @@ import { hashRefreshToken } from "../../utils/storeRefreshToken.js";
 import { rotateRefreshToken } from "../../utils/rotateRefreshToken.js";
 
 export async function authRefreshHandler(request: Request, response: Response): Promise<void> {
-  const refreshTokenValue = String(request.body?.refreshToken ?? "");
+  const bodyRefreshToken = (request.body as { refreshToken?: unknown } | undefined)?.refreshToken;
+  const refreshTokenValue = typeof bodyRefreshToken === "string" ? bodyRefreshToken : "";
   if (!refreshTokenValue) {
     response.status(400).json({ error: "Missing refresh token" });
     return;

@@ -31,7 +31,6 @@ export async function ensureProgressRow(
       userId,
       experienceLevel,
       dailyCommitmentMinutes: 15,
-      notificationsEnabled: true,
     },
     update: {},
   });

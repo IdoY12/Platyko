@@ -12,6 +12,7 @@ model User {
   updatedAt              DateTime          @updatedAt
   lastActiveAt           DateTime?
   activeExperienceLevel  ExperienceLevel?
+  notificationsEnabled   Boolean           @default(true)
   puzzleXpSolveCounts    Json                  @default("{}")
 
   progressRows      UserProgress[]

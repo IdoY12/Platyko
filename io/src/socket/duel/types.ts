@@ -1,4 +1,9 @@
-import type { Server } from "socket.io";
+import type { DefaultEventsMap, Namespace, Socket } from "socket.io";
+
+/** Socket state set by attachDuelConnectionAuthentication after JWT verification. */
+export interface DuelSocketData {
+  authenticatedUserId?: string;
+}
 
 export interface QueueEntry {
   socketId: string;
@@ -49,4 +54,6 @@ export interface SessionState {
   roundDeadlineAt?: number;
 }
 
-export type DuelNamespace = ReturnType<Server["of"]>;
+export type DuelNamespace = Namespace<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, DuelSocketData>;
+
+export type DuelSocket = Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, DuelSocketData>;

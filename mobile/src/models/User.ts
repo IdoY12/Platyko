@@ -6,6 +6,6 @@ export default interface User {
     goal: "JOB" | "WORK" | "FUN" | "PROJECT" | null
     experienceLevel: "JUNIOR" | "MID" | "SENIOR" | null
     dailyCommitmentMinutes: number | null
-    notificationsEnabled: boolean | null
+    notificationsEnabled: boolean
     blockProgress?: Record<string, number>
 }

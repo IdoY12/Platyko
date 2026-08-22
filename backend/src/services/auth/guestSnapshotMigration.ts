@@ -23,7 +23,6 @@ export async function createProgressRowsFromSnapshot(
   const level = snapshot.experienceLevel ?? "JUNIOR";
   const xpTotal = snapshot.xpTotal ?? 0;
   const sharedPreferences = {
-    notificationsEnabled: snapshot.notificationsEnabled ?? true,
     dailyCommitmentMinutes: snapshot.dailyCommitmentMinutes ?? 15,
   };
   await tx.userProgress.create({

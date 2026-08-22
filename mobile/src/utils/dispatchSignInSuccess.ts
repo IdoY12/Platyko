@@ -34,7 +34,7 @@ export function dispatchSignInSuccess(
       goal: user.goal ?? undefined,
       experienceLevel: user.experienceLevel ?? undefined,
       commitment: c,
-      notificationsEnabled: user.notificationsEnabled ?? true,
+      notificationsEnabled: user.notificationsEnabled,
     }),
   );
 

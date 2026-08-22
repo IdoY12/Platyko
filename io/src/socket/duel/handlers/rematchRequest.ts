@@ -7,18 +7,17 @@
  * Consumers: duel/index.ts
  */
 
-import type { Socket } from "socket.io";
 import { logInfo } from "../../../utils/logger.js";
 import { finalizeMatch } from "../queue.js";
 import { rematchEntries } from "../state.js";
-import type { DuelNamespace, QueueEntry } from "../types.js";
+import type { DuelNamespace, DuelSocket, QueueEntry } from "../types.js";
 
-export function registerRematchAbandoned(socket: Socket, duel: DuelNamespace) {
+export function registerRematchAbandoned(socket: DuelSocket, duel: DuelNamespace) {
   socket.on("rematch_abandoned", (payload: { session_id?: unknown } | undefined) => {
     const sessionId = typeof payload?.session_id === "string" ? payload.session_id : "";
     const entry = rematchEntries.get(sessionId);
     if (!entry) return;
-    const userId = socket.data.authenticatedUserId as string | undefined;
+    const userId = socket.data.authenticatedUserId;
     if (!userId) return;
     if (entry.player1.userId !== userId && entry.player2.userId !== userId) return;
     if (entry.timer) clearTimeout(entry.timer);
@@ -41,7 +40,7 @@ export function registerRematchRequest(socket: Socket, duel: DuelNamespace) {
       return;
     }
 
-    const userId = socket.data.authenticatedUserId as string | undefined;
+    const userId = socket.data.authenticatedUserId;
     if (!userId) return;
 
     const isPlayer1 = entry.player1.userId === userId;

@@ -5,7 +5,8 @@ import { verifyAccessToken, verifyRefreshToken } from "../../utils/sessionJwtTok
 
 export async function authLogoutHandler(request: Request, response: Response): Promise<void> {
   const bearer = request.headers.authorization?.startsWith("Bearer ") ? request.headers.authorization.slice(7) : "";
-  const refreshTokenValue = String((request.body as { refreshToken?: unknown } | undefined)?.refreshToken ?? "");
+  const bodyRefreshToken = (request.body as { refreshToken?: unknown } | undefined)?.refreshToken;
+  const refreshTokenValue = typeof bodyRefreshToken === "string" ? bodyRefreshToken : "";
 
   let userId: string | null = null;
 

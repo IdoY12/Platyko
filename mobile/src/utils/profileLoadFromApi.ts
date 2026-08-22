@@ -1,7 +1,7 @@
 import type { AppDispatch } from "@/redux/store";
 import type UserService from "@/services/auth-aware/UserService";
 import { logError } from "@/utils/logger";
-import { setUserIdentity, updatePreferences, type Commitment } from "@/redux/profile-slice";
+import { setNotificationsEnabled, setUserIdentity, updatePreferences, type Commitment } from "@/redux/profile-slice";
 import type { CommitmentKey, GoalKey, LevelKey } from "@/types/profile.types";
 
 export type DraftSetters = {
@@ -33,12 +33,10 @@ function syncDraftsFromProgress(
   goal: GoalKey,
   experienceLevel: LevelKey,
   minutes: 10 | 15 | 25,
-  notificationsEnabled: boolean,
 ): void {
   setters.setDraftGoal(goal);
   setters.setDraftLevel(experienceLevel);
   setters.setDraftCommitment(String(minutes) as CommitmentKey);
-  setters.setDraftNotifications(notificationsEnabled);
 }
 
 export async function fetchAndApplyProfile(
@@ -59,12 +57,15 @@ export async function fetchAndApplyProfile(
         avatarUrl: profile.avatarUrl,
       }),
     );
+    // Notification preference lives on the User model, so it applies even before goal/level are set.
+    dispatch(setNotificationsEnabled(profile.notificationsEnabled));
+    setters.setDraftNotifications(profile.notificationsEnabled);
     const p = profile.progress;
 
     if (!p?.goal || !p.experienceLevel || !p.dailyCommitmentMinutes) return;
 
-    applyProgressToStore(dispatch, p.goal, p.experienceLevel, p.dailyCommitmentMinutes, p.notificationsEnabled);
-    syncDraftsFromProgress(setters, p.goal, p.experienceLevel, p.dailyCommitmentMinutes, p.notificationsEnabled);
+    applyProgressToStore(dispatch, p.goal, p.experienceLevel, p.dailyCommitmentMinutes, profile.notificationsEnabled);
+    syncDraftsFromProgress(setters, p.goal, p.experienceLevel, p.dailyCommitmentMinutes);
   } catch (error) {
     logError("[PROFILE]", error, { phase: "load-profile" });
   }

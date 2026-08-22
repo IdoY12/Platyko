@@ -44,5 +44,5 @@ async function shutdown() {
   await prisma.$disconnect();
   process.exit(0);
 }
-process.on("SIGTERM", shutdown);
-process.on("SIGINT", shutdown);
+process.on("SIGTERM", () => void shutdown());
+process.on("SIGINT", () => void shutdown());

@@ -39,7 +39,7 @@ export async function authGoogleHandler(request: Request, response: Response): P
         goal: progress.goal,
         experienceLevel: resolveExperienceLevel(progress.experienceLevel),
         dailyCommitmentMinutes: progress.dailyCommitmentMinutes ?? 15,
-        notificationsEnabled: progress.notificationsEnabled ?? true,
+        notificationsEnabled: user.notificationsEnabled,
         ...(isNew ? { blockProgress: (progress.blockProgress ?? {}) as Record<string, number> } : {}),
       },
       accessToken,

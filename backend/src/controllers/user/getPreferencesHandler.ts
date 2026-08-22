@@ -1,7 +1,7 @@
 /**
  * GET /api/user/preferences — returns learning preferences for settings UI.
  *
- * Responsibility: map active UserProgress row into client-facing preference DTO.
+ * Responsibility: map User notification setting + active UserProgress row into preference DTO.
  * Layer: backend user HTTP handlers
  * Consumers: user router
  */
@@ -11,16 +11,21 @@ import { prisma, getProgressForActiveUser, resolveExperienceLevel } from "@proje
 import type { AuthenticatedRequest } from "../../@types/auth.js";
 
 export async function getPreferences(req: AuthenticatedRequest, res: Response) {
-  const progress = await getProgressForActiveUser(prisma, req.user!.userId);
+  const user = await prisma.user.findUnique({
+    where: { id: req.user!.userId },
+    select: { notificationsEnabled: true },
+  });
 
-  if (!progress) {
-    return res.status(404).json({ error: "Progress not found" });
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
   }
 
+  const progress = await getProgressForActiveUser(prisma, req.user!.userId);
+
   return res.json({
-    userGoal: progress.goal,
-    experienceLevel: resolveExperienceLevel(progress.experienceLevel),
-    dailyGoalMinutes: progress.dailyCommitmentMinutes,
-    notificationsEnabled: progress.notificationsEnabled,
+    userGoal: progress?.goal ?? null,
+    experienceLevel: resolveExperienceLevel(progress?.experienceLevel),
+    dailyGoalMinutes: progress?.dailyCommitmentMinutes ?? null,
+    notificationsEnabled: user.notificationsEnabled,
   });
 }

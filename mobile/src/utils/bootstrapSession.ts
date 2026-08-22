@@ -5,7 +5,7 @@ import store from "@/redux/store";
 import UserService from "@/services/auth-aware/UserService";
 import { logError } from "@/utils/logger";
 import { enterGuestMode, setAuthChecked, setBootstrapError } from "@/redux/session-slice";
-import { setUserIdentity, updatePreferences, type Commitment } from "@/redux/profile-slice";
+import { setNotificationsEnabled, setUserIdentity, updatePreferences, type Commitment } from "@/redux/profile-slice";
 import { hydrateXp } from "@/redux/xp-slice";
 import { hydrateStreak } from "@/redux/streak-slice";
 import { hydrateStats } from "@/redux/duel-slice";
@@ -14,12 +14,8 @@ import { REDUX_PERSIST_KEY } from "@/utils/hydrateStore";
 import { resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
 
 function isBootstrapServerError(error: unknown): boolean {
-  return (
-    axios.isAxiosError(error) &&
-    typeof error.response?.status === "number" &&
-    error.response.status >= 500 &&
-    error.response.status < 600
-  );
+  const status = axios.isAxiosError(error) ? error.response?.status : undefined;
+  return typeof status === "number" && status >= 500 && status < 600;
 }
 
 export function isAuthFailure(error: unknown): boolean {
@@ -52,16 +48,16 @@ async function _run(dispatch: AppDispatch): Promise<void> {
     const me = await userService.getMe();
     dispatch(setUserIdentity({ email: me.email, username: me.username, avatarUrl: me.avatarUrl ?? null }));
     const userPreferences = await userService.getPreferencesGet();
+    // Notification preference lives on the User model, so it applies even before goal/level are set.
+    dispatch(setNotificationsEnabled(userPreferences.notificationsEnabled));
 
     if (userPreferences.userGoal && userPreferences.dailyGoalMinutes) {
-      dispatch(
-        updatePreferences({
-          goal: userPreferences.userGoal,
-          experienceLevel: userPreferences.experienceLevel,
-          commitment: String(userPreferences.dailyGoalMinutes) as Commitment,
-          notificationsEnabled: userPreferences.notificationsEnabled,
-        }),
-      );
+      dispatch(updatePreferences({
+        goal: userPreferences.userGoal,
+        experienceLevel: userPreferences.experienceLevel,
+        commitment: String(userPreferences.dailyGoalMinutes) as Commitment,
+        notificationsEnabled: userPreferences.notificationsEnabled,
+      }));
     }
 
     const progress = await userService.getProgressSummary(getStreakCalendarDate());

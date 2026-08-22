@@ -9,6 +9,8 @@
   ],
   "scripts": {
     "postinstall": "patch-package",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "db:generate": "npm --prefix packages/db run prisma:generate",
     "backend:dev": "npm --prefix backend run dev",
     "backend:build": "npm --prefix backend run build",
@@ -21,7 +23,13 @@
     "ios:device": "npm --prefix mobile run ios:device"
   },
   "devDependencies": {
-    "patch-package": "^8.0.1"
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.11.0",
+    "patch-package": "^8.0.1",
+    "typescript-eslint": "^8.67.0"
   },
   "version": "1.0.0"
 }

@@ -25,13 +25,13 @@ export function openExternalUrl(url: string): void {
 
 export function applyNotificationsToggle(
   enabled: boolean, user: UserService | null, dispatch: AppDispatch, setDraftNotifications: (value: boolean) => void,
-  prefs: { accessToken: string | null; goal?: GoalKey; experienceLevel?: LevelKey; commitment: CommitmentKey },
+  prefs: { accessToken: string | null },
 ): void {
   setDraftNotifications(enabled);
   dispatch(setNotificationsEnabled(enabled));
-  if (!user || !prefs.accessToken || !prefs.goal || !prefs.experienceLevel) return;
-  const body = { goal: prefs.goal, experienceLevel: prefs.experienceLevel, dailyCommitmentMinutes: Number(prefs.commitment), notificationsEnabled: enabled };
-  user.patchPreferences(body).catch((error) => {
+  // Guests have no server account; their preference persists locally via redux-persist.
+  if (!user || !prefs.accessToken) return;
+  user.patchPreferences({ notificationsEnabled: enabled }).catch((error) => {
     logError("[PROFILE]", error, { phase: "save-notifications" });
     setDraftNotifications(!enabled);
     dispatch(setNotificationsEnabled(!enabled));
@@ -57,7 +57,7 @@ export async function patchLearningSettings(
     });
     dispatch(
       updatePreferences({
-        goal: response.goal,
+        goal: response.goal ?? draftGoal,
         experienceLevel: response.experienceLevel,
         commitment: String(response.dailyCommitmentMinutes) as CommitmentKey,
         notificationsEnabled: response.notificationsEnabled,

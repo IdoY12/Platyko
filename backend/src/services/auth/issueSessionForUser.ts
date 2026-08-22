@@ -22,7 +22,7 @@ export async function issueSessionForUser(user: User, includeBlockProgress = fal
       goal: progress.goal,
       experienceLevel: resolveExperienceLevel(progress.experienceLevel),
       dailyCommitmentMinutes: progress.dailyCommitmentMinutes ?? 15,
-      notificationsEnabled: progress.notificationsEnabled ?? true,
+      notificationsEnabled: user.notificationsEnabled,
       ...(includeBlockProgress ? { blockProgress: (progress.blockProgress ?? {}) as Record<string, number> } : {}),
     },
     accessToken,

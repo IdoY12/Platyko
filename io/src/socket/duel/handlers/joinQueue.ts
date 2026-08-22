@@ -7,14 +7,13 @@
  * Consumers: duel/index.ts
  */
 
-import type { Socket } from "socket.io";
 import { prisma } from "@project/db";
 import { logInfo } from "../../../utils/logger.js";
 import { handleQueueJoin } from "../queue.js";
 import { isThrottled } from "../../../utils/socketThrottle.js";
-import type { DuelNamespace, QueueEntry } from "../types.js";
+import type { DuelNamespace, DuelSocket, QueueEntry } from "../types.js";
 
-export function registerJoinQueue(socket: Socket, duel: DuelNamespace) {
+export function registerJoinQueue(socket: DuelSocket, duel: DuelNamespace) {
   socket.on("join_queue", async (payload: { username?: unknown } | undefined) => {
     if (isThrottled(socket, "join_queue", 2000)) return;
     const authenticatedUserId = socket.data.authenticatedUserId;

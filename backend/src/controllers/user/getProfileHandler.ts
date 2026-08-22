@@ -21,6 +21,7 @@ export async function getProfile(req: AuthenticatedRequest, res: Response) {
       avatarUrl: true,
       createdAt: true,
       activeExperienceLevel: true,
+      notificationsEnabled: true,
     },
   });
 
@@ -32,7 +33,6 @@ export async function getProfile(req: AuthenticatedRequest, res: Response) {
         goal: progress.goal,
         experienceLevel: resolveExperienceLevel(progress.experienceLevel),
         dailyCommitmentMinutes: progress.dailyCommitmentMinutes,
-        notificationsEnabled: progress.notificationsEnabled,
         currentExerciseIndex: progress.currentExerciseIndex,
       }
     : null;

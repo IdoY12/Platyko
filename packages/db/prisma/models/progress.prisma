@@ -8,14 +8,11 @@ model UserProgress {
   streakLastActivityDate String?
   streakLastCheckedDate  String?
 
-  practiceLogDateKey             String?
-  practiceLogSeconds             Int     @default(0)
-  practiceLogIncompleteReminders Int   @default(0)
-  practiceLogCompleteSent        Boolean @default(false)
+  practiceLogDateKey String?
+  practiceLogSeconds Int     @default(0)
 
   goal                   String?
   dailyCommitmentMinutes Int?
-  notificationsEnabled   Boolean           @default(true)
   xpTotal                Int               @default(0)
   level                  Int               @default(1)
   streakCurrent          Int               @default(0)

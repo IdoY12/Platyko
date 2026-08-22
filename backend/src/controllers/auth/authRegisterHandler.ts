@@ -36,7 +36,7 @@ export async function authRegisterHandler(request: Request, response: Response):
         goal: goal ?? null,
         experienceLevel: experienceLevel ?? null,
         dailyCommitmentMinutes: dailyCommitmentMinutes ?? 15,
-        notificationsEnabled: notificationsEnabled ?? true,
+        notificationsEnabled: user.notificationsEnabled,
         blockProgress: blockProgress?.[activeLevel] ?? {},
       },
       requiresEmailVerification: true,

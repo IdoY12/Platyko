@@ -13,6 +13,7 @@ export async function createRegisteredUserWithDefaults(input: RegisterInput): Pr
         username: input.username,
         hashedPassword: await hashPassword(input.password),
         activeExperienceLevel: input.experienceLevel ?? "JUNIOR",
+        notificationsEnabled: input.notificationsEnabled ?? true,
         puzzleXpSolveCounts: parsePuzzleXpSolveCounts(input.puzzleXpSolveCounts ?? null),
       },
     });

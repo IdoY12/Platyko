@@ -7,15 +7,14 @@
  * Consumers: duel/index.ts
  */
 
-import type { Socket } from "socket.io";
 import { logError, logInfo } from "../../../utils/logger.js";
 import { resolveDuelPlayerSlot } from "../resolveDuelPlayerSlot.js";
 import { isThrottled } from "../../../utils/socketThrottle.js";
 import { sessions } from "../state.js";
 import { startRound } from "../startRound.js";
-import type { DuelNamespace } from "../types.js";
+import type { DuelNamespace, DuelSocket } from "../types.js";
 
-export function registerPlayerReady(socket: Socket, duel: DuelNamespace) {
+export function registerPlayerReady(socket: DuelSocket, duel: DuelNamespace) {
   socket.on(
     "player_ready",
     async (payload: { session_id: string; streak_local_date?: string }) => {

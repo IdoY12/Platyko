@@ -7,11 +7,15 @@
  * Consumers: routers/auth.ts
  */
 
+import type { RequestHandler } from "express";
 import rateLimit from "express-rate-limit";
 
 const AUTH_WINDOW_MS = 15 * 60 * 1000;
 
-const limiter = (max: number) =>
+// Explicit RequestHandler return type: express-rate-limit's own typings cannot
+// resolve `express` from the hoisted root node_modules, so its return type
+// collapses to an untyped value without this annotation.
+const limiter = (max: number): RequestHandler =>
   rateLimit({
     windowMs: AUTH_WINDOW_MS,
     max,

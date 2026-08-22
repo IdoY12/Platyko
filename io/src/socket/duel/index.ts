@@ -1,5 +1,6 @@
-import type { Server, Socket } from "socket.io";
+import type { Server } from "socket.io";
 import { logInfo } from "../../utils/logger.js";
+import type { DuelNamespace, DuelSocket } from "./types.js";
 import { attachDuelConnectionAuthentication } from "./middleware/attachDuelConnectionAuthentication.js";
 import { registerDisconnect } from "./handlers/disconnect.js";
 import { registerJoinQueue } from "./handlers/joinQueue.js";
@@ -11,9 +12,9 @@ import { syncActiveDuelOnConnect } from "./syncActiveDuelOnConnect.js";
 import { broadcastQueueStatus } from "./state.js";
 
 export function attachDuelNamespace(io: Server) {
-  const duel = io.of("/duel");
+  const duel: DuelNamespace = io.of("/duel");
   attachDuelConnectionAuthentication(duel);
-  duel.on("connection", (socket: Socket) => {
+  duel.on("connection", (socket: DuelSocket) => {
     logInfo("[DUEL]", "socket:connected", { socketId: socket.id });
     if (socket.data.authenticatedUserId) {
       broadcastQueueStatus(duel);

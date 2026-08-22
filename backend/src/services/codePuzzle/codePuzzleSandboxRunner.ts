@@ -48,13 +48,13 @@ function installPuzzleContext(inputContext: Record<string, unknown>): ivm.Contex
 }
 
 export function runExpression(preparedAnswer: string, inputContext: Record<string, unknown>): unknown {
-  const copy = structuredClone(inputContext) as Record<string, unknown>;
+  const copy = structuredClone(inputContext);
   let context: ivm.Context | undefined;
   let script: ivm.Script | undefined;
   try {
     context = installPuzzleContext(copy);
     script = isolate.compileScriptSync(`(()=>{"use strict";return (${preparedAnswer});})()`);
-    const evaluatedValue = script.runSync(context, { timeout: CODE_PUZZLE_VM_TIMEOUT_MS, copy: true });
+    const evaluatedValue: unknown = script.runSync(context, { timeout: CODE_PUZZLE_VM_TIMEOUT_MS, copy: true });
     if (evaluatedValue && typeof evaluatedValue === "object" && typeof (evaluatedValue as Promise<unknown>).then === "function") {
       throw new Error("async");
     }

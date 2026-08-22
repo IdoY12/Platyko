@@ -2,7 +2,6 @@ import AuthAware from "./AuthAware";
 import { API_BASE_URL } from "@/config/network";
 import type AvatarPatchResponse from "@/models/AvatarPatchResponse";
 import type ChangePasswordResponse from "@/models/ChangePasswordResponse";
-import type DailyGoalStatus from "@/models/DailyGoalStatus";
 import type PracticeLogResponse from "@/models/PracticeLogResponse";
 import type ProgressSummary from "@/models/ProgressSummary";
 import type UserPreferences from "@/models/UserPreferences";
@@ -31,9 +30,9 @@ export default class UserService extends AuthAware {
     return data;
   }
   
-  async patchPreferences(body: {
+  async patchPreferences(body: Partial<{
     goal: string; experienceLevel: string; dailyCommitmentMinutes: number; notificationsEnabled: boolean;
-  }): Promise<UserPreferences> {
+  }>): Promise<UserPreferences> {
     const { data } = await this.axiosInstance.patch<UserPreferences>("/user/preferences", body);
     return data; 
   }
@@ -77,14 +76,5 @@ export default class UserService extends AuthAware {
   async postPracticeLog(dateKey: string, practicedSeconds: number): Promise<PracticeLogResponse> {
     const { data } = await this.axiosInstance.post<PracticeLogResponse>("/user/practice-log", { dateKey, practicedSeconds });
     return data;
-  }
-
-  async getDailyGoalStatus(dateKey: string): Promise<DailyGoalStatus> {
-    const { data } = await this.axiosInstance.get<DailyGoalStatus>(`/user/daily-goal-status/${dateKey}`);
-    return data;
-  }
-
-  async markDailyGoalNotified(dateKey: string, type: "COMPLETE" | "INCOMPLETE"): Promise<void> {
-    await this.axiosInstance.post(`/user/daily-goal-status/${dateKey}/mark-notified`, { type });
   }
 }
