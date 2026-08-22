@@ -11,6 +11,6 @@ export function resolveDuelPlayerSlot(session: SessionState, socket: Socket, use
   else if (socketId === session.player2.socketId) slot = "player2";
   else if (userId === session.player1.userId) { session.player1.socketId = socketId; slot = "player1"; }
   else if (userId === session.player2.userId) { session.player2.socketId = socketId; slot = "player2"; }
-  if (slot) socket.join(session.roomId);
+  if (slot) void socket.join(session.roomId);
   return slot;
 }

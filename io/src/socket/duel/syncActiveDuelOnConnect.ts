@@ -8,12 +8,11 @@
  */
 
 import { prisma } from "@project/db";
-import type { Socket } from "socket.io";
 import { logInfo } from "../../utils/logger.js";
 import { resolveDuelPlayerSlot } from "./resolveDuelPlayerSlot.js";
 import { roundStartPayload } from "./startRound.js";
 import { findActiveSessionForUser } from "./state.js";
-import type { SessionState } from "./types.js";
+import type { DuelSocket, SessionState } from "./types.js";
 
 function roundResultPayload(session: SessionState) {
   const last = session.roundReplay.at(-1);
@@ -32,8 +31,8 @@ function opponentForSlot(session: SessionState, slot: "player1" | "player2") {
   return slot === "player1" ? session.player2 : session.player1;
 }
 
-export async function syncActiveDuelOnConnect(socket: Socket): Promise<void> {
-  const userId = socket.data.authenticatedUserId as string | undefined;
+export async function syncActiveDuelOnConnect(socket: DuelSocket): Promise<void> {
+  const userId = socket.data.authenticatedUserId;
   if (!userId) return;
 
   const session = findActiveSessionForUser(userId);

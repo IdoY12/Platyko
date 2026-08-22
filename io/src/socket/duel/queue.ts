@@ -39,8 +39,8 @@ export function finalizeMatch(duel: DuelNamespace, player1: QueueEntry, player2:
   const roomId = `duel_${sessionId}`;
   const p1Socket = duel.sockets.get(player1.socketId);
   const p2Socket = duel.sockets.get(player2.socketId);
-  p1Socket?.join(roomId);
-  p2Socket?.join(roomId);
+  void p1Socket?.join(roomId);
+  void p2Socket?.join(roomId);
 
   const session = makeSession(sessionId, roomId, player1, player2);
   sessions.set(sessionId, session);

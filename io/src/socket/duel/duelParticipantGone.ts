@@ -39,7 +39,7 @@ export function onDuelParticipantGone(
     const otherSocket = findOtherLiveSocketOfUser(duel, leaverSlot.userId, leaverSocketId);
     if (otherSocket) {
       leaverSlot.socketId = otherSocket.id;
-      otherSocket.join(session.roomId);
+      void otherSocket.join(session.roomId);
       return;
     }
   }

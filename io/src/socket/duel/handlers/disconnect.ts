@@ -1,11 +1,10 @@
-import type { Socket } from "socket.io";
 import { logInfo } from "../../../utils/logger.js";
 import { clearSoloMatchTimer } from "../queue.js";
 import { onDuelParticipantGone } from "../duelParticipantGone.js";
 import { broadcastQueueStatus, queue, sessions, rematchEntries } from "../state.js";
-import type { DuelNamespace } from "../types.js";
+import type { DuelNamespace, DuelSocket } from "../types.js";
 
-export function registerDisconnect(socket: Socket, duel: DuelNamespace) {
+export function registerDisconnect(socket: DuelSocket, duel: DuelNamespace) {
   socket.on("disconnect", () => {
     logInfo("[DUEL]", "socket:disconnected", { socketId: socket.id });
     const queued = queue.findIndex((entry) => entry.socketId === socket.id);
