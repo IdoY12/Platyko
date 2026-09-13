@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type Exercise from "@/models/Exercise";
 import type ExerciseSubmitResult from "@/models/ExerciseSubmitResult";
 import type { LessonExerciseCompletionContext } from "@/types/lessonExerciseCompletion.types";
 import { useAuthenticatedService } from "@/hooks/useAuthenticatedService";
 import LearningService from "@/services/auth-aware/LearningService";
 import { runLessonExerciseCheck } from "@/hooks/useLessonExerciseInteractions";
+import { shuffleArray } from "@/utils/shuffleArray";
 
 export function usePickOneLessonExercise(
   exercise: Exercise,
@@ -48,10 +49,12 @@ export function usePickOneLessonExercise(
     onLessonExerciseComplete(selected, { source: "curriculum", isAnswerCorrect: true, submitResult: serverResult });
   }, [isAnswerCorrect, onLessonExerciseComplete, selected, serverResult]);
 
-  const options = useMemo(
-    () => (exercise.options.length > 0 ? exercise.options.map((o) => o.text) : exercise.codeSnippet.split(" ")),
-    [exercise],
-  );
+  const shuffleOptionTexts = () =>
+    shuffleArray(exercise.options.length > 0 ? exercise.options.map((o) => o.text) : exercise.codeSnippet.split(" "));
+  // Held in state keyed by exercise.id: the order must survive re-renders and wrong attempts,
+  // and only a freshly loaded exercise instance may produce a new random order.
+  const [shuffled, setShuffled] = useState(() => ({ exerciseId: exercise.id, options: shuffleOptionTexts() }));
+  if (shuffled.exerciseId !== exercise.id) setShuffled({ exerciseId: exercise.id, options: shuffleOptionTexts() });
 
   return {
     selected,
@@ -64,6 +67,6 @@ export function usePickOneLessonExercise(
     canCheck,
     runCheck,
     goNext,
-    options,
+    options: shuffled.options,
   };
 }

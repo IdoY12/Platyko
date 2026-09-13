@@ -2,6 +2,7 @@
 import type { Socket } from "socket.io-client";
 import { logDuel, logError } from "@/utils/logger";
 import { duelConnectionRefs, normalizeDuelReplayEntry } from "@/utils/duelSocketModels";
+import { shuffleArray } from "@/utils/shuffleArray";
 import store from "@/redux/store";
 import {
   connectionLostCleared, connectionLostSet, duelEnded, matchFound, opponentLeftReceived,
@@ -36,7 +37,7 @@ export function bindDuelSocketEvents(socket: Socket) {
     const q = p.question ?? {};
     store.dispatch(roundStarted({ round: {
       roundNumber: p.round_number ?? 0, prompt: q.prompt ?? "", codeSnippet: q.code_snippet ?? "",
-      options: q.options ?? [], type: q.type === "PUZZLE" ? "PUZZLE" : "MCQ",
+      options: shuffleArray(q.options ?? []), type: q.type === "PUZZLE" ? "PUZZLE" : "MCQ",
       endsAt: typeof p.ends_in_ms === "number" && p.ends_in_ms > 0 ? Date.now() + p.ends_in_ms : 0,
     } }));
   });
