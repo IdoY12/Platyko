@@ -1,0 +1,17 @@
+// One pending email registration per address. No User row exists until the
+// emailed 6-digit code is verified; then this row is materialised into a User
+// (+ progress rows from guestSnapshot) and deleted in the same transaction.
+// registrationToken is issued to the registering device and must accompany
+// verify/resend, so a later register for the same email (which replaces this
+// row) invalidates the earlier device's screen instead of completing on it.
+model PendingRegistration {
+  email             String   @id
+  username          String
+  passwordHash      String
+  registrationToken String
+  guestSnapshot     Json
+  codeHash          String
+  expiresAt         DateTime
+  attempts          Int      @default(0)
+  lastSentAt        DateTime @default(now())
+}

@@ -42,8 +42,6 @@ export async function createSocialUserWithProgress(
             ...provider,
             username: candidate,
             hashedPassword: null,
-            // The provider already proved ownership of this email — no OTP round trip needed
-            emailVerified: true,
             activeExperienceLevel: snapshot.experienceLevel ?? "JUNIOR",
             notificationsEnabled: snapshot.notificationsEnabled ?? true,
             puzzleXpSolveCounts: parsePuzzleXpSolveCounts(snapshot.puzzleXpSolveCounts ?? null),

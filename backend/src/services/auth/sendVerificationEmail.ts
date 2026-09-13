@@ -1,4 +1,4 @@
-import { VERIFICATION_CODE_TTL_MINUTES } from "./emailVerificationCodes.js";
+import { OTP_CODE_TTL_MINUTES } from "./otpCodes.js";
 import { sendBrandedEmail } from "./sendBrandedEmail.js";
 import { buildVerificationEmailHtml } from "./verificationEmailHtml.js";
 
@@ -8,7 +8,7 @@ function buildVerificationEmailText(code: string): string {
     "",
     `Your Platyko verification code: ${code}`,
     "",
-    `Enter it in the app within ${VERIFICATION_CODE_TTL_MINUTES} minutes to verify your email.`,
+    `Enter it in the app within ${OTP_CODE_TTL_MINUTES} minutes to verify your email.`,
     "",
     "Didn't sign up for Platyko? No worries — you can safely ignore this email.",
     "",

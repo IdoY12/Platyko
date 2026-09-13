@@ -1,61 +1,34 @@
 import type { Request, Response } from "express";
-import { logError, logInfo } from "../../utils/logger.js";
-import { USERNAME_TAKEN_MESSAGE } from "@project/user-credentials";
-import {
-  DATABASE_UNAVAILABLE_MESSAGE,
-  isDatabaseUnavailableError,
-  isUniqueConstraintError,
-} from "../../utils/dbErrors.js";
-import { authAccountFields } from "../../utils/authAccountFields.js";
+import { prisma } from "@project/db";
+import { EMAIL_TAKEN_MESSAGE, USERNAME_TAKEN_MESSAGE } from "@project/user-credentials";
+import { logError, logInfo, logWarn } from "../../utils/logger.js";
+import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
 import type { RegisterBody } from "../../validators/authValidators.js";
-import { createRegisteredUserWithDefaults } from "../../services/auth/registerUser.js";
-import { createVerificationCode } from "../../services/auth/emailVerificationCodes.js";
+import { createPendingRegistration, purgeStalePendingRegistrations } from "../../services/auth/pendingRegistrations.js";
 import { sendVerificationCodeEmail } from "../../services/auth/sendVerificationEmail.js";
 
+/**
+ * Stores a pending registration and emails its code. No User row exists until
+ * /auth/verify-email succeeds, so an abandoned sign-up never reserves the email
+ * or username. A repeat register for the same email replaces the pending row.
+ */
 export async function authRegisterHandler(request: Request, response: Response): Promise<void> {
-  const {
-    email, username, password, experienceLevel, goal, dailyCommitmentMinutes, blockProgress,
-    notificationsEnabled, xpTotal, streakCurrent, streakLastActivityDate, streakLastCheckedDate, puzzleXpSolveCounts,
-  } = request.validatedBody as RegisterBody;
+  const { email, username, password, ...snapshot } = request.validatedBody as RegisterBody;
   logInfo("[AUTH]", "register:attempt", { email, username });
   try {
-    const user = await createRegisteredUserWithDefaults({
-      email, username, password, experienceLevel, goal, dailyCommitmentMinutes, blockProgress,
-      notificationsEnabled, xpTotal, streakCurrent, streakLastActivityDate, streakLastCheckedDate, puzzleXpSolveCounts,
-    });
-    // No session tokens yet: the account stays locked until /auth/verify-email succeeds.
-    const verificationCode = await createVerificationCode(user.id);
-    await sendVerificationCodeEmail(user.email, verificationCode);
-    logInfo("[AUTH]", "register:success", { userId: user.id, email: user.email });
-    const activeLevel = experienceLevel ?? "JUNIOR";
-    response.status(201).json({
-      user: {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-        avatarUrl: user.avatarUrl,
-        goal: goal ?? null,
-        experienceLevel: experienceLevel ?? null,
-        dailyCommitmentMinutes: dailyCommitmentMinutes ?? 15,
-        notificationsEnabled: user.notificationsEnabled,
-        ...authAccountFields(user),
-        blockProgress: blockProgress?.[activeLevel] ?? {},
-      },
-      requiresEmailVerification: true,
-    });
+    await purgeStalePendingRegistrations();
+    const taken = await prisma.user.findFirst({ where: { OR: [{ email }, { username }] }, select: { email: true } });
+    if (taken) {
+      logWarn("[AUTH]", "register:taken", { email, username, field: taken.email === email ? "email" : "username" });
+      response.status(409).json({ error: taken.email === email ? EMAIL_TAKEN_MESSAGE : USERNAME_TAKEN_MESSAGE });
+      return;
+    }
+    const { code, registrationToken } = await createPendingRegistration({ email, username, password, snapshot });
+    await sendVerificationCodeEmail(email, code);
+    logInfo("[AUTH]", "register:pending", { email });
+    response.status(202).json({ email, registrationToken });
   } catch (error) {
     logError("[AUTH]", error, { phase: "register" });
-
-    if (isUniqueConstraintError(error, "username")) {
-      response.status(409).json({ error: USERNAME_TAKEN_MESSAGE });
-      return;
-    }
-
-    if (isUniqueConstraintError(error, "email")) {
-      response.status(409).json({ error: "Email already exists" });
-      return;
-    }
-
     if (isDatabaseUnavailableError(error)) {
       response.status(503).json({ error: DATABASE_UNAVAILABLE_MESSAGE });
       return;

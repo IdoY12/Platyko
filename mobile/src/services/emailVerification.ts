@@ -3,30 +3,20 @@ import { API_BASE_URL } from "@/config/network";
 import type AuthResponse from "@/models/AuthResponse";
 import { apiErrorMessage } from "./auth";
 
-/** True when the server rejected login because the account's email is not verified yet. */
-export function isEmailNotVerifiedError(error: unknown): boolean {
-  // Login wraps the axios error behind a safe message and keeps it in `cause`.
-  const candidate = error instanceof Error && error.cause !== undefined ? error.cause : error;
-  return (
-    axios.isAxiosError(candidate) &&
-    (candidate.response?.data as { code?: string } | undefined)?.code === "EMAIL_NOT_VERIFIED"
-  );
-}
-
 class EmailVerificationService {
-  /** Confirms the 6-digit code; the server responds with a full session, like login. */
-  async verifyEmail(email: string, code: string): Promise<AuthResponse> {
+  /** Confirms the 6-digit code; the server creates the account and responds with a full session, like login. */
+  async verifyEmail(email: string, code: string, registrationToken: string): Promise<AuthResponse> {
     try {
-      const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/verify-email`, { email, code });
+      const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/verify-email`, { email, code, registrationToken });
       return data;
     } catch (e) {
       throw new Error(apiErrorMessage(e));
     }
   }
 
-  async resendCode(email: string): Promise<void> {
+  async resendCode(email: string, registrationToken: string): Promise<void> {
     try {
-      await axios.post(`${API_BASE_URL}/auth/verify-email/resend`, { email });
+      await axios.post(`${API_BASE_URL}/auth/verify-email/resend`, { email, registrationToken });
     } catch (e) {
       throw new Error(apiErrorMessage(e));
     }

@@ -19,7 +19,7 @@ import type { MainTabParamList } from "./mainTab.types";
 export type RootStackParamList = {
   MainTabs: NavigatorScreenParams<MainTabParamList> | undefined;
   Auth: undefined;
-  VerifyEmail: { email: string; codeJustSent: boolean };
+  VerifyEmail: { email: string; registrationToken: string };
   ForgotPassword: { email?: string };
   ResetPassword: { email: string };
 };

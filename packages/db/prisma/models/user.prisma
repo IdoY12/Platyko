@@ -7,7 +7,6 @@ model User {
   appleSub               String?           @unique
   avatarUrl              String?
   tokenVersion           Int               @default(0)
-  emailVerified          Boolean           @default(false)
   emailBounced           Boolean           @default(false)
   createdAt              DateTime          @default(now())
   updatedAt              DateTime          @updatedAt
@@ -18,7 +17,6 @@ model User {
 
   progressRows      UserProgress[]
   refreshTokens     RefreshToken[]
-  emailVerification EmailVerification?
   passwordReset     PasswordReset?
   duelSessionsP1  DuelSession[] @relation("Player1Sessions")
   duelSessionsP2  DuelSession[] @relation("Player2Sessions")

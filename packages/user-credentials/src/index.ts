@@ -13,6 +13,7 @@ export const PASSWORD_TOO_SHORT = `Password must be at least ${PASSWORD_MIN_LEN}
 export const PASSWORD_TOO_LONG = `Password must be at most ${PASSWORD_MAX_LEN} characters.`;
 export const EMAIL_INVALID = "Enter a valid email address.";
 export const USERNAME_TAKEN_MESSAGE = "Username already taken. Please choose another.";
+export const EMAIL_TAKEN_MESSAGE = "Email already exists";
 
 export function passwordPolicyError(password: string): string | null {
   const pl = password.length;

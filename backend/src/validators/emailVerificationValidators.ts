@@ -15,13 +15,18 @@ export const emailField = z
 
 export const otpCodeField = z.string().regex(/^\d{6}$/, { message: "Code must be 6 digits" });
 
+/** Issued by /auth/register; proves the caller owns the pending row (see PendingRegistration). */
+const registrationTokenField = z.string().min(1, { message: "Registration token is required" });
+
 export const verifyEmailBodySchema = z.object({
   email: emailField,
   code: otpCodeField,
+  registrationToken: registrationTokenField,
 });
 
 export const resendVerificationBodySchema = z.object({
   email: emailField,
+  registrationToken: registrationTokenField,
 });
 
 export type VerifyEmailBody = z.infer<typeof verifyEmailBodySchema>;

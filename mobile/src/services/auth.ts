@@ -23,8 +23,7 @@ class AuthService {
       const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/login`, { email, password });
       return data;
     } catch (e) {
-      // cause keeps the server response inspectable (isEmailNotVerifiedError) behind the safe message.
-      throw new Error(apiErrorMessage(e), { cause: e });
+      throw new Error(apiErrorMessage(e));
     }
   }
 
@@ -33,7 +32,7 @@ class AuthService {
       const { data } = await axios.post<RegisterResponse>(`${API_BASE_URL}/auth/register`, { email, username, password, ...guestStateRequestBody(local) });
       return data;
     } catch (e) {
-      throw new Error(apiErrorMessage(e), { cause: e });
+      throw new Error(apiErrorMessage(e));
     }
   }
 
@@ -42,7 +41,7 @@ class AuthService {
       const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/google`, { idToken, ...guestStateRequestBody(local) });
       return data;
     } catch (e) {
-      throw new Error(apiErrorMessage(e), { cause: e });
+      throw new Error(apiErrorMessage(e));
     }
   }
 
@@ -51,7 +50,7 @@ class AuthService {
       const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/apple`, { identityToken, fullName, email, ...guestStateRequestBody(local) });
       return data;
     } catch (e) {
-      throw new Error(apiErrorMessage(e), { cause: e });
+      throw new Error(apiErrorMessage(e));
     }
   }
 }
