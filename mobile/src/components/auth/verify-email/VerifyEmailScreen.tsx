@@ -50,6 +50,9 @@ export function VerifyEmailScreen() {
             {v.resendSecondsLeft > 0 ? `Resend code in ${v.resendSecondsLeft}s` : "Resend code"}
           </Text>
         </PressableScale>
+        <PressableScale style={styles.resendBtn} haptic="light" onPress={v.onBackToSignIn} accessibilityLabel="Back to sign in">
+          <Text style={styles.resendText}>Back to sign in</Text>
+        </PressableScale>
       </ScrollView>
     </SafeAreaView>
   );

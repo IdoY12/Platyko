@@ -18,12 +18,11 @@ const AUTH_SCREEN_OPTIONS = {
   headerTintColor: colors.textPrimary,
   title: "Sign in",
 };
-// gestureEnabled false: a mid-OTP swipe-dismiss would silently abandon verification;
-// leaving is only via the explicit header back (returns to the Auth form).
-const VERIFY_EMAIL_SCREEN_OPTIONS = { ...AUTH_SCREEN_OPTIONS, title: "Verify email", gestureEnabled: false };
-// Reset screens must stay escapable: header back visible and dismiss gesture on
-// (both are plain stack pops back to the Auth form — abandoning a reset is harmless,
-// unlike VerifyEmail where it would strand a just-registered account).
+// Every auth sub-screen stays escapable via the dismiss gesture (a plain pop back to the
+// Auth form). Stacked modals on iOS never draw a native header back button, so each screen
+// also renders its own explicit exit. Abandoning verification is harmless: signing in with
+// an unverified account re-enters VerifyEmail with resend available.
+const VERIFY_EMAIL_SCREEN_OPTIONS = { ...AUTH_SCREEN_OPTIONS, title: "Verify email" };
 const FORGOT_PASSWORD_SCREEN_OPTIONS = { ...AUTH_SCREEN_OPTIONS, title: "Forgot password", headerBackVisible: true };
 const RESET_PASSWORD_SCREEN_OPTIONS = { ...AUTH_SCREEN_OPTIONS, title: "Reset password", headerBackVisible: true };
 

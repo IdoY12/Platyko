@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useAppDispatch } from "@/redux/hooks";
 import { useOtpCodeEntry } from "@/hooks/useOtpCodeEntry";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
@@ -10,6 +10,7 @@ type VerifyEmailRouteParams = { email: string; codeJustSent: boolean };
 
 export function useVerifyEmailScreen() {
   const dispatch = useAppDispatch();
+  const navigation = useNavigation();
   const params = useRoute().params as VerifyEmailRouteParams | undefined;
   const email = params?.email ?? "";
   const { code, setCode, resendSecondsLeft, restartResendCooldown } = useOtpCodeEntry(params?.codeJustSent ?? false);
@@ -54,5 +55,8 @@ export function useVerifyEmailScreen() {
     }
   }, [email, loading, resendSecondsLeft, restartResendCooldown]);
 
-  return { email, code, setCode, loading, error, resendSecondsLeft, canVerify, onVerify, onResend };
+  /** Exits the flow back to the Auth form (the screen below in the stack). */
+  const onBackToSignIn = useCallback(() => navigation.goBack(), [navigation]);
+
+  return { email, code, setCode, loading, error, resendSecondsLeft, canVerify, onVerify, onResend, onBackToSignIn };
 }
