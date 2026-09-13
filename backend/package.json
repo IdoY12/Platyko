@@ -4,7 +4,7 @@
   "description": "Platyko backend",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx watch --env-file=.env src/index.ts",
     "build": "tsc -p tsconfig.json && cp -R src/assets/ dist/assets/",
     "typecheck": "tsc --noEmit && tsc -p tsconfig.prisma.json --noEmit",
     "start": "node --no-node-snapshot dist/index.js",
