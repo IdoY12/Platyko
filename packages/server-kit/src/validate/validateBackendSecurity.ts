@@ -1,7 +1,7 @@
 /**
- * Production security gate for the REST backend (JWT, DB, Express CORS).
+ * Production security gate for the REST backend (JWT, DB, Express CORS, Resend).
  *
- * Responsibility: fail fast on weak secrets or unsafe CORS before listening.
+ * Responsibility: fail fast on weak/missing secrets or unsafe CORS before listening.
  * Layer: @project/server-kit/validate
  * Depends on: jwtSecretRules.ts, assertPostgresUrl.ts, assertNonWildcardOrigin.ts, config
  * Consumers: backend/src/index.ts
@@ -30,6 +30,10 @@ export function validateBackendProductionSecuritySettings(): void {
     if (PLACEHOLDER_JWT_SECRETS.has(normalizeSecret(value))) {
       throw new Error(`${key} must not use a known placeholder; set strong secrets via environment`);
     }
+  });
+
+  (["resend.apiKey", "resend.webhookSecret"] as const).forEach((key) => {
+    if (!config.get<string>(key)?.trim()) throw new Error(`Missing required configuration: ${key} (set RESEND_API_KEY / RESEND_WEBHOOK_SECRET)`);
   });
 
   assertPostgresUrl(config.get<string>("database.url"), "database.url");

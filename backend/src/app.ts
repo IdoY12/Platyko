@@ -16,6 +16,7 @@ import { authRouter } from "./routers/auth.js";
 import { codePuzzlesRouter } from "./routers/codePuzzles.js";
 import { learningRouter } from "./routers/learning.js";
 import { userRouter } from "./routers/user.js";
+import { webhooksRouter } from "./routers/webhooks.js";
 import { requestLogger } from "./middlewares/requestLogger.js";
 import { logError } from "./utils/logger.js";
 
@@ -37,6 +38,8 @@ app.use(
     credentials: config.get<boolean>("app.cors.credentials"),
   }),
 );
+// Webhooks need the raw body for signature verification, so they mount before the JSON parser.
+app.use("/api/webhooks", webhooksRouter);
 app.use(express.json({ limit: config.get<string>("app.bodyParserJsonLimit") }));
 app.use(requestLogger);
 
