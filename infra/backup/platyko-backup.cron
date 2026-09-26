@@ -1,0 +1,5 @@
+# /etc/cron.d/platyko-backup — daily Postgres dump to S3 at 03:15 UTC (see infra/backup/pg-backup.sh).
+# Installed by DEPLOY.md step "Backups". Output goes to /var/log/platyko-backup.log.
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin
+15 3 * * * ubuntu /home/ubuntu/Platyko/infra/backup/pg-backup.sh >> /var/log/platyko-backup.log 2>&1
