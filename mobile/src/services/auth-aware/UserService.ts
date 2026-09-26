@@ -1,5 +1,5 @@
 import AuthAware from "./AuthAware";
-import { API_BASE_URL } from "@/config/network";
+import { API_BASE_URL, UPLOAD_TIMEOUT_MS } from "@/config/network";
 import type AvatarPatchResponse from "@/models/AvatarPatchResponse";
 import type ChangePasswordResponse from "@/models/ChangePasswordResponse";
 import type PracticeLogResponse from "@/models/PracticeLogResponse";
@@ -68,6 +68,7 @@ export default class UserService extends AuthAware {
   async uploadAvatarBlob(blob: Blob): Promise<{ publicUrl: string }> {
     const response = await fetch(`${API_BASE_URL}/user/avatar/upload`, {
       method: "PUT", headers: { "Content-Type": "image/jpeg", Authorization: `Bearer ${this.jwt}` }, body: blob,
+      signal: AbortSignal.timeout(UPLOAD_TIMEOUT_MS),
     });
     if (!response.ok) throw new Error(`Avatar upload failed (${response.status})`);
     return response.json() as Promise<{ publicUrl: string }>;

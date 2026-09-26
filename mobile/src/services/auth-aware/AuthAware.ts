@@ -1,14 +1,11 @@
 import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from "axios";
-import { API_BASE_URL } from "@/config/network";
+import { API_BASE_URL, REQUEST_TIMEOUT_MS } from "@/config/network";
 import store from "@/redux/store";
 import { updateTokens } from "@/redux/session-slice";
 import { resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
 import { readSecureSessionTokens, writeSecureSessionTokens } from "@/utils/secureSessionTokens";
 
 type RetryableConfig = InternalAxiosRequestConfig & { _retry?: boolean };
-
-// Without a timeout, a request to an unreachable dev host hangs indefinitely and loading spinners never resolve.
-const REQUEST_TIMEOUT_MS = 10_000;
 
 let refreshInFlight: Promise<{ accessToken: string; refreshToken: string }> | null = null;
 
@@ -31,6 +28,8 @@ export default abstract class AuthAware {
         const status = error.response?.status;
         const config = error.config as RetryableConfig | undefined;
         if (status !== 401 || !config || config._retry) throw error;
+        // Guests never hold a session: a stray 401 must not wipe their local XP/streak.
+        if (!store.getState().session.isAuthenticated) throw error;
         config._retry = true;
         let refreshToken: string | null;
         try {

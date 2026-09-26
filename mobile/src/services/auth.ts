@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL } from "@/config/network";
+import { API_BASE_URL, REQUEST_TIMEOUT_MS } from "@/config/network";
 import type AuthResponse from "@/models/AuthResponse";
 import type RegisterResponse from "@/models/RegisterResponse";
 import { guestStateRequestBody, type GuestLocalState } from "@/services/authGuestState";
@@ -12,6 +12,9 @@ export function serverErrorMessage(error: unknown): string | null {
   return null;
 }
 
+/** Unauthenticated API client (login, register, OTP, password reset): base URL + timeout, no token. */
+export const publicApi = axios.create({ baseURL: API_BASE_URL, timeout: REQUEST_TIMEOUT_MS });
+
 export function apiErrorMessage(error: unknown): string {
   // Raw axios/internal messages ("Request failed with status code 401") must never reach the UI.
   return serverErrorMessage(error) ?? "Something went wrong. Please try again.";
@@ -20,7 +23,7 @@ export function apiErrorMessage(error: unknown): string {
 class AuthService {
   async login(email: string, password: string): Promise<AuthResponse> {
     try {
-      const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/login`, { email, password });
+      const { data } = await publicApi.post<AuthResponse>("/auth/login", { email, password });
       return data;
     } catch (e) {
       throw new Error(apiErrorMessage(e));
@@ -29,7 +32,7 @@ class AuthService {
 
   async register(email: string, username: string, password: string, local?: GuestLocalState): Promise<RegisterResponse> {
     try {
-      const { data } = await axios.post<RegisterResponse>(`${API_BASE_URL}/auth/register`, { email, username, password, ...guestStateRequestBody(local) });
+      const { data } = await publicApi.post<RegisterResponse>("/auth/register", { email, username, password, ...guestStateRequestBody(local) });
       return data;
     } catch (e) {
       throw new Error(apiErrorMessage(e));
@@ -38,7 +41,7 @@ class AuthService {
 
   async loginWithGoogle(idToken: string, local?: GuestLocalState): Promise<AuthResponse> {
     try {
-      const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/google`, { idToken, ...guestStateRequestBody(local) });
+      const { data } = await publicApi.post<AuthResponse>("/auth/google", { idToken, ...guestStateRequestBody(local) });
       return data;
     } catch (e) {
       throw new Error(apiErrorMessage(e));
@@ -47,7 +50,7 @@ class AuthService {
 
   async loginWithApple(identityToken: string, fullName?: string, local?: GuestLocalState): Promise<AuthResponse> {
     try {
-      const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/apple`, { identityToken, fullName, ...guestStateRequestBody(local) });
+      const { data } = await publicApi.post<AuthResponse>("/auth/apple", { identityToken, fullName, ...guestStateRequestBody(local) });
       return data;
     } catch (e) {
       throw new Error(apiErrorMessage(e));

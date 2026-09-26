@@ -6,6 +6,11 @@ const DEV_IO_PORT = "4001";
 const PROD_API_BASE_URL = "https://api.platyko.com/api";
 const PROD_DUEL_SOCKET_URL = "https://io.platyko.com/duel";
 
+/** Without a timeout a request to an unreachable host hangs forever and spinners never resolve. */
+export const REQUEST_TIMEOUT_MS = 10_000;
+/** Avatar uploads move up to 5 MB over mobile networks. */
+export const UPLOAD_TIMEOUT_MS = 30_000;
+
 /**
  * Host the running JS bundle was fetched from (Metro), e.g. "192.168.1.221:8081".
  * Most reliable dev host: if this code is executing, that address was reachable moments ago.
