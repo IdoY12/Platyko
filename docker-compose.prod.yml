@@ -1,0 +1,132 @@
+# Production stack: Caddy (auto-HTTPS) -> backend :4000 / io :4001 -> Postgres 16 (persistent volume).
+#
+#   docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build
+#
+# Secrets come only from .env.production (gitignored; template in .env.example). Postgres is not
+# published on the host. Migrations are an explicit step (`migrate` service, profile "tools") and
+# never run on container start. See DEPLOY.md for the full runbook.
+
+x-logging: &json-logs
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
+x-node-service: &node-service
+  restart: unless-stopped
+  init: true
+  read_only: true
+  tmpfs: [/tmp]
+  logging: *json-logs
+  security_opt: [no-new-privileges:true]
+
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    logging: *json-logs
+    environment:
+      POSTGRES_USER: platyko
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env.production}
+      POSTGRES_DB: platyko
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U platyko -d platyko"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    deploy:
+      resources:
+        limits: { cpus: "1.0", memory: 1g }
+
+  backend:
+    <<: *node-service
+    build: { context: ., dockerfile: backend/Dockerfile }
+    environment:
+      NODE_ENV: production
+      NODE_CONFIG_ENV: production
+      PORT: "4000"
+      HOST: 0.0.0.0
+      DATABASE_URL: postgresql://platyko:${POSTGRES_PASSWORD}@postgres:5432/platyko?schema=public
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?Set JWT_ACCESS_SECRET in .env.production}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?Set JWT_REFRESH_SECRET in .env.production}
+      CORS_ORIGIN: ${CORS_ORIGIN:?Set CORS_ORIGIN in .env.production}
+      RESEND_API_KEY: ${RESEND_API_KEY:?Set RESEND_API_KEY in .env.production}
+      RESEND_WEBHOOK_SECRET: ${RESEND_WEBHOOK_SECRET:?Set RESEND_WEBHOOK_SECRET in .env.production}
+      S3_BUCKET: ${S3_BUCKET:?Set S3_BUCKET in .env.production}
+      AWS_REGION: ${AWS_REGION:?Set AWS_REGION in .env.production}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      GOOGLE_WEB_CLIENT_ID: ${GOOGLE_WEB_CLIENT_ID:-}
+      GOOGLE_IOS_CLIENT_ID: ${GOOGLE_IOS_CLIENT_ID:-}
+    depends_on:
+      postgres: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:4000/health',(r)=>{r.resume();process.exit(r.statusCode===200?0:1);}).on('error',()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    deploy:
+      resources:
+        limits: { cpus: "1.0", memory: 768m }
+
+  io:
+    <<: *node-service
+    build: { context: ., dockerfile: io/Dockerfile }
+    environment:
+      NODE_ENV: production
+      NODE_CONFIG_ENV: production
+      PORT: "4001"
+      HOST: 0.0.0.0
+      DATABASE_URL: postgresql://platyko:${POSTGRES_PASSWORD}@postgres:5432/platyko?schema=public
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      IO_CORS_ORIGIN: ${IO_CORS_ORIGIN:?Set IO_CORS_ORIGIN in .env.production}
+    depends_on:
+      postgres: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:4001/health',(r)=>{r.resume();process.exit(r.statusCode===200?0:1);}).on('error',()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    deploy:
+      resources:
+        limits: { cpus: "1.0", memory: 512m }
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    logging: *json-logs
+    ports: ["80:80", "443:443", "443:443/udp"]
+    environment:
+      CADDY_ACME_EMAIL: ${CADDY_ACME_EMAIL:?Set CADDY_ACME_EMAIL in .env.production}
+    volumes:
+      - ./infra/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      backend: { condition: service_healthy }
+      io: { condition: service_healthy }
+    deploy:
+      resources:
+        limits: { cpus: "0.5", memory: 256m }
+
+  # Explicit-step tool: `docker compose --env-file .env.production -f docker-compose.prod.yml run --rm migrate`
+  # Uses the builder stage (has the Prisma CLI); never started by `up`.
+  migrate:
+    profiles: ["tools"]
+    build: { context: ., dockerfile: backend/Dockerfile, target: builder }
+    logging: *json-logs
+    environment:
+      NODE_CONFIG_ENV: production
+      DATABASE_URL: postgresql://platyko:${POSTGRES_PASSWORD}@postgres:5432/platyko?schema=public
+    command: ["npx", "prisma", "migrate", "deploy", "--schema", "packages/db/prisma"]
+    depends_on:
+      postgres: { condition: service_healthy }
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

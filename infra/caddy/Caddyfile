@@ -1,0 +1,19 @@
+# Production edge: automatic HTTPS (Let's Encrypt) for both public hostnames.
+# Caddy terminates TLS and forwards to the backend / io containers on the compose network.
+# It sets X-Forwarded-For, which the backend honors via `trust proxy` for per-client rate limits.
+
+{
+	email {$CADDY_ACME_EMAIL}
+}
+
+api.platyko.com {
+	encode zstd gzip
+	reverse_proxy backend:4000
+	header -Server
+}
+
+io.platyko.com {
+	# Socket.IO uses long-lived WebSocket upgrades; reverse_proxy handles them natively.
+	reverse_proxy io:4001
+	header -Server
+}

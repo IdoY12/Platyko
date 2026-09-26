@@ -101,7 +101,7 @@ Redux slices on mobile: `session`, `profile`, `xp`, `streak`, `lesson`, `duel` (
 
 ### Prerequisites
 
-- **Node.js 20+** and **npm**
+- **Node.js 22** and **npm 10+**
 - **Docker** (for PostgreSQL and LocalStack)
 - **Xcode** (iOS) or **Android Studio** (Android) for running the mobile app
 
@@ -119,7 +119,7 @@ cp .env.example .env
 # 3. Start local infrastructure (PostgreSQL 16 + LocalStack S3)
 docker compose up -d postgres localstack
 
-# 4. Generate the Prisma client
+# 4. Generate the Prisma client (the shared packages were already compiled by npm's postinstall)
 npm run db:generate
 
 # 5. Apply migrations and seed curriculum, duel, and puzzle data
@@ -155,6 +155,10 @@ docker compose up --build
 
 This builds and starts PostgreSQL, LocalStack (S3), the backend (`:4000`), and the io service (`:4001`), with health checks and correct startup ordering. The required secrets come from `.env` (see [Configuration](#configuration)).
 
+### Production
+
+`docker-compose.prod.yml` runs Caddy (automatic HTTPS for `api.platyko.com` and `io.platyko.com`), the backend, the io service and Postgres on one host. The exact commands from a clean clone to a running stack, plus rollback, are in [DEPLOY.md](DEPLOY.md).
+
 ## Configuration
 
 Copy `.env.example` to `.env` (gitignored, local Docker Compose only):
@@ -166,7 +170,7 @@ Copy `.env.example` to `.env` (gitignored, local Docker Compose only):
 | `RESEND_API_KEY` | Resend API key for OTP emails (sender is fixed to `Platyko <noreply@platyko.com>`) |
 | `RESEND_WEBHOOK_SECRET` | Signing secret for `POST /api/webhooks/resend`; `email.bounced` / `email.complained` events flag `User.emailBounced` so the address is never mailed again |
 
-The full list of backend variables, with defaults, is in `backend/.env.example`; the io service's is in `io/.env.example`.
+The production section of `.env.example` lists every variable `docker-compose.prod.yml` needs. The full list of backend variables, with defaults, is in `backend/.env.example`; the io service's is in `io/.env.example`. In production the backend refuses to start on placeholder or weak values (`packages/server-kit/src/validate`).
 
 Non-secret settings (ports, database URL, S3 bucket, Google Sign-In client IDs) live in the `node-config` files under `backend/config/` and `io/config/`, with `custom-environment-variables.json` mapping env vars over them per environment (`default`, `compose`, `docker`, `production`).
 
@@ -174,12 +178,15 @@ Non-secret settings (ports, database URL, S3 bucket, Google Sign-In client IDs) 
 
 ```bash
 npm run typecheck:all           # typecheck every workspace
-npm --prefix mobile run test    # mobile unit tests (Vitest)
+npm run lint                    # ESLint (type-aware) across the monorepo
+npm run test:all                # Vitest: server-kit boot gate, auth-jwt, mobile
 ```
 
 Other useful commands:
 
+- `npm run build:packages` — recompile the shared `packages/*` (runs automatically after `npm install`).
 - `npm --prefix backend run prisma:migrate:reset` — reset the local database (skips seeding).
 - `npm run backend:build` / `npm run io:build` — compile the services with `tsc`.
+- `npx knip` — dead code / unused dependency report.
 
 Contribution ground rules for this codebase live in [CLAUDE.md](CLAUDE.md): no dead code, files capped at 80 lines, strict DRY, and self-explanatory naming.
