@@ -79,39 +79,49 @@ Target users: JS developers at Junior / Mid / Senior levels. Core loop: learn �
 ### Features
 - **Onboarding wizard** — 3-step level / goal / commitment picker (first launch only, AsyncStorage-gated).
 - **Learn** — 3 curriculum blocks per level (9 total), each with 10 exercises (MCQ + short-answer PUZZLE types). Server-synced progress for registered users; local-only for guests.
-- **Duel Mode** — real-time 1v1 Socket.IO battles (5 rounds). Authenticated users only. Solo auto-match after 25 s with no opponent. Max 3 wrong attempts per round. Post-match replay + rematch.
+- **Duel Mode** — real-time 1v1 Socket.IO battles (5 rounds). Authenticated users only. Solo auto-match after 25 s with no opponent. Max 3 wrong attempts per round, 60 s per round. Post-match replay + rematch.
 - **Code Puzzle** — standalone free-response puzzles evaluated against `acceptedAnswers` or test cases inside an `isolated-vm` V8 sandbox. XP capped at 10 solves per puzzle.
-- **XP & Level** — 250 XP per correct answer (lessons, puzzles, duel rounds). `level = floor(xp/250)+1`.
+- **XP & Level** — 250 XP per correct answer (lessons, puzzles, duel rounds). `level = floor(xp/250)+1`, `xpTotal` capped at `MAX_XP_TOTAL`.
 - **Streak** — increments once per calendar day on qualifying XP. Resets if 2+ days missed.
-- **Daily Goal** — user-chosen commitment (10/15/25 min). Practice time tracked server-side. Daily push notification at 19:00 via `expo-notifications`.
-- **Profile** — avatar (S3 upload), username, preferences, password change, account deletion.
-- **Guest mode** — full Learn + Code Puzzle access; XP/streak stored locally; Duel blocked.
+- **Daily Goal** — user-chosen commitment (10/15/25 min). Practice time tracked server-side. Daily local notification at 19:00 via `expo-notifications`; permission is requested when the first reminder is scheduled, never at launch.
+- **Accounts & auth** — email + password sign-up with a 6-digit OTP emailed by Resend (`PendingRegistration`: no `User` row until verified), Google Sign-In and Sign in with Apple (both verified server-side), password reset by emailed OTP, "Set password" for social-only accounts, JWT access (15 min) + rotated refresh (30 d) tokens.
+- **Profile** — avatar (JPEG upload through the backend to S3), username, preferences, password change, account deletion (in-app, typed confirmation).
+- **Guest mode** — full Learn + Code Puzzle access; XP/streak stored locally and migrated into the account on sign-up; Duel blocked.
 
 ### Architecture Layers
 
 | Layer | Package / Path | Technology |
 |-------|---------------|------------|
 | Mobile app | `mobile/` | React Native 0.81, Expo 54, Redux Toolkit, React Navigation 7 |
-| HTTP API | `backend/` | Express 5, Prisma 6, PostgreSQL 16, Zod, JWT (HS256) |
+| HTTP API | `backend/` | Express 5, Prisma 6, PostgreSQL 16, Zod, JWT (HS256), Node 22 |
 | Real-time | `io/` | Socket.IO 4 — `/duel` namespace only |
-| Database | `packages/db/` | Prisma schema (multi-file), singleton client |
-| Shared logic | `packages/` | `auth-jwt`, `xp-constants`, `streak-logic`, `duel-constants`, `exercise-answer`, `user-credentials`, `server-kit` |
+| Database | `packages/db/` | Prisma schema (multi-file), singleton client, one squashed init migration |
+| Shared logic | `packages/` | `auth-jwt`, `xp-constants`, `streak-logic`, `duel-constants`, `exercise-answer`, `user-credentials`, `server-kit` (CORS, logging + request ids, production boot gates) |
+| Email | Resend | OTP emails, bounce/complaint webhook (`/api/webhooks/resend`) |
 | Storage | AWS S3 / LocalStack | Avatar images only |
+| Production | `docker-compose.prod.yml`, `backend/Dockerfile`, `io/Dockerfile`, `infra/` | Caddy auto-HTTPS → backend + io containers (multi-stage, non-root), Postgres volume, nightly S3 backups. Runbook: `DEPLOY.md` |
 
 ### Key Technical Decisions
-- **JWT token versioning** — `User.tokenVersion` column; bumping it instantly invalidates all outstanding tokens (logout, password change, account delete).
+- **JWT token versioning** — `User.tokenVersion` column; bumping it instantly invalidates all outstanding tokens (logout, password change, password reset, account delete). Refresh tokens are stored hashed, rotated on use, carry a `jti`, and reuse revokes every session.
 - **Dual token storage** — JWTs in `expo-secure-store` (primary); Redux/AsyncStorage snapshot has tokens zeroed out.
-- **In-memory duel state** — active sessions, queue, and rematch entries live in Maps on the `io` process; only `DuelSession` rows are persisted to DB (at match end).
-- **Isolated-VM puzzle sandbox** — puzzle `testCases` run in a 32 MB, 100 ms V8 isolate; only `Math.max/min` and `Object.keys` bridged in.
+- **OTP codes** — 6 digits, bcrypt-hashed, 10 min TTL, 5 attempts, 60 s resend cooldown; identical logic for email verification (`PendingRegistration`) and password reset (`PasswordReset`).
+- **Social sign-in trusts only verified tokens** — Google ID token audience + `email_verified`; Apple identity token issuer/audience, email taken from the token, never from the client.
+- **In-memory duel state** — active sessions, queue, and rematch entries live in Maps on the `io` process; only finished `DuelSession` rows are persisted. Every socket payload is type-checked; malformed input is ignored.
+- **Isolated-VM puzzle sandbox** — puzzle `testCases` run in a 32 MB, 100 ms V8 isolate; only `Math.*` and `Object.*` helpers are bridged in.
 - **Single XP constant** — `XP_PER_CORRECT_EXERCISE = 250` is the single source of truth used by backend, io, and mobile.
 - **Shared streak logic** — `@project/streak-logic` pure functions used identically by backend, io, and mobile to prevent drift.
+- **Errors never leak** — every request gets an `X-Request-Id`; server logs carry `[rid=…]` and redact emails/passwords/tokens/answers; clients only ever see generic messages (plus the request id on 500s).
+- **Production boot gate** — `packages/server-kit/src/validate` refuses to start on placeholder/short/identical secrets, dev DB credentials, wildcard or `http://` CORS.
 - **Guest-first design** — app fully usable without an account; registration unlocks Duel + server sync only.
 
 ### DB Tables
-`User`, `UserProgress` (one per user×level), `Exercise`, `ExerciseOption`, `DuelQuestion`, `DuelSession`, `CodePuzzle`.
+`User` (incl. `tokenVersion`, `emailBounced`, `googleId`, `appleSub`, `puzzleXpSolveCounts`), `UserProgress` (one per user×level), `RefreshToken`, `PendingRegistration`, `PasswordReset`, `Exercise`, `ExerciseOption`, `DuelQuestion`, `DuelSession`, `CodePuzzle`.
 
 ### Redux Slices
 `session`, `profile`, `xp`, `streak`, `lesson`, `duel` (stats), `duelLive` (transient, not persisted), `puzzle`.
+
+### Verification
+`npm run typecheck:all`, `npm run lint`, `npm run test:all`, `npx knip` must all be green after every change. `npm run build:packages` runs in `postinstall`; run it manually after editing `packages/*` before typechecking consumers.
 
 ---
 
