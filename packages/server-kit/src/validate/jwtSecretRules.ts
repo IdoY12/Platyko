@@ -13,9 +13,9 @@ const PLACEHOLDER_SECRETS = new Set(["change-me", "change-me-too", "secret", "jw
 /** Any secret containing one of these was clearly typed by a human, not generated. */
 const PLACEHOLDER_SUBSTRINGS = ["change-me", "local-dev", "placeholder", "example", "secret", "password", "test"];
 
-export const MIN_JWT_SECRET_LENGTH = 32;
+const MIN_JWT_SECRET_LENGTH = 32;
 
-export function isPlaceholderSecret(value: string): boolean {
+function isPlaceholderSecret(value: string): boolean {
   const normalized = value.trim().toLowerCase();
   return PLACEHOLDER_SECRETS.has(normalized) || PLACEHOLDER_SUBSTRINGS.some((s) => normalized.includes(s));
 }

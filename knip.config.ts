@@ -20,10 +20,14 @@ export default {
       entry: [],
       project: [],
       expo: false,
+      // express-rate-limit hoists to root and resolves its Express types from here (see memory notes).
+      ignoreDependencies: ["@types/express"],
     },
 
     backend: {
       project: ["src/**/*.ts", "prisma/seed/**/*.ts"],
+      // Type augmentation target only; the types arrive through @types/express.
+      ignoreDependencies: ["express-serve-static-core"],
       prisma: {
         entry: [prismaSchemaEntry],
       },
@@ -37,7 +41,9 @@ export default {
     },
 
     mobile: {
-      project: ["index.ts", "src/**/*.{ts,tsx}"],
+      project: ["src/**/*.{ts,tsx}"],
+      // knip's expo plugin infers expo-updates from app.json, but the app does not ship OTA updates.
+      ignoreDependencies: ["expo-updates"],
       paths: {
         "@/*": ["./src/*"],
       },
