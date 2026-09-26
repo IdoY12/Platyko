@@ -18,6 +18,7 @@ export function useBuiltAnswerLessonExercise(
   const [hasChecked, setHasChecked] = useState(false);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [checking, setChecking] = useState(false);
 
   useEffect(() => {
     setInput("");
@@ -27,19 +28,21 @@ export function useBuiltAnswerLessonExercise(
     setSubmitError(null);
   }, [exercise.id]);
 
-  const canCheck = input.trim().length > 0 && isAnswerCorrect !== true;
+  const canCheck = input.trim().length > 0 && isAnswerCorrect !== true && !checking;
 
   const runCheck = useCallback(async () => {
     const answer = input.trim();
     if (!answer) return;
+    if (checking) return;
     await runLessonExerciseCheck(learning, accessToken, exercise, answer, {
+      setChecking,
       setServerResult,
       setIsAnswerCorrect,
       setHasChecked,
       setSubmitError,
       onExplanationRevealed,
     });
-  }, [accessToken, exercise, input, learning, onExplanationRevealed]);
+  }, [accessToken, checking, exercise, input, learning, onExplanationRevealed]);
 
   const goNext = useCallback(() => {
     const answer = input.trim();

@@ -27,6 +27,7 @@ export function useCodePuzzle() {
   const [input, setInput] = useState("");
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
   const [refOpen, setRefOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const puzzle = puzzles[puzzleIndex] ?? null;
 
   useEffect(() => {
@@ -53,9 +54,10 @@ export function useCodePuzzle() {
   }, [dispatch, puzzleService]);
 
   const onSubmit = useCallback(async () => {
-    if (!puzzle) return;
+    if (!puzzle || submitting) return;
     if (!input.trim()) { setFeedbackMessage("Please enter a one-line JavaScript expression."); return; }
     const calendarDateISO = getStreakCalendarDate();
+    setSubmitting(true);
     try {
       const submitResult = await puzzleService.submitPuzzle(puzzle.id, { answer: input, clientLocalDate: calendarDateISO });
       if (!submitResult.correct) { setFeedbackMessage("Not quite. Try another valid one-line expression."); return; }
@@ -64,12 +66,12 @@ export function useCodePuzzle() {
           ? applyGuestPuzzleSolve(dispatch, puzzle.id, xpSolveCounts, calendarDateISO, xpTotal)
           : applyRegisteredPuzzleSolve(dispatch, submitResult, calendarDateISO),
       );
-    } catch { setFeedbackMessage(SUBMIT_FAILED_MESSAGE); }
-  }, [dispatch, input, isGuest, puzzle, puzzleService, xpSolveCounts, xpTotal]);
+    } catch { setFeedbackMessage(SUBMIT_FAILED_MESSAGE); } finally { setSubmitting(false); }
+  }, [dispatch, input, isGuest, puzzle, puzzleService, submitting, xpSolveCounts, xpTotal]);
   const revealReferenceAnswer = useCallback(() => setRefOpen(true), []);
   const setCurrentIndex = useCallback((u: SetStateAction<number>) => { setRefOpen(false); setPuzzleIndex(u); }, []);
   return {
-    loading, puzzle, puzzles, currentIndex: puzzleIndex, setCurrentIndex, input, setInput, message: feedbackMessage, onSubmit,
+    loading, puzzle, puzzles, currentIndex: puzzleIndex, setCurrentIndex, input, setInput, message: feedbackMessage, onSubmit, submitting,
     revealReferenceAnswer, referenceSnippet: puzzle && refOpen ? puzzle.acceptedAnswers[0] ?? "" : null,
   };
 }

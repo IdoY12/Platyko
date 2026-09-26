@@ -17,10 +17,11 @@ function emitWhenReady(socket: Socket, event: string, body: object): void {
   socket.once("connect", cb);
 }
 
-export function duelJoinQueue(url: string, payload: { userId: string; username: string; token?: string | null }) {
-  const socket = connectDuelSocket(url, payload.token ?? null);
+/** The server reads the display name from the DB; the payload carries nothing the client controls. */
+export function duelJoinQueue(url: string, payload: { userId: string; token: string }) {
+  const socket = connectDuelSocket(url, payload.token);
   duelConnectionRefs.userId = payload.userId;
-  emitWhenReady(socket, "join_queue", { username: payload.username });
+  emitWhenReady(socket, "join_queue", {});
 }
 
 export function duelLeaveQueue() {

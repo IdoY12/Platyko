@@ -7,6 +7,8 @@ import { evaluateExerciseLocally } from "@/utils/lessonExerciseState";
 import { logError } from "@/utils/logger";
 
 export type LessonCheckSetters = {
+  /** True while a check is in flight; callers disable the Check button so a double tap cannot submit twice. */
+  setChecking: (checking: boolean) => void;
   setServerResult: Dispatch<SetStateAction<ExerciseSubmitResult | null>>;
   setIsAnswerCorrect: (isCorrect: boolean) => void;
   setHasChecked: (hasChecked: boolean) => void;
@@ -31,6 +33,7 @@ export async function runLessonExerciseCheck(
   const localResult = evaluateExerciseLocally(exercise, answer);
   let explanationShown = localResult.explanation;
   if (localResult.isAnswerCorrect && accessToken) {
+    setters.setChecking(true);
     try {
       const persisted = await learning.submitExercise(exercise.id, answer);
       explanationShown = persisted.explanation ?? localResult.explanation;
@@ -43,6 +46,8 @@ export async function runLessonExerciseCheck(
       logError("[LESSON]", error, { phase: "submit-exercise" });
       setters.setSubmitError(SUBMIT_FAILED_MESSAGE);
       return;
+    } finally {
+      setters.setChecking(false);
     }
   } else {
     setters.setServerResult({ xpEarned: localResult.xpEarned, explanation: localResult.explanation });

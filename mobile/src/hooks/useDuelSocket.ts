@@ -34,17 +34,18 @@ export function useDuelMatchmakingSocket() {
   const sessionId = useAppSelector((s) => s.duelLive.sessionId);
   const opponent = useAppSelector((s) => s.duelLive.opponent);
   const queueRejected = useAppSelector((s) => s.duelLive.queueRejected);
+  const connectionLost = useAppSelector((s) => s.duelLive.connectionLost);
   const url = useMemo(() => DUEL_SOCKET_URL, []);
   const joinQueue = useCallback(
-    async (p: { userId: string; username: string; token?: string | null }) => {
-      await refreshSessionOrLogoutOnForeground(p.token ?? "", dispatch);
+    async (p: { userId: string; token: string }) => {
+      await refreshSessionOrLogoutOnForeground(p.token, dispatch);
       const next = store.getState().session.accessToken;
       if (!next) return;
-      duelJoinQueue(url, { ...p, token: next });
+      duelJoinQueue(url, { userId: p.userId, token: next });
     },
     [dispatch, url],
   );
-  return { playersOnline, sessionId, opponent, joinQueue, leaveQueue: duelLeaveQueue, queueRejected };
+  return { playersOnline, sessionId, opponent, joinQueue, leaveQueue: duelLeaveQueue, queueRejected, connectionLost };
 }
 
 export function useDuelResultsSocket() {

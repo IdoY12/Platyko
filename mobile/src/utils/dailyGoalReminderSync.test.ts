@@ -7,6 +7,9 @@ vi.mock("@react-native-async-storage/async-storage", () => ({
 
 vi.mock("expo-notifications", () => ({
   SchedulableTriggerInputTypes: { DAILY: "daily" },
+  PermissionStatus: { GRANTED: "granted" },
+  getPermissionsAsync: vi.fn(async () => ({ status: "granted" })),
+  requestPermissionsAsync: vi.fn(async () => ({ status: "granted" })),
   scheduleNotificationAsync: vi.fn(),
   cancelAllScheduledNotificationsAsync: vi.fn(),
   getAllScheduledNotificationsAsync: vi.fn(),
@@ -76,5 +79,21 @@ describe("syncDailyPracticeReminder", () => {
 
     expect(Notifications.scheduleNotificationAsync).not.toHaveBeenCalled();
     expect(Notifications.cancelAllScheduledNotificationsAsync).not.toHaveBeenCalled();
+  });
+
+  it("permission denied: schedules nothing and stores nothing", async () => {
+    getStateMock.mockReturnValue({
+      session: { hasHydrated: true, isGuest: true, isAuthenticated: false },
+      profile: { commitment: "15", notificationsEnabled: true },
+    });
+    vi.mocked(AsyncStorage.getItem).mockResolvedValue(null);
+    vi.mocked(Notifications.getPermissionsAsync).mockResolvedValue({ status: "denied" } as never);
+    vi.mocked(Notifications.requestPermissionsAsync).mockResolvedValue({ status: "denied" } as never);
+
+    await syncDailyPracticeReminder();
+
+    expect(Notifications.scheduleNotificationAsync).not.toHaveBeenCalled();
+    expect(AsyncStorage.multiSet).not.toHaveBeenCalled();
+    expect(AsyncStorage.multiRemove).toHaveBeenCalledWith(["scheduledNotificationId", "dailyPracticeReminderFp"]);
   });
 });

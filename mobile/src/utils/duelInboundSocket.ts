@@ -5,7 +5,7 @@ import { duelConnectionRefs, normalizeDuelReplayEntry } from "@/utils/duelSocket
 import { shuffleArray } from "@/utils/shuffleArray";
 import store from "@/redux/store";
 import {
-  connectionLostCleared, connectionLostSet, duelEnded, matchFound, opponentLeftReceived,
+  connectionLostCleared, connectionLostSet, duelEnded, duelReset, matchFound, opponentLeftReceived,
   playersOnlineSet, queueRejected, rematchDeclined, roundResultReceived, roundStarted,
   wrongAnswerIncremented,
 } from "@/redux/duel-live-slice";
@@ -23,7 +23,12 @@ type DuelEndWire = {
 export function bindDuelSocketEvents(socket: Socket) {
   socket.on("connect", () => { logDuel("socket:connected", { socketId: socket.id }); store.dispatch(connectionLostCleared()); });
   socket.on("disconnect", (reason) => { logDuel("socket:disconnected", { reason }); store.dispatch(connectionLostSet()); });
-  socket.on("connect_error", (e) => logError("[DUEL]", e, { phase: "socket-connect" }));
+  socket.on("connect_error", (e) => { logError("[DUEL]", e, { phase: "socket-connect" }); store.dispatch(connectionLostSet()); });
+  // The server restarted (or otherwise dropped the match) while we were in it: leave the arena.
+  socket.on("no_active_duel", () => {
+    const { sessionId, duelEnd } = store.getState().duelLive;
+    if (sessionId && !duelEnd) { logDuel("duel:server-lost-session"); store.dispatch(duelReset()); }
+  });
   socket.on("queue_rejected", (p: { reason?: string }) => {
     logDuel("queue:rejected", { reason: p?.reason });
     store.dispatch(queueRejected(p?.reason ?? "authentication_required"));

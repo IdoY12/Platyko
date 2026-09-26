@@ -22,6 +22,8 @@ export function ResetPasswordForm(r: Props) {
         style={[credentialStyles.input, verifyStyles.codeInput]}
         keyboardType="number-pad"
         maxLength={6}
+        textContentType="oneTimeCode"
+        autoComplete="one-time-code"
         accessibilityLabel="Reset code input"
       />
       <TextInput

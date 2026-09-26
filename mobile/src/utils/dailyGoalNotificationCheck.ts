@@ -14,6 +14,14 @@ export function syncDailyPracticeReminder(): Promise<void> {
   return syncQueue;
 }
 
+/** True when notifications are (or become) granted. A previous denial returns false without a prompt. */
+async function ensureNotificationPermission(): Promise<boolean> {
+  const current = await Notifications.getPermissionsAsync();
+  if (current.status === Notifications.PermissionStatus.GRANTED) return true;
+  const requested = await Notifications.requestPermissionsAsync();
+  return requested.status === Notifications.PermissionStatus.GRANTED;
+}
+
 async function runReminderSync(): Promise<void> {
   const { session, profile } = store.getState();
   if (!session.hasHydrated) return;
@@ -33,7 +41,8 @@ async function runReminderSync(): Promise<void> {
   // scheduled notifications also heals orphans left behind by past double-scheduling.
   await Notifications.cancelAllScheduledNotificationsAsync();
 
-  if (!allow) {
+  // The OS prompt appears here, right before the first reminder is scheduled, never at cold launch.
+  if (!allow || !(await ensureNotificationPermission())) {
     await AsyncStorage.multiRemove([scheduledNotificationIdKey, dailyPracticeReminderFpKey]);
     return;
   }

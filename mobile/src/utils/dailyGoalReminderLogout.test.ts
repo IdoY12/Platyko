@@ -7,6 +7,9 @@ vi.mock("@react-native-async-storage/async-storage", () => ({
 }));
 vi.mock("expo-notifications", () => ({
   SchedulableTriggerInputTypes: { DAILY: "daily" },
+  PermissionStatus: { GRANTED: "granted" },
+  getPermissionsAsync: vi.fn(async () => ({ status: "granted" })),
+  requestPermissionsAsync: vi.fn(async () => ({ status: "granted" })),
   scheduleNotificationAsync: vi.fn(),
   cancelAllScheduledNotificationsAsync: vi.fn(),
   getAllScheduledNotificationsAsync: vi.fn(async () => []),

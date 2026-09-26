@@ -27,6 +27,8 @@ export function VerifyEmailScreen() {
           style={[credentialStyles.input, styles.codeInput]}
           keyboardType="number-pad"
           maxLength={6}
+          textContentType="oneTimeCode"
+          autoComplete="one-time-code"
           accessibilityLabel="Verification code input"
         />
         <PressableScale

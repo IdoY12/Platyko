@@ -3,18 +3,18 @@ import { Platform } from "react-native";
 import { makeRedirectUri } from "expo-auth-session";
 
 /** Google OAuth client IDs (public). Backend verifies id_token audience against web + iOS. */
-export const GOOGLE_WEB_CLIENT_ID =
+const GOOGLE_WEB_CLIENT_ID =
   "858033290834-7vrs7u956crqi2ci1kfgtqjvikd5o66a.apps.googleusercontent.com";
-export const GOOGLE_IOS_CLIENT_ID =
+const GOOGLE_IOS_CLIENT_ID =
   "858033290834-bhhndi5aqeqtj9r4t0fd3u5vs4aq9snd.apps.googleusercontent.com";
 /** Console > Credentials > "Android" client (android.package + signing SHA-1). Empty until created. */
-export const GOOGLE_ANDROID_CLIENT_ID = "";
+const GOOGLE_ANDROID_CLIENT_ID = "";
 
 /**
  * Google iOS clients accept exactly one redirect scheme: the client ID with its two halves swapped.
  * Must also be registered in mobile/app.json `scheme` so iOS hands the callback back to the app.
  */
-export function reversedClientIdScheme(clientId: string): string {
+function reversedClientIdScheme(clientId: string): string {
   return `com.googleusercontent.apps.${clientId.replace(".apps.googleusercontent.com", "")}`;
 }
 

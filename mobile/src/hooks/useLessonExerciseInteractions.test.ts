@@ -12,7 +12,7 @@ const exercise: Exercise = {
 
 function makeSetters(): LessonCheckSetters {
   return {
-    setServerResult: vi.fn(), setIsAnswerCorrect: vi.fn(), setHasChecked: vi.fn(), setSubmitError: vi.fn(),
+    setChecking: vi.fn(), setServerResult: vi.fn(), setIsAnswerCorrect: vi.fn(), setHasChecked: vi.fn(), setSubmitError: vi.fn(),
   };
 }
 
@@ -32,6 +32,7 @@ describe("runLessonExerciseCheck", () => {
     expect(s.setServerResult).not.toHaveBeenCalled();
     expect(s.setIsAnswerCorrect).not.toHaveBeenCalled();
     expect(s.setHasChecked).not.toHaveBeenCalled();
+    expect(vi.mocked(s.setChecking).mock.calls).toEqual([[true], [false]]);
   });
 
   it("authenticated + correct + server success: commits the server-confirmed result", async () => {

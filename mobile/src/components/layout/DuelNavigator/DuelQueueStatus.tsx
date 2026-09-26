@@ -3,10 +3,13 @@ import { AppIcon } from "@/components/common/AppIcon/AppIcon";
 import { colors } from "@/theme/theme";
 import { styles } from "./DuelNavigator.styles";
 
-type Props = { playersOnline: number; seconds: number };
+type Props = { playersOnline: number; seconds: number; connectionLost: boolean };
 
-/** Queue readout: searching headline, players-online row, and the running wait timer. */
-export function DuelQueueStatus({ playersOnline, seconds }: Props) {
+/** Queue readout: searching headline (or the offline reason), players-online row, and the wait timer. */
+export function DuelQueueStatus({ playersOnline, seconds, connectionLost }: Props) {
+  if (connectionLost) {
+    return <Text style={styles.searching}>Can&apos;t reach the duel server. Check your connection — we&apos;ll keep retrying.</Text>;
+  }
   return (
     <>
       <Text style={styles.searching}>Searching for an opponent...</Text>

@@ -2,7 +2,7 @@ import { Text } from "react-native";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { onboardingFlowStyles } from "./OnboardingFlow.styles";
 
-export function OnboardingGoalOptionCard({
+function OnboardingGoalOptionCard({
   title,
   subtitle,
   selected,

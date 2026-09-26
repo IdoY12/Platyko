@@ -19,25 +19,23 @@ const QUEUE_TIMER_INTERVAL_MS = 1000;
 const MATCH_COUNTDOWN_TICK_MS = 700;
 
 export function DuelMatchmakingScreen({ navigation }: MatchmakingScreenProps) {
-  const { playersOnline, sessionId, opponent, joinQueue, leaveQueue, queueRejected } = useDuelMatchmakingSocket();
+  const { playersOnline, sessionId, opponent, joinQueue, leaveQueue, queueRejected, connectionLost } = useDuelMatchmakingSocket();
   const userId = useAppSelector((s) => s.session.userId);
-  const username = useAppSelector((s) => s.profile.username);
   const accessToken = useAppSelector((s) => s.session.accessToken);
   const [seconds, setSeconds] = useState(0);
   const [countdown, setCountdown] = useState(3);
   const hasJoinedQueueRef = useRef(false);
-  const usernameRef = useRef(username);
   const accessTokenRef = useRef(accessToken);
   const sessionIdRef = useRef<string | null>(null);
   const navigatedRef = useRef(false);
 
-  useEffect(() => { usernameRef.current = username; accessTokenRef.current = accessToken; sessionIdRef.current = sessionId; }, [username, accessToken, sessionId]);
+  useEffect(() => { accessTokenRef.current = accessToken; sessionIdRef.current = sessionId; }, [accessToken, sessionId]);
   useEffect(() => { logNav("screen:enter", { screen: "MatchmakingScreen" }); return () => logNav("screen:leave", { screen: "MatchmakingScreen" }); }, []);
   useEffect(() => { if (sessionId) return; const i = setInterval(() => setSeconds((v) => v + 1), QUEUE_TIMER_INTERVAL_MS); return () => clearInterval(i); }, [sessionId]);
   useEffect(() => {
     if (!userId || !accessTokenRef.current || hasJoinedQueueRef.current || queueRejected) return;
     hasJoinedQueueRef.current = true;
-    void joinQueue({ userId, username: usernameRef.current, token: accessTokenRef.current });
+    void joinQueue({ userId, token: accessTokenRef.current });
     logDuel("queue:join", { userId });
     return () => { if (!navigatedRef.current) { logDuel("queue:leave", { userId: userId ?? "unknown" }); if (sessionIdRef.current) duelLeaveDuel(sessionIdRef.current); else leaveQueue(); } hasJoinedQueueRef.current = false; };
   }, [joinQueue, leaveQueue, userId, queueRejected]);
@@ -67,7 +65,7 @@ export function DuelMatchmakingScreen({ navigation }: MatchmakingScreenProps) {
       <TerminalHeader title="~/duel/queue $" onBack={() => navigation.goBack()} />
       <View style={styles.screenBody}>
         <MatrixRain opacity={0.45} color={colors.duel} />
-        <DuelQueueStatus playersOnline={playersOnline} seconds={seconds} />
+        <DuelQueueStatus playersOnline={playersOnline} seconds={seconds} connectionLost={connectionLost} />
         {opponent ? <DuelMatchmakingOpponent opponent={opponent} countdown={countdown} /> : null}
         <PressableScale style={styles.secondaryBtn} haptic="light" onPress={() => navigation.goBack()}>
           <Text style={styles.secondaryLabel}>Cancel</Text>

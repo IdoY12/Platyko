@@ -20,6 +20,7 @@ export function usePickOneLessonExercise(
   const [serverResult, setServerResult] = useState<ExerciseSubmitResult | null>(null);
   const [lastCheckedAnswer, setLastCheckedAnswer] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [checking, setChecking] = useState(false);
 
   useEffect(() => {
     setSelected(null);
@@ -30,19 +31,21 @@ export function usePickOneLessonExercise(
     setSubmitError(null);
   }, [exercise.id]);
 
-  const canCheck = Boolean(selected) && isAnswerCorrect !== true;
+  const canCheck = Boolean(selected) && isAnswerCorrect !== true && !checking;
 
   const runCheck = useCallback(async () => {
     if (!selected) return;
     setLastCheckedAnswer(selected);
+    if (checking) return;
     await runLessonExerciseCheck(learning, accessToken, exercise, selected, {
+      setChecking,
       setServerResult,
       setIsAnswerCorrect,
       setHasChecked,
       setSubmitError,
       onExplanationRevealed,
     });
-  }, [accessToken, exercise, learning, onExplanationRevealed, selected]);
+  }, [accessToken, checking, exercise, learning, onExplanationRevealed, selected]);
 
   const goNext = useCallback(() => {
     if (!selected || !serverResult || isAnswerCorrect !== true) return;
