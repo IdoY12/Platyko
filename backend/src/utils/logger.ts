@@ -7,4 +7,4 @@
  * Consumers: controllers, middlewares, app error handler
  */
 
-export { logError, logInfo, logWarn, sanitizeBody } from "@project/server-kit/logger";
+export { logError, logInfo, logWarn, runWithRequestId, sanitizeBody } from "@project/server-kit/logger";

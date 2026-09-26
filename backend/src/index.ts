@@ -39,9 +39,12 @@ server.listen(port, host, () => {
   });
 });
 
+/** Stop accepting connections, let in-flight requests finish (10 s cap), then release the DB. */
 async function shutdown() {
-  server.close();
+  const forceExit = setTimeout(() => process.exit(1), 10_000).unref();
+  await new Promise<void>((resolve) => server.close(() => resolve()));
   await prisma.$disconnect();
+  clearTimeout(forceExit);
   process.exit(0);
 }
 process.on("SIGTERM", () => void shutdown());

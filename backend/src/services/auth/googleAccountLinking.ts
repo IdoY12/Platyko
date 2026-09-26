@@ -28,6 +28,9 @@ export async function findOrCreateGoogleUser(
         "This email is already registered with a password. Sign in with email and password.",
       );
     }
+    if (byEmail.appleSub) {
+      throw new GoogleSignInBlockedError("This email is linked to an Apple ID. Sign in with Apple.");
+    }
     const updated = await prisma.user.update({ where: { id: byEmail.id }, data: { googleId } });
     return { user: updated, isNew: false };
   }

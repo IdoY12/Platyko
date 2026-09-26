@@ -45,9 +45,9 @@ class AuthService {
     }
   }
 
-  async loginWithApple(identityToken: string, fullName?: string, email?: string, local?: GuestLocalState): Promise<AuthResponse> {
+  async loginWithApple(identityToken: string, fullName?: string, local?: GuestLocalState): Promise<AuthResponse> {
     try {
-      const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/apple`, { identityToken, fullName, email, ...guestStateRequestBody(local) });
+      const { data } = await axios.post<AuthResponse>(`${API_BASE_URL}/auth/apple`, { identityToken, fullName, ...guestStateRequestBody(local) });
       return data;
     } catch (e) {
       throw new Error(apiErrorMessage(e));

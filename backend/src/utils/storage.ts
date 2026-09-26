@@ -16,6 +16,11 @@ export function rewriteLocalS3UrlForClient(url: string, clientHostname: string):
   return url.replace(`localhost:${endpointUrl.port}`, `${clientHostname}:${endpointUrl.port}`);
 }
 
+/** JPEG files start with the SOI marker FF D8 FF; the client-sent Content-Type is never trusted. */
+export function isJpegBuffer(bytes: Buffer): boolean {
+  return bytes.length > 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
+}
+
 export function getAvatarPublicUrl(key: string): string {
   if (avatarS3Endpoint) {
     return `${avatarS3Endpoint}/${avatarS3Bucket}/${key}`;

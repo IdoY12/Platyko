@@ -5,6 +5,7 @@ import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../
 import type { ConfirmPasswordResetBody } from "../../validators/passwordResetValidators.js";
 import { OTP_OUTCOME_ERRORS } from "../../services/auth/otpCodes.js";
 import { consumePasswordResetCode } from "../../services/auth/passwordResetCodes.js";
+import { equalizeCompareTiming } from "../../utils/passwordHashing.js";
 
 export async function authPasswordResetConfirmHandler(request: Request, response: Response): Promise<void> {
   const { email, code, newPassword } = request.validatedBody as ConfirmPasswordResetBody;
@@ -12,7 +13,8 @@ export async function authPasswordResetConfirmHandler(request: Request, response
   try {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      // Same body as a wrong code: never reveal whether the email belongs to an account.
+      // Same body and same bcrypt cost as a wrong code: never reveal whether the email belongs to an account.
+      await equalizeCompareTiming();
       response.status(400).json({ error: OTP_OUTCOME_ERRORS.missing });
       return;
     }

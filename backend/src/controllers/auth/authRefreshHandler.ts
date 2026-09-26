@@ -6,14 +6,10 @@ import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../../uti
 import { revokeAllSessionsForUser } from "../../utils/revokeAllSessionsForUser.js";
 import { hashRefreshToken } from "../../utils/storeRefreshToken.js";
 import { rotateRefreshToken } from "../../utils/rotateRefreshToken.js";
+import type { RefreshBody } from "../../validators/authValidators.js";
 
 export async function authRefreshHandler(request: Request, response: Response): Promise<void> {
-  const bodyRefreshToken = (request.body as { refreshToken?: unknown } | undefined)?.refreshToken;
-  const refreshTokenValue = typeof bodyRefreshToken === "string" ? bodyRefreshToken : "";
-  if (!refreshTokenValue) {
-    response.status(400).json({ error: "Missing refresh token" });
-    return;
-  }
+  const { refreshToken: refreshTokenValue } = request.validatedBody as RefreshBody;
   let payload: AuthTokenPayload;
   try {
     payload = verifyRefreshToken(refreshTokenValue);

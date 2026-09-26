@@ -1,12 +1,15 @@
 import { z } from "zod";
-import { EMAIL_INVALID, EMAIL_MAX_LEN, USERNAME_MAX_LEN } from "@project/user-credentials";
+import { USERNAME_MAX_LEN } from "@project/user-credentials";
 import { guestSnapshotShape } from "./authValidators.js";
 
-/** fullName/email are only provided by Apple on the FIRST authorization; both optional. */
+/**
+ * fullName is only provided by Apple on the FIRST authorization. The email is deliberately NOT
+ * accepted from the client: it is read from the verified identity token only, so a caller can never
+ * claim someone else's address and get linked to (or squat on) their account.
+ */
 export const appleAuthBodySchema = z.object({
   identityToken: z.string().min(1, { message: "Identity token is required" }),
   fullName: z.string().max(USERNAME_MAX_LEN * 2).optional(),
-  email: z.string().max(EMAIL_MAX_LEN).email({ message: EMAIL_INVALID }).optional(),
   ...guestSnapshotShape,
 });
 

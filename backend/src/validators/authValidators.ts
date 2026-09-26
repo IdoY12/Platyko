@@ -67,11 +67,18 @@ export const refreshBodySchema = z.object({
   refreshToken: z.string().min(1, { message: "Refresh token is required" }),
 });
 
+/** Logout accepts either token; the body is optional and may carry an empty refreshToken. */
+export const logoutBodySchema = z.object({
+  refreshToken: z.string().max(4096).optional(),
+});
+
 export const googleAuthBodySchema = z.object({
   idToken: z.string().min(1, { message: "ID token is required" }),
   ...guestSnapshotShape,
 });
 
 export type RegisterBody = z.infer<typeof registerBodySchema>;
+export type RefreshBody = z.infer<typeof refreshBodySchema>;
+export type LogoutBody = z.infer<typeof logoutBodySchema>;
 export type LoginBody = z.infer<typeof loginBodySchema>;
 export type GoogleAuthBody = z.infer<typeof googleAuthBodySchema>;

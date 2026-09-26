@@ -68,10 +68,12 @@ server.listen(port, host, () => {
   });
 });
 
+/** Close sockets and the HTTP server, let handlers drain (10 s cap), then release the DB. */
 async function shutdown() {
-  void io.close();
-  server.close();
+  const forceExit = setTimeout(() => process.exit(1), 10_000).unref();
+  await io.close();
   await prisma.$disconnect();
+  clearTimeout(forceExit);
   process.exit(0);
 }
 process.on("SIGTERM", () => void shutdown());

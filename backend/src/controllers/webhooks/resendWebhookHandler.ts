@@ -45,7 +45,7 @@ export async function resendWebhookHandler(request: Request, response: Response)
       where: { email: { in: recipients } },
       data: { emailBounced: true },
     });
-    logInfo("[MAIL]", `webhook:${event.type}`, { recipients, flagged: count });
+    logInfo("[MAIL]", `webhook:${event.type}`, { recipientCount: recipients.length, flagged: count });
     response.json({ received: true });
   } catch (error) {
     logError("[MAIL]", error, { phase: `webhook:${event.type}` });

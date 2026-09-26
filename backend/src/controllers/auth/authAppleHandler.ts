@@ -7,7 +7,7 @@ import { AppleSignInBlockedError, findOrCreateAppleUser } from "../../services/a
 import { issueSessionForUser } from "../../services/auth/issueSessionForUser.js";
 
 export async function authAppleHandler(request: Request, response: Response): Promise<void> {
-  const { identityToken, fullName, email: bodyEmail, ...guestSnapshot } = request.validatedBody as AppleAuthBody;
+  const { identityToken, fullName, ...guestSnapshot } = request.validatedBody as AppleAuthBody;
   let appleSub: string;
   let tokenEmail: string | undefined;
   try {
@@ -17,9 +17,8 @@ export async function authAppleHandler(request: Request, response: Response): Pr
     return;
   }
   try {
-    // The verified token's email claim is authoritative; the body email (from Apple's first
-    // authorization) is only a fallback and, per the linking rules, can never hijack an account.
-    const { user, isNew } = await findOrCreateAppleUser(appleSub, tokenEmail ?? bodyEmail, fullName, guestSnapshot);
+    // Only the verified token's email claim is trusted (see appleAuthValidators for why).
+    const { user, isNew } = await findOrCreateAppleUser(appleSub, tokenEmail, fullName, guestSnapshot);
     const session = await issueSessionForUser(user, isNew);
     logInfo("[AUTH]", "apple:success", { userId: user.id });
     response.status(isNew ? 201 : 200).json(session);

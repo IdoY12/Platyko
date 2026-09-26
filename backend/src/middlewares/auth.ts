@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express";
 import { prisma } from "@project/db";
 import type { AuthenticatedRequest } from "../@types/auth.js";
-import { logError, logInfo, logWarn } from "../utils/logger.js";
+import { logInfo, logWarn } from "../utils/logger.js";
 import { verifyAccessToken } from "../utils/sessionJwtTokens.js";
 
 export async function authMiddleware(
@@ -39,7 +39,8 @@ export async function authMiddleware(
     request.user = { userId: decoded.userId, email: decoded.email };
     next();
   } catch (error) {
-    logError("[AUTH]", error, { path: request.originalUrl, reason: "invalid-access-token" });
+    // Expired or malformed tokens are routine client state, not server failures: WARN, no stack.
+    logWarn("[AUTH]", "invalid-access-token", { path: request.originalUrl, reason: error instanceof Error ? error.name : "unknown" });
     response.status(401).json({ error: "Invalid token" });
   }
 }

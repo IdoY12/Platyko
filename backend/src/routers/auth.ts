@@ -32,7 +32,7 @@ import {
 } from "../middlewares/authRateLimiters.js";
 import { validateBody } from "../middlewares/validateBody.js";
 import { appleAuthBodySchema } from "../validators/appleAuthValidators.js";
-import { googleAuthBodySchema, loginBodySchema, refreshBodySchema, registerBodySchema } from "../validators/authValidators.js";
+import { googleAuthBodySchema, loginBodySchema, logoutBodySchema, refreshBodySchema, registerBodySchema } from "../validators/authValidators.js";
 import { resendVerificationBodySchema, verifyEmailBodySchema } from "../validators/emailVerificationValidators.js";
 import { confirmPasswordResetBodySchema, requestPasswordResetBodySchema } from "../validators/passwordResetValidators.js";
 
@@ -48,4 +48,4 @@ authRouter.post("/google", authLoginRateLimiter, validateBody(googleAuthBodySche
 authRouter.post("/apple", authLoginRateLimiter, validateBody(appleAuthBodySchema), authAppleHandler);
 authRouter.post("/refresh", authRefreshRateLimiter, validateBody(refreshBodySchema), authRefreshHandler);
 authRouter.get("/me", authMiddleware, authMeHandler);
-authRouter.post("/logout", authLogoutRateLimiter, authLogoutHandler);
+authRouter.post("/logout", authLogoutRateLimiter, validateBody(logoutBodySchema), authLogoutHandler);

@@ -2,11 +2,11 @@ import type { Request, Response } from "express";
 import { logError, logInfo, logWarn } from "../../utils/logger.js";
 import { revokeAllSessionsForUser } from "../../utils/revokeAllSessionsForUser.js";
 import { verifyAccessToken, verifyRefreshToken } from "../../utils/sessionJwtTokens.js";
+import type { LogoutBody } from "../../validators/authValidators.js";
 
 export async function authLogoutHandler(request: Request, response: Response): Promise<void> {
   const bearer = request.headers.authorization?.startsWith("Bearer ") ? request.headers.authorization.slice(7) : "";
-  const bodyRefreshToken = (request.body as { refreshToken?: unknown } | undefined)?.refreshToken;
-  const refreshTokenValue = typeof bodyRefreshToken === "string" ? bodyRefreshToken : "";
+  const refreshTokenValue = (request.validatedBody as LogoutBody | undefined)?.refreshToken ?? "";
 
   let userId: string | null = null;
 

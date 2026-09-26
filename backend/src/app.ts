@@ -1,10 +1,10 @@
 /**
- * Composes the Express application: security headers, CORS, JSON, routers, errors.
+ * Composes the Express application: request ids, security headers, CORS, JSON, routers, errors.
  *
  * Responsibility: wire global middleware and mount versioned API routers.
  * Layer: backend HTTP entry (imported by index.ts)
- * Depends on: express, helmet, cors, @project/server-kit/cors, routers
- * Consumers: index.ts, tests
+ * Depends on: express, helmet, cors, @project/server-kit/cors, routers, middlewares
+ * Consumers: index.ts
  */
 
 import config from "config";
@@ -17,11 +17,13 @@ import { codePuzzlesRouter } from "./routers/codePuzzles.js";
 import { learningRouter } from "./routers/learning.js";
 import { userRouter } from "./routers/user.js";
 import { webhooksRouter } from "./routers/webhooks.js";
+import { errorHandler, notFoundHandler } from "./middlewares/errorHandler.js";
+import { requestId } from "./middlewares/requestId.js";
 import { requestLogger } from "./middlewares/requestLogger.js";
-import { logError } from "./utils/logger.js";
 
 const app = express();
 app.disable("x-powered-by");
+app.use(requestId);
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" },
@@ -49,13 +51,7 @@ app.use("/api/user", userRouter);
 app.use("/api/learning", learningRouter);
 app.use("/api/code-puzzles", codePuzzlesRouter);
 
-app.use((error: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  if (error instanceof SyntaxError && typeof error === "object" && error !== null && "body" in error) {
-    return res.status(400).json({ error: "Malformed JSON payload" });
-  }
-  logError("[APP]", error, { phase: "express-handler" });
-
-  return res.status(500).json({ error: "Internal server error" });
-});
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 export { app };

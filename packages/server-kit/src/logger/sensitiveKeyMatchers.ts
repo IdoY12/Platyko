@@ -8,6 +8,7 @@
  */
 
 export const SENSITIVE_KEY_SUBSTRINGS = [
+  "email",
   "password",
   "hashedpassword",
   "currentpassword",

@@ -8,16 +8,18 @@
     "packages/*"
   ],
   "scripts": {
-    "postinstall": "patch-package",
+    "postinstall": "patch-package && npm run build:packages",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "db:generate": "npm --prefix packages/db run prisma:generate",
+    "build:packages": "npm --prefix packages/xp-constants run build && npm --prefix packages/streak-logic run build && npm --prefix packages/duel-constants run build && npm --prefix packages/exercise-answer run build && npm --prefix packages/user-credentials run build && npm --prefix packages/auth-jwt run build && npm --prefix packages/server-kit run build && npm --prefix packages/db run build",
     "backend:dev": "npm --prefix backend run dev",
     "backend:build": "npm --prefix backend run build",
     "io:dev": "npm --prefix io run dev",
     "io:build": "npm --prefix io run build",
     "mobile:start": "npm --prefix mobile run start",
     "typecheck:all": "npm --prefix packages/streak-logic run typecheck && npm --prefix packages/xp-constants run typecheck && npm --prefix packages/duel-constants run typecheck && npm --prefix packages/exercise-answer run typecheck && npm --prefix packages/user-credentials run typecheck && npm --prefix packages/db run typecheck && npm --prefix backend run typecheck && npm --prefix io run typecheck && npm --prefix mobile run typecheck && npm --prefix packages/auth-jwt run typecheck && npm --prefix packages/server-kit run typecheck",
+    "test:all": "npm --prefix packages/server-kit run test && npm --prefix packages/auth-jwt run test && npm --prefix mobile run test",
     "android": "npm --prefix mobile run android",
     "ios": "npm --prefix mobile run ios",
     "ios:device": "npm --prefix mobile run ios:device"

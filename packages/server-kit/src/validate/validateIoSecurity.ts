@@ -10,23 +10,12 @@
 import config from "config";
 import { assertNonWildcardOrigin } from "./assertNonWildcardOrigin.js";
 import { assertPostgresUrl } from "./assertPostgresUrl.js";
-import { MIN_JWT_SECRET_LENGTH, PLACEHOLDER_JWT_SECRETS, normalizeSecret } from "./jwtSecretRules.js";
+import { assertStrongSecret } from "./jwtSecretRules.js";
 
 export function validateIoProductionSecuritySettings(): void {
   if (!config.get<boolean>("app.validateSecurity")) return;
 
-  const access = config.get<string>("app.jwtAccessSecret");
-
-  if (!access?.trim()) throw new Error("Missing required configuration: app.jwtAccessSecret");
-
-  if (access.length < MIN_JWT_SECRET_LENGTH) {
-    throw new Error(`app.jwtAccessSecret must be at least ${MIN_JWT_SECRET_LENGTH} characters`);
-  }
-
-  if (PLACEHOLDER_JWT_SECRETS.has(normalizeSecret(access))) {
-    throw new Error("app.jwtAccessSecret must not use a known placeholder");
-  }
-
+  assertStrongSecret("app.jwtAccessSecret", config.get<string>("app.jwtAccessSecret"), "set JWT_ACCESS_SECRET");
   assertPostgresUrl(config.get<string>("database.url"), "database.url");
   assertNonWildcardOrigin(config.get<string>("io.cors.origin"), "set IO_CORS_ORIGIN");
 }

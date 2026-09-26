@@ -30,9 +30,8 @@ export function AuthAppleButton({ dispatch }: { dispatch: AppDispatch }) {
       const state = store.getState();
       const r = await authService.loginWithApple(
         credential.identityToken,
-        // Apple provides fullName/email only on the FIRST authorization; both are null afterwards
+        // Apple provides fullName only on the FIRST authorization; the server reads the email from the token.
         formatFullName(credential.fullName),
-        credential.email ?? undefined,
         state.session.isGuest ? buildGuestLocalState(state) : undefined,
       );
       // No navigation on success: the signIn dispatch remounts the navigator (see rootNavigation.types.ts).

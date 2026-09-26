@@ -4,7 +4,7 @@ import { prisma } from "@project/db";
 import { logError, logInfo, logWarn } from "../../utils/logger.js";
 import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
 import { authAccountFields } from "../../utils/authAccountFields.js";
-import { comparePassword } from "../../utils/passwordHashing.js";
+import { comparePassword, equalizeCompareTiming } from "../../utils/passwordHashing.js";
 import { signAccessToken, signRefreshToken } from "../../utils/sessionJwtTokens.js";
 import { resolveExperienceLevel } from "@project/db";
 import type { LoginBody } from "../../validators/authValidators.js";
@@ -19,13 +19,15 @@ export async function authLoginHandler(request: Request, response: Response): Pr
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
+      await equalizeCompareTiming();
       logWarn("[AUTH]", "login:user-not-found", { email });
       response.status(401).json({ error: "Invalid credentials" });
       return;
     }
     if (!user.hashedPassword) {
-      logWarn("[AUTH]", "login:oauth-only-account", { email });
-      response.status(401).json({ error: "Sign in with Google for this account" });
+      await equalizeCompareTiming();
+      logWarn("[AUTH]", "login:social-only-account", { userId: user.id });
+      response.status(401).json({ error: `Sign in with ${user.googleId ? "Google" : "Apple"} for this account` });
       return;
     }
     const isPasswordValid = await comparePassword(password, user.hashedPassword);

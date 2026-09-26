@@ -21,11 +21,12 @@ export async function postChangePassword(req: AuthenticatedRequest, res: Respons
 
   if (!user) return res.status(404).json({ error: "User not found" });
 
-  if (!user.hashedPassword) return res.status(400).json({ error: "This account uses Google sign-in" });
+  if (!user.hashedPassword) return res.status(400).json({ error: "This account uses social sign-in. Set a password first." });
 
   const isPasswordValid = await comparePassword(currentPassword, user.hashedPassword);
 
-  if (!isPasswordValid) return res.status(401).json({ error: "Current password is incorrect" });
+  // 400, not 401: a wrong current password is a validation failure, not an expired session (the client refreshes on 401).
+  if (!isPasswordValid) return res.status(400).json({ error: "Current password is incorrect" });
   await prisma.user.update({
     where: { id: req.user!.userId },
     data: { hashedPassword: await hashPassword(newPassword) },
