@@ -18,27 +18,28 @@ This repository is an npm-workspaces monorepo containing the Expo/React Native m
 
 - **Onboarding wizard** — 3-step level / goal / commitment picker on first launch (AsyncStorage-gated).
 - **Learn** — 3 curriculum blocks per level (9 total), each with 10 exercises mixing multiple-choice and short-answer puzzle types. Progress is server-synced for registered users and stored locally for guests.
-- **Duel Mode** — real-time 1v1 Socket.IO battles over 5 rounds, for authenticated users only. Solo auto-match kicks in after 25 s with no opponent; each round allows up to 3 wrong attempts. Includes post-match replay and rematch.
+- **Duel Mode** — real-time 1v1 Socket.IO battles over 5 rounds, for authenticated users only. Solo auto-match kicks in after 25 s with no opponent; each round allows up to 3 wrong attempts and ends after 60 s. Includes post-match replay and rematch.
 - **Code Puzzle** — standalone free-response puzzles evaluated against accepted answers or test cases inside an `isolated-vm` V8 sandbox (32 MB / 100 ms limits). XP is capped at 10 solves per puzzle.
 - **XP & Level** — 250 XP per correct answer across lessons, puzzles, and duel rounds; `level = floor(xp / 250) + 1`.
 - **Streak** — increments once per calendar day on qualifying XP, resets after 2+ missed days. The same pure logic runs on backend, io, and mobile.
-- **Daily Goal** — a user-chosen commitment (10 / 15 / 25 min) with server-side practice-time tracking and a daily push notification at 19:00 via `expo-notifications`.
-- **Accounts & auth** — email + password registration with OTP email verification (Resend), Google Sign-In, JWT access/refresh tokens, password change, and account deletion.
-- **Profile** — avatar upload to S3, username, and preference management.
-- **Guest mode** — full Learn and Code Puzzle access without an account; XP and streak are kept locally. Registering unlocks Duel Mode and server sync.
+- **Daily Goal** — a user-chosen commitment (10 / 15 / 25 min) with server-side practice-time tracking and a daily local notification at 19:00 via `expo-notifications` (permission is requested when the first reminder is scheduled).
+- **Accounts & auth** — email + password sign-up confirmed by a 6-digit OTP emailed through Resend (no user row exists until the code is verified), Google Sign-In and Sign in with Apple (both verified server-side), password reset by emailed OTP, "Set password" for social-only accounts, JWT access (15 min) + rotated refresh (30 d) tokens, password change, and in-app account deletion.
+- **Profile** — avatar upload (JPEG, through the backend to S3), username, and preference management.
+- **Guest mode** — full Learn and Code Puzzle access without an account; XP and streak are kept locally and migrated into the account on sign-up. Registering unlocks Duel Mode and server sync.
 
 ## Tech Stack
 
 | Layer | Path | Technology |
 |-------|------|------------|
 | Mobile app | `mobile/` | React Native 0.81, Expo 54, Redux Toolkit, React Navigation 7 |
-| HTTP API | `backend/` | Express 5, Prisma 6, Zod, JWT (HS256), `isolated-vm` |
+| HTTP API | `backend/` | Express 5 on Node 22, Prisma 6, Zod, JWT (HS256), `isolated-vm` |
 | Real-time | `io/` | Socket.IO 4 — `/duel` namespace |
-| Database | `packages/db/` | PostgreSQL 16, Prisma multi-file schema, singleton client |
-| Shared logic | `packages/*` | `auth-jwt`, `xp-constants`, `streak-logic`, `duel-constants`, `exercise-answer`, `user-credentials`, `server-kit` |
+| Database | `packages/db/` | PostgreSQL 16, Prisma multi-file schema, singleton client, one init migration |
+| Shared logic | `packages/*` | `auth-jwt`, `xp-constants`, `streak-logic`, `duel-constants`, `exercise-answer`, `user-credentials`, `server-kit` (CORS, request-id logging, production boot gates) |
 | Storage | AWS S3 (LocalStack locally) | Avatar images |
 | Email | Resend | Verification and password-reset OTP emails; bounce/complaint webhook |
 | Local infra | `docker-compose.yml` | PostgreSQL, LocalStack, backend, io |
+| Production | `docker-compose.prod.yml` + `infra/` | Caddy (auto-HTTPS), backend, io, Postgres on one EC2 host; nightly S3 backups |
 
 Everything is written in TypeScript. Service configuration uses [`node-config`](https://github.com/node-config/node-config) with per-environment files under `backend/config/` and `io/config/`.
 
@@ -60,10 +61,14 @@ flowchart LR
 
 Key technical decisions:
 
-- **JWT token versioning** — a `tokenVersion` column on `User`; bumping it instantly invalidates all outstanding tokens (logout, password change, account deletion).
+- **JWT token versioning** — a `tokenVersion` column on `User`; bumping it instantly invalidates all outstanding tokens (logout, password change, password reset, account deletion). Refresh tokens are stored hashed, rotated on every use and carry a unique `jti`; reuse of a spent token revokes the whole session set.
 - **Dual token storage** — JWTs live in `expo-secure-store`; the Redux/AsyncStorage snapshot keeps tokens zeroed out.
-- **In-memory duel state** — active sessions, the matchmaking queue, and rematch entries live in Maps on the `io` process; only finished `DuelSession` rows are persisted.
-- **Sandboxed puzzle evaluation** — puzzle test cases run in a locked-down V8 isolate with only `Math.max/min` and `Object.keys` bridged in.
+- **OTP codes** — 6 digits, bcrypt-hashed, 10-minute expiry, 5 attempts, 60-second resend cooldown; the same rules back email verification (`PendingRegistration`) and password reset (`PasswordReset`).
+- **Social sign-in trusts only the provider token** — Google ID tokens are checked for audience and `email_verified`; Apple identity tokens for issuer and bundle-id audience, with the email read from the token, never from the request body.
+- **In-memory duel state** — active sessions, the matchmaking queue, and rematch entries live in Maps on the `io` process; only finished `DuelSession` rows are persisted. Every socket payload is type-checked before use.
+- **Sandboxed puzzle evaluation** — puzzle test cases run in a locked-down V8 isolate (32 MB, 100 ms) with only a few `Math` and `Object` helpers bridged in.
+- **Errors never reach clients** — each request carries an `X-Request-Id`; server logs are tagged with it and redact emails, passwords, tokens and answers; clients receive generic messages (plus the request id on 500s).
+- **Production boot gate** — the backend and io refuse to start on placeholder or weak secrets, the development Postgres credentials, or wildcard / `http://` CORS origins.
 - **Single source of truth for game rules** — `XP_PER_CORRECT_EXERCISE = 250` and the streak functions ship as shared packages consumed by backend, io, and mobile, so the three runtimes can never drift.
 - **Guest-first design** — the app is fully usable without an account; registration only unlocks Duel Mode and server sync.
 
@@ -89,11 +94,14 @@ Platyko/
 │   ├── exercise-answer/  # shared answer normalization/checking
 │   ├── user-credentials/ # credential limits + validation messages
 │   └── server-kit/       # CORS, logging, env validation utilities
-├── infra/                # LocalStack init scripts
-└── docker-compose.yml    # postgres + localstack + backend + io
+├── infra/                # LocalStack init script, Caddyfile, S3 backup script + cron
+├── audit/                # attack-surface map and content audits
+├── docker-compose.yml    # local: postgres + localstack + backend + io
+├── docker-compose.prod.yml # production: caddy + backend + io + postgres (+ migrate tool)
+└── DEPLOY.md             # production runbook
 ```
 
-Database models (Prisma): `User`, `UserProgress`, `Exercise`, `ExerciseOption`, `DuelQuestion`, `DuelSession`, `CodePuzzle`, plus `RefreshToken` and `EmailVerification`.
+Database models (Prisma): `User`, `UserProgress`, `RefreshToken`, `PendingRegistration`, `PasswordReset`, `Exercise`, `ExerciseOption`, `DuelQuestion`, `DuelSession`, `CodePuzzle`.
 
 Redux slices on mobile: `session`, `profile`, `xp`, `streak`, `lesson`, `duel` (stats), `duelLive` (transient, not persisted), and `puzzle`.
 
@@ -157,7 +165,7 @@ This builds and starts PostgreSQL, LocalStack (S3), the backend (`:4000`), and t
 
 ### Production
 
-`docker-compose.prod.yml` runs Caddy (automatic HTTPS for `api.platyko.com` and `io.platyko.com`), the backend, the io service and Postgres on one host. The exact commands from a clean clone to a running stack, plus rollback, are in [DEPLOY.md](DEPLOY.md).
+`docker-compose.prod.yml` runs Caddy (automatic HTTPS for `api.platyko.com` and `io.platyko.com`), the backend, the io service and Postgres on one EC2 host in `us-east-1`. Both service images are multi-stage, pinned to Node 22 and run as a non-root user; Postgres is backed up nightly to S3. The exact commands from a clean clone to a running stack, migrations, backups, restore and rollback are in [DEPLOY.md](DEPLOY.md).
 
 ## Configuration
 
@@ -165,7 +173,7 @@ Copy `.env.example` to `.env` (gitignored, local Docker Compose only):
 
 | Variable | Purpose |
 |----------|---------|
-| `JWT_ACCESS_SECRET` / `JWT_REFRESH_SECRET` | HS256 signing secrets (min 32 chars) |
+| `JWT_ACCESS_SECRET` / `JWT_REFRESH_SECRET` | HS256 signing secrets (min 32 chars, must differ) |
 | `CORS_ORIGIN` / `IO_CORS_ORIGIN` | Allowed origins for the API and Socket.IO |
 | `RESEND_API_KEY` | Resend API key for OTP emails (sender is fixed to `Platyko <noreply@platyko.com>`) |
 | `RESEND_WEBHOOK_SECRET` | Signing secret for `POST /api/webhooks/resend`; `email.bounced` / `email.complained` events flag `User.emailBounced` so the address is never mailed again |
