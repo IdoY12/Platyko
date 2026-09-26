@@ -1,7 +1,7 @@
 /**
  * Registers `join_queue` after verifying JWT-backed user context on the socket.
  *
- * Responsibility: load profile snapshot and enqueue for matchmaking.
+ * Responsibility: load the profile snapshot from the DB (never from the client) and enqueue for matchmaking.
  * Layer: io duel handlers
  * Depends on: Prisma, queue handleQueueJoin
  * Consumers: duel/index.ts
@@ -14,7 +14,7 @@ import { isThrottled } from "../../../utils/socketThrottle.js";
 import type { DuelNamespace, DuelSocket, QueueEntry } from "../types.js";
 
 export function registerJoinQueue(socket: DuelSocket, duel: DuelNamespace) {
-  socket.on("join_queue", async (payload: { username?: unknown } | undefined) => {
+  socket.on("join_queue", async () => {
     if (isThrottled(socket, "join_queue", 2000)) return;
     const authenticatedUserId = socket.data.authenticatedUserId;
 
@@ -28,7 +28,7 @@ export function registerJoinQueue(socket: DuelSocket, duel: DuelNamespace) {
     const entry: QueueEntry = {
       socketId: socket.id,
       userId: authenticatedUserId,
-      username: user?.username ?? (typeof payload?.username === "string" ? payload.username : "Anonymous"),
+      username: user?.username ?? "Anonymous",
       avatarUrl: user?.avatarUrl ?? null,
       joinedAt: Date.now(),
     };

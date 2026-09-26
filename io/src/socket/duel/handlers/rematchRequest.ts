@@ -9,14 +9,15 @@
 
 import { logInfo } from "../../../utils/logger.js";
 import { finalizeMatch } from "../queue.js";
+import { sessionIdOf } from "../payloadGuards.js";
 import { rematchEntries } from "../state.js";
 import type { DuelNamespace, DuelSocket, QueueEntry } from "../types.js";
 
 export function registerRematchAbandoned(socket: DuelSocket, duel: DuelNamespace) {
-  socket.on("rematch_abandoned", (payload: { session_id?: unknown } | undefined) => {
-    const sessionId = typeof payload?.session_id === "string" ? payload.session_id : "";
-    const entry = rematchEntries.get(sessionId);
-    if (!entry) return;
+  socket.on("rematch_abandoned", (payload: unknown) => {
+    const sessionId = sessionIdOf(payload);
+    const entry = sessionId ? rematchEntries.get(sessionId) : undefined;
+    if (!entry || !sessionId) return;
     const userId = socket.data.authenticatedUserId;
     if (!userId) return;
     if (entry.player1.userId !== userId && entry.player2.userId !== userId) return;
@@ -32,10 +33,10 @@ export function registerRematchAbandoned(socket: DuelSocket, duel: DuelNamespace
 }
 
 export function registerRematchRequest(socket: DuelSocket, duel: DuelNamespace) {
-  socket.on("rematch_request", (payload: { session_id?: unknown } | undefined) => {
-    const sessionId = typeof payload?.session_id === "string" ? payload.session_id : "";
-    const entry = rematchEntries.get(sessionId);
-    if (!entry) {
+  socket.on("rematch_request", (payload: unknown) => {
+    const sessionId = sessionIdOf(payload);
+    const entry = sessionId ? rematchEntries.get(sessionId) : undefined;
+    if (!entry || !sessionId) {
       socket.emit("rematch_declined", { reason: "expired" });
       return;
     }

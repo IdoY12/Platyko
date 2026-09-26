@@ -46,6 +46,8 @@ const server = http.createServer((req, res) => {
 // "Upgrade: websocket" header, Socket.IO intercepts it and handles the handshake.
 const io = new Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, DuelSocketData>(server, {
   cors: resolveSocketIoCors(),
+  // Duel payloads are a few hundred bytes; the 1 MB default only helps memory-exhaustion attacks.
+  maxHttpBufferSize: 16_384,
   // Min detection: 9 s (> client 8 s grace); max detection: 3 + 9 = 12 s.
   pingInterval: 3_000,
   pingTimeout: 9_000,

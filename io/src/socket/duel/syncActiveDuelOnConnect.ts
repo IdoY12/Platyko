@@ -1,7 +1,8 @@
 /**
  * Pushes current duel wire state to a reconnecting participant socket.
  *
- * Responsibility: re-join room, refresh socket id, replay missed round_result / round_start.
+ * Responsibility: re-join room, refresh socket id, replay missed round_result / round_start; when the
+ * server holds no duel for the user (e.g. it restarted mid-match) say so, so the client leaves the arena.
  * Layer: io duel session
  * Depends on: resolveDuelPlayerSlot, roundStartPayload, session map
  * Consumers: duel/index.ts
@@ -36,7 +37,10 @@ export async function syncActiveDuelOnConnect(socket: DuelSocket): Promise<void>
   if (!userId) return;
 
   const session = findActiveSessionForUser(userId);
-  if (!session || session.abandonInProgress) return;
+  if (!session || session.abandonInProgress) {
+    socket.emit("no_active_duel");
+    return;
+  }
 
   const slot = resolveDuelPlayerSlot(session, socket, userId);
   if (!slot) return;

@@ -1,6 +1,7 @@
 import { logInfo } from "../../../utils/logger.js";
 import { clearSoloMatchTimer } from "../queue.js";
 import { onDuelParticipantGone } from "../duelParticipantGone.js";
+import { sessionIdOf } from "../payloadGuards.js";
 import { broadcastQueueStatus, queue, sessions, rematchEntries } from "../state.js";
 import type { DuelNamespace, DuelSocket } from "../types.js";
 
@@ -33,8 +34,8 @@ export function registerDisconnect(socket: DuelSocket, duel: DuelNamespace) {
     if (socket.data.authenticatedUserId) broadcastQueueStatus(duel, socket.id);
   });
 
-  socket.on("leave_duel", (payload: { session_id?: string }) => {
-    const sessionId = typeof payload?.session_id === "string" ? payload.session_id : "";
+  socket.on("leave_duel", (payload: unknown) => {
+    const sessionId = sessionIdOf(payload);
     if (!sessionId) return;
     const session = sessions.get(sessionId);
     if (!session) return;

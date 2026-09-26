@@ -2,7 +2,9 @@ import { prisma } from "@project/db";
 import { logError } from "../../utils/logger.js";
 import type { SessionState } from "./types.js";
 
+/** Writes the finished duel. A match that never reached round 1 (ready timeout) leaves no row. */
 export async function persistDuelSession(session: SessionState, winnerId?: string | null): Promise<void> {
+  if (session.round === 0) return;
   const isTied = session.score.player1 === session.score.player2;
   const defaultWinnerId = isTied
     ? null
