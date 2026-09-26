@@ -1,3 +1,6 @@
+-- CreateSchema
+CREATE SCHEMA IF NOT EXISTS "public";
+
 -- CreateEnum
 CREATE TYPE "ExerciseType" AS ENUM ('MCQ', 'PUZZLE');
 
@@ -70,17 +73,6 @@ CREATE TABLE "DuelSession" (
 );
 
 -- CreateTable
-CREATE TABLE "EmailVerification" (
-    "userId" TEXT NOT NULL,
-    "codeHash" TEXT NOT NULL,
-    "expiresAt" TIMESTAMP(3) NOT NULL,
-    "attempts" INTEGER NOT NULL DEFAULT 0,
-    "lastSentAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "EmailVerification_pkey" PRIMARY KEY ("userId")
-);
-
--- CreateTable
 CREATE TABLE "PasswordReset" (
     "userId" TEXT NOT NULL,
     "codeHash" TEXT NOT NULL,
@@ -89,6 +81,21 @@ CREATE TABLE "PasswordReset" (
     "lastSentAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "PasswordReset_pkey" PRIMARY KEY ("userId")
+);
+
+-- CreateTable
+CREATE TABLE "PendingRegistration" (
+    "email" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "passwordHash" TEXT NOT NULL,
+    "registrationToken" TEXT NOT NULL,
+    "guestSnapshot" JSONB NOT NULL,
+    "codeHash" TEXT NOT NULL,
+    "expiresAt" TIMESTAMP(3) NOT NULL,
+    "attempts" INTEGER NOT NULL DEFAULT 0,
+    "lastSentAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "PendingRegistration_pkey" PRIMARY KEY ("email")
 );
 
 -- CreateTable
@@ -134,7 +141,7 @@ CREATE TABLE "User" (
     "appleSub" TEXT,
     "avatarUrl" TEXT,
     "tokenVersion" INTEGER NOT NULL DEFAULT 0,
-    "emailVerified" BOOLEAN NOT NULL DEFAULT false,
+    "emailBounced" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "lastActiveAt" TIMESTAMP(3),
@@ -197,9 +204,6 @@ ALTER TABLE "DuelSession" ADD CONSTRAINT "DuelSession_player2Id_fkey" FOREIGN KE
 ALTER TABLE "DuelSession" ADD CONSTRAINT "DuelSession_winnerId_fkey" FOREIGN KEY ("winnerId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EmailVerification" ADD CONSTRAINT "EmailVerification_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "PasswordReset" ADD CONSTRAINT "PasswordReset_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -207,3 +211,4 @@ ALTER TABLE "UserProgress" ADD CONSTRAINT "UserProgress_userId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "RefreshToken" ADD CONSTRAINT "RefreshToken_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
