@@ -19,7 +19,7 @@ interface LessonState {
   lessonExerciseIndex: number;
   /** Maps blockProgressKey → last question index the user reached (0-based). */
   blockProgress: Record<string, number>;
-  /** Session cache: full curriculum list per level (avoids repeat GET /learning/exercises). */
+  /** Session cache (not persisted): full curriculum list per level, avoids repeat GET /learning/exercises. */
   exercisesByExperienceLevel: Partial<Record<string, Exercise[]>>;
 }
 

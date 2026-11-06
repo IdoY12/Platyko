@@ -13,6 +13,8 @@ import { isAuthFailure } from "@/utils/bootstrapSession";
 /**
  * Mirrors Redux to disk: tokens go to SecureStore the moment they change (every sign-in, refresh
  * and re-login), everything else to AsyncStorage with the tokens zeroed out, debounced 500 ms.
+ * Boot flags and the curriculum/puzzle session caches are left out so every launch re-checks
+ * the session and re-fetches content (server-side content fixes reach installed apps).
  */
 export function subscribeStoreToHybridStorage(appStore: typeof store): () => void {
   let previousSnapshot = "";
@@ -25,15 +27,14 @@ export function subscribeStoreToHybridStorage(appStore: typeof store): () => voi
       previousTokens = tokens;
       void writeSecureSessionTokens(state.session.accessToken, state.session.refreshToken);
     }
-    const sessionForDisk = { ...state.session, accessToken: null as string | null, refreshToken: null as string | null };
     const snapshot = JSON.stringify({
-      session: sessionForDisk,
+      session: { ...state.session, accessToken: null, refreshToken: null, hasHydrated: false, authChecked: false, bootstrapError: null },
       profile: state.profile,
       xp: state.xp,
       streak: state.streak,
-      lesson: state.lesson,
+      lesson: { ...state.lesson, exercisesByExperienceLevel: {} },
       duel: state.duel,
-      puzzle: state.puzzle,
+      puzzle: { ...state.puzzle, allPuzzles: null },
     });
     if (snapshot === previousSnapshot) return;
     previousSnapshot = snapshot;

@@ -31,7 +31,6 @@ export function bootstrapSession(dispatch: AppDispatch): Promise<void> {
 }
 
 async function _run(dispatch: AppDispatch): Promise<void> {
-  if (!store.getState().session.authChecked) dispatch(setAuthChecked(false));
   const token = store.getState().session.accessToken;
   const isAuthed = store.getState().session.isAuthenticated;
 

@@ -3,6 +3,7 @@ import type { PuzzleXpSolveCounts } from "@project/xp-constants";
 import type { Puzzle } from "@/services/auth-aware/PuzzleService";
 
 interface PuzzleState {
+  /** Session cache (not persisted): re-fetched on every launch. */
   allPuzzles: Puzzle[] | null;
   xpSolveCounts: PuzzleXpSolveCounts;
 }
