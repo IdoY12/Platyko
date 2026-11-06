@@ -1,15 +1,10 @@
 import type { Request, Response } from "express";
-import { randomUUID } from "crypto";
-import { resolveExperienceLevel } from "@project/db";
 import { logError, logInfo } from "../../utils/logger.js";
 import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
-import { authAccountFields } from "../../utils/authAccountFields.js";
-import { signAccessToken, signRefreshToken } from "../../utils/sessionJwtTokens.js";
 import { verifyGoogleIdToken } from "../../utils/googleIdTokenVerify.js";
 import type { GoogleAuthBody } from "../../validators/authValidators.js";
 import { GoogleSignInBlockedError, findOrCreateGoogleUser } from "../../services/auth/googleAccountLinking.js";
-import { ensureUserProgressForLogin, touchUserLastActive } from "../../services/auth/loginSideEffects.js";
-import { storeRefreshToken } from "../../utils/storeRefreshToken.js";
+import { issueSessionForUser } from "../../services/auth/issueSessionForUser.js";
 
 export async function authGoogleHandler(request: Request, response: Response): Promise<void> {
   const { idToken, ...guestSnapshot } = request.validatedBody as GoogleAuthBody;
@@ -24,29 +19,9 @@ export async function authGoogleHandler(request: Request, response: Response): P
   }
   try {
     const { user, isNew } = await findOrCreateGoogleUser(googleId, email, name, guestSnapshot);
-    const progress = await ensureUserProgressForLogin(user);
-    await touchUserLastActive(user.id);
-    const tp = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
-    const accessToken = signAccessToken(tp);
-    const refreshToken = signRefreshToken(tp);
-    await storeRefreshToken(user.id, refreshToken, randomUUID());
+    const session = await issueSessionForUser(user, isNew);
     logInfo("[AUTH]", "google:success", { userId: user.id });
-    response.status(isNew ? 201 : 200).json({
-      user: {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-        avatarUrl: user.avatarUrl,
-        goal: progress.goal,
-        experienceLevel: resolveExperienceLevel(progress.experienceLevel),
-        dailyCommitmentMinutes: progress.dailyCommitmentMinutes ?? 15,
-        notificationsEnabled: user.notificationsEnabled,
-        ...authAccountFields(user),
-        ...(isNew ? { blockProgress: (progress.blockProgress ?? {}) as Record<string, number> } : {}),
-      },
-      accessToken,
-      refreshToken,
-    });
+    response.status(isNew ? 201 : 200).json(session);
   } catch (error) {
     if (error instanceof GoogleSignInBlockedError) {
       response.status(409).json({ error: error.message });

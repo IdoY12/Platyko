@@ -1,15 +1,10 @@
 import type { Request, Response } from "express";
-import { randomUUID } from "crypto";
 import { prisma } from "@project/db";
 import { logError, logInfo, logWarn } from "../../utils/logger.js";
 import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
-import { authAccountFields } from "../../utils/authAccountFields.js";
 import { comparePassword, equalizeCompareTiming } from "../../utils/passwordHashing.js";
-import { signAccessToken, signRefreshToken } from "../../utils/sessionJwtTokens.js";
-import { resolveExperienceLevel } from "@project/db";
 import type { LoginBody } from "../../validators/authValidators.js";
-import { ensureUserProgressForLogin, touchUserLastActive } from "../../services/auth/loginSideEffects.js";
-import { storeRefreshToken } from "../../utils/storeRefreshToken.js";
+import { issueSessionForUser } from "../../services/auth/issueSessionForUser.js";
 
 export async function authLoginHandler(request: Request, response: Response): Promise<void> {
   const { email, password } = request.validatedBody as LoginBody;
@@ -37,28 +32,9 @@ export async function authLoginHandler(request: Request, response: Response): Pr
       response.status(401).json({ error: "Invalid credentials" });
       return;
     }
-    const progress = await ensureUserProgressForLogin(user);
-    await touchUserLastActive(user.id);
-    const tokenPayload = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
-    const accessToken = signAccessToken(tokenPayload);
-    const refreshToken = signRefreshToken(tokenPayload);
-    await storeRefreshToken(user.id, refreshToken, randomUUID());
+    const session = await issueSessionForUser(user);
     logInfo("[AUTH]", "login:success", { userId: user.id });
-    response.json({
-      user: {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-        avatarUrl: user.avatarUrl,
-        goal: progress.goal,
-        experienceLevel: resolveExperienceLevel(progress.experienceLevel),
-        dailyCommitmentMinutes: progress.dailyCommitmentMinutes ?? 15,
-        notificationsEnabled: user.notificationsEnabled,
-        ...authAccountFields(user),
-      },
-      accessToken,
-      refreshToken,
-    });
+    response.json(session);
   } catch (error) {
     logError("[AUTH]", error, { phase: "login" });
 

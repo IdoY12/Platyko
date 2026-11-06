@@ -4,77 +4,49 @@ import type { AuthenticatedRequest } from "../@types/auth.js";
 import { logInfo, logWarn } from "../utils/logger.js";
 import { verifyAccessToken } from "../utils/sessionJwtTokens.js";
 
+type BearerResolution =
+  | { user: NonNullable<AuthenticatedRequest["user"]> }
+  | { rejected: "missing-bearer-token" | "user-not-found-for-token" | "token-version-mismatch" | "invalid-access-token"; reason?: string };
+
+/** Verifies the Bearer access token and that its tokenVersion still matches the user row. */
+async function resolveBearerUser(authHeader: string | undefined): Promise<BearerResolution> {
+  if (!authHeader?.startsWith("Bearer ")) return { rejected: "missing-bearer-token" };
+  try {
+    const decoded = verifyAccessToken(authHeader.slice(7));
+    const user = await prisma.user.findUnique({ where: { id: decoded.userId }, select: { tokenVersion: true } });
+    if (!user) return { rejected: "user-not-found-for-token", reason: decoded.userId };
+    if (user.tokenVersion !== decoded.tokenVersion) return { rejected: "token-version-mismatch", reason: decoded.userId };
+    return { user: { userId: decoded.userId, email: decoded.email } };
+  } catch (error) {
+    // Expired or malformed tokens are routine client state, not server failures: WARN, no stack.
+    return { rejected: "invalid-access-token", reason: error instanceof Error ? error.name : "unknown" };
+  }
+}
+
 export async function authMiddleware(
   request: AuthenticatedRequest,
   response: Response,
   next: NextFunction,
 ): Promise<void> {
-  const authHeader = request.headers.authorization;
-
-  if (!authHeader?.startsWith("Bearer ")) {
-    logWarn("[AUTH]", "missing-bearer-token", { path: request.originalUrl });
-    response.status(401).json({ error: "Missing bearer token" });
+  const resolution = await resolveBearerUser(request.headers.authorization);
+  if ("rejected" in resolution) {
+    logWarn("[AUTH]", resolution.rejected, { path: request.originalUrl, reason: resolution.reason });
+    response.status(401).json({ error: resolution.rejected === "missing-bearer-token" ? "Missing bearer token" : "Invalid token" });
     return;
   }
-  const token = authHeader.slice(7);
-
-  try {
-    const decoded = verifyAccessToken(token);
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
-      select: { id: true, tokenVersion: true },
-    });
-
-    if (!user) {
-      logWarn("[AUTH]", "user-not-found-for-token", { userId: decoded.userId, path: request.originalUrl });
-      response.status(401).json({ error: "Invalid token" });
-      return;
-    }
-    if (user.tokenVersion !== decoded.tokenVersion) {
-      logWarn("[AUTH]", "token-version-mismatch", { userId: decoded.userId, path: request.originalUrl });
-      response.status(401).json({ error: "Invalid token" });
-      return;
-    }
-    logInfo("[AUTH]", "access-token-validated", { userId: decoded.userId, path: request.originalUrl });
-    request.user = { userId: decoded.userId, email: decoded.email };
-    next();
-  } catch (error) {
-    // Expired or malformed tokens are routine client state, not server failures: WARN, no stack.
-    logWarn("[AUTH]", "invalid-access-token", { path: request.originalUrl, reason: error instanceof Error ? error.name : "unknown" });
-    response.status(401).json({ error: "Invalid token" });
-  }
+  logInfo("[AUTH]", "access-token-validated", { userId: resolution.user.userId, path: request.originalUrl });
+  request.user = resolution.user;
+  next();
 }
 
-/** Attaches `request.user` when a valid Bearer token is present; otherwise continues without auth (no 401). */
+/** Attaches `request.user` when a valid Bearer token is present; otherwise continues as anonymous (no 401). */
 export async function optionalAuthMiddleware(
   request: AuthenticatedRequest,
   _response: Response,
   next: NextFunction,
 ): Promise<void> {
-  delete request.user;
-  const authHeader = request.headers.authorization;
-  if (!authHeader?.startsWith("Bearer ")) {
-    next();
-    return;
-  }
-  const token = authHeader.slice(7);
-  try {
-    const decoded = verifyAccessToken(token);
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
-      select: { id: true, tokenVersion: true },
-    });
-    if (!user) {
-      next();
-      return;
-    }
-    if (user.tokenVersion !== decoded.tokenVersion) {
-      next();
-      return;
-    }
-    request.user = { userId: decoded.userId, email: decoded.email };
-  } catch {
-    // Invalid token on an optional-auth route: treat as anonymous.
-  }
+  const resolution = await resolveBearerUser(request.headers.authorization);
+  if ("user" in resolution) request.user = resolution.user;
+  else delete request.user;
   next();
 }
