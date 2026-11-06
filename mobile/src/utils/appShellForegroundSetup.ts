@@ -9,10 +9,16 @@ type ReactNativeErrorUtils = {
   setGlobalHandler?: (handler: (error: Error, isFatal?: boolean) => void) => void;
 };
 
-/** Logs every uncaught JS error, then hands it back to RN's own handler (RedBox in dev, crash in prod). */
+let globalErrorHandlerInstalled = false;
+
+/**
+ * Logs every uncaught JS error, then hands it back to RN's own handler (RedBox in dev, crash in prod).
+ * Installed once per JS runtime: the error boundary's Restart remounts the shell, not the runtime.
+ */
 function registerGlobalErrorHandlers(): void {
   const errorUtils = (globalThis as unknown as { ErrorUtils?: ReactNativeErrorUtils }).ErrorUtils;
-  if (!errorUtils?.getGlobalHandler || !errorUtils?.setGlobalHandler) return;
+  if (globalErrorHandlerInstalled || !errorUtils?.getGlobalHandler || !errorUtils?.setGlobalHandler) return;
+  globalErrorHandlerInstalled = true;
   const previousHandler = errorUtils.getGlobalHandler();
   errorUtils.setGlobalHandler((error, isFatal) => {
     logError("[APP]", error, { isFatal: Boolean(isFatal) });

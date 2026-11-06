@@ -40,8 +40,11 @@ export function logTasks(message: string, meta?: LogMeta) {
   write("[TASKS]", message, meta);
 }
 
+/**
+ * Unlike the info loggers above, errors are also written in release builds: console.error reaches
+ * the OS log (Console.app / logcat), which is the only crash trail until a crash reporter is wired.
+ */
 export function logError(prefix: string, error: unknown, meta?: LogMeta) {
-  if (!__DEV__) return;
   const payload = {
     ...(meta ?? {}),
     error:
@@ -49,5 +52,5 @@ export function logError(prefix: string, error: unknown, meta?: LogMeta) {
         ? { name: error.name, message: error.message, stack: error.stack }
         : { message: String(error) },
   };
-  write(prefix, "error", payload);
+  console.error(`[${new Date().toISOString()}] ${prefix} error${formatMeta(payload)}`);
 }
