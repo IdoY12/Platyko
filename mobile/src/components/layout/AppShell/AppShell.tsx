@@ -18,7 +18,7 @@ function AppShellBanners({ isConnected, bootstrapError, retryBootstrap }: { isCo
     <>
       {!isConnected && (
         <View style={[styles.offlineBanner, { top: bannerTop }]}>
-          <Text style={styles.offlineText}>You are offline. Continue with cached lessons.</Text>
+          <Text style={styles.offlineText}>You are offline. Your progress is saved on this device.</Text>
         </View>
       )}
       {bootstrapError ? (

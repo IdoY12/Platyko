@@ -1,7 +1,7 @@
 import type { AppDispatch } from "@/redux/store";
 import type UserService from "@/services/auth-aware/UserService";
 import { logError } from "@/utils/logger";
-import { setNotificationsEnabled, setUserIdentity, updatePreferences, type Commitment } from "@/redux/profile-slice";
+import { setNotificationsEnabled, identityOf, setUserIdentity, updatePreferences, type Commitment } from "@/redux/profile-slice";
 import type { CommitmentKey, GoalKey, LevelKey } from "@/types/profile.types";
 
 export type DraftSetters = {
@@ -50,15 +50,7 @@ export async function fetchAndApplyProfile(
 
     if (!isActive()) return;
 
-    dispatch(
-      setUserIdentity({
-        username: profile.username,
-        email: profile.email,
-        avatarUrl: profile.avatarUrl,
-        hasPassword: profile.hasPassword,
-        authProvider: profile.authProvider,
-      }),
-    );
+    dispatch(setUserIdentity(identityOf(profile)));
     // Notification preference lives on the User model, so it applies even before goal/level are set.
     dispatch(setNotificationsEnabled(profile.notificationsEnabled));
     setters.setDraftNotifications(profile.notificationsEnabled);

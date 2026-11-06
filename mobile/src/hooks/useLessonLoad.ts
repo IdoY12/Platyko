@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { logNav } from "@/utils/logger";
 import type Exercise from "@/models/Exercise";
@@ -26,6 +26,9 @@ export function useLessonLoad(experienceLevel: Experience, accessToken: string |
   const [attemptedCount, setAttemptedCount] = useState(0);
   const [reloadKey, setReloadKey] = useState(0);
   const isFocused = useIsFocused();
+  // Read through a ref: a token rotation mid-lesson must not restart the lesson.
+  const accessTokenRef = useRef(accessToken);
+  accessTokenRef.current = accessToken;
 
   useEffect(() => {
     logNav("screen:enter", { screen: "LessonScreen", experienceLevel });
@@ -35,7 +38,7 @@ export function useLessonLoad(experienceLevel: Experience, accessToken: string |
   useEffect(() => {
     dispatch(setCurrentExperienceLevel(experienceLevel));
     let active = true;
-    void runLessonExerciseLoad(experienceLevel, accessToken, blockIndex, savedLocalIndex, () => active, setLoading, {
+    void runLessonExerciseLoad(experienceLevel, accessTokenRef.current, blockIndex, savedLocalIndex, () => active, setLoading, {
       setExercises,
       setExerciseIndex,
       setCorrectCount,
@@ -48,7 +51,7 @@ export function useLessonLoad(experienceLevel: Experience, accessToken: string |
     // savedLocalIndex intentionally excluded: it is captured once at mount and must not
     // trigger a reload when Redux writes the progress back during the lesson.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken, blockIndex, dispatch, experienceLevel, reloadKey]);
+  }, [blockIndex, dispatch, experienceLevel, reloadKey]);
 
   useEffect(() => {
     if (loading || exercises.length === 0) return;

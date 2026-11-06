@@ -32,18 +32,23 @@ export async function hydrateStoreFromStorage(dispatch: AppDispatch): Promise<vo
 
     if (!parsed.profile || !parsed.session) return;
 
-    const secure = await readSecureSessionTokens();
-    const sessionWithTokens = { ...parsed.session, accessToken: secure.accessToken, refreshToken: secure.refreshToken };
-    dispatch(hydrateSession(sessionWithTokens as never));
+    // Progress first: a keychain hiccup below must never cost a guest their XP.
     dispatch(hydrateProfile(parsed.profile as never));
     if (parsed.xp) dispatch(hydrateXp(parsed.xp as never));
     if (parsed.streak) dispatch(hydrateStreak(parsed.streak as never));
     if (parsed.lesson) dispatch(hydrateLesson(parsed.lesson as never));
     if (parsed.duel) dispatch(hydrateStats(parsed.duel as never));
     if (parsed.puzzle) dispatch(hydratePuzzle(parsed.puzzle as never));
+    let secure = { accessToken: null as string | null, refreshToken: null as string | null };
+    try {
+      secure = await readSecureSessionTokens();
+    } catch (error) {
+      logError("[APP]", error, { phase: "hydrate-secure-tokens" });
+      if (parsed.session.isAuthenticated) dispatch(setBootstrapError("Could not access your stored credentials. Please log in again."));
+    }
+    dispatch(hydrateSession({ ...parsed.session, ...secure }));
   } catch (error) {
     logError("[APP]", error, { phase: "hydrate-redux" });
-    dispatch(setBootstrapError("Could not access your stored credentials. Please log in again."));
   } finally {
     dispatch(reconcileStudyCalendarDay());
     dispatch(setHasHydrated(true));

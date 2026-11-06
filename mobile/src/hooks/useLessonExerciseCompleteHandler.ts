@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { resetBlockProgress, setExerciseIndex as setSavedExerciseIndex } from "@/redux/lesson-slice";
 import { addXp as addXpAction } from "@/redux/xp-slice";
-import { hydrateStreak, runStreakAppOpen, runStreakQualifyingExercise } from "@/redux/streak-slice";
+import { runStreakAppOpen, runStreakQualifyingExercise, syncStreakFromServer } from "@/redux/streak-slice";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import type { LessonExerciseCompletionContext } from "@/types/lessonExerciseCompletion.types";
 import type { Experience } from "@/redux/profile-slice";
@@ -55,8 +55,7 @@ export function useLessonExerciseCompleteHandler(
       });
 
       if (!isGuest && typeof completion.submitResult.streakCurrent === "number") {
-        const today = getStreakCalendarDate();
-        dispatch(hydrateStreak({ streakCurrent: completion.submitResult.streakCurrent, lastActivityDate: today, lastCheckedDate: today }));
+        dispatch(syncStreakFromServer({ streakCurrent: completion.submitResult.streakCurrent, today: getStreakCalendarDate() }));
       }
 
       if (load.exerciseIndex + 1 >= load.exercises.length) {

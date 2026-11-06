@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useIsFocused } from "@react-navigation/native";
-import { AppState, type AppStateStatus } from "react-native";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addXp } from "@/redux/xp-slice";
-import { addStudySeconds } from "@/redux/session-slice";
+import { useStudySecondsTicker } from "@/hooks/useStudySecondsTicker";
 import { applyDuelResult } from "@/redux/duel-slice";
-import { hydrateStreak } from "@/redux/streak-slice";
+import { syncStreakFromServer } from "@/redux/streak-slice";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { logDuel, logNav } from "@/utils/logger";
 import { useDuelActiveDuelLive, useDuelConnectionGuard } from "@/hooks/useDuelSocket";
@@ -20,7 +19,6 @@ export function useDuelActiveDuelScreen(navigation: NativeStackNavigationProp<Du
   const userId = useAppSelector((s) => s.session.userId);
   const username = useAppSelector((s) => s.profile.username);
   const isFocused = useIsFocused();
-  const appStateRef = useRef<AppStateStatus>(AppState.currentState);
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const locked = lastCorrectAnswer !== null || submitted || wrongAnswerCount >= DUEL_MAX_ATTEMPTS_PER_ROUND;
@@ -33,14 +31,7 @@ export function useDuelActiveDuelScreen(navigation: NativeStackNavigationProp<Du
   const roundNumKey = round?.roundNumber ?? null;
 
   useEffect(() => { logNav("screen:enter", { screen: "ActiveDuelScreen" }); return () => logNav("screen:leave", { screen: "ActiveDuelScreen" }); }, []);
-  useEffect(() => {
-    if (!isFocused || roundNumKey == null || hasDuelEnd) return;
-    const sub = AppState.addEventListener("change", (next) => { appStateRef.current = next; });
-    const t = setInterval(() => {
-      if (appStateRef.current === "active") dispatch(addStudySeconds(1));
-    }, 1000);
-    return () => { clearInterval(t); sub.remove(); };
-  }, [dispatch, hasDuelEnd, isFocused, roundNumKey]);
+  useStudySecondsTicker(isFocused && roundNumKey != null && !hasDuelEnd);
   useEffect(() => {
     if (!round) return;
     setSelected(null); setSubmitted(false); roundStartTimeRef.current = Date.now();
@@ -54,9 +45,8 @@ export function useDuelActiveDuelScreen(navigation: NativeStackNavigationProp<Du
     skipLeaveAfterEndRef.current = true;
     logDuel("duel:end", { won: duelEnd.won, xpEarned: duelEnd.xpEarned });
     dispatch(addXp(duelEnd.xpEarned));
-    const today = getStreakCalendarDate();
     if (typeof duelEnd.streakCurrent === "number") {
-      dispatch(hydrateStreak({ streakCurrent: duelEnd.streakCurrent, lastActivityDate: today, lastCheckedDate: today }));
+      dispatch(syncStreakFromServer({ streakCurrent: duelEnd.streakCurrent, today: getStreakCalendarDate() }));
     }
     if (!duelEnd.tied) dispatch(applyDuelResult({ won: duelEnd.won }));
     navigation.replace("DuelResults", { won: duelEnd.won, score: duelEnd.finalScore, xpEarned: duelEnd.xpEarned, replay: duelEnd.roundReplay, ...(duelEnd.opponentDisconnected ? { opponentDisconnected: true } : {}), ...(duelEnd.tied ? { tied: true } : {}) });

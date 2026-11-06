@@ -58,8 +58,9 @@ export default abstract class AuthAware {
           config.headers.set("Authorization", `Bearer ${nextAccessToken}`);
           return this.axiosInstance.request(config);
         } catch (refreshError) {
-          if (refreshWasRejected(refreshError)) resetStoresAfterLogout(store.dispatch);
-          throw error;
+          if (refreshWasRejected(refreshError)) { resetStoresAfterLogout(store.dispatch); throw error; }
+          // Transient (timeout / 5xx): callers must see that, not the original 401, or they would log out.
+          throw refreshError;
         }
       },
     );

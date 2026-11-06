@@ -10,7 +10,7 @@ import {
 import type { AppDispatch } from "@/redux/store";
 import { incrementPuzzleXpSolveCount } from "@/redux/puzzle-slice";
 import { addXp, hydrateXp } from "@/redux/xp-slice";
-import { runStreakAppOpen, runStreakQualifyingExercise, hydrateStreak } from "@/redux/streak-slice";
+import { runStreakAppOpen, runStreakQualifyingExercise, syncStreakFromServer } from "@/redux/streak-slice";
 import type { PuzzleSubmitResponse } from "@/services/auth-aware/PuzzleService";
 
 export function applyGuestPuzzleSolve(
@@ -42,13 +42,7 @@ export function applyRegisteredPuzzleSolve(
     dispatch(hydrateXp({ xpTotal: submitResult.xpTotal, level: levelFromXpTotal(submitResult.xpTotal) }));
   }
   if (typeof submitResult.streakCurrent === "number") {
-    dispatch(
-      hydrateStreak({
-        streakCurrent: submitResult.streakCurrent,
-        lastActivityDate: calendarDate,
-        lastCheckedDate: calendarDate,
-      }),
-    );
+    dispatch(syncStreakFromServer({ streakCurrent: submitResult.streakCurrent, today: calendarDate }));
   }
   return puzzleSolveFeedbackMessage(xpEarned, submitResult.xpAtCap ?? false);
 }

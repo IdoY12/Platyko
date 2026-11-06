@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { EMAIL_INVALID, EMAIL_MIN_LEN, passwordPolicyError, registerValidationError, usernameValidationError } from "@project/user-credentials";
+import { EMAIL_INVALID, EMAIL_MIN_LEN, normalizeEmail, passwordPolicyError, registerValidationError, usernameValidationError } from "@project/user-credentials";
 import store, { type AppDispatch } from "@/redux/store";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
 import { logAuth, logError, logNav } from "@/utils/logger";
@@ -38,7 +38,7 @@ export function useAuthScreen(dispatch: AppDispatch) {
 
   const onSubmit = useCallback(async () => {
     if (!canSubmit || loading) return;
-    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedEmail = normalizeEmail(email);
     logAuth("submit:start", { mode: isLogin ? "login" : "register", email: normalizedEmail });
     setLoading(true);
     setError(null);

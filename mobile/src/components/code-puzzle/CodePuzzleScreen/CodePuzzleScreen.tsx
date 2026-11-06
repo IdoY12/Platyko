@@ -12,7 +12,7 @@ import { styles } from "./CodePuzzleScreen.styles";
 export function CodePuzzleScreen({ navigation }: CodePuzzleScreenProps) {
   const {
     loading, puzzle, puzzles, currentIndex, setCurrentIndex,
-    input, setInput, message, onSubmit, submitting, revealReferenceAnswer, referenceSnippet,
+    input, setInput, message, onSubmit, submitting, revealReferenceAnswer, referenceSnippet, loadFailed, retryLoad,
   } = useCodePuzzle();
 
   if (loading) {
@@ -51,6 +51,7 @@ export function CodePuzzleScreen({ navigation }: CodePuzzleScreenProps) {
             <Text style={styles.submitLabel}>{submitting ? "Checking..." : "Submit Puzzle"}</Text>
           </PressableScale>
           {message ? <Text style={styles.message}>{message}</Text> : null}
+          {loadFailed ? <Text style={styles.message} onPress={retryLoad} accessibilityRole="button" accessibilityLabel="Retry loading puzzles">Tap to retry</Text> : null}
           <View style={styles.footerSpacer} />
           <PressableScale style={styles.showAnswerBtn} haptic="light" onPress={revealReferenceAnswer} accessibilityLabel="Show reference answer">
             <Text style={styles.showAnswerLabel}>Stuck? Reveal answer</Text>

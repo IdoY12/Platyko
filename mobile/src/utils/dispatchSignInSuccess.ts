@@ -1,7 +1,7 @@
 import type { AppDispatch } from "@/redux/store";
 import { signIn } from "@/redux/session-slice";
 import type { Commitment } from "@/redux/profile-slice";
-import { hydrateProfile, setUserIdentity } from "@/redux/profile-slice";
+import { hydrateProfile, identityOf, setUserIdentity } from "@/redux/profile-slice";
 import { resetXp } from "@/redux/xp-slice";
 import { resetStreak } from "@/redux/streak-slice";
 import { hydrateLesson, resetLesson } from "@/redux/lesson-slice";
@@ -23,7 +23,7 @@ export function dispatchSignInSuccess(
       refreshToken,
     }),
   );
-  dispatch(setUserIdentity({ username: user.username, email: user.email, avatarUrl: user.avatarUrl, hasPassword: user.hasPassword, authProvider: user.authProvider }));
+  dispatch(setUserIdentity(identityOf(user)));
 
   const c: Commitment =
     user.dailyCommitmentMinutes === 10 || user.dailyCommitmentMinutes === 15 || user.dailyCommitmentMinutes === 25

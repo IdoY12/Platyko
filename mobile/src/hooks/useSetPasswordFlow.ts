@@ -19,6 +19,7 @@ export function useSetPasswordFlow(onDone: () => void) {
   const [error, setError] = useState<string | null>(null);
 
   const sendCode = useCallback(async () => {
+    if (loading) return;
     setLoading(true);
     setError(null);
     try {
@@ -32,7 +33,7 @@ export function useSetPasswordFlow(onDone: () => void) {
     } finally {
       setLoading(false);
     }
-  }, [email, restartResendCooldown]);
+  }, [email, restartResendCooldown, loading]);
 
   const passwordHint = newPassword.length > 0 ? passwordPolicyError(newPassword) : null;
   const canSubmit = code.length === 6 && newPassword.length > 0 && passwordHint === null && !loading;

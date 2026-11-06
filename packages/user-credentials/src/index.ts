@@ -15,6 +15,11 @@ export const EMAIL_INVALID = "Enter a valid email address.";
 export const USERNAME_TAKEN_MESSAGE = "Username already taken. Please choose another.";
 export const EMAIL_TAKEN_MESSAGE = "Email already exists";
 
+/** What the server stores and compares: trimmed, lower-cased. */
+export function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase();
+}
+
 export function passwordPolicyError(password: string): string | null {
   const pl = password.length;
   if (pl < PASSWORD_MIN_LEN) return PASSWORD_TOO_SHORT;

@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useRef, useState, type SetStateAction } from "react";
-import { AppState, type AppStateStatus } from "react-native";
+import { useCallback, useEffect, useState, type SetStateAction } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setCachedAllPuzzles } from "@/redux/puzzle-slice";
 import store from "@/redux/store";
-import { addStudySeconds } from "@/redux/session-slice";
+import { useStudySecondsTicker } from "@/hooks/useStudySecondsTicker";
 import { useAuthenticatedService } from "@/hooks/useAuthenticatedService";
 import PuzzleService, { type Puzzle } from "@/services/auth-aware/PuzzleService";
 import { SUBMIT_FAILED_MESSAGE } from "@/constants/feedbackMessages";
@@ -16,7 +15,6 @@ const MS_DAY = 1000 * 60 * 60 * 24;
 export function useCodePuzzle() {
   const dispatch = useAppDispatch();
   const focused = useIsFocused();
-  const appRef = useRef<AppStateStatus>(AppState.currentState);
   const isGuest = useAppSelector((s) => s.session.isGuest);
   const xpSolveCounts = useAppSelector((s) => s.puzzle.xpSolveCounts);
   const xpTotal = useAppSelector((s) => s.xp.xpTotal);
@@ -28,18 +26,15 @@ export function useCodePuzzle() {
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
   const [refOpen, setRefOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [loadFailed, setLoadFailed] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
   const puzzle = puzzles[puzzleIndex] ?? null;
 
-  useEffect(() => {
-    const appStateSubscription = AppState.addEventListener("change", (nextAppState) => { appRef.current = nextAppState; });
-    if (!focused) return () => appStateSubscription.remove();
-    const studyTimerId = setInterval(() => appRef.current === "active" && dispatch(addStudySeconds(1)), 1000);
-    return () => { clearInterval(studyTimerId); appStateSubscription.remove(); };
-  }, [dispatch, focused]);
+  useStudySecondsTicker(focused);
   useEffect(() => { setRefOpen(false); }, [puzzle?.id]);
   useEffect(() => {
     let cancelled = false;
-    setLoading(true); setFeedbackMessage(null);
+    setLoading(true); setFeedbackMessage(null); setLoadFailed(false);
     const cachedPuzzleList = store.getState().puzzle.allPuzzles;
     const puzzleCountToIndex = (puzzleCount: number) => Math.floor(Date.now() / MS_DAY) % puzzleCount;
     if (cachedPuzzleList !== null) {
@@ -49,9 +44,9 @@ export function useCodePuzzle() {
     puzzleService.getAllPuzzles().then((loadedPuzzles) => {
       if (cancelled) return; dispatch(setCachedAllPuzzles(loadedPuzzles)); setPuzzles(loadedPuzzles);
       if (loadedPuzzles.length) setPuzzleIndex(puzzleCountToIndex(loadedPuzzles.length));
-    }).catch(() => !cancelled && setFeedbackMessage("Failed to load puzzles. Please try again.")).finally(() => !cancelled && setLoading(false));
+    }).catch(() => { if (!cancelled) { setFeedbackMessage("Failed to load puzzles. Please try again."); setLoadFailed(true); } }).finally(() => !cancelled && setLoading(false));
     return () => { cancelled = true; };
-  }, [dispatch, puzzleService]);
+  }, [dispatch, puzzleService, reloadKey]);
 
   const onSubmit = useCallback(async () => {
     if (!puzzle || submitting) return;
@@ -73,5 +68,6 @@ export function useCodePuzzle() {
   return {
     loading, puzzle, puzzles, currentIndex: puzzleIndex, setCurrentIndex, input, setInput, message: feedbackMessage, onSubmit, submitting,
     revealReferenceAnswer, referenceSnippet: puzzle && refOpen ? puzzle.acceptedAnswers[0] ?? "" : null,
+    loadFailed, retryLoad: () => setReloadKey((key) => key + 1),
   };
 }

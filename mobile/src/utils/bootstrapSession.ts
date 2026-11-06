@@ -5,7 +5,7 @@ import store from "@/redux/store";
 import UserService from "@/services/auth-aware/UserService";
 import { logError } from "@/utils/logger";
 import { setAuthChecked, setBootstrapError } from "@/redux/session-slice";
-import { setNotificationsEnabled, setUserIdentity, updatePreferences, type Commitment } from "@/redux/profile-slice";
+import { identityOf, setNotificationsEnabled, setUserIdentity, updatePreferences, type Commitment } from "@/redux/profile-slice";
 import { hydrateXp } from "@/redux/xp-slice";
 import { hydrateStreak } from "@/redux/streak-slice";
 import { hydrateStats } from "@/redux/duel-slice";
@@ -44,7 +44,7 @@ async function _run(dispatch: AppDispatch): Promise<void> {
   try {
     dispatch(setBootstrapError(null));
     const me = await userService.getMe();
-    dispatch(setUserIdentity({ email: me.email, username: me.username, avatarUrl: me.avatarUrl ?? null, hasPassword: me.hasPassword, authProvider: me.authProvider }));
+    dispatch(setUserIdentity(identityOf(me)));
     const userPreferences = await userService.getPreferencesGet();
     // Notification preference lives on the User model, so it applies even before goal/level are set.
     dispatch(setNotificationsEnabled(userPreferences.notificationsEnabled));

@@ -31,8 +31,10 @@ function useProfileLifecycle(
   const draftsRef = useRef(drafts);
   draftsRef.current = drafts;
 
+  // Only signed-in vs. guest matters here; a token rotation must not refetch and overwrite drafts.
+  const hasSession = Boolean(accessToken);
   useEffect(() => {
-    if (!accessToken) {
+    if (!hasSession) {
       setScreenLoading(false);
       return;
     }
@@ -46,7 +48,7 @@ function useProfileLifecycle(
     return () => {
       active = false;
     };
-  }, [accessToken, dispatch, setScreenLoading, user]);
+  }, [hasSession, dispatch, setScreenLoading, user]);
 }
 
 export function useProfileScreen() {

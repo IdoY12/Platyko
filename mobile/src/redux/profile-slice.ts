@@ -1,6 +1,10 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export type Goal = "JOB" | "WORK" | "FUN" | "PROJECT";
+
+/** The identity fields every account payload (/auth/me, login, profile) carries, in setUserIdentity shape. */
+export const identityOf = (u: { username: string; email: string; avatarUrl?: string | null; hasPassword: boolean; authProvider: "google" | "apple" | null }) =>
+  ({ username: u.username, email: u.email, avatarUrl: u.avatarUrl ?? null, hasPassword: u.hasPassword, authProvider: u.authProvider });
 export type Experience = "JUNIOR" | "MID" | "SENIOR";
 export type Commitment = "10" | "15" | "25";
 
@@ -40,12 +44,8 @@ const profileSlice = createSlice({
       for (const [key, value] of Object.entries(a.payload))
         if (value !== undefined) (state as unknown as Record<string, unknown>)[key] = value;
     },
-    setOnboarding: (state, a: PayloadAction<{ goal: Goal; experienceLevel: Experience; commitment: Commitment }>) => {
-      const { goal, experienceLevel, commitment } = a.payload;
-      state.goal = goal;
-      state.experienceLevel = experienceLevel;
-      state.commitment = commitment;
-    },
+    setOnboarding: (state, a: PayloadAction<{ goal: Goal; experienceLevel: Experience; commitment: Commitment }>) =>
+      void Object.assign(state, a.payload),
     completeOnboarding: (
       state,
       a: PayloadAction<{ experienceLevel: Experience; goal: Goal; commitment: Commitment; notificationsEnabled: boolean }>,

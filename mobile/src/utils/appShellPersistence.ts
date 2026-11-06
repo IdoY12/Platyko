@@ -4,7 +4,7 @@ import * as Notifications from "expo-notifications";
 import type store from "@/redux/store";
 import type { AppDispatch } from "@/redux/store";
 import UserService from "@/services/auth-aware/UserService";
-import { setUserIdentity } from "@/redux/profile-slice";
+import { identityOf, setUserIdentity } from "@/redux/profile-slice";
 import { REDUX_PERSIST_KEY } from "@/utils/hydrateStore";
 import { clearSecureSessionTokens, writeSecureSessionTokens } from "@/utils/secureSessionTokens";
 import { resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
@@ -60,7 +60,7 @@ export async function ensureAppShellNotificationChannel(): Promise<void> {
 export async function refreshSessionOrLogoutOnForeground(dispatch: AppDispatch): Promise<void> {
   try {
     const me = await new UserService().getMe();
-    dispatch(setUserIdentity({ email: me.email, username: me.username, avatarUrl: me.avatarUrl ?? null, hasPassword: me.hasPassword, authProvider: me.authProvider }));
+    dispatch(setUserIdentity(identityOf(me)));
   } catch (error) {
     if (isAuthFailure(error)) {
       await AsyncStorage.removeItem(REDUX_PERSIST_KEY);

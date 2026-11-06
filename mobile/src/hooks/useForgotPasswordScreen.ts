@@ -1,3 +1,4 @@
+import { normalizeEmail } from "@project/user-credentials";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import type { ForgotPasswordNavigation } from "@/types/rootNavigation.types";
@@ -24,7 +25,7 @@ export function useForgotPasswordScreen() {
     if (!canSubmit) return;
     setLoading(true);
     setError(null);
-    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedEmail = normalizeEmail(email);
     try {
       await passwordResetService.requestCode(normalizedEmail);
       logAuth("password-reset:requested", { email: normalizedEmail });
