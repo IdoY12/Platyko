@@ -17,7 +17,7 @@ type Props = {
   canSubmit: boolean;
   loading: boolean;
   error: string | null;
-  passwordHint: string | null;
+  formHint: string | null;
   onSubmit: () => void;
 };
 
@@ -63,7 +63,7 @@ export function AuthCredentials(p: Props) {
           <Text style={styles.showHideText}>{p.secure ? "Show" : "Hide"}</Text>
         </Pressable>
       </View>
-      {p.passwordHint ? <Text style={styles.errorText}>{p.passwordHint}</Text> : null}
+      {p.formHint ? <Text style={styles.errorText}>{p.formHint}</Text> : null}
       <PressableScale
         disabled={!p.canSubmit}
         style={[styles.primaryButton, !p.canSubmit && styles.disabled]}

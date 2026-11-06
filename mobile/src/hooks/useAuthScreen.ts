@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { passwordPolicyError, registerValidationError } from "@project/user-credentials";
+import { EMAIL_INVALID, EMAIL_MIN_LEN, passwordPolicyError, registerValidationError, usernameValidationError } from "@project/user-credentials";
 import store, { type AppDispatch } from "@/redux/store";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
 import { logAuth, logError, logNav } from "@/utils/logger";
@@ -16,10 +16,13 @@ export function useAuthScreen(dispatch: AppDispatch) {
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const passwordHint = useMemo(() => {
-    if (!isLogin || password.length === 0) return null;
-    return passwordPolicyError(password);
-  }, [isLogin, password]);
+  /** Why the button is disabled, for whichever filled-in field is wrong first; empty fields stay quiet. */
+  const formHint = useMemo(() => {
+    const emailError = email.length > 0 && (!email.includes("@") || email.length < EMAIL_MIN_LEN) ? EMAIL_INVALID : null;
+    const usernameError = !isLogin && username.length > 0 ? usernameValidationError(username) : null;
+    const passwordError = password.length > 0 ? passwordPolicyError(password) : null;
+    return emailError ?? usernameError ?? passwordError;
+  }, [email, isLogin, password, username]);
 
   const canSubmit = useMemo(
     () =>
@@ -35,13 +38,6 @@ export function useAuthScreen(dispatch: AppDispatch) {
 
   const onSubmit = useCallback(async () => {
     if (!canSubmit || loading) return;
-    if (!isLogin) {
-      const regErr = registerValidationError(email, username, password);
-      if (regErr) {
-        setError(regErr);
-        return;
-      }
-    }
     logAuth("submit:start", { mode: isLogin ? "login" : "register", email });
     setLoading(true);
     setError(null);
@@ -65,6 +61,6 @@ export function useAuthScreen(dispatch: AppDispatch) {
 
   return {
     email, setEmail, username, setUsername, password, setPassword, secure, setSecure,
-    isLogin, setIsLogin, loading, error, passwordHint, canSubmit, onSubmit,
+    isLogin, setIsLogin, loading, error, formHint, canSubmit, onSubmit,
   };
 }
