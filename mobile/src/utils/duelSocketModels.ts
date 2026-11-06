@@ -49,25 +49,14 @@ export const duelConnectionRefs = {
   userId: null as string | null,
 };
 
-type ReplayRaw = {
-  roundNumber?: number;
-  round_number?: number;
-  winnerUserId?: string;
-  winner_user_id?: string | null;
-  correctAnswer?: string;
-  correct_answer?: string;
-  player1TimeMs?: number;
-  player1_ms?: number;
-  player2TimeMs?: number;
-  player2_ms?: number;
-};
+/** io emits replay rows in the camelCase shape of its SessionState; untrusted fields are still coerced. */
 export function normalizeDuelReplayEntry(entry: unknown): DuelReplayRow {
-  const e = entry as ReplayRaw;
+  const e = entry as Partial<DuelReplayRow>;
   return {
-    roundNumber: Number(e.roundNumber ?? e.round_number ?? 0),
-    winnerUserId: typeof e.winnerUserId === "string" ? e.winnerUserId : e.winner_user_id ?? null,
-    correctAnswer: String(e.correctAnswer ?? e.correct_answer ?? ""),
-    player1TimeMs: Number(e.player1TimeMs ?? e.player1_ms ?? 0),
-    player2TimeMs: Number(e.player2TimeMs ?? e.player2_ms ?? 0),
+    roundNumber: Number(e.roundNumber ?? 0),
+    winnerUserId: typeof e.winnerUserId === "string" ? e.winnerUserId : null,
+    correctAnswer: String(e.correctAnswer ?? ""),
+    player1TimeMs: Number(e.player1TimeMs ?? 0),
+    player2TimeMs: Number(e.player2TimeMs ?? 0),
   };
 }

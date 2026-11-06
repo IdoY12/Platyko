@@ -4,7 +4,7 @@ import type { AppDispatch } from "@/redux/store";
 import store from "@/redux/store";
 import UserService from "@/services/auth-aware/UserService";
 import { logError } from "@/utils/logger";
-import { enterGuestMode, setAuthChecked, setBootstrapError } from "@/redux/session-slice";
+import { setAuthChecked, setBootstrapError } from "@/redux/session-slice";
 import { setNotificationsEnabled, setUserIdentity, updatePreferences, type Commitment } from "@/redux/profile-slice";
 import { hydrateXp } from "@/redux/xp-slice";
 import { hydrateStreak } from "@/redux/streak-slice";
@@ -34,11 +34,10 @@ async function _run(dispatch: AppDispatch): Promise<void> {
   const token = store.getState().session.accessToken;
   const isAuthed = store.getState().session.isAuthenticated;
 
-  if (!isAuthed || !token) {
-    dispatch(enterGuestMode());
-    dispatch(setAuthChecked(true));
-    return;
-  }
+  if (!isAuthed) { dispatch(setAuthChecked(true)); return; }
+  // Signed in on disk but the keychain is empty: drop the account's local copy so it can never be
+  // migrated as "guest progress" into someone else's sign-up.
+  if (!token) { resetStoresAfterLogout(dispatch); return; }
 
   const userService = new UserService();
 

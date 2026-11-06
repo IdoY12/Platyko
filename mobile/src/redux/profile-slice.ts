@@ -23,7 +23,7 @@ const initialState: ProfileState = {
   commitment: "15",
   experienceLevel: "JUNIOR",
   notificationsEnabled: true,
-  // Assume a password account until a server payload says otherwise (pre-update snapshots lack the flag).
+  // Assumed until a server payload says otherwise.
   hasPassword: true,
   authProvider: null,
 };

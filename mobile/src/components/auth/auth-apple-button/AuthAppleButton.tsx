@@ -40,7 +40,9 @@ export function AuthAppleButton({ dispatch }: { dispatch: AppDispatch }) {
     } catch (e) {
       if ((e as { code?: string }).code === "ERR_REQUEST_CANCELED") return;
       logError("[AUTH]", e, { mode: "apple" });
-      Alert.alert("Apple sign-in", e instanceof Error ? e.message : "Unable to sign in");
+      // Server replies are already user-facing (apiErrorMessage); native CodedErrors are not.
+      const isNativeError = typeof (e as { code?: unknown }).code === "string";
+      Alert.alert("Apple sign-in", !isNativeError && e instanceof Error ? e.message : "Apple sign-in failed. Please try again.");
     } finally {
       setBusy(false);
     }

@@ -38,19 +38,20 @@ export function useAuthScreen(dispatch: AppDispatch) {
 
   const onSubmit = useCallback(async () => {
     if (!canSubmit || loading) return;
-    logAuth("submit:start", { mode: isLogin ? "login" : "register", email });
+    const normalizedEmail = email.trim().toLowerCase();
+    logAuth("submit:start", { mode: isLogin ? "login" : "register", email: normalizedEmail });
     setLoading(true);
     setError(null);
     try {
       if (isLogin) {
-        const response = await authService.login(email, password);
+        const response = await authService.login(normalizedEmail, password);
         // No navigation on success: the signIn dispatch remounts the navigator (see rootNavigation.types.ts).
         dispatchSignInSuccess(dispatch, response.user, response.accessToken, response.refreshToken);
       } else {
-        const { registrationToken } = await authService.register(email, username, password, buildGuestLocalState(store.getState()));
-        navigation.navigate("VerifyEmail", { email, registrationToken });
+        const { registrationToken } = await authService.register(normalizedEmail, username, password, buildGuestLocalState(store.getState()));
+        navigation.navigate("VerifyEmail", { email: normalizedEmail, registrationToken });
       }
-      logAuth("submit:success", { mode: isLogin ? "login" : "register", email });
+      logAuth("submit:success", { mode: isLogin ? "login" : "register", email: normalizedEmail });
     } catch (submitError) {
       logError("[AUTH]", submitError, { mode: isLogin ? "login" : "register" });
       setError(submitError instanceof Error ? submitError.message : "Unable to continue");

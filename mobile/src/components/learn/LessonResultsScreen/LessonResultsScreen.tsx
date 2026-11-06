@@ -14,7 +14,7 @@ import { TerminalHeader } from "@/components/common/TerminalHeader/TerminalHeade
 import { colors } from "@/theme/theme";
 import { lessonResultsStyles } from "./LessonResultsScreen.styles";
 
-type RouteParams = { accuracy?: number; lessonTitle?: string; experienceLevel?: "JUNIOR" | "MID" | "SENIOR" };
+type RouteParams = { accuracy?: number; lessonTitle?: string };
 
 type Props = {
   navigation: LessonResultsNavigation;

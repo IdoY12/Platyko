@@ -24,12 +24,13 @@ export function useForgotPasswordScreen() {
     if (!canSubmit) return;
     setLoading(true);
     setError(null);
+    const normalizedEmail = email.trim().toLowerCase();
     try {
-      await passwordResetService.requestCode(email);
-      logAuth("password-reset:requested", { email });
+      await passwordResetService.requestCode(normalizedEmail);
+      logAuth("password-reset:requested", { email: normalizedEmail });
       // Advance with replace (multi-step flow convention): back from the code
       // screen must return to the Auth form, not to this email step.
-      navigation.replace("ResetPassword", { email });
+      navigation.replace("ResetPassword", { email: normalizedEmail });
     } catch (requestError) {
       logError("[AUTH]", requestError, { mode: "password-reset-request" });
       setError(requestError instanceof Error ? requestError.message : "Unable to send the code");

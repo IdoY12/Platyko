@@ -24,6 +24,7 @@ export function useLessonLoad(experienceLevel: Experience, accessToken: string |
   const [exerciseIndex, setExerciseIndex] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [attemptedCount, setAttemptedCount] = useState(0);
+  const [reloadKey, setReloadKey] = useState(0);
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -47,7 +48,7 @@ export function useLessonLoad(experienceLevel: Experience, accessToken: string |
     // savedLocalIndex intentionally excluded: it is captured once at mount and must not
     // trigger a reload when Redux writes the progress back during the lesson.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken, blockIndex, dispatch, experienceLevel]);
+  }, [accessToken, blockIndex, dispatch, experienceLevel, reloadKey]);
 
   useEffect(() => {
     if (loading || exercises.length === 0) return;
@@ -67,5 +68,6 @@ export function useLessonLoad(experienceLevel: Experience, accessToken: string |
     setCorrectCount,
     attemptedCount,
     setAttemptedCount,
+    reload: () => setReloadKey((key) => key + 1),
   };
 }

@@ -8,6 +8,7 @@ import { completeOnboarding, setOnboarding } from "@/redux/profile-slice";
 import { useAuthenticatedService } from "@/hooks/useAuthenticatedService";
 import { apiErrorMessage } from "@/services/auth";
 import UserService from "@/services/auth-aware/UserService";
+import { syncDailyPracticeReminder } from "@/utils/dailyGoalNotificationCheck";
 
 const PATH_TEXT_BY_LEVEL: Record<Experience, string> = {
   JUNIOR: "You will start with fundamentals: variables, loops, and simple functions.",
@@ -33,10 +34,7 @@ export function useOnboardingWizard(options: UseOnboardingWizardOptions) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    logNav("screen:enter", { screen: "OnboardingFlow" });
-    return () => logNav("screen:leave", { screen: "OnboardingFlow" });
-  }, []);
+  useEffect(() => { logNav("screen:enter", { screen: "OnboardingFlow" }); return () => logNav("screen:leave", { screen: "OnboardingFlow" }); }, []);
   useEffect(() => logOnboarding("step:view", { step }), [step]);
 
   const pathText = useMemo(() => PATH_TEXT_BY_LEVEL[level ?? "JUNIOR"], [level]);
@@ -65,7 +63,8 @@ export function useOnboardingWizard(options: UseOnboardingWizardOptions) {
       }
 
       await AsyncStorage.setItem(ONBOARDING_SEEN_STORAGE_KEY, "1");
-      options?.onPersistedToDevice?.();
+      void syncDailyPracticeReminder();
+      options.onPersistedToDevice();
     } catch (e) {
       logError("[ONBOARDING]", e, { phase: "submit" });
       setError(apiErrorMessage(e));

@@ -33,10 +33,11 @@ import { syncDailyPracticeReminder } from "@/utils/dailyGoalNotificationCheck";
 describe("syncDailyPracticeReminder hardening", () => {
   beforeEach(() => {
     fakes.storage.clear();
+    fakes.storage.set("onboarding_seen_v1", "1");
     fakes.scheduled.splice(0);
     getStateMock.mockReturnValue({
       session: { hasHydrated: true, isGuest: true, isAuthenticated: false },
-      profile: { commitment: "15", notificationsEnabled: true, goal: "FUN" },
+      profile: { commitment: "15", notificationsEnabled: true },
     });
   });
 

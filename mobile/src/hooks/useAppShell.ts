@@ -24,7 +24,6 @@ export function useAppShell() {
   const isAuthenticated = useAppSelector((s) => s.session.isAuthenticated);
   const isGuest = useAppSelector((s) => s.session.isGuest);
   const commitment = useAppSelector((s) => s.profile.commitment);
-  const onboardingGoal = useAppSelector((s) => s.profile.goal);
   const notificationsEnabled = useAppSelector((s) => s.profile.notificationsEnabled);
   const appStateRef = useRef<AppStateStatus>(AppState.currentState);
 
@@ -56,7 +55,7 @@ export function useAppShell() {
   useEffect(() => {
     if (!hasHydrated) return;
     void syncDailyPracticeReminder();
-  }, [hasHydrated, isGuest, isAuthenticated, commitment, notificationsEnabled, onboardingGoal]);
+  }, [hasHydrated, isGuest, isAuthenticated, commitment, notificationsEnabled]);
 
   useEffect(() => {
     if (!hasHydrated) return;

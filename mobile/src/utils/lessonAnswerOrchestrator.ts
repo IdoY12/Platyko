@@ -1,6 +1,5 @@
 import * as Haptics from "expo-haptics";
 import type { LessonScreenNavigation } from "@/types/learnNavigation.types";
-import type { Experience } from "@/redux/profile-slice";
 import type { LessonExerciseCompletionContext } from "@/types/lessonExerciseCompletion.types";
 
 type AddXp = (n: number) => void;
@@ -15,7 +14,6 @@ type LessonAnswerOrchestratorArgs = {
   correctCount: number;
   attemptedCount: number;
   lessonTitle: string;
-  experienceLevel: Experience;
   navigation: LessonScreenNavigation;
   setAttemptedCount: (n: number) => void;
   setCorrectCount: (n: number) => void;
@@ -33,12 +31,11 @@ function finishOrAdvance(
   total: number,
   accuracy: number,
   lessonTitle: string,
-  experienceLevel: Experience,
   navigation: LessonScreenNavigation,
   setIndex: (n: number) => void,
 ): void {
   if (nextIndex >= total) {
-    navigation.replace("LessonResults", { accuracy, lessonTitle, experienceLevel });
+    navigation.replace("LessonResults", { accuracy, lessonTitle });
     return;
   }
   setIndex(nextIndex);
@@ -60,7 +57,6 @@ export function orchestrateLessonAnswer(a: LessonAnswerOrchestratorArgs): void {
     a.exercisesLength,
     accuracy,
     a.lessonTitle,
-    a.experienceLevel,
     a.navigation,
     a.setExerciseIndex,
   );

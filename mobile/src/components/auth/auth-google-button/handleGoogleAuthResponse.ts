@@ -10,7 +10,7 @@ export function handleGoogleAuthResponse(res: AuthSessionResult | null): string 
   if (!res) return null;
   if (res.type === "error") {
     logError("[AUTH]", res.error ?? new Error("google-auth-error"), { mode: "google" });
-    Alert.alert("Google sign-in", res.error?.message ?? "Google sign-in failed. Please try again.");
+    Alert.alert("Google sign-in", "Google sign-in failed. Please try again.");
     return null;
   }
   if (res.type !== "success") {

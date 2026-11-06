@@ -61,7 +61,7 @@ export function DuelResultsScreen({ route, navigation }: DuelResultsScreenProps)
           <DuelReplayList replay={replay} />
         </TerminalFrame>
         <PressableScale style={styles.matchBtn} haptic="medium" onPress={goHome}><Text style={styles.matchLabel}>Back to Duel Home</Text></PressableScale>
-        <PressableScale style={styles.secondaryBtn} haptic="light" onPress={() => { if (sessionId) { setIsWaiting(true); requestRematch(sessionId); } }}>
+        <PressableScale style={styles.secondaryBtn} haptic="light" onPress={() => { if (sessionId && !isWaiting) { setIsWaiting(true); requestRematch(sessionId); } }}>
           <Text style={styles.secondaryLabel}>Play Again</Text>
         </PressableScale>
         {isWaiting ? <Text style={styles.searching}>Waiting for opponent to confirm rematch…</Text> : null}

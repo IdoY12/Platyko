@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { getStreakCalendarDate } from "@/utils/streakCalendar";
 
 interface SessionState {
   hasHydrated: boolean;
@@ -21,7 +22,7 @@ const initialState: SessionState = {
   accessToken: null,
   refreshToken: null,
   userId: null,
-  studyDateKey: new Date().toLocaleDateString("en-CA"),
+  studyDateKey: getStreakCalendarDate(),
   studySecondsToday: 0,
   bootstrapError: null,
 };
@@ -29,7 +30,7 @@ const initialState: SessionState = {
 type SignInPayload = { userId: string; accessToken: string; refreshToken: string };
 
 function rollStudyCalendarIfNeeded(state: SessionState) {
-  const dateKey = new Date().toLocaleDateString("en-CA");
+  const dateKey = getStreakCalendarDate();
   if (state.studyDateKey !== dateKey) {
     state.studyDateKey = dateKey;
     state.studySecondsToday = 0;
@@ -47,9 +48,6 @@ const sessionSlice = createSlice({
     addStudySeconds: (state, a: PayloadAction<number>) => {
       rollStudyCalendarIfNeeded(state);
       state.studySecondsToday += a.payload;
-    },
-    enterGuestMode: (state) => {
-      Object.assign(state, { isAuthenticated: false, isGuest: true, accessToken: null, refreshToken: null, userId: null });
     },
     signIn: (state, a: PayloadAction<SignInPayload>) => {
       const { userId, accessToken, refreshToken } = a.payload;
@@ -70,7 +68,6 @@ export const {
   setAuthChecked,
   reconcileStudyCalendarDay,
   addStudySeconds,
-  enterGuestMode,
   signIn,
   signOut,
   updateTokens,

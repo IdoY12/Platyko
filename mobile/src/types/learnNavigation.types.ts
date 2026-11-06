@@ -8,7 +8,7 @@ export type LearnStackParamList = {
     lessonTitle: string;
     blockIndex: number;
   };
-  LessonResults: { accuracy: number; lessonTitle: string; experienceLevel: Experience };
+  LessonResults: { accuracy: number; lessonTitle: string };
 };
 
 export type LearnRoadmapNavigation = NativeStackNavigationProp<LearnStackParamList, "LearnRoadmap">;

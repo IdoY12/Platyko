@@ -34,9 +34,7 @@ function AppShellBanners({ isConnected, bootstrapError, retryBootstrap }: { isCo
 }
 
 export function AppShell() {
-  // Power on the "Control Center": Fires up startup services (Logging, Errors, Notifications)
-  // and connects the User's session & profile to the app.
-  // It also tracks real-time internet status for the offline banner.
+  // Boots error handling, notifications and the stored session, and tracks connectivity for the offline banner.
   const { isConnected, bootstrapError, retryBootstrap } = useAppShell();
 
   return (

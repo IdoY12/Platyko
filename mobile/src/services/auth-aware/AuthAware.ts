@@ -55,11 +55,7 @@ export default abstract class AuthAware {
           const { accessToken: nextAccessToken, refreshToken: nextRefreshToken } = await refreshInFlight;
           store.dispatch(updateTokens({ accessToken: nextAccessToken, refreshToken: nextRefreshToken }));
           await writeSecureSessionTokens(nextAccessToken, nextRefreshToken);
-          if (config.headers && typeof config.headers.set === "function") {
-            config.headers.set("Authorization", `Bearer ${nextAccessToken}`);
-          } else {
-            config.headers = { ...config.headers, Authorization: `Bearer ${nextAccessToken}` } as RetryableConfig["headers"];
-          }
+          config.headers.set("Authorization", `Bearer ${nextAccessToken}`);
           return this.axiosInstance.request(config);
         } catch (refreshError) {
           if (refreshWasRejected(refreshError)) resetStoresAfterLogout(store.dispatch);

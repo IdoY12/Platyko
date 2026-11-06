@@ -10,20 +10,14 @@ import type AuthMeResponse from "@/models/AuthMeResponse";
 import type UserProfile from "@/models/UserProfile";
 
 export default class UserService extends AuthAware {
-  async getMe(): Promise<AuthMeResponse> {
-    const { data } = await this.axiosInstance.get<AuthMeResponse>("/auth/me");
-    return data;
-  }
+  async getMe(): Promise<AuthMeResponse> { return (await this.axiosInstance.get<AuthMeResponse>("/auth/me")).data; }
 
   async logout(refreshToken: string): Promise<{ ok: boolean }> {
     const { data } = await this.axiosInstance.post<{ ok: boolean }>("/auth/logout", { refreshToken });
     return data;
   }
 
-  async getProfile(): Promise<UserProfile> {
-    const { data } = await this.axiosInstance.get<UserProfile>("/user/profile");
-    return data;
-  }
+  async getProfile(): Promise<UserProfile> { return (await this.axiosInstance.get<UserProfile>("/user/profile")).data; }
 
   async patchUsername(username: string): Promise<UserProfile> {
     const { data } = await this.axiosInstance.patch<UserProfile>("/user/profile", { username });
@@ -63,12 +57,18 @@ export default class UserService extends AuthAware {
 
   /** JPEG upload via fetch (axios mangles binary bodies on Hermes); the backend stores it in S3 and returns the URL. */
   async uploadAvatarBlob(blob: Blob): Promise<{ publicUrl: string }> {
-    const response = await fetch(`${API_BASE_URL}/user/avatar/upload`, {
-      method: "PUT", headers: { "Content-Type": "image/jpeg", Authorization: `Bearer ${this.jwt}` }, body: blob,
-      signal: AbortSignal.timeout(UPLOAD_TIMEOUT_MS),
-    });
-    if (!response.ok) throw new Error(`Avatar upload failed (${response.status})`);
-    return response.json() as Promise<{ publicUrl: string }>;
+    // Hermes ships AbortController but not AbortSignal.timeout, so the deadline is wired by hand.
+    const abort = new AbortController();
+    const deadline = setTimeout(() => abort.abort(), UPLOAD_TIMEOUT_MS);
+    try {
+      const response = await fetch(`${API_BASE_URL}/user/avatar/upload`, {
+        method: "PUT", headers: { "Content-Type": "image/jpeg", Authorization: `Bearer ${this.jwt}` }, body: blob, signal: abort.signal,
+      });
+      if (!response.ok) throw new Error(`Avatar upload failed (${response.status})`);
+      return (await response.json()) as { publicUrl: string };
+    } finally {
+      clearTimeout(deadline);
+    }
   }
 
   async postPracticeLog(dateKey: string, practicedSeconds: number): Promise<PracticeLogResponse> {

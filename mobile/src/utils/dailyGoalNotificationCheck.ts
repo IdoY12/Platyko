@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
 import store from "@/redux/store";
+import { ONBOARDING_SEEN_STORAGE_KEY } from "@/constants/onboardingStorageConstants";
 
 const dailyPracticeReminderFpKey = "dailyPracticeReminderFp";
 const scheduledNotificationIdKey = "scheduledNotificationId";
@@ -27,9 +28,9 @@ async function runReminderSync(): Promise<void> {
   if (!session.hasHydrated) return;
 
   const dailyGoalMinutes = Number(profile.commitment);
-  // `goal` is only set once the onboarding wizard (or a server profile) chose one, so the OS permission
+  // The wizard writes this key as its very last step and then calls this sync, so the OS permission
   // prompt can never appear on top of the first-launch wizard.
-  const onboardingDone = Boolean(profile.goal);
+  const onboardingDone = (await AsyncStorage.getItem(ONBOARDING_SEEN_STORAGE_KEY)) === "1";
   const allow = (session.isGuest || session.isAuthenticated) && profile.notificationsEnabled && onboardingDone;
   const fp = `${allow}|${dailyGoalMinutes}|${session.isGuest}|${session.isAuthenticated}`;
 

@@ -40,11 +40,11 @@ export function ProfileModal({ p }: { p: UseProfileScreenReturn }) {
               <Text style={m.ghostTxt}>Cancel</Text>
             </Pressable>
             {mode === "u" ? (
-              <Pressable style={m.primary} onPress={() => void p.onSaveUsername()}>
+              <Pressable style={m.primary} disabled={p.busyAction !== null} onPress={() => void p.onSaveUsername()}>
                 <Text style={m.primaryTxt}>{p.busyAction === "username" ? "Saving..." : "Save"}</Text>
               </Pressable>
             ) : mode === "p" ? (
-              <Pressable style={m.primary} onPress={() => void p.onChangePassword()}>
+              <Pressable style={m.primary} disabled={p.busyAction !== null} onPress={() => void p.onChangePassword()}>
                 <Text style={m.primaryTxt}>{p.busyAction === "password" ? "Updating..." : "Update"}</Text>
               </Pressable>
             ) : mode === "d" ? (

@@ -48,7 +48,6 @@ export function useLessonExerciseCompleteHandler(
         correctCount: load.correctCount,
         attemptedCount: load.attemptedCount,
         lessonTitle,
-        experienceLevel,
         navigation,
         setAttemptedCount: load.setAttemptedCount,
         setCorrectCount: load.setCorrectCount,

@@ -20,12 +20,13 @@ import * as Notifications from "expo-notifications";
 import { syncDailyPracticeReminder } from "@/utils/dailyGoalNotificationCheck";
 
 const guestSession = { hasHydrated: true, isGuest: true, isAuthenticated: false };
-const onboardedProfile = (commitment: string, notificationsEnabled = true) => ({ commitment, notificationsEnabled, goal: "FUN" });
+const onboardedProfile = (commitment: string, notificationsEnabled = true) => ({ commitment, notificationsEnabled });
+const onboardingDone = async (key: string) => (key === "onboarding_seen_v1" ? "1" : null);
 const storageKeys = ["scheduledNotificationId", "dailyPracticeReminderFp"];
 const denied = { status: "denied" } as never;
 
 describe("syncDailyPracticeReminder", () => {
-  beforeEach(() => { vi.clearAllMocks(); vi.mocked(Notifications.getAllScheduledNotificationsAsync).mockResolvedValue([]); vi.mocked(AsyncStorage.getItem).mockResolvedValue(null); });
+  beforeEach(() => { vi.clearAllMocks(); vi.mocked(Notifications.getAllScheduledNotificationsAsync).mockResolvedValue([]); vi.mocked(AsyncStorage.getItem).mockImplementation(onboardingDone); });
 
   it("guest after onboarding: schedules daily 19:00 with the commitment minutes in the body", async () => {
     getStateMock.mockReturnValue({ session: guestSession, profile: onboardedProfile("15") });
@@ -38,8 +39,9 @@ describe("syncDailyPracticeReminder", () => {
     expect(AsyncStorage.multiSet).toHaveBeenCalledWith([["scheduledNotificationId", "nid-guest"], ["dailyPracticeReminderFp", "true|15|true|false"]]);
   });
 
-  it("before onboarding (no goal yet): never asks for permission and schedules nothing", async () => {
-    getStateMock.mockReturnValue({ session: guestSession, profile: { commitment: "15", notificationsEnabled: true } });
+  it("before the wizard is persisted: never asks for permission and schedules nothing", async () => {
+    getStateMock.mockReturnValue({ session: guestSession, profile: onboardedProfile("15") });
+    vi.mocked(AsyncStorage.getItem).mockResolvedValue(null);
     await syncDailyPracticeReminder();
     expect(Notifications.requestPermissionsAsync).not.toHaveBeenCalled();
     expect(Notifications.scheduleNotificationAsync).not.toHaveBeenCalled();
@@ -48,7 +50,7 @@ describe("syncDailyPracticeReminder", () => {
 
   it("signed-in with notifications off: cancels everything and clears the stored keys", async () => {
     getStateMock.mockReturnValue({ session: { hasHydrated: true, isGuest: false, isAuthenticated: true }, profile: onboardedProfile("10", false) });
-    vi.mocked(AsyncStorage.getItem).mockResolvedValueOnce(null).mockResolvedValueOnce("prev-id");
+    vi.mocked(AsyncStorage.getItem).mockResolvedValueOnce("1").mockResolvedValueOnce(null).mockResolvedValueOnce("prev-id");
     await syncDailyPracticeReminder();
     expect(Notifications.cancelAllScheduledNotificationsAsync).toHaveBeenCalledTimes(1);
     expect(Notifications.scheduleNotificationAsync).not.toHaveBeenCalled();
@@ -58,7 +60,7 @@ describe("syncDailyPracticeReminder", () => {
   it("skips scheduling when fingerprint, stored id and OS state are unchanged", async () => {
     getStateMock.mockReturnValue({ session: guestSession, profile: onboardedProfile("25") });
     vi.mocked(AsyncStorage.getItem).mockImplementation(async (k: string) =>
-      k === "dailyPracticeReminderFp" ? "true|25|true|false" : k === "scheduledNotificationId" ? "same" : null,
+      k === "dailyPracticeReminderFp" ? "true|25|true|false" : k === "scheduledNotificationId" ? "same" : onboardingDone(k),
     );
     vi.mocked(Notifications.getAllScheduledNotificationsAsync).mockResolvedValue([{ identifier: "same" } as never]);
     await syncDailyPracticeReminder();

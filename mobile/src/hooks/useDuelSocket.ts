@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import store from "@/redux/store";
@@ -18,7 +18,7 @@ export function useDuelSocketBootstrap() {
     accessTokenRef.current = accessToken;
     if (duelConnectionRefs.socket) duelConnectionRefs.socket.auth = { token: accessToken ?? "" };
   }, [accessToken]);
-  const url = useMemo(() => DUEL_SOCKET_URL, []);
+  const url = DUEL_SOCKET_URL;
   useEffect(() => {
     connectDuelSocket(url, accessTokenRef.current);
     return () => {
@@ -35,7 +35,7 @@ export function useDuelMatchmakingSocket() {
   const opponent = useAppSelector((s) => s.duelLive.opponent);
   const queueRejected = useAppSelector((s) => s.duelLive.queueRejected);
   const connectionLost = useAppSelector((s) => s.duelLive.connectionLost);
-  const url = useMemo(() => DUEL_SOCKET_URL, []);
+  const url = DUEL_SOCKET_URL;
   const joinQueue = useCallback(
     async (p: { userId: string; token: string }) => {
       await refreshSessionOrLogoutOnForeground(dispatch);

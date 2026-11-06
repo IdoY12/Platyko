@@ -24,6 +24,7 @@ vi.mock("@/hooks/useAuthenticatedService", () => ({
 }));
 vi.mock("@/services/auth", () => ({ apiErrorMessage: () => "error" }));
 vi.mock("@/services/auth-aware/UserService", () => ({ default: class {} }));
+vi.mock("@/utils/dailyGoalNotificationCheck", () => ({ syncDailyPracticeReminder: vi.fn(async () => {}) }));
 
 import { completeOnboarding } from "@/redux/profile-slice";
 import { useOnboardingWizard } from "@/hooks/useOnboardingWizard";

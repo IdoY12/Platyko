@@ -26,12 +26,13 @@ function registerGlobalErrorHandlers(): void {
   });
 }
 
-function registerUnhandledRejectionLogger(): () => void {
-  const logUnhandledRejection = (event: PromiseRejectionEvent) =>
-    logError("[APP]", event.reason, { type: "unhandledrejection" });
-  if (typeof addEventListener !== "function") return () => {};
-  addEventListener("unhandledrejection", logUnhandledRejection as EventListener);
-  return () => removeEventListener("unhandledrejection", logUnhandledRejection as EventListener);
+type HermesRejectionTracker = { enablePromiseRejectionTracker?: (options: { allRejections: boolean; onUnhandled: (id: number, reason: unknown) => void }) => void };
+
+/** Hermes has no `unhandledrejection` event; its own tracker is the only hook, and RN wires it in dev builds only. */
+function registerUnhandledRejectionLogger(): void {
+  if (__DEV__) return;
+  const hermes = (globalThis as { HermesInternal?: HermesRejectionTracker }).HermesInternal;
+  hermes?.enablePromiseRejectionTracker?.({ allRejections: true, onUnhandled: (_id, reason) => logError("[APP]", reason, { type: "unhandledrejection" }) });
 }
 
 export function attachAppShellForegroundInfrastructure(setIsConnected: (next: boolean) => void): () => void {
@@ -49,10 +50,6 @@ export function attachAppShellForegroundInfrastructure(setIsConnected: (next: bo
         shouldShowList: true,
       }),
   });
-  const unsubscribeNetInfo = NetInfo.addEventListener((state) => setIsConnected(Boolean(state.isConnected)));
-  const unsubscribeUnhandledRejectionLogger = registerUnhandledRejectionLogger();
-  return () => {
-    unsubscribeNetInfo();
-    unsubscribeUnhandledRejectionLogger();
-  };
+  registerUnhandledRejectionLogger();
+  return NetInfo.addEventListener((state) => setIsConnected(Boolean(state.isConnected)));
 }

@@ -65,8 +65,8 @@ export function AuthCredentials(p: Props) {
       </View>
       {p.formHint ? <Text style={styles.errorText}>{p.formHint}</Text> : null}
       <PressableScale
-        disabled={!p.canSubmit}
-        style={[styles.primaryButton, !p.canSubmit && styles.disabled]}
+        disabled={!p.canSubmit || p.loading}
+        style={[styles.primaryButton, (!p.canSubmit || p.loading) && styles.disabled]}
         haptic="medium"
         onPress={p.onSubmit}
         accessibilityLabel={a11y}
