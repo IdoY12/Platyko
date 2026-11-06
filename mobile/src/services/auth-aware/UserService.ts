@@ -12,29 +12,29 @@ import type UserProfile from "@/models/UserProfile";
 export default class UserService extends AuthAware {
   async getMe(): Promise<AuthMeResponse> {
     const { data } = await this.axiosInstance.get<AuthMeResponse>("/auth/me");
-    return data; 
+    return data;
   }
-  
+
   async logout(refreshToken: string): Promise<{ ok: boolean }> {
     const { data } = await this.axiosInstance.post<{ ok: boolean }>("/auth/logout", { refreshToken });
-    return data; 
+    return data;
   }
-  
+
   async getProfile(): Promise<UserProfile> {
     const { data } = await this.axiosInstance.get<UserProfile>("/user/profile");
     return data;
   }
-  
+
   async patchUsername(username: string): Promise<UserProfile> {
     const { data } = await this.axiosInstance.patch<UserProfile>("/user/profile", { username });
     return data;
   }
-  
+
   async patchPreferences(body: Partial<{
     goal: string; experienceLevel: string; dailyCommitmentMinutes: number; notificationsEnabled: boolean;
   }>): Promise<UserPreferences> {
     const { data } = await this.axiosInstance.patch<UserPreferences>("/user/preferences", body);
-    return data; 
+    return data;
   }
 
   async getPreferencesGet(): Promise<UserPreferencesGet> {
@@ -60,11 +60,8 @@ export default class UserService extends AuthAware {
     const { data } = await this.axiosInstance.patch<AvatarPatchResponse>("/user/avatar", { avatarUrl });
     return data;
   }
-  /**
-   * Upload a JPEG image blob to the backend, which stores it in S3 and returns the
-   * public URL. Using fetch (not axios) so the binary body is sent correctly on
-   * React Native / Hermes. The Authorization header is added manually from this.jwt.
-   */
+
+  /** JPEG upload via fetch (axios mangles binary bodies on Hermes); the backend stores it in S3 and returns the URL. */
   async uploadAvatarBlob(blob: Blob): Promise<{ publicUrl: string }> {
     const response = await fetch(`${API_BASE_URL}/user/avatar/upload`, {
       method: "PUT", headers: { "Content-Type": "image/jpeg", Authorization: `Bearer ${this.jwt}` }, body: blob,

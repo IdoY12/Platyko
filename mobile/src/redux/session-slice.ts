@@ -26,11 +26,7 @@ const initialState: SessionState = {
   bootstrapError: null,
 };
 
-type SignInPayload = {
-  userId: string;
-  accessToken: string;
-  refreshToken: string;
-};
+type SignInPayload = { userId: string; accessToken: string; refreshToken: string };
 
 function rollStudyCalendarIfNeeded(state: SessionState) {
   const dateKey = new Date().toLocaleDateString("en-CA");
@@ -44,66 +40,24 @@ const sessionSlice = createSlice({
   name: "session",
   initialState,
   reducers: {
-    hydrateSession: (
-      state,
-      a: PayloadAction<Partial<SessionState> & { hasCompletedOnboarding?: unknown }>,
-    ) => {
-      const { hasCompletedOnboarding: _legacyOnboardingRemoved, ...rest } = a.payload;
-      Object.assign(state, rest);
-    },
-
-    setHasHydrated: (state, a: PayloadAction<boolean>) => {
-      state.hasHydrated = a.payload;
-    },
-
-    setAuthChecked: (state, a: PayloadAction<boolean>) => {
-      state.authChecked = a.payload;
-    },
-
-    reconcileStudyCalendarDay: (state) => {
-      rollStudyCalendarIfNeeded(state);
-    },
-
+    hydrateSession: (state, a: PayloadAction<Partial<SessionState>>) => void Object.assign(state, a.payload),
+    setHasHydrated: (state, a: PayloadAction<boolean>) => void (state.hasHydrated = a.payload),
+    setAuthChecked: (state, a: PayloadAction<boolean>) => void (state.authChecked = a.payload),
+    reconcileStudyCalendarDay: (state) => rollStudyCalendarIfNeeded(state),
     addStudySeconds: (state, a: PayloadAction<number>) => {
       rollStudyCalendarIfNeeded(state);
       state.studySecondsToday += a.payload;
     },
-
     enterGuestMode: (state) => {
-      Object.assign(state, {
-        isAuthenticated: false,
-        isGuest: true,
-        accessToken: null,
-        refreshToken: null,
-        userId: null,
-      });
+      Object.assign(state, { isAuthenticated: false, isGuest: true, accessToken: null, refreshToken: null, userId: null });
     },
-
     signIn: (state, a: PayloadAction<SignInPayload>) => {
       const { userId, accessToken, refreshToken } = a.payload;
-      Object.assign(state, {
-        isAuthenticated: true,
-        isGuest: false,
-        userId,
-        accessToken,
-        refreshToken,
-        bootstrapError: null,
-      });
+      Object.assign(state, { isAuthenticated: true, isGuest: false, userId, accessToken, refreshToken, bootstrapError: null });
     },
-
-    setBootstrapError: (state, a: PayloadAction<string | null>) => {
-      state.bootstrapError = a.payload;
-    },
-
-    signOut: (state) => {
-      const h = state.hasHydrated;
-      return { ...initialState, hasHydrated: h, authChecked: true };
-    },
-
-    updateTokens: (
-      state,
-      a: PayloadAction<{ accessToken: string; refreshToken: string }>,
-    ) => {
+    setBootstrapError: (state, a: PayloadAction<string | null>) => void (state.bootstrapError = a.payload),
+    signOut: (state) => ({ ...initialState, hasHydrated: state.hasHydrated, authChecked: true }),
+    updateTokens: (state, a: PayloadAction<{ accessToken: string; refreshToken: string }>) => {
       state.accessToken = a.payload.accessToken;
       state.refreshToken = a.payload.refreshToken;
     },

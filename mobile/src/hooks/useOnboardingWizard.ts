@@ -9,6 +9,12 @@ import { useAuthenticatedService } from "@/hooks/useAuthenticatedService";
 import { apiErrorMessage } from "@/services/auth";
 import UserService from "@/services/auth-aware/UserService";
 
+const PATH_TEXT_BY_LEVEL: Record<Experience, string> = {
+  JUNIOR: "You will start with fundamentals: variables, loops, and simple functions.",
+  MID: "You will practice closures, async/await, and moderate algorithm challenges.",
+  SENIOR: "You will get advanced async patterns, architecture, and performance-focused practice.",
+};
+
 type UseOnboardingWizardOptions = {
   /** Called after wizard answers are saved and `ONBOARDING_SEEN_STORAGE_KEY` is written (so the root navigator can switch to the app shell). */
   onPersistedToDevice: () => void;
@@ -31,20 +37,9 @@ export function useOnboardingWizard(options: UseOnboardingWizardOptions) {
     logNav("screen:enter", { screen: "OnboardingFlow" });
     return () => logNav("screen:leave", { screen: "OnboardingFlow" });
   }, []);
+  useEffect(() => logOnboarding("step:view", { step }), [step]);
 
-  useEffect(() => {
-    logOnboarding("step:view", { step });
-  }, [step]);
-
-  const pathText = useMemo(
-    () =>
-      level === "SENIOR"
-        ? "You will get advanced async patterns, architecture, and performance-focused practice."
-        : level === "MID"
-          ? "You will practice closures, async/await, and moderate algorithm challenges."
-          : "You will start with fundamentals: variables, loops, and simple functions.",
-    [level],
-  );
+  const pathText = useMemo(() => PATH_TEXT_BY_LEVEL[level ?? "JUNIOR"], [level]);
 
   const submitOnboarding = async () => {
     if (!level || !goal || submitting) return;
@@ -55,26 +50,16 @@ export function useOnboardingWizard(options: UseOnboardingWizardOptions) {
     try {
       dispatch(setOnboarding({ goal, experienceLevel: level, commitment }));
 
-      if (accessToken && user) {
+      if (accessToken) {
         const response = await user.patchPreferences({
           goal,
           experienceLevel: level,
           dailyCommitmentMinutes: Number(commitment),
           notificationsEnabled,
         });
-        if (!response.experienceLevel) {
-          setError("Could not save your setup");
-          return;
-        }
+        if (!response.experienceLevel) { setError("Could not save your setup"); return; }
         logOnboarding("submit:success", { experienceLevel: response.experienceLevel });
-        dispatch(
-          completeOnboarding({
-            experienceLevel: response.experienceLevel,
-            goal,
-            commitment,
-            notificationsEnabled: response.notificationsEnabled,
-          }),
-        );
+        dispatch(completeOnboarding({ experienceLevel: response.experienceLevel, goal, commitment, notificationsEnabled: response.notificationsEnabled }));
       } else {
         dispatch(completeOnboarding({ experienceLevel: level, goal, commitment, notificationsEnabled }));
       }
@@ -89,19 +74,5 @@ export function useOnboardingWizard(options: UseOnboardingWizardOptions) {
     }
   };
 
-  return {
-    step,
-    setStep,
-    level,
-    setLevel,
-    goal,
-    setGoal,
-    commitment,
-    setCommitment,
-    accessToken,
-    submitting,
-    error,
-    pathText,
-    submitOnboarding,
-  };
+  return { step, setStep, level, setLevel, goal, setGoal, commitment, setCommitment, accessToken, submitting, error, pathText, submitOnboarding };
 }

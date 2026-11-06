@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { AppState, type AppStateStatus } from "react-native";
+import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { logNav } from "@/utils/logger";
 import type Exercise from "@/models/Exercise";
@@ -11,16 +10,11 @@ import {
   setCurrentExperienceLevel,
   setExerciseIndex as setSavedExerciseIndex,
 } from "@/redux/lesson-slice";
-import { addStudySeconds } from "@/redux/session-slice";
-import { useAuthenticatedService } from "@/hooks/useAuthenticatedService";
-import UserService from "@/services/auth-aware/UserService";
-import { drainRefInt } from "@/utils/formatHelpers";
+import { useLessonPracticeTime } from "@/hooks/useLessonPracticeTime";
 import { runLessonExerciseLoad } from "@/utils/runLessonExerciseLoad";
-import { tryPostPracticeLog } from "@/utils/tryPostPracticeLog";
 
 export function useLessonLoad(experienceLevel: Experience, accessToken: string | null, blockIndex: number) {
   const dispatch = useAppDispatch();
-  const user = useAuthenticatedService(UserService);
   const savedLocalIndex = useAppSelector(
     (s) => s.lesson.blockProgress?.[blockProgressKey(experienceLevel, blockIndex)] ?? 0,
   );
@@ -31,17 +25,6 @@ export function useLessonLoad(experienceLevel: Experience, accessToken: string |
   const [correctCount, setCorrectCount] = useState(0);
   const [attemptedCount, setAttemptedCount] = useState(0);
   const isFocused = useIsFocused();
-  const appStateRef = useRef<AppStateStatus>(AppState.currentState);
-  const accessTokenRef = useRef(accessToken);
-  accessTokenRef.current = accessToken;
-  const trackedRef = useRef(0);
-
-  const flushPractice = useCallback(async () => {
-    if (!accessTokenRef.current || trackedRef.current <= 0 || !user) return;
-    const seconds = drainRefInt(trackedRef);
-    const ok = await tryPostPracticeLog(user, seconds);
-    if (!ok) { trackedRef.current += seconds; }
-  }, [user]);
 
   useEffect(() => {
     logNav("screen:enter", { screen: "LessonScreen", experienceLevel });
@@ -72,27 +55,7 @@ export function useLessonLoad(experienceLevel: Experience, accessToken: string |
     dispatch(saveBlockProgress({ level: experienceLevel, blockIndex, exerciseIndex }));
   }, [blockIndex, dispatch, exerciseIndex, experienceLevel, exercises.length, loading]);
 
-  useEffect(() => {
-    const sub = AppState.addEventListener("change", (next) => {
-      if (appStateRef.current === "active" && next !== "active") void flushPractice();
-      appStateRef.current = next;
-    });
-    return () => sub.remove();
-  }, [flushPractice]);
-
-  useEffect(() => {
-    if (!isFocused || loading || !exercises[exerciseIndex]) return;
-    const t = setInterval(() => {
-      if (appStateRef.current === "active") {
-        trackedRef.current += 1;
-        dispatch(addStudySeconds(1));
-      }
-    }, 1000);
-    return () => {
-      clearInterval(t);
-      void flushPractice();
-    };
-  }, [dispatch, exerciseIndex, exercises, flushPractice, isFocused, loading]);
+  useLessonPracticeTime(accessToken, isFocused && !loading && Boolean(exercises[exerciseIndex]), exerciseIndex);
 
   return {
     exercises,

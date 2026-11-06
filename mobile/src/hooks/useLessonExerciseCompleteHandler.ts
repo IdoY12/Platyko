@@ -57,13 +57,7 @@ export function useLessonExerciseCompleteHandler(
 
       if (!isGuest && typeof completion.submitResult.streakCurrent === "number") {
         const today = getStreakCalendarDate();
-        dispatch(
-          hydrateStreak({
-            streakCurrent: completion.submitResult.streakCurrent,
-            lastActivityDate: today,
-            lastCheckedDate: today,
-          }),
-        );
+        dispatch(hydrateStreak({ streakCurrent: completion.submitResult.streakCurrent, lastActivityDate: today, lastCheckedDate: today }));
       }
 
       if (load.exerciseIndex + 1 >= load.exercises.length) {
@@ -71,22 +65,6 @@ export function useLessonExerciseCompleteHandler(
         dispatch(resetBlockProgress({ level: experienceLevel, blockIndex }));
       }
     },
-    [
-      addXp,
-      onQualifyingLessonXpEarned,
-      blockIndex,
-      isGuest,
-      load.attemptedCount,
-      load.correctCount,
-      load.exerciseIndex,
-      load.exercises.length,
-      load.setAttemptedCount,
-      load.setCorrectCount,
-      load.setExerciseIndex,
-      lessonTitle,
-      navigation,
-      experienceLevel,
-      dispatch,
-    ],
+    [addXp, onQualifyingLessonXpEarned, blockIndex, isGuest, load.attemptedCount, load.correctCount, load.exerciseIndex, load.exercises.length, load.setAttemptedCount, load.setCorrectCount, load.setExerciseIndex, lessonTitle, navigation, experienceLevel, dispatch],
   );
 }
