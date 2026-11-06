@@ -7,6 +7,10 @@ export function isDatabaseUnavailableError(error: unknown): boolean {
   if (error instanceof Prisma.PrismaClientInitializationError) {
     return true;
   }
+  // P1000-P1002, P1008, P1017: cannot reach / authenticate / connection dropped mid-request.
+  if (error instanceof Prisma.PrismaClientKnownRequestError && /^P10(0[0128]|17)$/.test(error.code)) {
+    return true;
+  }
   const msg = error instanceof Error ? error.message : String(error);
   const name = error instanceof Error ? error.name : "";
 
