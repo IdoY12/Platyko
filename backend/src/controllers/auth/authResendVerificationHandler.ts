@@ -7,7 +7,7 @@ import {
   pendingResendCooldownSecondsLeft,
   refreshPendingRegistrationCode,
 } from "../../services/auth/pendingRegistrations.js";
-import { sendVerificationCodeEmail } from "../../services/auth/sendVerificationEmail.js";
+import { EMAIL_SEND_FAILED_MESSAGE, sendVerificationCodeEmail } from "../../services/auth/sendVerificationEmail.js";
 import { PENDING_MISSING_MESSAGE, PENDING_REPLACED_MESSAGE } from "./authVerifyEmailHandler.js";
 
 export async function authResendVerificationHandler(request: Request, response: Response): Promise<void> {
@@ -30,9 +30,8 @@ export async function authResendVerificationHandler(request: Request, response: 
       return;
     }
     const code = await refreshPendingRegistrationCode(email);
-    const sent = await sendVerificationCodeEmail(email, code);
-    if (!sent) {
-      response.status(502).json({ error: "Could not send the email. Try again later." });
+    if (!(await sendVerificationCodeEmail(email, code))) {
+      response.status(502).json({ error: EMAIL_SEND_FAILED_MESSAGE });
       return;
     }
     logInfo("[AUTH]", "resend-verification:sent", { email });

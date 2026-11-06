@@ -5,7 +5,7 @@ import { logError, logInfo, logWarn } from "../../utils/logger.js";
 import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
 import type { RegisterBody } from "../../validators/authValidators.js";
 import { createPendingRegistration, purgeStalePendingRegistrations } from "../../services/auth/pendingRegistrations.js";
-import { sendVerificationCodeEmail } from "../../services/auth/sendVerificationEmail.js";
+import { EMAIL_SEND_FAILED_MESSAGE, sendVerificationCodeEmail } from "../../services/auth/sendVerificationEmail.js";
 
 /**
  * Stores a pending registration and emails its code. No User row exists until
@@ -24,7 +24,10 @@ export async function authRegisterHandler(request: Request, response: Response):
       return;
     }
     const { code, registrationToken } = await createPendingRegistration({ email, username, password, snapshot });
-    await sendVerificationCodeEmail(email, code);
+    if (!(await sendVerificationCodeEmail(email, code))) {
+      response.status(502).json({ error: EMAIL_SEND_FAILED_MESSAGE });
+      return;
+    }
     logInfo("[AUTH]", "register:pending", { email });
     response.status(202).json({ email, registrationToken });
   } catch (error) {
