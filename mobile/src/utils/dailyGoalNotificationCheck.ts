@@ -27,8 +27,10 @@ async function runReminderSync(): Promise<void> {
   if (!session.hasHydrated) return;
 
   const dailyGoalMinutes = Number(profile.commitment);
-  const notificationsEnabled = profile.notificationsEnabled;
-  const allow = (session.isGuest || session.isAuthenticated) && notificationsEnabled;
+  // `goal` is only set once the onboarding wizard (or a server profile) chose one, so the OS permission
+  // prompt can never appear on top of the first-launch wizard.
+  const onboardingDone = Boolean(profile.goal);
+  const allow = (session.isGuest || session.isAuthenticated) && profile.notificationsEnabled && onboardingDone;
   const fp = `${allow}|${dailyGoalMinutes}|${session.isGuest}|${session.isAuthenticated}`;
 
   const fpStored = await AsyncStorage.getItem(dailyPracticeReminderFpKey);

@@ -36,7 +36,7 @@ describe("syncDailyPracticeReminder hardening", () => {
     fakes.scheduled.splice(0);
     getStateMock.mockReturnValue({
       session: { hasHydrated: true, isGuest: true, isAuthenticated: false },
-      profile: { commitment: "15", notificationsEnabled: true },
+      profile: { commitment: "15", notificationsEnabled: true, goal: "FUN" },
     });
   });
 

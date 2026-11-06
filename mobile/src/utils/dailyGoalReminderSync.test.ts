@@ -1,10 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 vi.mock("react-native", () => ({ Platform: { OS: "ios" } }));
-
 vi.mock("@react-native-async-storage/async-storage", () => ({
   default: { getItem: vi.fn(), multiSet: vi.fn(), multiRemove: vi.fn() },
 }));
-
 vi.mock("expo-notifications", () => ({
   SchedulableTriggerInputTypes: { DAILY: "daily" },
   PermissionStatus: { GRANTED: "granted" },
@@ -14,7 +12,6 @@ vi.mock("expo-notifications", () => ({
   cancelAllScheduledNotificationsAsync: vi.fn(),
   getAllScheduledNotificationsAsync: vi.fn(),
 }));
-
 const getStateMock = vi.fn<() => unknown>();
 vi.mock("@/redux/store", () => ({ default: { getState: () => getStateMock() } }));
 
@@ -22,78 +19,60 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from "expo-notifications";
 import { syncDailyPracticeReminder } from "@/utils/dailyGoalNotificationCheck";
 
+const guestSession = { hasHydrated: true, isGuest: true, isAuthenticated: false };
+const onboardedProfile = (commitment: string, notificationsEnabled = true) => ({ commitment, notificationsEnabled, goal: "FUN" });
+const storageKeys = ["scheduledNotificationId", "dailyPracticeReminderFp"];
+const denied = { status: "denied" } as never;
+
 describe("syncDailyPracticeReminder", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    vi.mocked(Notifications.getAllScheduledNotificationsAsync).mockResolvedValue([]);
-  });
+  beforeEach(() => { vi.clearAllMocks(); vi.mocked(Notifications.getAllScheduledNotificationsAsync).mockResolvedValue([]); vi.mocked(AsyncStorage.getItem).mockResolvedValue(null); });
 
-  it("guest: schedules daily 19:00 and body includes dailyGoalMinutes from commitment", async () => {
-    getStateMock.mockReturnValue({
-      session: { hasHydrated: true, isGuest: true, isAuthenticated: false },
-      profile: { commitment: "15", notificationsEnabled: true },
-    });
-    vi.mocked(AsyncStorage.getItem).mockResolvedValue(null);
+  it("guest after onboarding: schedules daily 19:00 with the commitment minutes in the body", async () => {
+    getStateMock.mockReturnValue({ session: guestSession, profile: onboardedProfile("15") });
     vi.mocked(Notifications.scheduleNotificationAsync).mockResolvedValue("nid-guest");
-
     await syncDailyPracticeReminder();
-
     expect(Notifications.scheduleNotificationAsync).toHaveBeenCalledTimes(1);
     const req = vi.mocked(Notifications.scheduleNotificationAsync).mock.calls[0][0];
     expect(req.content.body).toContain("15");
     expect(req.trigger).toEqual({ type: "daily", hour: 19, minute: 0 });
-    expect(AsyncStorage.multiSet).toHaveBeenCalledWith([
-      ["scheduledNotificationId", "nid-guest"],
-      ["dailyPracticeReminderFp", "true|15|true|false"],
-    ]);
+    expect(AsyncStorage.multiSet).toHaveBeenCalledWith([["scheduledNotificationId", "nid-guest"], ["dailyPracticeReminderFp", "true|15|true|false"]]);
   });
 
-  it("signed-in notifications off: cancels all scheduled notifications and clears AsyncStorage keys", async () => {
-    getStateMock.mockReturnValue({
-      session: { hasHydrated: true, isGuest: false, isAuthenticated: true },
-      profile: { commitment: "10", notificationsEnabled: false },
-    });
-    vi.mocked(AsyncStorage.getItem).mockResolvedValueOnce(null).mockResolvedValueOnce("prev-id");
-
+  it("before onboarding (no goal yet): never asks for permission and schedules nothing", async () => {
+    getStateMock.mockReturnValue({ session: guestSession, profile: { commitment: "15", notificationsEnabled: true } });
     await syncDailyPracticeReminder();
+    expect(Notifications.requestPermissionsAsync).not.toHaveBeenCalled();
+    expect(Notifications.scheduleNotificationAsync).not.toHaveBeenCalled();
+    expect(AsyncStorage.multiRemove).toHaveBeenCalledWith(storageKeys);
+  });
 
+  it("signed-in with notifications off: cancels everything and clears the stored keys", async () => {
+    getStateMock.mockReturnValue({ session: { hasHydrated: true, isGuest: false, isAuthenticated: true }, profile: onboardedProfile("10", false) });
+    vi.mocked(AsyncStorage.getItem).mockResolvedValueOnce(null).mockResolvedValueOnce("prev-id");
+    await syncDailyPracticeReminder();
     expect(Notifications.cancelAllScheduledNotificationsAsync).toHaveBeenCalledTimes(1);
     expect(Notifications.scheduleNotificationAsync).not.toHaveBeenCalled();
-    expect(AsyncStorage.multiRemove).toHaveBeenCalledWith(["scheduledNotificationId", "dailyPracticeReminderFp"]);
+    expect(AsyncStorage.multiRemove).toHaveBeenCalledWith(storageKeys);
   });
 
-  it("skips schedule when fingerprint, stored id, and OS state are unchanged", async () => {
-    getStateMock.mockReturnValue({
-      session: { hasHydrated: true, isGuest: true, isAuthenticated: false },
-      profile: { commitment: "25", notificationsEnabled: true },
-    });
-    const fp = "true|25|true|false";
+  it("skips scheduling when fingerprint, stored id and OS state are unchanged", async () => {
+    getStateMock.mockReturnValue({ session: guestSession, profile: onboardedProfile("25") });
     vi.mocked(AsyncStorage.getItem).mockImplementation(async (k: string) =>
-      k === "dailyPracticeReminderFp" ? fp : k === "scheduledNotificationId" ? "same" : null,
+      k === "dailyPracticeReminderFp" ? "true|25|true|false" : k === "scheduledNotificationId" ? "same" : null,
     );
-    vi.mocked(Notifications.getAllScheduledNotificationsAsync).mockResolvedValue([
-      { identifier: "same" } as Awaited<ReturnType<typeof Notifications.getAllScheduledNotificationsAsync>>[number],
-    ]);
-
+    vi.mocked(Notifications.getAllScheduledNotificationsAsync).mockResolvedValue([{ identifier: "same" } as never]);
     await syncDailyPracticeReminder();
-
     expect(Notifications.scheduleNotificationAsync).not.toHaveBeenCalled();
     expect(Notifications.cancelAllScheduledNotificationsAsync).not.toHaveBeenCalled();
   });
 
   it("permission denied: schedules nothing and stores nothing", async () => {
-    getStateMock.mockReturnValue({
-      session: { hasHydrated: true, isGuest: true, isAuthenticated: false },
-      profile: { commitment: "15", notificationsEnabled: true },
-    });
-    vi.mocked(AsyncStorage.getItem).mockResolvedValue(null);
-    vi.mocked(Notifications.getPermissionsAsync).mockResolvedValue({ status: "denied" } as never);
-    vi.mocked(Notifications.requestPermissionsAsync).mockResolvedValue({ status: "denied" } as never);
-
+    getStateMock.mockReturnValue({ session: guestSession, profile: onboardedProfile("15") });
+    vi.mocked(Notifications.getPermissionsAsync).mockResolvedValue(denied);
+    vi.mocked(Notifications.requestPermissionsAsync).mockResolvedValue(denied);
     await syncDailyPracticeReminder();
-
     expect(Notifications.scheduleNotificationAsync).not.toHaveBeenCalled();
     expect(AsyncStorage.multiSet).not.toHaveBeenCalled();
-    expect(AsyncStorage.multiRemove).toHaveBeenCalledWith(["scheduledNotificationId", "dailyPracticeReminderFp"]);
+    expect(AsyncStorage.multiRemove).toHaveBeenCalledWith(storageKeys);
   });
 });
