@@ -1,4 +1,4 @@
-import { MAX_XP_TOTAL, XP_PER_CORRECT_EXERCISE } from "@project/xp-constants";
+import { MAX_XP_TOTAL, levelFromXpTotal } from "@project/xp-constants";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface XpState {
@@ -17,7 +17,7 @@ const xpSlice = createSlice({
   reducers: {
     addXp: (state, action: PayloadAction<number>) => {
       state.xpTotal = Math.min(state.xpTotal + action.payload, MAX_XP_TOTAL);
-      state.level = Math.max(1, Math.floor(state.xpTotal / XP_PER_CORRECT_EXERCISE) + 1);
+      state.level = levelFromXpTotal(state.xpTotal);
     },
     hydrateXp: (state, action: PayloadAction<Partial<XpState>>) => {
       Object.assign(state, action.payload);

@@ -31,20 +31,12 @@ function assignFromPersisted(state: StreakState, next: DailyXpStreakPersisted): 
   state.lastCheckedDate = next.lastCheckedDate;
 }
 
-type LegacyHydrate = Partial<StreakState> & { streakDays?: boolean[] };
-
 const streakSlice = createSlice({
   name: "streak",
   initialState,
   reducers: {
-    hydrateStreak: (state, action: PayloadAction<LegacyHydrate>) => {
+    hydrateStreak: (state, action: PayloadAction<Partial<StreakState>>) => {
       const payload = action.payload;
-      const isLegacySnapshot =
-        Array.isArray(payload.streakDays) && payload.lastCheckedDate === undefined && payload.lastActivityDate === undefined;
-      if (isLegacySnapshot) {
-        Object.assign(state, initialState);
-        return;
-      }
       if (typeof payload.streakCurrent === "number") state.streakCurrent = payload.streakCurrent;
       if (payload.lastActivityDate !== undefined) state.lastActivityDate = payload.lastActivityDate;
       if (payload.lastCheckedDate !== undefined) state.lastCheckedDate = payload.lastCheckedDate;

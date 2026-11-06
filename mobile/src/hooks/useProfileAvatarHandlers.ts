@@ -6,14 +6,14 @@ import { handleAvatarUploadError, runAvatarUpload } from "@/utils/profileAvatarU
 import type { ProfileDraftState } from "./useProfileDraftState";
 import type { ProfileReduxState } from "./useProfileRedux";
 
-export function useProfileAvatarHandlers(r: ProfileReduxState, d: ProfileDraftState, user: UserService | null) {
+export function useProfileAvatarHandlers(r: ProfileReduxState, d: ProfileDraftState, user: UserService) {
   const dispatch = useAppDispatch();
   const resetTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   React.useEffect(() => () => { if (resetTimerRef.current) clearTimeout(resetTimerRef.current); }, []);
 
   const pickImageAndUpload = React.useCallback(
     async (source: "camera" | "library") => {
-      if (!r.accessToken || !user || d.uploadingAvatar) return;
+      if (!r.accessToken || d.uploadingAvatar) return;
 
       try {
         d.setUploadingAvatar(true);

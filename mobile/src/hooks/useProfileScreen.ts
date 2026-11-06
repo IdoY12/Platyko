@@ -13,7 +13,7 @@ import { useAuthenticatedService } from "@/hooks/useAuthenticatedService";
 import UserServiceClass from "@/services/auth-aware/UserService";
 
 function useProfileLifecycle(
-  user: UserService | null,
+  user: UserService,
   accessToken: string | null,
   dispatch: AppDispatch,
   username: string,
@@ -32,7 +32,7 @@ function useProfileLifecycle(
   draftsRef.current = drafts;
 
   useEffect(() => {
-    if (!accessToken || !user) {
+    if (!accessToken) {
       setScreenLoading(false);
       return;
     }

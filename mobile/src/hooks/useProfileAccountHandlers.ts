@@ -11,11 +11,11 @@ import { confirmLogout } from "@/utils/confirmLogout";
 import type { ProfileDraftState } from "./useProfileDraftState";
 import type { ProfileReduxState } from "./useProfileRedux";
 
-export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftState, user: UserService | null) {
+export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftState, user: UserService) {
   const dispatch = useAppDispatch();
 
   const onSaveLearningSettings = React.useCallback(async () => {
-    if (!r.accessToken || !user || d.saving) return;
+    if (!r.accessToken || d.saving) return;
     d.setSaving(true);
     d.setSaveMessage(null);
     await patchLearningSettings(user, d.draftGoal, d.draftLevel, d.draftCommitment, d.draftNotifications, dispatch, d.setSaveMessage);
@@ -23,14 +23,14 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
   }, [r.accessToken, d, dispatch, user]);
 
   const onSaveUsername = React.useCallback(async () => {
-    if (!r.accessToken || !user || !d.draftUsername.trim() || d.busyAction) return;
+    if (!r.accessToken || !d.draftUsername.trim() || d.busyAction) return;
     d.setBusyAction("username");
     await updateUsername(user, d.draftUsername.trim(), dispatch, () => d.setUsernameModalVisible(false), d.setSaveMessage);
     d.setBusyAction(null);
   }, [r.accessToken, d, dispatch, user]);
 
   const onChangePassword = React.useCallback(async () => {
-    if (!r.accessToken || !user || d.busyAction) return;
+    if (!r.accessToken || d.busyAction) return;
 
     const passwordError = passwordPolicyError(d.newPassword);
     if (passwordError) {
@@ -47,7 +47,7 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
   }, [r.accessToken, d, user]);
 
   const onDeleteAccount = React.useCallback(async () => {
-    if (!r.accessToken || !user || d.confirmDeleteText !== "DELETE" || d.busyAction) return;
+    if (!r.accessToken || d.confirmDeleteText !== "DELETE" || d.busyAction) return;
     d.setBusyAction("delete");
     await deleteAccountRequest(user, dispatch, () => {
       d.setDeleteModalVisible(false);

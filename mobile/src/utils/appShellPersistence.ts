@@ -57,7 +57,7 @@ export async function ensureAppShellNotificationChannel(): Promise<void> {
   });
 }
 
-export async function refreshSessionOrLogoutOnForeground(accessToken: string, dispatch: AppDispatch): Promise<void> {
+export async function refreshSessionOrLogoutOnForeground(dispatch: AppDispatch): Promise<void> {
   try {
     const me = await new UserService().getMe();
     dispatch(setUserIdentity({ email: me.email, username: me.username, avatarUrl: me.avatarUrl ?? null, hasPassword: me.hasPassword, authProvider: me.authProvider }));

@@ -38,7 +38,7 @@ export function useDuelMatchmakingSocket() {
   const url = useMemo(() => DUEL_SOCKET_URL, []);
   const joinQueue = useCallback(
     async (p: { userId: string; token: string }) => {
-      await refreshSessionOrLogoutOnForeground(p.token, dispatch);
+      await refreshSessionOrLogoutOnForeground(dispatch);
       const next = store.getState().session.accessToken;
       if (!next) return;
       duelJoinQueue(url, { userId: p.userId, token: next });

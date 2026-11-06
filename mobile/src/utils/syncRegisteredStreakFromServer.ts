@@ -5,7 +5,7 @@ import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { logError } from "@/utils/logger";
 
 /** Fetches progress summary (runs server streak app-open) and mirrors `streakCurrent` into Redux. */
-export async function syncRegisteredStreakFromServer(dispatch: AppDispatch, _accessToken: string): Promise<void> {
+export async function syncRegisteredStreakFromServer(dispatch: AppDispatch): Promise<void> {
   try {
     const progress = await new UserService().getProgressSummary(getStreakCalendarDate());
     dispatch(

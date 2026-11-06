@@ -18,8 +18,8 @@ export function attachAppShellSessionForegroundSync(
       dispatch(reconcileStudyCalendarDay());
       const { accessToken, isAuthenticated, isGuest } = store.getState().session;
       if (isAuthenticated && accessToken && !store.getState().duelLive.sessionId) {
-        void refreshSessionOrLogoutOnForeground(accessToken, dispatch);
-        void syncRegisteredStreakFromServer(dispatch, accessToken);
+        void refreshSessionOrLogoutOnForeground(dispatch);
+        void syncRegisteredStreakFromServer(dispatch);
       }
       if (isGuest) dispatch(runStreakAppOpen({ today: getStreakCalendarDate() }));
       void syncDailyPracticeReminder();

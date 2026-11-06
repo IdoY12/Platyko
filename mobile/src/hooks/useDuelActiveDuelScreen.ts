@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addXp } from "@/redux/xp-slice";
 import { addStudySeconds } from "@/redux/session-slice";
 import { applyDuelResult } from "@/redux/duel-slice";
-import { hydrateStreak, runStreakAppOpen, runStreakQualifyingExercise } from "@/redux/streak-slice";
+import { hydrateStreak } from "@/redux/streak-slice";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { logDuel, logNav } from "@/utils/logger";
 import { useDuelActiveDuelLive, useDuelConnectionGuard } from "@/hooks/useDuelSocket";
@@ -18,7 +18,6 @@ export function useDuelActiveDuelScreen(navigation: NativeStackNavigationProp<Du
   const { round, score, sessionId, duelEnd, opponent, lastCorrectAnswer, wrongAnswerCount, opponentLeft } = useDuelActiveDuelLive();
   const connectionLost = useDuelConnectionGuard(navigation, duelEnd != null);
   const userId = useAppSelector((s) => s.session.userId);
-  const isGuest = useAppSelector((s) => s.session.isGuest);
   const username = useAppSelector((s) => s.profile.username);
   const isFocused = useIsFocused();
   const appStateRef = useRef<AppStateStatus>(AppState.currentState);
@@ -56,15 +55,12 @@ export function useDuelActiveDuelScreen(navigation: NativeStackNavigationProp<Du
     logDuel("duel:end", { won: duelEnd.won, xpEarned: duelEnd.xpEarned });
     dispatch(addXp(duelEnd.xpEarned));
     const today = getStreakCalendarDate();
-    if (isGuest && duelEnd.xpEarned > 0) {
-      dispatch(runStreakAppOpen({ today }));
-      dispatch(runStreakQualifyingExercise({ today }));
-    } else if (!isGuest && typeof duelEnd.streakCurrent === "number") {
+    if (typeof duelEnd.streakCurrent === "number") {
       dispatch(hydrateStreak({ streakCurrent: duelEnd.streakCurrent, lastActivityDate: today, lastCheckedDate: today }));
     }
     if (!duelEnd.tied) dispatch(applyDuelResult({ won: duelEnd.won }));
     navigation.replace("DuelResults", { won: duelEnd.won, score: duelEnd.finalScore, xpEarned: duelEnd.xpEarned, replay: duelEnd.roundReplay, ...(duelEnd.opponentDisconnected ? { opponentDisconnected: true } : {}), ...(duelEnd.tied ? { tied: true } : {}) });
-  }, [dispatch, duelEnd, isGuest, navigation]);
+  }, [dispatch, duelEnd, navigation]);
   const submit = useCallback((answer: string) => {
     if (!sessionId || !userId || lockedRef.current) return;
     duelSubmitAnswer({ sessionId, roundNumber: round?.roundNumber ?? 0, answer, timeTakenMs: Date.now() - roundStartTimeRef.current });

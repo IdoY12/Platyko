@@ -24,13 +24,13 @@ export function openExternalUrl(url: string): void {
 }
 
 export function applyNotificationsToggle(
-  enabled: boolean, user: UserService | null, dispatch: AppDispatch, setDraftNotifications: (value: boolean) => void,
+  enabled: boolean, user: UserService, dispatch: AppDispatch, setDraftNotifications: (value: boolean) => void,
   prefs: { accessToken: string | null },
 ): void {
   setDraftNotifications(enabled);
   dispatch(setNotificationsEnabled(enabled));
   // Guests have no server account; their preference persists locally via redux-persist.
-  if (!user || !prefs.accessToken) return;
+  if (!prefs.accessToken) return;
   user.patchPreferences({ notificationsEnabled: enabled }).catch((error) => {
     logError("[PROFILE]", error, { phase: "save-notifications" });
     setDraftNotifications(!enabled);

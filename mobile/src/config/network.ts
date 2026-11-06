@@ -31,9 +31,6 @@ function getExpoHost(): string | null {
     // Expo Go / dev-client manifest host; undefined in bare native builds
     Constants.expoConfig?.hostUri ??
 
-    // Legacy Expo Go API (removed from official types but still present at runtime on older versions)
-    (Constants as unknown as { expoGoConfig?: { debuggerHost?: string } }).expoGoConfig?.debuggerHost ??
-
     // LAN IP written to mobile/.env by ios-device.sh before a native device build.
     // Inlined at bundle time — goes stale if the Mac's IP changes after the build.
     (process.env.EXPO_PUBLIC_DEV_HOST as string | undefined) ??
