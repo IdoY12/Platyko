@@ -32,6 +32,7 @@ export const styles = StyleSheet.create({
   scoreCellStart: { flex: 1, flexDirection: "row", alignItems: "center", gap: spacing.xs },
   scoreCellEnd: { flex: 1, flexDirection: "row-reverse", alignItems: "center", justifyContent: "flex-start", gap: spacing.xs },
   scoreName: { flexShrink: 1 },
+  scoreNameEnd: { textAlign: "right" },
   duelMiniAvatar: { width: spacing.xxl, height: spacing.xxl, borderRadius: spacing.md, backgroundColor: colors.surface },
   duelMiniInitial: {
     width: spacing.xxl,

@@ -52,5 +52,7 @@ export function logError(prefix: string, error: unknown, meta?: LogMeta) {
         ? { name: error.name, message: error.message, stack: error.stack }
         : { message: String(error) },
   };
-  console.error(`[${new Date().toISOString()}] ${prefix} error${formatMeta(payload)}`);
+  // Dev keeps the plain console (RN's LogBox would toast every handled error); release uses console.error.
+  const sink = __DEV__ ? console.log : console.error;
+  sink(`[${new Date().toISOString()}] ${prefix} error${formatMeta(payload)}`);
 }
