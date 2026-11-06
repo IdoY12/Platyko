@@ -7,6 +7,12 @@ import { readSecureSessionTokens, writeSecureSessionTokens } from "@/utils/secur
 
 type RetryableConfig = InternalAxiosRequestConfig & { _retry?: boolean };
 
+/** Only a definitive 4xx from /auth/refresh means the session is gone; timeouts and 5xx keep it. */
+function refreshWasRejected(error: unknown): boolean {
+  const status = axios.isAxiosError(error) ? error.response?.status : undefined;
+  return typeof status === "number" && status >= 400 && status < 500;
+}
+
 let refreshInFlight: Promise<{ accessToken: string; refreshToken: string }> | null = null;
 
 export default abstract class AuthAware {
@@ -55,7 +61,10 @@ export default abstract class AuthAware {
             config.headers = { ...config.headers, Authorization: `Bearer ${nextAccessToken}` } as RetryableConfig["headers"];
           }
           return this.axiosInstance.request(config);
-        } catch { resetStoresAfterLogout(store.dispatch); throw error; }
+        } catch (refreshError) {
+          if (refreshWasRejected(refreshError)) resetStoresAfterLogout(store.dispatch);
+          throw error;
+        }
       },
     );
   }
