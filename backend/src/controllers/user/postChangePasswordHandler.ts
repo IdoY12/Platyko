@@ -1,10 +1,6 @@
 /**
- * POST /api/user/change-password — verifies current password then rotates hash + JWTs.
- *
- * Responsibility: bcrypt compare/update and session revocation.
- * Layer: backend user HTTP handlers
- * Depends on: Prisma, password helpers, revokeAllSessionsForUser
- * Consumers: user router
+ * POST /api/user/change-password — verifies the current password, rotates the hash, signs every
+ * other device out (tokenVersion bump) and hands this device a fresh session so it stays signed in.
  */
 
 import type { Response } from "express";
@@ -13,6 +9,7 @@ import type { AuthenticatedRequest } from "../../@types/auth.js";
 import { comparePassword, hashPassword } from "../../utils/passwordHashing.js";
 import type { PostChangePasswordBody } from "../../validators/userValidators.js";
 import { revokeAllSessionsForUser } from "../../utils/revokeAllSessionsForUser.js";
+import { issueSessionForUser } from "../../services/auth/issueSessionForUser.js";
 
 export async function postChangePassword(req: AuthenticatedRequest, res: Response) {
   const { currentPassword, newPassword } = req.validatedBody as PostChangePasswordBody;
@@ -32,6 +29,8 @@ export async function postChangePassword(req: AuthenticatedRequest, res: Respons
     data: { hashedPassword: await hashPassword(newPassword) },
   });
   await revokeAllSessionsForUser(req.user!.userId);
+  const revokedUser = await prisma.user.findUniqueOrThrow({ where: { id: req.user!.userId } });
+  const { accessToken, refreshToken } = await issueSessionForUser(revokedUser);
 
-  return res.json({ ok: true });
+  return res.json({ ok: true, accessToken, refreshToken });
 }

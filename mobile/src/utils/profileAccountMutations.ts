@@ -7,6 +7,7 @@ import type UserService from "@/services/auth-aware/UserService";
 import { apiErrorMessage, serverErrorMessage } from "@/services/auth";
 import { logError } from "@/utils/logger";
 import { setUserIdentity } from "@/redux/profile-slice";
+import { updateTokens } from "@/redux/session-slice";
 import { REDUX_PERSIST_KEY } from "@/utils/hydrateStore";
 import { resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
 
@@ -42,11 +43,13 @@ export async function changePasswordRequest(
   user: UserService,
   currentPassword: string,
   newPassword: string,
+  dispatch: AppDispatch,
   onSuccess: () => void,
   setMessage: (m: string | null) => void,
 ): Promise<void> {
   try {
-    await user.changePassword(currentPassword, newPassword);
+    const { accessToken, refreshToken } = await user.changePassword(currentPassword, newPassword);
+    dispatch(updateTokens({ accessToken, refreshToken }));
     onSuccess();
     setMessage("Password changed.");
   } catch (error) {

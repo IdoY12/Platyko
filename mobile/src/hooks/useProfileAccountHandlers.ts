@@ -38,13 +38,13 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
       return;
     }
     d.setBusyAction("password");
-    await changePasswordRequest(user, d.currentPassword, d.newPassword, () => {
+    await changePasswordRequest(user, d.currentPassword, d.newPassword, dispatch, () => {
       d.setCurrentPassword("");
       d.setNewPassword("");
       d.setPasswordModalVisible(false);
     }, d.setSaveMessage);
     d.setBusyAction(null);
-  }, [r.accessToken, d, user]);
+  }, [r.accessToken, d, dispatch, user]);
 
   const onDeleteAccount = React.useCallback(async () => {
     if (!r.accessToken || d.confirmDeleteText !== "DELETE" || d.busyAction) return;
