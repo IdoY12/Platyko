@@ -1,3 +1,4 @@
+import { noLaterThanTomorrow } from "@project/streak-logic";
 import type { ExperienceLevel, Prisma } from "@prisma/client";
 import { levelFromXpTotal } from "@project/xp-constants";
 
@@ -35,8 +36,8 @@ export async function createProgressRowsFromSnapshot(
       xpTotal,
       level: levelFromXpTotal(xpTotal),
       streakCurrent: snapshot.streakCurrent ?? 0,
-      streakLastActivityDate: snapshot.streakLastActivityDate,
-      streakLastCheckedDate: snapshot.streakLastCheckedDate,
+      streakLastActivityDate: snapshot.streakLastActivityDate && noLaterThanTomorrow(snapshot.streakLastActivityDate),
+      streakLastCheckedDate: snapshot.streakLastCheckedDate && noLaterThanTomorrow(snapshot.streakLastCheckedDate),
     },
   });
   const otherLevels = Object.keys(snapshot.blockProgress ?? {}).filter((l) => l !== level) as ExperienceLevel[];

@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+import { prisma } from "@project/db";
 import { logError, logInfo, logWarn } from "../../utils/logger.js";
 import { revokeAllSessionsForUser } from "../../utils/revokeAllSessionsForUser.js";
 import { verifyAccessToken, verifyRefreshToken } from "../../utils/sessionJwtTokens.js";
@@ -8,14 +9,17 @@ export async function authLogoutHandler(request: Request, response: Response): P
   const bearer = request.headers.authorization?.startsWith("Bearer ") ? request.headers.authorization.slice(7) : "";
   const refreshTokenValue = (request.validatedBody as LogoutBody | undefined)?.refreshToken ?? "";
 
-  let userId: string | null = null;
+  let claims: { userId: string; tokenVersion: number } | null = null;
 
   if (bearer) {
-    try { userId = verifyAccessToken(bearer).userId; } catch { /* invalid token, try refresh */ }
+    try { claims = verifyAccessToken(bearer); } catch { /* invalid token, try refresh */ }
   }
-  if (!userId && refreshTokenValue) {
-    try { userId = verifyRefreshToken(refreshTokenValue).userId; } catch { /* invalid token */ }
+  if (!claims && refreshTokenValue) {
+    try { claims = verifyRefreshToken(refreshTokenValue); } catch { /* invalid token */ }
   }
+  // A token that was already revoked (tokenVersion bumped) must not be able to sign everyone out again.
+  const user = claims ? await prisma.user.findUnique({ where: { id: claims.userId }, select: { tokenVersion: true } }) : null;
+  const userId = user && claims && user.tokenVersion === claims.tokenVersion ? claims.userId : null;
 
   if (!userId) {
     logWarn("[AUTH]", "logout:invalid-credentials");

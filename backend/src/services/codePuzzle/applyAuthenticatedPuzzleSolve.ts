@@ -57,7 +57,7 @@ export async function applyAuthenticatedPuzzleSolve(
       tx,
       userId,
       clientLocalDate,
-      grantXp ? XP_PER_CORRECT_EXERCISE : 0,
+      xpEarned,
     );
     return { puzzleSolveCount: countAfter, xpEarned, xpAtCap, xpTotal, streakCurrent };
   });

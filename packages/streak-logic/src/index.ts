@@ -31,6 +31,12 @@ export function trustedCalendarDate(clientDate: string, lastActivityDate: string
   return lastActivityDate !== null && candidate < lastActivityDate ? lastActivityDate : candidate;
 }
 
+/** Guest snapshots arrive from the client: a date after tomorrow (server UTC) is pulled back to tomorrow. */
+export function noLaterThanTomorrow(date: string, now = new Date()): string {
+  const tomorrow = new Date(now.getTime() + 86_400_000).toISOString().slice(0, 10);
+  return date > tomorrow ? tomorrow : date;
+}
+
 export function applyStreakOnAppOpen(state: DailyXpStreakPersisted, today: string): DailyXpStreakPersisted {
   const missedAppOpenDay =
     state.lastCheckedDate !== null && calendarDaysBetweenEarlierAndLater(state.lastCheckedDate, today) >= STREAK_RESET_THRESHOLD;

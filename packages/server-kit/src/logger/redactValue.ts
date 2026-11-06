@@ -7,7 +7,7 @@
  * Consumers: formatMeta.ts, sanitizeBody.ts
  */
 
-import { SENSITIVE_KEY_SUBSTRINGS } from "./sensitiveKeyMatchers.js";
+import { SENSITIVE_KEY_SUBSTRINGS, SENSITIVE_KEYS_EXACT } from "./sensitiveKeyMatchers.js";
 
 export function redactValue(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(redactValue);
@@ -16,7 +16,7 @@ export function redactValue(value: unknown): unknown {
     return Object.fromEntries(
       Object.entries(value as Record<string, unknown>).map(([key, item]) => {
         const lower = key.toLowerCase();
-        const isSensitive = SENSITIVE_KEY_SUBSTRINGS.some((s) => lower.includes(s));
+        const isSensitive = SENSITIVE_KEY_SUBSTRINGS.some((s) => lower.includes(s)) || (SENSITIVE_KEYS_EXACT as readonly string[]).includes(lower);
         return [key, isSensitive ? "***MASKED***" : redactValue(item)];
       }),
     );

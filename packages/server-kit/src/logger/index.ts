@@ -11,5 +11,5 @@ export { logInfo } from "./logInfo.js";
 export { logWarn } from "./logWarn.js";
 export { logError } from "./logError.js";
 export { sanitizeBody } from "./sanitizeBody.js";
-export { currentRequestId, runWithRequestId } from "./requestContext.js";
+export { runWithRequestId } from "./requestContext.js";
 export type { LogMeta } from "./formatMeta.js";

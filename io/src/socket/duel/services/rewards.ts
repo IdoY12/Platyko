@@ -24,7 +24,7 @@ export async function applyXpReward(userId: string, xpToAdd: number, streakLocal
       });
 
       if (streakLocalDate) {
-        const streakCurrent = await handleStreakQualifyingXpForUser(tx, userId, streakLocalDate, xpToAdd);
+        const streakCurrent = await handleStreakQualifyingXpForUser(tx, userId, streakLocalDate, xpAdded);
         return { xpAdded, streakCurrent };
       }
       return { xpAdded, streakCurrent: progress.streakCurrent };
