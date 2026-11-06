@@ -3,7 +3,7 @@ import { logError, logInfo } from "../../utils/logger.js";
 import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
 import { verifyGoogleIdToken } from "../../utils/googleIdTokenVerify.js";
 import type { GoogleAuthBody } from "../../validators/authValidators.js";
-import { GoogleSignInBlockedError, findOrCreateGoogleUser } from "../../services/auth/googleAccountLinking.js";
+import { SocialSignInBlockedError, findOrCreateSocialUser } from "../../services/auth/socialAccountLinking.js";
 import { issueSessionForUser } from "../../services/auth/issueSessionForUser.js";
 
 export async function authGoogleHandler(request: Request, response: Response): Promise<void> {
@@ -18,12 +18,12 @@ export async function authGoogleHandler(request: Request, response: Response): P
     return;
   }
   try {
-    const { user, isNew } = await findOrCreateGoogleUser(googleId, email, name, guestSnapshot);
+    const { user, isNew } = await findOrCreateSocialUser("google", googleId, email, name, guestSnapshot);
     const session = await issueSessionForUser(user, isNew);
     logInfo("[AUTH]", "google:success", { userId: user.id });
     response.status(isNew ? 201 : 200).json(session);
   } catch (error) {
-    if (error instanceof GoogleSignInBlockedError) {
+    if (error instanceof SocialSignInBlockedError) {
       response.status(409).json({ error: error.message });
       return;
     }

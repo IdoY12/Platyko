@@ -2,6 +2,7 @@ import type { UserProgress } from "@prisma/client";
 import {
   applyStreakOnAppOpen,
   applyStreakOnQualifyingXp,
+  trustedCalendarDate,
   type DailyXpStreakPersisted,
 } from "@project/streak-logic";
 import { getProgressForActiveUser, type DbClient } from "./userProgressActive.js";
@@ -21,7 +22,7 @@ export async function handleStreakAppOpenForUser(
 ): Promise<number> {
   const progress = await getProgressForActiveUser(prisma, userId);
   if (!progress) return 0;
-  const next = applyStreakOnAppOpen(progressToStreakState(progress), todayLocalDate);
+  const next = applyStreakOnAppOpen(progressToStreakState(progress), trustedCalendarDate(todayLocalDate, progress.streakLastActivityDate));
   await prisma.userProgress.update({
     where: { id: progress.id },
     data: {
@@ -45,7 +46,7 @@ export async function handleStreakQualifyingXpForUser(
   }
   const progress = await getProgressForActiveUser(prisma, userId);
   if (!progress) return 0;
-  const next = applyStreakOnQualifyingXp(progressToStreakState(progress), todayLocalDate);
+  const next = applyStreakOnQualifyingXp(progressToStreakState(progress), trustedCalendarDate(todayLocalDate, progress.streakLastActivityDate));
   await prisma.userProgress.update({
     where: { id: progress.id },
     data: {

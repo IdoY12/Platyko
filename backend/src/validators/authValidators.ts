@@ -1,8 +1,7 @@
 import { z } from "zod";
 import { MAX_XP_TOTAL } from "@project/xp-constants";
+import { CALENDAR_DATE_PATTERN } from "@project/streak-logic";
 import { emailField, passwordField, usernameField } from "./credentialFields.js";
-
-const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
 /** Guest local-progress snapshot fields shared by register, Google, and Apple sign-in bodies. */
 export const guestSnapshotShape = {
@@ -14,8 +13,8 @@ export const guestSnapshotShape = {
     .optional(),
   xpTotal: z.number().int().min(0).max(MAX_XP_TOTAL).optional(),
   streakCurrent: z.number().int().min(0).max(365).optional(),
-  streakLastActivityDate: z.string().regex(dateRegex).optional(),
-  streakLastCheckedDate: z.string().regex(dateRegex).optional(),
+  streakLastActivityDate: z.string().regex(CALENDAR_DATE_PATTERN).optional(),
+  streakLastCheckedDate: z.string().regex(CALENDAR_DATE_PATTERN).optional(),
   notificationsEnabled: z.boolean().optional(),
   puzzleXpSolveCounts: z.record(z.string(), z.number().int().min(0)).optional(),
 };

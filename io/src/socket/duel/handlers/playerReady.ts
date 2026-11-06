@@ -18,10 +18,6 @@ import type { DuelNamespace, DuelSocket } from "../types.js";
 export function registerPlayerReady(socket: DuelSocket, duel: DuelNamespace) {
   socket.on("player_ready", async (payload: unknown) => {
     try {
-      if (!socket.data.authenticatedUserId) {
-        socket.emit("auth_error", { message: "Authentication required" });
-        return;
-      }
       if (isThrottled(socket, "player_ready", 1000)) return;
       const sessionId = sessionIdOf(payload);
       if (!sessionId) return;

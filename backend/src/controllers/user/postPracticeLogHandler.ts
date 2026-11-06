@@ -21,7 +21,8 @@ export async function postPracticeLog(req: AuthenticatedRequest, res: Response) 
     const progress = await getProgressForActiveUser(tx, userId);
     if (!progress) return null;
     const sameDay = progress.practiceLogDateKey === dateKey;
-    const seconds = sameDay ? progress.practiceLogSeconds + practicedSeconds : practicedSeconds;
+    // A day has 86 400 s; anything beyond is a clock or client bug, never more practice.
+    const seconds = Math.min(sameDay ? progress.practiceLogSeconds + practicedSeconds : practicedSeconds, 86_400);
     await tx.userProgress.update({
       where: { id: progress.id },
       data: { practiceLogDateKey: dateKey, practiceLogSeconds: seconds },

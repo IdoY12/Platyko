@@ -15,6 +15,13 @@ import { endSession } from "./endSession.js";
 import { startRound } from "./startRound.js";
 import type { CachedQuestion, DuelNamespace, SessionState } from "./types.js";
 
+function scheduleNextRoundOrEnd(duel: DuelNamespace, session: SessionState): void {
+  setTimeout(() => {
+    if (!sessions.has(session.sessionId)) return;
+    if (session.round >= DUEL_ROUND_COUNT) void endSession(duel, session); else void startRound(duel, session.sessionId);
+  }, DUEL_BETWEEN_ROUNDS_DELAY_MS);
+}
+
 export function advanceDuelRoundNoWinner(
   duel: DuelNamespace,
   session: SessionState,
@@ -27,10 +34,7 @@ export function advanceDuelRoundNoWinner(
     response_times: { player1_ms: 0, player2_ms: 0 },
   });
   session.roundReplay.push({ roundNumber: session.round, winnerUserId: null, correctAnswer: question.correctAnswer, player1TimeMs: 0, player2TimeMs: 0 });
-  setTimeout(() => {
-    if (!sessions.has(session.sessionId)) return;
-    if (session.round >= DUEL_ROUND_COUNT) void endSession(duel, session); else void startRound(duel, session.sessionId);
-  }, DUEL_BETWEEN_ROUNDS_DELAY_MS);
+  scheduleNextRoundOrEnd(duel, session);
 }
 
 export function applyCorrectDuelAnswer(
@@ -69,9 +73,5 @@ export function applyCorrectDuelAnswer(
     player_ids: { player1: session.player1.userId, player2: session.player2.userId },
     response_times: { player1_ms: player1TimeMs, player2_ms: player2TimeMs },
   });
-
-  setTimeout(() => {
-    if (!sessions.has(session.sessionId)) return;
-    if (session.round >= DUEL_ROUND_COUNT) void endSession(duel, session); else void startRound(duel, session.sessionId);
-  }, DUEL_BETWEEN_ROUNDS_DELAY_MS);
+  scheduleNextRoundOrEnd(duel, session);
 }

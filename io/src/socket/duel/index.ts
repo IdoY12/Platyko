@@ -15,10 +15,8 @@ export function attachDuelNamespace(io: DuelServer) {
   attachDuelConnectionAuthentication(duel);
   duel.on("connection", (socket: DuelSocket) => {
     logInfo("[DUEL]", "socket:connected", { socketId: socket.id });
-    if (socket.data.authenticatedUserId) {
-      broadcastQueueStatus(duel);
-      void syncActiveDuelOnConnect(socket);
-    }
+    broadcastQueueStatus(duel);
+    void syncActiveDuelOnConnect(socket);
     registerJoinQueue(socket, duel);
     registerLeaveQueue(socket, duel);
     registerPlayerReady(socket, duel);

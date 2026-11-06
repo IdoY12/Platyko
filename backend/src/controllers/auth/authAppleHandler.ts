@@ -3,7 +3,7 @@ import { logError, logInfo } from "../../utils/logger.js";
 import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
 import { verifyAppleIdentityToken } from "../../utils/appleIdTokenVerify.js";
 import type { AppleAuthBody } from "../../validators/appleAuthValidators.js";
-import { AppleSignInBlockedError, findOrCreateAppleUser } from "../../services/auth/appleAccountLinking.js";
+import { SocialSignInBlockedError, findOrCreateSocialUser } from "../../services/auth/socialAccountLinking.js";
 import { issueSessionForUser } from "../../services/auth/issueSessionForUser.js";
 
 export async function authAppleHandler(request: Request, response: Response): Promise<void> {
@@ -18,12 +18,12 @@ export async function authAppleHandler(request: Request, response: Response): Pr
   }
   try {
     // Only the verified token's email claim is trusted (see appleAuthValidators for why).
-    const { user, isNew } = await findOrCreateAppleUser(appleSub, tokenEmail, fullName, guestSnapshot);
+    const { user, isNew } = await findOrCreateSocialUser("apple", appleSub, tokenEmail, fullName, guestSnapshot);
     const session = await issueSessionForUser(user, isNew);
     logInfo("[AUTH]", "apple:success", { userId: user.id });
     response.status(isNew ? 201 : 200).json(session);
   } catch (error) {
-    if (error instanceof AppleSignInBlockedError) {
+    if (error instanceof SocialSignInBlockedError) {
       response.status(409).json({ error: error.message });
       return;
     }

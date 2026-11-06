@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { CALENDAR_DATE_PATTERN } from "@project/streak-logic";
 import { passwordField, usernameField } from "./credentialFields.js";
 
 export const patchProfileBodySchema = z.object({
@@ -26,14 +27,14 @@ export const patchPreferencesBodySchema = z
 export const deleteAccountBodySchema = z.object({ confirmation: z.literal("DELETE") });
 
 export const postPracticeLogBodySchema = z.object({
-  dateKey: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  dateKey: z.string().regex(CALENDAR_DATE_PATTERN),
   practicedSeconds: z.number().int().min(1).max(60 * 60),
 });
 
 export const patchAvatarBodySchema = z.object({ avatarUrl: z.string().url() });
 
 export const progressSummaryQuerySchema = z.object({
-  localDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  localDate: z.string().regex(CALENDAR_DATE_PATTERN),
 });
 
 export type PatchProfileBody = z.infer<typeof patchProfileBodySchema>;

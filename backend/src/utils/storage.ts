@@ -34,9 +34,8 @@ export function extractAvatarKeyFromUrl(url: string): string | null {
     const parsed = new URL(url);
 
     if (avatarS3Endpoint) {
-      // In local/dev mode the presigned URL host may be a LAN IP rather than "localhost"
-      // (rewritten in getAvatarPresignedUrlHandler so devices can reach LocalStack).
-      // Validate by bucket path prefix only — do not enforce an exact hostname match.
+      // Local/dev: the URL host may be a LAN IP rather than "localhost" (devices reach LocalStack that
+      // way), so validate by bucket path prefix only — never by an exact hostname match.
       const path = parsed.pathname.replace(/^\/+/, "");
       const prefix = `${avatarS3Bucket}/`;
 

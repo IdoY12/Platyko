@@ -23,7 +23,7 @@ export async function applyXpReward(userId: string, xpToAdd: number, streakLocal
         data: { xpTotal: nextXp, level: levelFromXpTotal(nextXp) },
       });
 
-      if (streakLocalDate && /^\d{4}-\d{2}-\d{2}$/.test(streakLocalDate)) {
+      if (streakLocalDate) {
         const streakCurrent = await handleStreakQualifyingXpForUser(tx, userId, streakLocalDate, xpToAdd);
         return { xpAdded, streakCurrent };
       }

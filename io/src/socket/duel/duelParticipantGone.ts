@@ -59,7 +59,8 @@ export function onDuelParticipantGone(
   void persistDuelSession(session, survivor.userId);
   duel.to(survivor.socketId).emit("opponent_disconnected", { at_round: session.round });
   const survivorStreakDate = survivorIsP1 ? session.player1StreakLocalDate : session.player2StreakLocalDate;
-  void applyXpReward(survivor.userId, XP_PER_CORRECT_EXERCISE, survivorStreakDate)
+  // A walk-over only pays once a question was actually played; a round-0 leaver is not a win to farm.
+  void applyXpReward(survivor.userId, session.round > 0 ? XP_PER_CORRECT_EXERCISE : 0, survivorStreakDate)
     .then(({ xpAdded, streakCurrent }) => {
       duel.to(survivor.socketId).emit("duel_end", {
         winner_user_id: survivor.userId,

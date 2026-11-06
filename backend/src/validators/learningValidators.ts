@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { CALENDAR_DATE_PATTERN } from "@project/streak-logic";
 
 export const experienceLevelParamsSchema = z.object({
   experienceLevel: z.enum(["JUNIOR", "MID", "SENIOR"]),
@@ -7,7 +8,7 @@ export const experienceLevelParamsSchema = z.object({
 export const learningSubmitExerciseBodySchema = z.object({
   exerciseId: z.string().min(3),
   answer: z.string().max(2000),
-  clientLocalDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  clientLocalDate: z.string().regex(CALENDAR_DATE_PATTERN).optional(),
 });
 
 export const learningResumeQuerySchema = z.object({

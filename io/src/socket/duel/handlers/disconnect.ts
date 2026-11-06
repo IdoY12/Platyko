@@ -31,7 +31,7 @@ export function registerDisconnect(socket: DuelSocket, duel: DuelNamespace) {
         : entry.requests.get(entry.player1.userId);
       if (waitingSocketId) duel.to(waitingSocketId).emit("rematch_declined", { reason: "opponent_left" });
     });
-    if (socket.data.authenticatedUserId) broadcastQueueStatus(duel, socket.id);
+    broadcastQueueStatus(duel, socket.id);
   });
 
   socket.on("leave_duel", (payload: unknown) => {

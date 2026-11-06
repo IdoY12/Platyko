@@ -3,13 +3,11 @@ import { normaliseExerciseAnswer } from "@project/exercise-answer";
 import { levelFromXpTotal, MAX_XP_TOTAL, XP_PER_CORRECT_EXERCISE } from "@project/xp-constants";
 import type { ExerciseSubmitResponseDto } from "../../dto/exerciseSubmitResponseDto.js";
 
-const dateKeyRegex = /^\d{4}-\d{2}-\d{2}$/;
-
 type SubmitInput = {
   userId: string;
   exerciseId: string;
   answer: string;
-  /** Client local calendar date (YYYY-MM-DD) for streak; required when persisting qualifying XP. */
+  /** Client local calendar date (validated YYYY-MM-DD) for streak; required when persisting qualifying XP. */
   clientLocalDate?: string;
 };
 
@@ -49,7 +47,7 @@ export async function applyExerciseSubmission(input: SubmitInput): Promise<Exerc
           ...(alreadyPaid ? {} : { completedExerciseIds: { push: exercise.id } }),
         },
       });
-      if (xpActuallyAdded > 0 && input.clientLocalDate && dateKeyRegex.test(input.clientLocalDate)) {
+      if (xpActuallyAdded > 0 && input.clientLocalDate) {
         streakCurrent = await handleStreakQualifyingXpForUser(
           tx,
           input.userId,

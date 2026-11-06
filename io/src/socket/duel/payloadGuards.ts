@@ -8,7 +8,7 @@
  * Consumers: handlers/*.ts
  */
 
-const STREAK_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+import { CALENDAR_DATE_PATTERN } from "@project/streak-logic";
 
 /** Session ids are `sess_<uuid>`; anything longer is not one of ours. */
 const SESSION_ID_MAX_LEN = 64;
@@ -28,7 +28,7 @@ export function sessionIdOf(payload: unknown): string | null {
 export function readStreakLocalDate(payload: unknown): string | null {
   if (!isRecord(payload)) return null;
   const date = payload.streak_local_date;
-  return typeof date === "string" && STREAK_DATE_PATTERN.test(date) ? date : null;
+  return typeof date === "string" && CALENDAR_DATE_PATTERN.test(date) ? date : null;
 }
 
 export type SubmitAnswerPayload = { sessionId: string; roundNumber: number; answer: string; timeTakenMs: number };

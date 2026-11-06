@@ -39,7 +39,7 @@ export async function resendWebhookHandler(request: Request, response: Response)
     return;
   }
 
-  const recipients = event.data.to;
+  const recipients = event.data.to.map((address) => address.trim().toLowerCase());
   try {
     const { count } = await prisma.user.updateMany({
       where: { email: { in: recipients } },

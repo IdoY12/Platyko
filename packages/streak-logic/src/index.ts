@@ -6,6 +6,9 @@
 /** Gap in streak units that triggers a reset or restart (gap >= 2 means one unit was skipped). */
 const STREAK_RESET_THRESHOLD = 2;
 
+/** YYYY-MM-DD, the only calendar-date shape clients may send. */
+export const CALENDAR_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
 export type DailyXpStreakPersisted = {
   streakCount: number;
   lastActivityDate: string | null;
@@ -14,6 +17,18 @@ export type DailyXpStreakPersisted = {
 
 export function calendarDaysBetweenEarlierAndLater(earlierDateOnly: string, laterDateOnly: string): number {
   return (new Date(laterDateOnly).getTime() - new Date(earlierDateOnly).getTime()) / 86_400_000;
+}
+
+/**
+ * Server-side guard for a client-supplied calendar date: a device may legitimately sit a day away
+ * from UTC, anything further is replaced by the server's date, and a date before the last recorded
+ * activity can never rewind the streak (so alternating dates cannot farm it).
+ */
+export function trustedCalendarDate(clientDate: string, lastActivityDate: string | null, now = new Date()): string {
+  const serverDate = now.toISOString().slice(0, 10);
+  const driftDays = Math.abs(calendarDaysBetweenEarlierAndLater(serverDate, clientDate));
+  const candidate = driftDays <= 1 ? clientDate : serverDate;
+  return lastActivityDate !== null && candidate < lastActivityDate ? lastActivityDate : candidate;
 }
 
 export function applyStreakOnAppOpen(state: DailyXpStreakPersisted, today: string): DailyXpStreakPersisted {

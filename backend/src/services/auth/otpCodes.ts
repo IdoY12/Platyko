@@ -5,7 +5,6 @@ export const OTP_CODE_TTL_MINUTES = 10;
 const OTP_MAX_ATTEMPTS = 5;
 const OTP_RESEND_COOLDOWN_SECONDS = 60;
 
-type OtpRecord = { codeHash: string; expiresAt: Date; attempts: number; lastSentAt: Date };
 export type OtpFields = { codeHash: string; expiresAt: Date; attempts: number; lastSentAt: Date };
 
 /**
@@ -15,8 +14,8 @@ export type OtpFields = { codeHash: string; expiresAt: Date; attempts: number; l
  * WhereUniqueInput from being picked as the key type.
  */
 export type OtpDelegate<Where> = {
-  findUnique(args: { where: Where }): PromiseLike<OtpRecord | null>;
-  update(args: { where: Where; data: { attempts: { increment: number } } }): PromiseLike<OtpRecord>;
+  findUnique(args: { where: Where }): PromiseLike<OtpFields | null>;
+  update(args: { where: Where; data: { attempts: { increment: number } } }): PromiseLike<OtpFields>;
 };
 /** Rows whose only columns are the key + OTP fields (passwordReset) can be created by createOtpCode. */
 type OtpUpsertDelegate<Where> = OtpDelegate<Where> & {

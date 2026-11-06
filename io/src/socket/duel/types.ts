@@ -4,7 +4,8 @@ export type DuelServer = Server<DefaultEventsMap, DefaultEventsMap, DefaultEvent
 
 /** Socket state set by attachDuelConnectionAuthentication after JWT verification. */
 export interface DuelSocketData {
-  authenticatedUserId?: string;
+  /** Set by the namespace middleware before any handler runs; unauthenticated sockets never connect. */
+  authenticatedUserId: string;
 }
 
 export interface QueueEntry {
