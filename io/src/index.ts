@@ -26,24 +26,17 @@ process.on("uncaughtException", (error) => {
 validateIoProductionSecuritySettings();
 await connectDatabase();
 
-// 1. Create the base HTTP Server.
-// This server acts as the "Entry Point". Every WebSocket connection starts 
-// as a standard HTTP request before being upgraded to a permanent socket.
+// Plain HTTP server: serves /health and is upgraded to WebSocket by Socket.IO.
 const server = http.createServer((req, res) => {
-  // Providing a standard HTTP endpoint for infrastructure health checks
   if (req.url === "/health") {
     res.writeHead(200, { "content-type": "application/json" });
     res.end(JSON.stringify({ ok: true, service: "platyko-io" }));
     return;
   }
-  // Catch-all for any other regular HTTP requests that aren't Socket.IO related
   res.writeHead(404, { "content-type": "application/json" });
   res.end(JSON.stringify({ error: "Not found" }));
 });
 
-// 2. Initialize Socket.IO on top of the HTTP Server.
-// Socket.IO "binds" to the server. When a client sends a request with an 
-// "Upgrade: websocket" header, Socket.IO intercepts it and handles the handshake.
 const io = new Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, DuelSocketData>(server, {
   cors: resolveSocketIoCors(),
   // Duel payloads are a few hundred bytes; the 1 MB default only helps memory-exhaustion attacks.
@@ -53,21 +46,13 @@ const io = new Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, Duel
   pingTimeout: 9_000,
 });
 
-// 3. Attach application logic (Namespaces/Events) to the IO instance.
 attachDuelNamespace(io);
 
-// 4. Start listening on the network.
-// The same port now handles both standard HTTP (/health) and 
-// WebSocket upgrades for real-time communication.
 const port = Number(config.get<number | string>("app.port"));
 const host = config.get<string>("app.host");
 
 server.listen(port, host, () => {
-  logInfo("[IO]", "server-started", {
-    port,
-    host,
-    localUrl: `http://localhost:${port}`,
-  });
+  logInfo("[IO]", "server-started", { port, host, localUrl: `http://localhost:${port}` });
 });
 
 /** Close sockets and the HTTP server, let handlers drain (10 s cap), then release the DB. */
