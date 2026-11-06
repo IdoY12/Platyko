@@ -1,11 +1,5 @@
 import { z } from "zod";
-import {
-  PASSWORD_MAX_LEN,
-  PASSWORD_MIN_LEN,
-  PASSWORD_TOO_LONG,
-  PASSWORD_TOO_SHORT,
-} from "@project/user-credentials";
-import { emailField, otpCodeField } from "./emailVerificationValidators.js";
+import { emailField, otpCodeField, passwordField } from "./credentialFields.js";
 
 export const requestPasswordResetBodySchema = z.object({
   email: emailField,
@@ -14,10 +8,7 @@ export const requestPasswordResetBodySchema = z.object({
 export const confirmPasswordResetBodySchema = z.object({
   email: emailField,
   code: otpCodeField,
-  newPassword: z
-    .string()
-    .min(PASSWORD_MIN_LEN, { message: PASSWORD_TOO_SHORT })
-    .max(PASSWORD_MAX_LEN, { message: PASSWORD_TOO_LONG }),
+  newPassword: passwordField,
 });
 
 export type RequestPasswordResetBody = z.infer<typeof requestPasswordResetBodySchema>;
