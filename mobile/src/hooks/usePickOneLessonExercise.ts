@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type Exercise from "@/models/Exercise";
 import type ExerciseSubmitResult from "@/models/ExerciseSubmitResult";
 import type { LessonExerciseCompletionContext } from "@/types/lessonExerciseCompletion.types";
@@ -21,8 +21,10 @@ export function usePickOneLessonExercise(
   const [lastCheckedAnswer, setLastCheckedAnswer] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [checking, setChecking] = useState(false);
+  const advancedRef = useRef(false);
 
   useEffect(() => {
+    advancedRef.current = false;
     setSelected(null);
     setHasChecked(false);
     setIsAnswerCorrect(null);
@@ -48,7 +50,8 @@ export function usePickOneLessonExercise(
   }, [accessToken, checking, exercise, learning, onExplanationRevealed, selected]);
 
   const goNext = useCallback(() => {
-    if (!selected || !serverResult || isAnswerCorrect !== true) return;
+    if (!selected || !serverResult || isAnswerCorrect !== true || advancedRef.current) return;
+    advancedRef.current = true;
     onLessonExerciseComplete(selected, { source: "curriculum", isAnswerCorrect: true, submitResult: serverResult });
   }, [isAnswerCorrect, onLessonExerciseComplete, selected, serverResult]);
 
