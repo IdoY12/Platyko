@@ -4,6 +4,8 @@ model UserProgress {
   experienceLevel ExperienceLevel
 
   currentExerciseIndex Int @default(0)
+  /** Exercises that already paid XP; a correct re-submit still returns the explanation but 0 XP. */
+  completedExerciseIds String[] @default([])
 
   streakLastActivityDate String?
   streakLastCheckedDate  String?

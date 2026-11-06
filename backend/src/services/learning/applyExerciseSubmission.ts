@@ -34,14 +34,22 @@ export async function applyExerciseSubmission(input: SubmitInput): Promise<Exerc
 
       if (!progress) return;
 
-      const nextXp = Math.min(progress.xpTotal + XP_PER_CORRECT_EXERCISE, MAX_XP_TOTAL);
+      // XP is paid once per exercise for the lifetime of the account (correctAnswer is public, so a
+      // re-submit loop must not farm it); replays still get the explanation and advance the lesson.
+      const alreadyPaid = progress.completedExerciseIds.includes(exercise.id);
+      const nextXp = alreadyPaid ? progress.xpTotal : Math.min(progress.xpTotal + XP_PER_CORRECT_EXERCISE, MAX_XP_TOTAL);
       xpActuallyAdded = nextXp - progress.xpTotal;
       const nextIdx = Math.max(progress.currentExerciseIndex, exercise.orderIndex + 1);
       const updated = await tx.userProgress.update({
         where: { id: progress.id },
-        data: { xpTotal: nextXp, level: levelFromXpTotal(nextXp), currentExerciseIndex: nextIdx },
+        data: {
+          xpTotal: nextXp,
+          level: levelFromXpTotal(nextXp),
+          currentExerciseIndex: nextIdx,
+          ...(alreadyPaid ? {} : { completedExerciseIds: { push: exercise.id } }),
+        },
       });
-      if (input.clientLocalDate && dateKeyRegex.test(input.clientLocalDate)) {
+      if (xpActuallyAdded > 0 && input.clientLocalDate && dateKeyRegex.test(input.clientLocalDate)) {
         streakCurrent = await handleStreakQualifyingXpForUser(
           tx,
           input.userId,
