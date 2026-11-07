@@ -1,3 +1,6 @@
+import type { AppDispatch } from "@/redux/store";
+import { setBootstrapError, updateTokens } from "@/redux/session-slice";
+import { logError } from "@/utils/logger";
 import * as SecureStore from "expo-secure-store";
 import {
   SECURE_STORAGE_ACCESS_TOKEN_KEY,
@@ -42,4 +45,17 @@ export async function readSecureSessionTokens(): Promise<{
 
 export async function clearSecureSessionTokens(): Promise<void> {
   await writeSecureSessionTokens(null, null);
+}
+
+/** Retry path after a failed launch-time keychain read: read again; undefined means "still unreadable". */
+export async function readTokensAgain(dispatch: AppDispatch): Promise<string | null | undefined> {
+  try {
+    const { accessToken, refreshToken } = await readSecureSessionTokens();
+    if (accessToken && refreshToken) dispatch(updateTokens({ accessToken, refreshToken }));
+    return accessToken;
+  } catch (error) {
+    logError("[AUTH]", error, { phase: "bootstrap-keychain" });
+    dispatch(setBootstrapError("Could not access your stored credentials. Tap Retry to try again."));
+    return undefined;
+  }
 }

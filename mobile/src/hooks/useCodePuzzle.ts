@@ -9,6 +9,7 @@ import PuzzleService, { type Puzzle } from "@/services/auth-aware/PuzzleService"
 import { SUBMIT_FAILED_MESSAGE } from "@/constants/feedbackMessages";
 import { applyGuestPuzzleSolve, applyRegisteredPuzzleSolve } from "@/utils/puzzleSubmitRewards";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
+import { logError } from "@/utils/logger";
 
 const MS_DAY = 1000 * 60 * 60 * 24;
 
@@ -44,7 +45,7 @@ export function useCodePuzzle() {
     puzzleService.getAllPuzzles().then((loadedPuzzles) => {
       if (cancelled) return; dispatch(setCachedAllPuzzles(loadedPuzzles)); setPuzzles(loadedPuzzles);
       if (loadedPuzzles.length) setPuzzleIndex(puzzleCountToIndex(loadedPuzzles.length));
-    }).catch(() => { if (!cancelled) { setFeedbackMessage("Failed to load puzzles. Please try again."); setLoadFailed(true); } }).finally(() => !cancelled && setLoading(false));
+    }).catch((error: unknown) => { logError("[PUZZLE]", error, { phase: "load" }); if (!cancelled) { setFeedbackMessage("Failed to load puzzles. Please try again."); setLoadFailed(true); } }).finally(() => !cancelled && setLoading(false));
     return () => { cancelled = true; };
   }, [dispatch, puzzleService, reloadKey]);
 
@@ -61,7 +62,7 @@ export function useCodePuzzle() {
           ? applyGuestPuzzleSolve(dispatch, puzzle.id, xpSolveCounts, calendarDateISO, xpTotal)
           : applyRegisteredPuzzleSolve(dispatch, submitResult, calendarDateISO),
       );
-    } catch { setFeedbackMessage(SUBMIT_FAILED_MESSAGE); } finally { setSubmitting(false); }
+    } catch (error) { logError("[PUZZLE]", error, { phase: "submit" }); setFeedbackMessage(SUBMIT_FAILED_MESSAGE); } finally { setSubmitting(false); }
   }, [dispatch, input, isGuest, puzzle, puzzleService, submitting, xpSolveCounts, xpTotal]);
   const revealReferenceAnswer = useCallback(() => setRefOpen(true), []);
   const setCurrentIndex = useCallback((u: SetStateAction<number>) => { setRefOpen(false); setPuzzleIndex(u); }, []);

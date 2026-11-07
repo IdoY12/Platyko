@@ -44,7 +44,7 @@ export async function hydrateStoreFromStorage(dispatch: AppDispatch): Promise<vo
       secure = await readSecureSessionTokens();
     } catch (error) {
       logError("[APP]", error, { phase: "hydrate-secure-tokens" });
-      if (parsed.session.isAuthenticated) dispatch(setBootstrapError("Could not access your stored credentials. Please log in again."));
+      if (parsed.session.isAuthenticated) dispatch(setBootstrapError("Could not access your stored credentials. Tap Retry to try again."));
     }
     dispatch(hydrateSession({ ...parsed.session, ...secure }));
   } catch (error) {

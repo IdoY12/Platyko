@@ -30,6 +30,8 @@ export function ExerciseViewPuzzle({ exercise, accessToken, onLessonExerciseComp
         placeholder="Type answer"
         placeholderTextColor={colors.textMuted}
         autoCapitalize="none"
+        autoCorrect={false}
+        spellCheck={false}
       />
       <View style={exerciseViewStyles.codePuzzleTokenRow}>
         {hintTokens.map((token) => (

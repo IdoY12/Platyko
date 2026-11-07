@@ -14,10 +14,7 @@ export function useDuelSocketBootstrap() {
   const accessToken = useAppSelector((s) => s.session.accessToken);
   const userId = useAppSelector((s) => s.session.userId);
   const accessTokenRef = useRef(accessToken);
-  useEffect(() => {
-    accessTokenRef.current = accessToken;
-    if (duelConnectionRefs.socket) duelConnectionRefs.socket.auth = { token: accessToken ?? "" };
-  }, [accessToken]);
+  accessTokenRef.current = accessToken;
   const url = DUEL_SOCKET_URL;
   useEffect(() => {
     connectDuelSocket(url, accessTokenRef.current);

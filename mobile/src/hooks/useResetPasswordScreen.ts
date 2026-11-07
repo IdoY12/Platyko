@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { passwordPolicyError } from "@project/user-credentials";
 import type { ResetPasswordNavigation } from "@/types/rootNavigation.types";
@@ -11,7 +11,7 @@ type ResetPasswordRouteParams = { email: string };
 export function useResetPasswordScreen() {
   const navigation = useNavigation<ResetPasswordNavigation>();
   const email = (useRoute().params as ResetPasswordRouteParams).email;
-  const { code, setCode, resendSecondsLeft, restartResendCooldown } = useOtpCodeEntry(true);
+  const { code, setCode, resendSecondsLeft, resend } = useOtpCodeEntry(true);
   const [newPassword, setNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,22 +41,12 @@ export function useResetPasswordScreen() {
     }
   }, [canSubmit, code, email, newPassword]);
 
-  const resendingRef = useRef(false);
   const onResend = useCallback(async () => {
-    if (resendSecondsLeft > 0 || loading || resendingRef.current) return;
-    resendingRef.current = true;
+    if (loading) return;
     setError(null);
-    try {
-      await passwordResetService.requestCode(email);
-      logAuth("password-reset:resend", { email });
-      restartResendCooldown();
-    } catch (resendError) {
-      logError("[AUTH]", resendError, { mode: "password-reset-resend" });
-      setError(resendError instanceof Error ? resendError.message : "Unable to resend the code");
-    } finally {
-      resendingRef.current = false;
-    }
-  }, [email, loading, resendSecondsLeft, restartResendCooldown]);
+    const failure = await resend(() => passwordResetService.requestCode(email), "password-reset-resend");
+    if (failure) setError(failure); else logAuth("password-reset:resend", { email });
+  }, [email, loading, resend]);
 
   /** Exits the flow back to the Auth form (the screen below in the stack). */
   const onBackToSignIn = useCallback(() => navigation.goBack(), [navigation]);

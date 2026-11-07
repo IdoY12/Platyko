@@ -8,6 +8,7 @@ import { resetLesson } from "@/redux/lesson-slice";
 import { changePasswordRequest, deleteAccountRequest, updateUsername } from "@/utils/profileAccountMutations";
 import { patchLearningSettings } from "@/utils/profileUiAndPreferences";
 import { confirmLogout } from "@/utils/confirmLogout";
+import { logError } from "@/utils/logger";
 import type { ProfileDraftState } from "./useProfileDraftState";
 import type { ProfileReduxState } from "./useProfileRedux";
 
@@ -64,7 +65,7 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
       if (d.busyAction) return;
       d.setBusyAction("reset");
       try { await new LearningService().resetProgress(); dispatch(resetLesson()); }
-      catch { Alert.alert("Reset failed", "We could not reset your progress. Check your connection and try again."); }
+      catch (error) { logError("[PROFILE]", error, { phase: "reset-progress" }); Alert.alert("Reset failed", "We could not reset your progress. Check your connection and try again."); }
       finally { d.setBusyAction(null); }
     };
     Alert.alert("Reset Learn Progress", "This will permanently delete all your learning progress and cannot be undone.", [

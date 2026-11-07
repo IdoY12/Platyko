@@ -37,8 +37,9 @@ export async function runLessonExerciseLoad(
         if (resumeWithinBlock > 0 && resumeWithinBlock < blockExercises.length) {
           startIndex = resumeWithinBlock;
         }
-      } catch {
+      } catch (error) {
         // server resume is best-effort; local progress already applied above
+        logError("[LESSON]", error, { phase: "resume" });
       }
     }
 

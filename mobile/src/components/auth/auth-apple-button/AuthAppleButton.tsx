@@ -26,7 +26,7 @@ export function AuthAppleButton({ dispatch }: { dispatch: AppDispatch }) {
           AppleAuthentication.AppleAuthenticationScope.EMAIL,
         ],
       });
-      if (!credential.identityToken) throw new Error("Apple did not return an identity token");
+      if (!credential.identityToken) throw new Error("Apple sign-in failed. Please try again.");
       const state = store.getState();
       const r = await authService.loginWithApple(
         credential.identityToken,

@@ -57,6 +57,7 @@ export function AuthCredentials(p: Props) {
           placeholderTextColor={colors.textMuted}
           style={[styles.input, styles.passwordInput]}
           secureTextEntry={p.secure}
+          autoCapitalize="none" autoCorrect={false}
           accessibilityLabel="Password input"
         />
         <Pressable onPress={() => p.setSecure((v) => !v)} style={styles.showHide}>

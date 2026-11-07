@@ -45,7 +45,7 @@ export default abstract class AuthAware {
           config.headers.set("Authorization", `Bearer ${currentAccessToken}`);
           return this.axiosInstance.request(config);
         }
-        if (!refreshToken) { resetStoresAfterLogout(store.dispatch); throw error; }
+        if (!refreshToken) throw error;
         try {
           if (!refreshInFlight) {
             refreshInFlight = axios

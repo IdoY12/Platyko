@@ -3,6 +3,7 @@ import type { Socket } from "socket.io-client";
 import { logDuel, logError } from "@/utils/logger";
 import { duelConnectionRefs, normalizeDuelReplayEntry } from "@/utils/duelSocketModels";
 import { shuffleArray } from "@/utils/shuffleArray";
+import UserService from "@/services/auth-aware/UserService";
 import store from "@/redux/store";
 import {
   connectionLostCleared, connectionLostSet, duelEnded, duelReset, matchFound, opponentLeftReceived,
@@ -23,7 +24,11 @@ type DuelEndWire = {
 export function bindDuelSocketEvents(socket: Socket) {
   socket.on("connect", () => { logDuel("socket:connected", { socketId: socket.id }); store.dispatch(connectionLostCleared()); });
   socket.on("disconnect", (reason) => { logDuel("socket:disconnected", { reason }); store.dispatch(connectionLostSet()); });
-  socket.on("connect_error", (e) => { logError("[DUEL]", e, { phase: "socket-connect" }); store.dispatch(connectionLostSet()); });
+  socket.on("connect_error", (e) => {
+    logError("[DUEL]", e, { phase: "socket-connect" }); store.dispatch(connectionLostSet());
+    // Expired access token refused: renew it through the HTTP client, then reconnect once.
+    if (e.message === "Invalid token") void new UserService().getMe().then(() => socket.connect(), () => undefined);
+  });
   // The server restarted (or otherwise dropped the match) while we were in it: leave the arena.
   socket.on("no_active_duel", () => {
     const { sessionId, duelEnd } = store.getState().duelLive;

@@ -4,6 +4,7 @@ import store from "@/redux/store";
 import UserService from "@/services/auth-aware/UserService";
 import { logError } from "@/utils/logger";
 import { setAuthChecked, setBootstrapError } from "@/redux/session-slice";
+import { readTokensAgain } from "@/utils/secureSessionTokens";
 import { identityOf, setNotificationsEnabled, setUserIdentity, updatePreferences, type Commitment } from "@/redux/profile-slice";
 import { hydrateXp } from "@/redux/xp-slice";
 import { hydrateStreak } from "@/redux/streak-slice";
@@ -12,8 +13,8 @@ import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { discardLocalAccount, resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
 
 function isBootstrapServerError(error: unknown): boolean {
-  const status = axios.isAxiosError(error) ? error.response?.status : undefined;
-  return typeof status === "number" && status >= 500 && status < 600;
+  const status = axios.isAxiosError(error) ? error.response?.status ?? 0 : 0;
+  return status >= 500 && status < 600;
 }
 
 export function isAuthFailure(error: unknown): boolean {
@@ -29,15 +30,14 @@ export function bootstrapSession(dispatch: AppDispatch): Promise<void> {
 }
 
 async function _run(dispatch: AppDispatch): Promise<void> {
-  const token = store.getState().session.accessToken;
-  const isAuthed = store.getState().session.isAuthenticated;
+  const { isAuthenticated: isAuthed, accessToken: hydratedToken } = store.getState().session;
 
   if (!isAuthed) { dispatch(setAuthChecked(true)); return; }
-  // Signed in on disk but the keychain is empty: drop the account's local copy so it can never be
+  const token = hydratedToken ?? (await readTokensAgain(dispatch));
+  if (token === undefined) { dispatch(setAuthChecked(true)); return; }
+  // Signed in on disk but the keychain is truly empty: drop the local copy so it can never be
   // migrated as "guest progress" into someone else's sign-up.
-  // (A keychain *read error* already set bootstrapError in hydrateStore: keep everything, show the banner.)
-  if (!token) { if (!store.getState().session.bootstrapError) resetStoresAfterLogout(dispatch); dispatch(setAuthChecked(true)); return; }
-
+  if (!token) { resetStoresAfterLogout(dispatch); return; }
   const userService = new UserService();
 
   try {
@@ -48,14 +48,8 @@ async function _run(dispatch: AppDispatch): Promise<void> {
     // Notification preference lives on the User model, so it applies even before goal/level are set.
     dispatch(setNotificationsEnabled(userPreferences.notificationsEnabled));
 
-    if (userPreferences.userGoal && userPreferences.dailyGoalMinutes) {
-      dispatch(updatePreferences({
-        goal: userPreferences.userGoal,
-        experienceLevel: userPreferences.experienceLevel,
-        commitment: String(userPreferences.dailyGoalMinutes) as Commitment,
-        notificationsEnabled: userPreferences.notificationsEnabled,
-      }));
-    }
+    const { userGoal: goal, experienceLevel, dailyGoalMinutes, notificationsEnabled } = userPreferences;
+    if (goal && dailyGoalMinutes) dispatch(updatePreferences({ goal, experienceLevel, commitment: String(dailyGoalMinutes) as Commitment, notificationsEnabled }));
 
     const progress = await userService.getProgressSummary(getStreakCalendarDate());
     dispatch(hydrateXp({ xpTotal: progress.xpTotal, level: progress.level }));
@@ -65,9 +59,8 @@ async function _run(dispatch: AppDispatch): Promise<void> {
     logError("[AUTH]", error, { phase: "bootstrap" });
     if (isBootstrapServerError(error)) {
       dispatch(setBootstrapError("We could not load your account data because the server had a problem. You are still signed in. Tap Retry to try again."));
-    } else if (isAuthFailure(error)) {
-      await discardLocalAccount(dispatch);
-    } else {
+    } else if (isAuthFailure(error)) await discardLocalAccount(dispatch);
+    else {
       dispatch(setBootstrapError("Could not reach the server. Check your connection and tap Retry."));
     }
   } finally {

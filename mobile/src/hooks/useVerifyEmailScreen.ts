@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useAppDispatch } from "@/redux/hooks";
 import { useOtpCodeEntry } from "@/hooks/useOtpCodeEntry";
@@ -15,7 +15,7 @@ export function useVerifyEmailScreen() {
   const email = params?.email ?? "";
   const registrationToken = params?.registrationToken ?? "";
   // Register always sends a code right before this screen mounts, so the resend cooldown starts full.
-  const { code, setCode, resendSecondsLeft, restartResendCooldown } = useOtpCodeEntry(true);
+  const { code, setCode, resendSecondsLeft, resend } = useOtpCodeEntry(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,22 +44,12 @@ export function useVerifyEmailScreen() {
     }
   }, [code, dispatch, email, loading, registrationToken]);
 
-  const resendingRef = useRef(false);
   const onResend = useCallback(async () => {
-    if (resendSecondsLeft > 0 || loading || resendingRef.current) return;
-    resendingRef.current = true;
+    if (loading) return;
     setError(null);
-    try {
-      await emailVerificationService.resendCode(email, registrationToken);
-      logAuth("verify-email:resend", { email });
-      restartResendCooldown();
-    } catch (resendError) {
-      logError("[AUTH]", resendError, { mode: "verify-email-resend" });
-      setError(resendError instanceof Error ? resendError.message : "Unable to resend the code");
-    } finally {
-      resendingRef.current = false;
-    }
-  }, [email, loading, registrationToken, resendSecondsLeft, restartResendCooldown]);
+    const failure = await resend(() => emailVerificationService.resendCode(email, registrationToken), "verify-email-resend");
+    if (failure) setError(failure); else logAuth("verify-email:resend", { email });
+  }, [email, loading, registrationToken, resend]);
 
   /** Exits the flow back to the Auth form (the screen below in the stack). */
   const onBackToSignIn = useCallback(() => navigation.goBack(), [navigation]);
