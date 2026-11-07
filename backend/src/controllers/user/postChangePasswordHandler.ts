@@ -24,11 +24,7 @@ export async function postChangePassword(req: AuthenticatedRequest, res: Respons
 
   // 400, not 401: a wrong current password is a validation failure, not an expired session (the client refreshes on 401).
   if (!isPasswordValid) return res.status(400).json({ error: "Current password is incorrect" });
-  await prisma.user.update({
-    where: { id: req.user!.userId },
-    data: { hashedPassword: await hashPassword(newPassword) },
-  });
-  await revokeAllSessionsForUser(req.user!.userId);
+  await revokeAllSessionsForUser(req.user!.userId, { hashedPassword: await hashPassword(newPassword) });
   const revokedUser = await prisma.user.findUniqueOrThrow({ where: { id: req.user!.userId } });
   const { accessToken, refreshToken } = await issueSessionForUser(revokedUser);
 

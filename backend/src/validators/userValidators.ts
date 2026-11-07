@@ -31,7 +31,7 @@ export const postPracticeLogBodySchema = z.object({
   practicedSeconds: z.number().int().min(1).max(60 * 60),
 });
 
-export const patchAvatarBodySchema = z.object({ avatarUrl: z.string().url() });
+export const patchAvatarBodySchema = z.object({ avatarUrl: z.string().max(2048).url() });
 
 export const progressSummaryQuerySchema = z.object({
   localDate: z.string().regex(CALENDAR_DATE_PATTERN),

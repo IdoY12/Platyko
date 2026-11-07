@@ -21,6 +21,9 @@ export const SENSITIVE_KEY_SUBSTRINGS = [
   "correctanswer",
   "acceptedanswers",
   "explanation",
+  "fullname",
+  "givenname",
+  "familyname",
 ] as const;
 
 /** Whole-key matches for short names that would over-match as substrings (`code` vs `statusCode`). */

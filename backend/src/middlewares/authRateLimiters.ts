@@ -25,6 +25,19 @@ const limiter = (max: number) =>
 // Registration is limited more strictly in production to slow enumeration attacks
 export const authRegisterRateLimiter = config.get<string>("env") === "production" ? limiter(8) : limiter(100);
 export const authLoginRateLimiter = limiter(8);
+
+/**
+ * Per-address cap on emails a stranger can trigger (reset codes, sign-up codes). Runs after validateBody,
+ * so the key is the normalised address: 5 codes x 5 guesses = 25 guesses per account per day at most.
+ */
+export const perAddressEmailLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (request) => `email:${(request.validatedBody as { email: string }).email}`,
+  message: { error: "Too many codes requested for this address today. Try again tomorrow." },
+});
 // A current-password check is a credential guess like login.
 export const changePasswordRateLimiter = limiter(8);
 export const authRefreshRateLimiter = limiter(60);

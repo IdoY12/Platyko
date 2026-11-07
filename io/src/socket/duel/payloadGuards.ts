@@ -40,5 +40,6 @@ export function readSubmitAnswerPayload(payload: unknown): SubmitAnswerPayload |
   const { round_number: roundNumber, answer, time_taken_ms: timeTakenMs } = payload;
   if (!Number.isInteger(roundNumber) || typeof answer !== "string") return null;
   if (typeof timeTakenMs !== "number" || !Number.isFinite(timeTakenMs) || timeTakenMs < 0) return null;
-  return { sessionId, roundNumber: roundNumber as number, answer, timeTakenMs };
+  // A round lasts 60 s; anything beyond is a bad clock or a crafted payload, never stored as-is.
+  return { sessionId, roundNumber: roundNumber as number, answer: answer.slice(0, 2000), timeTakenMs: Math.min(timeTakenMs, 60_000) };
 }

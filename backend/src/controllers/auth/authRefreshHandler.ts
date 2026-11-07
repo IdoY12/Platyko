@@ -38,7 +38,7 @@ export async function authRefreshHandler(request: Request, response: Response): 
     const tokenPayload = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
     const accessToken = signAccessToken(tokenPayload);
     const newRefreshToken = signRefreshToken(tokenPayload);
-    // A used token is reuse and revokes the whole family, unless it is replayed seconds after rotation
+    // A used token is reuse and revokes every session, unless it is replayed seconds after rotation
     // by the device whose reply was lost: then its orphaned successor is consumed in its place.
     const claimId = stored.used ? await graceReplaySuccessorId(stored) : stored.id;
     const rotated = claimId ? await rotateRefreshToken(user.id, claimId, stored.family, newRefreshToken) : false;

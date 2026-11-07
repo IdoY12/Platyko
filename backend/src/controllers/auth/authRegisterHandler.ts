@@ -4,7 +4,7 @@ import { EMAIL_TAKEN_MESSAGE, USERNAME_TAKEN_MESSAGE } from "@project/user-crede
 import { logError, logInfo, logWarn } from "../../utils/logger.js";
 import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
 import type { RegisterBody } from "../../validators/authValidators.js";
-import { createPendingRegistration, purgeStalePendingRegistrations } from "../../services/auth/pendingRegistrations.js";
+import { createPendingRegistration, pendingResendCooldownSecondsLeft, purgeStalePendingRegistrations } from "../../services/auth/pendingRegistrations.js";
 import { EMAIL_SEND_FAILED_MESSAGE, sendVerificationCodeEmail } from "../../services/auth/sendVerificationEmail.js";
 
 /**
@@ -21,6 +21,13 @@ export async function authRegisterHandler(request: Request, response: Response):
     if (taken) {
       logWarn("[AUTH]", "register:taken", { email, username, field: taken.email === email ? "email" : "username" });
       response.status(409).json({ error: taken.email === email ? EMAIL_TAKEN_MESSAGE : USERNAME_TAKEN_MESSAGE });
+      return;
+    }
+    // A repeat register for the same address within the cooldown must not mail again or cancel the
+    // sign-up that is in progress (inbox bombing).
+    const cooldownSeconds = await pendingResendCooldownSecondsLeft(email);
+    if (cooldownSeconds > 0) {
+      response.status(429).json({ error: `Please wait ${cooldownSeconds}s before requesting another code`, retryAfterSeconds: cooldownSeconds });
       return;
     }
     const { code, registrationToken } = await createPendingRegistration({ email, username, password, snapshot });

@@ -37,8 +37,10 @@ async function authenticateDuelSocket(socket: DuelSocket, next: (err?: Error) =>
     }
     socket.data.authenticatedUserId = decoded.userId;
     next();
-  } catch {
-    logInfo("[DUEL]", "socket:invalid-token", { socketId: socket.id });
-    next(new Error("Invalid token"));
+  } catch (error) {
+    // Only a token problem is an auth failure; a DB outage must not look like one to the client.
+    const tokenProblem = error instanceof Error && /token|jwt|signature|expired/i.test(error.name + error.message);
+    logInfo("[DUEL]", tokenProblem ? "socket:invalid-token" : "socket:auth-unavailable", { socketId: socket.id });
+    next(new Error(tokenProblem ? "Invalid token" : "Service unavailable"));
   }
 }

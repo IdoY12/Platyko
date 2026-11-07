@@ -55,10 +55,15 @@ export async function authMiddleware(
 /** Attaches `request.user` when a valid Bearer token is present; otherwise continues as anonymous (no 401). */
 export async function optionalAuthMiddleware(
   request: AuthenticatedRequest,
-  _response: Response,
+  response: Response,
   next: NextFunction,
 ): Promise<void> {
   const resolution = await resolveBearerUser(request.headers.authorization);
+  // A signed-in caller must not be silently downgraded to a guest (no XP) just because the DB blinked.
+  if ("unavailable" in resolution) {
+    response.status(503).json({ error: DATABASE_UNAVAILABLE_MESSAGE });
+    return;
+  }
   if ("user" in resolution) request.user = resolution.user;
   else delete request.user;
   next();
