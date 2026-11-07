@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { passwordPolicyError } from "@project/user-credentials";
 import type { ResetPasswordNavigation } from "@/types/rootNavigation.types";
+import { useSingleFlight } from "@/hooks/useSingleFlight";
 import { useOtpCodeEntry } from "@/hooks/useOtpCodeEntry";
 import { logAuth, logError, logNav } from "@/utils/logger";
 import passwordResetService from "@/services/passwordReset";
@@ -9,6 +10,7 @@ import passwordResetService from "@/services/passwordReset";
 type ResetPasswordRouteParams = { email: string };
 
 export function useResetPasswordScreen() {
+  const singleFlight = useSingleFlight();
   const navigation = useNavigation<ResetPasswordNavigation>();
   const email = (useRoute().params as ResetPasswordRouteParams).email;
   const { code, setCode, resendSecondsLeft, resend } = useOtpCodeEntry(true);
@@ -25,7 +27,7 @@ export function useResetPasswordScreen() {
   const passwordHint = newPassword.length > 0 ? passwordPolicyError(newPassword) : null;
   const canSubmit = code.length === 6 && newPassword.length > 0 && passwordHint === null && !loading;
 
-  const onSubmit = useCallback(async () => {
+  const onSubmit = useCallback(() => singleFlight(async () => {
     if (!canSubmit) return;
     setLoading(true);
     setError(null);
@@ -39,7 +41,7 @@ export function useResetPasswordScreen() {
     } finally {
       setLoading(false);
     }
-  }, [canSubmit, code, email, newPassword]);
+  }), [canSubmit, code, email, newPassword, singleFlight]);
 
   const onResend = useCallback(async () => {
     if (loading) return;

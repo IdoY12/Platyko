@@ -1,6 +1,6 @@
 /**
  * `duelConnectionRefs` holds runtime connection state: the active Socket.IO client, the `userId` associated with
- * queue joins, and `lastAuthTokenKey` for reconnect deduplication. These values are not stored in Redux for three
+ * queue joins. These values are not stored in Redux for three
  * reasons: (1) `Socket` is a non-serializable class instance and would violate Redux Toolkit serialization rules and
  * any persistence layer. (2) They do not need to drive React re-renders; putting them in the store would add dispatch
  * churn without UI benefit. (3) They are module-scoped transport plumbing, not render state.
@@ -45,7 +45,6 @@ export interface DuelReplayRow {
 
 export const duelConnectionRefs = {
   socket: null as Socket | null,
-  lastAuthTokenKey: "__init__",
   userId: null as string | null,
 };
 

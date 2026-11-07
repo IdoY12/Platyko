@@ -5,40 +5,32 @@ import { updateTokens } from "@/redux/session-slice";
 import { setUserIdentity } from "@/redux/profile-slice";
 import authService from "@/services/auth";
 import passwordResetService from "@/services/passwordReset";
+import { useSingleFlight } from "@/hooks/useSingleFlight";
 import { useOtpCodeEntry } from "@/hooks/useOtpCodeEntry";
 import { logAuth, logError } from "@/utils/logger";
 
 /** Drives the Profile "Set Password" modal: OTP request -> confirm -> silent re-login (confirm revokes every session). */
 export function useSetPasswordFlow(onDone: () => void) {
+  const singleFlight = useSingleFlight();
   const dispatch = useAppDispatch();
   const email = useAppSelector((s) => s.profile.email);
-  const { code, setCode, resendSecondsLeft, restartResendCooldown } = useOtpCodeEntry(false);
+  const { code, setCode, resendSecondsLeft, resend } = useOtpCodeEntry(false);
   const [codeSent, setCodeSent] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const sendCode = useCallback(async () => {
-    if (loading) return;
-    setLoading(true);
     setError(null);
-    try {
-      await passwordResetService.requestCode(email);
-      logAuth("set-password:code-sent", { email });
-      setCodeSent(true);
-      restartResendCooldown();
-    } catch (requestError) {
-      logError("[PROFILE]", requestError, { phase: "set-password-request" });
-      setError(requestError instanceof Error ? requestError.message : "Unable to send the code");
-    } finally {
-      setLoading(false);
-    }
-  }, [email, restartResendCooldown, loading]);
+    const failure = await resend(() => passwordResetService.requestCode(email), "set-password-request");
+    if (failure) setError(failure);
+    else { logAuth("set-password:code-sent", { email }); setCodeSent(true); }
+  }, [email, resend]);
 
   const passwordHint = newPassword.length > 0 ? passwordPolicyError(newPassword) : null;
   const canSubmit = code.length === 6 && newPassword.length > 0 && passwordHint === null && !loading;
 
-  const submit = useCallback(async () => {
+  const submit = useCallback(() => singleFlight(async () => {
     if (!canSubmit) return;
     setLoading(true);
     setError(null);
@@ -64,7 +56,7 @@ export function useSetPasswordFlow(onDone: () => void) {
     } finally {
       setLoading(false);
     }
-  }, [canSubmit, code, dispatch, email, newPassword, onDone]);
+  }), [canSubmit, code, dispatch, email, newPassword, onDone, singleFlight]);
 
   return { email, codeSent, code, setCode, newPassword, setNewPassword, loading, error, passwordHint, canSubmit, resendSecondsLeft, sendCode, submit };
 }

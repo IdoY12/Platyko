@@ -7,7 +7,10 @@ import { logAuth, logError, logNav } from "@/utils/logger";
 import authService from "@/services/auth";
 import { buildGuestLocalState } from "@/services/authGuestState";
 
+import { useSingleFlight } from "@/hooks/useSingleFlight";
+
 export function useAuthScreen(dispatch: AppDispatch) {
+  const singleFlight = useSingleFlight();
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -36,7 +39,7 @@ export function useAuthScreen(dispatch: AppDispatch) {
     return () => logNav("screen:leave", { screen: "AuthScreen" });
   }, []);
 
-  const onSubmit = useCallback(async () => {
+  const onSubmit = useCallback(() => singleFlight(async () => {
     if (!canSubmit || loading) return;
     const normalizedEmail = normalizeEmail(email);
     logAuth("submit:start", { mode: isLogin ? "login" : "register", email: normalizedEmail });
@@ -58,7 +61,7 @@ export function useAuthScreen(dispatch: AppDispatch) {
     } finally {
       setLoading(false);
     }
-  }, [canSubmit, dispatch, email, isLogin, loading, navigation, password, username]);
+  }), [canSubmit, dispatch, email, isLogin, loading, navigation, password, username, singleFlight]);
 
   return {
     email, setEmail, username, setUsername, password, setPassword, secure, setSecure,

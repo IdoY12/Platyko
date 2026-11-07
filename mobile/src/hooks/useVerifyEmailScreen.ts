@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useAppDispatch } from "@/redux/hooks";
+import { useSingleFlight } from "@/hooks/useSingleFlight";
 import { useOtpCodeEntry } from "@/hooks/useOtpCodeEntry";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
 import { logAuth, logError, logNav } from "@/utils/logger";
@@ -9,6 +10,7 @@ import emailVerificationService from "@/services/emailVerification";
 type VerifyEmailRouteParams = { email: string; registrationToken: string };
 
 export function useVerifyEmailScreen() {
+  const singleFlight = useSingleFlight();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const params = useRoute().params as VerifyEmailRouteParams | undefined;
@@ -26,7 +28,7 @@ export function useVerifyEmailScreen() {
 
   const canVerify = code.length === 6 && !loading;
 
-  const onVerify = useCallback(async () => {
+  const onVerify = useCallback(() => singleFlight(async () => {
     if (code.length !== 6 || loading) return;
     setLoading(true);
     setError(null);
@@ -42,7 +44,7 @@ export function useVerifyEmailScreen() {
     } finally {
       setLoading(false);
     }
-  }, [code, dispatch, email, loading, registrationToken]);
+  }), [code, dispatch, email, loading, registrationToken, singleFlight]);
 
   const onResend = useCallback(async () => {
     if (loading) return;

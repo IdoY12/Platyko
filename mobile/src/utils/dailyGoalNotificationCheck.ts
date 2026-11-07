@@ -15,10 +15,11 @@ export function syncDailyPracticeReminder(): Promise<void> {
   return syncQueue;
 }
 
-/** True when notifications are (or become) granted. A previous denial returns false without a prompt. */
+/** True when notifications are (or become) granted. The OS dialog is shown only while undecided, never again after a denial. */
 async function ensureNotificationPermission(): Promise<boolean> {
   const current = await Notifications.getPermissionsAsync();
   if (current.status === Notifications.PermissionStatus.GRANTED) return true;
+  if (current.status !== Notifications.PermissionStatus.UNDETERMINED) return false;
   const requested = await Notifications.requestPermissionsAsync();
   return requested.status === Notifications.PermissionStatus.GRANTED;
 }

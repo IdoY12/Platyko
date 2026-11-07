@@ -11,14 +11,12 @@ import { duelReset } from "@/redux/duel-live-slice";
 import type { DuelStackParamList } from "@/types/duelNavigation.types";
 
 export function useDuelSocketBootstrap() {
-  const accessToken = useAppSelector((s) => s.session.accessToken);
   const userId = useAppSelector((s) => s.session.userId);
-  const accessTokenRef = useRef(accessToken);
-  accessTokenRef.current = accessToken;
   const url = DUEL_SOCKET_URL;
   useEffect(() => {
-    connectDuelSocket(url, accessTokenRef.current);
+    connectDuelSocket(url);
     return () => {
+      duelConnectionRefs.socket?.removeAllListeners();
       duelConnectionRefs.socket?.disconnect();
       duelConnectionRefs.socket = null;
     };
@@ -34,11 +32,10 @@ export function useDuelMatchmakingSocket() {
   const connectionLost = useAppSelector((s) => s.duelLive.connectionLost);
   const url = DUEL_SOCKET_URL;
   const joinQueue = useCallback(
-    async (p: { userId: string; token: string }) => {
+    async (p: { userId: string }) => {
       await refreshSessionOrLogoutOnForeground(dispatch);
-      const next = store.getState().session.accessToken;
-      if (!next) return;
-      duelJoinQueue(url, { userId: p.userId, token: next });
+      if (!store.getState().session.accessToken) return;
+      duelJoinQueue(url, p.userId);
     },
     [dispatch, url],
   );

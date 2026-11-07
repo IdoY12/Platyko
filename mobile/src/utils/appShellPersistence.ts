@@ -1,12 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppState, Platform } from "react-native";
 import * as Notifications from "expo-notifications";
-import type store from "@/redux/store";
+import store from "@/redux/store";
 import type { AppDispatch } from "@/redux/store";
 import UserService from "@/services/auth-aware/UserService";
 import { identityOf, setUserIdentity } from "@/redux/profile-slice";
 import { REDUX_PERSIST_KEY } from "@/utils/hydrateStore";
-import { writeSecureSessionTokens } from "@/utils/secureSessionTokens";
+import { persistTokens } from "@/utils/secureSessionTokens";
 import { logError } from "@/utils/logger";
 import { discardLocalAccount } from "@/utils/resetStoresAfterLogout";
 import { isAuthFailure } from "@/utils/bootstrapSession";
@@ -30,7 +30,7 @@ export function subscribeStoreToHybridStorage(appStore: typeof store): () => voi
     const tokens = `${state.session.accessToken ?? ""}|${state.session.refreshToken ?? ""}`;
     if (tokens !== previousTokens) {
       previousTokens = tokens;
-      void writeSecureSessionTokens(state.session.accessToken, state.session.refreshToken);
+      persistTokens(state.session.accessToken, state.session.refreshToken);
     }
     const snapshot = JSON.stringify({
       session: { ...state.session, accessToken: null, refreshToken: null, hasHydrated: false, authChecked: false, bootstrapError: null },

@@ -4,14 +4,9 @@ import { bindDuelSocketEvents } from "@/utils/duelInboundSocket";
 import { duelConnectionRefs } from "@/utils/duelSocketModels";
 import store from "@/redux/store";
 
-export function connectDuelSocket(url: string, authToken: string | null): Socket {
-  const tokenKey = authToken ?? "";
-  if (duelConnectionRefs.socket && duelConnectionRefs.lastAuthTokenKey === tokenKey) return duelConnectionRefs.socket;
-  if (duelConnectionRefs.socket) {
-    duelConnectionRefs.socket.removeAllListeners();
-    duelConnectionRefs.socket.disconnect();
-  }
-  duelConnectionRefs.lastAuthTokenKey = tokenKey;
+/** One socket per signed-in user; it reads the current token on every (re)connect, so rotations need no new socket. */
+export function connectDuelSocket(url: string): Socket {
+  if (duelConnectionRefs.socket) return duelConnectionRefs.socket;
   // Read on every (re)connect, so a reconnect after a token rotation never presents an expired token.
   const socket = io(url, { transports: ["websocket"], auth: (cb) => cb({ token: store.getState().session.accessToken ?? "" }) });
   bindDuelSocketEvents(socket);

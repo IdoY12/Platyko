@@ -3,14 +3,13 @@ import { API_BASE_URL, REQUEST_TIMEOUT_MS } from "@/config/network";
 import store from "@/redux/store";
 import { updateTokens } from "@/redux/session-slice";
 import { resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
-import { writeSecureSessionTokens } from "@/utils/secureSessionTokens";
 
 type RetryableConfig = InternalAxiosRequestConfig & { _retry?: boolean };
 
-/** Only a definitive 4xx from /auth/refresh means the session is gone; timeouts, 408/429 and 5xx keep it. */
+/** Only the server rejecting the refresh token (400/401/403) means the session is gone; anything else is transient. */
 function refreshWasRejected(error: unknown): boolean {
   const status = axios.isAxiosError(error) ? error.response?.status : undefined;
-  return typeof status === "number" && status >= 400 && status < 500 && status !== 408 && status !== 429;
+  return status === 400 || status === 401 || status === 403;
 }
 
 let refreshInFlight: Promise<{ accessToken: string; refreshToken: string }> | null = null;
@@ -54,8 +53,8 @@ export default abstract class AuthAware {
               .finally(() => { refreshInFlight = null; });
           }
           const { accessToken: nextAccessToken, refreshToken: nextRefreshToken } = await refreshInFlight;
+          // The storage subscriber persists (and retries) the new pair; this request must not wait on the keychain.
           store.dispatch(updateTokens({ accessToken: nextAccessToken, refreshToken: nextRefreshToken }));
-          await writeSecureSessionTokens(nextAccessToken, nextRefreshToken);
           config.headers.set("Authorization", `Bearer ${nextAccessToken}`);
           return this.axiosInstance.request(config);
         } catch (refreshError) {
