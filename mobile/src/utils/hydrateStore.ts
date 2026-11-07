@@ -8,6 +8,7 @@ import { hydrateLesson } from "@/redux/lesson-slice";
 import { hydrateStats } from "@/redux/duel-slice";
 import { hydratePuzzle } from "@/redux/puzzle-slice";
 import { logAuth, logError } from "@/utils/logger";
+import { EXPIRED_ACCESS_TOKEN, KEYCHAIN_UNREADABLE_MESSAGE } from "@/constants/secureStorageKeyConstants";
 import { readSecureSessionTokens } from "@/utils/secureSessionTokens";
 
 export const REDUX_PERSIST_KEY = "platyko-redux-store";
@@ -44,9 +45,10 @@ export async function hydrateStoreFromStorage(dispatch: AppDispatch): Promise<vo
       secure = await readSecureSessionTokens();
     } catch (error) {
       logError("[APP]", error, { phase: "hydrate-secure-tokens" });
-      if (parsed.session.isAuthenticated) dispatch(setBootstrapError("Could not access your stored credentials. Tap Retry to try again."));
+      if (parsed.session.isAuthenticated) dispatch(setBootstrapError(KEYCHAIN_UNREADABLE_MESSAGE));
     }
-    dispatch(hydrateSession({ ...parsed.session, ...secure }));
+    const accessToken = secure.accessToken ?? (parsed.session.isAuthenticated ? EXPIRED_ACCESS_TOKEN : null);
+    dispatch(hydrateSession({ ...parsed.session, ...secure, accessToken }));
   } catch (error) {
     logError("[APP]", error, { phase: "hydrate-redux" });
   } finally {

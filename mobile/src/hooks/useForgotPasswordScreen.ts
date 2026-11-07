@@ -7,7 +7,10 @@ import passwordResetService from "@/services/passwordReset";
 
 type ForgotPasswordRouteParams = { email?: string };
 
+import { useSingleFlight } from "@/hooks/useSingleFlight";
+
 export function useForgotPasswordScreen() {
+  const singleFlight = useSingleFlight();
   const navigation = useNavigation<ForgotPasswordNavigation>();
   const params = useRoute().params as ForgotPasswordRouteParams | undefined;
   const [email, setEmail] = useState(params?.email ?? "");
@@ -21,7 +24,7 @@ export function useForgotPasswordScreen() {
 
   const canSubmit = email.includes("@") && !loading;
 
-  const onSubmit = useCallback(async () => {
+  const onSubmit = useCallback(() => singleFlight(async () => {
     if (!canSubmit) return;
     setLoading(true);
     setError(null);
@@ -37,7 +40,7 @@ export function useForgotPasswordScreen() {
       setError(requestError instanceof Error ? requestError.message : "Unable to send the code");
       setLoading(false);
     }
-  }, [canSubmit, email, navigation]);
+  }), [canSubmit, email, navigation, singleFlight]);
 
   return { email, setEmail, loading, error, canSubmit, onSubmit };
 }

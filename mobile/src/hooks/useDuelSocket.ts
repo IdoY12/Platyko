@@ -7,7 +7,7 @@ import { duelConnectionRefs } from "@/utils/duelSocketModels";
 import { connectDuelSocket } from "@/utils/duelSocketIo";
 import { refreshSessionOrLogoutOnForeground } from "@/utils/appShellPersistence";
 import { duelJoinQueue, duelLeaveQueue, duelRequestRematch } from "@/utils/duelSocketCommands";
-import { duelReset } from "@/redux/duel-live-slice";
+import { connectionLostSet, duelReset } from "@/redux/duel-live-slice";
 import type { DuelStackParamList } from "@/types/duelNavigation.types";
 
 export function useDuelSocketBootstrap() {
@@ -36,7 +36,9 @@ export function useDuelMatchmakingSocket() {
       if (!store.getState().session.refreshToken) return;
       await refreshSessionOrLogoutOnForeground(dispatch);
       // The user may have left matchmaking during the await: never join a queue nobody is watching.
-      if (!store.getState().session.accessToken || !p.stillWanted()) return;
+      if (!p.stillWanted()) return;
+      // Session could not be renewed (offline / server down): show the connection-lost state and its exit.
+      if (!store.getState().session.accessToken) { dispatch(connectionLostSet()); return; }
       duelJoinQueue(url, p.userId);
     },
     [dispatch, url],

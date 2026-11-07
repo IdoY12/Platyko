@@ -2,10 +2,7 @@ import type { AppDispatch } from "@/redux/store";
 import { setBootstrapError, updateTokens } from "@/redux/session-slice";
 import { logError } from "@/utils/logger";
 import * as SecureStore from "expo-secure-store";
-import {
-  SECURE_STORAGE_ACCESS_TOKEN_KEY,
-  SECURE_STORAGE_REFRESH_TOKEN_KEY,
-} from "@/constants/secureStorageKeyConstants";
+import { EXPIRED_ACCESS_TOKEN, KEYCHAIN_UNREADABLE_MESSAGE, SECURE_STORAGE_ACCESS_TOKEN_KEY, SECURE_STORAGE_REFRESH_TOKEN_KEY } from "@/constants/secureStorageKeyConstants";
 
 /** Readable after the first unlock since boot, so a refresh while the phone is locked can still persist. */
 const KEYCHAIN_OPTIONS = { keychainAccessible: SecureStore.AFTER_FIRST_UNLOCK };
@@ -15,7 +12,7 @@ async function writeSecureSessionTokens(accessToken: string | null, refreshToken
   if (accessToken) {
     await SecureStore.setItemAsync(SECURE_STORAGE_ACCESS_TOKEN_KEY, accessToken, KEYCHAIN_OPTIONS);
   } else {
-    await SecureStore.deleteItemAsync(SECURE_STORAGE_ACCESS_TOKEN_KEY); // a failed delete retries like a failed write
+    await SecureStore.deleteItemAsync(SECURE_STORAGE_ACCESS_TOKEN_KEY); // rejects (and retries) on Android; iOS deletes never report failure
   }
 
   if (refreshToken) {
@@ -42,11 +39,11 @@ export async function readTokensAgain(dispatch: AppDispatch): Promise<string | n
     // The refresh token is what keeps a session alive; a missing access token is renewed on the first 401.
     const { accessToken, refreshToken } = await readSecureSessionTokens();
     if (!refreshToken) return null;
-    dispatch(updateTokens({ accessToken: accessToken ?? "", refreshToken }));
+    dispatch(updateTokens({ accessToken: accessToken ?? EXPIRED_ACCESS_TOKEN, refreshToken }));
     return refreshToken;
   } catch (error) {
     logError("[AUTH]", error, { phase: "bootstrap-keychain" });
-    dispatch(setBootstrapError("Could not access your stored credentials. Tap Retry to try again."));
+    dispatch(setBootstrapError(KEYCHAIN_UNREADABLE_MESSAGE));
     return undefined;
   }
 }
