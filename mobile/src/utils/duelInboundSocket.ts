@@ -27,7 +27,7 @@ export function bindDuelSocketEvents(socket: Socket) {
     // Expired access token refused: renew it through the HTTP client, then reconnect once.
     if (e.message !== "Invalid token" || renewalTried) return;
     renewalTried = true;
-    void new UserService().getMe().then(() => socket.connect(), (error: unknown) => logError("[DUEL]", error, { phase: "socket-token-renewal" }));
+    void new UserService().getMe().then(() => { if (duelConnectionRefs.socket === socket) socket.connect(); }, (error: unknown) => logError("[DUEL]", error, { phase: "socket-token-renewal" }));
   });
   // The server restarted (or otherwise dropped the match) while we were in it: leave the arena.
   socket.on("no_active_duel", () => {

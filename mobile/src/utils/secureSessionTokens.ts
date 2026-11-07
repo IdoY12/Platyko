@@ -1,4 +1,4 @@
-import store, { type AppDispatch } from "@/redux/store";
+import type { AppDispatch } from "@/redux/store";
 import { setBootstrapError, updateTokens } from "@/redux/session-slice";
 import { logError } from "@/utils/logger";
 import * as SecureStore from "expo-secure-store";
@@ -13,14 +13,12 @@ const KEYCHAIN_OPTIONS = { keychainAccessible: SecureStore.AFTER_FIRST_UNLOCK };
 /** Saves or deletes tokens in the device's hardware-encrypted storage. */
 async function writeSecureSessionTokens(accessToken: string | null, refreshToken: string | null): Promise<void> {
   if (accessToken) {
-    await SecureStore.deleteItemAsync(SECURE_STORAGE_ACCESS_TOKEN_KEY).catch(() => undefined); // re-create: an update keeps the old accessibility class
     await SecureStore.setItemAsync(SECURE_STORAGE_ACCESS_TOKEN_KEY, accessToken, KEYCHAIN_OPTIONS);
   } else {
     await SecureStore.deleteItemAsync(SECURE_STORAGE_ACCESS_TOKEN_KEY).catch(() => undefined);
   }
 
   if (refreshToken) {
-    await SecureStore.deleteItemAsync(SECURE_STORAGE_REFRESH_TOKEN_KEY).catch(() => undefined);
     await SecureStore.setItemAsync(SECURE_STORAGE_REFRESH_TOKEN_KEY, refreshToken, KEYCHAIN_OPTIONS);
   } else {
     await SecureStore.deleteItemAsync(SECURE_STORAGE_REFRESH_TOKEN_KEY).catch(() => undefined);
@@ -36,17 +34,16 @@ export async function readSecureSessionTokens(): Promise<{ accessToken: string |
   return { accessToken, refreshToken };
 }
 
-export async function clearSecureSessionTokens(): Promise<void> {
-  await writeSecureSessionTokens(null, null);
-}
+export const clearSecureSessionTokens = async (): Promise<void> => { persistTokens(null, null); await writeChain; };
 
 /** Retry path after a failed launch-time keychain read: read again; undefined means "still unreadable". */
 export async function readTokensAgain(dispatch: AppDispatch): Promise<string | null | undefined> {
   try {
+    // The refresh token is what keeps a session alive; a missing access token is renewed on the first 401.
     const { accessToken, refreshToken } = await readSecureSessionTokens();
-    if (!accessToken || !refreshToken) return null;
-    dispatch(updateTokens({ accessToken, refreshToken }));
-    return accessToken;
+    if (!refreshToken) return null;
+    dispatch(updateTokens({ accessToken: accessToken ?? "", refreshToken }));
+    return refreshToken;
   } catch (error) {
     logError("[AUTH]", error, { phase: "bootstrap-keychain" });
     dispatch(setBootstrapError("Could not access your stored credentials. Tap Retry to try again."));
@@ -54,23 +51,29 @@ export async function readTokensAgain(dispatch: AppDispatch): Promise<string | n
   }
 }
 
-/** The pair that has not reached the keychain yet (retried on every foreground until it lands). */
-let unsavedTokens: { accessToken: string | null; refreshToken: string | null } | null = null;
+/** The newest pair that still has to reach the keychain; null once it landed. */
+let pendingTokens: { accessToken: string | null; refreshToken: string | null } | null = null;
+/** Keychain writes run strictly one after another, so an older pair can never land after a newer one. */
+let writeChain: Promise<void> = Promise.resolve();
 
-/** The only keychain writer for session tokens; a failed write is retried, and again on each foreground. */
-export function persistTokens(accessToken: string | null, refreshToken: string | null, attempt = 1): void {
-  writeSecureSessionTokens(accessToken, refreshToken).then(
-    () => { if (unsavedTokens?.accessToken === accessToken) unsavedTokens = null; },
-    (error: unknown) => {
+function flushPendingTokens(attempt: number): void {
+  writeChain = writeChain.then(async () => {
+    const pair = pendingTokens;
+    if (!pair) return;
+    try {
+      await writeSecureSessionTokens(pair.accessToken, pair.refreshToken);
+      if (pendingTokens === pair) pendingTokens = null;
+    } catch (error) {
       logError("[AUTH]", error, { phase: "persist-tokens", attempt });
-      const { session } = store.getState();
-      if (session.accessToken !== accessToken || session.refreshToken !== refreshToken) return;
-      unsavedTokens = { accessToken, refreshToken };
-      if (attempt < 5) setTimeout(() => persistTokens(accessToken, refreshToken, attempt + 1), attempt * 2000);
-    },
-  );
+      if (pendingTokens === pair && attempt < 5) setTimeout(() => flushPendingTokens(attempt + 1), attempt * 2000);
+    }
+  });
 }
 
-export function retryUnsavedTokens(): void {
-  if (unsavedTokens) persistTokens(unsavedTokens.accessToken, unsavedTokens.refreshToken);
+/** The only keychain writer for session tokens (sign-out included); a failed write retries, and again on each foreground. */
+export function persistTokens(accessToken: string | null, refreshToken: string | null): void {
+  pendingTokens = { accessToken, refreshToken };
+  flushPendingTokens(1);
 }
+
+export const retryUnsavedTokens = (): void => flushPendingTokens(1);

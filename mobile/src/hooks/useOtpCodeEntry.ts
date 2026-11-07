@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSingleFlight } from "@/hooks/useSingleFlight";
 import { logError } from "@/utils/logger";
 
@@ -19,12 +19,17 @@ export function useOtpCodeEntry(codeJustSent: boolean) {
   }, [resendSecondsLeft]);
 
   const setCode = useCallback((text: string) => setCodeState(text.replace(/\D/g, "").slice(0, 6)), []);
-  const restartResendCooldown = useCallback(() => setResendSecondsLeft(OTP_RESEND_COOLDOWN_SECONDS), []);
+  // A ref, so a tap landing between the send and the next render still sees the new cooldown.
+  const cooldownUntilRef = useRef(codeJustSent ? Date.now() + OTP_RESEND_COOLDOWN_SECONDS * 1000 : 0);
+  const restartResendCooldown = useCallback(() => {
+    cooldownUntilRef.current = Date.now() + OTP_RESEND_COOLDOWN_SECONDS * 1000;
+    setResendSecondsLeft(OTP_RESEND_COOLDOWN_SECONDS);
+  }, []);
 
   const singleFlight = useSingleFlight();
   /** Sends a fresh code at most once at a time and never inside the cooldown. Resolves to null (sent), an error message, or undefined (skipped). */
   const resend = useCallback(async (send: () => Promise<unknown>, logMode: string): Promise<string | null | undefined> => {
-    if (resendSecondsLeft > 0) return undefined;
+    if (Date.now() < cooldownUntilRef.current) return undefined;
     let failure: string | null | undefined;
     await singleFlight(async () => {
       failure = null;
@@ -37,7 +42,7 @@ export function useOtpCodeEntry(codeJustSent: boolean) {
       }
     });
     return failure;
-  }, [resendSecondsLeft, restartResendCooldown, singleFlight]);
+  }, [restartResendCooldown, singleFlight]);
 
   return { code, setCode, resendSecondsLeft, resend };
 }

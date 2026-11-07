@@ -33,6 +33,7 @@ export function useDuelMatchmakingSocket() {
   const url = DUEL_SOCKET_URL;
   const joinQueue = useCallback(
     async (p: { userId: string }) => {
+      if (!store.getState().session.accessToken) return;
       await refreshSessionOrLogoutOnForeground(dispatch);
       if (!store.getState().session.accessToken) return;
       duelJoinQueue(url, p.userId);
