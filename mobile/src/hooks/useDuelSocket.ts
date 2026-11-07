@@ -32,10 +32,11 @@ export function useDuelMatchmakingSocket() {
   const connectionLost = useAppSelector((s) => s.duelLive.connectionLost);
   const url = DUEL_SOCKET_URL;
   const joinQueue = useCallback(
-    async (p: { userId: string }) => {
-      if (!store.getState().session.accessToken) return;
+    async (p: { userId: string; stillWanted: () => boolean }) => {
+      if (!store.getState().session.refreshToken) return;
       await refreshSessionOrLogoutOnForeground(dispatch);
-      if (!store.getState().session.accessToken) return;
+      // The user may have left matchmaking during the await: never join a queue nobody is watching.
+      if (!store.getState().session.accessToken || !p.stillWanted()) return;
       duelJoinQueue(url, p.userId);
     },
     [dispatch, url],

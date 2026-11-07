@@ -30,10 +30,11 @@ export function bootstrapSession(dispatch: AppDispatch): Promise<void> {
 }
 
 async function _run(dispatch: AppDispatch): Promise<void> {
-  const { isAuthenticated: isAuthed, accessToken: hydratedToken } = store.getState().session;
+  // The refresh token is what keeps the session alive; an empty access token is renewed on the first 401.
+  const { isAuthenticated: isAuthed, refreshToken: hydratedRefreshToken } = store.getState().session;
 
   if (!isAuthed) { dispatch(setAuthChecked(true)); return; }
-  const token = hydratedToken ?? (await readTokensAgain(dispatch));
+  const token = hydratedRefreshToken || (await readTokensAgain(dispatch));
   if (token === undefined) { dispatch(setAuthChecked(true)); return; }
   // Signed in on disk but the keychain is truly empty: drop the local copy so it can never be
   // migrated as "guest progress" into someone else's sign-up.

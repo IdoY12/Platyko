@@ -25,7 +25,11 @@ export function duelJoinQueue(url: string, userId: string) {
 }
 
 export function duelLeaveQueue() {
-  duelConnectionRefs.socket?.emit("leave_queue");
+  const socket = duelConnectionRefs.socket;
+  // A join still waiting for "connect" must not fire after this leave (socket.io sends buffered emits first).
+  const pendingJoin = pendingEmit.get("join_queue");
+  if (socket && pendingJoin) { socket.off("connect", pendingJoin); pendingEmit.delete("join_queue"); }
+  socket?.emit("leave_queue");
 }
 
 export function duelLeaveDuel(sessionId: string) {

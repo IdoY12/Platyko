@@ -19,9 +19,9 @@ export function attachAppShellSessionForegroundSync(
     if (appStateRef.current !== "active" && next === "active") {
       dispatch(reconcileStudyCalendarDay());
       retryUnsavedTokens();
-      const { accessToken, isAuthenticated, isGuest } = store.getState().session;
-      if (isAuthenticated && !accessToken) void bootstrapSession(dispatch); // keychain unreadable at launch: try again
-      if (isAuthenticated && accessToken && !store.getState().duelLive.sessionId) {
+      const { refreshToken, isAuthenticated, isGuest } = store.getState().session;
+      if (isAuthenticated && !refreshToken) void bootstrapSession(dispatch); // keychain unreadable at launch: try again
+      if (isAuthenticated && refreshToken && !store.getState().duelLive.sessionId) {
         void refreshSessionOrLogoutOnForeground(dispatch);
         void syncRegisteredStreakFromServer(dispatch);
       }

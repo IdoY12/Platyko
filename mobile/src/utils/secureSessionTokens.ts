@@ -15,13 +15,13 @@ async function writeSecureSessionTokens(accessToken: string | null, refreshToken
   if (accessToken) {
     await SecureStore.setItemAsync(SECURE_STORAGE_ACCESS_TOKEN_KEY, accessToken, KEYCHAIN_OPTIONS);
   } else {
-    await SecureStore.deleteItemAsync(SECURE_STORAGE_ACCESS_TOKEN_KEY).catch(() => undefined);
+    await SecureStore.deleteItemAsync(SECURE_STORAGE_ACCESS_TOKEN_KEY); // a failed delete retries like a failed write
   }
 
   if (refreshToken) {
     await SecureStore.setItemAsync(SECURE_STORAGE_REFRESH_TOKEN_KEY, refreshToken, KEYCHAIN_OPTIONS);
   } else {
-    await SecureStore.deleteItemAsync(SECURE_STORAGE_REFRESH_TOKEN_KEY).catch(() => undefined);
+    await SecureStore.deleteItemAsync(SECURE_STORAGE_REFRESH_TOKEN_KEY);
   }
 }
 

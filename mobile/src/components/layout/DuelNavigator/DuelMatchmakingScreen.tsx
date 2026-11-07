@@ -33,7 +33,7 @@ export function DuelMatchmakingScreen({ navigation }: MatchmakingScreenProps) {
   useEffect(() => {
     if (!userId || hasJoinedQueueRef.current || queueRejected) return;
     hasJoinedQueueRef.current = true;
-    void joinQueue({ userId });
+    void joinQueue({ userId, stillWanted: () => hasJoinedQueueRef.current });
     logDuel("queue:join", { userId });
     return () => { if (!navigatedRef.current) { logDuel("queue:leave", { userId: userId ?? "unknown" }); if (sessionIdRef.current) duelLeaveDuel(sessionIdRef.current); else leaveQueue(); } hasJoinedQueueRef.current = false; };
   }, [joinQueue, leaveQueue, userId, queueRejected]);
