@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { logError, logInfo } from "../../utils/logger.js";
-import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import { verifyGoogleIdToken } from "../../utils/googleIdTokenVerify.js";
 import type { GoogleAuthBody } from "../../validators/authValidators.js";
 import { SocialSignInBlockedError, findOrCreateSocialUser } from "../../services/auth/socialAccountLinking.js";
@@ -28,7 +28,7 @@ export async function authGoogleHandler(request: Request, response: Response): P
       return;
     }
     logError("[AUTH]", error, { phase: "google" });
-    if (isDatabaseUnavailableError(error)) response.status(503).json({ error: DATABASE_UNAVAILABLE_MESSAGE });
-    else response.status(500).json({ error: "Google sign-in failed" });
+    const reply = unexpectedErrorReply(error, "Google sign-in failed");
+    response.status(reply.status).json(reply.body);
   }
 }

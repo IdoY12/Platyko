@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import { prisma } from "@project/db";
 import { logError, logInfo, logWarn } from "../../utils/logger.js";
 import { revokeAllSessionsForUser } from "../../utils/revokeAllSessionsForUser.js";
-import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import { verifyAccessToken, verifyRefreshToken } from "../../utils/sessionJwtTokens.js";
 import type { LogoutBody } from "../../validators/authValidators.js";
 
@@ -24,7 +24,8 @@ export async function authLogoutHandler(request: Request, response: Response): P
     user = claims ? await prisma.user.findUnique({ where: { id: claims.userId }, select: { tokenVersion: true } }) : null;
   } catch (error) {
     logError("[AUTH]", error, { phase: "logout-lookup" });
-    response.status(isDatabaseUnavailableError(error) ? 503 : 500).json({ error: isDatabaseUnavailableError(error) ? DATABASE_UNAVAILABLE_MESSAGE : "Logout failed" });
+    const reply = unexpectedErrorReply(error, "Logout failed");
+    response.status(reply.status).json(reply.body);
     return;
   }
   const userId = user && claims && user.tokenVersion === claims.tokenVersion ? claims.userId : null;
@@ -41,6 +42,7 @@ export async function authLogoutHandler(request: Request, response: Response): P
     response.json({ ok: true });
   } catch (error) {
     logError("[AUTH]", error, { phase: "logout" });
-    response.status(isDatabaseUnavailableError(error) ? 503 : 500).json({ error: isDatabaseUnavailableError(error) ? DATABASE_UNAVAILABLE_MESSAGE : "Logout failed" });
+    const reply = unexpectedErrorReply(error, "Logout failed");
+    response.status(reply.status).json(reply.body);
   }
 }

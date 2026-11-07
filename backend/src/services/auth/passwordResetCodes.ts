@@ -21,10 +21,13 @@ export async function consumePasswordResetCode(userId: string, code: string, new
   const outcome = await checkOtpCode(prisma.passwordReset, { userId }, code);
   if (outcome !== "ok") return outcome;
   const hashedPassword = await hashPassword(newPassword);
-  await prisma.$transaction([
-    prisma.user.update({ where: { id: userId }, data: { hashedPassword, tokenVersion: { increment: 1 } } }),
-    prisma.refreshToken.deleteMany({ where: { userId } }),
-    prisma.passwordReset.delete({ where: { userId } }),
-  ]);
-  return "ok";
+  // The row is claimed first: a parallel confirm with the same code finds nothing and gets "missing", not a 500.
+  const consumed = await prisma.$transaction(async (tx) => {
+    const { count } = await tx.passwordReset.deleteMany({ where: { userId } });
+    if (count === 0) return false;
+    await tx.user.update({ where: { id: userId }, data: { hashedPassword, tokenVersion: { increment: 1 } } });
+    await tx.refreshToken.deleteMany({ where: { userId } });
+    return true;
+  });
+  return consumed ? "ok" : "missing";
 }

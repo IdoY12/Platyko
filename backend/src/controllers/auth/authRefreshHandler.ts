@@ -6,7 +6,7 @@ import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../../uti
 import { revokeAllSessionsForUser } from "../../utils/revokeAllSessionsForUser.js";
 import { hashRefreshToken } from "../../utils/storeRefreshToken.js";
 import { rotateRefreshToken } from "../../utils/rotateRefreshToken.js";
-import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import { graceReplaySuccessorId } from "../../utils/refreshTokenGrace.js";
 import type { RefreshBody } from "../../validators/authValidators.js";
 
@@ -59,7 +59,7 @@ export async function authRefreshHandler(request: Request, response: Response): 
     response.json({ accessToken, refreshToken: newRefreshToken });
   } catch (error) {
     logError("[AUTH]", error, { phase: "refresh" });
-    if (isDatabaseUnavailableError(error)) response.status(503).json({ error: DATABASE_UNAVAILABLE_MESSAGE });
-    else response.status(500).json({ error: "Refresh failed" });
+    const reply = unexpectedErrorReply(error, "Refresh failed");
+    response.status(reply.status).json(reply.body);
   }
 }

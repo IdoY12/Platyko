@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { prisma } from "@project/db";
 import { logError, logInfo, logWarn } from "../../utils/logger.js";
-import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import { comparePassword, equalizeCompareTiming } from "../../utils/passwordHashing.js";
 import type { LoginBody } from "../../validators/authValidators.js";
 import { issueSessionForUser } from "../../services/auth/issueSessionForUser.js";
@@ -38,10 +38,8 @@ export async function authLoginHandler(request: Request, response: Response): Pr
   } catch (error) {
     logError("[AUTH]", error, { phase: "login" });
 
-    if (isDatabaseUnavailableError(error)) {
-      response.status(503).json({ error: DATABASE_UNAVAILABLE_MESSAGE });
-      return;
-    }
-    response.status(500).json({ error: "Login failed" });
+    const reply = unexpectedErrorReply(error, "Login failed");
+
+    response.status(reply.status).json(reply.body);
   }
 }

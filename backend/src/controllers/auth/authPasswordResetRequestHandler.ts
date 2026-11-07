@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import { prisma } from "@project/db";
 import type { User } from "@prisma/client";
 import { logError, logInfo } from "../../utils/logger.js";
-import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import type { RequestPasswordResetBody } from "../../validators/passwordResetValidators.js";
 import { createPasswordResetCode, passwordResetCooldownSecondsLeft } from "../../services/auth/passwordResetCodes.js";
 import { sendPasswordResetCodeEmail } from "../../services/auth/sendPasswordResetEmail.js";
@@ -38,10 +38,7 @@ export async function authPasswordResetRequestHandler(request: Request, response
     response.json({ sent: true });
   } catch (error) {
     logError("[AUTH]", error, { phase: "password-reset-request" });
-    if (isDatabaseUnavailableError(error)) {
-      response.status(503).json({ error: DATABASE_UNAVAILABLE_MESSAGE });
-      return;
-    }
-    response.status(500).json({ error: "Could not process the request" });
+    const reply = unexpectedErrorReply(error, "Could not process the request");
+    response.status(reply.status).json(reply.body);
   }
 }

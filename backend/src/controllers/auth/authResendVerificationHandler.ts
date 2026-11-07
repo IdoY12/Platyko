@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { logError, logInfo, logWarn } from "../../utils/logger.js";
-import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import type { ResendVerificationBody } from "../../validators/emailVerificationValidators.js";
 import {
   findPendingRegistration,
@@ -37,10 +37,7 @@ export async function authResendVerificationHandler(request: Request, response: 
     response.json({ sent: true });
   } catch (error) {
     logError("[AUTH]", error, { phase: "resend-verification" });
-    if (isDatabaseUnavailableError(error)) {
-      response.status(503).json({ error: DATABASE_UNAVAILABLE_MESSAGE });
-      return;
-    }
-    response.status(500).json({ error: "Could not resend the code" });
+    const reply = unexpectedErrorReply(error, "Could not resend the code");
+    response.status(reply.status).json(reply.body);
   }
 }

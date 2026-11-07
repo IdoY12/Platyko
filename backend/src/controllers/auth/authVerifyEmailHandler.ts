@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { prisma } from "@project/db";
 import { logError, logInfo, logWarn } from "../../utils/logger.js";
-import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import type { VerifyEmailBody } from "../../validators/emailVerificationValidators.js";
 import {
   consumePendingRegistration,
@@ -43,10 +43,7 @@ export async function authVerifyEmailHandler(request: Request, response: Respons
       response.status(409).json({ error: conflict });
       return;
     }
-    if (isDatabaseUnavailableError(error)) {
-      response.status(503).json({ error: DATABASE_UNAVAILABLE_MESSAGE });
-      return;
-    }
-    response.status(500).json({ error: "Email verification failed" });
+    const reply = unexpectedErrorReply(error, "Email verification failed");
+    response.status(reply.status).json(reply.body);
   }
 }

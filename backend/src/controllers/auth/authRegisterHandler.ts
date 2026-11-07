@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import { prisma } from "@project/db";
 import { EMAIL_TAKEN_MESSAGE, USERNAME_TAKEN_MESSAGE } from "@project/user-credentials";
 import { logError, logInfo, logWarn } from "../../utils/logger.js";
-import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import type { RegisterBody } from "../../validators/authValidators.js";
 import { createPendingRegistration, pendingResendCooldownSecondsLeft, purgeStalePendingRegistrations } from "../../services/auth/pendingRegistrations.js";
 import { EMAIL_SEND_FAILED_MESSAGE, sendVerificationCodeEmail } from "../../services/auth/sendVerificationEmail.js";
@@ -41,10 +41,7 @@ export async function authRegisterHandler(request: Request, response: Response):
     response.status(202).json({ email, registrationToken });
   } catch (error) {
     logError("[AUTH]", error, { phase: "register" });
-    if (isDatabaseUnavailableError(error)) {
-      response.status(503).json({ error: DATABASE_UNAVAILABLE_MESSAGE });
-      return;
-    }
-    response.status(500).json({ error: "Registration failed" });
+    const reply = unexpectedErrorReply(error, "Registration failed");
+    response.status(reply.status).json(reply.body);
   }
 }

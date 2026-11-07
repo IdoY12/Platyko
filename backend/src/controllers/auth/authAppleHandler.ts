@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { logError, logInfo } from "../../utils/logger.js";
-import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import { verifyAppleIdentityToken } from "../../utils/appleIdTokenVerify.js";
 import type { AppleAuthBody } from "../../validators/appleAuthValidators.js";
 import { SocialSignInBlockedError, findOrCreateSocialUser } from "../../services/auth/socialAccountLinking.js";
@@ -28,7 +28,7 @@ export async function authAppleHandler(request: Request, response: Response): Pr
       return;
     }
     logError("[AUTH]", error, { phase: "apple" });
-    if (isDatabaseUnavailableError(error)) response.status(503).json({ error: DATABASE_UNAVAILABLE_MESSAGE });
-    else response.status(500).json({ error: "Apple sign-in failed" });
+    const reply = unexpectedErrorReply(error, "Apple sign-in failed");
+    response.status(reply.status).json(reply.body);
   }
 }
