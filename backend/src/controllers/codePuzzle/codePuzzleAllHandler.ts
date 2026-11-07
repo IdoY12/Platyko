@@ -7,6 +7,7 @@
  * Consumers: codePuzzles router
  */
 
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import type { Request, Response } from "express";
 import { prisma } from "@project/db";
 import type { CodePuzzleDto } from "../../dto/codePuzzleDto.js";
@@ -23,6 +24,7 @@ export async function codePuzzleAllHandler(_request: Request, response: Response
     response.json(body);
   } catch (error) {
     logError("[TASKS]", error, { phase: "code-puzzle-all" });
-    response.status(500).json({ error: "Failed to load puzzles" });
+    const reply = unexpectedErrorReply(error, "Failed to load puzzles");
+    response.status(reply.status).json(reply.body);
   }
 }

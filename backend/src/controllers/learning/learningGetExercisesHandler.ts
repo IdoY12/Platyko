@@ -1,3 +1,4 @@
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import type { Response } from "express";
 import type { Request } from "express";
 import { prisma } from "@project/db";
@@ -18,6 +19,7 @@ export async function learningGetExercisesHandler(request: Request, response: Re
     response.type("application/json").send(json);
   } catch (error) {
     logError("[TASKS]", error, { phase: "learning-exercises", experienceLevel: request.params.experienceLevel });
-    response.status(500).json({ error: "Failed to load exercises" });
+    const reply = unexpectedErrorReply(error, "Failed to load exercises");
+    response.status(reply.status).json(reply.body);
   }
 }

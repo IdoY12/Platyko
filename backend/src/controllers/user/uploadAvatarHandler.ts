@@ -8,6 +8,7 @@
  * Consumers: user router (raw body parser + dedicated rate limit)
  */
 
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import { randomUUID } from "crypto";
 import type { Response } from "express";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
@@ -34,6 +35,7 @@ export async function putAvatarDirectUpload(req: AuthenticatedRequest, res: Resp
   } catch (error) {
     logError("[USER]", error, { phase: "avatar-direct-upload", userId: req.user?.userId });
 
-    return res.status(500).json({ error: "Upload failed" });
+    const reply = unexpectedErrorReply(error, "Upload failed");
+    return res.status(reply.status).json(reply.body);
   }
 }

@@ -7,6 +7,7 @@
  * Consumers: user router
  */
 
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import type { Response } from "express";
 import { getProgressForActiveUser, handleStreakAppOpenForUser, prisma } from "@project/db";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
@@ -47,6 +48,7 @@ export async function getProgressSummary(req: AuthenticatedRequest, res: Respons
     });
   } catch (error) {
     logError("[USER]", error, { phase: "progress-summary", userId: req.user?.userId });
-    return res.status(500).json({ error: "Failed to load progress summary" });
+    const reply = unexpectedErrorReply(error, "Failed to load progress summary");
+    return res.status(reply.status).json(reply.body);
   }
 }

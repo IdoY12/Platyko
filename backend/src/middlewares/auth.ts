@@ -64,6 +64,12 @@ export async function optionalAuthMiddleware(
     response.status(503).json({ error: DATABASE_UNAVAILABLE_MESSAGE });
     return;
   }
+  // Only "no token at all" is a guest. A signed-in client with an expired or revoked token gets a 401 so
+  // it refreshes and retries, instead of being served as a guest whose solve earns nothing.
+  if ("rejected" in resolution && resolution.rejected !== "missing-bearer-token") {
+    response.status(401).json({ error: "Invalid token" });
+    return;
+  }
   if ("user" in resolution) request.user = resolution.user;
   else delete request.user;
   next();

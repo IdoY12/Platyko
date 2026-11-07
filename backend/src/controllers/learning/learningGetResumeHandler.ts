@@ -1,3 +1,4 @@
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import type { Response } from "express";
 import { prisma } from "@project/db";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
@@ -33,6 +34,7 @@ export async function learningGetResumeHandler(
     response.json(body);
   } catch (error) {
     logError("[TASKS]", error, { phase: "resume", userId: request.user?.userId });
-    response.status(500).json({ error: "Failed to fetch resume" });
+    const reply = unexpectedErrorReply(error, "Failed to fetch resume");
+    response.status(reply.status).json(reply.body);
   }
 }

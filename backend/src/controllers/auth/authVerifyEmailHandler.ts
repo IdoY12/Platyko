@@ -11,7 +11,7 @@ import {
 import { OTP_OUTCOME_ERRORS } from "../../services/auth/otpCodes.js";
 import { issueSessionForUser } from "../../services/auth/issueSessionForUser.js";
 
-export const PENDING_MISSING_MESSAGE = "No pending registration for this email. Please register again.";
+export const PENDING_MISSING_MESSAGE = "This code is no longer active. If you already verified your email, sign in; otherwise register again.";
 export const PENDING_REPLACED_MESSAGE = "This registration was replaced by a newer one. Please register again.";
 
 /** Turns the pending row into a real account and answers with a session, like login. */
