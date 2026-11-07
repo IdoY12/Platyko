@@ -6,6 +6,7 @@ import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../
 import type { RegisterBody } from "../../validators/authValidators.js";
 import { createPendingRegistration, pendingResendCooldownSecondsLeft, purgeStalePendingRegistrations } from "../../services/auth/pendingRegistrations.js";
 import { EMAIL_SEND_FAILED_MESSAGE, sendVerificationCodeEmail } from "../../services/auth/sendVerificationEmail.js";
+import { otpCooldownReply } from "../../services/auth/otpCodes.js";
 
 /**
  * Stores a pending registration and emails its code. No User row exists until
@@ -27,7 +28,7 @@ export async function authRegisterHandler(request: Request, response: Response):
     // sign-up that is in progress (inbox bombing).
     const cooldownSeconds = await pendingResendCooldownSecondsLeft(email);
     if (cooldownSeconds > 0) {
-      response.status(429).json({ error: `Please wait ${cooldownSeconds}s before requesting another code`, retryAfterSeconds: cooldownSeconds });
+      response.status(429).json(otpCooldownReply(cooldownSeconds));
       return;
     }
     const { code, registrationToken } = await createPendingRegistration({ email, username, password, snapshot });

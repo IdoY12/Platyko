@@ -41,6 +41,6 @@ export async function authLogoutHandler(request: Request, response: Response): P
     response.json({ ok: true });
   } catch (error) {
     logError("[AUTH]", error, { phase: "logout" });
-    response.status(500).json({ error: "Logout failed" });
+    response.status(isDatabaseUnavailableError(error) ? 503 : 500).json({ error: isDatabaseUnavailableError(error) ? DATABASE_UNAVAILABLE_MESSAGE : "Logout failed" });
   }
 }

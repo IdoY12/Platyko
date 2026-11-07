@@ -27,10 +27,11 @@ export const authRegisterRateLimiter = config.get<string>("env") === "production
 export const authLoginRateLimiter = limiter(8);
 
 /**
- * Per-address cap on code emails (runs after validateBody, so the key is the normalised address). Only
- * requests that really queue an email count (handlers set `res.locals.codeEmailQueued`), so 409s and
- * cooldown hits cannot burn a victim's quota. 5 codes x 5 guesses an hour bounds brute force; a separate
- * bucket per flow means sign-up spam cannot block a password reset.
+ * Per-address cap on code emails (runs after validateBody, so the key is the normalised address).
+ * A request counts unless it *finished* without queueing an email (`res.locals.codeEmailQueued`): a
+ * dropped connection stays counted, a 409 / cooldown 429 / send failure is refunded. 5 per hour bounds
+ * brute force at 25 guesses; a separate bucket per flow means sign-up spam cannot block a password reset.
+ * The reset route marks every 200 as counted, account or not, so the cap reveals nothing.
  */
 const perAddressCodeLimiter = (flow: string) =>
   rateLimit({
@@ -39,8 +40,9 @@ const perAddressCodeLimiter = (flow: string) =>
     standardHeaders: true,
     legacyHeaders: false,
     keyGenerator: (request) => `${flow}:${(request.validatedBody as { email: string }).email}`,
-    requestWasSuccessful: (_request, response) => response.locals.codeEmailQueued === true,
-    skipFailedRequests: true,
+    // express-rate-limit refunds "successful" requests only on `finish`, never on an aborted `close`.
+    requestWasSuccessful: (_request, response) => response.locals.codeEmailQueued !== true,
+    skipSuccessfulRequests: true,
     message: { error: "Too many codes requested for this address. Try again in an hour." },
   });
 export const signUpCodeLimiter = perAddressCodeLimiter("sign-up");

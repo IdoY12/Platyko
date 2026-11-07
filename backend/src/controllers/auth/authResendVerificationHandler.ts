@@ -7,6 +7,7 @@ import {
   pendingResendCooldownSecondsLeft,
   refreshPendingRegistrationCode,
 } from "../../services/auth/pendingRegistrations.js";
+import { otpCooldownReply } from "../../services/auth/otpCodes.js";
 import { EMAIL_SEND_FAILED_MESSAGE, sendVerificationCodeEmail } from "../../services/auth/sendVerificationEmail.js";
 import { PENDING_MISSING_MESSAGE, PENDING_REPLACED_MESSAGE } from "./authVerifyEmailHandler.js";
 
@@ -23,10 +24,7 @@ export async function authResendVerificationHandler(request: Request, response: 
     const cooldownSeconds = await pendingResendCooldownSecondsLeft(email);
     if (cooldownSeconds > 0) {
       logWarn("[AUTH]", "resend-verification:cooldown", { email, cooldownSeconds });
-      response.status(429).json({
-        error: `Please wait ${cooldownSeconds}s before requesting another code`,
-        retryAfterSeconds: cooldownSeconds,
-      });
+      response.status(429).json(otpCooldownReply(cooldownSeconds));
       return;
     }
     const code = await refreshPendingRegistrationCode(email);

@@ -46,6 +46,9 @@ export async function createOtpCode<Where>(codes: OtpUpsertDelegate<NoInfer<Wher
   return code;
 }
 
+/** The 429 every code-sending route answers inside the resend cooldown. */
+export const otpCooldownReply = (seconds: number) => ({ error: `Please wait ${seconds}s before requesting another code`, retryAfterSeconds: seconds });
+
 /** Seconds the caller must still wait before another code email may be sent. */
 export async function otpResendCooldownSecondsLeft<Where>(codes: OtpDelegate<NoInfer<Where>>, where: Where): Promise<number> {
   const record = await codes.findUnique({ where });

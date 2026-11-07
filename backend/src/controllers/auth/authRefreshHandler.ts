@@ -4,7 +4,7 @@ import { prisma } from "@project/db";
 import { logError, logInfo } from "../../utils/logger.js";
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../../utils/sessionJwtTokens.js";
 import { revokeAllSessionsForUser } from "../../utils/revokeAllSessionsForUser.js";
-import { hashRefreshToken } from "../../utils/storeRefreshToken.js";
+import { hashRefreshToken, storeRefreshToken } from "../../utils/storeRefreshToken.js";
 import { rotateRefreshToken } from "../../utils/rotateRefreshToken.js";
 import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
 import { graceReplaySuccessorId } from "../../utils/refreshTokenGrace.js";
@@ -42,10 +42,11 @@ export async function authRefreshHandler(request: Request, response: Response): 
     // by the device whose reply was lost: then its orphaned successor is consumed in its place.
     const claimId = stored.used ? await graceReplaySuccessorId(stored) : stored.id;
     let rotated = claimId ? await rotateRefreshToken(user.id, claimId, stored.family, newRefreshToken) : false;
-    // Lost a same-instant race for an unused token (two parallel refreshes): take the grace path once.
-    if (!rotated && !stored.used) {
-      const raceSuccessorId = await graceReplaySuccessorId(stored);
-      rotated = raceSuccessorId ? await rotateRefreshToken(user.id, raceSuccessorId, stored.family, newRefreshToken) : false;
+    // Lost a same-instant race for an unused token (a timed-out request still running server-side):
+    // mint a sibling and consume nothing, so whichever reply the client keeps stays valid.
+    if (!rotated && !stored.used && (await graceReplaySuccessorId(stored))) {
+      await storeRefreshToken(user.id, newRefreshToken, stored.family);
+      rotated = true;
     }
     if (!rotated) {
       await revokeAllSessionsForUser(user.id);
