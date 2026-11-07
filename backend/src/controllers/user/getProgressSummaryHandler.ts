@@ -9,7 +9,7 @@
 
 import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import type { Response } from "express";
-import { getProgressForActiveUser, handleStreakAppOpenForUser, prisma } from "@project/db";
+import { getProgressForActiveUser, handleStreakAppOpenForUser, prisma, runSerializableWithRetry } from "@project/db";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
 import { logError } from "../../utils/logger.js";
 import type { ProgressSummaryQuery } from "../../validators/userValidators.js";
@@ -19,7 +19,8 @@ export async function getProgressSummary(req: AuthenticatedRequest, res: Respons
     const { localDate } = req.validatedQuery as ProgressSummaryQuery;
     const userId = req.user!.userId;
 
-    await handleStreakAppOpenForUser(prisma, userId, localDate);
+    // Same isolation as the XP writes, so a concurrent qualifying answer can never be overwritten here.
+    await runSerializableWithRetry(prisma, (tx) => handleStreakAppOpenForUser(tx, userId, localDate));
 
     const progress = await getProgressForActiveUser(prisma, userId);
 
