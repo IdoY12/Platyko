@@ -50,3 +50,10 @@ export function isUniqueConstraintError(error: unknown, field?: string): boolean
 
 // Client-facing: the real cause is already logged server-side by every handler.
 export const DATABASE_UNAVAILABLE_MESSAGE = "Service is temporarily unavailable. Please try again.";
+
+/** The reply for an unexpected failure: 503 when the database is unreachable, otherwise 500 with `message`. */
+export function unexpectedErrorReply(error: unknown, message: string): { status: number; body: { error: string } } {
+  return isDatabaseUnavailableError(error)
+    ? { status: 503, body: { error: DATABASE_UNAVAILABLE_MESSAGE } }
+    : { status: 500, body: { error: message } };
+}

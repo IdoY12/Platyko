@@ -9,6 +9,7 @@
  * Consumers: app.ts (mounted last)
  */
 
+import { unexpectedErrorReply } from "../utils/dbErrors.js";
 import type { NextFunction, Request, Response } from "express";
 import { logError } from "../utils/logger.js";
 
@@ -41,5 +42,6 @@ export function errorHandler(error: unknown, _req: Request, res: Response, _next
   const requestId = String(res.locals.requestId ?? "");
   logError("[APP]", error, { phase: "express-handler" });
   if (res.headersSent) return;
-  res.status(500).json({ error: "Something went wrong", requestId });
+  const reply = unexpectedErrorReply(error, "Something went wrong");
+  res.status(reply.status).json({ ...reply.body, requestId });
 }

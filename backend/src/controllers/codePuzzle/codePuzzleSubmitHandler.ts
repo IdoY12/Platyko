@@ -3,6 +3,7 @@
  * Signed-in correct answers update XP/streak with per-puzzle cap. Consumers: codePuzzles router.
  */
 
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import type { Response } from "express";
 import { normaliseCodePuzzleAnswer } from "@project/exercise-answer";
 import { prisma } from "@project/db";
@@ -50,6 +51,7 @@ export async function codePuzzleSubmitHandler(request: AuthenticatedRequest, res
     response.json({ correct: isAnswerCorrect, ...extras });
   } catch (error) {
     logError("[TASKS]", error, { phase: "code-puzzle-submit" });
-    response.status(500).json({ error: "Failed to submit answer" });
+    const reply = unexpectedErrorReply(error, "Failed to submit answer");
+    response.status(reply.status).json(reply.body);
   }
 }

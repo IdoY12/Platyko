@@ -30,6 +30,10 @@ $EDITOR .env.production            # openssl rand -hex 32 for each JWT secret, -
 # Build both images and start Postgres, backend, io and Caddy.
 docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build
 
+# Pre-flight on an EXISTING database (skip on a fresh one): 20261106000000 lower-cases every email and
+# aborts if two rows differ only by case/whitespace. Both queries must return no rows; merge any first.
+#   SELECT lower(trim(email)), count(*) FROM "User" GROUP BY 1 HAVING count(*) > 1;
+#   SELECT lower(trim(email)), count(*) FROM "PendingRegistration" GROUP BY 1 HAVING count(*) > 1;
 # Apply schema migrations (explicit step — containers never migrate on start).
 docker compose --env-file .env.production -f docker-compose.prod.yml run --rm migrate
 

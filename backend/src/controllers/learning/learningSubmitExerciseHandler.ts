@@ -1,3 +1,4 @@
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import type { Response } from "express";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
 import { logError, logInfo } from "../../utils/logger.js";
@@ -28,6 +29,7 @@ export async function learningSubmitExerciseHandler(
     response.json(result);
   } catch (error) {
     logError("[TASKS]", error, { phase: "submit-exercise", userId: request.user?.userId });
-    response.status(500).json({ error: "Failed to submit exercise" });
+    const reply = unexpectedErrorReply(error, "Failed to submit exercise");
+    response.status(reply.status).json(reply.body);
   }
 }

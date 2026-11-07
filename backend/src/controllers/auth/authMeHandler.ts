@@ -1,3 +1,4 @@
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import type { Response } from "express";
 import { prisma } from "@project/db";
 import { logError } from "../../utils/logger.js";
@@ -20,6 +21,7 @@ export async function authMeHandler(request: AuthenticatedRequest, response: Res
     response.json({ id, email, username, avatarUrl, ...authAccountFields(user) });
   } catch (error) {
     logError("[AUTH]", error, { phase: "me" });
-    response.status(500).json({ error: "Failed to load profile" });
+    const reply = unexpectedErrorReply(error, "Failed to load profile");
+    response.status(reply.status).json(reply.body);
   }
 }

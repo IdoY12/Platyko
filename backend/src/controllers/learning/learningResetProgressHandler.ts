@@ -1,3 +1,4 @@
+import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import type { Response } from "express";
 import { prisma } from "@project/db";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
@@ -17,6 +18,7 @@ export async function learningResetProgressHandler(
     response.json({ ok: true });
   } catch (error) {
     logError("[TASKS]", error, { phase: "reset-progress", userId: request.user?.userId });
-    response.status(500).json({ error: "Failed to reset progress" });
+    const reply = unexpectedErrorReply(error, "Failed to reset progress");
+    response.status(reply.status).json(reply.body);
   }
 }
