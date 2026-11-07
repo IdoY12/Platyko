@@ -1,5 +1,4 @@
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { AppDispatch } from "@/redux/store";
 import store from "@/redux/store";
 import UserService from "@/services/auth-aware/UserService";
@@ -10,8 +9,7 @@ import { hydrateXp } from "@/redux/xp-slice";
 import { hydrateStreak } from "@/redux/streak-slice";
 import { hydrateStats } from "@/redux/duel-slice";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
-import { REDUX_PERSIST_KEY } from "@/utils/hydrateStore";
-import { resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
+import { discardLocalAccount, resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
 
 function isBootstrapServerError(error: unknown): boolean {
   const status = axios.isAxiosError(error) ? error.response?.status : undefined;
@@ -37,7 +35,8 @@ async function _run(dispatch: AppDispatch): Promise<void> {
   if (!isAuthed) { dispatch(setAuthChecked(true)); return; }
   // Signed in on disk but the keychain is empty: drop the account's local copy so it can never be
   // migrated as "guest progress" into someone else's sign-up.
-  if (!token) { resetStoresAfterLogout(dispatch); return; }
+  // (A keychain *read error* already set bootstrapError in hydrateStore: keep everything, show the banner.)
+  if (!token) { if (!store.getState().session.bootstrapError) resetStoresAfterLogout(dispatch); dispatch(setAuthChecked(true)); return; }
 
   const userService = new UserService();
 
@@ -67,8 +66,7 @@ async function _run(dispatch: AppDispatch): Promise<void> {
     if (isBootstrapServerError(error)) {
       dispatch(setBootstrapError("We could not load your account data because the server had a problem. You are still signed in. Tap Retry to try again."));
     } else if (isAuthFailure(error)) {
-      await AsyncStorage.removeItem(REDUX_PERSIST_KEY);
-      resetStoresAfterLogout(dispatch);
+      await discardLocalAccount(dispatch);
     } else {
       dispatch(setBootstrapError("Could not reach the server. Check your connection and tap Retry."));
     }

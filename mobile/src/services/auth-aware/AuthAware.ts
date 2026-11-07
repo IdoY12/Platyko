@@ -3,14 +3,14 @@ import { API_BASE_URL, REQUEST_TIMEOUT_MS } from "@/config/network";
 import store from "@/redux/store";
 import { updateTokens } from "@/redux/session-slice";
 import { resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
-import { readSecureSessionTokens, writeSecureSessionTokens } from "@/utils/secureSessionTokens";
+import { writeSecureSessionTokens } from "@/utils/secureSessionTokens";
 
 type RetryableConfig = InternalAxiosRequestConfig & { _retry?: boolean };
 
-/** Only a definitive 4xx from /auth/refresh means the session is gone; timeouts and 5xx keep it. */
+/** Only a definitive 4xx from /auth/refresh means the session is gone; timeouts, 408/429 and 5xx keep it. */
 function refreshWasRejected(error: unknown): boolean {
   const status = axios.isAxiosError(error) ? error.response?.status : undefined;
-  return typeof status === "number" && status >= 400 && status < 500;
+  return typeof status === "number" && status >= 400 && status < 500 && status !== 408 && status !== 429;
 }
 
 let refreshInFlight: Promise<{ accessToken: string; refreshToken: string }> | null = null;
@@ -37,12 +37,13 @@ export default abstract class AuthAware {
         // Guests never hold a session: a stray 401 must not wipe their local XP/streak.
         if (!store.getState().session.isAuthenticated) throw error;
         config._retry = true;
-        let refreshToken: string | null;
-        try {
-          refreshToken = (await readSecureSessionTokens()).refreshToken;
-        } catch {
-          resetStoresAfterLogout(store.dispatch);
-          throw error;
+        // Redux holds the newest pair the moment a rotation lands (SecureStore is written after it), so a
+        // late 401 never replays an already-rotated token. A request sent with an older access token
+        // than the store's simply retries with the fresh one.
+        const { accessToken: currentAccessToken, refreshToken } = store.getState().session;
+        if (currentAccessToken && config.headers.get("Authorization") !== `Bearer ${currentAccessToken}`) {
+          config.headers.set("Authorization", `Bearer ${currentAccessToken}`);
+          return this.axiosInstance.request(config);
         }
         if (!refreshToken) { resetStoresAfterLogout(store.dispatch); throw error; }
         try {

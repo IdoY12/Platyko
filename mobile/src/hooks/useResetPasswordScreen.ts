@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { passwordPolicyError } from "@project/user-credentials";
 import type { ResetPasswordNavigation } from "@/types/rootNavigation.types";
@@ -41,8 +41,10 @@ export function useResetPasswordScreen() {
     }
   }, [canSubmit, code, email, newPassword]);
 
+  const resendingRef = useRef(false);
   const onResend = useCallback(async () => {
-    if (resendSecondsLeft > 0 || loading) return;
+    if (resendSecondsLeft > 0 || loading || resendingRef.current) return;
+    resendingRef.current = true;
     setError(null);
     try {
       await passwordResetService.requestCode(email);
@@ -51,6 +53,8 @@ export function useResetPasswordScreen() {
     } catch (resendError) {
       logError("[AUTH]", resendError, { mode: "password-reset-resend" });
       setError(resendError instanceof Error ? resendError.message : "Unable to resend the code");
+    } finally {
+      resendingRef.current = false;
     }
   }, [email, loading, resendSecondsLeft, restartResendCooldown]);
 

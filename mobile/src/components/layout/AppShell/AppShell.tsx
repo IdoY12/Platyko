@@ -1,12 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { Text, View } from "react-native";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
-import { QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { AppNavigator } from "@/components/layout/AppNavigator/AppNavigator";
 import { spacing } from "@/theme/theme";
 import { styles } from "./AppShell.styles";
-import { appQueryClient, useAppShell } from "@/hooks/useAppShell";
+import { useAppShell } from "@/hooks/useAppShell";
 
 /** Estimated offline banner height, used to stack the bootstrap banner below it. */
 const OFFLINE_BANNER_STACK_OFFSET = 68;
@@ -48,13 +47,11 @@ export function AppShell() {
   return (
     // react-native-safe-area-context: exposes notch / status bar / home-indicator insets to descendants (e.g. useSafeAreaInsets). Must wrap the app near the root.
     <SafeAreaProvider>
-      <QueryClientProvider client={appQueryClient}>
-        <View style={styles.container}>
-          <AppShellBanners isConnected={isConnected} bootstrapError={bootstrapError} retryBootstrap={retryBootstrap} dismissBootstrapError={dismissBootstrapError} />
-          <AppNavigator />
-          <StatusBar style="light" />
-        </View>
-      </QueryClientProvider>
+      <View style={styles.container}>
+        <AppShellBanners isConnected={isConnected} bootstrapError={bootstrapError} retryBootstrap={retryBootstrap} dismissBootstrapError={dismissBootstrapError} />
+        <AppNavigator />
+        <StatusBar style="light" />
+      </View>
     </SafeAreaProvider>
   );
 }

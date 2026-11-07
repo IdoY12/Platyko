@@ -31,12 +31,8 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
 
   const onChangePassword = React.useCallback(async () => {
     if (!r.accessToken || d.busyAction) return;
-
     const passwordError = passwordPolicyError(d.newPassword);
-    if (passwordError) {
-      Alert.alert("Invalid password", passwordError);
-      return;
-    }
+    if (passwordError) { Alert.alert("Invalid password", passwordError); return; }
     d.setBusyAction("password");
     await changePasswordRequest(user, d.currentPassword, d.newPassword, dispatch, () => {
       d.setCurrentPassword("");
@@ -64,15 +60,18 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
   }, [dispatch, r.accessToken, r.refreshToken]);
   const onResetLearningProgress = React.useCallback(() => {
     if (!r.accessToken) return;
-    const resetRemoteThenLocal = async () => { try { await new LearningService().resetProgress(); } catch { /**/ } dispatch(resetLesson()); };
+    const resetRemoteThenLocal = async () => {
+      if (d.busyAction) return;
+      d.setBusyAction("reset");
+      try { await new LearningService().resetProgress(); dispatch(resetLesson()); }
+      catch { Alert.alert("Reset failed", "We could not reset your progress. Check your connection and try again."); }
+      finally { d.setBusyAction(null); }
+    };
     Alert.alert("Reset Learn Progress", "This will permanently delete all your learning progress and cannot be undone.", [
       { text: "Cancel", style: "cancel" },
       { text: "Reset", style: "destructive", onPress: () => void resetRemoteThenLocal() },
     ]);
-  }, [dispatch, r.accessToken]);
+  }, [d, dispatch, r.accessToken]);
 
-  return {
-    onSaveLearningSettings, onSaveUsername, onChangePassword,
-    onDeleteAccount, onLogoutPress, onResetLearningProgress,
-  };
+  return { onSaveLearningSettings, onSaveUsername, onChangePassword, onDeleteAccount, onLogoutPress, onResetLearningProgress };
 }

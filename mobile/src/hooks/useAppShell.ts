@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AppState, type AppStateStatus } from "react-native";
-import { QueryClient } from "@tanstack/react-query";
 import { attachAppShellForegroundInfrastructure } from "@/utils/appShellForegroundSetup";
 import { attachAppShellSessionForegroundSync } from "@/utils/appShellSessionForeground";
 import store from "@/redux/store";
@@ -13,8 +12,6 @@ import { logAuth } from "@/utils/logger";
 import { subscribeStoreToHybridStorage } from "@/utils/appShellPersistence";
 import { syncDailyPracticeReminder } from "@/utils/dailyGoalNotificationCheck";
 import { setBootstrapError } from "@/redux/session-slice";
-
-export const appQueryClient = new QueryClient();
 
 export function useAppShell() {
   const dispatch = useAppDispatch();

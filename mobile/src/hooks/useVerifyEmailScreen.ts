@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useAppDispatch } from "@/redux/hooks";
 import { useOtpCodeEntry } from "@/hooks/useOtpCodeEntry";
@@ -44,8 +44,10 @@ export function useVerifyEmailScreen() {
     }
   }, [code, dispatch, email, loading, registrationToken]);
 
+  const resendingRef = useRef(false);
   const onResend = useCallback(async () => {
-    if (resendSecondsLeft > 0 || loading) return;
+    if (resendSecondsLeft > 0 || loading || resendingRef.current) return;
+    resendingRef.current = true;
     setError(null);
     try {
       await emailVerificationService.resendCode(email, registrationToken);
@@ -54,6 +56,8 @@ export function useVerifyEmailScreen() {
     } catch (resendError) {
       logError("[AUTH]", resendError, { mode: "verify-email-resend" });
       setError(resendError instanceof Error ? resendError.message : "Unable to resend the code");
+    } finally {
+      resendingRef.current = false;
     }
   }, [email, loading, registrationToken, resendSecondsLeft, restartResendCooldown]);
 

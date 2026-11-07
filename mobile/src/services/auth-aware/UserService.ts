@@ -57,6 +57,7 @@ export default class UserService extends AuthAware {
 
   /** JPEG upload via fetch (axios mangles binary bodies on Hermes); the backend stores it in S3 and returns the URL. */
   async uploadAvatarBlob(blob: Blob): Promise<{ publicUrl: string }> {
+    await this.getMe(); // through axios: renews an expired access token before the raw fetch below
     // Hermes ships AbortController but not AbortSignal.timeout, so the deadline is wired by hand.
     const abort = new AbortController();
     const deadline = setTimeout(() => abort.abort(), UPLOAD_TIMEOUT_MS);

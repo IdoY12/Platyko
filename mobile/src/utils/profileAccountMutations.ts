@@ -1,15 +1,13 @@
 import { usernameValidationError } from "@project/user-credentials";
 import axios from "axios";
 import { Alert } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { AppDispatch } from "@/redux/store";
 import type UserService from "@/services/auth-aware/UserService";
 import { apiErrorMessage, serverErrorMessage } from "@/services/auth";
 import { logError } from "@/utils/logger";
 import { setUserIdentity } from "@/redux/profile-slice";
 import { updateTokens } from "@/redux/session-slice";
-import { REDUX_PERSIST_KEY } from "@/utils/hydrateStore";
-import { resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
+import { discardLocalAccount } from "@/utils/resetStoresAfterLogout";
 
 export async function updateUsername(
   user: UserService,
@@ -65,8 +63,7 @@ export async function deleteAccountRequest(
 ): Promise<void> {
   try {
     await user.deleteAccount();
-    await AsyncStorage.removeItem(REDUX_PERSIST_KEY);
-    resetStoresAfterLogout(dispatch);
+    await discardLocalAccount(dispatch);
     onClose();
   } catch (error) {
     logError("[PROFILE]", error, { phase: "delete-account" });

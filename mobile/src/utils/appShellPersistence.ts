@@ -6,8 +6,8 @@ import type { AppDispatch } from "@/redux/store";
 import UserService from "@/services/auth-aware/UserService";
 import { identityOf, setUserIdentity } from "@/redux/profile-slice";
 import { REDUX_PERSIST_KEY } from "@/utils/hydrateStore";
-import { clearSecureSessionTokens, writeSecureSessionTokens } from "@/utils/secureSessionTokens";
-import { resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
+import { writeSecureSessionTokens } from "@/utils/secureSessionTokens";
+import { discardLocalAccount } from "@/utils/resetStoresAfterLogout";
 import { isAuthFailure } from "@/utils/bootstrapSession";
 
 /**
@@ -18,7 +18,8 @@ import { isAuthFailure } from "@/utils/bootstrapSession";
  */
 export function subscribeStoreToHybridStorage(appStore: typeof store): () => void {
   let previousSnapshot = "";
-  let previousTokens = "";
+  // Seeded with what hydration produced: subscribing must never "write back" an unread (null) pair over the keychain.
+  let previousTokens = `${appStore.getState().session.accessToken ?? ""}|${appStore.getState().session.refreshToken ?? ""}`;
   let writeTimer: ReturnType<typeof setTimeout> | null = null;
   const unsubscribe = appStore.subscribe(() => {
     const state = appStore.getState();
@@ -62,10 +63,6 @@ export async function refreshSessionOrLogoutOnForeground(dispatch: AppDispatch):
     const me = await new UserService().getMe();
     dispatch(setUserIdentity(identityOf(me)));
   } catch (error) {
-    if (isAuthFailure(error)) {
-      await AsyncStorage.removeItem(REDUX_PERSIST_KEY);
-      await clearSecureSessionTokens();
-      resetStoresAfterLogout(dispatch);
-    }
+    if (isAuthFailure(error)) await discardLocalAccount(dispatch);
   }
 }
