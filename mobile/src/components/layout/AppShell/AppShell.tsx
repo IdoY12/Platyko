@@ -11,7 +11,9 @@ import { appQueryClient, useAppShell } from "@/hooks/useAppShell";
 /** Estimated offline banner height, used to stack the bootstrap banner below it. */
 const OFFLINE_BANNER_STACK_OFFSET = 68;
 
-function AppShellBanners({ isConnected, bootstrapError, retryBootstrap }: { isConnected: boolean; bootstrapError: string | null; retryBootstrap: () => void }) {
+type BannerProps = { isConnected: boolean; bootstrapError: string | null; retryBootstrap: () => void; dismissBootstrapError: () => void };
+
+function AppShellBanners({ isConnected, bootstrapError, retryBootstrap, dismissBootstrapError }: BannerProps) {
   const insets = useSafeAreaInsets();
   const bannerTop = insets.top + spacing.sm;
   return (
@@ -24,9 +26,15 @@ function AppShellBanners({ isConnected, bootstrapError, retryBootstrap }: { isCo
       {bootstrapError ? (
         <View style={[styles.bootstrapBanner, { top: bannerTop + (!isConnected ? OFFLINE_BANNER_STACK_OFFSET : 0) }]}>
           <Text style={styles.bootstrapText}>{bootstrapError}</Text>
-          <PressableScale onPress={retryBootstrap} style={styles.bootstrapRetry} haptic="light" accessibilityLabel="Retry loading account">
-            <Text style={styles.bootstrapRetryLabel}>Retry</Text>
-          </PressableScale>
+          <View style={styles.bootstrapActions}>
+            <PressableScale onPress={retryBootstrap} style={styles.bootstrapRetry} haptic="light" accessibilityLabel="Retry loading account">
+              <Text style={styles.bootstrapRetryLabel}>Retry</Text>
+            </PressableScale>
+            {/* The banner floats over screen headers; dismissing it frees the back arrow underneath. */}
+            <PressableScale onPress={dismissBootstrapError} style={styles.bootstrapDismiss} haptic="light" accessibilityLabel="Dismiss server message">
+              <Text style={styles.bootstrapDismissLabel}>Dismiss</Text>
+            </PressableScale>
+          </View>
         </View>
       ) : null}
     </>
@@ -35,14 +43,14 @@ function AppShellBanners({ isConnected, bootstrapError, retryBootstrap }: { isCo
 
 export function AppShell() {
   // Boots error handling, notifications and the stored session, and tracks connectivity for the offline banner.
-  const { isConnected, bootstrapError, retryBootstrap } = useAppShell();
+  const { isConnected, bootstrapError, retryBootstrap, dismissBootstrapError } = useAppShell();
 
   return (
     // react-native-safe-area-context: exposes notch / status bar / home-indicator insets to descendants (e.g. useSafeAreaInsets). Must wrap the app near the root.
     <SafeAreaProvider>
       <QueryClientProvider client={appQueryClient}>
         <View style={styles.container}>
-          <AppShellBanners isConnected={isConnected} bootstrapError={bootstrapError} retryBootstrap={retryBootstrap} />
+          <AppShellBanners isConnected={isConnected} bootstrapError={bootstrapError} retryBootstrap={retryBootstrap} dismissBootstrapError={dismissBootstrapError} />
           <AppNavigator />
           <StatusBar style="light" />
         </View>

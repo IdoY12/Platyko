@@ -36,4 +36,7 @@ export const styles = StyleSheet.create({
     borderRadius: radius.button,
   },
   bootstrapRetryLabel: { color: colors.onAccent, fontWeight: "800" },
+  bootstrapActions: { flexDirection: "row", gap: spacing.sm },
+  bootstrapDismiss: { paddingVertical: spacing.sm, paddingHorizontal: spacing.lg, borderRadius: radius.button, borderWidth: 1, borderColor: colors.border },
+  bootstrapDismissLabel: { color: colors.textPrimary, fontWeight: "700" },
 });

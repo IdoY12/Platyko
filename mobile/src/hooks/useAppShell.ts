@@ -31,6 +31,7 @@ export function useAppShell() {
     dispatch(setBootstrapError(null));
     void bootstrapSession(dispatch);
   }, [dispatch]);
+  const dismissBootstrapError = useCallback(() => dispatch(setBootstrapError(null)), [dispatch]);
 
   useEffect(() => attachAppShellForegroundInfrastructure(setIsConnected), []);
 
@@ -62,5 +63,5 @@ export function useAppShell() {
     return attachAppShellSessionForegroundSync(appStateRef, dispatch);
   }, [hasHydrated, dispatch]);
 
-  return { isConnected, bootstrapError, retryBootstrap };
+  return { isConnected, bootstrapError, retryBootstrap, dismissBootstrapError };
 }

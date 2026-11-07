@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, font, fontSize, spacing } from "@/theme/theme";
+import { colors, font, fontSize, radius, spacing } from "@/theme/theme";
 
 export const lessonScreenStyles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
@@ -18,4 +18,6 @@ export const lessonScreenStyles = StyleSheet.create({
     fontVariant: ["tabular-nums"],
   },
   prompt: { color: colors.textPrimary, fontSize: fontSize.md, fontWeight: "700" },
+  retryButton: { alignSelf: "flex-start", backgroundColor: colors.accent, paddingVertical: spacing.sm, paddingHorizontal: spacing.lg, borderRadius: radius.button },
+  retryLabel: { color: colors.onAccent, fontWeight: "800" },
 });

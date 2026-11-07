@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "@/theme/theme";
 import type { LessonScreenProps } from "@/types/learnNavigation.types";
@@ -50,9 +51,8 @@ export function LessonScreen({ navigation, route }: LessonScreenProps) {
             {load.loadError ? LESSON_LOAD_FAILED_MESSAGE : "No exercises for this level yet."}
           </Text>
           {load.loadError ? (
-            <Pressable onPress={load.reload} accessibilityRole="button" accessibilityLabel="Retry loading the lesson">
-              <Text style={lessonScreenStyles.chapterDesc}>Tap to retry</Text>
-            </Pressable>
+            <PressableScale style={lessonScreenStyles.retryButton} haptic="light" onPress={load.reload} accessibilityLabel="Retry loading the lesson">
+              <Text style={lessonScreenStyles.retryLabel}>Retry</Text></PressableScale>
           ) : null}
         </View>
       </SafeAreaView>
