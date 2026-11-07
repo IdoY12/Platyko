@@ -10,35 +10,25 @@ import {
 /** Readable after the first unlock since boot, so a refresh while the phone is locked can still persist. */
 const KEYCHAIN_OPTIONS = { keychainAccessible: SecureStore.AFTER_FIRST_UNLOCK };
 
-/**
- * Saves or deletes tokens in the device's hardware-encrypted storage.
- */
-async function writeSecureSessionTokens(
-  accessToken: string | null,
-  refreshToken: string | null,
-): Promise<void> {
-  // If an accessToken exists, save it. Otherwise, attempt to delete it.
+/** Saves or deletes tokens in the device's hardware-encrypted storage. */
+async function writeSecureSessionTokens(accessToken: string | null, refreshToken: string | null): Promise<void> {
   if (accessToken) {
+    await SecureStore.deleteItemAsync(SECURE_STORAGE_ACCESS_TOKEN_KEY).catch(() => undefined); // re-create: an update keeps the old accessibility class
     await SecureStore.setItemAsync(SECURE_STORAGE_ACCESS_TOKEN_KEY, accessToken, KEYCHAIN_OPTIONS);
   } else {
-    // We use .catch() to ignore errors if the key was already missing.
     await SecureStore.deleteItemAsync(SECURE_STORAGE_ACCESS_TOKEN_KEY).catch(() => undefined);
   }
 
   if (refreshToken) {
+    await SecureStore.deleteItemAsync(SECURE_STORAGE_REFRESH_TOKEN_KEY).catch(() => undefined);
     await SecureStore.setItemAsync(SECURE_STORAGE_REFRESH_TOKEN_KEY, refreshToken, KEYCHAIN_OPTIONS);
   } else {
     await SecureStore.deleteItemAsync(SECURE_STORAGE_REFRESH_TOKEN_KEY).catch(() => undefined);
   }
 }
 
-/**
- * Fetches tokens from the secure vault. Throws if SecureStore is unavailable.
- */
-export async function readSecureSessionTokens(): Promise<{
-  accessToken: string | null;
-  refreshToken: string | null;
-}> {
+/** Fetches tokens from the secure vault. Throws if SecureStore is unavailable. */
+export async function readSecureSessionTokens(): Promise<{ accessToken: string | null; refreshToken: string | null }> {
   const [accessToken, refreshToken] = await Promise.all([
     SecureStore.getItemAsync(SECURE_STORAGE_ACCESS_TOKEN_KEY, KEYCHAIN_OPTIONS),
     SecureStore.getItemAsync(SECURE_STORAGE_REFRESH_TOKEN_KEY, KEYCHAIN_OPTIONS),
@@ -64,12 +54,23 @@ export async function readTokensAgain(dispatch: AppDispatch): Promise<string | n
   }
 }
 
-/** The only keychain writer for session tokens; a failed write is retried until the newest pair lands. */
+/** The pair that has not reached the keychain yet (retried on every foreground until it lands). */
+let unsavedTokens: { accessToken: string | null; refreshToken: string | null } | null = null;
+
+/** The only keychain writer for session tokens; a failed write is retried, and again on each foreground. */
 export function persistTokens(accessToken: string | null, refreshToken: string | null, attempt = 1): void {
-  writeSecureSessionTokens(accessToken, refreshToken).catch((error: unknown) => {
-    logError("[AUTH]", error, { phase: "persist-tokens", attempt });
-    const { session } = store.getState();
-    const stillNewest = session.accessToken === accessToken && session.refreshToken === refreshToken;
-    if (stillNewest && attempt < 5) setTimeout(() => persistTokens(accessToken, refreshToken, attempt + 1), attempt * 2000);
-  });
+  writeSecureSessionTokens(accessToken, refreshToken).then(
+    () => { if (unsavedTokens?.accessToken === accessToken) unsavedTokens = null; },
+    (error: unknown) => {
+      logError("[AUTH]", error, { phase: "persist-tokens", attempt });
+      const { session } = store.getState();
+      if (session.accessToken !== accessToken || session.refreshToken !== refreshToken) return;
+      unsavedTokens = { accessToken, refreshToken };
+      if (attempt < 5) setTimeout(() => persistTokens(accessToken, refreshToken, attempt + 1), attempt * 2000);
+    },
+  );
+}
+
+export function retryUnsavedTokens(): void {
+  if (unsavedTokens) persistTokens(unsavedTokens.accessToken, unsavedTokens.refreshToken);
 }

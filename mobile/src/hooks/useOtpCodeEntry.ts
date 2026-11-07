@@ -5,8 +5,8 @@ import { logError } from "@/utils/logger";
 const OTP_RESEND_COOLDOWN_SECONDS = 60;
 
 /**
- * Shared 6-digit OTP entry state: digit-only sanitized code input plus the
- * resend-cooldown countdown. Used by the verify-email and reset-password screens.
+ * Shared 6-digit OTP entry state: digit-only sanitized code input, the resend-cooldown countdown and a
+ * guarded resend. Used by the verify-email, reset-password and set-password flows.
  */
 export function useOtpCodeEntry(codeJustSent: boolean) {
   const [code, setCodeState] = useState("");
@@ -22,11 +22,12 @@ export function useOtpCodeEntry(codeJustSent: boolean) {
   const restartResendCooldown = useCallback(() => setResendSecondsLeft(OTP_RESEND_COOLDOWN_SECONDS), []);
 
   const singleFlight = useSingleFlight();
-  /** Sends a fresh code at most once at a time and never inside the cooldown; resolves to an error message or null. */
-  const resend = useCallback(async (send: () => Promise<unknown>, logMode: string): Promise<string | null> => {
-    if (resendSecondsLeft > 0) return null;
-    let failure: string | null = null;
+  /** Sends a fresh code at most once at a time and never inside the cooldown. Resolves to null (sent), an error message, or undefined (skipped). */
+  const resend = useCallback(async (send: () => Promise<unknown>, logMode: string): Promise<string | null | undefined> => {
+    if (resendSecondsLeft > 0) return undefined;
+    let failure: string | null | undefined;
     await singleFlight(async () => {
+      failure = null;
       try {
         await send();
         restartResendCooldown();
@@ -38,5 +39,5 @@ export function useOtpCodeEntry(codeJustSent: boolean) {
     return failure;
   }, [resendSecondsLeft, restartResendCooldown, singleFlight]);
 
-  return { code, setCode, resendSecondsLeft, restartResendCooldown, resend };
+  return { code, setCode, resendSecondsLeft, resend };
 }

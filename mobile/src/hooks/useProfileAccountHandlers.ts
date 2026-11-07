@@ -2,6 +2,7 @@ import React from "react";
 import { passwordPolicyError } from "@project/user-credentials";
 import { Alert } from "react-native";
 import { useAppDispatch } from "@/redux/hooks";
+import { useSingleFlight } from "@/hooks/useSingleFlight";
 import LearningService from "@/services/auth-aware/LearningService";
 import type UserService from "@/services/auth-aware/UserService";
 import { resetLesson } from "@/redux/lesson-slice";
@@ -14,23 +15,24 @@ import type { ProfileReduxState } from "./useProfileRedux";
 
 export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftState, user: UserService) {
   const dispatch = useAppDispatch();
+  const singleFlight = useSingleFlight();
 
-  const onSaveLearningSettings = React.useCallback(async () => {
+  const onSaveLearningSettings = React.useCallback(() => singleFlight(async () => {
     if (!r.accessToken || d.saving) return;
     d.setSaving(true);
     d.setSaveMessage(null);
     await patchLearningSettings(user, d.draftGoal, d.draftLevel, d.draftCommitment, d.draftNotifications, dispatch, d.setSaveMessage);
     d.setSaving(false);
-  }, [r.accessToken, d, dispatch, user]);
+  }), [r.accessToken, d, dispatch, user, singleFlight]);
 
-  const onSaveUsername = React.useCallback(async () => {
+  const onSaveUsername = React.useCallback(() => singleFlight(async () => {
     if (!r.accessToken || !d.draftUsername.trim() || d.busyAction) return;
     d.setBusyAction("username");
     await updateUsername(user, d.draftUsername.trim(), dispatch, () => d.setUsernameModalVisible(false), d.setSaveMessage);
     d.setBusyAction(null);
-  }, [r.accessToken, d, dispatch, user]);
+  }), [r.accessToken, d, dispatch, user, singleFlight]);
 
-  const onChangePassword = React.useCallback(async () => {
+  const onChangePassword = React.useCallback(() => singleFlight(async () => {
     if (!r.accessToken || d.busyAction) return;
     const passwordError = passwordPolicyError(d.newPassword);
     if (passwordError) { Alert.alert("Invalid password", passwordError); return; }
@@ -41,9 +43,9 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
       d.setPasswordModalVisible(false);
     }, d.setSaveMessage);
     d.setBusyAction(null);
-  }, [r.accessToken, d, dispatch, user]);
+  }), [r.accessToken, d, dispatch, user, singleFlight]);
 
-  const onDeleteAccount = React.useCallback(async () => {
+  const onDeleteAccount = React.useCallback(() => singleFlight(async () => {
     if (!r.accessToken || d.confirmDeleteText !== "DELETE" || d.busyAction) return;
     d.setBusyAction("delete");
     await deleteAccountRequest(user, dispatch, () => {
@@ -51,7 +53,7 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
       d.setConfirmDeleteText("");
     });
     d.setBusyAction(null);
-  }, [r.accessToken, d, dispatch, user]);
+  }), [r.accessToken, d, dispatch, user, singleFlight]);
 
   const onLogoutPress = React.useCallback(() => {
     Alert.alert("Log out", "Are you sure you want to log out?", [

@@ -1,3 +1,4 @@
+import { logError } from "@/utils/logger";
 import type { AppDispatch } from "@/redux/store";
 import UserService from "@/services/auth-aware/UserService";
 import { resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
@@ -11,8 +12,9 @@ export async function confirmLogout(
     if (accessToken) {
       await new UserService().logout(refreshToken ?? "");
     }
-  } catch {
-    // Still clear local session if the network call fails.
+  } catch (error) {
+    // Still clear the local session when the network call fails.
+    logError("[AUTH]", error, { phase: "logout" });
   } finally {
     resetStoresAfterLogout(dispatch);
   }

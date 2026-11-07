@@ -23,6 +23,7 @@ export function useSetPasswordFlow(onDone: () => void) {
   const sendCode = useCallback(async () => {
     setError(null);
     const failure = await resend(() => passwordResetService.requestCode(email), "set-password-request");
+    if (failure === undefined) return;
     if (failure) setError(failure);
     else { logAuth("set-password:code-sent", { email }); setCodeSent(true); }
   }, [email, resend]);

@@ -47,6 +47,7 @@ export function useResetPasswordScreen() {
     if (loading) return;
     setError(null);
     const failure = await resend(() => passwordResetService.requestCode(email), "password-reset-resend");
+    if (failure === undefined) return;
     if (failure) setError(failure); else logAuth("password-reset:resend", { email });
   }, [email, loading, resend]);
 

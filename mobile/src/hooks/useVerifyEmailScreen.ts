@@ -50,6 +50,7 @@ export function useVerifyEmailScreen() {
     if (loading) return;
     setError(null);
     const failure = await resend(() => emailVerificationService.resendCode(email, registrationToken), "verify-email-resend");
+    if (failure === undefined) return;
     if (failure) setError(failure); else logAuth("verify-email:resend", { email });
   }, [email, loading, registrationToken, resend]);
 

@@ -21,19 +21,17 @@ const MATCH_COUNTDOWN_TICK_MS = 700;
 export function DuelMatchmakingScreen({ navigation }: MatchmakingScreenProps) {
   const { playersOnline, sessionId, opponent, joinQueue, leaveQueue, queueRejected, connectionLost } = useDuelMatchmakingSocket();
   const userId = useAppSelector((s) => s.session.userId);
-  const accessToken = useAppSelector((s) => s.session.accessToken);
   const [seconds, setSeconds] = useState(0);
   const [countdown, setCountdown] = useState(3);
   const hasJoinedQueueRef = useRef(false);
-  const accessTokenRef = useRef(accessToken);
   const sessionIdRef = useRef<string | null>(null);
   const navigatedRef = useRef(false);
 
-  useEffect(() => { accessTokenRef.current = accessToken; sessionIdRef.current = sessionId; }, [accessToken, sessionId]);
+  useEffect(() => { sessionIdRef.current = sessionId; }, [sessionId]);
   useEffect(() => { logNav("screen:enter", { screen: "MatchmakingScreen" }); return () => logNav("screen:leave", { screen: "MatchmakingScreen" }); }, []);
   useEffect(() => { if (sessionId) return; const i = setInterval(() => setSeconds((v) => v + 1), QUEUE_TIMER_INTERVAL_MS); return () => clearInterval(i); }, [sessionId]);
   useEffect(() => {
-    if (!userId || !accessTokenRef.current || hasJoinedQueueRef.current || queueRejected) return;
+    if (!userId || hasJoinedQueueRef.current || queueRejected) return;
     hasJoinedQueueRef.current = true;
     void joinQueue({ userId });
     logDuel("queue:join", { userId });

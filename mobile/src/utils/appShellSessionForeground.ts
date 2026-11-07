@@ -9,6 +9,7 @@ import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { syncDailyPracticeReminder } from "@/utils/dailyGoalNotificationCheck";
 import { syncRegisteredStreakFromServer } from "@/utils/syncRegisteredStreakFromServer";
 import { bootstrapSession } from "@/utils/bootstrapSession";
+import { retryUnsavedTokens } from "@/utils/secureSessionTokens";
 
 export function attachAppShellSessionForegroundSync(
   appStateRef: MutableRefObject<AppStateStatus>,
@@ -17,6 +18,7 @@ export function attachAppShellSessionForegroundSync(
   const sub = AppState.addEventListener("change", (next) => {
     if (appStateRef.current !== "active" && next === "active") {
       dispatch(reconcileStudyCalendarDay());
+      retryUnsavedTokens();
       const { accessToken, isAuthenticated, isGuest } = store.getState().session;
       if (isAuthenticated && !accessToken) void bootstrapSession(dispatch); // keychain unreadable at launch: try again
       if (isAuthenticated && accessToken && !store.getState().duelLive.sessionId) {

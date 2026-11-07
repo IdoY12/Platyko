@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { Alert, Platform } from "react-native";
 import * as AppleAuthentication from "expo-apple-authentication";
 import store, { type AppDispatch } from "@/redux/store";
+import { useSingleFlight } from "@/hooks/useSingleFlight";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
 import authService from "@/services/auth";
 import { buildGuestLocalState } from "@/services/authGuestState";
@@ -16,7 +17,8 @@ function formatFullName(name: AppleAuthentication.AppleAuthenticationFullName | 
 
 export function AuthAppleButton({ dispatch }: { dispatch: AppDispatch }) {
   const [busy, setBusy] = useState(false);
-  const start = useCallback(async () => {
+  const singleFlight = useSingleFlight();
+  const start = useCallback(() => singleFlight(async () => {
     if (busy) return;
     setBusy(true);
     try {
@@ -46,7 +48,7 @@ export function AuthAppleButton({ dispatch }: { dispatch: AppDispatch }) {
     } finally {
       setBusy(false);
     }
-  }, [busy, dispatch]);
+  }), [busy, dispatch, singleFlight]);
   if (Platform.OS !== "ios") return null;
   return (
     <AppleAuthentication.AppleAuthenticationButton
