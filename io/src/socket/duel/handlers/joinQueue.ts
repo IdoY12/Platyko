@@ -8,6 +8,7 @@
  */
 
 import { prisma } from "@project/db";
+import { logError } from "../../../utils/logger.js";
 import { handleQueueJoin } from "../queue.js";
 import { isThrottled } from "../../../utils/socketThrottle.js";
 import type { DuelNamespace, DuelSocket, QueueEntry } from "../types.js";
@@ -18,13 +19,14 @@ export function registerJoinQueue(socket: DuelSocket, duel: DuelNamespace) {
     const authenticatedUserId = socket.data.authenticatedUserId;
 
     const user = await prisma.user.findUnique({ where: { id: authenticatedUserId } }).catch(() => null);
+    if (!user) return; // deleted account, or DB down: never queue an "Anonymous" player
     const entry: QueueEntry = {
       socketId: socket.id,
       userId: authenticatedUserId,
-      username: user?.username ?? "Anonymous",
-      avatarUrl: user?.avatarUrl ?? null,
+      username: user.username,
+      avatarUrl: user.avatarUrl,
       joinedAt: Date.now(),
     };
-    handleQueueJoin(socket, duel, entry);
+    try { handleQueueJoin(socket, duel, entry); } catch (error) { logError("[DUEL]", error, { phase: "join_queue" }); }
   });
 }

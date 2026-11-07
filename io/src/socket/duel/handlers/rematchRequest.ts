@@ -8,7 +8,7 @@
  */
 
 import { logInfo } from "../../../utils/logger.js";
-import { finalizeMatch } from "../queue.js";
+import { finalizeMatch, SOLO_SOCKET_PREFIX } from "../queue.js";
 import { sessionIdOf } from "../payloadGuards.js";
 import { rematchEntries } from "../state.js";
 import type { DuelNamespace, DuelSocket, QueueEntry } from "../types.js";
@@ -58,7 +58,7 @@ export function registerRematchRequest(socket: DuelSocket, duel: DuelNamespace) 
       rematchEntries.delete(sessionId);
 
       const p1SocketId = entry.requests.get(entry.player1.userId);
-      const p2SocketId = entry.isSolo ? `solo:${p1SocketId}` : entry.requests.get(entry.player2.userId);
+      const p2SocketId = entry.isSolo ? `${SOLO_SOCKET_PREFIX}${p1SocketId}` : entry.requests.get(entry.player2.userId);
 
       if (!p1SocketId || (!entry.isSolo && !p2SocketId)) {
         socket.emit("rematch_declined", { reason: "expired" });
@@ -67,7 +67,7 @@ export function registerRematchRequest(socket: DuelSocket, duel: DuelNamespace) 
 
       const p1: QueueEntry = { ...entry.player1, socketId: p1SocketId };
       const p2: QueueEntry = entry.isSolo
-        ? { ...entry.player1, socketId: `solo:${p1SocketId}` }
+        ? { ...entry.player1, socketId: `${SOLO_SOCKET_PREFIX}${p1SocketId}` }
         : { ...entry.player2, socketId: p2SocketId! };
 
       finalizeMatch(duel, p1, p2);

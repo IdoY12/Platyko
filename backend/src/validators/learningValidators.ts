@@ -6,7 +6,7 @@ export const experienceLevelParamsSchema = z.object({
 });
 
 export const learningSubmitExerciseBodySchema = z.object({
-  exerciseId: z.string().min(3),
+  exerciseId: z.string().min(3).max(64),
   answer: z.string().max(2000),
   clientLocalDate: z.string().regex(CALENDAR_DATE_PATTERN).optional(),
 });

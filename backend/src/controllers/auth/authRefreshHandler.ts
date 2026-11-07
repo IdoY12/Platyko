@@ -6,6 +6,8 @@ import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../../uti
 import { revokeAllSessionsForUser } from "../../utils/revokeAllSessionsForUser.js";
 import { hashRefreshToken } from "../../utils/storeRefreshToken.js";
 import { rotateRefreshToken } from "../../utils/rotateRefreshToken.js";
+import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "../../utils/dbErrors.js";
+import { graceReplaySuccessorId } from "../../utils/refreshTokenGrace.js";
 import type { RefreshBody } from "../../validators/authValidators.js";
 
 export async function authRefreshHandler(request: Request, response: Response): Promise<void> {
@@ -36,9 +38,10 @@ export async function authRefreshHandler(request: Request, response: Response): 
     const tokenPayload = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
     const accessToken = signAccessToken(tokenPayload);
     const newRefreshToken = signRefreshToken(tokenPayload);
-    // A token already marked used — or one losing the conditional claim inside
-    // rotateRefreshToken — is treated as reuse and revokes the whole family.
-    const rotated = stored.used ? false : await rotateRefreshToken(user.id, stored, newRefreshToken);
+    // A used token is reuse and revokes the whole family, unless it is replayed seconds after rotation
+    // by the device whose reply was lost: then its orphaned successor is consumed in its place.
+    const claimId = stored.used ? await graceReplaySuccessorId(stored) : stored.id;
+    const rotated = claimId ? await rotateRefreshToken(user.id, claimId, stored.family, newRefreshToken) : false;
     if (!rotated) {
       await revokeAllSessionsForUser(user.id);
       logError("[AUTH]", new Error("Refresh token reuse detected"), { userId: user.id });
@@ -49,6 +52,7 @@ export async function authRefreshHandler(request: Request, response: Response): 
     response.json({ accessToken, refreshToken: newRefreshToken });
   } catch (error) {
     logError("[AUTH]", error, { phase: "refresh" });
-    response.status(500).json({ error: "Refresh failed" });
+    if (isDatabaseUnavailableError(error)) response.status(503).json({ error: DATABASE_UNAVAILABLE_MESSAGE });
+    else response.status(500).json({ error: "Refresh failed" });
   }
 }

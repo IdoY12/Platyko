@@ -7,7 +7,7 @@ import type { DuelNamespace, QueueEntry } from "./types.js";
 /** Wait this long with no opponent before matching the player into a solo duel (real server session). */
 const SOLO_MATCH_WAIT_MS = 25_000;
 
-const SOLO_SOCKET_PREFIX = "solo:";
+export const SOLO_SOCKET_PREFIX = "solo:";
 
 export function clearSoloMatchTimer(socketId: string): void {
   const t = soloMatchTimers.get(socketId);

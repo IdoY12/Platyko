@@ -25,6 +25,8 @@ const limiter = (max: number) =>
 // Registration is limited more strictly in production to slow enumeration attacks
 export const authRegisterRateLimiter = config.get<string>("env") === "production" ? limiter(8) : limiter(100);
 export const authLoginRateLimiter = limiter(8);
+// A current-password check is a credential guess like login.
+export const changePasswordRateLimiter = limiter(8);
 export const authRefreshRateLimiter = limiter(60);
 export const authLogoutRateLimiter = limiter(40);
 // Wrong-code attempts are also capped per code in the DB (5); this only stops floods

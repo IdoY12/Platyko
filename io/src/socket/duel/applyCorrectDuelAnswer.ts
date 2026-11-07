@@ -10,6 +10,7 @@
 import { XP_PER_CORRECT_EXERCISE } from "@project/xp-constants";
 import { DUEL_ROUND_COUNT, DUEL_BETWEEN_ROUNDS_DELAY_MS } from "../../constants/duelRoundConstants.js";
 import { applyXpReward } from "./services/rewards.js";
+import { logError } from "../../utils/logger.js";
 import { sessions } from "./state.js";
 import { endSession } from "./endSession.js";
 import { startRound } from "./startRound.js";
@@ -57,7 +58,7 @@ export function applyCorrectDuelAnswer(
   void applyXpReward(xpUserId, XP_PER_CORRECT_EXERCISE, xpStreakDate).then(({ xpAdded }) => {
     if (answeredByPlayer1) session.xpGrantedP1 += xpAdded;
     else session.xpGrantedP2 += xpAdded;
-  });
+  }).catch((error: unknown) => logError("[DUEL]", error, { phase: "round-xp" }));
   session.roundReplay.push({
     roundNumber: session.round,
     winnerUserId: answeredByPlayer1 ? session.player1.userId : session.player2.userId,

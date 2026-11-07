@@ -12,6 +12,7 @@ import {
   postPracticeLog,
   putAvatarDirectUpload,
 } from "../controllers/user/index.js";
+import { changePasswordRateLimiter } from "../middlewares/authRateLimiters.js";
 import { authMiddleware } from "../middlewares/auth.js";
 import { validateBody, validateQuery } from "../middlewares/validateBody.js";
 import {
@@ -42,5 +43,5 @@ userRouter.get("/progress-summary", validateQuery(progressSummaryQuerySchema), g
 userRouter.get("/preferences", getPreferences);
 userRouter.patch("/preferences", validateBody(patchPreferencesBodySchema), patchPreferences);
 userRouter.post("/practice-log", validateBody(postPracticeLogBodySchema), postPracticeLog);
-userRouter.post("/change-password", validateBody(postChangePasswordBodySchema), postChangePassword);
+userRouter.post("/change-password", changePasswordRateLimiter, validateBody(postChangePasswordBodySchema), postChangePassword);
 userRouter.delete("/account", validateBody(deleteAccountBodySchema), deleteAccount);

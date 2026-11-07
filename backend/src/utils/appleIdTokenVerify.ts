@@ -1,3 +1,4 @@
+import { normalizeEmail } from "@project/user-credentials";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import config from "config";
 
@@ -13,6 +14,6 @@ export async function verifyAppleIdentityToken(
   if (!payload.sub) throw new Error("invalid-apple-token");
   // Apple sends email_verified as boolean or the string "true" depending on the token
   const emailVerified = payload.email_verified === true || payload.email_verified === "true";
-  const email = typeof payload.email === "string" && emailVerified ? payload.email.toLowerCase() : undefined;
+  const email = typeof payload.email === "string" && emailVerified ? normalizeEmail(payload.email) : undefined;
   return { appleSub: payload.sub, email };
 }

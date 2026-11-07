@@ -44,7 +44,7 @@ export const logoutBodySchema = z.object({
 });
 
 export const googleAuthBodySchema = z.object({
-  idToken: z.string().min(1, { message: "ID token is required" }),
+  idToken: z.string().min(1, { message: "ID token is required" }).max(8192),
   ...guestSnapshotShape,
 });
 

@@ -9,6 +9,8 @@
 
 import { XP_PER_CORRECT_EXERCISE } from "@project/xp-constants";
 import { applyXpReward } from "./services/rewards.js";
+import { SOLO_SOCKET_PREFIX } from "./queue.js";
+import { logError } from "../../utils/logger.js";
 import { persistDuelSession } from "./persistence.js";
 import { clearSessionRoundTimer } from "./roundTimeout.js";
 import { sessions } from "./state.js";
@@ -44,7 +46,7 @@ export function onDuelParticipantGone(
     }
   }
 
-  const soloOpponent = session.player2.socketId.startsWith("solo:");
+  const soloOpponent = session.player2.socketId.startsWith(SOLO_SOCKET_PREFIX);
   if (soloOpponent && session.player1.socketId === leaverSocketId) {
     clearSessionRoundTimer(session);
     sessions.delete(sessionId);
@@ -70,5 +72,6 @@ export function onDuelParticipantGone(
         round_replay: session.roundReplay,
         streak_current: streakCurrent,
       });
-    });
+    })
+    .catch((error: unknown) => logError("[DUEL]", error, { phase: "walk-over-end" }));
 }

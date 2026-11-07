@@ -10,13 +10,16 @@
 import type { LogMeta } from "./formatMeta.js";
 import { writeLine } from "./writeLine.js";
 
+/** Third-party error text (Resend, Prisma) can quote an address; keys are already redacted, text is not. */
+const maskEmails = (text: string | undefined) => text?.replace(/[^\s@"'<>]+@[^\s@"'<>]+\.[a-z]{2,}/gi, "***EMAIL***");
+
 export function logError(prefix: string, error: unknown, meta?: LogMeta) {
   const payload = {
     ...(meta ?? {}),
     error:
       error instanceof Error
-        ? { name: error.name, message: error.message, stack: error.stack }
-        : { message: String(error) },
+        ? { name: error.name, message: maskEmails(error.message), stack: maskEmails(error.stack) }
+        : { message: maskEmails(String(error)) },
   };
   writeLine("ERROR", prefix, "failure", payload);
 }

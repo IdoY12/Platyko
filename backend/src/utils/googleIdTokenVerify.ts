@@ -1,3 +1,4 @@
+import { normalizeEmail } from "@project/user-credentials";
 import { OAuth2Client } from "google-auth-library";
 import config from "config";
 
@@ -11,5 +12,5 @@ export async function verifyGoogleIdToken(
   const ticket = await client.verifyIdToken({ idToken, audience });
   const payload = ticket.getPayload();
   if (!payload?.email || payload.email_verified !== true || !payload.sub) throw new Error("invalid-google-token");
-  return { email: payload.email.toLowerCase(), googleId: payload.sub, name: payload.name ?? undefined };
+  return { email: normalizeEmail(payload.email), googleId: payload.sub, name: payload.name ?? undefined };
 }

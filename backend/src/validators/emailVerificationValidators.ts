@@ -2,7 +2,7 @@ import { z } from "zod";
 import { emailField, otpCodeField } from "./credentialFields.js";
 
 /** Issued by /auth/register; proves the caller owns the pending row (see PendingRegistration). */
-const registrationTokenField = z.string().min(1, { message: "Registration token is required" });
+const registrationTokenField = z.string().min(1, { message: "Registration token is required" }).max(128);
 
 export const verifyEmailBodySchema = z.object({
   email: emailField,

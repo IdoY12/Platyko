@@ -8,7 +8,7 @@ import { guestSnapshotShape } from "./authValidators.js";
  * claim someone else's address and get linked to (or squat on) their account.
  */
 export const appleAuthBodySchema = z.object({
-  identityToken: z.string().min(1, { message: "Identity token is required" }),
+  identityToken: z.string().min(1, { message: "Identity token is required" }).max(8192),
   fullName: z.string().max(USERNAME_MAX_LEN * 2).optional(),
   ...guestSnapshotShape,
 });

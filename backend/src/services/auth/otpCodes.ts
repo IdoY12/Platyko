@@ -15,7 +15,7 @@ export type OtpFields = { codeHash: string; expiresAt: Date; attempts: number; l
  */
 export type OtpDelegate<Where> = {
   findUnique(args: { where: Where }): PromiseLike<OtpFields | null>;
-  update(args: { where: Where; data: { attempts: { increment: number } } }): PromiseLike<OtpFields>;
+  updateMany(args: { where: Where & { attempts: { lt: number } }; data: { attempts: { increment: number } } }): PromiseLike<{ count: number }>;
 };
 /** Rows whose only columns are the key + OTP fields (passwordReset) can be created by createOtpCode. */
 type OtpUpsertDelegate<Where> = OtpDelegate<Where> & {
@@ -54,15 +54,16 @@ export async function otpResendCooldownSecondsLeft<Where>(codes: OtpDelegate<NoI
   return msLeft > 0 ? Math.ceil(msLeft / 1000) : 0;
 }
 
-/** Checks the submitted code and counts failed attempts; the caller consumes the row on "ok". */
+/**
+ * Checks the submitted code; the caller consumes the row on "ok". Every guess claims an attempt in
+ * one conditional UPDATE *before* the slow compare, so parallel requests cannot exceed the cap.
+ */
 export async function checkOtpCode<Where>(codes: OtpDelegate<NoInfer<Where>>, where: Where, code: string): Promise<OtpOutcome> {
   const record = await codes.findUnique({ where });
   if (!record) return "missing";
-  if (record.attempts >= OTP_MAX_ATTEMPTS) return "locked";
   if (record.expiresAt.getTime() < Date.now()) return "expired";
-  if (!(await comparePassword(code, record.codeHash))) {
-    const updated = await codes.update({ where, data: { attempts: { increment: 1 } } });
-    return updated.attempts >= OTP_MAX_ATTEMPTS ? "locked" : "invalid";
-  }
-  return "ok";
+  const claim = await codes.updateMany({ where: { ...where, attempts: { lt: OTP_MAX_ATTEMPTS } }, data: { attempts: { increment: 1 } } });
+  if (claim.count === 0) return "locked";
+  if (await comparePassword(code, record.codeHash)) return "ok";
+  return record.attempts + 1 >= OTP_MAX_ATTEMPTS ? "locked" : "invalid";
 }

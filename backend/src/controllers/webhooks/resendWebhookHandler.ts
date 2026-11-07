@@ -1,3 +1,4 @@
+import { normalizeEmail } from "@project/user-credentials";
 import type { Request, Response } from "express";
 import { prisma } from "@project/db";
 import type { WebhookEventPayload } from "resend";
@@ -39,7 +40,7 @@ export async function resendWebhookHandler(request: Request, response: Response)
     return;
   }
 
-  const recipients = event.data.to.map((address) => address.trim().toLowerCase());
+  const recipients = event.data.to.map(normalizeEmail);
   try {
     const { count } = await prisma.user.updateMany({
       where: { email: { in: recipients } },
