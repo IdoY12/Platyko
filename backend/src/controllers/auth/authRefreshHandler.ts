@@ -41,7 +41,12 @@ export async function authRefreshHandler(request: Request, response: Response): 
     // A used token is reuse and revokes every session, unless it is replayed seconds after rotation
     // by the device whose reply was lost: then its orphaned successor is consumed in its place.
     const claimId = stored.used ? await graceReplaySuccessorId(stored) : stored.id;
-    const rotated = claimId ? await rotateRefreshToken(user.id, claimId, stored.family, newRefreshToken) : false;
+    let rotated = claimId ? await rotateRefreshToken(user.id, claimId, stored.family, newRefreshToken) : false;
+    // Lost a same-instant race for an unused token (two parallel refreshes): take the grace path once.
+    if (!rotated && !stored.used) {
+      const raceSuccessorId = await graceReplaySuccessorId(stored);
+      rotated = raceSuccessorId ? await rotateRefreshToken(user.id, raceSuccessorId, stored.family, newRefreshToken) : false;
+    }
     if (!rotated) {
       await revokeAllSessionsForUser(user.id);
       logError("[AUTH]", new Error("Refresh token reuse detected"), { userId: user.id });

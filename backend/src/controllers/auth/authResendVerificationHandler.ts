@@ -35,6 +35,7 @@ export async function authResendVerificationHandler(request: Request, response: 
       return;
     }
     logInfo("[AUTH]", "resend-verification:sent", { email });
+    response.locals.codeEmailQueued = true;
     response.json({ sent: true });
   } catch (error) {
     logError("[AUTH]", error, { phase: "resend-verification" });

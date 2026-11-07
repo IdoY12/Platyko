@@ -36,6 +36,7 @@ export async function authRegisterHandler(request: Request, response: Response):
       return;
     }
     logInfo("[AUTH]", "register:pending", { email });
+    response.locals.codeEmailQueued = true;
     response.status(202).json({ email, registrationToken });
   } catch (error) {
     logError("[AUTH]", error, { phase: "register" });

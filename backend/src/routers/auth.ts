@@ -29,7 +29,8 @@ import {
   authRegisterRateLimiter,
   authResendVerificationRateLimiter,
   authVerifyEmailRateLimiter,
-  perAddressEmailLimiter,
+  resetCodeLimiter,
+  signUpCodeLimiter,
 } from "../middlewares/authRateLimiters.js";
 import { validateBody } from "../middlewares/validateBody.js";
 import { appleAuthBodySchema } from "../validators/appleAuthValidators.js";
@@ -39,10 +40,10 @@ import { confirmPasswordResetBodySchema, requestPasswordResetBodySchema } from "
 
 export const authRouter = Router();
 
-authRouter.post("/register", authRegisterRateLimiter, validateBody(registerBodySchema), perAddressEmailLimiter, authRegisterHandler);
+authRouter.post("/register", authRegisterRateLimiter, validateBody(registerBodySchema), signUpCodeLimiter, authRegisterHandler);
 authRouter.post("/verify-email", authVerifyEmailRateLimiter, validateBody(verifyEmailBodySchema), authVerifyEmailHandler);
-authRouter.post("/verify-email/resend", authResendVerificationRateLimiter, validateBody(resendVerificationBodySchema), perAddressEmailLimiter, authResendVerificationHandler);
-authRouter.post("/password-reset/request", authPasswordResetRequestRateLimiter, validateBody(requestPasswordResetBodySchema), perAddressEmailLimiter, authPasswordResetRequestHandler);
+authRouter.post("/verify-email/resend", authResendVerificationRateLimiter, validateBody(resendVerificationBodySchema), signUpCodeLimiter, authResendVerificationHandler);
+authRouter.post("/password-reset/request", authPasswordResetRequestRateLimiter, validateBody(requestPasswordResetBodySchema), resetCodeLimiter, authPasswordResetRequestHandler);
 authRouter.post("/password-reset/confirm", authPasswordResetConfirmRateLimiter, validateBody(confirmPasswordResetBodySchema), authPasswordResetConfirmHandler);
 authRouter.post("/login", authLoginRateLimiter, validateBody(loginBodySchema), authLoginHandler);
 authRouter.post("/google", authLoginRateLimiter, validateBody(googleAuthBodySchema), authGoogleHandler);

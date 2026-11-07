@@ -33,7 +33,7 @@ export async function authPasswordResetRequestHandler(request: Request, response
   logInfo("[AUTH]", "password-reset-request:attempt", { email });
   try {
     const user = await prisma.user.findUnique({ where: { email } });
-    if (user) void issueResetCodeInBackground(user);
+    if (user) { void issueResetCodeInBackground(user); response.locals.codeEmailQueued = true; }
     response.json({ sent: true });
   } catch (error) {
     logError("[AUTH]", error, { phase: "password-reset-request" });

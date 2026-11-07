@@ -27,17 +27,24 @@ export const authRegisterRateLimiter = config.get<string>("env") === "production
 export const authLoginRateLimiter = limiter(8);
 
 /**
- * Per-address cap on emails a stranger can trigger (reset codes, sign-up codes). Runs after validateBody,
- * so the key is the normalised address: 5 codes x 5 guesses = 25 guesses per account per day at most.
+ * Per-address cap on code emails (runs after validateBody, so the key is the normalised address). Only
+ * requests that really queue an email count (handlers set `res.locals.codeEmailQueued`), so 409s and
+ * cooldown hits cannot burn a victim's quota. 5 codes x 5 guesses an hour bounds brute force; a separate
+ * bucket per flow means sign-up spam cannot block a password reset.
  */
-export const perAddressEmailLimiter = rateLimit({
-  windowMs: 24 * 60 * 60 * 1000,
-  max: 5,
-  standardHeaders: true,
-  legacyHeaders: false,
-  keyGenerator: (request) => `email:${(request.validatedBody as { email: string }).email}`,
-  message: { error: "Too many codes requested for this address today. Try again tomorrow." },
-});
+const perAddressCodeLimiter = (flow: string) =>
+  rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (request) => `${flow}:${(request.validatedBody as { email: string }).email}`,
+    requestWasSuccessful: (_request, response) => response.locals.codeEmailQueued === true,
+    skipFailedRequests: true,
+    message: { error: "Too many codes requested for this address. Try again in an hour." },
+  });
+export const signUpCodeLimiter = perAddressCodeLimiter("sign-up");
+export const resetCodeLimiter = perAddressCodeLimiter("reset");
 // A current-password check is a credential guess like login.
 export const changePasswordRateLimiter = limiter(8);
 export const authRefreshRateLimiter = limiter(60);

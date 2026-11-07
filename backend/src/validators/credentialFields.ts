@@ -5,6 +5,7 @@ import {
   EMAIL_MIN_LEN,
   EMAIL_TOO_LONG,
   EMAIL_TOO_SHORT,
+  normalizeEmail,
   PASSWORD_MAX_LEN,
   PASSWORD_MIN_LEN,
   PASSWORD_TOO_LONG,
@@ -18,11 +19,8 @@ import {
 /** Single source of truth for every email field: trimmed and lower-cased so one mailbox is one account. */
 export const emailField = z
   .string()
-  .trim()
-  .toLowerCase()
-  .min(EMAIL_MIN_LEN, { message: EMAIL_TOO_SHORT })
-  .max(EMAIL_MAX_LEN, { message: EMAIL_TOO_LONG })
-  .email({ message: EMAIL_INVALID });
+  .transform(normalizeEmail)
+  .pipe(z.string().min(EMAIL_MIN_LEN, { message: EMAIL_TOO_SHORT }).max(EMAIL_MAX_LEN, { message: EMAIL_TOO_LONG }).email({ message: EMAIL_INVALID }));
 
 export const passwordField = z
   .string()
