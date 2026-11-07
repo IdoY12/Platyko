@@ -13,7 +13,7 @@ const KEYCHAIN_OPTIONS = { keychainAccessible: SecureStore.AFTER_FIRST_UNLOCK };
 /**
  * Saves or deletes tokens in the device's hardware-encrypted storage.
  */
-export async function writeSecureSessionTokens(
+async function writeSecureSessionTokens(
   accessToken: string | null,
   refreshToken: string | null,
 ): Promise<void> {
