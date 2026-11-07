@@ -33,7 +33,8 @@ export function useDuelMatchmakingSocket() {
   const url = DUEL_SOCKET_URL;
   const joinQueue = useCallback(
     async (p: { userId: string; stillWanted: () => boolean }) => {
-      if (!store.getState().session.refreshToken) return;
+      // No usable credentials (keychain unreadable): say so instead of "searching" forever.
+      if (!store.getState().session.refreshToken) { dispatch(connectionLostSet()); return; }
       const sessionUsable = await refreshSessionOrLogoutOnForeground(dispatch);
       // The user may have left matchmaking during the await: never join a queue nobody is watching.
       if (!p.stillWanted()) return;
