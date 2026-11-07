@@ -5,17 +5,18 @@ import { runExpression } from "./codePuzzleSandboxRunner.js";
 
 type CaseRow = { inputContext: Record<string, unknown>; expectedOutput: unknown };
 
-export function codePuzzleAllTestCasesPass(answer: string, raw: Prisma.JsonValue | null): boolean {
+export async function codePuzzleAllTestCasesPass(answer: string, raw: Prisma.JsonValue | null): Promise<boolean> {
   const cases = parseCases(raw);
   if (!cases) return false;
   const preparedAnswer = prepareCodePuzzleExpression(answer);
-  return cases.every((row) => {
+  for (const row of cases) {
     try {
-      return isDeepStrictEqual(runExpression(preparedAnswer, row.inputContext), row.expectedOutput);
+      if (!isDeepStrictEqual(await runExpression(preparedAnswer, row.inputContext), row.expectedOutput)) return false;
     } catch {
       return false;
     }
-  });
+  }
+  return true;
 }
 
 function parseCases(raw: Prisma.JsonValue | null): CaseRow[] | null {

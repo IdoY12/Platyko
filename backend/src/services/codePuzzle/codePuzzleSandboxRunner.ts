@@ -47,14 +47,15 @@ function installPuzzleContext(inputContext: Record<string, unknown>): ivm.Contex
   return context;
 }
 
-export function runExpression(preparedAnswer: string, inputContext: Record<string, unknown>): unknown {
+/** Runs on the isolate's own thread (async `run`): a 100 ms busy-loop answer never blocks the API's event loop. */
+export async function runExpression(preparedAnswer: string, inputContext: Record<string, unknown>): Promise<unknown> {
   const copy = structuredClone(inputContext);
   let context: ivm.Context | undefined;
   let script: ivm.Script | undefined;
   try {
     context = installPuzzleContext(copy);
     script = isolate.compileScriptSync(`(()=>{"use strict";return (${preparedAnswer});})()`);
-    const evaluatedValue: unknown = script.runSync(context, { timeout: CODE_PUZZLE_VM_TIMEOUT_MS, copy: true });
+    const evaluatedValue: unknown = await script.run(context, { timeout: CODE_PUZZLE_VM_TIMEOUT_MS, copy: true });
     if (evaluatedValue && typeof evaluatedValue === "object" && typeof (evaluatedValue as Promise<unknown>).then === "function") {
       throw new Error("async");
     }

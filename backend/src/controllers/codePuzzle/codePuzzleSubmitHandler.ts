@@ -33,7 +33,7 @@ export async function codePuzzleSubmitHandler(request: AuthenticatedRequest, res
     const normalized = normaliseCodePuzzleAnswer(answer);
     const isAnswerCorrect =
       puzzle.acceptedAnswers.some((accepted) => normaliseCodePuzzleAnswer(accepted) === normalized) ||
-      (puzzle.testCases !== null && codePuzzleAllTestCasesPass(answer, puzzle.testCases));
+      (puzzle.testCases !== null && (await codePuzzleAllTestCasesPass(answer, puzzle.testCases)));
 
     const userId = request.user?.userId;
     let extras: Partial<CodePuzzleSubmitDto> = {};
