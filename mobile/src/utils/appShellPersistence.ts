@@ -62,12 +62,15 @@ export async function ensureAppShellNotificationChannel(): Promise<void> {
   });
 }
 
-export async function refreshSessionOrLogoutOnForeground(dispatch: AppDispatch): Promise<void> {
+/** Revalidates the session (renewing the access token when needed); true when it is usable right now. */
+export async function refreshSessionOrLogoutOnForeground(dispatch: AppDispatch): Promise<boolean> {
   try {
     const me = await new UserService().getMe();
     dispatch(setUserIdentity(identityOf(me)));
+    return true;
   } catch (error) {
     if (isAuthFailure(error)) await discardLocalAccount(dispatch);
     else logError("[AUTH]", error, { phase: "foreground-sync" });
+    return false;
   }
 }

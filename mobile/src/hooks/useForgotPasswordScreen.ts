@@ -4,10 +4,9 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import type { ForgotPasswordNavigation } from "@/types/rootNavigation.types";
 import { logAuth, logError, logNav } from "@/utils/logger";
 import passwordResetService from "@/services/passwordReset";
+import { useSingleFlight } from "@/hooks/useSingleFlight";
 
 type ForgotPasswordRouteParams = { email?: string };
-
-import { useSingleFlight } from "@/hooks/useSingleFlight";
 
 export function useForgotPasswordScreen() {
   const singleFlight = useSingleFlight();

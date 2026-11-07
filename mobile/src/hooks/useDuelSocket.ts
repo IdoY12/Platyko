@@ -34,11 +34,11 @@ export function useDuelMatchmakingSocket() {
   const joinQueue = useCallback(
     async (p: { userId: string; stillWanted: () => boolean }) => {
       if (!store.getState().session.refreshToken) return;
-      await refreshSessionOrLogoutOnForeground(dispatch);
+      const sessionUsable = await refreshSessionOrLogoutOnForeground(dispatch);
       // The user may have left matchmaking during the await: never join a queue nobody is watching.
       if (!p.stillWanted()) return;
       // Session could not be renewed (offline / server down): show the connection-lost state and its exit.
-      if (!store.getState().session.accessToken) { dispatch(connectionLostSet()); return; }
+      if (!sessionUsable) { dispatch(connectionLostSet()); return; }
       duelJoinQueue(url, p.userId);
     },
     [dispatch, url],
