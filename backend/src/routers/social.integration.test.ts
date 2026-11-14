@@ -48,6 +48,7 @@ describe.skipIf(!RUN)("social routes never expose a blocked or private user", ()
   });
 
   afterAll(async () => {
+    await prisma.match.deleteMany({ where: { roomCode: PREFIX } });
     await prisma.user.deleteMany({ where: { username: { startsWith: PREFIX } } });
     server.close();
   });
@@ -57,6 +58,20 @@ describe.skipIf(!RUN)("social routes never expose a blocked or private user", ()
     expect(result.status).toBe(200);
     expect(usernamesIn(result.json).sort()).toEqual([users.codeonly.username, users.decliner.username]);
     expect(result.text).not.toContain("@");
+  });
+
+  it("played recently lists real opponents only, never a blocker, a hidden profile or a ghost", async () => {
+    const seat = (userId: string, index: number, isGhost = false) => ({ userId, seat: index, placement: index + 1, score: 0, correctCount: 0, correctTimeMs: 0, answers: [], isGhost });
+    await prisma.match.create({
+      data: {
+        mode: "ROOM", track: "BEGINNER", rounds: 5, itemIds: [], roomCode: PREFIX, startedAt: new Date(), endedAt: new Date(),
+        participants: { create: [seat(users.viewer.id, 0), seat(users.blocker.id, 1), seat(users.hidden.id, 2), seat(users.decliner.id, 3, true)] },
+      },
+    });
+    await prisma.match.create({ data: { mode: "ROOM", track: "BEGINNER", rounds: 5, itemIds: [], roomCode: PREFIX, startedAt: new Date(), endedAt: new Date(), participants: { create: [seat(users.viewer.id, 0), seat(users.codeonly.id, 1)] } } });
+    const result = await call(users.viewer, "GET", "/recent");
+    expect(result.status).toBe(200);
+    expect(usernamesIn(result.json)).toEqual([users.codeonly.username]);
   });
 
   it("a profile behind a block or privacy reads as missing", async () => {

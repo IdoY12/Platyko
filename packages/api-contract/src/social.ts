@@ -25,8 +25,12 @@ export type PublicUser = {
   relationship: Relationship;
 };
 
-/** `GET /search?q=` — up to 20 users whose username starts with `q` (3 characters at least). */
-export type SearchResponse = { users: PublicUser[] };
+/**
+ * A list of users: `GET /search?q=` (up to 20 whose username starts with `q`, 3 characters at least)
+ * and `GET /recent` (opponents from the viewer's last 10 games, PRD 11.1).
+ */
+export type UsersResponse = { users: PublicUser[] };
+export const RECENT_GAMES_FOR_OPPONENTS = 10;
 export const SEARCH_MIN_LENGTH = 3;
 export const SEARCH_MAX_RESULTS = 20;
 

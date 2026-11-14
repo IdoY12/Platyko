@@ -5,7 +5,7 @@ import { prisma } from "@project/db";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
 import { blockedUsers, blockUser, reportUser, unblockUser } from "../../services/social/blocksAndReports.js";
 import { acceptRequest, cancelRequest, declineRequest, removeFriend, sendFriendRequest, type SocialResult } from "../../services/social/friendRequests.js";
-import { friendsOf, profileOf, searchUsers } from "../../services/social/socialQueries.js";
+import { friendsOf, profileOf, recentOpponentsOf, searchUsers } from "../../services/social/socialQueries.js";
 
 const PRIVACY_SELECT = { profileVisibility: true, friendRequestPolicy: true, searchable: true, presenceVisibility: true, gameInvitePolicy: true } as const;
 
@@ -25,6 +25,10 @@ function reply<Value>(response: Response, result: SocialResult<Value>, body: (va
 
 export async function getSearch(request: AuthenticatedRequest, response: Response) {
   response.json({ users: await searchUsers(viewer(request), (request.validatedQuery as { q: string }).q) });
+}
+
+export async function getRecentOpponents(request: AuthenticatedRequest, response: Response) {
+  response.json({ users: await recentOpponentsOf(viewer(request)) });
 }
 
 export async function getUserProfile(request: AuthenticatedRequest, response: Response) {

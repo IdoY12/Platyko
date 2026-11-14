@@ -1,4 +1,4 @@
-import { SEARCH_MAX_RESULTS, type FriendRequest, type FriendsResponse, type PublicUser } from "@project/api-contract";
+import { RECENT_GAMES_FOR_OPPONENTS, SEARCH_MAX_RESULTS, type FriendRequest, type FriendsResponse, type PublicUser } from "@project/api-contract";
 import { prisma } from "@project/db";
 import { PUBLIC_USER_SELECT, publicUsersFor } from "./publicUsers.js";
 
@@ -12,6 +12,18 @@ export async function searchUsers(viewerId: string, query: string): Promise<Publ
     select: PUBLIC_USER_SELECT,
   });
   return (await publicUsersFor(viewerId, rows, "discovery")).slice(0, SEARCH_MAX_RESULTS);
+}
+
+/** People the viewer played in their last games, most recent first, never a ghost or the viewer. */
+export async function recentOpponentsOf(viewerId: string): Promise<PublicUser[]> {
+  const games = await prisma.match.findMany({
+    where: { participants: { some: { userId: viewerId, isGhost: false } } },
+    orderBy: { endedAt: "desc" },
+    take: RECENT_GAMES_FOR_OPPONENTS,
+    select: { participants: { where: { isGhost: false, userId: { not: viewerId } }, select: { user: { select: PUBLIC_USER_SELECT } } } },
+  });
+  const opponents = new Map(games.flatMap((game) => game.participants.flatMap((seat) => (seat.user ? [[seat.user.id, seat.user] as const] : []))));
+  return publicUsersFor(viewerId, [...opponents.values()], "discovery");
 }
 
 /** One user's profile, or null when it does not exist or is hidden from the viewer. */

@@ -16,6 +16,7 @@ socialRouter.use(authMiddleware);
 socialRouter.use(perUser(1, 120));
 
 socialRouter.get("/search", perUser(1, 30), validateQuery(searchQuerySchema), social.getSearch);
+socialRouter.get("/recent", social.getRecentOpponents);
 socialRouter.get("/users/:username", validateParams(usernameParamsSchema), social.getUserProfile);
 socialRouter.get("/friends", social.getFriends);
 socialRouter.post("/friends/requests", perUser(60, 60), validateBody(sendFriendRequestSchema), social.postFriendRequest);

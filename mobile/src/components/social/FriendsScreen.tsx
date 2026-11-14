@@ -22,10 +22,14 @@ import type { PresenceStatus } from "@project/api-contract";
 
 const SEARCH_DELAY_MS = 300;
 
-/** Friends (PRD 11.1): your code to share, search, add by code, requests both ways, and the list by presence with duel invitations. */
+/**
+ * Friends (PRD 11.1): your code to share, search, add by code, requests both ways, the list by
+ * presence with duel invitations, and the people you played recently.
+ */
 export function FriendsScreen() {
   const navigation = useNavigation<RootNavigation>();
   const [friends, setFriends] = useState<FriendsResponse | null>(null);
+  const [recent, setRecent] = useState<PublicUser[]>([]);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<PublicUser[] | null>(null);
   const [code, setCode] = useState("");
@@ -35,6 +39,7 @@ export function FriendsScreen() {
 
   const reload = useCallback(() => {
     new SocialService().getFriends().then(setFriends, (error: unknown) => logError("[SOCIAL]", error, { phase: "load-friends" }));
+    new SocialService().getRecentOpponents().then(setRecent, (error: unknown) => logError("[SOCIAL]", error, { phase: "load-recent" }));
   }, []);
   useFocusEffect(reload);
 
@@ -129,6 +134,11 @@ export function FriendsScreen() {
               </View>
             } />
           ))}
+        </Section>
+      ) : null}
+      {recent.length > 0 ? (
+        <Section title={t("friends.recent")}>
+          {recent.map((user) => <UserRow key={user.id} user={user} onOpen={() => open(user)} />)}
         </Section>
       ) : null}
     </Screen>
