@@ -2,11 +2,14 @@ import { io, type Socket } from "socket.io-client";
 import type {
   AnswerResultEvent,
   CreateRoomRequest,
+  InviteClosedEvent,
+  InviteEvent,
   LobbyEvent,
   MatchEndEvent,
   MatchStartEvent,
   PlayError,
   PlaySyncEvent,
+  PresenceEvent,
   QueueStatusEvent,
   RoundEndEvent,
   RoundProgressEvent,
@@ -17,7 +20,24 @@ import type { Track } from "@project/content-model";
 import { PLAY_SOCKET_URL } from "@/config/network";
 import store from "@/redux/store";
 import { addXp } from "@/redux/xp-slice";
-import { answerResult, lobbyChanged, syncedWithServer, matchEnded, matchStarted, playerLeft, queueStatus, roundEnded, roundProgress, roundStarted, setConnected } from "@/redux/play-slice";
+import {
+  answerResult,
+  inviteClosed,
+  inviteReceived,
+  invitesListed,
+  lobbyChanged,
+  matchEnded,
+  matchStarted,
+  playerLeft,
+  presenceSnapshot,
+  presenceUpdated,
+  queueStatus,
+  roundEnded,
+  roundProgress,
+  roundStarted,
+  setConnected,
+  syncedWithServer,
+} from "@/redux/play-slice";
 
 let socket: Socket | null = null;
 /** The track being searched, so a reconnect can rejoin the queue the server dropped. */
@@ -36,7 +56,13 @@ function playSocket(): Socket {
   created.on("connect", () => {
     dispatch(setConnected(true));
     if (queuedTrack && store.getState().play.queue?.searching) created.emit("queue:join", { track: queuedTrack });
+    // The inbox is read again on every connection: invitations may have arrived while offline.
+    void request("invite:list").then((reply) => dispatch(invitesListed(reply.invites ?? [])), () => undefined);
   });
+  created.on("presence:snapshot", (events: PresenceEvent[]) => dispatch(presenceSnapshot(events)));
+  created.on("presence:update", (event: PresenceEvent) => dispatch(presenceUpdated(event)));
+  created.on("invite:received", (event: InviteEvent) => dispatch(inviteReceived(event)));
+  created.on("invite:closed", (event: InviteClosedEvent) => dispatch(inviteClosed(event.inviteId)));
   created.on("play:sync", (event: PlaySyncEvent) => dispatch(syncedWithServer(event)));
   created.on("disconnect", () => dispatch(setConnected(false)));
   // A refused handshake (an access token that expired meanwhile) is not retried by socket.io itself;
@@ -62,7 +88,7 @@ function playSocket(): Socket {
   return created;
 }
 
-type Reply = { ok?: boolean; code?: string; error?: PlayError | null };
+type Reply = { ok?: boolean; code?: string; error?: PlayError | null; inviteId?: string; invites?: InviteEvent[] };
 
 /** Sends a request and waits for the server's acknowledgement. */
 function request(event: string, payload: unknown = {}): Promise<Reply> {
@@ -92,4 +118,8 @@ export const playService = {
   startRoom: () => request("room:start"),
   answer: (submission: SubmitPlayAnswer) => playSocket().emit("match:answer", submission),
   leaveMatch: () => playSocket().emit("match:leave"),
+  inviteToDuel: (userId: string, track: Track) => request("invite:duel", { userId, track }),
+  inviteToRoom: (userId: string) => request("invite:room", { userId }),
+  cancelInvite: () => playSocket().emit("invite:cancel"),
+  answerInvite: (inviteId: string, accept: boolean) => request("invite:answer", { inviteId, accept }),
 };

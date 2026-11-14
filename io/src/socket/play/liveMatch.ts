@@ -1,5 +1,5 @@
 import type { Namespace } from "socket.io";
-import type { MatchEndEvent, MatchStartEvent, PlayMode, PlaySeat, Standing } from "@project/api-contract";
+import type { AnswerResultEvent, MatchEndEvent, MatchStartEvent, PlayMode, PlaySeat, Standing } from "@project/api-contract";
 import { answerFromPlay, checkItemAnswer, playItemOf, type Item, type ItemAnswer, type OptionOrder, type Track } from "@project/content-model";
 import { createMatch, isLastRound, isRoundOver, markLeft, playersRemaining, recordAnswer, roundEndsAt, standings, startNextRound, type MatchState } from "@project/match-engine";
 import { revealFor, shuffledOptionOrder, shuffledOutputLines } from "./revealAnswer.js";
@@ -93,8 +93,9 @@ export class LiveMatch {
     if (this.finished || round !== this.state.round) return;
     const applied = recordAnswer(this.state, userId, correct, Date.now());
     this.state = applied.state;
-    const points = this.state.answers[round][userId]?.points ?? 0;
-    this.toUser(userId, "answer:result", { round, outcome: applied.outcome, points });
+    const answer = this.state.answers[round][userId];
+    const result: AnswerResultEvent = { round, outcome: applied.outcome, points: answer?.points ?? 0, responseMs: applied.outcome === "closed" ? null : (answer?.responseMs ?? null) };
+    this.toUser(userId, "answer:result", result);
     const answered = Object.keys(this.state.answers[round]);
     for (const seat of this.seats) this.toUser(seat.userId, "round:progress", { matchId: this.id, round, answeredUserIds: answered });
     if (isRoundOver(this.state, Date.now())) this.endRound(round);

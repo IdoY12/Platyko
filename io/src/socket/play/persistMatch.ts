@@ -10,7 +10,7 @@ type Reward = Omit<MatchEndEvent, "matchId" | "standings">;
 const TOO_FAST_MS = 400;
 /** The same two players are rated at most this often a day (PRD 11.9). */
 const RATED_PAIR_GAMES_PER_DAY = 3;
-const MODE: Record<MatchResult["mode"], MatchMode> = { ranked: "RANKED", room: "ROOM", ghost: "GHOST" };
+const MODE: Record<MatchResult["mode"], MatchMode> = { ranked: "RANKED", friend: "FRIEND", room: "ROOM", ghost: "GHOST" };
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 async function ratedTodayBetween(firstId: string, secondId: string): Promise<number> {

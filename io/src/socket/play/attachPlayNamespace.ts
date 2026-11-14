@@ -8,6 +8,8 @@ import { attachSocketAuthentication, type AuthenticatedSocket } from "../authent
 import { activeMatchOf } from "./playRegistry.js";
 import { broadcastLobby, createRoom, joinRoom, kickFromRoom, leaveRoom, roomOf, setReady, startRoom, startRoomJanitor } from "./privateRooms.js";
 import { joinRankedQueue, leaveRankedQueue, startGhostMatch, startRankedMatchmaking } from "./rankedQueue.js";
+import { answerInvite, cancelDuelInvites, inviteToDuel, inviteToRoom, openInvitesFor } from "./gameInvites.js";
+import { presenceSnapshotFor, startPresenceSweep } from "./presence.js";
 
 /** A lobby keeps a disconnected player this long (PRD 11.8). */
 const LOBBY_GRACE_MS = 15_000;
@@ -33,6 +35,7 @@ export function attachPlayNamespace(io: Server): void {
   attachSocketAuthentication(play, "[PLAY]");
   startRankedMatchmaking(play);
   startRoomJanitor(play);
+  startPresenceSweep(play);
   const lobbyGrace = new Map<string, NodeJS.Timeout>();
 
   play.on("connection", (socket: AuthenticatedSocket) => {
@@ -45,6 +48,7 @@ export function attachPlayNamespace(io: Server): void {
     if (room) void broadcastLobby(play, room);
     const sync: PlaySyncEvent = { inMatch: activeMatchOf(userId) !== undefined, inRoom: room !== undefined };
     socket.emit("play:sync", sync);
+    void presenceSnapshotFor(play, userId).then((statuses) => socket.emit("presence:snapshot", statuses));
     logInfo("[PLAY]", "socket:connected", { userId });
 
     const on = (event: string, handler: (payload: unknown, reply: (response: unknown) => void) => void | Promise<void>) =>
@@ -89,6 +93,18 @@ export function attachPlayNamespace(io: Server): void {
       if (match?.id === payload.matchId) match.answer(userId, payload.round, payload.answer);
     });
     on("match:leave", () => activeMatchOf(userId)?.leave(userId));
+
+    on("invite:duel", async (payload, reply) => {
+      if (!isRecord(payload) || typeof payload.userId !== "string" || !isTrack(payload.track)) return;
+      reply(await inviteToDuel(play, userId, payload.userId, payload.track));
+    });
+    on("invite:room", async (payload, reply) => (isRecord(payload) && typeof payload.userId === "string" ? reply({ error: await inviteToRoom(play, userId, payload.userId) }) : undefined));
+    on("invite:cancel", () => cancelDuelInvites(play, userId));
+    on("invite:list", async (_payload, reply) => reply({ invites: await openInvitesFor(userId) }));
+    on("invite:answer", async (payload, reply) => {
+      if (!isRecord(payload) || typeof payload.inviteId !== "string" || typeof payload.accept !== "boolean") return;
+      reply({ error: await answerInvite(play, userId, payload.inviteId, payload.accept, pingMs()) });
+    });
 
     socket.on("disconnect", () => {
       leaveRankedQueue(userId);

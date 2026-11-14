@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { lobbyChanged } from "@/redux/play-slice";
 import { playService } from "@/services/playSocket";
 import { palette, space, typography } from "@/theme/tokens";
+import { LobbyInvites } from "./LobbyInvites";
 import { playRequest } from "./playRequest";
 
 /** A private room before the game (PRD 11.7): the code to share, who is in and ready, and the host's controls. */
@@ -61,6 +62,8 @@ export function PlayLobby({ lobby }: { lobby: LobbyEvent }) {
           />
         ))}
       </Surface>
+
+      <LobbyInvites lobby={lobby} />
 
       <AppText color={palette.text.secondary}>{t("play.waitingHost")}</AppText>
       <OutlineButton label={selfReady ? t("play.notReady") : t("play.ready")} onPress={() => playService.setReady(!selfReady)} />

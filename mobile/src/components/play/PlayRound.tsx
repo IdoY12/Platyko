@@ -68,7 +68,8 @@ export function PlayRound({ match, round }: { match: MatchStartEvent; round: Rou
       <ItemAnswerArea item={item} draft={draft} checked={checked} review={false} outputLines={outputLines} onDraftChange={setDraft} />
 
       {result?.outcome === "retry" && !ended ? <AppText color={palette.brand.js}>{t("play.retry")}</AppText> : null}
-      {finalOutcome === "correct" ? <AppText variant="cardTitle" color={palette.state.success}>{t("play.points", { points: result?.points ?? 0 })}</AppText> : null}
+      {finalOutcome === "correct" ? <AppText variant="cardTitle" color={palette.state.success}>{t("play.points", { points: result?.points ?? 0 })}
+          {result?.responseMs != null ? ` · ${t("play.answerTime", { seconds: (result.responseMs / 1000).toFixed(1) })}` : ""}</AppText> : null}
       {finalOutcome === "wrong" ? <AppText color={palette.text.secondary}>{t("play.wrong")}</AppText> : null}
       {!checked ? <LipButton label={t("lesson.check")} disabled={!isDraftReady(item, draft) || remainingMs === 0} loading={waiting} onPress={answer} /> : null}
 

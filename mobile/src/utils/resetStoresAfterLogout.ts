@@ -5,7 +5,7 @@ import { signOut } from "@/redux/session-slice";
 import { resetProfile, setNotificationsEnabled } from "@/redux/profile-slice";
 import { resetXp } from "@/redux/xp-slice";
 import { resetStreak } from "@/redux/streak-slice";
-import { leavePlay } from "@/redux/play-slice";
+import { playSignedOut } from "@/redux/play-slice";
 import { playService } from "@/services/playSocket";
 import { resetLearning } from "@/redux/learning-slice";
 import { clearSecureSessionTokens } from "@/utils/secureSessionTokens";
@@ -21,7 +21,7 @@ export function resetStoresAfterLogout(dispatch: AppDispatch): void {
   dispatch(resetStreak());
   // The game connection belongs to the account that just left.
   playService.disconnect();
-  dispatch(leavePlay());
+  dispatch(playSignedOut());
   dispatch(resetLearning());
   void syncDailyPracticeReminder();
 }

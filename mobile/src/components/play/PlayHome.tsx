@@ -16,15 +16,16 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { queueStatus } from "@/redux/play-slice";
 import { playService } from "@/services/playSocket";
 import { palette, space, typography } from "@/theme/tokens";
+import { InviteCard } from "./InviteCard";
 import { playRequest } from "./playRequest";
 
 const ROOM_ROUNDS = GAME_MODES.room.rounds;
 const ROOM_PLAYERS = [2, 3, 4] as const;
 
-/** The Play tab's start (PRD 11.4–11.7): a ranked duel on a track, or a private room by code. */
+/** The Play tab's start (PRD 11.3–11.7): open invitations, a ranked duel on a track, or a private room by code. */
 export function PlayHome() {
   const dispatch = useAppDispatch();
-  const { connected, interrupted } = useAppSelector((state) => state.play);
+  const { connected, interrupted, invites } = useAppSelector((state) => state.play);
   const startingTrack = useAppSelector((state) => state.learning.startingTrack);
   const [track, setTrack] = useState<Track>(startingTrack ?? "BEGINNER");
   const [rounds, setRounds] = useState<number>(ROOM_ROUNDS[0]);
@@ -49,6 +50,18 @@ export function PlayHome() {
       <ScreenHeader title={t("play.title")} />
       {!connected ? <AppText color={palette.text.muted}>{t("play.offline")}</AppText> : null}
       {interrupted ? <AppText color={palette.brand.js}>{t("play.interrupted")}</AppText> : null}
+      {invites.length > 0 ? (
+        <View style={styles.group}>
+          <AppText variant="label" color={palette.text.secondary} accessibilityRole="header">
+            {t("play.invites")}
+          </AppText>
+          {invites.map((invite) => (
+            <Surface key={invite.inviteId} style={styles.card}>
+              <InviteCard invite={invite} />
+            </Surface>
+          ))}
+        </View>
+      ) : null}
 
       <View style={styles.group}>
         <AppText variant="label" color={palette.text.secondary}>

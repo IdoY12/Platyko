@@ -16,10 +16,13 @@ import { palette, space, typography } from "@/theme/tokens";
 import type { RootNavigation } from "@/types/rootNavigation.types";
 import { logError } from "@/utils/logger";
 import { UserRow } from "./UserRow";
+import { useInviteToDuel } from "@/components/play/useInviteToDuel";
+import { useAppSelector } from "@/redux/hooks";
+import type { PresenceStatus } from "@project/api-contract";
 
 const SEARCH_DELAY_MS = 300;
 
-/** Friends (PRD 11.1): your code to share, search, add by code, requests both ways, and the list. */
+/** Friends (PRD 11.1): your code to share, search, add by code, requests both ways, and the list by presence with duel invitations. */
 export function FriendsScreen() {
   const navigation = useNavigation<RootNavigation>();
   const [friends, setFriends] = useState<FriendsResponse | null>(null);
@@ -27,6 +30,8 @@ export function FriendsScreen() {
   const [results, setResults] = useState<PublicUser[] | null>(null);
   const [code, setCode] = useState("");
   const open = (user: PublicUser) => navigation.navigate("UserProfile", { username: user.username });
+  const presence = useAppSelector((state) => state.play.presence);
+  const inviteToDuel = useInviteToDuel();
 
   const reload = useCallback(() => {
     new SocialService().getFriends().then(setFriends, (error: unknown) => logError("[SOCIAL]", error, { phase: "load-friends" }));
@@ -112,11 +117,29 @@ export function FriendsScreen() {
       {friends ? (
         <Section title={t("friends.list")}>
           {friends.friends.length === 0 ? <AppText color={palette.text.secondary}>{t("friends.empty")}</AppText> : null}
-          {friends.friends.map((user) => <UserRow key={user.id} user={user} onOpen={() => open(user)} />)}
+          {byPresence(friends.friends, presence).map((user) => (
+            <UserRow key={user.id} user={user} onOpen={() => open(user)} actions={
+              <View style={styles.actions}>
+                {presence[user.id] ? (
+                  <AppText variant="label" color={presence[user.id] === "online" ? palette.state.success : palette.brand.glow}>
+                    {t(`presence.${presence[user.id]}`)}
+                  </AppText>
+                ) : null}
+                {presence[user.id] === "online" ? <TextButton label={t("play.invite")} onPress={() => inviteToDuel(user)} /> : null}
+              </View>
+            } />
+          ))}
         </Section>
       ) : null}
     </Screen>
   );
+}
+
+const PRESENCE_ORDER: Record<PresenceStatus, number> = { online: 0, "in-game": 1, offline: 2 };
+
+/** Friends sorted by presence: online, in a game, offline (PRD 11.1); the server order breaks ties. */
+function byPresence(users: PublicUser[], presence: Record<string, PresenceStatus>): PublicUser[] {
+  return [...users].sort((left, right) => PRESENCE_ORDER[presence[left.id] ?? "offline"] - PRESENCE_ORDER[presence[right.id] ?? "offline"]);
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
