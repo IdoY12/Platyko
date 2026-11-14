@@ -1,0 +1,1242 @@
+{
+  "track": "EXPERT",
+  "unit": "type-coercion-and-edge-cases",
+  "order": 1,
+  "title": "Type coercion and language edge cases",
+  "summary": "How objects become primitives, the steps of ==, NaN and -0, and coercion in + and comparisons.",
+  "concepts": [
+    {
+      "id": "to-primitive-conversion",
+      "title": "How objects become primitives",
+      "prerequisites": [
+        "loose-equality",
+        "symbol-keys",
+        "class-basics"
+      ]
+    },
+    {
+      "id": "abstract-equality-algorithm",
+      "title": "The steps of ==",
+      "prerequisites": [
+        "to-primitive-conversion",
+        "loose-equality"
+      ]
+    },
+    {
+      "id": "numeric-edge-cases",
+      "title": "NaN, -0, Infinity and floating point",
+      "prerequisites": [
+        "number-values",
+        "strict-equality"
+      ]
+    },
+    {
+      "id": "operator-coercion",
+      "title": "Coercion in +, comparisons and sorting",
+      "prerequisites": [
+        "to-primitive-conversion",
+        "relational-operators"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "valueof-tostring-order-confused",
+      "description": "Mixes up which of valueOf and toString is tried first for a hint, or believes + and templates both use the same one."
+    },
+    {
+      "id": "hint-ignored",
+      "description": "Believes an object turns into the same primitive in every conversion, whatever the operation asks for."
+    },
+    {
+      "id": "valueof-may-return-object",
+      "description": "Believes valueOf may return an object or array and the result is still used as the value."
+    },
+    {
+      "id": "loose-equality-by-truthiness",
+      "description": "Believes == compares truthiness, so an empty array is not equal to false or null equals false."
+    },
+    {
+      "id": "objects-equal-by-contents",
+      "description": "Believes == on two objects compares their contents or their converted values."
+    },
+    {
+      "id": "null-check-wrong-scope",
+      "description": "Checks for missing values with === null, which misses undefined, or with a truthiness test, which also catches 0."
+    },
+    {
+      "id": "nan-equals-nan",
+      "description": "Believes NaN equals NaN in every comparison, so indexOf finds it, or that includes cannot."
+    },
+    {
+      "id": "negative-zero-sign-confused",
+      "description": "Believes === can tell -0 from 0, or that JavaScript replaces -0 with 0."
+    },
+    {
+      "id": "float-sums-are-exact",
+      "description": "Believes decimal sums such as 0.1 + 0.2 are exact, so == or toFixed fixes the comparison."
+    },
+    {
+      "id": "default-sort-is-numeric",
+      "description": "Believes sort with no function orders numbers by value."
+    },
+    {
+      "id": "mixed-comparison-stringifies",
+      "description": "Believes < compares as text whenever one side is text, instead of converting to numbers."
+    },
+    {
+      "id": "plus-order-and-grouping-confused",
+      "description": "Believes + adds all numbers first or joins everything once a string appears, and that brackets do not matter."
+    },
+    {
+      "id": "parseint-in-map-is-safe",
+      "description": "Believes map(parseInt) or another converter works safely, forgetting the index passed as the second argument."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Numbers_and_strings",
+      "retrievedAt": "2026-11-14",
+      "sha256": "e4f22aad7f4a4992fe22695b46230db2ad40f53122a9c675a23d913d149d9466"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition",
+      "retrievedAt": "2026-11-14",
+      "sha256": "42cef1b7c22ab90c4ab7c847c32099f8c2df2f697a9c6660bce1048db5570ff6"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality",
+      "retrievedAt": "2026-11-14",
+      "sha256": "01647f0c6198312cc5115bbc512aed8b4d050203cebc5ad8e2d6528b0a7c14a0"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness",
+      "retrievedAt": "2026-11-14",
+      "sha256": "185b805fda8e647e7b383722d676236d35a29f0414d37a7b85e33b130e8c4673"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toPrimitive",
+      "retrievedAt": "2026-11-14",
+      "sha256": "89a6991256a72768a8bdc23325c7a72afb5ad5b8a78417a1d7323aadf5b416a6"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isNaN",
+      "retrievedAt": "2026-11-14",
+      "sha256": "2f21b5da799188ad2ea153c2d468df59e48e10a25fc0386b6c7d8c8136620d1f"
+    },
+    {
+      "url": "https://tc39.es/ecma262/#sec-islooselyequal",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7c67049076faafb9f473c7e888e8f84cb6144e1187210f9c08e581155355ccc6"
+    },
+    {
+      "url": "https://tc39.es/ecma262/#sec-toprimitive",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7c67049076faafb9f473c7e888e8f84cb6144e1187210f9c08e581155355ccc6"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "type-coercion-and-edge-cases.lesson-1",
+      "title": "How objects become primitives",
+      "conceptCard": {
+        "title": "How objects become primitives",
+        "body": "An object turns into a primitive with a hint: default, number or string. The default and number hints call valueOf first, and the string hint calls toString first. A Symbol.toPrimitive method replaces both and receives the hint.",
+        "code": [
+          "const jar = {",
+          "  valueOf: () => 7,",
+          "  toString: () => \"jar\",",
+          "};",
+          "console.log(jar - 2);",
+          "console.log(+jar, String(jar));"
+        ],
+        "expectedOutput": "5\n7 jar"
+      },
+      "itemIds": [
+        "exp.type-coercion-and-edge-cases.to-primitive-conversion.predict-01",
+        "exp.type-coercion-and-edge-cases.to-primitive-conversion.concept-01",
+        "exp.type-coercion-and-edge-cases.to-primitive-conversion.fix-01",
+        "exp.type-coercion-and-edge-cases.to-primitive-conversion.write-01"
+      ]
+    },
+    {
+      "id": "type-coercion-and-edge-cases.lesson-2",
+      "title": "The steps of ==",
+      "conceptCard": {
+        "title": "The steps of ==",
+        "body": "== compares same types like ===. For different types it converts: null equals only undefined, a boolean becomes a number, and an object becomes a primitive when the other side is a primitive. Two objects are equal only if they are the same object.",
+        "code": [
+          "console.log(null == undefined);",
+          "console.log(null == 0);",
+          "console.log(\"5\" == 5);",
+          "console.log(true == 1);",
+          "console.log([2] == 2);"
+        ],
+        "expectedOutput": "true\nfalse\ntrue\ntrue\ntrue"
+      },
+      "itemIds": [
+        "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.predict-01",
+        "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.concept-01",
+        "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.fix-01",
+        "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.fill-01"
+      ]
+    },
+    {
+      "id": "type-coercion-and-edge-cases.lesson-3",
+      "title": "NaN, -0, Infinity and floating point",
+      "conceptCard": {
+        "title": "NaN, -0, Infinity and floating point",
+        "body": "NaN is the only value not strictly equal to itself, so use Number.isNaN. A zero can have a sign: === sees -0 and 0 as equal, Object.is does not. Dividing by zero gives Infinity, and decimal sums are rounded.",
+        "code": [
+          "console.log(NaN === NaN);",
+          "console.log(Number.isNaN(NaN));",
+          "console.log(5 / 0);",
+          "console.log(0.1 + 0.2 === 0.3);"
+        ],
+        "expectedOutput": "false\ntrue\nInfinity\nfalse"
+      },
+      "itemIds": [
+        "exp.type-coercion-and-edge-cases.numeric-edge-cases.predict-01",
+        "exp.type-coercion-and-edge-cases.numeric-edge-cases.concept-01",
+        "exp.type-coercion-and-edge-cases.numeric-edge-cases.fix-01",
+        "exp.type-coercion-and-edge-cases.numeric-edge-cases.write-01"
+      ]
+    },
+    {
+      "id": "type-coercion-and-edge-cases.lesson-4",
+      "title": "Coercion in +, comparisons and sorting",
+      "conceptCard": {
+        "title": "Coercion in +, comparisons and sorting",
+        "body": "+ joins when one side is text and adds otherwise. - and * turn text into numbers. A comparison of a number and a text uses numbers; two texts compare by characters. Sorting with no function compares items as text.",
+        "code": [
+          "console.log(\"4\" + 2);",
+          "console.log(\"4\" - 2);",
+          "console.log(\"4\" < 10);",
+          "console.log(\"4\" < \"10\");"
+        ],
+        "expectedOutput": "42\n2\ntrue\nfalse"
+      },
+      "itemIds": [
+        "exp.type-coercion-and-edge-cases.operator-coercion.predict-01",
+        "exp.type-coercion-and-edge-cases.operator-coercion.concept-01",
+        "exp.type-coercion-and-edge-cases.operator-coercion.fix-01",
+        "exp.type-coercion-and-edge-cases.operator-coercion.fill-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "exp.type-coercion-and-edge-cases.to-primitive-conversion.predict-01",
+      "concept": "to-primitive-conversion",
+      "prerequisites": [
+        "loose-equality"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A ferry fare object defines both conversion methods. What does this program print?",
+      "code": [
+        "const fare = {",
+        "  valueOf() { return 4; },",
+        "  toString() { return \"ticket\"; },",
+        "};",
+        "console.log(fare + 1);",
+        "console.log(`${fare}`);"
+      ],
+      "options": [
+        {
+          "text": "5\nticket",
+          "correct": true,
+          "feedback": "Right. + asks for a default conversion, which tries valueOf first. A template literal asks for text, which tries toString first."
+        },
+        {
+          "text": "ticket1\nticket",
+          "correct": false,
+          "feedback": "You used toString for the +. A + with no clear type asks for the default conversion, which tries valueOf first, so the first line is a sum.",
+          "misconception": "valueof-tostring-order-confused"
+        },
+        {
+          "text": "5\n4",
+          "correct": false,
+          "feedback": "You used valueOf for the template too. A template literal wants text, so it tries toString first and uses its result.",
+          "misconception": "valueof-tostring-order-confused"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "5\nticket"
+      },
+      "explanation": "The default hint, used by +, tries valueOf first: 4 + 1 is 5. The string hint, used by a template literal, tries toString first, so the second line prints ticket.",
+      "hints": [
+        "Compare how the object is used on line 5 and on line 6.",
+        "An object becomes a primitive with a hint: default, number or string.",
+        "The default hint tries valueOf first; the string hint tries toString first."
+      ],
+      "reference": {
+        "title": "Type coercion",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.to-primitive-conversion.concept-01",
+      "concept": "to-primitive-conversion",
+      "prerequisites": [
+        "class-basics"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "A Tank class defines Symbol.toPrimitive. Which statement explains why the last line differs from the first two?",
+      "code": [
+        "class Tank {",
+        "  constructor(l) { this.l = l; }",
+        "  [Symbol.toPrimitive](h) {",
+        "    if (h === \"string\") return \"T\";",
+        "    return this.l;",
+        "  }",
+        "}",
+        "const tank = new Tank(40);",
+        "console.log(+tank);",
+        "console.log(tank + 1);",
+        "console.log(`${tank}`);"
+      ],
+      "options": [
+        {
+          "text": "The method receives a hint, and only the template literal asks for the string hint.",
+          "correct": true,
+          "feedback": "Right. Unary plus and + ask for number and default; a template literal asks for string."
+        },
+        {
+          "text": "The hint is the same for every conversion, so all three lines would print the same.",
+          "correct": false,
+          "feedback": "Each operation passes its own hint. Unary plus passes number, + passes default and a template passes string.",
+          "misconception": "hint-ignored"
+        },
+        {
+          "text": "Template literals skip the method and call toString, so the last line prints an object text.",
+          "correct": false,
+          "feedback": "Symbol.toPrimitive replaces valueOf and toString for every hint, template literals included. toString is not tried when it exists.",
+          "misconception": "valueof-tostring-order-confused"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "40\n41\nT"
+      },
+      "explanation": "Symbol.toPrimitive is called with the hint. Unary plus passes number and + with a number passes default, so both get the stored 40. A template literal passes string, so the method returns T.",
+      "hints": [
+        "Look at the three operations and what each one asks of tank.",
+        "Each operation tells the object which kind of primitive it wants.",
+        "Only one of the three operations asks for the string hint."
+      ],
+      "reference": {
+        "title": "Symbol.toPrimitive",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toPrimitive",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.to-primitive-conversion.fix-01",
+      "concept": "to-primitive-conversion",
+      "prerequisites": [
+        "class-basics"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "The shipping total should print 12, but prints 5 kg7 kg. Tap the buggy line and pick the fix.",
+      "code": [
+        "class Crate {",
+        "  constructor(kg) {",
+        "    this.kg = kg;",
+        "  }",
+        "  valueOf() {",
+        "    return this.kg + \" kg\";",
+        "  }",
+        "}",
+        "const a = new Crate(5);",
+        "const b = new Crate(7);",
+        "console.log(a + b);"
+      ],
+      "options": [
+        {
+          "text": "return this.kg;",
+          "correct": true,
+          "feedback": "Right. valueOf returns a number, so + adds the two crates."
+        },
+        {
+          "text": "return this;",
+          "correct": false,
+          "feedback": "valueOf must return a primitive. An object is skipped, so + falls back to toString and joins two [object Object] texts.",
+          "misconception": "valueof-may-return-object"
+        },
+        {
+          "text": "return [this.kg];",
+          "correct": false,
+          "feedback": "An array is an object, not a primitive. + ignores it and uses toString, so the result is still joined text.",
+          "misconception": "valueof-may-return-object"
+        }
+      ],
+      "solution": {
+        "bugLine": 6,
+        "expectedOutput": "12"
+      },
+      "explanation": "+ uses the primitive from valueOf. Returning text makes + join the two texts. Returning the number lets + add them. A returned object is ignored and toString is used instead.",
+      "hints": [
+        "Check what line 6 returns when + converts a crate.",
+        "valueOf decides the primitive a crate becomes in +.",
+        "Return only the weight."
+      ],
+      "reference": {
+        "title": "Object.prototype.valueOf()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/valueOf",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.to-primitive-conversion.write-01",
+      "concept": "to-primitive-conversion",
+      "prerequisites": [
+        "symbol-keys"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 5,
+      "prompt": "Write the body of describeUnits(n). Build an object that becomes n for the number hint and n plus \" units\" otherwise. Return [+obj, `${obj}`, obj + \"\"].",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "describeUnits",
+          "params": [
+            "n"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              3
+            ],
+            "expected": [
+              3,
+              "3 units",
+              "3 units"
+            ]
+          },
+          {
+            "input": [
+              0
+            ],
+            "expected": [
+              0,
+              "0 units",
+              "0 units"
+            ]
+          },
+          {
+            "input": [
+              2.5
+            ],
+            "expected": [
+              2.5,
+              "2.5 units",
+              "2.5 units"
+            ]
+          },
+          {
+            "input": [
+              -4
+            ],
+            "expected": [
+              -4,
+              "-4 units",
+              "-4 units"
+            ]
+          }
+        ],
+        "reference": [
+          "const obj = {",
+          "  [Symbol.toPrimitive](h) {",
+          "    if (h === \"number\") return n;",
+          "    return n + \" units\";",
+          "  },",
+          "};",
+          "return [+obj, `${obj}`, obj + \"\"];"
+        ],
+        "wrongSolutions": [
+          [
+            "const obj = {",
+            "  valueOf() { return n; },",
+            "};",
+            "return [+obj, `${obj}`, obj + \"\"];"
+          ],
+          [
+            "const obj = {",
+            "  [Symbol.toPrimitive]() {",
+            "    return n;",
+            "  },",
+            "};",
+            "return [+obj, `${obj}`, obj + \"\"];"
+          ],
+          [
+            "const obj = {",
+            "  [Symbol.toPrimitive]() {",
+            "    return n + \" units\";",
+            "  },",
+            "};",
+            "return [+obj, `${obj}`, obj + \"\"];"
+          ]
+        ]
+      },
+      "explanation": "The method gets the hint, so it can return the number for the number hint and text for the others. A plain valueOf or a method that ignores the hint gives the same kind of value everywhere.",
+      "hints": [
+        "Define a method under the Symbol.toPrimitive key and look at its parameter.",
+        "The parameter tells which conversion is wanted: number, string or default.",
+        "Return n when the hint is number, otherwise return the text."
+      ],
+      "reference": {
+        "title": "Symbol.toPrimitive",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toPrimitive",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.predict-01",
+      "concept": "abstract-equality-algorithm",
+      "prerequisites": [
+        "loose-equality"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A packing list is an empty array. What do these three comparisons print?",
+      "code": [
+        "const slot = [];",
+        "const flag = false;",
+        "console.log(slot == flag);",
+        "console.log(slot == !slot);",
+        "console.log(null == flag);"
+      ],
+      "options": [
+        {
+          "text": "true\ntrue\nfalse",
+          "correct": true,
+          "feedback": "Right. The array becomes an empty text and then 0, equal to false as 0. null equals only undefined, so the last line is false."
+        },
+        {
+          "text": "false\nfalse\nfalse",
+          "correct": false,
+          "feedback": "You judged the array by truthiness. == does not do that: it converts the array to a primitive and both sides to numbers.",
+          "misconception": "loose-equality-by-truthiness"
+        },
+        {
+          "text": "true\ntrue\ntrue",
+          "correct": false,
+          "feedback": "You treated null like false. null is loosely equal only to undefined, so the last comparison is false.",
+          "misconception": "loose-equality-by-truthiness"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\ntrue\nfalse"
+      },
+      "explanation": "With a boolean, == turns it into a number. The array becomes \"\" and then 0, and false becomes 0, so line 3 is true. Line 4 compares with !slot, which is false. null == false is false.",
+      "hints": [
+        "Line 3 compares an object with a boolean; line 5 involves null.",
+        "== converts a boolean to a number, then an object to a primitive.",
+        "An empty array becomes 0; null equals only undefined."
+      ],
+      "reference": {
+        "title": "Equality comparisons and sameness",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "duel:3"
+      ]
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.concept-01",
+      "concept": "abstract-equality-algorithm",
+      "prerequisites": [
+        "to-primitive-conversion"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "Two objects with the same valueOf result are compared with ==. Which statement explains the last line?",
+      "code": [
+        "const a = { valueOf: () => 8 };",
+        "const b = { valueOf: () => 8 };",
+        "console.log(a == 8);",
+        "console.log(a == \"8\");",
+        "console.log(a == b);"
+      ],
+      "options": [
+        {
+          "text": "When both sides are objects, == compares identity and never calls valueOf.",
+          "correct": true,
+          "feedback": "Right. Converting an object happens only when the other side is a primitive."
+        },
+        {
+          "text": "== calls valueOf on both sides, so the last line compares 8 with 8 and is true.",
+          "correct": false,
+          "feedback": "That happens only when one side is a primitive. With two objects, == checks whether they are the very same object.",
+          "misconception": "objects-equal-by-contents"
+        },
+        {
+          "text": "== never calls valueOf and compares text forms, so the first line is false.",
+          "correct": false,
+          "feedback": "== does call valueOf when the other side is a primitive, so the first line is true.",
+          "misconception": "valueof-tostring-order-confused"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\ntrue\nfalse"
+      },
+      "explanation": "== runs the conversion steps only when one side is an object and the other a primitive. With two objects it compares references, and a and b are different objects.",
+      "hints": [
+        "Compare the last line with the first two.",
+        "The steps of == depend on the types of both sides.",
+        "Look at what both sides are on the last line."
+      ],
+      "reference": {
+        "title": "Loose equality (==)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.fix-01",
+      "concept": "abstract-equality-algorithm",
+      "prerequisites": [
+        "loose-equality"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "The survey should count 2 missing scores, but prints 1. Tap the buggy line and pick the fix.",
+      "code": [
+        "const marks = [0, null, 5];",
+        "marks.push(undefined);",
+        "let missing = 0;",
+        "for (const s of marks) {",
+        "  if (s == false) missing++;",
+        "}",
+        "console.log(missing);"
+      ],
+      "options": [
+        {
+          "text": "if (s == null) missing++;",
+          "correct": true,
+          "feedback": "Right. null and undefined are loosely equal to each other and to nothing else."
+        },
+        {
+          "text": "if (s === null) missing++;",
+          "correct": false,
+          "feedback": "=== null catches null but not undefined, so only one score is counted.",
+          "misconception": "null-check-wrong-scope"
+        },
+        {
+          "text": "if (!s) missing++;",
+          "correct": false,
+          "feedback": "!s is also true for 0, which is a real score here, so three are counted.",
+          "misconception": "null-check-wrong-scope"
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "2"
+      },
+      "explanation": "Line 5: s == false converts false to 0, so it matches 0 but never null or undefined. s == null is true for exactly null and undefined, which is what missing means here.",
+      "hints": [
+        "Check which of the four marks line 5 counts.",
+        "null is loosely equal only to undefined, not to false.",
+        "Use a comparison that matches exactly null and undefined."
+      ],
+      "reference": {
+        "title": "Equality comparisons and sameness",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.fill-01",
+      "concept": "abstract-equality-algorithm",
+      "prerequisites": [
+        "loose-equality"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 5,
+      "prompt": "A parcel weight sits in an array. Fill the blanks so both lines print true.",
+      "code": [
+        "const box = [5];",
+        "console.log(box == ___);",
+        "console.log(null == ___);"
+      ],
+      "options": [
+        {
+          "text": "5",
+          "correct": true,
+          "feedback": "Right. The array becomes the text \"5\", then 5 equals 5."
+        },
+        {
+          "text": "\"5\"",
+          "correct": true,
+          "feedback": "Right. The array becomes the text \"5\" and two equal texts match."
+        },
+        {
+          "text": "undefined",
+          "correct": true,
+          "feedback": "Right. null and undefined are loosely equal."
+        },
+        {
+          "text": "[5]",
+          "correct": false,
+          "feedback": "A second array is a different object, so == on two objects is false."
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "The array becomes 5, not 0, and null is not loosely equal to 0, so this prints false."
+        },
+        {
+          "text": "\"\"",
+          "correct": false,
+          "feedback": "Neither side converts to an empty text that matches: the array gives \"5\" and null equals only undefined."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "5",
+            "\"5\""
+          ],
+          [
+            "undefined"
+          ]
+        ],
+        "expectedOutput": "true\ntrue"
+      },
+      "explanation": "An array and a primitive: the array becomes a primitive text, then both sides are compared. With null, == is true only for undefined, never for numbers or text.",
+      "hints": [
+        "Line 2 compares an array with a primitive; line 3 compares null.",
+        "An array becomes a text and then == compares with the other side.",
+        "The first blank must equal the text form of [5]; null has one partner."
+      ],
+      "reference": {
+        "title": "Loose equality (==)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.numeric-edge-cases.predict-01",
+      "concept": "numeric-edge-cases",
+      "prerequisites": [
+        "strict-equality"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A sensor log holds a NaN reading. What do these three lines print?",
+      "code": [
+        "const temps = [4, NaN, 9];",
+        "console.log(temps.indexOf(NaN));",
+        "console.log(temps.includes(NaN));",
+        "console.log(temps[1] === temps[1]);"
+      ],
+      "options": [
+        {
+          "text": "-1\ntrue\nfalse",
+          "correct": true,
+          "feedback": "Right. indexOf compares with ===, which never matches NaN, and NaN === NaN is false. includes treats NaN as equal to itself."
+        },
+        {
+          "text": "1\ntrue\nfalse",
+          "correct": false,
+          "feedback": "You expected indexOf to find NaN. It uses ===, and NaN is not strictly equal to anything, even itself.",
+          "misconception": "nan-equals-nan"
+        },
+        {
+          "text": "-1\nfalse\nfalse",
+          "correct": false,
+          "feedback": "includes uses a different comparison from indexOf and treats NaN as equal to itself, so it finds the value.",
+          "misconception": "nan-equals-nan"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "-1\ntrue\nfalse"
+      },
+      "explanation": "indexOf uses strict equality, and NaN === NaN is false, so it returns -1. includes uses SameValueZero, which treats NaN as equal to NaN. Line 4 shows the strict comparison directly.",
+      "hints": [
+        "Compare indexOf on line 2 with includes on line 3, and read line 4.",
+        "Array methods differ in how they compare values.",
+        "Only one of the first two methods can find NaN."
+      ],
+      "reference": {
+        "title": "Array.prototype.indexOf()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "duel:4"
+      ]
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.numeric-edge-cases.concept-01",
+      "concept": "numeric-edge-cases",
+      "prerequisites": [
+        "strict-equality"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 5,
+      "prompt": "A gauge reads negative zero. Which statement explains why the first two lines disagree?",
+      "code": [
+        "const drift = -0;",
+        "console.log(drift === 0);",
+        "console.log(Object.is(drift, 0));",
+        "console.log(1 / drift);",
+        "console.log(String(drift));"
+      ],
+      "options": [
+        {
+          "text": "=== ignores the sign of zero, while Object.is and division can tell -0 from 0.",
+          "correct": true,
+          "feedback": "Right. -0 and 0 are different numbers that === treats as equal."
+        },
+        {
+          "text": "=== compares the sign of zero, so it is false for -0 and 0 while Object.is says they match.",
+          "correct": false,
+          "feedback": "It is the other way round. === says they are equal, and Object.is is the one that separates them.",
+          "misconception": "negative-zero-sign-confused"
+        },
+        {
+          "text": "-0 becomes 0 when it is stored, so every line behaves as if drift was 0.",
+          "correct": false,
+          "feedback": "-0 is kept as it is. If it became 0, 1 / drift would print Infinity.",
+          "misconception": "negative-zero-sign-confused"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\nfalse\n-Infinity\n0"
+      },
+      "explanation": "=== treats -0 and 0 as equal. Object.is compares the sign too, and dividing by -0 gives -Infinity. String turns -0 into the text 0, so printing text hides the sign.",
+      "hints": [
+        "Look at lines 2 and 4 together.",
+        "A number can be zero and still carry a sign.",
+        "One comparison ignores the sign and another one keeps it."
+      ],
+      "reference": {
+        "title": "Object.is()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.numeric-edge-cases.fix-01",
+      "concept": "numeric-edge-cases",
+      "prerequisites": [
+        "number-values"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "The check should print exact, but prints nothing. Tap the buggy line and pick the fix.",
+      "code": [
+        "const part = 0.1;",
+        "const rest = 0.2;",
+        "const total = part + rest;",
+        "if (total === 0.3) {",
+        "  console.log(\"exact\");",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "if (Math.abs(total - 0.3) < 1e-9) {",
+          "correct": true,
+          "feedback": "Right. Comparing the difference with a small tolerance accepts the tiny rounding error."
+        },
+        {
+          "text": "if (total == 0.3) {",
+          "correct": false,
+          "feedback": "== between two numbers compares them exactly like ===. The tiny error is still there and nothing prints.",
+          "misconception": "float-sums-are-exact"
+        },
+        {
+          "text": "if (total.toFixed(1) === 0.3) {",
+          "correct": false,
+          "feedback": "toFixed returns text, and text is never strictly equal to a number, so nothing prints.",
+          "misconception": "float-sums-are-exact"
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "exact"
+      },
+      "explanation": "0.1 + 0.2 is 0.30000000000000004 in binary floating point, so === with 0.3 is false. Compare the distance from 0.3 with a small tolerance instead of testing equality.",
+      "hints": [
+        "Print total to see what line 4 is really comparing.",
+        "Decimal fractions are rounded in binary, so sums can be a hair off.",
+        "Test whether the two numbers are close, not equal."
+      ],
+      "reference": {
+        "title": "Number",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.numeric-edge-cases.write-01",
+      "concept": "numeric-edge-cases",
+      "prerequisites": [
+        "number-values"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 5,
+      "prompt": "Write the body of safeRatio(a, b). Return a divided by b, or null when the result is not a finite number.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "safeRatio",
+          "params": [
+            "a",
+            "b"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              9,
+              4
+            ],
+            "expected": 2.25
+          },
+          {
+            "input": [
+              1,
+              0
+            ],
+            "expected": null
+          },
+          {
+            "input": [
+              0,
+              0
+            ],
+            "expected": null
+          },
+          {
+            "input": [
+              -3,
+              0
+            ],
+            "expected": null
+          },
+          {
+            "input": [
+              1e+308,
+              0.001
+            ],
+            "expected": null
+          }
+        ],
+        "reference": [
+          "const r = a / b;",
+          "if (Number.isFinite(r)) return r;",
+          "return null;"
+        ],
+        "wrongSolutions": [
+          [
+            "return a / b;"
+          ],
+          [
+            "return b === 0 ? null : a / b;"
+          ],
+          [
+            "const r = a / b;",
+            "return r === r ? r : null;"
+          ]
+        ]
+      },
+      "explanation": "Dividing by zero gives Infinity or NaN, and a huge result also overflows to Infinity. Number.isFinite rejects NaN and both infinities in one check.",
+      "hints": [
+        "Compute the ratio first, then test the result.",
+        "Bad results are NaN, Infinity and -Infinity.",
+        "Number.isFinite is false for all three."
+      ],
+      "reference": {
+        "title": "Number.isFinite()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isFinite",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.operator-coercion.predict-01",
+      "concept": "operator-coercion",
+      "prerequisites": [
+        "relational-operators"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A turnstile log mixes number sizes and text. What do these three lines print?",
+      "code": [
+        "const gates = [12, 3, 25, 100];",
+        "console.log(\"12\" < \"3\");",
+        "console.log(12 < \"3\");",
+        "console.log(gates.sort());"
+      ],
+      "options": [
+        {
+          "text": "true\nfalse\n[100, 12, 25, 3]",
+          "correct": true,
+          "feedback": "Right. Two texts compare character by character; a number and a text compare as numbers; sort with no function compares as text."
+        },
+        {
+          "text": "false\nfalse\n[3, 12, 25, 100]",
+          "correct": false,
+          "feedback": "You compared numerically everywhere. Two texts compare by characters, and sort with no function also compares as text.",
+          "misconception": "default-sort-is-numeric"
+        },
+        {
+          "text": "true\ntrue\n[100, 12, 25, 3]",
+          "correct": false,
+          "feedback": "Line 3 has a number on one side, so the text becomes a number and 12 < 3 is false. Only two texts compare as text.",
+          "misconception": "mixed-comparison-stringifies"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\nfalse\n[100, 12, 25, 3]"
+      },
+      "explanation": "Two strings compare by character code, so \"12\" < \"3\". With a number on one side, < converts to numbers. The default sort converts items to text, so 100 and 12 come before 25 and 3.",
+      "hints": [
+        "Compare the operands on lines 2 and 3.",
+        "< compares as text only when both sides are text.",
+        "The default sort treats every item as text."
+      ],
+      "reference": {
+        "title": "Array.prototype.sort()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "duel:0"
+      ]
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.operator-coercion.concept-01",
+      "concept": "operator-coercion",
+      "prerequisites": [
+        "to-primitive-conversion"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "A seat chart joins numbers and text with +. Which statement explains the three results?",
+      "code": [
+        "const row = 2;",
+        "const col = 3;",
+        "console.log(row + col + \"x\" + col);",
+        "console.log(\"x\" + row + col);",
+        "console.log(\"x\" + (row + col));"
+      ],
+      "options": [
+        {
+          "text": "+ works left to right: it adds two numbers, but joins text as soon as one side is text.",
+          "correct": true,
+          "feedback": "Right. Each + decides by the two values it has at that moment."
+        },
+        {
+          "text": "+ joins text everywhere as soon as one string appears in the expression, so line 3 prints 23x3.",
+          "correct": false,
+          "feedback": "+ looks at one pair at a time. row + col is two numbers, so they are added before the text appears.",
+          "misconception": "plus-order-and-grouping-confused"
+        },
+        {
+          "text": "Brackets do not change +, so the last line prints x23.",
+          "correct": false,
+          "feedback": "Brackets run first. row + col is added to 5 before it is joined to the text.",
+          "misconception": "plus-order-and-grouping-confused"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "5x3\nx23\nx5"
+      },
+      "explanation": "Each + works on one pair, left to right. 2 + 3 adds to 5 and then joins with the texts. In the second line the text comes first, so every later number is joined. Brackets run first.",
+      "hints": [
+        "Work out the pairs one + at a time on lines 3 and 4.",
+        "The type of the two values on each + decides adding or joining.",
+        "Brackets in the last line make 5 before any joining."
+      ],
+      "reference": {
+        "title": "Addition (+)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "duel:1"
+      ]
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.operator-coercion.fix-01",
+      "concept": "operator-coercion",
+      "prerequisites": [
+        "to-primitive-conversion"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "The two gaps between stops should add up to 42, but the program prints NaN. Tap the buggy line and pick the fix.",
+      "code": [
+        "const gaps = [\"8\", \"12\", \"30\"];",
+        "const mins = gaps.map(parseInt);",
+        "console.log(mins[1] + mins[2]);"
+      ],
+      "options": [
+        {
+          "text": "const mins = gaps.map(Number);",
+          "correct": true,
+          "feedback": "Right. Number takes only the value, so the index passed by map is ignored."
+        },
+        {
+          "text": "const mins = gaps.map(parseInt, 10);",
+          "correct": false,
+          "feedback": "The second argument of map sets this inside the callback. It does not change the index that map passes as the radix.",
+          "misconception": "parseint-in-map-is-safe"
+        },
+        {
+          "text": "const mins = gaps.map(String);",
+          "correct": false,
+          "feedback": "String keeps the values as text, so + joins them and the result is the text 1230.",
+          "misconception": "parseint-in-map-is-safe"
+        }
+      ],
+      "solution": {
+        "bugLine": 2,
+        "expectedOutput": "42"
+      },
+      "explanation": "map calls the callback with value and index, so parseInt receives the index as its radix: radix 1 and radix 2 turn \"12\" and \"30\" into NaN. Number ignores extra arguments.",
+      "hints": [
+        "Check which arguments map gives its callback on line 2.",
+        "map passes the index as a second argument.",
+        "Pick a converter that uses only its first argument."
+      ],
+      "reference": {
+        "title": "parseInt()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "duel:2"
+      ]
+    },
+    {
+      "id": "exp.type-coercion-and-edge-cases.operator-coercion.fill-01",
+      "concept": "operator-coercion",
+      "prerequisites": [
+        "relational-operators"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 5,
+      "prompt": "A depot lists bay numbers as text. Fill the blank so they print in numeric order.",
+      "code": [
+        "const bays = [\"9\", \"10\", \"75\", \"8\"];",
+        "bays.sort((a, b) => ___);",
+        "console.log(bays);"
+      ],
+      "options": [
+        {
+          "text": "a - b",
+          "correct": true,
+          "feedback": "Right. - turns both texts into numbers and returns their difference."
+        },
+        {
+          "text": "Number(a) - Number(b)",
+          "correct": true,
+          "feedback": "Right. This converts explicitly, which does the same as a - b."
+        },
+        {
+          "text": "b - a",
+          "correct": false,
+          "feedback": "This sorts in numeric order, but from the largest to the smallest."
+        },
+        {
+          "text": "a.length - b.length",
+          "correct": false,
+          "feedback": "This sorts by number of characters, so 9 and 8 stay in their original order before 10."
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "A comparison that always says equal leaves the array in its original order."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "a - b",
+            "Number(a) - Number(b)"
+          ]
+        ],
+        "expectedOutput": "['8', '9', '10', '75']"
+      },
+      "explanation": "The comparison function must return a negative, zero or positive number. Subtraction converts the texts to numbers, so a - b orders by numeric value from smallest to largest.",
+      "hints": [
+        "Look at what the comparison function must return.",
+        "- always works on numbers, so it converts its operands.",
+        "Subtract the second value from the first."
+      ],
+      "reference": {
+        "title": "Array.prototype.sort()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

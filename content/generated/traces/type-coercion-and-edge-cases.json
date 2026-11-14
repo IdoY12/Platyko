@@ -1,0 +1,2636 @@
+{
+ "unit": "type-coercion-and-edge-cases",
+ "items": {
+  "exp.type-coercion-and-edge-cases.to-primitive-conversion.predict-01": {
+   "code": [
+    "const fare = {",
+    "  valueOf() { return 4; },",
+    "  toString() { return \"ticket\"; },",
+    "};",
+    "console.log(fare + 1);",
+    "console.log(`${fare}`);"
+   ],
+   "output": [
+    "5",
+    "ticket"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf], toString: [Function: toString]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf], toString: [Function: toString]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "valueOf"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf], toString: [Function: toString]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf], toString: [Function: toString]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "toString"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf], toString: [Function: toString]}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.to-primitive-conversion.concept-01": {
+   "code": [
+    "class Tank {",
+    "  constructor(l) { this.l = l; }",
+    "  [Symbol.toPrimitive](h) {",
+    "    if (h === \"string\") return \"T\";",
+    "    return this.l;",
+    "  }",
+    "}",
+    "const tank = new Tank(40);",
+    "console.log(+tank);",
+    "console.log(tank + 1);",
+    "console.log(`${tank}`);"
+   ],
+   "output": [
+    "40",
+    "41",
+    "T"
+   ],
+   "steps": [
+    {
+     "line": 8,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "l",
+       "scope": "constructor",
+       "value": "40"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "tank",
+       "scope": "global",
+       "value": "Tank {l: 40}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "tank",
+       "scope": "global",
+       "value": "Tank {l: 40}"
+      },
+      {
+       "name": "h",
+       "scope": "anonymous",
+       "value": "'number'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "tank",
+       "scope": "global",
+       "value": "Tank {l: 40}"
+      },
+      {
+       "name": "h",
+       "scope": "anonymous",
+       "value": "'number'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "tank",
+       "scope": "global",
+       "value": "Tank {l: 40}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "tank",
+       "scope": "global",
+       "value": "Tank {l: 40}"
+      },
+      {
+       "name": "h",
+       "scope": "anonymous",
+       "value": "'default'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "tank",
+       "scope": "global",
+       "value": "Tank {l: 40}"
+      },
+      {
+       "name": "h",
+       "scope": "anonymous",
+       "value": "'default'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "tank",
+       "scope": "global",
+       "value": "Tank {l: 40}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "tank",
+       "scope": "global",
+       "value": "Tank {l: 40}"
+      },
+      {
+       "name": "h",
+       "scope": "anonymous",
+       "value": "'string'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "tank",
+       "scope": "global",
+       "value": "Tank {l: 40}"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.to-primitive-conversion.fix-01": {
+   "code": [
+    "class Crate {",
+    "  constructor(kg) {",
+    "    this.kg = kg;",
+    "  }",
+    "  valueOf() {",
+    "    return this.kg;",
+    "  }",
+    "}",
+    "const a = new Crate(5);",
+    "const b = new Crate(7);",
+    "console.log(a + b);"
+   ],
+   "output": [
+    "12"
+   ],
+   "steps": [
+    {
+     "line": 9,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "kg",
+       "scope": "constructor",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Crate {kg: 5}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Crate {kg: 5}"
+      },
+      {
+       "name": "kg",
+       "scope": "constructor",
+       "value": "7"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Crate {kg: 5}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Crate {kg: 7}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Crate {kg: 5}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Crate {kg: 7}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "valueOf"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Crate {kg: 5}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Crate {kg: 7}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.to-primitive-conversion.write-01": {
+   "code": [
+    "function describeUnits(n) {",
+    "const obj = {",
+    "  [Symbol.toPrimitive](h) {",
+    "    if (h === \"number\") return n;",
+    "    return n + \" units\";",
+    "  },",
+    "};",
+    "return [+obj, `${obj}`, obj + \"\"];",
+    "}",
+    "console.log(describeUnits(3));"
+   ],
+   "output": [
+    "[3, '3 units', '3 units']"
+   ],
+   "steps": [
+    {
+     "line": 10,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "describeUnits",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeUnits"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "describeUnits",
+       "value": "3"
+      },
+      {
+       "name": "obj",
+       "scope": "describeUnits",
+       "value": "{[Symbol(Symbol.toPrimitive)]: [Function: [Symbol.toPrimitive]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeUnits"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "describeUnits",
+       "value": "3"
+      },
+      {
+       "name": "obj",
+       "scope": "describeUnits",
+       "value": "{[Symbol(Symbol.toPrimitive)]: [Function: [Symbol.toPrimitive]]}"
+      },
+      {
+       "name": "h",
+       "scope": "anonymous",
+       "value": "'number'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeUnits",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "describeUnits",
+       "value": "3"
+      },
+      {
+       "name": "obj",
+       "scope": "describeUnits",
+       "value": "{[Symbol(Symbol.toPrimitive)]: [Function: [Symbol.toPrimitive]]}"
+      },
+      {
+       "name": "h",
+       "scope": "anonymous",
+       "value": "'string'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeUnits",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "describeUnits",
+       "value": "3"
+      },
+      {
+       "name": "obj",
+       "scope": "describeUnits",
+       "value": "{[Symbol(Symbol.toPrimitive)]: [Function: [Symbol.toPrimitive]]}"
+      },
+      {
+       "name": "h",
+       "scope": "anonymous",
+       "value": "'string'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeUnits",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "describeUnits",
+       "value": "3"
+      },
+      {
+       "name": "obj",
+       "scope": "describeUnits",
+       "value": "{[Symbol(Symbol.toPrimitive)]: [Function: [Symbol.toPrimitive]]}"
+      },
+      {
+       "name": "h",
+       "scope": "anonymous",
+       "value": "'default'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeUnits",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "describeUnits",
+       "value": "3"
+      },
+      {
+       "name": "obj",
+       "scope": "describeUnits",
+       "value": "{[Symbol(Symbol.toPrimitive)]: [Function: [Symbol.toPrimitive]]}"
+      },
+      {
+       "name": "h",
+       "scope": "anonymous",
+       "value": "'default'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeUnits",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.predict-01": {
+   "code": [
+    "const slot = [];",
+    "const flag = false;",
+    "console.log(slot == flag);",
+    "console.log(slot == !slot);",
+    "console.log(null == flag);"
+   ],
+   "output": [
+    "true",
+    "true",
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "slot",
+       "scope": "global",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "slot",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "flag",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "slot",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "flag",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "slot",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "flag",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "slot",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "flag",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.concept-01": {
+   "code": [
+    "const a = { valueOf: () => 8 };",
+    "const b = { valueOf: () => 8 };",
+    "console.log(a == 8);",
+    "console.log(a == \"8\");",
+    "console.log(a == b);"
+   ],
+   "output": [
+    "true",
+    "true",
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf]}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf]}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "valueOf"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf]}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf]}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "valueOf"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf]}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf]}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf]}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf]}"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.fix-01": {
+   "code": [
+    "const marks = [0, null, 5];",
+    "marks.push(undefined);",
+    "let missing = 0;",
+    "for (const s of marks) {",
+    "  if (s == null) missing++;",
+    "}",
+    "console.log(missing);"
+   ],
+   "output": [
+    "2"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "marks",
+       "scope": "global",
+       "value": "[0, null, 5]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "marks",
+       "scope": "global",
+       "value": "[0, null, 5, undefined]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "marks",
+       "scope": "global",
+       "value": "[0, null, 5, undefined]"
+      },
+      {
+       "name": "missing",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "marks",
+       "scope": "global",
+       "value": "[0, null, 5, undefined]"
+      },
+      {
+       "name": "missing",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "marks",
+       "scope": "global",
+       "value": "[0, null, 5, undefined]"
+      },
+      {
+       "name": "missing",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "marks",
+       "scope": "global",
+       "value": "[0, null, 5, undefined]"
+      },
+      {
+       "name": "missing",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "null"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "marks",
+       "scope": "global",
+       "value": "[0, null, 5, undefined]"
+      },
+      {
+       "name": "missing",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "null"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "marks",
+       "scope": "global",
+       "value": "[0, null, 5, undefined]"
+      },
+      {
+       "name": "missing",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "marks",
+       "scope": "global",
+       "value": "[0, null, 5, undefined]"
+      },
+      {
+       "name": "missing",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "marks",
+       "scope": "global",
+       "value": "[0, null, 5, undefined]"
+      },
+      {
+       "name": "missing",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "marks",
+       "scope": "global",
+       "value": "[0, null, 5, undefined]"
+      },
+      {
+       "name": "missing",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "marks",
+       "scope": "global",
+       "value": "[0, null, 5, undefined]"
+      },
+      {
+       "name": "missing",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "marks",
+       "scope": "global",
+       "value": "[0, null, 5, undefined]"
+      },
+      {
+       "name": "missing",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.fill-01": {
+   "code": [
+    "const box = [5];",
+    "console.log(box == 5);",
+    "console.log(null == undefined);"
+   ],
+   "output": [
+    "true",
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "box",
+       "scope": "global",
+       "value": "[5]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "box",
+       "scope": "global",
+       "value": "[5]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "box",
+       "scope": "global",
+       "value": "[5]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.numeric-edge-cases.predict-01": {
+   "code": [
+    "const temps = [4, NaN, 9];",
+    "console.log(temps.indexOf(NaN));",
+    "console.log(temps.includes(NaN));",
+    "console.log(temps[1] === temps[1]);"
+   ],
+   "output": [
+    "-1",
+    "true",
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "temps",
+       "scope": "global",
+       "value": "[4, NaN, 9]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "temps",
+       "scope": "global",
+       "value": "[4, NaN, 9]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "temps",
+       "scope": "global",
+       "value": "[4, NaN, 9]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "temps",
+       "scope": "global",
+       "value": "[4, NaN, 9]"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.numeric-edge-cases.concept-01": {
+   "code": [
+    "const drift = -0;",
+    "console.log(drift === 0);",
+    "console.log(Object.is(drift, 0));",
+    "console.log(1 / drift);",
+    "console.log(String(drift));"
+   ],
+   "output": [
+    "true",
+    "false",
+    "-Infinity",
+    "0"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "drift",
+       "scope": "global",
+       "value": "-0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "drift",
+       "scope": "global",
+       "value": "-0"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "drift",
+       "scope": "global",
+       "value": "-0"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "drift",
+       "scope": "global",
+       "value": "-0"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "drift",
+       "scope": "global",
+       "value": "-0"
+      }
+     ],
+     "outputCount": 4,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.numeric-edge-cases.fix-01": {
+   "code": [
+    "const part = 0.1;",
+    "const rest = 0.2;",
+    "const total = part + rest;",
+    "if (Math.abs(total - 0.3) < 1e-9) {",
+    "  console.log(\"exact\");",
+    "}"
+   ],
+   "output": [
+    "exact"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "part",
+       "scope": "global",
+       "value": "0.1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "part",
+       "scope": "global",
+       "value": "0.1"
+      },
+      {
+       "name": "rest",
+       "scope": "global",
+       "value": "0.2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "part",
+       "scope": "global",
+       "value": "0.1"
+      },
+      {
+       "name": "rest",
+       "scope": "global",
+       "value": "0.2"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "0.30000000000000004"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "part",
+       "scope": "global",
+       "value": "0.1"
+      },
+      {
+       "name": "rest",
+       "scope": "global",
+       "value": "0.2"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "0.30000000000000004"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "part",
+       "scope": "global",
+       "value": "0.1"
+      },
+      {
+       "name": "rest",
+       "scope": "global",
+       "value": "0.2"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "0.30000000000000004"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.numeric-edge-cases.write-01": {
+   "code": [
+    "function safeRatio(a, b) {",
+    "const r = a / b;",
+    "if (Number.isFinite(r)) return r;",
+    "return null;",
+    "}",
+    "console.log(safeRatio(9, 4));"
+   ],
+   "output": [
+    "2.25"
+   ],
+   "steps": [
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "safeRatio",
+       "value": "9"
+      },
+      {
+       "name": "b",
+       "scope": "safeRatio",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "safeRatio"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "safeRatio",
+       "value": "9"
+      },
+      {
+       "name": "b",
+       "scope": "safeRatio",
+       "value": "4"
+      },
+      {
+       "name": "r",
+       "scope": "safeRatio",
+       "value": "2.25"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "safeRatio"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.operator-coercion.predict-01": {
+   "code": [
+    "const gates = [12, 3, 25, 100];",
+    "console.log(\"12\" < \"3\");",
+    "console.log(12 < \"3\");",
+    "console.log(gates.sort());"
+   ],
+   "output": [
+    "true",
+    "false",
+    "[100, 12, 25, 3]"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "gates",
+       "scope": "global",
+       "value": "[12, 3, 25, 100]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "gates",
+       "scope": "global",
+       "value": "[12, 3, 25, 100]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "gates",
+       "scope": "global",
+       "value": "[12, 3, 25, 100]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "gates",
+       "scope": "global",
+       "value": "[100, 12, 25, 3]"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.operator-coercion.concept-01": {
+   "code": [
+    "const row = 2;",
+    "const col = 3;",
+    "console.log(row + col + \"x\" + col);",
+    "console.log(\"x\" + row + col);",
+    "console.log(\"x\" + (row + col));"
+   ],
+   "output": [
+    "5x3",
+    "x23",
+    "x5"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "row",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "row",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "col",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "row",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "col",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "row",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "col",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "row",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "col",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.operator-coercion.fix-01": {
+   "code": [
+    "const gaps = [\"8\", \"12\", \"30\"];",
+    "const mins = gaps.map(Number);",
+    "console.log(mins[1] + mins[2]);"
+   ],
+   "output": [
+    "42"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "gaps",
+       "scope": "global",
+       "value": "['8', '12', '30']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "gaps",
+       "scope": "global",
+       "value": "['8', '12', '30']"
+      },
+      {
+       "name": "mins",
+       "scope": "global",
+       "value": "[8, 12, 30]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "gaps",
+       "scope": "global",
+       "value": "['8', '12', '30']"
+      },
+      {
+       "name": "mins",
+       "scope": "global",
+       "value": "[8, 12, 30]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "exp.type-coercion-and-edge-cases.operator-coercion.fill-01": {
+   "code": [
+    "const bays = [\"9\", \"10\", \"75\", \"8\"];",
+    "bays.sort((a, b) => a - b);",
+    "console.log(bays);"
+   ],
+   "output": [
+    "['8', '9', '10', '75']"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "bays",
+       "scope": "global",
+       "value": "['9', '10', '75', '8']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "bays",
+       "scope": "global",
+       "value": "['9', '10', '75', '8']"
+      },
+      {
+       "name": "a",
+       "scope": "anonymous",
+       "value": "'10'"
+      },
+      {
+       "name": "b",
+       "scope": "anonymous",
+       "value": "'9'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "bays",
+       "scope": "global",
+       "value": "['9', '10', '75', '8']"
+      },
+      {
+       "name": "a",
+       "scope": "anonymous",
+       "value": "'75'"
+      },
+      {
+       "name": "b",
+       "scope": "anonymous",
+       "value": "'10'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "bays",
+       "scope": "global",
+       "value": "['9', '10', '75', '8']"
+      },
+      {
+       "name": "a",
+       "scope": "anonymous",
+       "value": "'8'"
+      },
+      {
+       "name": "b",
+       "scope": "anonymous",
+       "value": "'75'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "bays",
+       "scope": "global",
+       "value": "['9', '10', '75', '8']"
+      },
+      {
+       "name": "a",
+       "scope": "anonymous",
+       "value": "'8'"
+      },
+      {
+       "name": "b",
+       "scope": "anonymous",
+       "value": "'10'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "bays",
+       "scope": "global",
+       "value": "['9', '10', '75', '8']"
+      },
+      {
+       "name": "a",
+       "scope": "anonymous",
+       "value": "'8'"
+      },
+      {
+       "name": "b",
+       "scope": "anonymous",
+       "value": "'9'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "bays",
+       "scope": "global",
+       "value": "['8', '9', '10', '75']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "bays",
+       "scope": "global",
+       "value": "['8', '9', '10', '75']"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ },
+ "conceptCards": {
+  "type-coercion-and-edge-cases.lesson-1": {
+   "code": [
+    "const jar = {",
+    "  valueOf: () => 7,",
+    "  toString: () => \"jar\",",
+    "};",
+    "console.log(jar - 2);",
+    "console.log(+jar, String(jar));"
+   ],
+   "output": [
+    "5",
+    "7 jar"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf], toString: [Function: toString]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf], toString: [Function: toString]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "valueOf"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf], toString: [Function: toString]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf], toString: [Function: toString]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "valueOf"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf], toString: [Function: toString]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "toString"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{valueOf: [Function: valueOf], toString: [Function: toString]}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "type-coercion-and-edge-cases.lesson-2": {
+   "code": [
+    "console.log(null == undefined);",
+    "console.log(null == 0);",
+    "console.log(\"5\" == 5);",
+    "console.log(true == 1);",
+    "console.log([2] == 2);"
+   ],
+   "output": [
+    "true",
+    "false",
+    "true",
+    "true",
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 4,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 5,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "type-coercion-and-edge-cases.lesson-3": {
+   "code": [
+    "console.log(NaN === NaN);",
+    "console.log(Number.isNaN(NaN));",
+    "console.log(5 / 0);",
+    "console.log(0.1 + 0.2 === 0.3);"
+   ],
+   "output": [
+    "false",
+    "true",
+    "Infinity",
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 4,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "type-coercion-and-edge-cases.lesson-4": {
+   "code": [
+    "console.log(\"4\" + 2);",
+    "console.log(\"4\" - 2);",
+    "console.log(\"4\" < 10);",
+    "console.log(\"4\" < \"10\");"
+   ],
+   "output": [
+    "42",
+    "2",
+    "true",
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 4,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ }
+}
