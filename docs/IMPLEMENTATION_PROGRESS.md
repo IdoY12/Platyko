@@ -16,14 +16,13 @@ after any context reset, then continue from "Current position".
 
 ## Current position
 
-- **Updated:** 2026-11-14 21:50. All gates green (typecheck, lint, tests, knip, language scan,
+- **Updated:** 2026-11-14 22:30. All gates green (typecheck, lint, tests, knip, language scan,
   whole-bank verify).
-- **Phases:** 0 nearly done; 1 (mobile learning core) mostly done — lesson player, map, Home,
-  onboarding, Profile, Settings, RTL; 2 (bank) 15 of 28 units committed (360 items), two more
-  authoring (`dom-and-events`, `promises-in-depth`).
-- **Next for the main thread:** auth screens rebuilt and translated (they still use the old
-  terminal theme and English alerts), language stored on the account, jump test, then phase 3
-  (daily challenge, revision, push reminders, achievements).
+- **Phases:** 0 nearly done; 1 done apart from the walk-through of the old duel screens (phase 5
+  rebuilds them); 2 (bank) 21 of 28 units committed (484 items), two more authoring
+  (`map-set-weakmap-symbol`, `performance-and-memory`); 3 started (jump test done).
+- **Next for the main thread:** phase 3 — daily challenge, revision mode, push reminders through
+  the server, achievements; then the backend error codes (PRD 15.x "the server returns codes").
 - **Next for sub-agents:** keep two unit authors running (Sonnet, `model: "sonnet"`), one unit
   each, from `scratchpad/briefs/unit-<slug>.md` regenerated from
   `content/verification/prompts/unit-author.md` (see "How unit authoring runs").
@@ -50,9 +49,9 @@ after any context reset, then continue from "Current position".
 | Phase | Scope | Status |
 |---|---|---|
 | 0 | Item model, attempts, user-level XP, verification pipeline, CI, bug fixes, tokens, fonts, i18n | In progress |
-| 1 | Learning core: lesson player, 7 formats, feedback, code view, execution player, map, Home, onboarding, mascot | Mostly done (auth screens, jump test open) |
-| 2 | 604-item bank, legacy migration, full verification loop | In progress (15 of 28 units) |
-| 3 | Retention: review (SM-2), daily challenge, revision, weekly goal, freeze, push, achievements | Not started |
+| 1 | Learning core: lesson player, 7 formats, feedback, code view, execution player, map, Home, onboarding, mascot | Done (Profile, Settings, auth in the new design; EN + HE) |
+| 2 | 604-item bank, legacy migration, full verification loop | In progress (21 of 28 units) |
+| 3 | Retention: review (SM-2), daily challenge, revision, weekly goal, freeze, push, achievements | In progress (review, weekly goal, freeze, jump test done) |
 | 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Not started |
 | 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Not started |
 | 6 | Depth: league, extra modes, AI explain, share cards, item analysis | Not started |
@@ -111,6 +110,12 @@ Done since the first update (all committed):
       and classes, errors, async basics): 360 items in the bank, whole-bank verify clean.
 - [x] Onboarding in five steps (language, track, first item, weekly goal, reminder); RTL owned by
       the app (expo-localization no longer resets it); skill map flows from the right in Hebrew.
+- [x] Auth screens (sign-in, verify email, forgot and reset password) in the new design; every
+      server and validation message translated; launch banners and loading screen rebuilt.
+- [x] Language stored on the account (sign-up, Settings with confirmation, adopted on sign-in
+      and launch); state flushed to disk before any language restart.
+- [x] Jump test (PRD 6.2): shared selection and pass rule, server opens a track only from
+      stored attempts, map card, result screen; verified on the simulator.
 - [x] Profile (three measures, 12-week activity map, track progress, mastered and weak concepts,
       guest save card) and Settings (language, reminder, account dialogs, guest reset, legal
       pages), English and Hebrew; old terminal profile, preference drafts and the legacy learning
@@ -119,13 +124,12 @@ Done since the first update (all committed):
 
 Open:
 
-- [ ] Units 16–28 (13 units), then the full verification loop to three clean passes.
-- [ ] Auth screens (sign-in, verify email, password reset) in the new design with translated
-      strings and alerts; account error alerts in `utils/profileAccountMutations.ts`,
-      `utils/profileAvatarUpload.ts` and `hooks/useSetPasswordFlow.ts` are still English.
-- [ ] Language stored on the account; old xp/streak slices and the old duel screens retire with
-      phases 4–5.
-- [ ] Jump test per track; daily challenge; revision mode (phase 3).
+- [ ] Units 22–28 (7 units), then the full verification loop to three clean passes.
+- [ ] Server error codes (PRD: "the server keeps returning generic errors and codes"): today the
+      app maps the server's English messages to translated text in one place
+      (`mobile/src/i18n/localizedMessage.ts`); switching to codes removes the string coupling.
+- [ ] Old xp/streak/duel slices and the old duel screens retire with phases 4–5.
+- [ ] Daily challenge; revision mode; push reminders from the server; achievements (phase 3).
 - [ ] Hebrew RTL walk-through of every screen (done: Home, lesson, map, onboarding, Profile,
       Settings).
 - [ ] `npm audit` high/critical advisories in build-tool dependencies (security pass).
