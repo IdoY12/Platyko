@@ -4,6 +4,7 @@ import { applyAttempt, applyDailyChallenge, applyLessonCompletion, levelOf, type
 import { streakOnAppOpen, trustedCalendarDate } from "@project/streak-logic";
 import { knownLessonIds } from "../content/contentCatalog.js";
 import { withPassedJumpTests } from "./jumpTestPass.js";
+import { recordAchievements } from "./recordAchievements.js";
 import { loadProgress, saveProgress, storedAttemptId, type StoredProgress } from "./progressStore.js";
 
 const toResponse = (stored: StoredProgress, snapshot: ProgressSnapshot): ProgressResponse => ({
@@ -70,6 +71,7 @@ export async function submitProgress(userId: string, request: SubmitProgressRequ
     }
     snapshot = await withPassedJumpTests(tx, userId, snapshot, fresh);
     await saveProgress(tx, userId, stored.snapshot, snapshot, recorded);
+    await recordAchievements(tx, userId, snapshot);
     const finishedResume = stored.resume !== null && finishedLessons.some((lesson) => lesson.lessonId === stored.resume?.lessonId);
     if (finishedResume) await tx.lessonResume.delete({ where: { userId } });
     return { ...toResponse({ ...stored, resume: finishedResume ? null : stored.resume }, snapshot), xpEarned };

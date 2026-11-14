@@ -13,6 +13,7 @@ import { MIN_TOUCH_TARGET, palette, space } from "@/theme/tokens";
 import type { RootNavigation } from "@/types/rootNavigation.types";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { ActivityMap } from "./ActivityMap";
+import { ProfileAchievements } from "./ProfileAchievements";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { ProfileLearning } from "./ProfileLearning";
 import { ProfileMeasures } from "./ProfileMeasures";
@@ -51,6 +52,7 @@ export function ProfileScreen() {
       ) : null}
       {/* Rating arrives with ranked duels (PRD phase 5); until then the placement note shows. */}
       <ProfileMeasures progress={progress} rating={null} />
+      <ProfileAchievements />
       <ActivityMap days={progress.practiceDays} today={getStreakCalendarDate()} />
       <ProfileLearning map={map} progress={progress} />
     </Screen>

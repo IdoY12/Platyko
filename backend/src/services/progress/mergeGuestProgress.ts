@@ -4,6 +4,7 @@ import { applyAttempt, applyDailyChallenge, applyLessonCompletion, EMPTY_PROGRES
 import { trustedCalendarDate, type StreakState } from "@project/streak-logic";
 import { knownLessonIds } from "../content/contentCatalog.js";
 import { withPassedJumpTests } from "./jumpTestPass.js";
+import { recordAchievements } from "./recordAchievements.js";
 import { loadProgress, saveProgress, storedAttemptId } from "./progressStore.js";
 
 /** A guest's attempt keeps its own day (so past practice days and the guest's streak are rebuilt), never a future one. */
@@ -84,6 +85,7 @@ export async function mergeGuestProgress(userId: string, upload: GuestProgressUp
     account = await withPassedJumpTests(tx, userId, account, fresh);
 
     await saveProgress(tx, userId, stored.snapshot, account, recorded);
+    await recordAchievements(tx, userId, account);
     return { progress: account, level: levelOf(account), resume: stored.resume, goals: stored.goals, xpEarned };
   });
 }

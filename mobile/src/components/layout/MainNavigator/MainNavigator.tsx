@@ -6,6 +6,7 @@ import { VerifyEmailScreen } from "@/components/auth/verify-email/VerifyEmailScr
 import { LessonPlayerScreen } from "@/components/lesson/LessonPlayerScreen";
 import { LessonSummaryScreen } from "@/components/lesson/LessonSummaryScreen";
 import { RevisionSetupScreen } from "@/components/learn/revision/RevisionSetupScreen";
+import { AchievementsScreen } from "@/components/profile/achievements/AchievementsScreen";
 import { SettingsScreen } from "@/components/settings/SettingsScreen";
 import { useAppSelector } from "@/redux/hooks";
 import type { MessageKey } from "@project/locales";
@@ -54,6 +55,7 @@ export function MainNavigator() {
       <RootStack.Screen name="LessonSummary" component={LessonSummaryScreen} options={LESSON_OPTIONS} />
       <RootStack.Screen name="Settings" component={SettingsScreen} />
       <RootStack.Screen name="RevisionSetup" component={RevisionSetupScreen} />
+      <RootStack.Screen name="Achievements" component={AchievementsScreen} />
       {!isAuthenticated && (
         <>
           <RootStack.Screen name="Auth" component={AuthScreen} options={authScreenOptions("settings.account")} />
