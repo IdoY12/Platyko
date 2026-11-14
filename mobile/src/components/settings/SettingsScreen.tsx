@@ -10,6 +10,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { t } from "@/i18n/translate";
 import { palette, space } from "@/theme/tokens";
 import { openExternalUrl } from "@/utils/profileUiAndPreferences";
+import { PrivacySection } from "@/components/social/PrivacySection";
 import { AccountDialogs } from "./AccountDialogs";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { SetPasswordDialog } from "./SetPasswordDialog";
@@ -48,6 +49,7 @@ export function SettingsScreen() {
           <SettingsRow icon="delete-outline" label={t("settings.deleteAccount")} danger onPress={() => account.setDeleteModalVisible(true)} />
         </SettingsSection>
       )}
+      {isGuest ? null : <PrivacySection />}
       <SettingsSection title={t("settings.about")}>
         <SettingsRow icon="shield-lock-outline" label={t("settings.privacy")} onPress={() => openExternalUrl(PRIVACY_POLICY_URL)} />
         <SettingsRow icon="file-document-outline" label={t("settings.terms")} onPress={() => openExternalUrl(TERMS_OF_USE_URL)} />

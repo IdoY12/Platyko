@@ -7,6 +7,8 @@ import { LessonPlayerScreen } from "@/components/lesson/LessonPlayerScreen";
 import { LessonSummaryScreen } from "@/components/lesson/LessonSummaryScreen";
 import { RevisionSetupScreen } from "@/components/learn/revision/RevisionSetupScreen";
 import { AchievementsScreen } from "@/components/profile/achievements/AchievementsScreen";
+import { FriendsScreen } from "@/components/social/FriendsScreen";
+import { UserProfileScreen } from "@/components/social/UserProfileScreen";
 import { SettingsScreen } from "@/components/settings/SettingsScreen";
 import { useAppSelector } from "@/redux/hooks";
 import type { MessageKey } from "@project/locales";
@@ -56,6 +58,8 @@ export function MainNavigator() {
       <RootStack.Screen name="Settings" component={SettingsScreen} />
       <RootStack.Screen name="RevisionSetup" component={RevisionSetupScreen} />
       <RootStack.Screen name="Achievements" component={AchievementsScreen} />
+      <RootStack.Screen name="Friends" component={FriendsScreen} />
+      <RootStack.Screen name="UserProfile" component={UserProfileScreen} />
       {!isAuthenticated && (
         <>
           <RootStack.Screen name="Auth" component={AuthScreen} options={authScreenOptions("settings.account")} />

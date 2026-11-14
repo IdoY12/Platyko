@@ -1,7 +1,6 @@
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert } from "react-native";
 import { LANGUAGES, type Language } from "@project/locales";
-import { AppText } from "@/components/common/AppText/AppText";
-import { PressableScale } from "@/components/common/PressableScale/PressableScale";
+import { SegmentedChoice } from "@/components/common/SegmentedChoice/SegmentedChoice";
 import { useAuthenticatedService } from "@/hooks/useAuthenticatedService";
 import { changeLanguage } from "@/i18n/languagePreference";
 import { localizedError } from "@/i18n/localizedMessage";
@@ -9,7 +8,6 @@ import { useAppSelector } from "@/redux/hooks";
 import UserService from "@/services/auth-aware/UserService";
 import { logError } from "@/utils/logger";
 import { getActiveLanguage, t } from "@/i18n/translate";
-import { MIN_TOUCH_TARGET, palette, radii, space } from "@/theme/tokens";
 
 const LANGUAGE_NAME_KEY = { en: "language.english", he: "language.hebrew" } as const;
 
@@ -49,30 +47,6 @@ export function LanguageSwitch({ confirmRestart = false }: { confirmRestart?: bo
     ]);
   };
   return (
-    <View style={styles.row} accessibilityRole="radiogroup">
-      {LANGUAGES.map((language) => {
-        const selected = language === active;
-        return (
-          <PressableScale
-            key={language}
-            accessibilityRole="radio"
-            accessibilityState={{ selected }}
-            accessibilityLabel={t(LANGUAGE_NAME_KEY[language])}
-            onPress={() => choose(language)}
-            style={[styles.option, selected && styles.selected]}
-          >
-            <AppText variant="label" color={selected ? palette.text.onBright : palette.text.secondary}>
-              {t(LANGUAGE_NAME_KEY[language])}
-            </AppText>
-          </PressableScale>
-        );
-      })}
-    </View>
+    <SegmentedChoice options={LANGUAGES.map((language) => ({ value: language, label: t(LANGUAGE_NAME_KEY[language]) }))} selected={active} onSelect={choose} />
   );
 }
-
-const styles = StyleSheet.create({
-  row: { flexDirection: "row", gap: space.xs, padding: space.xs, borderRadius: radii.pill, backgroundColor: palette.bg.surface },
-  option: { minHeight: MIN_TOUCH_TARGET - space.sm, minWidth: 72, alignItems: "center", justifyContent: "center", paddingHorizontal: space.lg, borderRadius: radii.pill },
-  selected: { backgroundColor: palette.brand.primary },
-});

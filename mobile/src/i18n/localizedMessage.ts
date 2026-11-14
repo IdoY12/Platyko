@@ -1,3 +1,4 @@
+import { SOCIAL_ERRORS } from "@project/api-contract";
 import type { MessageKey } from "@project/locales";
 import {
   EMAIL_INVALID, EMAIL_MAX_LEN, EMAIL_MIN_LEN, EMAIL_TAKEN_MESSAGE, EMAIL_TOO_LONG, EMAIL_TOO_SHORT,
@@ -39,6 +40,13 @@ const EXACT_MESSAGES: Record<string, MessageKey> = {
   "This email is linked to a Google account. Sign in with Google.": "errors.emailLinkedGoogle",
   "This email is linked to an Apple ID. Sign in with Apple.": "errors.emailLinkedApple",
   [EMAIL_INVALID]: "errors.emailInvalid",
+  [SOCIAL_ERRORS.userNotFound]: "errors.userNotFound",
+  [SOCIAL_ERRORS.cannotAddSelf]: "errors.cannotAddSelf",
+  [SOCIAL_ERRORS.codeOnly]: "errors.codeOnly",
+  [SOCIAL_ERRORS.alreadyFriends]: "errors.alreadyFriends",
+  [SOCIAL_ERRORS.tooManyRequests]: "errors.tooManyRequests",
+  [SOCIAL_ERRORS.friendLimit]: "errors.friendLimit",
+  [SOCIAL_ERRORS.requestNotFound]: "errors.requestNotFound",
 };
 
 /** The shared length rules, each with the limit it names. */

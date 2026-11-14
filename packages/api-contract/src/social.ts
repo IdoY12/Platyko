@@ -58,7 +58,7 @@ export type ReportRequest = { userId: string; target: (typeof REPORT_TARGETS)[nu
  * reveals that someone blocked the caller; a decline is never reported to its sender (PRD 11.1).
  */
 export const SOCIAL_ERRORS = {
-  userNotFound: "User not found",
+  userNotFound: "No such user",
   cannotAddSelf: "You cannot add yourself",
   codeOnly: "This user accepts friend requests only by friend code",
   alreadyFriends: "You are already friends",

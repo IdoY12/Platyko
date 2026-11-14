@@ -52,6 +52,9 @@ export function ProfileScreen() {
       ) : null}
       {/* Rating arrives with ranked duels (PRD phase 5); until then the placement note shows. */}
       <ProfileMeasures progress={progress} rating={null} />
+      {isGuest ? null : (
+        <OutlineButton label={t("profile.friends")} onPress={() => navigation.navigate("Friends")} icon={<MaterialCommunityIcons name="account-multiple-outline" size={20} color={palette.text.primary} />} />
+      )}
       <ProfileAchievements />
       <ActivityMap days={progress.practiceDays} today={getStreakCalendarDate()} />
       <ProfileLearning map={map} progress={progress} />
