@@ -1,5 +1,5 @@
 import type { Namespace } from "socket.io";
-import type { MatchEndEvent, PlayMode, PlaySeat, Standing } from "@project/api-contract";
+import type { MatchEndEvent, MatchStartEvent, PlayMode, PlaySeat, Standing } from "@project/api-contract";
 import { answerFromPlay, checkItemAnswer, playItemOf, type Item, type ItemAnswer, type OptionOrder, type Track } from "@project/content-model";
 import { createMatch, isLastRound, isRoundOver, markLeft, playersRemaining, recordAnswer, roundEndsAt, standings, startNextRound, type MatchState } from "@project/match-engine";
 import { revealFor, shuffledOptionOrder, shuffledOutputLines } from "./revealAnswer.js";
@@ -57,11 +57,15 @@ export class LiveMatch {
     return standings(this.state).map((player) => ({ userId: player.playerId, points: player.points, correct: player.correct, place: player.place, left: player.left }));
   }
 
+  private startEvent(startsAt: number): MatchStartEvent {
+    const seats = this.seats.map(({ pingMs: _ping, ghost: _ghost, ...shown }) => shown);
+    return { matchId: this.id, mode: this.mode, track: this.track, seats, rounds: this.items.length, startsAt, ghostOf: this.seats.find((seat) => seat.isGhost)?.username };
+  }
+
   /** Sends the start with a shared countdown timestamp, then the first round when it reaches zero. */
   start(): void {
-    const startsAt = Date.now() + COUNTDOWN_MS;
-    const ghost = this.seats.find((seat) => seat.isGhost);
-    for (const seat of this.seats) this.toUser(seat.userId, "match:start", { matchId: this.id, mode: this.mode, seats: this.seats.map(({ pingMs: _ping, ghost: _ghost, ...shown }) => shown), rounds: this.items.length, startsAt, ghostOf: ghost?.username });
+    const event = this.startEvent(Date.now() + COUNTDOWN_MS);
+    for (const seat of this.seats) this.toUser(seat.userId, "match:start", event);
     this.later(COUNTDOWN_MS, () => this.startRound());
   }
 
@@ -135,7 +139,7 @@ export class LiveMatch {
     this.graceTimers.delete(userId);
     const seatIndex = this.seats.findIndex((seat) => seat.userId === userId);
     if (seatIndex < 0 || this.finished) return;
-    this.toUser(userId, "match:start", { matchId: this.id, mode: this.mode, seats: this.seats.map(({ pingMs: _ping, ghost: _ghost, ...shown }) => shown), rounds: this.items.length, startsAt: this.startedAt.getTime() });
+    this.toUser(userId, "match:start", this.startEvent(this.startedAt.getTime()));
     if (this.state.roundStartedAt !== null) this.sendRound(seatIndex);
     this.toUser(userId, "round:progress", { matchId: this.id, round: this.state.round, answeredUserIds: Object.keys(this.state.answers[this.state.round] ?? {}) });
   }

@@ -19,7 +19,8 @@ export function roomOf(userId: string): Room | undefined {
   return [...rooms.values()].find((room) => room.members.some((member) => member.userId === userId));
 }
 
-async function broadcastLobby(play: Namespace, room: Room): Promise<void> {
+/** Sends the room's current state to everyone in it, also after one of them reconnects (PRD 11.8). */
+export async function broadcastLobby(play: Namespace, room: Room): Promise<void> {
   room.lastActivity = Date.now();
   const seats = await seatsFor(room.members.map((member) => member.userId));
   const lobby: LobbyEvent = { code: room.code, hostId: room.hostId, track: room.track, rounds: room.rounds, maxPlayers: room.maxPlayers, players: seats.map((seat) => ({ ...seat, ready: room.members.find((member) => member.userId === seat.userId)?.ready ?? false })) };

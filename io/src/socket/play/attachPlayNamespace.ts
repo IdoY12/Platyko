@@ -1,11 +1,12 @@
 import type { Server } from "socket.io";
+import type { PlaySyncEvent } from "@project/api-contract";
 import { GAME_MODES, isRoomCode } from "@project/match-engine";
 import { TRACKS, type ItemAnswer, type Track } from "@project/content-model";
 import { isThrottled } from "../../utils/socketThrottle.js";
 import { logInfo } from "../../utils/logger.js";
 import { attachSocketAuthentication, type AuthenticatedSocket } from "../authenticateSocket.js";
 import { activeMatchOf } from "./playRegistry.js";
-import { createRoom, joinRoom, kickFromRoom, leaveRoom, roomOf, setReady, startRoom, startRoomJanitor } from "./privateRooms.js";
+import { broadcastLobby, createRoom, joinRoom, kickFromRoom, leaveRoom, roomOf, setReady, startRoom, startRoomJanitor } from "./privateRooms.js";
 import { joinRankedQueue, leaveRankedQueue, startGhostMatch, startRankedMatchmaking } from "./rankedQueue.js";
 
 /** A lobby keeps a disconnected player this long (PRD 11.8). */
@@ -40,6 +41,10 @@ export function attachPlayNamespace(io: Server): void {
     void socket.join(`user:${userId}`);
     clearTimeout(lobbyGrace.get(userId));
     activeMatchOf(userId)?.reconnected(userId);
+    const room = roomOf(userId);
+    if (room) void broadcastLobby(play, room);
+    const sync: PlaySyncEvent = { inMatch: activeMatchOf(userId) !== undefined, inRoom: room !== undefined };
+    socket.emit("play:sync", sync);
     logInfo("[PLAY]", "socket:connected", { userId });
 
     const on = (event: string, handler: (payload: unknown, reply: (response: unknown) => void) => void | Promise<void>) =>

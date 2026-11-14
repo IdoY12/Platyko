@@ -13,7 +13,7 @@ export type PlaySeat = { userId: string; username: string; avatarUrl: string | n
 
 export type Standing = { userId: string; points: number; correct: number; place: number; left: boolean };
 
-export type MatchStartEvent = { matchId: string; mode: PlayMode; seats: PlaySeat[]; rounds: number; startsAt: number; ghostOf?: string };
+export type MatchStartEvent = { matchId: string; mode: PlayMode; track: Track; seats: PlaySeat[]; rounds: number; startsAt: number; ghostOf?: string };
 export type RoundStartEvent = { matchId: string; round: number; item: PlayItem; endsAt: number };
 /** Who has answered so far, never whether they were right (PRD 11.7). */
 export type RoundProgressEvent = { matchId: string; round: number; answeredUserIds: string[] };
@@ -22,6 +22,8 @@ export type AnswerResultEvent = { round: number; outcome: "correct" | "retry" | 
 export type RoundEndEvent = { matchId: string; round: number; rightOptionIndex: number | null; rightText: string | null; points: Record<string, number>; standings: Standing[] };
 export type MatchEndEvent = { matchId: string; standings: Standing[]; ratingChange: number | null; xpEarned: number };
 
+/** Sent on every connection: what the server still holds for this player (it forgets all on a restart). */
+export type PlaySyncEvent = { inMatch: boolean; inRoom: boolean };
 export type QueueStatusEvent = { searching: boolean; waitedMs: number; ghostOffered: boolean };
 export type LobbyEvent = {
   code: string;
