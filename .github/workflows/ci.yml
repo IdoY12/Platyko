@@ -57,7 +57,7 @@ jobs:
       - run: npm run content:verify
 
   migrations:
-    name: Database migrations apply from scratch
+    name: Migrations apply from scratch; database integration tests
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -78,6 +78,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm --prefix backend run prisma:migrate:deploy
+      # Tests that need a database: blocked and private users never leak from a social route.
+      - run: npm --prefix backend run test:integration
 
   security:
     name: Dependency audit and secret scan

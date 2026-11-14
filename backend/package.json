@@ -15,7 +15,8 @@
     "prisma:seed": "tsx prisma/seed/runMain.ts",
     "migrate:legacy-completions": "tsx src/scripts/migrateLegacyCompletions.ts",
     "migrate:verify-redesign": "tsx src/scripts/verifyRedesignMigration.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:integration": "INTEGRATION_DATABASE=1 vitest run integration"
   },
   "keywords": [],
   "author": "",
