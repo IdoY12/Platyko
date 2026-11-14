@@ -1,0 +1,1836 @@
+{
+  "track": "INTERMEDIATE",
+  "unit": "async-basics",
+  "order": 7,
+  "title": "Basic async",
+  "summary": "Callbacks, timers, promises and async/await: how code that finishes later is scheduled, ordered and made to handle errors.",
+  "concepts": [
+    {
+      "id": "callbacks-and-timers",
+      "title": "Callbacks and setTimeout",
+      "prerequisites": [
+        "function-expressions",
+        "closure-captures-variable"
+      ]
+    },
+    {
+      "id": "promise-basics",
+      "title": "Promises: then and catch",
+      "prerequisites": [
+        "callbacks-and-timers",
+        "throw-and-try-catch"
+      ]
+    },
+    {
+      "id": "async-await",
+      "title": "async functions and await",
+      "prerequisites": [
+        "promise-basics"
+      ]
+    },
+    {
+      "id": "async-error-handling",
+      "title": "Errors in asynchronous code",
+      "prerequisites": [
+        "async-await",
+        "finally-block"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "timeout-blocks-code",
+      "description": "Believes setTimeout makes the program wait for the delay, so the lines below it run only after the callback."
+    },
+    {
+      "id": "zero-delay-runs-now",
+      "description": "Believes a delay of 0 makes the callback run immediately, before the next line."
+    },
+    {
+      "id": "callback-called-at-registration",
+      "description": "Believes writing a call such as fn() where a callback is expected still schedules the function for later."
+    },
+    {
+      "id": "timers-fire-in-code-order",
+      "description": "Believes timers fire in the order they were written instead of the order of their delays."
+    },
+    {
+      "id": "wrong-step-value",
+      "description": "Reads a value from another step of the run, or forgets what earlier calls left behind, instead of the value at the step asked about."
+    },
+    {
+      "id": "then-runs-immediately",
+      "description": "Believes a then handler, or the code after await, runs at once even when the promise is already settled."
+    },
+    {
+      "id": "chain-value-confusion",
+      "description": "Believes the value a handler returns is lost or replaced by the earlier value instead of reaching the next link."
+    },
+    {
+      "id": "catch-ends-chain",
+      "description": "Believes the chain stops after a catch, so later then handlers never run."
+    },
+    {
+      "id": "async-returns-plain-value",
+      "description": "Believes an async function behaves like a normal one: its value comes back directly and a throw escapes at the call."
+    },
+    {
+      "id": "await-blocks-program",
+      "description": "Believes await freezes the whole program, so other code waits until the promise settles."
+    },
+    {
+      "id": "missing-await-gives-value",
+      "description": "Believes a call to an async function gives the final value without await."
+    },
+    {
+      "id": "try-catch-covers-later-code",
+      "description": "Believes a try/catch also covers a rejection that happens after the try block has finished, when there is no await."
+    },
+    {
+      "id": "finally-skipped-after-error",
+      "description": "Believes finally does not run after catch has handled an error."
+    },
+    {
+      "id": "try-continues-after-error",
+      "description": "Believes the lines after a failing await inside try still run before catch."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
+      "retrievedAt": "2026-11-14",
+      "sha256": "a69265c8b8343ea02df4b2d6e8cdea42898100c6ffd478da0a69ac7eaa58caab"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Callback_function",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7d713a4bbd56705747421ed65b77a7024d692f0e87489a8ecbbb98c52361ee9d"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises",
+      "retrievedAt": "2026-11-14",
+      "sha256": "f855c7e94df74174f68b186558c5b4019b59544bee251e4b3d6512bd9994c1b2"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+      "retrievedAt": "2026-11-14",
+      "sha256": "6b09b2c5d522f3bd68d1c0389abe52b4a77394250fe4d9bfae713523e8610603"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
+      "retrievedAt": "2026-11-14",
+      "sha256": "8301d690cae99ff27609d11321c93bf71a3eb72de816d555209deb4e5504a971"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+      "retrievedAt": "2026-11-14",
+      "sha256": "1e1d0c5980a7e42979a5a0d85b2a86715439dfc79f730e1403a5ece019bf3a7f"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+      "retrievedAt": "2026-11-14",
+      "sha256": "3b5eb96e87b38462b813db533102618706c6561ce532ab16e4a2ce80f8090497"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop",
+      "retrievedAt": "2026-11-14",
+      "sha256": "e0a3ab6b1575fa94f8c316192304b9aced42b02837b06ad9c4ae392277cbe4db"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/finally",
+      "retrievedAt": "2026-11-14",
+      "sha256": "f0af1f8cecc230ba7d32d45fc029b53a6aa1c038e1a5dee1c9fd0e6643ff29f7"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "async-basics.lesson-1",
+      "title": "Callbacks and timers",
+      "conceptCard": {
+        "title": "A function you hand over to be called later",
+        "body": "A callback is a function you hand to other code, which calls it later. setTimeout(callback, delay) schedules the callback after the delay in milliseconds and returns at once, so the lines below it run first. Pass the function itself, not a call to it.",
+        "code": [
+          "function hello() {",
+          "  console.log('tea ready');",
+          "}",
+          "setTimeout(hello, 100);",
+          "console.log('kettle on');"
+        ],
+        "expectedOutput": "kettle on\ntea ready"
+      },
+      "itemIds": [
+        "int.async-basics.callbacks-and-timers.predict-01",
+        "int.async-basics.callbacks-and-timers.concept-01",
+        "int.async-basics.callbacks-and-timers.trace-01",
+        "int.async-basics.callbacks-and-timers.fill-01",
+        "int.async-basics.callbacks-and-timers.fix-01",
+        "int.async-basics.callbacks-and-timers.write-01"
+      ]
+    },
+    {
+      "id": "async-basics.lesson-2",
+      "title": "Promises",
+      "conceptCard": {
+        "title": "A value that arrives later",
+        "body": "A promise stands for a value that arrives later. then(handler) runs when it is fulfilled, and catch(handler) runs when it is rejected. Both return a new promise, so calls chain, and each handler passes its returned value to the next one. Handlers run after the current code finishes.",
+        "code": [
+          "Promise.resolve(2)",
+          "  .then((n) => n + 1)",
+          "  .then((n) => console.log(n));",
+          "console.log('queued');"
+        ],
+        "expectedOutput": "queued\n3"
+      },
+      "itemIds": [
+        "int.async-basics.promise-basics.predict-01",
+        "int.async-basics.promise-basics.concept-01",
+        "int.async-basics.promise-basics.trace-01",
+        "int.async-basics.promise-basics.parsons-01",
+        "int.async-basics.promise-basics.fix-01",
+        "int.async-basics.promise-basics.write-01"
+      ]
+    },
+    {
+      "id": "async-basics.lesson-3",
+      "title": "async and await",
+      "conceptCard": {
+        "title": "Pausing inside a function",
+        "body": "An async function always returns a promise. Inside it, await pauses that function until a promise settles, then gives back the value. Only the async function waits: the code that called it keeps running.",
+        "code": [
+          "const ready = Promise.resolve(2);",
+          "async function brew() {",
+          "  const cups = await ready;",
+          "  console.log('cups', cups);",
+          "}",
+          "brew();",
+          "console.log('brewing');"
+        ],
+        "expectedOutput": "brewing\ncups 2"
+      },
+      "itemIds": [
+        "int.async-basics.async-await.predict-01",
+        "int.async-basics.async-await.concept-01",
+        "int.async-basics.async-await.trace-01",
+        "int.async-basics.async-await.fill-01",
+        "int.async-basics.async-await.fix-01",
+        "int.async-basics.async-await.write-01"
+      ]
+    },
+    {
+      "id": "async-basics.lesson-4",
+      "title": "Errors in async code",
+      "conceptCard": {
+        "title": "Catching a rejection",
+        "body": "When an awaited promise rejects, await throws, so a try/catch around it works. finally runs afterwards in every case. Without await, try/catch cannot see a rejection that happens later: attach .catch() to the promise instead.",
+        "code": [
+          "async function run() {",
+          "  try {",
+          "    await Promise.reject('x');",
+          "  } catch (error) {",
+          "    console.log('caught');",
+          "  }",
+          "}",
+          "run();"
+        ],
+        "expectedOutput": "caught"
+      },
+      "itemIds": [
+        "int.async-basics.async-error-handling.predict-01",
+        "int.async-basics.async-error-handling.concept-01",
+        "int.async-basics.async-error-handling.trace-01",
+        "int.async-basics.async-error-handling.parsons-01",
+        "int.async-basics.async-error-handling.fix-01",
+        "int.async-basics.async-error-handling.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "int.async-basics.callbacks-and-timers.predict-01",
+      "concept": "callbacks-and-timers",
+      "prerequisites": [
+        "function-expressions",
+        "closure-captures-variable"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "Three dishes are scheduled with different delays. What does this code print?",
+      "code": [
+        "function say(dish) {",
+        "  console.log(dish);",
+        "}",
+        "setTimeout(() => say('soup'), 300);",
+        "setTimeout(() => say('salad'), 100);",
+        "setTimeout(() => say('bread'), 200);",
+        "say('menu');"
+      ],
+      "options": [
+        {
+          "text": "menu\nsalad\nbread\nsoup",
+          "correct": true,
+          "feedback": "Right. menu prints at once. The timers then fire by delay: 100, 200, 300."
+        },
+        {
+          "text": "menu\nsoup\nsalad\nbread",
+          "correct": false,
+          "feedback": "That follows the order of the lines. Timers fire by their delay, not by where they were written.",
+          "misconception": "timers-fire-in-code-order"
+        },
+        {
+          "text": "salad\nbread\nsoup\nmenu",
+          "correct": false,
+          "feedback": "setTimeout does not hold up the program. The line say('menu') does not wait for any timer.",
+          "misconception": "timeout-blocks-code"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "menu\nsalad\nbread\nsoup"
+      },
+      "explanation": "setTimeout returns at once, so the plain call prints menu first. The three callbacks wait in a queue ordered by delay: salad at 100, bread at 200, soup at 300.",
+      "hints": [
+        "Which line is not inside a setTimeout?",
+        "A timer callback runs after its delay, and the delay decides the order, not the line number.",
+        "Print the plain call first, then sort the three dishes by their numbers."
+      ],
+      "reference": {
+        "title": "setTimeout()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.callbacks-and-timers.concept-01",
+      "concept": "callbacks-and-timers",
+      "prerequisites": [
+        "function-expressions",
+        "closure-captures-variable"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement explains the order in which this code prints?",
+      "code": [
+        "console.log('start hike');",
+        "setTimeout(() => {",
+        "  console.log('rest');",
+        "}, 0);",
+        "console.log('reach summit');"
+      ],
+      "options": [
+        {
+          "text": "The callback waits until the rest of the code has finished, even with a delay of 0.",
+          "correct": true,
+          "feedback": "Right. A timer callback never interrupts the running code, whatever its delay."
+        },
+        {
+          "text": "A delay of 0 makes the callback run immediately, so rest prints second.",
+          "correct": false,
+          "feedback": "A delay of 0 is a request to run as soon as possible, after the current code. It is not a direct call.",
+          "misconception": "zero-delay-runs-now"
+        },
+        {
+          "text": "setTimeout holds back the lines below it until its callback has run, so rest prints second.",
+          "correct": false,
+          "feedback": "The lines below setTimeout do not wait. The call returns at once and the program goes on.",
+          "misconception": "timeout-blocks-code"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "start hike\nreach summit\nrest"
+      },
+      "explanation": "setTimeout only schedules the callback. The current code runs to its end first, so reach summit prints before rest, even though the delay is 0.",
+      "hints": [
+        "Compare the order of the lines with the order of the output.",
+        "A callback passed to setTimeout runs only when the current code is finished.",
+        "Ask whether any line below setTimeout can run before the callback."
+      ],
+      "reference": {
+        "title": "Event loop",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.callbacks-and-timers.trace-01",
+      "concept": "callbacks-and-timers",
+      "prerequisites": [
+        "function-expressions",
+        "closure-captures-variable"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "Line 4 runs once per sale. What does lastReport hold right after the callback finishes for the second sale?",
+      "code": [
+        "let jarsSold = 0;",
+        "let lastReport = 0;",
+        "const noteTotal = (total) => {",
+        "  lastReport = total;",
+        "};",
+        "function sell(count, report) {",
+        "  jarsSold = jarsSold + count;",
+        "  report(jarsSold);",
+        "}",
+        "sell(2, noteTotal);",
+        "sell(3, noteTotal);",
+        "console.log(lastReport);"
+      ],
+      "options": [
+        {
+          "text": "5",
+          "correct": true,
+          "feedback": "Right. The second sale reports the running total, 2 plus 3."
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "That is the report of the first sale. The question asks about the second one.",
+          "misconception": "wrong-step-value"
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "3 is only the second sale's count. jarsSold keeps the 2 from the first sale, so the report is the sum.",
+          "misconception": "wrong-step-value"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "lastReport",
+          "afterLine": 4,
+          "visit": 2
+        },
+        "expectedOutput": "5"
+      },
+      "explanation": "sell adds its count to jarsSold, then calls the callback with the new total. After the first sale the total is 2. After the second it is 5, and noteTotal stores that in lastReport.",
+      "hints": [
+        "Line 4 runs each time sell calls report.",
+        "jarsSold keeps its value between the two calls of sell.",
+        "The callback receives the running total, not the count of one sale."
+      ],
+      "reference": {
+        "title": "Callback function",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Callback_function",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.callbacks-and-timers.fill-01",
+      "concept": "callbacks-and-timers",
+      "prerequisites": [
+        "function-expressions",
+        "closure-captures-variable"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so list written prints first and watered prints after the delay.",
+      "code": [
+        "function water() {",
+        "  console.log('watered');",
+        "}",
+        "setTimeout(___, 100);",
+        "console.log('list written');"
+      ],
+      "options": [
+        {
+          "text": "water",
+          "correct": true,
+          "feedback": "Right. This passes the function itself, so setTimeout can call it after 100 ms."
+        },
+        {
+          "text": "() => water()",
+          "correct": true,
+          "feedback": "Right. The arrow function is the callback, and it calls water when the timer fires."
+        },
+        {
+          "text": "water()",
+          "correct": false,
+          "feedback": "This calls water right now, so watered prints first and setTimeout receives no function.",
+          "misconception": "callback-called-at-registration"
+        },
+        {
+          "text": "() => water",
+          "correct": false,
+          "feedback": "The arrow returns the function but never calls it, so watered never prints."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "water",
+            "() => water()"
+          ]
+        ],
+        "expectedOutput": "list written\nwatered"
+      },
+      "explanation": "setTimeout needs a function to call later. water by itself is that function. The arrow function that calls water works too. Writing water() would call it immediately.",
+      "hints": [
+        "Look at what setTimeout expects as its first argument.",
+        "A callback is a function that is handed over, not a function that has already been called.",
+        "Two of the four chips hand over something that can be called later."
+      ],
+      "reference": {
+        "title": "setTimeout()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.callbacks-and-timers.fix-01",
+      "concept": "callbacks-and-timers",
+      "prerequisites": [
+        "function-expressions",
+        "closure-captures-variable"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The bus message should print after the delay, but it prints at once. Tap the buggy line and pick the fix.",
+      "code": [
+        "function showArrival() {",
+        "  console.log('bus arrived');",
+        "}",
+        "setTimeout(showArrival(), 200);",
+        "console.log('waiting at stop');"
+      ],
+      "options": [
+        {
+          "text": "setTimeout(showArrival, 200);",
+          "correct": true,
+          "feedback": "Right. Without parentheses the function itself is scheduled and runs after 200 ms."
+        },
+        {
+          "text": "setTimeout(200, showArrival);",
+          "correct": false,
+          "feedback": "The arguments are swapped. setTimeout needs the function first and the delay second."
+        },
+        {
+          "text": "setTimeout(() => showArrival, 200);",
+          "correct": false,
+          "feedback": "The arrow function only returns showArrival and never calls it, so bus arrived never prints."
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "waiting at stop\nbus arrived"
+      },
+      "explanation": "showArrival() calls the function on the spot and hands its result, undefined, to setTimeout. Passing showArrival without parentheses hands over the function so the timer can call it later.",
+      "hints": [
+        "Look at what stands before the comma on line 4.",
+        "Parentheses after a function name call it right now.",
+        "Remove the call and pass the function by its name."
+      ],
+      "reference": {
+        "title": "Callback function",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Callback_function",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.callbacks-and-timers.write-01",
+      "concept": "callbacks-and-timers",
+      "prerequisites": [
+        "function-expressions",
+        "closure-captures-variable"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of collectLate(delays). Create a callback that adds each delay above 5 to a list, pass it to forEach, and return the list.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "collectLate",
+          "params": [
+            "delays"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                3,
+                8,
+                5,
+                12
+              ]
+            ],
+            "expected": [
+              8,
+              12
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                5,
+                5
+              ]
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                6
+              ]
+            ],
+            "expected": [
+              6
+            ]
+          }
+        ],
+        "reference": [
+          "const late = [];",
+          "const remember = (delay) => {",
+          "  if (delay > 5) {",
+          "    late.push(delay);",
+          "  }",
+          "};",
+          "delays.forEach(remember);",
+          "return late;"
+        ],
+        "wrongSolutions": [
+          [
+            "const late = [];",
+            "const remember = (delay) => {",
+            "  if (delay >= 5) {",
+            "    late.push(delay);",
+            "  }",
+            "};",
+            "delays.forEach(remember);",
+            "return late;"
+          ],
+          [
+            "const late = [];",
+            "const remember = (delay) => {",
+            "  if (delay > 5) {",
+            "    late.push(delay);",
+            "  }",
+            "};",
+            "delays.forEach(remember());",
+            "return late;"
+          ],
+          [
+            "let late = [];",
+            "const remember = (delay) => {",
+            "  if (delay > 5) {",
+            "    late = [delay];",
+            "  }",
+            "};",
+            "delays.forEach(remember);",
+            "return late;"
+          ]
+        ]
+      },
+      "explanation": "forEach calls the callback once per element, so the callback adds the matching delays to a list that lives outside it. Pass remember without parentheses, and use a strict comparison with 5.",
+      "hints": [
+        "The list must exist outside the callback so every call can reach it.",
+        "forEach takes a function and calls it for each element.",
+        "Declare the list, define the callback, call delays.forEach with the callback, return the list."
+      ],
+      "reference": {
+        "title": "Array.prototype.forEach()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.promise-basics.predict-01",
+      "concept": "promise-basics",
+      "prerequisites": [
+        "callbacks-and-timers",
+        "throw-and-try-catch"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "The promise is already fulfilled when then is called. What does this code print?",
+      "code": [
+        "const loan = Promise.resolve('map');",
+        "console.log('desk open');",
+        "loan.then((item) => {",
+        "  console.log('lent ' + item);",
+        "});",
+        "console.log('desk closed');"
+      ],
+      "options": [
+        {
+          "text": "desk open\ndesk closed\nlent map",
+          "correct": true,
+          "feedback": "Right. The handler is queued and runs only after the current code has finished."
+        },
+        {
+          "text": "desk open\nlent map\ndesk closed",
+          "correct": false,
+          "feedback": "That runs the handler at the moment then is called. A handler always waits for the running code to end.",
+          "misconception": "then-runs-immediately"
+        },
+        {
+          "text": "lent map\ndesk open\ndesk closed",
+          "correct": false,
+          "feedback": "The handler is attached on line 3, after desk open. It cannot print before the code above it has run.",
+          "misconception": "then-runs-immediately"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "desk open\ndesk closed\nlent map"
+      },
+      "explanation": "then never calls its handler directly, even when the promise is already fulfilled. It queues the handler, so both plain console.log calls print first and lent map prints last.",
+      "hints": [
+        "Mark which lines are plain calls and which is inside a handler.",
+        "A then handler runs after the current code finishes, never in the middle of it.",
+        "Both plain lines print before the handler line."
+      ],
+      "reference": {
+        "title": "Promise.prototype.then()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.promise-basics.concept-01",
+      "concept": "promise-basics",
+      "prerequisites": [
+        "callbacks-and-timers",
+        "throw-and-try-catch"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "Promise.reject(new Error('full'))",
+        "  .catch(() => 'waitlist')",
+        "  .then((seat) => {",
+        "    console.log(seat);",
+        "  });"
+      ],
+      "options": [
+        {
+          "text": "catch returns a new promise fulfilled with its handler's value, so the last then prints waitlist.",
+          "correct": true,
+          "feedback": "Right. After a catch handler returns normally, the chain continues as fulfilled."
+        },
+        {
+          "text": "After catch has run the chain is finished, so the last then never runs.",
+          "correct": false,
+          "feedback": "catch returns a promise too. When its handler returns a value, the next then runs with that value.",
+          "misconception": "catch-ends-chain"
+        },
+        {
+          "text": "The last then receives the original error, because catch only observes the rejection.",
+          "correct": false,
+          "feedback": "The value of the next link is what the catch handler returns, here the text waitlist, not the old error.",
+          "misconception": "chain-value-confusion"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "waitlist"
+      },
+      "explanation": "catch is like then for rejections and also returns a promise. Its handler returns waitlist without throwing, so that promise is fulfilled with waitlist and the last then prints it.",
+      "hints": [
+        "Follow the value from the first line to the last.",
+        "Every link in a chain, catch included, returns a new promise.",
+        "What does the catch handler return, and who receives it?"
+      ],
+      "reference": {
+        "title": "Promise.prototype.catch()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.promise-basics.trace-01",
+      "concept": "promise-basics",
+      "prerequisites": [
+        "callbacks-and-timers",
+        "throw-and-try-catch"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What does mugs hold right after line 10 has run?",
+      "code": [
+        "let mugs = 0;",
+        "const kiln = new Promise((done) => {",
+        "  mugs = mugs + 1;",
+        "  done('fired');",
+        "});",
+        "mugs = mugs + 10;",
+        "kiln.then(() => {",
+        "  mugs = mugs + 100;",
+        "});",
+        "console.log(mugs);"
+      ],
+      "options": [
+        {
+          "text": "11",
+          "correct": true,
+          "feedback": "Right. The function given to new Promise runs at once, and the then handler has not run yet."
+        },
+        {
+          "text": "111",
+          "correct": false,
+          "feedback": "That counts the then handler. It is queued and runs after line 10, not before.",
+          "misconception": "then-runs-immediately"
+        },
+        {
+          "text": "10",
+          "correct": false,
+          "feedback": "That skips the function given to new Promise. It runs immediately, so the 1 is already added.",
+          "misconception": "wrong-step-value"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "mugs",
+          "afterLine": 10,
+          "visit": 1
+        },
+        "expectedOutput": "11"
+      },
+      "explanation": "The executor passed to new Promise runs synchronously, adding 1. Line 6 adds 10. The then handler is only queued, so when line 10 prints, mugs is 11 and the handler's 100 has not been added.",
+      "hints": [
+        "Check which of the three additions happen before line 10.",
+        "The function inside new Promise runs immediately; a then handler runs later.",
+        "Add the first two changes and leave the handler's 100 out."
+      ],
+      "reference": {
+        "title": "Promise() constructor",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/Promise",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.promise-basics.parsons-01",
+      "concept": "promise-basics",
+      "prerequisites": [
+        "callbacks-and-timers",
+        "throw-and-try-catch"
+      ],
+      "format": "PARSONS",
+      "variant": "ORDER_OUTPUT",
+      "difficulty": 3,
+      "prompt": "Put the lines that this ticket gate program prints in the order in which they appear.",
+      "code": [
+        "console.log('gate open');",
+        "Promise.resolve('ticket checked')",
+        "  .then((text) => console.log(text))",
+        "  .then(() => {",
+        "    console.log('boarded');",
+        "  });",
+        "console.log('gate closed');"
+      ],
+      "solution": {
+        "expectedOutput": "gate open\ngate closed\nticket checked\nboarded"
+      },
+      "explanation": "The plain calls print first: gate open, then gate closed. The handlers then run in chain order: the first prints the value it received, and the second runs after the first has finished.",
+      "hints": [
+        "Find the lines that are not inside a then handler.",
+        "Handlers run after all the plain code has finished.",
+        "The second handler cannot start before the first one is done."
+      ],
+      "reference": {
+        "title": "Using promises",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.promise-basics.fix-01",
+      "concept": "promise-basics",
+      "prerequisites": [
+        "callbacks-and-timers",
+        "throw-and-try-catch"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The last handler should print the doubled parking fee, 40, but it gets nothing to print. Tap the buggy line and pick the fix.",
+      "code": [
+        "Promise.resolve(20)",
+        "  .then((amount) => {",
+        "    amount * 2;",
+        "  })",
+        "  .then((total) => {",
+        "    console.log(total);",
+        "  });"
+      ],
+      "options": [
+        {
+          "text": "return amount * 2;",
+          "correct": true,
+          "feedback": "Right. The returned value becomes the value of the next link in the chain."
+        },
+        {
+          "text": "amount = amount * 2;",
+          "correct": false,
+          "feedback": "This changes a local variable, but the handler still returns nothing, so the next link gets undefined.",
+          "misconception": "chain-value-confusion"
+        },
+        {
+          "text": "console.log(amount * 2);",
+          "correct": false,
+          "feedback": "This prints 40, but the handler still returns nothing, so the last link prints undefined afterwards."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "40"
+      },
+      "explanation": "A handler with a body in braces needs return to hand a value on. Line 3 computes the double and throws it away, so the next link receives undefined. return passes it along.",
+      "hints": [
+        "Follow what the first handler gives to the second.",
+        "A handler in braces returns undefined unless it uses return.",
+        "Keep the calculation and add the keyword that sends it on."
+      ],
+      "reference": {
+        "title": "Promise.prototype.then()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.promise-basics.write-01",
+      "concept": "promise-basics",
+      "prerequisites": [
+        "callbacks-and-timers",
+        "throw-and-try-catch"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of labelStock(item), a then handler. item is {name, left}. Return 'name: low' when left is below 3, otherwise 'name: ok'.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "labelStock",
+          "params": [
+            "item"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              {
+                "name": "ink",
+                "left": 2
+              }
+            ],
+            "expected": "ink: low"
+          },
+          {
+            "input": [
+              {
+                "name": "pens",
+                "left": 3
+              }
+            ],
+            "expected": "pens: ok"
+          },
+          {
+            "input": [
+              {
+                "name": "glue",
+                "left": 0
+              }
+            ],
+            "expected": "glue: low"
+          },
+          {
+            "input": [
+              {
+                "name": "paper",
+                "left": 10
+              }
+            ],
+            "expected": "paper: ok"
+          }
+        ],
+        "reference": [
+          "if (item.left < 3) {",
+          "  return item.name + ': low';",
+          "}",
+          "return item.name + ': ok';"
+        ],
+        "wrongSolutions": [
+          [
+            "const low = item.left < 3;",
+            "const text = item.name;",
+            "text + (low ? ': low' : ': ok');"
+          ],
+          [
+            "if (item.left <= 3) {",
+            "  return item.name + ': low';",
+            "}",
+            "return item.name + ': ok';"
+          ],
+          [
+            "return item.name + ': ok';"
+          ]
+        ]
+      },
+      "explanation": "A then handler hands its returned value to the next link, so the label must be returned, not just computed. The check is strictly below 3, so a stock of exactly 3 is still ok.",
+      "hints": [
+        "The next link receives only what the function returns.",
+        "Use an if on item.left and return in both outcomes.",
+        "Strictly below 3 means a stock of 3 is ok."
+      ],
+      "reference": {
+        "title": "Promise.prototype.then()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.async-await.predict-01",
+      "concept": "async-await",
+      "prerequisites": [
+        "promise-basics"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "countRooms is an async function. What does this code print?",
+      "code": [
+        "async function countRooms() {",
+        "  return 12;",
+        "}",
+        "const rooms = countRooms();",
+        "console.log(typeof rooms);",
+        "rooms.then((n) => console.log(n));"
+      ],
+      "options": [
+        {
+          "text": "object\n12",
+          "correct": true,
+          "feedback": "Right. An async function returns a promise, which is an object, and then reads its value later."
+        },
+        {
+          "text": "number\n12",
+          "correct": false,
+          "feedback": "The call returns a promise, not the number. The 12 only arrives inside the then handler.",
+          "misconception": "async-returns-plain-value"
+        },
+        {
+          "text": "12\nobject",
+          "correct": false,
+          "feedback": "The handler on line 6 runs after the current code, so it cannot print before line 5.",
+          "misconception": "then-runs-immediately"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "object\n12"
+      },
+      "explanation": "An async function always returns a promise, even for a plain return value. typeof reports object right away. The 12 reaches the then handler after the current code has finished.",
+      "hints": [
+        "Look at what countRooms() gives back on line 4.",
+        "An async function always wraps its result in a promise.",
+        "Line 5 prints at once; the handler runs later."
+      ],
+      "reference": {
+        "title": "async function",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:20"
+      ]
+    },
+    {
+      "id": "int.async-basics.async-await.concept-01",
+      "concept": "async-await",
+      "prerequisites": [
+        "promise-basics"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement explains the order in which this code prints?",
+      "code": [
+        "async function pack() {",
+        "  console.log('packing');",
+        "  await Promise.resolve();",
+        "  console.log('packed');",
+        "}",
+        "pack();",
+        "console.log('truck waiting');"
+      ],
+      "options": [
+        {
+          "text": "await pauses only pack; the code after the call keeps running and pack resumes later.",
+          "correct": true,
+          "feedback": "Right. The caller is not paused, so truck waiting prints before packed."
+        },
+        {
+          "text": "await freezes the whole program until the promise settles, so packed prints before truck waiting.",
+          "correct": false,
+          "feedback": "await pauses only the async function it is in. The caller goes on with the next line.",
+          "misconception": "await-blocks-program"
+        },
+        {
+          "text": "The promise is already fulfilled, so await continues at once and packed prints before truck waiting.",
+          "correct": false,
+          "feedback": "Even for a fulfilled promise, the rest of the function is queued and runs after the current code.",
+          "misconception": "then-runs-immediately"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "packing\ntruck waiting\npacked"
+      },
+      "explanation": "Calling pack runs it until the first await, which prints packing. Then pack pauses and control returns to the caller, so truck waiting prints. The rest of pack runs afterwards.",
+      "hints": [
+        "Find which line runs right after pack() returns control.",
+        "await suspends only the function that contains it.",
+        "Count what prints before and after the await line."
+      ],
+      "reference": {
+        "title": "await",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:21"
+      ]
+    },
+    {
+      "id": "int.async-basics.async-await.trace-01",
+      "concept": "async-await",
+      "prerequisites": [
+        "promise-basics"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "Both calls pause at await before they write. What does seats hold right after line 5 runs for the second time?",
+      "code": [
+        "let seats = 10;",
+        "async function reserve(count) {",
+        "  const free = seats;",
+        "  await Promise.resolve();",
+        "  seats = free - count;",
+        "}",
+        "reserve(3);",
+        "reserve(4);",
+        "setTimeout(() => {",
+        "  console.log(seats);",
+        "}, 100);"
+      ],
+      "options": [
+        {
+          "text": "6",
+          "correct": true,
+          "feedback": "Right. Both calls read 10 before either wrote, so the second write stores 10 minus 4."
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "That treats the calls as one after the other. The second call already read 10 while the first was paused.",
+          "misconception": "await-blocks-program"
+        },
+        {
+          "text": "7",
+          "correct": false,
+          "feedback": "That is the value after the first write. The question asks about the second time line 5 runs.",
+          "misconception": "wrong-step-value"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "seats",
+          "afterLine": 5,
+          "visit": 2
+        },
+        "expectedOutput": "6"
+      },
+      "explanation": "reserve(3) reads 10 and pauses. The program goes on, so reserve(4) also reads 10 and pauses. They resume in order: the first writes 7, then the second writes 10 minus 4, which is 6.",
+      "hints": [
+        "Which call reads seats first, and when does each write?",
+        "A paused call does not stop the next call from starting.",
+        "Both calls read the same starting number."
+      ],
+      "reference": {
+        "title": "await",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.async-await.fill-01",
+      "concept": "async-await",
+      "prerequisites": [
+        "promise-basics"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill both blanks so the program prints the number of tickets sold, not a promise.",
+      "code": [
+        "const ready = Promise.resolve(40);",
+        "___ function countTickets() {",
+        "  const sold = ___ ready;",
+        "  console.log(sold);",
+        "}",
+        "countTickets();"
+      ],
+      "options": [
+        {
+          "text": "async",
+          "correct": true,
+          "feedback": "Right. The keyword before function makes await legal in its body."
+        },
+        {
+          "text": "await",
+          "correct": true,
+          "feedback": "Right. await pauses until the promise is fulfilled and gives back its value."
+        },
+        {
+          "text": "sync",
+          "correct": false,
+          "feedback": "There is no such keyword, so the program has a syntax error."
+        },
+        {
+          "text": "wait",
+          "correct": false,
+          "feedback": "There is no such keyword, so the program has a syntax error."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "async"
+          ],
+          [
+            "await"
+          ]
+        ],
+        "expectedOutput": "40"
+      },
+      "explanation": "await may only appear inside an async function, so the function needs async. await in front of the promise then gives the number 40 instead of the promise.",
+      "hints": [
+        "Look at the first word of line 2 and the word before ready on line 3.",
+        "Waiting for a promise is allowed only inside a function that is marked in a special way.",
+        "One keyword marks the function; the other unwraps the promise."
+      ],
+      "reference": {
+        "title": "async function",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:28"
+      ]
+    },
+    {
+      "id": "int.async-basics.async-await.fix-01",
+      "concept": "async-await",
+      "prerequisites": [
+        "promise-basics"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "showDouble should print double the price, 60, but it prints something else. Tap the buggy line and pick the fix.",
+      "code": [
+        "async function loadPrice() {",
+        "  return 30;",
+        "}",
+        "async function showDouble() {",
+        "  const price = loadPrice();",
+        "  console.log(price * 2);",
+        "}",
+        "showDouble();"
+      ],
+      "options": [
+        {
+          "text": "const price = await loadPrice();",
+          "correct": true,
+          "feedback": "Right. await waits for the promise and gives back the number 30."
+        },
+        {
+          "text": "const price = loadPrice().value;",
+          "correct": false,
+          "feedback": "A promise has no value property, so price is undefined and the result is still not 60.",
+          "misconception": "missing-await-gives-value"
+        },
+        {
+          "text": "const price = await loadPrice;",
+          "correct": false,
+          "feedback": "This awaits the function itself without calling it, so price is a function and the result is not 60."
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "60"
+      },
+      "explanation": "loadPrice() returns a promise, and multiplying a promise by 2 gives NaN. Adding await in front of the call waits for the promise and returns the number inside it.",
+      "hints": [
+        "Look at what loadPrice() gives back on line 5.",
+        "An async function returns a promise, and the value is inside it.",
+        "Call the function and put the keyword that unwraps promises in front."
+      ],
+      "reference": {
+        "title": "await",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:23"
+      ]
+    },
+    {
+      "id": "int.async-basics.async-await.write-01",
+      "concept": "async-await",
+      "prerequisites": [
+        "promise-basics"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "In async code, booking is what await loadBooking() gave back: {nights, used}. Write the body of nightsLeft(booking). Return nights minus used, never below 0.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "nightsLeft",
+          "params": [
+            "booking"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              {
+                "nights": 7,
+                "used": 3
+              }
+            ],
+            "expected": 4
+          },
+          {
+            "input": [
+              {
+                "nights": 2,
+                "used": 2
+              }
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              {
+                "nights": 3,
+                "used": 5
+              }
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              {
+                "nights": 10,
+                "used": 0
+              }
+            ],
+            "expected": 10
+          }
+        ],
+        "reference": [
+          "const { nights, used } = booking;",
+          "const left = nights - used;",
+          "if (left < 0) {",
+          "  return 0;",
+          "}",
+          "return left;"
+        ],
+        "wrongSolutions": [
+          [
+            "const { nights, used } = booking;",
+            "return nights - used;"
+          ],
+          [
+            "const { nights, used } = booking;",
+            "return used - nights;"
+          ],
+          [
+            "const { nights } = booking;",
+            "return nights;"
+          ]
+        ]
+      },
+      "explanation": "After await, booking is an ordinary object, so you read its properties directly. Subtract used from nights and return 0 when the result would be negative.",
+      "hints": [
+        "booking is a plain object, so read its two properties.",
+        "Compute the difference first, then deal with a negative result.",
+        "Return 0 when the difference is below 0, otherwise the difference."
+      ],
+      "reference": {
+        "title": "await",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.async-error-handling.predict-01",
+      "concept": "async-error-handling",
+      "prerequisites": [
+        "async-await",
+        "finally-block"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "reserve is an async function that throws. What does this code print?",
+      "code": [
+        "const reserve = async () => {",
+        "  throw new Error('full');",
+        "};",
+        "reserve().catch(() => {",
+        "  console.log('waitlisted');",
+        "});",
+        "console.log('requested');"
+      ],
+      "options": [
+        {
+          "text": "requested\nwaitlisted",
+          "correct": true,
+          "feedback": "Right. The throw becomes a rejected promise, and the catch handler runs after the current code."
+        },
+        {
+          "text": "waitlisted\nrequested",
+          "correct": false,
+          "feedback": "The handler is queued and runs after the current code, so requested prints first.",
+          "misconception": "then-runs-immediately"
+        },
+        {
+          "text": "Uncaught Error",
+          "correct": false,
+          "feedback": "Inside an async function a throw does not escape at the call. It rejects the returned promise, which catch handles.",
+          "misconception": "async-returns-plain-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "requested\nwaitlisted"
+      },
+      "explanation": "A throw inside an async function rejects the promise it returns instead of throwing at the call. catch attaches a handler to that promise, which runs after requested has printed.",
+      "hints": [
+        "Look at what reserve() returns on line 4.",
+        "An error inside an async function rejects its promise.",
+        "The catch handler runs after the plain console.log line."
+      ],
+      "reference": {
+        "title": "Promise.prototype.catch()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:26"
+      ]
+    },
+    {
+      "id": "int.async-basics.async-error-handling.concept-01",
+      "concept": "async-error-handling",
+      "prerequisites": [
+        "async-await",
+        "finally-block"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement explains what this code prints?",
+      "code": [
+        "async function save() {",
+        "  try {",
+        "    await Promise.reject('x');",
+        "    console.log('saved');",
+        "  } catch (error) {",
+        "    console.log('failed');",
+        "  } finally {",
+        "    console.log('closed');",
+        "  }",
+        "}",
+        "save();"
+      ],
+      "options": [
+        {
+          "text": "The rejection skips the rest of try, catch handles it, and finally runs afterwards.",
+          "correct": true,
+          "feedback": "Right. await throws the rejection inside try, so catch runs, and finally runs in every case."
+        },
+        {
+          "text": "finally is skipped once catch has handled the error, so only failed prints.",
+          "correct": false,
+          "feedback": "finally runs whether or not an error happened and whether or not catch ran.",
+          "misconception": "finally-skipped-after-error"
+        },
+        {
+          "text": "await does not stop the try block, so saved prints first and failed after it.",
+          "correct": false,
+          "feedback": "When the awaited promise rejects, await throws and the rest of try is skipped.",
+          "misconception": "try-continues-after-error"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "failed\nclosed"
+      },
+      "explanation": "A rejected promise makes await throw inside try. The line after it is skipped, catch prints failed, and finally always runs last, so closed prints. The output is failed then closed.",
+      "hints": [
+        "Follow the try block line by line until something goes wrong.",
+        "await turns a rejection into a thrown error at that line.",
+        "Decide which of the three blocks run, and in what order."
+      ],
+      "reference": {
+        "title": "try...catch",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.async-error-handling.trace-01",
+      "concept": "async-error-handling",
+      "prerequisites": [
+        "async-await",
+        "finally-block"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What does note hold right after line 9, the assignment inside finally?",
+      "code": [
+        "let note = 'new';",
+        "async function pay() {",
+        "  try {",
+        "    await Promise.reject('x');",
+        "    note = 'paid';",
+        "  } catch (error) {",
+        "    note = 'declined';",
+        "  } finally {",
+        "    note = note + '+log';",
+        "  }",
+        "}",
+        "pay().then(() => console.log(note));"
+      ],
+      "options": [
+        {
+          "text": "'declined+log'",
+          "correct": true,
+          "feedback": "Right. catch sets declined, then finally appends +log to that text."
+        },
+        {
+          "text": "'declined'",
+          "correct": false,
+          "feedback": "That is the value before finally ran. The question asks about the moment after line 9.",
+          "misconception": "finally-skipped-after-error"
+        },
+        {
+          "text": "'paid+log'",
+          "correct": false,
+          "feedback": "The line after the rejected await is skipped, so paid is never assigned.",
+          "misconception": "try-continues-after-error"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "note",
+          "afterLine": 9,
+          "visit": 1
+        },
+        "expectedOutput": "declined+log"
+      },
+      "explanation": "The await throws, so line 5 is skipped and catch sets note to declined. finally always runs next and appends +log. The final value is declined+log.",
+      "hints": [
+        "Which of lines 5 and 7 can run after the rejected await?",
+        "finally runs after catch and works on whatever value catch left.",
+        "Start from the catch value and add the text from line 9."
+      ],
+      "reference": {
+        "title": "Promise.prototype.finally()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/finally",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.async-error-handling.parsons-01",
+      "concept": "async-error-handling",
+      "prerequisites": [
+        "async-await",
+        "finally-block"
+      ],
+      "format": "PARSONS",
+      "variant": "ORDER_OUTPUT",
+      "difficulty": 3,
+      "prompt": "The rejection travels down this chain. Put the lines that the program prints in the order in which they appear.",
+      "code": [
+        "console.log('doors open');",
+        "Promise.reject(new Error('x'))",
+        "  .then(() => console.log('then'))",
+        "  .catch(() => console.log('catch'))",
+        "  .finally(() => {",
+        "    console.log('finally');",
+        "  });",
+        "console.log('doors closed');"
+      ],
+      "solution": {
+        "expectedOutput": "doors open\ndoors closed\ncatch\nfinally"
+      },
+      "explanation": "The plain calls print first. The rejection skips the then handler, catch handles it, and finally runs last. The handler for then never prints anything.",
+      "hints": [
+        "Start with the lines that are not inside a handler.",
+        "A rejection passes over then and reaches the first catch.",
+        "finally runs after catch has finished."
+      ],
+      "reference": {
+        "title": "Promise.prototype.finally()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/finally",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.async-error-handling.fix-01",
+      "concept": "async-error-handling",
+      "prerequisites": [
+        "async-await",
+        "finally-block"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print soil too dry, but the error escapes the try block. Tap the buggy line and pick the fix.",
+      "code": [
+        "async function checkSoil() {",
+        "  throw new Error('dry');",
+        "}",
+        "async function water() {",
+        "  try {",
+        "    checkSoil();",
+        "  } catch (error) {",
+        "    console.log('soil too dry');",
+        "  }",
+        "}",
+        "water();"
+      ],
+      "options": [
+        {
+          "text": "await checkSoil();",
+          "correct": true,
+          "feedback": "Right. await makes the rejection throw inside try, where catch can handle it."
+        },
+        {
+          "text": "return checkSoil();",
+          "correct": false,
+          "feedback": "This hands the rejected promise to the caller after leaving try, so catch still never runs.",
+          "misconception": "try-catch-covers-later-code"
+        },
+        {
+          "text": "await checkSoil;",
+          "correct": false,
+          "feedback": "This awaits the function without calling it, so nothing throws and nothing prints."
+        }
+      ],
+      "solution": {
+        "bugLine": 6,
+        "expectedOutput": "soil too dry"
+      },
+      "explanation": "checkSoil() returns a rejected promise and the try block ends before it is noticed, so catch cannot see it. await turns the rejection into a throw while the function is still inside try.",
+      "hints": [
+        "Look at line 6: does anything wait for the promise?",
+        "try/catch only sees errors thrown while the try block is running.",
+        "Make the rejection throw inside try by waiting for the promise."
+      ],
+      "reference": {
+        "title": "try...catch",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.async-basics.async-error-handling.write-01",
+      "concept": "async-error-handling",
+      "prerequisites": [
+        "async-await",
+        "finally-block"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of checkReadings(readings). Throw an Error inside try when the array is empty and catch it. finally appends '!'. Return 'ok!' or 'empty!'.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "checkReadings",
+          "params": [
+            "readings"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                4,
+                5
+              ]
+            ],
+            "expected": "ok!"
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": "empty!"
+          },
+          {
+            "input": [
+              [
+                0
+              ]
+            ],
+            "expected": "ok!"
+          },
+          {
+            "input": [
+              [
+                1
+              ]
+            ],
+            "expected": "ok!"
+          }
+        ],
+        "reference": [
+          "let status = 'ok';",
+          "try {",
+          "  if (readings.length === 0) {",
+          "    throw new Error('empty');",
+          "  }",
+          "} catch (error) {",
+          "  status = 'empty';",
+          "} finally {",
+          "  status = status + '!';",
+          "}",
+          "return status;"
+        ],
+        "wrongSolutions": [
+          [
+            "let status = 'ok';",
+            "try {",
+            "  if (readings.length === 0) {",
+            "    throw new Error('empty');",
+            "  }",
+            "} catch (error) {",
+            "  status = 'empty';",
+            "}",
+            "return status;"
+          ],
+          [
+            "let status = 'ok';",
+            "try {",
+            "  if (readings.length === 0) {",
+            "    throw new Error('empty');",
+            "  }",
+            "} finally {",
+            "  status = status + '!';",
+            "}",
+            "return status;"
+          ],
+          [
+            "let status = 'ok';",
+            "try {",
+            "  if (!readings[0]) {",
+            "    throw new Error('empty');",
+            "  }",
+            "} catch (error) {",
+            "  status = 'empty';",
+            "} finally {",
+            "  status = status + '!';",
+            "}",
+            "return status;"
+          ]
+        ]
+      },
+      "explanation": "The throw jumps to catch, which sets empty. finally runs on both paths and appends the exclamation mark. Without catch the error escapes; without finally the mark is missing. Check the length, not the first element.",
+      "hints": [
+        "Which block runs on both the good path and the error path?",
+        "A throw inside try jumps straight to catch; finally runs afterwards.",
+        "Set the status in catch and add the mark only in finally."
+      ],
+      "reference": {
+        "title": "try...catch",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

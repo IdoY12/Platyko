@@ -1,0 +1,1901 @@
+{
+  "track": "INTERMEDIATE",
+  "unit": "errors",
+  "order": 6,
+  "title": "Errors",
+  "summary": "Throwing, catching, naming and rethrowing errors, and how finally shapes the order of execution.",
+  "concepts": [
+    {
+      "id": "throw-and-try-catch",
+      "title": "throw, try and catch",
+      "prerequisites": [
+        "function-declaration",
+        "if-statement"
+      ]
+    },
+    {
+      "id": "error-types",
+      "title": "Built-in error types",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "undefined-and-null",
+        "temporal-dead-zone"
+      ]
+    },
+    {
+      "id": "finally-block",
+      "title": "finally and the order of execution",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "return-value"
+      ]
+    },
+    {
+      "id": "custom-errors",
+      "title": "Custom error classes and rethrowing",
+      "prerequisites": [
+        "error-types",
+        "class-inheritance"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "catch-only-error-objects",
+      "description": "Believes catch only receives Error objects, so a thrown string or number goes uncaught."
+    },
+    {
+      "id": "code-after-throw-runs",
+      "description": "Believes statements after a throw in the same block still run."
+    },
+    {
+      "id": "throw-acts-like-continue",
+      "description": "Believes a throw only skips the current loop pass instead of leaving the whole try block."
+    },
+    {
+      "id": "try-rolls-back-changes",
+      "description": "Believes changes made inside try are undone when an error is thrown."
+    },
+    {
+      "id": "error-ends-loop-after-catch",
+      "description": "Believes a loop stops for good once a catch inside it has run."
+    },
+    {
+      "id": "property-of-undefined-is-undefined",
+      "description": "Believes reading a property of undefined gives undefined instead of throwing."
+    },
+    {
+      "id": "reference-and-type-error-same",
+      "description": "Believes an undeclared name and a misused value throw the same error type."
+    },
+    {
+      "id": "undeclared-reads-as-undefined",
+      "description": "Believes reading a name that was never declared gives undefined."
+    },
+    {
+      "id": "finally-skipped-on-exit",
+      "description": "Believes finally does not run, or runs late, when try leaves with return, break or continue."
+    },
+    {
+      "id": "reads-value-from-wrong-pass",
+      "description": "Reads the value from an earlier or later pass of the line being traced."
+    },
+    {
+      "id": "finally-only-on-error",
+      "description": "Believes finally runs only after an error, or instead of catch."
+    },
+    {
+      "id": "subclass-name-automatic",
+      "description": "Believes an error subclass gets its class name as name, or has no name."
+    },
+    {
+      "id": "this-before-super-ok",
+      "description": "Believes a subclass constructor may use this before super(), or that its errors escape try."
+    },
+    {
+      "id": "rethrow-ignored",
+      "description": "Believes a throw inside catch is ignored, or that the outer catch gets the first value."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw",
+      "retrievedAt": "2026-11-14",
+      "sha256": "31106eb015a895d005e8b49573283f604208c8c810ae4cea7db69ec0bc8d8014"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+      "retrievedAt": "2026-11-14",
+      "sha256": "3b5eb96e87b38462b813db533102618706c6561ce532ab16e4a2ce80f8090497"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling",
+      "retrievedAt": "2026-11-14",
+      "sha256": "8e0477a0434a22bb9443b70ebd7d2c94ccebf6314fadbdbc2959b379e0417031"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+      "retrievedAt": "2026-11-14",
+      "sha256": "8e345db87c54e90f4e7055e504719c7c4c7d74e2a4d73b955d373d4afd53b8aa"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+      "retrievedAt": "2026-11-14",
+      "sha256": "e0cd4f6f5729209666199379b87abd5bc6e99f30c7cab22d8d19d4ddd34493f5"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+      "retrievedAt": "2026-11-14",
+      "sha256": "d11d65d5641a7e4519030d89dd57c1f0d741f4179653408fc212f69ba0cdcee2"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+      "retrievedAt": "2026-11-14",
+      "sha256": "32ad202d28d867b6331e778929fa0e834346cfaa3b3531116e709d2731e909d7"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
+      "retrievedAt": "2026-11-14",
+      "sha256": "00842d5bc9e5ab5d884204d1551c8be1b6609e9790f5ccf12f394e7d0ba9e230"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+      "retrievedAt": "2026-11-14",
+      "sha256": "c794dbf1f91a453e33eb99fa7aa88b8e517bc0d482a5acffeab366747184fe4d"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "errors.lesson-1",
+      "title": "Throwing and catching",
+      "conceptCard": {
+        "title": "throw hands a value to catch",
+        "body": "throw stops the current code at once and hands a value to the nearest catch. Put risky code in try. If nothing throws, catch is skipped. Any value can be thrown, not only error objects.",
+        "code": [
+          "try {",
+          "  throw 'spill';",
+          "  console.log('after');",
+          "} catch (item) {",
+          "  console.log('caught ' + item);",
+          "}"
+        ],
+        "expectedOutput": "caught spill"
+      },
+      "itemIds": [
+        "int.errors.throw-and-try-catch.predict-01",
+        "int.errors.throw-and-try-catch.concept-01",
+        "int.errors.throw-and-try-catch.trace-01",
+        "int.errors.throw-and-try-catch.fill-01",
+        "int.errors.throw-and-try-catch.fix-01",
+        "int.errors.throw-and-try-catch.write-01"
+      ]
+    },
+    {
+      "id": "errors.lesson-2",
+      "title": "Built-in error types",
+      "conceptCard": {
+        "title": "Errors have a name",
+        "body": "Every error has a name that tells the kind of failure. TypeError means a value was used in a way its type does not allow, such as reading a property of undefined. ReferenceError means a name does not exist. RangeError means a number is out of range.",
+        "code": [
+          "try {",
+          "  const pot = undefined;",
+          "  pot.size;",
+          "} catch (e) {",
+          "  console.log(e.name);",
+          "}"
+        ],
+        "expectedOutput": "TypeError"
+      },
+      "itemIds": [
+        "int.errors.error-types.predict-01",
+        "int.errors.error-types.concept-01",
+        "int.errors.error-types.trace-01",
+        "int.errors.error-types.parsons-01",
+        "int.errors.error-types.fix-01",
+        "int.errors.error-types.write-01"
+      ]
+    },
+    {
+      "id": "errors.lesson-3",
+      "title": "finally and exits",
+      "conceptCard": {
+        "title": "finally always runs",
+        "body": "finally runs after try and catch, whether or not something was thrown. It also runs when try leaves early with return, break or continue. Use it for cleanup that must always happen. A return inside finally replaces any earlier result.",
+        "code": [
+          "function tidy() {",
+          "  try {",
+          "    return 'result';",
+          "  } finally {",
+          "    console.log('cleanup');",
+          "  }",
+          "}",
+          "console.log(tidy());"
+        ],
+        "expectedOutput": "cleanup\nresult"
+      },
+      "itemIds": [
+        "int.errors.finally-block.predict-01",
+        "int.errors.finally-block.concept-01",
+        "int.errors.finally-block.trace-01",
+        "int.errors.finally-block.fill-01",
+        "int.errors.finally-block.fix-01",
+        "int.errors.finally-block.write-01"
+      ]
+    },
+    {
+      "id": "errors.lesson-4",
+      "title": "Custom errors",
+      "conceptCard": {
+        "title": "Your own error kinds",
+        "body": "A class that extends Error makes errors of your own kind. Call super() before using this, then add properties. The name stays Error until you assign it. To pass on an error that catch cannot handle, throw it again.",
+        "code": [
+          "class PriceError extends Error {}",
+          "try {",
+          "  throw new PriceError();",
+          "} catch (e) {",
+          "  console.log(e.name);",
+          "}"
+        ],
+        "expectedOutput": "Error"
+      },
+      "itemIds": [
+        "int.errors.custom-errors.predict-01",
+        "int.errors.custom-errors.concept-01",
+        "int.errors.custom-errors.trace-01",
+        "int.errors.custom-errors.parsons-01",
+        "int.errors.custom-errors.fix-01",
+        "int.errors.custom-errors.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "int.errors.throw-and-try-catch.predict-01",
+      "concept": "throw-and-try-catch",
+      "prerequisites": [
+        "function-declaration",
+        "if-statement"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const jars = 0;",
+        "try {",
+        "  if (jars < 1) throw 'no jars';",
+        "  console.log('packing');",
+        "} catch (note) {",
+        "  console.log('caught ' + note);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "caught no jars",
+          "correct": true,
+          "feedback": "Right. throw can send any value, a string included, and catch receives it in its parameter."
+        },
+        {
+          "text": "Uncaught no jars",
+          "correct": false,
+          "feedback": "A string can be thrown and caught like any other value. An error object is not required for catch to run.",
+          "misconception": "catch-only-error-objects"
+        },
+        {
+          "text": "packing\ncaught no jars",
+          "correct": false,
+          "feedback": "Line 3 throws before line 4 is reached. The rest of the try block is skipped, so packing is never printed.",
+          "misconception": "code-after-throw-runs"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "caught no jars"
+      },
+      "explanation": "throw accepts any value. The throw on line 3 leaves the try block at once, so line 4 never runs, and catch receives the string in note.",
+      "hints": [
+        "Look at line 3: is the condition true?",
+        "throw hands any value to the nearest catch and skips the rest of try.",
+        "Follow the throw: which line runs next, and what does note hold there?"
+      ],
+      "reference": {
+        "title": "throw",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:27"
+      ]
+    },
+    {
+      "id": "int.errors.throw-and-try-catch.concept-01",
+      "concept": "throw-and-try-catch",
+      "prerequisites": [
+        "function-declaration",
+        "if-statement"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement about this code is true?",
+      "code": [
+        "try {",
+        "  console.log('a');",
+        "  throw 7;",
+        "  console.log('b');",
+        "} catch (n) {",
+        "  console.log('c' + n);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "throw leaves the try block at once, so b is skipped and catch receives 7.",
+          "correct": true,
+          "feedback": "Right. Control jumps straight to catch, and the thrown value arrives in its parameter."
+        },
+        {
+          "text": "throw only records the problem, so b still prints before catch runs.",
+          "correct": false,
+          "feedback": "Nothing after a throw in the same block runs. The jump to catch happens immediately.",
+          "misconception": "code-after-throw-runs"
+        },
+        {
+          "text": "catch is skipped because 7 is a number, so only a prints.",
+          "correct": false,
+          "feedback": "catch accepts any thrown value, numbers included. It is not limited to error objects.",
+          "misconception": "catch-only-error-objects"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "a\nc7"
+      },
+      "explanation": "A throw ends the try block immediately and passes its value to catch. Line 4 never runs, and catch prints c7.",
+      "hints": [
+        "Compare which lines print and which are skipped.",
+        "throw jumps out of try right away.",
+        "Check whether b can print once line 3 has run."
+      ],
+      "reference": {
+        "title": "try...catch",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.throw-and-try-catch.trace-01",
+      "concept": "throw-and-try-catch",
+      "prerequisites": [
+        "function-declaration",
+        "if-statement"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What does packed hold right after line 9 runs?",
+      "code": [
+        "const stock = [3, 2, 0, 4];",
+        "let packed = 0;",
+        "try {",
+        "  for (const n of stock) {",
+        "    if (n === 0) throw 'gap';",
+        "    packed = packed + n;",
+        "  }",
+        "} catch (why) {",
+        "  console.log(why + ' ' + packed);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "5",
+          "correct": true,
+          "feedback": "Right. Items 3 and 2 were added before the throw. Changes made inside try stay when catch runs."
+        },
+        {
+          "text": "9",
+          "correct": false,
+          "feedback": "That adds the 4 as well. The throw ends the whole loop, not just one pass, so 4 is never reached.",
+          "misconception": "throw-acts-like-continue"
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "Work done in try is not undone when an error is thrown. packed keeps the values added before the throw.",
+          "misconception": "try-rolls-back-changes"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "packed",
+          "afterLine": 9,
+          "visit": 1
+        },
+        "expectedOutput": "gap 5"
+      },
+      "explanation": "The loop adds 3 and 2, then meets 0 and throws. The loop ends, and catch sees packed as 5, since earlier changes stay.",
+      "hints": [
+        "Follow the loop pass by pass until the throw.",
+        "A throw leaves the whole try block, loop included.",
+        "Add only the numbers before the 0."
+      ],
+      "reference": {
+        "title": "try...catch",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.throw-and-try-catch.fill-01",
+      "concept": "throw-and-try-catch",
+      "prerequisites": [
+        "function-declaration",
+        "if-statement"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blanks so the program prints 4, then stopped: odd.",
+      "code": [
+        "function half(n) {",
+        "  if (n % 2 !== 0) {",
+        "    ___ 'odd';",
+        "  }",
+        "  return n / 2;",
+        "}",
+        "try {",
+        "  console.log(half(8));",
+        "  console.log(half(5));",
+        "} ___ (why) {",
+        "  console.log('stopped: ' + why);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "throw",
+          "correct": true,
+          "feedback": "Right. throw leaves half and sends 'odd' to the nearest catch."
+        },
+        {
+          "text": "catch",
+          "correct": true,
+          "feedback": "Right. This keyword opens the block that receives the thrown value."
+        },
+        {
+          "text": "return",
+          "correct": false,
+          "feedback": "return would hand 'odd' back as a normal result, and no error would reach catch."
+        },
+        {
+          "text": "finally",
+          "correct": false,
+          "feedback": "finally cannot receive a value. It has no parameter, so this does not run as intended."
+        },
+        {
+          "text": "try",
+          "correct": false,
+          "feedback": "try cannot follow a closing brace here, and it cannot receive a value either."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "throw"
+          ],
+          [
+            "catch"
+          ]
+        ],
+        "expectedOutput": "4\nstopped: odd"
+      },
+      "explanation": "half(8) returns 4. For 5, the first blank must throw so the call stops, and the second blank must be catch, which receives 'odd' in why.",
+      "hints": [
+        "Line 3 should stop half. Which keyword does that with a value?",
+        "Raising a problem and receiving it use two different keywords.",
+        "The first blank leaves the function with 'odd'; the second blank opens the receiver."
+      ],
+      "reference": {
+        "title": "throw",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.throw-and-try-catch.fix-01",
+      "concept": "throw-and-try-catch",
+      "prerequisites": [
+        "function-declaration",
+        "if-statement"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "A group of nine should end up in the catch block. Tap the line that fails to send it there, then pick the fix.",
+      "code": [
+        "function seatsFor(group) {",
+        "  if (group > 6) {",
+        "    return 'too many';",
+        "  }",
+        "  return group;",
+        "}",
+        "try {",
+        "  seatsFor(9);",
+        "  console.log('seated');",
+        "} catch (full) {",
+        "  console.log('table full');",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "throw 'too many';",
+          "correct": true,
+          "feedback": "Right. throw leaves seatsFor and the try block, so catch runs."
+        },
+        {
+          "text": "return new Error('too many');",
+          "correct": false,
+          "feedback": "An error object that is only returned is just a value. Nothing is thrown, so catch is never reached."
+        },
+        {
+          "text": "console.log('too many');",
+          "correct": false,
+          "feedback": "That prints a note and the function carries on. It does not leave the try block."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "table full"
+      },
+      "explanation": "return gives a normal result, so the caller carries on and prints seated. Only throw jumps to catch, whatever value it sends.",
+      "hints": [
+        "Look at what line 3 does when the group is too big.",
+        "A returned value is a normal result. Only throw triggers catch.",
+        "Replace the line with the statement that raises the problem."
+      ],
+      "reference": {
+        "title": "throw",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.throw-and-try-catch.write-01",
+      "concept": "throw-and-try-catch",
+      "prerequisites": [
+        "function-declaration",
+        "if-statement"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of safeLength(item). Return the length of item.name; if reading it throws an error, return 0 instead.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "safeLength",
+          "params": [
+            "item"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              {
+                "name": "oak"
+              }
+            ],
+            "expected": 3
+          },
+          {
+            "input": [
+              {}
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              null
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              {
+                "name": ""
+              }
+            ],
+            "expected": 0
+          }
+        ],
+        "reference": [
+          "try {",
+          "  return item.name.length;",
+          "} catch (e) {",
+          "  return 0;",
+          "}"
+        ],
+        "wrongSolutions": [
+          [
+            "return item.name.length;"
+          ],
+          [
+            "try {",
+            "  return item.name.length;",
+            "} catch (e) {",
+            "  return -1;",
+            "}"
+          ],
+          [
+            "return item.name.length || 0;"
+          ]
+        ]
+      },
+      "explanation": "Reading name of an item with no name gives undefined, and reading length of undefined throws a TypeError. try and catch turn that failure into 0.",
+      "hints": [
+        "What happens when item.name is missing?",
+        "Wrap the risky read in try and give catch a fallback.",
+        "Return the length inside try and 0 inside catch."
+      ],
+      "reference": {
+        "title": "try...catch",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.error-types.predict-01",
+      "concept": "error-types",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "undefined-and-null",
+        "temporal-dead-zone"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const cart = { items: 3 };",
+        "try {",
+        "  console.log(cart.coupon.code);",
+        "} catch (e) {",
+        "  console.log(e.name);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "TypeError",
+          "correct": true,
+          "feedback": "Right. cart.coupon is undefined, and reading a property of undefined throws a TypeError."
+        },
+        {
+          "text": "undefined",
+          "correct": false,
+          "feedback": "Only the first missing property reads as undefined. Reading a property of that undefined throws.",
+          "misconception": "property-of-undefined-is-undefined"
+        },
+        {
+          "text": "ReferenceError",
+          "correct": false,
+          "feedback": "cart exists, so no name is missing. The failure is a value used the wrong way, which is a different error type.",
+          "misconception": "reference-and-type-error-same"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "TypeError"
+      },
+      "explanation": "cart.coupon is undefined because cart has no such property. Reading code from undefined is a TypeError, and catch prints that error's name.",
+      "hints": [
+        "Look at the two dots on line 3.",
+        "Reading a property of undefined throws.",
+        "Decide whether the error is about a missing name or a misused value."
+      ],
+      "reference": {
+        "title": "TypeError",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.error-types.concept-01",
+      "concept": "error-types",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "undefined-and-null",
+        "temporal-dead-zone"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement about this program is true?",
+      "code": [
+        "let basket;",
+        "try {",
+        "  console.log(basket);",
+        "  console.log(crate);",
+        "} catch (e) {",
+        "  console.log(e.name);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "basket is declared, so reading it gives undefined. crate was never declared, so reading it throws a ReferenceError.",
+          "correct": true,
+          "feedback": "Right. Only a name that does not exist at all causes a ReferenceError."
+        },
+        {
+          "text": "crate is read as undefined, like basket, so no error is thrown.",
+          "correct": false,
+          "feedback": "An undeclared name is not the same as a variable holding undefined. Reading it throws.",
+          "misconception": "undeclared-reads-as-undefined"
+        },
+        {
+          "text": "Both reads throw a TypeError, because neither name holds a usable value.",
+          "correct": false,
+          "feedback": "basket prints undefined without any error. And a name that does not exist has its own error type.",
+          "misconception": "reference-and-type-error-same"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "undefined\nReferenceError"
+      },
+      "explanation": "A declared variable without a value reads as undefined and does not throw. A name that was never declared throws a ReferenceError when read.",
+      "hints": [
+        "Compare line 1 with the names read on lines 3 and 4.",
+        "One name exists, the other does not.",
+        "Check which line prints undefined and which one throws."
+      ],
+      "reference": {
+        "title": "ReferenceError",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.error-types.trace-01",
+      "concept": "error-types",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "undefined-and-null",
+        "temporal-dead-zone"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "How many names has upper counted once line 6 has run twice?",
+      "code": [
+        "const names = ['fig', null, 'oak'];",
+        "let upper = 0;",
+        "for (const name of names) {",
+        "  try {",
+        "    name.toUpperCase();",
+        "    upper = upper + 1;",
+        "  } catch (e) {",
+        "    console.log(e.name);",
+        "  }",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "2",
+          "correct": true,
+          "feedback": "Right. fig and oak were converted. null threw before line 6, and the loop moved on to oak."
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "The loop does not stop at the error. Once catch has run, the next name is processed.",
+          "misconception": "error-ends-loop-after-catch"
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "Line 6 comes after the call that throws, so it is skipped for null and the count does not reach 3.",
+          "misconception": "code-after-throw-runs"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "upper",
+          "afterLine": 6,
+          "visit": 2
+        },
+        "expectedOutput": "TypeError"
+      },
+      "explanation": "null.toUpperCase() throws a TypeError before line 6 can run, and catch prints the name. The loop then goes on, so line 6 runs for oak as its second visit.",
+      "hints": [
+        "Which names make line 5 throw?",
+        "A throw skips the rest of try, but the loop continues afterwards.",
+        "Line 6 runs for fig, skips null and runs again for oak."
+      ],
+      "reference": {
+        "title": "TypeError",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.error-types.parsons-01",
+      "concept": "error-types",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "undefined-and-null",
+        "temporal-dead-zone"
+      ],
+      "format": "PARSONS",
+      "difficulty": 3,
+      "prompt": "Order the lines so the program prints TypeError: ready > open.",
+      "code": [
+        "  console.log(e.name + ': ' + step);",
+        "try {",
+        "  console.log('shut');",
+        "let step = 'ready';",
+        "} catch (e) {",
+        "  step.size.length;",
+        "}",
+        "  step = step + ' > open';"
+      ],
+      "solution": {
+        "lineOrder": [
+          3,
+          1,
+          7,
+          5,
+          2,
+          4,
+          0,
+          6
+        ],
+        "acceptedOrders": [
+          [
+            3,
+            7,
+            1,
+            5,
+            2,
+            4,
+            0,
+            6
+          ],
+          [
+            3,
+            1,
+            5,
+            2,
+            4,
+            7,
+            0,
+            6
+          ]
+        ],
+        "expectedOutput": "TypeError: ready > open"
+      },
+      "explanation": "step is set first and extended inside try. step.size is undefined, so reading its length throws before the shut line runs, and catch prints the name and the text.",
+      "hints": [
+        "Which line must exist before anything else uses step?",
+        "The line that throws must come before the line that prints shut.",
+        "Build step, throw, then handle the error."
+      ],
+      "reference": {
+        "title": "TypeError",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.error-types.fix-01",
+      "concept": "error-types",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "undefined-and-null",
+        "temporal-dead-zone"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "A volume above 10 should be reported as an out-of-range error, and catch prints its name. Tap the line that names the wrong type, then pick the fix.",
+      "code": [
+        "function setVolume(level) {",
+        "  if (level > 10) {",
+        "    throw new TypeError();",
+        "  }",
+        "  return level;",
+        "}",
+        "try {",
+        "  setVolume(14);",
+        "} catch (e) {",
+        "  console.log(e.name);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "throw new RangeError();",
+          "correct": true,
+          "feedback": "Right. RangeError is the built-in type for a number outside its allowed range."
+        },
+        {
+          "text": "throw new ReferenceError();",
+          "correct": false,
+          "feedback": "ReferenceError is for names that do not exist. The level exists, so this still names the wrong type."
+        },
+        {
+          "text": "throw new Error('RangeError');",
+          "correct": false,
+          "feedback": "The text is only the message. The name of an Error stays Error whatever words you pass in."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "RangeError"
+      },
+      "explanation": "e.name shows which constructor made the error. A value outside its allowed range should use RangeError, so the constructor itself must change.",
+      "hints": [
+        "Look at which error type line 3 creates.",
+        "Each built-in type has a name that says what kind of failure it is.",
+        "The failure here is a number outside its allowed range."
+      ],
+      "reference": {
+        "title": "RangeError",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.error-types.write-01",
+      "concept": "error-types",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "undefined-and-null",
+        "temporal-dead-zone"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of checkSize(item). Read item.size.length inside try. Return 'fine' if that works, or the name of the error if it throws.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "checkSize",
+          "params": [
+            "item"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              {
+                "size": "abc"
+              }
+            ],
+            "expected": "fine"
+          },
+          {
+            "input": [
+              {}
+            ],
+            "expected": "TypeError"
+          },
+          {
+            "input": [
+              null
+            ],
+            "expected": "TypeError"
+          },
+          {
+            "input": [
+              {
+                "size": ""
+              }
+            ],
+            "expected": "fine"
+          }
+        ],
+        "reference": [
+          "try {",
+          "  item.size.length;",
+          "  return 'fine';",
+          "} catch (e) {",
+          "  return e.name;",
+          "}"
+        ],
+        "wrongSolutions": [
+          [
+            "item.size.length;",
+            "return 'fine';"
+          ],
+          [
+            "try {",
+            "  item.size.length;",
+            "  return 'fine';",
+            "} catch (e) {",
+            "  return 'Error';",
+            "}"
+          ],
+          [
+            "try {",
+            "  item.size.length;",
+            "} catch (e) {",
+            "  return e.name;",
+            "}"
+          ]
+        ]
+      },
+      "explanation": "The read throws a TypeError when size is missing or item is null. catch returns the error's name, and the line after the read returns fine when nothing was thrown.",
+      "hints": [
+        "Which inputs make the read fail?",
+        "Put the read in try and return from both parts.",
+        "Return 'fine' after the read in try and e.name in catch."
+      ],
+      "reference": {
+        "title": "Error",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.finally-block.predict-01",
+      "concept": "finally-block",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "return-value"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "What does this code print?",
+      "code": [
+        "function open() {",
+        "  try {",
+        "    return 'B';",
+        "  } finally {",
+        "    console.log('C');",
+        "  }",
+        "}",
+        "console.log(open());"
+      ],
+      "options": [
+        {
+          "text": "C\nB",
+          "correct": true,
+          "feedback": "Right. finally runs as the function leaves, before the call on line 8 receives its result."
+        },
+        {
+          "text": "B",
+          "correct": false,
+          "feedback": "finally still runs when try returns. Its console.log happens first, so C prints too.",
+          "misconception": "finally-skipped-on-exit"
+        },
+        {
+          "text": "B\nC",
+          "correct": false,
+          "feedback": "C prints while the function is leaving, before the returned value reaches the outer console.log.",
+          "misconception": "finally-skipped-on-exit"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "C\nB"
+      },
+      "explanation": "A return inside try still runs finally on the way out. C prints first, then the call open() produces B for the outer console.log.",
+      "hints": [
+        "Look at what happens between the return and the end of the call.",
+        "finally runs even when try returns.",
+        "Decide which line prints first: the one in finally or the outer one."
+      ],
+      "reference": {
+        "title": "try...catch",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.finally-block.concept-01",
+      "concept": "finally-block",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "return-value"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement about this loop is true?",
+      "code": [
+        "for (const fail of [false, true]) {",
+        "  try {",
+        "    if (fail) throw 'x';",
+        "  } catch (e) {",
+        "    console.log('catch');",
+        "  } finally {",
+        "    console.log('finally');",
+        "  }",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "finally runs on both passes. catch runs only on the pass where something was thrown.",
+          "correct": true,
+          "feedback": "Right. finally is cleanup that runs whether or not an error happened."
+        },
+        {
+          "text": "finally runs only on the pass where something was thrown, just like catch.",
+          "correct": false,
+          "feedback": "finally does not depend on an error. It runs after a normal pass as well.",
+          "misconception": "finally-only-on-error"
+        },
+        {
+          "text": "finally takes the place of catch, so on the failing pass only finally prints.",
+          "correct": false,
+          "feedback": "finally does not handle the error. catch still runs first, and finally follows it.",
+          "misconception": "finally-only-on-error"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "finally\ncatch\nfinally"
+      },
+      "explanation": "The first pass throws nothing, so only finally prints. The second throws, so catch prints and finally follows it.",
+      "hints": [
+        "Write down what prints for the first pass and for the second.",
+        "finally is not tied to an error.",
+        "Check whether finally appears after a pass without a throw."
+      ],
+      "reference": {
+        "title": "try...catch",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.finally-block.trace-01",
+      "concept": "finally-block",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "return-value"
+      ],
+      "format": "TRACE",
+      "difficulty": 4,
+      "prompt": "What does log hold once the finally block has run for the second time?",
+      "code": [
+        "let log = '';",
+        "for (let n = 1; n <= 3; n++) {",
+        "  try {",
+        "    if (n === 2) continue;",
+        "    log = log + n;",
+        "  } finally {",
+        "    log = log + 'f';",
+        "  }",
+        "}",
+        "console.log(log);"
+      ],
+      "options": [
+        {
+          "text": "'1ff'",
+          "correct": true,
+          "feedback": "Right. For n = 2 the continue skips the add, but finally still runs and adds f."
+        },
+        {
+          "text": "'1f3f'",
+          "correct": false,
+          "feedback": "That treats the second finally as the one for n = 3. finally also runs when continue leaves try early.",
+          "misconception": "finally-skipped-on-exit"
+        },
+        {
+          "text": "'1f'",
+          "correct": false,
+          "feedback": "That is the text after the first finally. The question asks about the second run of line 7.",
+          "misconception": "reads-value-from-wrong-pass"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "log",
+          "afterLine": 7,
+          "visit": 2
+        },
+        "expectedOutput": "1ff3f"
+      },
+      "explanation": "continue leaves try early, but finally still runs. So line 7 runs for n = 1 and again for n = 2, giving 1f then 1ff before n = 3 is reached.",
+      "hints": [
+        "Follow n = 2 through the try block.",
+        "finally also runs when continue leaves the try block.",
+        "Count the f letters after the second run of line 7."
+      ],
+      "reference": {
+        "title": "try...catch",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.finally-block.fill-01",
+      "concept": "finally-block",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "return-value"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blanks so the program prints closed, then failed disk.",
+      "code": [
+        "function save(fail) {",
+        "  try {",
+        "    if (fail) throw 'disk';",
+        "    return 'saved';",
+        "  } catch (why) {",
+        "    return 'failed ' + why;",
+        "  } ___ {",
+        "    console.log('closed');",
+        "  }",
+        "}",
+        "console.log(save(___));"
+      ],
+      "options": [
+        {
+          "text": "finally",
+          "correct": true,
+          "feedback": "Right. finally runs after catch decides what to return, so closed prints before the result."
+        },
+        {
+          "text": "true",
+          "correct": true,
+          "feedback": "Right. With true the throw runs, catch returns the failure text, and finally still prints closed."
+        },
+        {
+          "text": "false",
+          "correct": false,
+          "feedback": "With false nothing is thrown, so the result is saved, not the failure text."
+        },
+        {
+          "text": "catch",
+          "correct": false,
+          "feedback": "A second catch cannot follow the first, and it would not run after it anyway."
+        },
+        {
+          "text": "else",
+          "correct": false,
+          "feedback": "else belongs to if and cannot follow a catch block."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "finally"
+          ],
+          [
+            "true"
+          ]
+        ],
+        "expectedOutput": "closed\nfailed disk"
+      },
+      "explanation": "With true, the throw reaches catch, which returns the failure text. The finally block runs as the function leaves and prints closed first.",
+      "hints": [
+        "Which block runs on every exit from the function?",
+        "The failing text needs the throw on line 3 to run.",
+        "One blank is a keyword, the other is an argument that triggers the throw."
+      ],
+      "reference": {
+        "title": "try...catch",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.finally-block.fix-01",
+      "concept": "finally-block",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "return-value"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The returned text should survive, and closed should print as cleanup. Find the line that wipes out the result.",
+      "code": [
+        "function readLine() {",
+        "  try {",
+        "    return 'line 1';",
+        "  } finally {",
+        "    return 'closed';",
+        "  }",
+        "}",
+        "console.log(readLine());"
+      ],
+      "options": [
+        {
+          "text": "console.log('closed');",
+          "correct": true,
+          "feedback": "Right. finally now only does cleanup, so the return in try keeps its value."
+        },
+        {
+          "text": "return 'line 1';",
+          "correct": false,
+          "feedback": "A return in finally replaces the earlier result, but closed is never printed with this line."
+        },
+        {
+          "text": "throw 'closed';",
+          "correct": false,
+          "feedback": "A throw in finally also replaces the result of try, and this one ends in an uncaught error."
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "closed\nline 1"
+      },
+      "explanation": "A return inside finally overrides the value returned from try. Replacing it with a print leaves the return of line 3 in charge.",
+      "hints": [
+        "Which line decides what readLine hands back?",
+        "finally runs last and can replace a return from try.",
+        "Keep the cleanup but stop returning from finally."
+      ],
+      "reference": {
+        "title": "try...catch",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.finally-block.write-01",
+      "concept": "finally-block",
+      "prerequisites": [
+        "throw-and-try-catch",
+        "return-value"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of runLog(fail): start with 'start'. try throws when fail is truthy, otherwise adds '-ok'. catch adds '-caught', finally adds '-done'. Return the text.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "runLog",
+          "params": [
+            "fail"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              false
+            ],
+            "expected": "start-ok-done"
+          },
+          {
+            "input": [
+              true
+            ],
+            "expected": "start-caught-done"
+          },
+          {
+            "input": [
+              0
+            ],
+            "expected": "start-ok-done"
+          },
+          {
+            "input": [
+              "x"
+            ],
+            "expected": "start-caught-done"
+          }
+        ],
+        "reference": [
+          "let log = 'start';",
+          "try {",
+          "  if (fail) throw 'x';",
+          "  log = log + '-ok';",
+          "} catch (e) {",
+          "  log = log + '-caught';",
+          "} finally {",
+          "  log = log + '-done';",
+          "}",
+          "return log;"
+        ],
+        "wrongSolutions": [
+          [
+            "let log = 'start';",
+            "try {",
+            "  if (fail) throw 'x';",
+            "  log = log + '-ok';",
+            "  log = log + '-done';",
+            "} catch (e) {",
+            "  log = log + '-caught';",
+            "}",
+            "return log;"
+          ],
+          [
+            "let log = 'start';",
+            "try {",
+            "  log = log + '-ok';",
+            "  if (fail) throw 'x';",
+            "} catch (e) {",
+            "  log = log + '-caught';",
+            "} finally {",
+            "  log = log + '-done';",
+            "}",
+            "return log;"
+          ],
+          [
+            "let log = 'start';",
+            "if (fail) {",
+            "  log = log + '-caught';",
+            "} else {",
+            "  log = log + '-ok';",
+            "}",
+            "return log;"
+          ]
+        ]
+      },
+      "explanation": "The throw must come before the ok text so it is skipped on failure. finally adds done on both paths, which a line inside try or catch cannot do.",
+      "hints": [
+        "Which text is added on every path?",
+        "Put the throw before the line that adds -ok.",
+        "Use finally for the -done text."
+      ],
+      "reference": {
+        "title": "try...catch",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.custom-errors.predict-01",
+      "concept": "custom-errors",
+      "prerequisites": [
+        "error-types",
+        "class-inheritance"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "What does this code print?",
+      "code": [
+        "class StockError extends Error {}",
+        "try {",
+        "  throw new StockError('low');",
+        "} catch (e) {",
+        "  console.log(e.name);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "Error",
+          "correct": true,
+          "feedback": "Right. A subclass inherits the name Error unless you set a name yourself."
+        },
+        {
+          "text": "StockError",
+          "correct": false,
+          "feedback": "The class name is not copied into name. Unless you assign one, name is inherited as Error.",
+          "misconception": "subclass-name-automatic"
+        },
+        {
+          "text": "undefined",
+          "correct": false,
+          "feedback": "name does exist on every error, including subclasses. It is inherited from Error.",
+          "misconception": "subclass-name-automatic"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Error"
+      },
+      "explanation": "StockError inherits name from Error, whose default is the text Error. Defining the class does not change it. Set this.name to show a custom one.",
+      "hints": [
+        "Look at what line 1 adds to the class.",
+        "A subclass inherits properties it does not define.",
+        "Decide which name an empty subclass inherits."
+      ],
+      "reference": {
+        "title": "extends",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.custom-errors.concept-01",
+      "concept": "custom-errors",
+      "prerequisites": [
+        "error-types",
+        "class-inheritance"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "Which statement about this code is true?",
+      "code": [
+        "class FullError extends Error {",
+        "  constructor() {",
+        "    this.seats = 4;",
+        "    super();",
+        "  }",
+        "}",
+        "try { new FullError(); } catch (e) {",
+        "  console.log(e.name);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "A subclass constructor cannot use this before super() has run, so a ReferenceError reaches catch.",
+          "correct": true,
+          "feedback": "Right. this does not exist until super() has built it."
+        },
+        {
+          "text": "Setting this.seats first is fine, because super() only adds the message afterwards.",
+          "correct": false,
+          "feedback": "In a subclass, this is created by super(). Using it earlier throws.",
+          "misconception": "this-before-super-ok"
+        },
+        {
+          "text": "The error escapes the try, because it happens while the object is built.",
+          "correct": false,
+          "feedback": "new inside try is protected like any other call. The error reaches catch.",
+          "misconception": "this-before-super-ok"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "ReferenceError"
+      },
+      "explanation": "In a class that extends another, super() creates this. Touching this first throws a ReferenceError, which the surrounding try catches.",
+      "hints": [
+        "Compare the order of lines 3 and 4.",
+        "this in a subclass is created by super().",
+        "Check what happens when this is used before it exists."
+      ],
+      "reference": {
+        "title": "super",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.custom-errors.trace-01",
+      "concept": "custom-errors",
+      "prerequisites": [
+        "error-types",
+        "class-inheritance"
+      ],
+      "format": "TRACE",
+      "difficulty": 4,
+      "prompt": "What does got hold right after line 9 runs?",
+      "code": [
+        "let got = 0;",
+        "try {",
+        "  try {",
+        "    throw 5;",
+        "  } catch (inside) {",
+        "    throw inside * 2;",
+        "  }",
+        "} catch (outside) {",
+        "  got = outside;",
+        "}",
+        "console.log(got);"
+      ],
+      "options": [
+        {
+          "text": "10",
+          "correct": true,
+          "feedback": "Right. The second throw replaces the first, so the outer catch receives the doubled value."
+        },
+        {
+          "text": "5",
+          "correct": false,
+          "feedback": "That is the first thrown value. The inner catch caught it, and the throw on line 6 sent a new one.",
+          "misconception": "rethrow-ignored"
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "The throw inside catch is not swallowed. It reaches the outer catch, so got is assigned.",
+          "misconception": "rethrow-ignored"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "got",
+          "afterLine": 9,
+          "visit": 1
+        },
+        "expectedOutput": "10"
+      },
+      "explanation": "The inner catch receives 5, then throws 5 * 2. That new throw leaves the inner try and arrives in the outer catch, so got becomes 10.",
+      "hints": [
+        "Follow the value from line 4 into line 6.",
+        "A throw inside catch starts a new throw towards the outer handler.",
+        "The inner catch computes what the outer catch receives."
+      ],
+      "reference": {
+        "title": "throw",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.custom-errors.parsons-01",
+      "concept": "custom-errors",
+      "prerequisites": [
+        "error-types",
+        "class-inheritance"
+      ],
+      "format": "PARSONS",
+      "difficulty": 4,
+      "prompt": "Put the lines in order so the program rethrows and ends with the uncaught value cup-boxed-sealed.",
+      "code": [
+        "}",
+        "  throw e + '-sealed';",
+        "  note = note + '-boxed';",
+        "let note = 'cup';",
+        "} catch (e) {",
+        "  throw note;",
+        "try {"
+      ],
+      "solution": {
+        "lineOrder": [
+          3,
+          6,
+          2,
+          5,
+          4,
+          1,
+          0
+        ],
+        "acceptedOrders": [
+          [
+            6,
+            3,
+            2,
+            5,
+            4,
+            1,
+            0
+          ],
+          [
+            3,
+            2,
+            6,
+            5,
+            4,
+            1,
+            0
+          ]
+        ],
+        "expectedOutput": "Uncaught cup-boxed-sealed"
+      },
+      "explanation": "note is built up inside try and thrown. catch receives it and throws it again with -sealed added. Nothing catches that second throw, so it ends the program.",
+      "hints": [
+        "The text must be built before it is thrown.",
+        "The first throw sits in try, the second in catch.",
+        "Declare note, open try, build, throw, then catch and rethrow."
+      ],
+      "reference": {
+        "title": "throw",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.custom-errors.fix-01",
+      "concept": "custom-errors",
+      "prerequisites": [
+        "error-types",
+        "class-inheritance"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The outer catch should report the error code, but the inner catch ends the story. Tap the line that stops the error there, then pick the fix.",
+      "code": [
+        "function fill(level) {",
+        "  try {",
+        "    throw { code: level };",
+        "  } catch (e) {",
+        "    return 'handled';",
+        "  }",
+        "}",
+        "try {",
+        "  console.log(fill(9));",
+        "} catch (e) {",
+        "  console.log('outer', e.code);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "throw e;",
+          "correct": true,
+          "feedback": "Right. Rethrowing the same object lets the outer catch read its code."
+        },
+        {
+          "text": "throw level;",
+          "correct": false,
+          "feedback": "A rethrow must pass on the caught object. A bare number has no code property, so the outer line would show undefined."
+        },
+        {
+          "text": "return e;",
+          "correct": false,
+          "feedback": "return ends the function normally. The outer catch is never reached, and the caught object is only printed."
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "outer 9"
+      },
+      "explanation": "The inner catch returns, so the error counts as handled and stops there. throw e passes the same error object on to the outer catch.",
+      "hints": [
+        "Look at what line 5 does with the caught error.",
+        "To let an error continue, a catch must throw again.",
+        "Throw the caught object, not a new value."
+      ],
+      "reference": {
+        "title": "throw",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.errors.custom-errors.write-01",
+      "concept": "custom-errors",
+      "prerequisites": [
+        "error-types",
+        "class-inheritance"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write describe(n). Define Over extending Error, saving n as this.limit. In try, throw it when n > 10; catch returns 'limit ' + e.limit. Otherwise return 'ok ' + n.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "describe",
+          "params": [
+            "n"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              5
+            ],
+            "expected": "ok 5"
+          },
+          {
+            "input": [
+              11
+            ],
+            "expected": "limit 11"
+          },
+          {
+            "input": [
+              10
+            ],
+            "expected": "ok 10"
+          },
+          {
+            "input": [
+              0
+            ],
+            "expected": "ok 0"
+          }
+        ],
+        "reference": [
+          "class Over extends Error {",
+          "  constructor(v) {",
+          "    super();",
+          "    this.limit = v;",
+          "  }",
+          "}",
+          "try {",
+          "  if (n > 10) throw new Over(n);",
+          "  return 'ok ' + n;",
+          "} catch (e) {",
+          "  return 'limit ' + e.limit;",
+          "}"
+        ],
+        "wrongSolutions": [
+          [
+            "class Over extends Error {",
+            "  constructor(v) {",
+            "    super();",
+            "    this.limit = v;",
+            "  }",
+            "}",
+            "try {",
+            "  if (n >= 10) throw new Over(n);",
+            "  return 'ok ' + n;",
+            "} catch (e) {",
+            "  return 'limit ' + e.limit;",
+            "}"
+          ],
+          [
+            "class Over extends Error {",
+            "  constructor(v) {",
+            "    this.limit = v;",
+            "    super();",
+            "  }",
+            "}",
+            "try {",
+            "  if (n > 10) throw new Over(n);",
+            "  return 'ok ' + n;",
+            "} catch (e) {",
+            "  return 'limit ' + e.limit;",
+            "}"
+          ],
+          [
+            "class Over extends Error {}",
+            "try {",
+            "  if (n > 10) throw new Over(n);",
+            "  return 'ok ' + n;",
+            "} catch (e) {",
+            "  return 'limit ' + e.limit;",
+            "}"
+          ]
+        ]
+      },
+      "explanation": "The class saves n on the error object through its constructor, after super(). catch reads that saved limit from the object it receives.",
+      "hints": [
+        "What must the class store, and when?",
+        "Call super() before touching this.",
+        "Throw new LimitError(n) only when n is above 10."
+      ],
+      "reference": {
+        "title": "extends",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

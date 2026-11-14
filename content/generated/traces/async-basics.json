@@ -1,0 +1,3437 @@
+{
+ "unit": "async-basics",
+ "items": {
+  "int.async-basics.callbacks-and-timers.predict-01": {
+   "code": [
+    "function say(dish) {",
+    "  console.log(dish);",
+    "}",
+    "setTimeout(() => say('soup'), 300);",
+    "setTimeout(() => say('salad'), 100);",
+    "setTimeout(() => say('bread'), 200);",
+    "say('menu');"
+   ],
+   "output": [
+    "menu",
+    "salad",
+    "bread",
+    "soup"
+   ],
+   "steps": [
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 5)",
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 5)",
+      "callback (line 6)",
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "dish",
+       "scope": "say",
+       "value": "'menu'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 5)",
+      "callback (line 6)",
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [
+      "callback (line 6)",
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "dish",
+       "scope": "say",
+       "value": "'salad'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 6)",
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "dish",
+       "scope": "say",
+       "value": "'bread'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "dish",
+       "scope": "say",
+       "value": "'soup'"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 4,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "int.async-basics.callbacks-and-timers.concept-01": {
+   "code": [
+    "console.log('start hike');",
+    "setTimeout(() => {",
+    "  console.log('rest');",
+    "}, 0);",
+    "console.log('reach summit');"
+   ],
+   "output": [
+    "start hike",
+    "reach summit",
+    "rest"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "int.async-basics.callbacks-and-timers.trace-01": {
+   "code": [
+    "let jarsSold = 0;",
+    "let lastReport = 0;",
+    "const noteTotal = (total) => {",
+    "  lastReport = total;",
+    "};",
+    "function sell(count, report) {",
+    "  jarsSold = jarsSold + count;",
+    "  report(jarsSold);",
+    "}",
+    "sell(2, noteTotal);",
+    "sell(3, noteTotal);",
+    "console.log(lastReport);"
+   ],
+   "output": [
+    "5"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "jarsSold",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "jarsSold",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "lastReport",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "jarsSold",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "lastReport",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "noteTotal",
+       "scope": "global",
+       "value": "[Function: noteTotal]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "jarsSold",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "lastReport",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "noteTotal",
+       "scope": "global",
+       "value": "[Function: noteTotal]"
+      },
+      {
+       "name": "count",
+       "scope": "sell",
+       "value": "2"
+      },
+      {
+       "name": "report",
+       "scope": "sell",
+       "value": "[Function: noteTotal]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "sell"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "jarsSold",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "lastReport",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "noteTotal",
+       "scope": "global",
+       "value": "[Function: noteTotal]"
+      },
+      {
+       "name": "count",
+       "scope": "sell",
+       "value": "2"
+      },
+      {
+       "name": "report",
+       "scope": "sell",
+       "value": "[Function: noteTotal]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "sell"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "jarsSold",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "lastReport",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "noteTotal",
+       "scope": "global",
+       "value": "[Function: noteTotal]"
+      },
+      {
+       "name": "total",
+       "scope": "noteTotal",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "sell",
+      "noteTotal"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "jarsSold",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "lastReport",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "noteTotal",
+       "scope": "global",
+       "value": "[Function: noteTotal]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "jarsSold",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "lastReport",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "noteTotal",
+       "scope": "global",
+       "value": "[Function: noteTotal]"
+      },
+      {
+       "name": "count",
+       "scope": "sell",
+       "value": "3"
+      },
+      {
+       "name": "report",
+       "scope": "sell",
+       "value": "[Function: noteTotal]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "sell"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "jarsSold",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "lastReport",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "noteTotal",
+       "scope": "global",
+       "value": "[Function: noteTotal]"
+      },
+      {
+       "name": "count",
+       "scope": "sell",
+       "value": "3"
+      },
+      {
+       "name": "report",
+       "scope": "sell",
+       "value": "[Function: noteTotal]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "sell"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "jarsSold",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "lastReport",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "noteTotal",
+       "scope": "global",
+       "value": "[Function: noteTotal]"
+      },
+      {
+       "name": "total",
+       "scope": "noteTotal",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "sell",
+      "noteTotal"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 12,
+     "variables": [
+      {
+       "name": "jarsSold",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "lastReport",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "noteTotal",
+       "scope": "global",
+       "value": "[Function: noteTotal]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "jarsSold",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "lastReport",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "noteTotal",
+       "scope": "global",
+       "value": "[Function: noteTotal]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.async-basics.callbacks-and-timers.fill-01": {
+   "code": [
+    "function water() {",
+    "  console.log('watered');",
+    "}",
+    "setTimeout(water, 100);",
+    "console.log('list written');"
+   ],
+   "output": [
+    "list written",
+    "watered"
+   ],
+   "steps": [
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "water"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "water"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "int.async-basics.callbacks-and-timers.fix-01": {
+   "code": [
+    "function showArrival() {",
+    "  console.log('bus arrived');",
+    "}",
+    "setTimeout(showArrival, 200);",
+    "console.log('waiting at stop');"
+   ],
+   "output": [
+    "waiting at stop",
+    "bus arrived"
+   ],
+   "steps": [
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "showArrival"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "showArrival"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "int.async-basics.callbacks-and-timers.write-01": {
+   "code": [
+    "function collectLate(delays) {",
+    "const late = [];",
+    "const remember = (delay) => {",
+    "  if (delay > 5) {",
+    "    late.push(delay);",
+    "  }",
+    "};",
+    "delays.forEach(remember);",
+    "return late;",
+    "}",
+    "console.log(collectLate([3,8,5,12]));"
+   ],
+   "output": [
+    "[8, 12]"
+   ],
+   "steps": [
+    {
+     "line": 11,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "delays",
+       "scope": "collectLate",
+       "value": "[3, 8, 5, 12]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collectLate"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "delays",
+       "scope": "collectLate",
+       "value": "[3, 8, 5, 12]"
+      },
+      {
+       "name": "late",
+       "scope": "collectLate",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collectLate"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "delays",
+       "scope": "collectLate",
+       "value": "[3, 8, 5, 12]"
+      },
+      {
+       "name": "late",
+       "scope": "collectLate",
+       "value": "[]"
+      },
+      {
+       "name": "remember",
+       "scope": "collectLate",
+       "value": "[Function: remember]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collectLate"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "delays",
+       "scope": "collectLate",
+       "value": "[3, 8, 5, 12]"
+      },
+      {
+       "name": "late",
+       "scope": "collectLate",
+       "value": "[]"
+      },
+      {
+       "name": "remember",
+       "scope": "collectLate",
+       "value": "[Function: remember]"
+      },
+      {
+       "name": "delay",
+       "scope": "remember",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collectLate",
+      "remember"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "delays",
+       "scope": "collectLate",
+       "value": "[3, 8, 5, 12]"
+      },
+      {
+       "name": "late",
+       "scope": "collectLate",
+       "value": "[]"
+      },
+      {
+       "name": "remember",
+       "scope": "collectLate",
+       "value": "[Function: remember]"
+      },
+      {
+       "name": "delay",
+       "scope": "remember",
+       "value": "8"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collectLate",
+      "remember"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "delays",
+       "scope": "collectLate",
+       "value": "[3, 8, 5, 12]"
+      },
+      {
+       "name": "late",
+       "scope": "collectLate",
+       "value": "[]"
+      },
+      {
+       "name": "remember",
+       "scope": "collectLate",
+       "value": "[Function: remember]"
+      },
+      {
+       "name": "delay",
+       "scope": "remember",
+       "value": "8"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collectLate",
+      "remember"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "delays",
+       "scope": "collectLate",
+       "value": "[3, 8, 5, 12]"
+      },
+      {
+       "name": "late",
+       "scope": "collectLate",
+       "value": "[8]"
+      },
+      {
+       "name": "remember",
+       "scope": "collectLate",
+       "value": "[Function: remember]"
+      },
+      {
+       "name": "delay",
+       "scope": "remember",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collectLate",
+      "remember"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "delays",
+       "scope": "collectLate",
+       "value": "[3, 8, 5, 12]"
+      },
+      {
+       "name": "late",
+       "scope": "collectLate",
+       "value": "[8]"
+      },
+      {
+       "name": "remember",
+       "scope": "collectLate",
+       "value": "[Function: remember]"
+      },
+      {
+       "name": "delay",
+       "scope": "remember",
+       "value": "12"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collectLate",
+      "remember"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "delays",
+       "scope": "collectLate",
+       "value": "[3, 8, 5, 12]"
+      },
+      {
+       "name": "late",
+       "scope": "collectLate",
+       "value": "[8]"
+      },
+      {
+       "name": "remember",
+       "scope": "collectLate",
+       "value": "[Function: remember]"
+      },
+      {
+       "name": "delay",
+       "scope": "remember",
+       "value": "12"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collectLate",
+      "remember"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "delays",
+       "scope": "collectLate",
+       "value": "[3, 8, 5, 12]"
+      },
+      {
+       "name": "late",
+       "scope": "collectLate",
+       "value": "[8, 12]"
+      },
+      {
+       "name": "remember",
+       "scope": "collectLate",
+       "value": "[Function: remember]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collectLate"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.async-basics.promise-basics.predict-01": {
+   "code": [
+    "const loan = Promise.resolve('map');",
+    "console.log('desk open');",
+    "loan.then((item) => {",
+    "  console.log('lent ' + item);",
+    "});",
+    "console.log('desk closed');"
+   ],
+   "output": [
+    "desk open",
+    "desk closed",
+    "lent map"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "loan",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'map'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "loan",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'map'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "loan",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'map'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "callback (line 3)"
+     ]
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "loan",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'map'}"
+      },
+      {
+       "name": "item",
+       "scope": "anonymous",
+       "value": "'map'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "loan",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'map'}"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "int.async-basics.promise-basics.concept-01": {
+   "code": [
+    "Promise.reject(new Error('full'))",
+    "  .catch(() => 'waitlist')",
+    "  .then((seat) => {",
+    "    console.log(seat);",
+    "  });"
+   ],
+   "output": [
+    "waitlist"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "seat",
+       "scope": "anonymous",
+       "value": "'waitlist'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.async-basics.promise-basics.trace-01": {
+   "code": [
+    "let mugs = 0;",
+    "const kiln = new Promise((done) => {",
+    "  mugs = mugs + 1;",
+    "  done('fired');",
+    "});",
+    "mugs = mugs + 10;",
+    "kiln.then(() => {",
+    "  mugs = mugs + 100;",
+    "});",
+    "console.log(mugs);"
+   ],
+   "output": [
+    "11"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "mugs",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "mugs",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "done",
+       "scope": "anonymous",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "mugs",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "done",
+       "scope": "anonymous",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "mugs",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "kiln",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'fired'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "mugs",
+       "scope": "global",
+       "value": "11"
+      },
+      {
+       "name": "kiln",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'fired'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "mugs",
+       "scope": "global",
+       "value": "11"
+      },
+      {
+       "name": "kiln",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'fired'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "callback (line 7)"
+     ]
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "mugs",
+       "scope": "global",
+       "value": "11"
+      },
+      {
+       "name": "kiln",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'fired'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "mugs",
+       "scope": "global",
+       "value": "111"
+      },
+      {
+       "name": "kiln",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'fired'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "int.async-basics.promise-basics.parsons-01": {
+   "code": [
+    "console.log('gate open');",
+    "Promise.resolve('ticket checked')",
+    "  .then((text) => console.log(text))",
+    "  .then(() => {",
+    "    console.log('boarded');",
+    "  });",
+    "console.log('gate closed');"
+   ],
+   "output": [
+    "gate open",
+    "gate closed",
+    "ticket checked",
+    "boarded"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "callback (line 3)"
+     ]
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "text",
+       "scope": "anonymous",
+       "value": "'ticket checked'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 4,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "int.async-basics.promise-basics.fix-01": {
+   "code": [
+    "Promise.resolve(20)",
+    "  .then((amount) => {",
+    "    return amount * 2;",
+    "  })",
+    "  .then((total) => {",
+    "    console.log(total);",
+    "  });"
+   ],
+   "output": [
+    "40"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "amount",
+       "scope": "anonymous",
+       "value": "20"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "anonymous",
+       "value": "40"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.async-basics.promise-basics.write-01": {
+   "code": [
+    "function labelStock(item) {",
+    "if (item.left < 3) {",
+    "  return item.name + ': low';",
+    "}",
+    "return item.name + ': ok';",
+    "}",
+    "console.log(labelStock({\"name\":\"ink\",\"left\":2}));"
+   ],
+   "output": [
+    "ink: low"
+   ],
+   "steps": [
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "item",
+       "scope": "labelStock",
+       "value": "{name: 'ink', left: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "item",
+       "scope": "labelStock",
+       "value": "{name: 'ink', left: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.async-basics.async-await.predict-01": {
+   "code": [
+    "async function countRooms() {",
+    "  return 12;",
+    "}",
+    "const rooms = countRooms();",
+    "console.log(typeof rooms);",
+    "rooms.then((n) => console.log(n));"
+   ],
+   "output": [
+    "object",
+    "12"
+   ],
+   "steps": [
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countRooms"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "rooms",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 12}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "rooms",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 12}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "rooms",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 12}"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "12"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "rooms",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 12}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.async-basics.async-await.concept-01": {
+   "code": [
+    "async function pack() {",
+    "  console.log('packing');",
+    "  await Promise.resolve();",
+    "  console.log('packed');",
+    "}",
+    "pack();",
+    "console.log('truck waiting');"
+   ],
+   "output": [
+    "packing",
+    "truck waiting",
+    "packed"
+   ],
+   "steps": [
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "pack"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "pack"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "resume pack"
+     ]
+    },
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "pack"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "int.async-basics.async-await.trace-01": {
+   "code": [
+    "let seats = 10;",
+    "async function reserve(count) {",
+    "  const free = seats;",
+    "  await Promise.resolve();",
+    "  seats = free - count;",
+    "}",
+    "reserve(3);",
+    "reserve(4);",
+    "setTimeout(() => {",
+    "  console.log(seats);",
+    "}, 100);"
+   ],
+   "output": [
+    "6"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "10"
+      },
+      {
+       "name": "count",
+       "scope": "reserve",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "reserve"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "10"
+      },
+      {
+       "name": "count",
+       "scope": "reserve",
+       "value": "3"
+      },
+      {
+       "name": "free",
+       "scope": "reserve",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "reserve"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "resume reserve"
+     ]
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "10"
+      },
+      {
+       "name": "count",
+       "scope": "reserve",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "reserve"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "resume reserve"
+     ]
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "10"
+      },
+      {
+       "name": "count",
+       "scope": "reserve",
+       "value": "4"
+      },
+      {
+       "name": "free",
+       "scope": "reserve",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "reserve"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "resume reserve"
+     ]
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "resume reserve",
+      "resume reserve"
+     ]
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "10"
+      },
+      {
+       "name": "count",
+       "scope": "reserve",
+       "value": "3"
+      },
+      {
+       "name": "free",
+       "scope": "reserve",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "reserve"
+     ],
+     "macrotasks": [
+      "callback (line 9)"
+     ],
+     "microtasks": [
+      "resume reserve"
+     ]
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "7"
+      },
+      {
+       "name": "count",
+       "scope": "reserve",
+       "value": "4"
+      },
+      {
+       "name": "free",
+       "scope": "reserve",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "reserve"
+     ],
+     "macrotasks": [
+      "callback (line 9)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "6"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "6"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "int.async-basics.async-await.fill-01": {
+   "code": [
+    "const ready = Promise.resolve(40);",
+    "async function countTickets() {",
+    "  const sold = await ready;",
+    "  console.log(sold);",
+    "}",
+    "countTickets();"
+   ],
+   "output": [
+    "40"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 40}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 40}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countTickets"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 40}"
+      },
+      {
+       "name": "sold",
+       "scope": "countTickets",
+       "value": "40"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "countTickets"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 40}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.async-basics.async-await.fix-01": {
+   "code": [
+    "async function loadPrice() {",
+    "  return 30;",
+    "}",
+    "async function showDouble() {",
+    "  const price = await loadPrice();",
+    "  console.log(price * 2);",
+    "}",
+    "showDouble();"
+   ],
+   "output": [
+    "60"
+   ],
+   "steps": [
+    {
+     "line": 8,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "showDouble"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "showDouble",
+      "loadPrice"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "price",
+       "scope": "showDouble",
+       "value": "30"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "showDouble"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.async-basics.async-await.write-01": {
+   "code": [
+    "function nightsLeft(booking) {",
+    "const { nights, used } = booking;",
+    "const left = nights - used;",
+    "if (left < 0) {",
+    "  return 0;",
+    "}",
+    "return left;",
+    "}",
+    "console.log(nightsLeft({\"nights\":7,\"used\":3}));"
+   ],
+   "output": [
+    "4"
+   ],
+   "steps": [
+    {
+     "line": 9,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "booking",
+       "scope": "nightsLeft",
+       "value": "{nights: 7, used: 3}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "booking",
+       "scope": "nightsLeft",
+       "value": "{nights: 7, used: 3}"
+      },
+      {
+       "name": "nights",
+       "scope": "nightsLeft",
+       "value": "7"
+      },
+      {
+       "name": "used",
+       "scope": "nightsLeft",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "booking",
+       "scope": "nightsLeft",
+       "value": "{nights: 7, used: 3}"
+      },
+      {
+       "name": "nights",
+       "scope": "nightsLeft",
+       "value": "7"
+      },
+      {
+       "name": "used",
+       "scope": "nightsLeft",
+       "value": "3"
+      },
+      {
+       "name": "left",
+       "scope": "nightsLeft",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "booking",
+       "scope": "nightsLeft",
+       "value": "{nights: 7, used: 3}"
+      },
+      {
+       "name": "nights",
+       "scope": "nightsLeft",
+       "value": "7"
+      },
+      {
+       "name": "used",
+       "scope": "nightsLeft",
+       "value": "3"
+      },
+      {
+       "name": "left",
+       "scope": "nightsLeft",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.async-basics.async-error-handling.predict-01": {
+   "code": [
+    "const reserve = async () => {",
+    "  throw new Error('full');",
+    "};",
+    "reserve().catch(() => {",
+    "  console.log('waitlisted');",
+    "});",
+    "console.log('requested');"
+   ],
+   "output": [
+    "requested",
+    "waitlisted"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "reserve",
+       "scope": "global",
+       "value": "[Function: reserve]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "reserve",
+       "scope": "global",
+       "value": "[Function: reserve]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "reserve"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "reserve",
+       "scope": "global",
+       "value": "[Function: reserve]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "callback (line 4)"
+     ]
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "reserve",
+       "scope": "global",
+       "value": "[Function: reserve]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "reserve",
+       "scope": "global",
+       "value": "[Function: reserve]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "int.async-basics.async-error-handling.concept-01": {
+   "code": [
+    "async function save() {",
+    "  try {",
+    "    await Promise.reject('x');",
+    "    console.log('saved');",
+    "  } catch (error) {",
+    "    console.log('failed');",
+    "  } finally {",
+    "    console.log('closed');",
+    "  }",
+    "}",
+    "save();"
+   ],
+   "output": [
+    "failed",
+    "closed"
+   ],
+   "steps": [
+    {
+     "line": 11,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "save"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "save"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "error",
+       "scope": "save",
+       "value": "'x'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "save"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "save"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.async-basics.async-error-handling.trace-01": {
+   "code": [
+    "let note = 'new';",
+    "async function pay() {",
+    "  try {",
+    "    await Promise.reject('x');",
+    "    note = 'paid';",
+    "  } catch (error) {",
+    "    note = 'declined';",
+    "  } finally {",
+    "    note = note + '+log';",
+    "  }",
+    "}",
+    "pay().then(() => console.log(note));"
+   ],
+   "output": [
+    "declined+log"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 12,
+     "variables": [
+      {
+       "name": "note",
+       "scope": "global",
+       "value": "'new'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "note",
+       "scope": "global",
+       "value": "'new'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "pay"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "note",
+       "scope": "global",
+       "value": "'new'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "pay"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "note",
+       "scope": "global",
+       "value": "'new'"
+      },
+      {
+       "name": "error",
+       "scope": "pay",
+       "value": "'x'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "pay"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "note",
+       "scope": "global",
+       "value": "'declined'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "pay"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 12,
+     "variables": [
+      {
+       "name": "note",
+       "scope": "global",
+       "value": "'declined+log'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "note",
+       "scope": "global",
+       "value": "'declined+log'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.async-basics.async-error-handling.parsons-01": {
+   "code": [
+    "console.log('doors open');",
+    "Promise.reject(new Error('x'))",
+    "  .then(() => console.log('then'))",
+    "  .catch(() => console.log('catch'))",
+    "  .finally(() => {",
+    "    console.log('finally');",
+    "  });",
+    "console.log('doors closed');"
+   ],
+   "output": [
+    "doors open",
+    "doors closed",
+    "catch",
+    "finally"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "settle promise"
+     ]
+    },
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 4,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "int.async-basics.async-error-handling.fix-01": {
+   "code": [
+    "async function checkSoil() {",
+    "  throw new Error('dry');",
+    "}",
+    "async function water() {",
+    "  try {",
+    "    await checkSoil();",
+    "  } catch (error) {",
+    "    console.log('soil too dry');",
+    "  }",
+    "}",
+    "water();"
+   ],
+   "output": [
+    "soil too dry"
+   ],
+   "steps": [
+    {
+     "line": 11,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "water"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "water"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "water",
+      "checkSoil"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "error",
+       "scope": "water",
+       "value": "Error"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "water"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.async-basics.async-error-handling.write-01": {
+   "code": [
+    "function checkReadings(readings) {",
+    "let status = 'ok';",
+    "try {",
+    "  if (readings.length === 0) {",
+    "    throw new Error('empty');",
+    "  }",
+    "} catch (error) {",
+    "  status = 'empty';",
+    "} finally {",
+    "  status = status + '!';",
+    "}",
+    "return status;",
+    "}",
+    "console.log(checkReadings([4,5]));"
+   ],
+   "output": [
+    "ok!"
+   ],
+   "steps": [
+    {
+     "line": 14,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "readings",
+       "scope": "checkReadings",
+       "value": "[4, 5]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "checkReadings"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "readings",
+       "scope": "checkReadings",
+       "value": "[4, 5]"
+      },
+      {
+       "name": "status",
+       "scope": "checkReadings",
+       "value": "'ok'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "checkReadings"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "readings",
+       "scope": "checkReadings",
+       "value": "[4, 5]"
+      },
+      {
+       "name": "status",
+       "scope": "checkReadings",
+       "value": "'ok'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "checkReadings"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "readings",
+       "scope": "checkReadings",
+       "value": "[4, 5]"
+      },
+      {
+       "name": "status",
+       "scope": "checkReadings",
+       "value": "'ok'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "checkReadings"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 12,
+     "variables": [
+      {
+       "name": "readings",
+       "scope": "checkReadings",
+       "value": "[4, 5]"
+      },
+      {
+       "name": "status",
+       "scope": "checkReadings",
+       "value": "'ok!'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "checkReadings"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ },
+ "conceptCards": {
+  "async-basics.lesson-1": {
+   "code": [
+    "function hello() {",
+    "  console.log('tea ready');",
+    "}",
+    "setTimeout(hello, 100);",
+    "console.log('kettle on');"
+   ],
+   "output": [
+    "kettle on",
+    "tea ready"
+   ],
+   "steps": [
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "hello"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "hello"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "async-basics.lesson-2": {
+   "code": [
+    "Promise.resolve(2)",
+    "  .then((n) => n + 1)",
+    "  .then((n) => console.log(n));",
+    "console.log('queued');"
+   ],
+   "output": [
+    "queued",
+    "3"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "callback (line 2)"
+     ]
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "2"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "3"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "async-basics.lesson-3": {
+   "code": [
+    "const ready = Promise.resolve(2);",
+    "async function brew() {",
+    "  const cups = await ready;",
+    "  console.log('cups', cups);",
+    "}",
+    "brew();",
+    "console.log('brewing');"
+   ],
+   "output": [
+    "brewing",
+    "cups 2"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "brew"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "resume brew"
+     ]
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 2}"
+      },
+      {
+       "name": "cups",
+       "scope": "brew",
+       "value": "2"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "brew"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 2}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "async-basics.lesson-4": {
+   "code": [
+    "async function run() {",
+    "  try {",
+    "    await Promise.reject('x');",
+    "  } catch (error) {",
+    "    console.log('caught');",
+    "  }",
+    "}",
+    "run();"
+   ],
+   "output": [
+    "caught"
+   ],
+   "steps": [
+    {
+     "line": 8,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "run"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "run"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "error",
+       "scope": "run",
+       "value": "'x'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "run"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ }
+}
