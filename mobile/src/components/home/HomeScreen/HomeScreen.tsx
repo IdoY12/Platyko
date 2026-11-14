@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { conceptsDueForReview, nextLessonId, summaryLessonId } from "@project/learning-logic";
+import { conceptsDueForReview, dailyChallengeId, nextLessonId, summaryLessonId } from "@project/learning-logic";
 import { AppText } from "@/components/common/AppText/AppText";
 import { LipButton } from "@/components/common/LipButton/LipButton";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
@@ -18,6 +18,7 @@ import { t } from "@/i18n/translate";
 import { MIN_TOUCH_TARGET, palette, radii, space, wash } from "@/theme/tokens";
 import type { RootNavigation } from "@/types/rootNavigation.types";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
+import { HomeDailyChallenge } from "./HomeDailyChallenge";
 import { HomeStatsHeader } from "./HomeStatsHeader";
 import { HomeWeekRow } from "./HomeWeekRow";
 import { homeMascotState } from "./homeMascotState";
@@ -112,6 +113,12 @@ export function HomeScreen() {
             <MaterialCommunityIcons name="play" size={24} color={palette.text.onBright} />
           </PressableScale>
         </Surface>
+      ) : null}
+      {map ? (
+        <HomeDailyChallenge
+          todayResult={progress.dailyChallenges.find((result) => result.date === today) ?? null}
+          onPlay={() => navigation.navigate("LessonPlayer", { lessonId: dailyChallengeId(today) })}
+        />
       ) : null}
     </Screen>
   );

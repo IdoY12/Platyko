@@ -4,6 +4,7 @@ import { levelForXp } from "@project/xp-constants";
 import { isCleanFirstAttempt, MAX_ATTEMPTS_PER_ITEM, type AttemptRecord } from "./attempts.js";
 import { conceptMasteryScore, MASTERY_WINDOW_ITEMS, type FirstAttempt } from "./mastery.js";
 import { INITIAL_REVIEW_STATE, reviewDueDate, reviewQualityOf, scheduleReview, type ReviewState } from "./spacedReview.js";
+import type { DailyChallengeResult } from "./dailyChallenge.js";
 import { xpForAttempt, xpForLessonCompletion } from "./xpAwards.js";
 
 /**
@@ -41,6 +42,8 @@ export type ProgressSnapshot = {
   practiceDays: PracticeDay[];
   /** Tracks opened by a passed jump test. */
   jumpedTracks: Track[];
+  /** The most recent daily challenges, oldest first. */
+  dailyChallenges: DailyChallengeResult[];
 };
 
 export const EMPTY_PROGRESS: ProgressSnapshot = {
@@ -52,6 +55,7 @@ export const EMPTY_PROGRESS: ProgressSnapshot = {
   concepts: [],
   practiceDays: [],
   jumpedTracks: [],
+  dailyChallenges: [],
 };
 
 /** Twelve weeks of the profile's activity map. */
@@ -61,7 +65,8 @@ export function levelOf(snapshot: ProgressSnapshot): number {
   return levelForXp(snapshot.xpTotal);
 }
 
-function withPracticeDay(days: PracticeDay[], today: string, change: Partial<Omit<PracticeDay, "date">>): PracticeDay[] {
+/** Adds a change to a calendar day's practice record, creating the day when needed. */
+export function withPracticeDay(days: PracticeDay[], today: string, change: Partial<Omit<PracticeDay, "date">>): PracticeDay[] {
   const existing = days.find((day) => day.date === today) ?? { date: today, lessonsCompleted: 0, itemsAnswered: 0, xpEarned: 0 };
   const updated: PracticeDay = {
     date: today,

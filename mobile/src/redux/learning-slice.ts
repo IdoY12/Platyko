@@ -2,7 +2,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { CompletedLessonReport, ContentMapResponse, LearningGoals, LessonContentResponse, LessonResume, ProgressResponse } from "@project/api-contract";
 import { MAX_GUEST_ATTEMPTS } from "@project/api-contract";
 import type { Track } from "@project/content-model";
-import { applyAttempt, applyLessonCompletion, EMPTY_PROGRESS, withJumpedTrack, type AttemptRecord, type ProgressSnapshot } from "@project/learning-logic";
+import { applyAttempt, applyDailyChallenge, applyLessonCompletion, EMPTY_PROGRESS, withJumpedTrack, type AttemptRecord, type DailyChallengeResult, type ProgressSnapshot } from "@project/learning-logic";
 
 /**
  * Everything the learning screens read. Attempts apply here at once with the same rules the
@@ -23,20 +23,23 @@ export type LearningState = {
   /** Not yet accepted by the server, with what is needed to apply them again on top of its answer. */
   pendingAttempts: PendingAttempt[];
   pendingLessons: PendingLesson[];
-  /** A guest's every attempt and finished lesson, for the upload on sign-up. */
-  guestHistory: { attempts: AttemptRecord[]; lessons: CompletedLessonReport[] };
+  pendingDailyChallenges: PendingDailyChallenge[];
+  /** A guest's every attempt, finished lesson and daily challenge, for the upload on sign-up. */
+  guestHistory: { attempts: AttemptRecord[]; lessons: CompletedLessonReport[]; dailyChallenges: DailyChallengeResult[] };
   lastSyncedAt: string | null;
 };
 
 type PendingAttempt = { attempt: AttemptRecord; concept: string; today: string };
 type PendingLesson = { lesson: CompletedLessonReport; today: string };
+type PendingDailyChallenge = { result: DailyChallengeResult; today: string };
 
 const MAX_CACHED_LESSONS = 40;
 
-/** Applies attempts and finished lessons that the server has not seen yet, in the order they happened. */
-function replayPending(progress: ProgressSnapshot, attempts: readonly PendingAttempt[], lessons: readonly PendingLesson[]): ProgressSnapshot {
-  const afterAttempts = attempts.reduce((current, pending) => applyAttempt(current, pending.attempt, pending.concept, pending.today).snapshot, progress);
-  return lessons.reduce((current, pending) => applyLessonCompletion(current, pending.lesson, pending.today).snapshot, afterAttempts);
+/** Applies attempts, finished lessons and challenges that the server has not seen yet, in the order they happened. */
+function replayPending(progress: ProgressSnapshot, state: Pick<LearningState, "pendingAttempts" | "pendingLessons" | "pendingDailyChallenges">): ProgressSnapshot {
+  const afterAttempts = state.pendingAttempts.reduce((current, pending) => applyAttempt(current, pending.attempt, pending.concept, pending.today).snapshot, progress);
+  const afterLessons = state.pendingLessons.reduce((current, pending) => applyLessonCompletion(current, pending.lesson, pending.today).snapshot, afterAttempts);
+  return state.pendingDailyChallenges.reduce((current, pending) => applyDailyChallenge(current, pending.result, pending.today).snapshot, afterLessons);
 }
 
 const initialState: LearningState = {
@@ -48,7 +51,8 @@ const initialState: LearningState = {
   startingTrack: null,
   pendingAttempts: [],
   pendingLessons: [],
-  guestHistory: { attempts: [], lessons: [] },
+  pendingDailyChallenges: [],
+  guestHistory: { attempts: [], lessons: [], dailyChallenges: [] },
   lastSyncedAt: null,
 };
 
@@ -59,7 +63,14 @@ const learningSlice = createSlice({
   name: "learning",
   initialState,
   reducers: {
-    hydrateLearning: (state, action: PayloadAction<Partial<LearningState>>) => ({ ...state, ...action.payload }),
+    // Fields added in later versions start from their defaults when an older device's state is read.
+    hydrateLearning: (state, action: PayloadAction<Partial<LearningState>>) => ({
+      ...state,
+      ...action.payload,
+      progress: { ...EMPTY_PROGRESS, ...action.payload.progress },
+      pendingDailyChallenges: action.payload.pendingDailyChallenges ?? [],
+      guestHistory: { ...initialState.guestHistory, ...action.payload.guestHistory },
+    }),
     resetLearning: () => initialState,
     setContentMap: (state, action: PayloadAction<ContentMapResponse>) => {
       // A new bank invalidates every cached lesson: item ids or answers may have changed.
@@ -88,6 +99,13 @@ const learningSlice = createSlice({
       state.startingTrack = action.payload.startingTrack;
       state.goals.weeklyGoalDays = action.payload.weeklyGoalDays;
     },
+    /** A finished daily challenge pays once per day; an account's is queued for the server. */
+    recordDailyChallenge: (state, action: PayloadAction<{ result: DailyChallengeResult; today: string; isGuest: boolean }>) => {
+      const { result, today, isGuest } = action.payload;
+      state.progress = applyDailyChallenge(state.progress, result, today).snapshot;
+      if (isGuest) state.guestHistory.dailyChallenges.push(result);
+      else state.pendingDailyChallenges.push({ result, today });
+    },
     /** A passed jump test opens its track at once; for an account the server confirms it on sync. */
     recordJumpTestPass: (state, action: PayloadAction<Track>) => {
       state.progress = withJumpedTrack(state.progress, action.payload);
@@ -96,14 +114,15 @@ const learningSlice = createSlice({
       state.resume = action.payload;
     },
     /** The server accepted a batch: its progress replaces the local one, and the sent items leave the queue. */
-    applyServerProgress: (state, action: PayloadAction<{ response: ProgressResponse; sentAttemptIds: string[]; sentLessonIds: string[] }>) => {
-      const { response, sentAttemptIds, sentLessonIds } = action.payload;
+    applyServerProgress: (state, action: PayloadAction<{ response: ProgressResponse; sentAttemptIds: string[]; sentLessonIds: string[]; sentChallengeDates: string[] }>) => {
+      const { response, sentAttemptIds, sentLessonIds, sentChallengeDates } = action.payload;
       const sentAttempts = new Set(sentAttemptIds);
       const sentLessons = new Set(sentLessonIds);
       state.pendingAttempts = state.pendingAttempts.filter((pending) => !sentAttempts.has(pending.attempt.clientAttemptId));
       state.pendingLessons = state.pendingLessons.filter((pending) => !sentLessons.has(pending.lesson.lessonId));
+      state.pendingDailyChallenges = state.pendingDailyChallenges.filter((pending) => !sentChallengeDates.includes(pending.result.date));
       // Attempts made while the request was in flight are applied again on top of the server's state.
-      state.progress = replayPending(response.progress, state.pendingAttempts, state.pendingLessons);
+      state.progress = replayPending({ ...EMPTY_PROGRESS, ...response.progress }, state);
       state.resume = response.resume ?? state.resume;
       state.goals = response.goals;
       state.lastSyncedAt = new Date().toISOString();
@@ -118,11 +137,12 @@ const learningSlice = createSlice({
       state.resume = null;
       state.pendingAttempts = [];
       state.pendingLessons = [];
+      state.pendingDailyChallenges = [];
       state.lastSyncedAt = null;
     },
     /** After a guest's history reached the account, or the learner declined, it is no longer needed. */
     clearGuestHistory: (state) => {
-      state.guestHistory = { attempts: [], lessons: [] };
+      state.guestHistory = initialState.guestHistory;
     },
   },
 });
@@ -135,6 +155,7 @@ export const {
   recordAttempt,
   recordLessonCompletion,
   setOnboardingChoices,
+  recordDailyChallenge,
   recordJumpTestPass,
   saveResume,
   applyServerProgress,

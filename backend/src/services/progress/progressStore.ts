@@ -15,6 +15,8 @@ type Transaction = Prisma.TransactionClient;
 export type StoredProgress = { snapshot: ProgressSnapshot; resume: LessonResume | null; goals: LearningGoals };
 
 const END_OF_DAY = "T23:59:59.999Z";
+/** Daily results kept on the snapshot, as many as the shared rules keep. */
+const DAILY_RESULTS_LOADED = 31;
 
 /** Loads a user's progress from its tables into the shape the shared rules work on. Null when the user is gone. */
 export async function loadProgress(tx: Transaction, userId: string): Promise<StoredProgress | null> {
@@ -26,7 +28,7 @@ export async function loadProgress(tx: Transaction, userId: string): Promise<Sto
     },
   });
   if (!user) return null;
-  const [paid, visits, completedLessons, concepts, practiceDays, resume] = await Promise.all([
+  const [paid, visits, completedLessons, concepts, practiceDays, resume, dailyChallenges] = await Promise.all([
     tx.itemAttempt.findMany({
       where: { userId, OR: [{ xpAwarded: { gt: 0 }, context: { not: "REVIEW" } }, { context: "MIGRATED" }] },
       distinct: ["itemId"],
@@ -37,6 +39,7 @@ export async function loadProgress(tx: Transaction, userId: string): Promise<Sto
     tx.conceptMastery.findMany({ where: { userId } }),
     tx.practiceDay.findMany({ where: { userId }, orderBy: { date: "desc" }, take: PRACTICE_DAYS_KEPT }),
     tx.lessonResume.findUnique({ where: { userId } }),
+    tx.dailyChallengeResult.findMany({ where: { userId }, orderBy: { date: "desc" }, take: DAILY_RESULTS_LOADED }),
   ]);
   return {
     snapshot: {
@@ -64,6 +67,7 @@ export async function loadProgress(tx: Transaction, userId: string): Promise<Sto
         .map((row) => ({ date: row.date, lessonsCompleted: row.lessonsCompleted, itemsAnswered: row.itemsAnswered, xpEarned: row.xpEarned }))
         .reverse(),
       jumpedTracks: user.jumpedTracks,
+      dailyChallenges: dailyChallenges.map((row) => ({ date: row.date, grid: row.resultGrid as boolean[] })).reverse(),
     },
     resume: resume ? { lessonId: resume.lessonId, session: resume.state as unknown as LessonSession } : null,
     goals: { weeklyGoalDays: user.weeklyGoalDays, dailyGoalLessons: user.dailyGoalLessons },
@@ -126,6 +130,10 @@ export async function saveProgress(
   for (const day of changed(before.practiceDays, after.practiceDays)) {
     const data = { lessonsCompleted: day.lessonsCompleted, itemsAnswered: day.itemsAnswered, xpEarned: day.xpEarned };
     await tx.practiceDay.upsert({ where: { userId_date: { userId, date: day.date } }, create: { userId, date: day.date, ...data }, update: data });
+  }
+  for (const result of changed(before.dailyChallenges, after.dailyChallenges)) {
+    const data = { correctCount: result.grid.filter(Boolean).length, totalCount: result.grid.length, resultGrid: result.grid };
+    await tx.dailyChallengeResult.upsert({ where: { userId_date: { userId, date: result.date } }, create: { userId, date: result.date, ...data }, update: data });
   }
   for (const lesson of changed(before.completedLessons, after.completedLessons)) {
     const data = { bestAccuracy: lesson.bestAccuracy, flawless: lesson.flawless, lastCompletedAt: new Date() };

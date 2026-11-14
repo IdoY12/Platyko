@@ -7,3 +7,4 @@ export * from "./lessonPlan.js";
 export * from "./lessonSession.js";
 export * from "./progress.js";
 export * from "./jumpTest.js";
+export * from "./dailyChallenge.js";

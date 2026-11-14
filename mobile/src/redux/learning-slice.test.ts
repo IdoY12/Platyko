@@ -36,7 +36,7 @@ describe("learning slice", () => {
   it("takes the server's progress and replays what was answered while the request was in flight", () => {
     let state = reducer(undefined, recordAttempt({ attempt: attempt("a-1"), concept: "loops", today: "2026-11-14", isGuest: false }));
     state = reducer(state, recordAttempt({ attempt: attempt("a-2", "item-b"), concept: "loops", today: "2026-11-14", isGuest: false }));
-    state = reducer(state, applyServerProgress({ response: serverAnswer(10), sentAttemptIds: ["a-1"], sentLessonIds: [] }));
+    state = reducer(state, applyServerProgress({ response: serverAnswer(10), sentAttemptIds: ["a-1"], sentLessonIds: [], sentChallengeDates: [] }));
     expect(state.pendingAttempts.map((pending) => pending.attempt.clientAttemptId)).toEqual(["a-2"]);
     expect(state.progress.xpTotal).toBe(20);
     expect(state.goals).toEqual({ weeklyGoalDays: 3, dailyGoalLessons: 2 });

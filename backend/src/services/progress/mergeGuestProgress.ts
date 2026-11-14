@@ -1,6 +1,6 @@
 import { prisma, runSerializableWithRetry } from "@project/db";
 import type { GuestProgressUpload, SubmitProgressResponse } from "@project/api-contract";
-import { applyAttempt, applyLessonCompletion, EMPTY_PROGRESS, levelOf, type ProgressSnapshot } from "@project/learning-logic";
+import { applyAttempt, applyDailyChallenge, applyLessonCompletion, EMPTY_PROGRESS, levelOf, type ProgressSnapshot } from "@project/learning-logic";
 import { trustedCalendarDate, type StreakState } from "@project/streak-logic";
 import { knownLessonIds } from "../content/contentCatalog.js";
 import { withPassedJumpTests } from "./jumpTestPass.js";
@@ -73,6 +73,12 @@ export async function mergeGuestProgress(userId: string, upload: GuestProgressUp
       account = applied.snapshot;
       xpEarned += applied.xpEarned;
       guest = applyLessonCompletion(guest, lesson, day).snapshot;
+    }
+    for (const challenge of upload.dailyChallenges.filter((result) => result.date <= today)) {
+      const applied = applyDailyChallenge(account, challenge, challenge.date);
+      account = applied.snapshot;
+      xpEarned += applied.xpEarned;
+      guest = applyDailyChallenge(guest, challenge, challenge.date).snapshot;
     }
     account = { ...account, streak: mergedStreak(stored.snapshot.streak, guest.streak, today) };
     account = await withPassedJumpTests(tx, userId, account, fresh);

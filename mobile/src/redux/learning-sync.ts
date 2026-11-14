@@ -19,10 +19,11 @@ export function syncLearningProgress(dispatch: AppDispatch, getState: () => Root
   if (!session.isAuthenticated || session.isGuest) return Promise.resolve();
   const attempts = learning.pendingAttempts.map((pending) => pending.attempt);
   const completedLessons = learning.pendingLessons.map((pending) => pending.lesson);
+  const dailyChallenges = learning.pendingDailyChallenges.map((pending) => pending.result);
   const service = new ProgressService();
   const request =
-    attempts.length > 0 || completedLessons.length > 0
-      ? service.submit({ clientLocalDate: getStreakCalendarDate(), attempts, completedLessons })
+    attempts.length > 0 || completedLessons.length > 0 || dailyChallenges.length > 0
+      ? service.submit({ clientLocalDate: getStreakCalendarDate(), attempts, completedLessons, dailyChallenges })
       : service.getProgress(getStreakCalendarDate());
   syncInFlight = request
     .then((response) => {
@@ -31,6 +32,7 @@ export function syncLearningProgress(dispatch: AppDispatch, getState: () => Root
           response,
           sentAttemptIds: attempts.map((attempt) => attempt.clientAttemptId),
           sentLessonIds: completedLessons.map((lesson) => lesson.lessonId),
+          sentChallengeDates: dailyChallenges.map((result) => result.date),
         }),
       );
     })

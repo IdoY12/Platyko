@@ -36,8 +36,8 @@ export function GuestMergePrompt() {
     setBusy(true);
     setFailed(false);
     try {
-      const response = await new ProgressService().mergeGuestHistory({ clientLocalDate: getStreakCalendarDate(), attempts: history.attempts, completedLessons: history.lessons });
-      dispatch(applyServerProgress({ response, sentAttemptIds: [], sentLessonIds: [] }));
+      const response = await new ProgressService().mergeGuestHistory({ clientLocalDate: getStreakCalendarDate(), attempts: history.attempts, completedLessons: history.lessons, dailyChallenges: history.dailyChallenges });
+      dispatch(applyServerProgress({ response, sentAttemptIds: [], sentLessonIds: [], sentChallengeDates: [] }));
       dispatch(clearGuestHistory());
     } catch {
       setFailed(true);

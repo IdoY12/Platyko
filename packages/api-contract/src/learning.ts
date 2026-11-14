@@ -1,5 +1,5 @@
 import type { ConceptCard, Item, ItemTrace } from "@project/content-model";
-import type { AttemptRecord, LessonSession, MapUnit, ProgressSnapshot } from "@project/learning-logic";
+import type { AttemptRecord, DailyChallengeResult, LessonSession, MapUnit, ProgressSnapshot } from "@project/learning-logic";
 
 /**
  * Request and response shapes of the learning API, shared by the backend and the app so the two
@@ -62,6 +62,8 @@ export type SubmitProgressRequest = {
   clientLocalDate: string;
   attempts: AttemptRecord[];
   completedLessons: CompletedLessonReport[];
+  /** Daily challenges finished since the last batch; each pays once per date. */
+  dailyChallenges: DailyChallengeResult[];
 };
 export type SubmitProgressResponse = ProgressResponse & { xpEarned: number };
 export const MAX_ATTEMPTS_PER_BATCH = 200;
@@ -74,7 +76,7 @@ export type SaveResumeRequest = LessonResume;
  * the attempts and finished lessons, never an XP number. The server recomputes everything and
  * merges it into the account.
  */
-export type GuestProgressUpload = { clientLocalDate: string; attempts: AttemptRecord[]; completedLessons: CompletedLessonReport[] };
+export type GuestProgressUpload = SubmitProgressRequest;
 export const MAX_GUEST_ATTEMPTS = 3000;
 
 /** `POST /content/items/:itemId/feedback` — a vote after the explanation, or a report (PRD 7.6). Registered users. */

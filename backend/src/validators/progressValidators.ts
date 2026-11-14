@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { MAX_ATTEMPTS_PER_BATCH, MAX_GUEST_ATTEMPTS } from "@project/api-contract";
-import { ATTEMPT_CONTEXTS, HINT_LEVELS } from "@project/learning-logic";
+import { ATTEMPT_CONTEXTS, DAILY_CHALLENGE_LENGTH, HINT_LEVELS } from "@project/learning-logic";
 import { CALENDAR_DATE_PATTERN } from "@project/streak-logic";
 
 const contentId = z.string().min(3).max(120).regex(/^[a-z0-9]+(?:[.-][a-z0-9]+)*$/);
@@ -24,11 +24,17 @@ const attemptSchema = z.object({
 
 const completedLessonSchema = z.object({ lessonId: contentId, flawless: z.boolean(), accuracy: z.number().int().min(0).max(100) });
 
+const dailyChallengeSchema = z.object({ date: calendarDate, grid: z.array(z.boolean()).min(1).max(DAILY_CHALLENGE_LENGTH) });
+
+/** A month of daily challenges at most: what a guest's device keeps. */
+const MAX_DAILY_CHALLENGES = 31;
+
 const progressBatch = (maximumAttempts: number) =>
   z.object({
     clientLocalDate: calendarDate,
     attempts: z.array(attemptSchema).max(maximumAttempts),
     completedLessons: z.array(completedLessonSchema).max(200),
+    dailyChallenges: z.array(dailyChallengeSchema).max(MAX_DAILY_CHALLENGES).default([]),
   });
 
 export const submitProgressBodySchema = progressBatch(MAX_ATTEMPTS_PER_BATCH);

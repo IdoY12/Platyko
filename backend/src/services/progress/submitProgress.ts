@@ -1,6 +1,6 @@
 import { prisma, runSerializableWithRetry } from "@project/db";
 import type { ProgressResponse, SubmitProgressRequest, SubmitProgressResponse } from "@project/api-contract";
-import { applyAttempt, applyLessonCompletion, levelOf, type AttemptRecord, type ProgressSnapshot } from "@project/learning-logic";
+import { applyAttempt, applyDailyChallenge, applyLessonCompletion, levelOf, type AttemptRecord, type ProgressSnapshot } from "@project/learning-logic";
 import { streakOnAppOpen, trustedCalendarDate } from "@project/streak-logic";
 import { knownLessonIds } from "../content/contentCatalog.js";
 import { withPassedJumpTests } from "./jumpTestPass.js";
@@ -61,6 +61,13 @@ export async function submitProgress(userId: string, request: SubmitProgressRequ
       xpEarned += applied.xpEarned;
     }
 
+    // A challenge counts only with its answers in the same batch and never for a future day.
+    const answeredChallenge = fresh.some((attempt) => attempt.context === "DAILY_CHALLENGE");
+    for (const challenge of request.dailyChallenges.filter((result) => answeredChallenge && result.date <= today)) {
+      const applied = applyDailyChallenge(snapshot, challenge, today);
+      snapshot = applied.snapshot;
+      xpEarned += applied.xpEarned;
+    }
     snapshot = await withPassedJumpTests(tx, userId, snapshot, fresh);
     await saveProgress(tx, userId, stored.snapshot, snapshot, recorded);
     const finishedResume = stored.resume !== null && finishedLessons.some((lesson) => lesson.lessonId === stored.resume?.lessonId);

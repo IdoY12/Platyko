@@ -25,8 +25,8 @@ export type RootStackParamList = {
   /** A lesson, a unit's summary lesson, or a review session (`lessonId` "review"). */
   LessonPlayer: { lessonId: string };
   Settings: undefined;
-  /** `jumpPassed` is set after a jump test (`lessonId` "jump:<TRACK>"). */
-  LessonSummary: { lessonId: string; accuracy: number; xpEarned: number; flawless: boolean; concepts: string[]; jumpPassed?: boolean };
+  /** `jumpPassed` follows a jump test (`lessonId` "jump:<TRACK>"), `challengeGrid` a daily challenge ("daily:<DATE>"). */
+  LessonSummary: { lessonId: string; accuracy: number; xpEarned: number; flawless: boolean; concepts: string[]; jumpPassed?: boolean; challengeGrid?: boolean[] };
 };
 
 export type ForgotPasswordNavigation = NativeStackNavigationProp<RootStackParamList, "ForgotPassword">;

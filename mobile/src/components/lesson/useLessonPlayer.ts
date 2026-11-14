@@ -9,6 +9,8 @@ import {
   buildLessonPlan,
   buildSummaryLessonPlan,
   currentSlot,
+  dailyChallengeDate,
+  dailyChallengeItemIds,
   isJumpTestPassed,
   isLessonFinished,
   jumpTestItemIds,
@@ -27,7 +29,7 @@ import ContentService from "@/services/auth-aware/ContentService";
 import ProgressService from "@/services/auth-aware/ProgressService";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import store from "@/redux/store";
-import { cacheLesson, recordAttempt, recordJumpTestPass, recordLessonCompletion, saveResume } from "@/redux/learning-slice";
+import { cacheLesson, recordAttempt, recordDailyChallenge, recordJumpTestPass, recordLessonCompletion, saveResume } from "@/redux/learning-slice";
 import { syncLearningProgress } from "@/redux/learning-sync";
 import { haptic } from "@/theme/haptics";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
@@ -79,8 +81,12 @@ export function useLessonPlayer(lessonId: string) {
   const concepts = useMemo(() => conceptByItemId(map), [map]);
   /** The track a jump test opens; null for a lesson or a review. */
   const jumpTrack = jumpTestTrack(lessonId);
-  /** Neither a review nor a jump test belongs to a lesson: no place to save, no completion. */
-  const isLesson = lessonId !== REVIEW_SESSION_ID && jumpTrack === null;
+  /** The day of a daily challenge; null otherwise. */
+  const challengeDate = dailyChallengeDate(lessonId);
+  /** A jump test and a daily challenge give one attempt per item and no hints. */
+  const isTest = jumpTrack !== null || challengeDate !== null;
+  /** Reviews, jump tests and challenges belong to no lesson: no place to save, no completion. */
+  const isLesson = lessonId !== REVIEW_SESSION_ID && !isTest;
 
   const slot = session ? currentSlot(session) : null;
   const item = slot?.kind === "item" ? items[slot.itemId] ?? null : null;
@@ -109,7 +115,10 @@ export function useLessonPlayer(lessonId: string) {
       let known = cachedItems;
       const resume = learning.resume?.lessonId === lessonId ? learning.resume.session : null;
 
-      if (jumpTrack) {
+      if (challengeDate) {
+        const finished = new Set(learning.progress.completedLessons.map((completed) => completed.lessonId));
+        plan = dailyChallengeItemIds(learning.map?.units ?? [], finished, challengeDate).map((itemId) => ({ kind: "item" as const, itemId, review: false }));
+      } else if (jumpTrack) {
         plan = jumpTestItemIds(learning.map?.units ?? [], jumpTrack).map((itemId) => ({ kind: "item" as const, itemId, review: false }));
       } else if (lessonId === REVIEW_SESSION_ID) {
         const reviewIds = pickReviewItems(dueReviewCandidates(learning.map, learning.progress, today), LESSON_SLOTS);
@@ -140,7 +149,7 @@ export function useLessonPlayer(lessonId: string) {
       if (cancelled) return;
       // An item that is gone (flagged or retired) or unreachable offline is skipped; earlier attempts stay (PRD 17.1).
       const playable = (resume ?? startLessonSession(lessonId, plan)).slots.filter((planned) => planned.kind === "conceptCard" || known[planned.itemId]);
-      const start = resume ? { ...resume, slots: playable, position: Math.min(resume.position, playable.length) } : startLessonSession(lessonId, playable, { test: jumpTrack !== null });
+      const start = resume ? { ...resume, slots: playable, position: Math.min(resume.position, playable.length) } : startLessonSession(lessonId, playable, { test: isTest });
       setItems(known);
       setSession(start);
       setLoad(playable.length > 0 ? { status: "ready" } : { status: "error" });
@@ -153,7 +162,7 @@ export function useLessonPlayer(lessonId: string) {
     return () => {
       cancelled = true;
     };
-  }, [dispatch, jumpTrack, lessonId]);
+  }, [challengeDate, dispatch, isTest, jumpTrack, lessonId]);
 
   // A fresh draft for every new item on screen.
   useEffect(() => {
@@ -207,7 +216,7 @@ export function useLessonPlayer(lessonId: string) {
           attemptNo: answered.attemptNo,
           optionIndex,
           usedHint: itemHintsUsed(hints, item.id),
-          context: jumpTrack ? "JUMP_TEST" : lessonId === REVIEW_SESSION_ID || (slot?.kind === "item" && slot.review) ? "REVIEW" : "LESSON",
+          context: jumpTrack ? "JUMP_TEST" : challengeDate ? "DAILY_CHALLENGE" : lessonId === REVIEW_SESSION_ID || (slot?.kind === "item" && slot.review) ? "REVIEW" : "LESSON",
           lessonId: isLesson ? lessonId : null,
           answeredAt: new Date().toISOString(),
         },
@@ -221,13 +230,15 @@ export function useLessonPlayer(lessonId: string) {
     setRecentResults((previous) => [...previous.slice(-(MOOD_WINDOW - 1)), correct]);
     setSession(answered.session);
     setChecked({ outcome: answered.outcome, correct, optionIndex, wrongLine, codeVerdict });
-  }, [checked, concepts, dispatch, draft, hints, isGuest, isLesson, item, jumpTrack, lessonId, session, slot]);
+  }, [challengeDate, checked, concepts, dispatch, draft, hints, isGuest, isLesson, item, jumpTrack, lessonId, session, slot]);
 
   const finish = useCallback(
     (finished: LessonSession) => {
       const result = lessonResult(finished);
       const jumpPassed = jumpTrack !== null && isJumpTestPassed(result.firstAttemptCorrect, finished.slots.length);
       if (jumpTrack && jumpPassed) dispatch(recordJumpTestPass(jumpTrack));
+      const challengeGrid = finished.slots.flatMap((played) => (played.kind === "item" ? [finished.items[played.itemId]?.firstAttemptCorrect ?? false] : []));
+      if (challengeDate) dispatch(recordDailyChallenge({ result: { date: challengeDate, grid: challengeGrid }, today: getStreakCalendarDate(), isGuest }));
       if (isLesson) {
         dispatch(recordLessonCompletion({ lesson: { lessonId, flawless: result.flawless, accuracy: result.accuracy }, today: getStreakCalendarDate(), isGuest }));
         if (!isGuest) void new ProgressService().clearResume().catch(() => undefined);
@@ -240,9 +251,10 @@ export function useLessonPlayer(lessonId: string) {
         xpEarned: store.getState().learning.progress.xpTotal - xpAtStart.current,
         concepts: practised,
         jumpPassed,
+        ...(challengeDate ? { challengeGrid } : {}),
       };
     },
-    [concepts, dispatch, isGuest, isLesson, items, jumpTrack, lessonId],
+    [challengeDate, concepts, dispatch, isGuest, isLesson, items, jumpTrack, lessonId],
   );
 
   /** Moves on after the feedback sheet (or the concept card). Returns the lesson result once the lesson ends. */
@@ -286,7 +298,7 @@ export function useLessonPlayer(lessonId: string) {
     load,
     session,
     /** A test shows no hints: its score is what the learner knows unaided. */
-    isTest: jumpTrack !== null,
+    isTest,
     slot,
     item,
     conceptCard,
