@@ -1,0 +1,1796 @@
+{
+  "track": "INTERMEDIATE",
+  "unit": "array-methods",
+  "order": 1,
+  "title": "Array methods",
+  "summary": "Transform, select, fold and search arrays with map, filter, reduce, find, some, every and includes.",
+  "concepts": [
+    {
+      "id": "array-map",
+      "title": "Transforming with map",
+      "prerequisites": [
+        "array-iteration",
+        "function-expressions"
+      ]
+    },
+    {
+      "id": "array-filter",
+      "title": "Selecting with filter",
+      "prerequisites": [
+        "array-map",
+        "truthy-and-falsy"
+      ]
+    },
+    {
+      "id": "array-reduce",
+      "title": "Folding with reduce",
+      "prerequisites": [
+        "array-map",
+        "loop-accumulator"
+      ]
+    },
+    {
+      "id": "array-find-and-search",
+      "title": "find, some, every and includes",
+      "prerequisites": [
+        "array-filter"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "iteration-method-mutates-original",
+      "description": "Believes map or filter changes the array it is called on instead of returning a new array."
+    },
+    {
+      "id": "map-collapses-to-one-value",
+      "description": "Believes map combines its callback results into one value instead of one result per element."
+    },
+    {
+      "id": "filter-returns-callback-results",
+      "description": "Believes filter returns the values the callback returned, such as true and false, instead of the elements that passed."
+    },
+    {
+      "id": "trace-wrong-pass",
+      "description": "Takes the wrong run of a line that executes many times, counting one run too few or too many."
+    },
+    {
+      "id": "final-value-at-every-step",
+      "description": "Reads the value a variable has at the end of the program for every earlier step."
+    },
+    {
+      "id": "reduce-initial-value-ignored",
+      "description": "Believes the second argument of reduce is not part of the result."
+    },
+    {
+      "id": "reduce-initial-added-each-pass",
+      "description": "Believes the starting value of reduce is added again on every pass."
+    },
+    {
+      "id": "reduce-no-start-uses-zero",
+      "description": "Believes reduce without a starting value starts at 0 and runs the callback for every element."
+    },
+    {
+      "id": "reduce-no-start-undefined",
+      "description": "Believes reduce without a starting value begins with undefined."
+    },
+    {
+      "id": "search-method-returns-array",
+      "description": "Believes find or some return an array of matches, as filter does."
+    },
+    {
+      "id": "no-match-gives-null",
+      "description": "Believes a search method returns null when nothing matches."
+    },
+    {
+      "id": "some-checks-every-element",
+      "description": "Believes some always runs its callback for every element instead of stopping at the first match."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+      "retrievedAt": "2026-11-14",
+      "sha256": "0143f34d5428a4bb2fc70a361352784c86b728eb617117a29bdcf5e29d9407b7"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+      "retrievedAt": "2026-11-14",
+      "sha256": "bb28011cafa94299a064f0a0965c93ceccaf782cbc308f15a92089075f000f11"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
+      "retrievedAt": "2026-11-14",
+      "sha256": "220fafc36d645e977ce9a387d234278bfbe70c8730fb99ba6f6a20651550c3ca"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find",
+      "retrievedAt": "2026-11-14",
+      "sha256": "79aff8ca33b59664e28768cddad791040859083337e682016bdc215d8267de63"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some",
+      "retrievedAt": "2026-11-14",
+      "sha256": "d2d988d1888e8543d53840e2ba6a7942cb5b9c49979056f61a8f26b2d9904902"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every",
+      "retrievedAt": "2026-11-14",
+      "sha256": "8bb101150d9603dcccfff90b337b798caf725a09b6755498db33df2a10e75c0a"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes",
+      "retrievedAt": "2026-11-14",
+      "sha256": "ae0e28f666a4731e882f2badd7c04d4060e836bfd11513f0a50fbdf4dcad9680"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat",
+      "retrievedAt": "2026-11-14",
+      "sha256": "85b0e80355b3910abea285b187d939d7cdb10f0546dc2f5870fa3119cf489f5b"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Indexed_collections",
+      "retrievedAt": "2026-11-14",
+      "sha256": "ee91abf1a52f3393ca8f153b1109a6761576575ce74ab787721b0e87a1c091fb"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "array-methods.lesson-1",
+      "title": "Transforming with map",
+      "conceptCard": {
+        "title": "map builds a new array",
+        "body": "map calls a function on every element and collects the returned values in a new array of the same length. The original array is not changed. The function must return a value, or the new array holds undefined.",
+        "code": [
+          "const cups = [1, 2, 3];",
+          "const ml = cups.map((c) => c * 250);",
+          "console.log(ml);",
+          "console.log(cups);"
+        ],
+        "expectedOutput": "[250, 500, 750]\n[1, 2, 3]"
+      },
+      "itemIds": [
+        "int.array-methods.array-map.predict-01",
+        "int.array-methods.array-map.concept-01",
+        "int.array-methods.array-map.trace-01",
+        "int.array-methods.array-map.fill-01",
+        "int.array-methods.array-map.fix-01",
+        "int.array-methods.array-map.write-01"
+      ]
+    },
+    {
+      "id": "array-methods.lesson-2",
+      "title": "Selecting with filter",
+      "conceptCard": {
+        "title": "filter keeps what passes",
+        "body": "filter calls a function on every element and keeps the elements for which it returns a truthy value. The result is a new array that can be shorter, even empty. Its elements are the originals, not the values the function returned.",
+        "code": [
+          "const ages = [3, 17, 25];",
+          "const adults = ages.filter(",
+          "  (a) => a >= 18",
+          ");",
+          "console.log(adults, ages.length);"
+        ],
+        "expectedOutput": "[25] 3"
+      },
+      "itemIds": [
+        "int.array-methods.array-filter.predict-01",
+        "int.array-methods.array-filter.concept-01",
+        "int.array-methods.array-filter.trace-01",
+        "int.array-methods.array-filter.parsons-01",
+        "int.array-methods.array-filter.fix-01",
+        "int.array-methods.array-filter.write-01"
+      ]
+    },
+    {
+      "id": "array-methods.lesson-3",
+      "title": "Folding with reduce",
+      "conceptCard": {
+        "title": "reduce folds to one value",
+        "body": "reduce folds an array into one value. The callback gets the running result and the current element, and returns the next running result. The second argument is the starting result; without it, the first element is used.",
+        "code": [
+          "const parts = [1, 2, 3];",
+          "const total = parts.reduce(",
+          "  (acc, p) => acc + p,",
+          "  10",
+          ");",
+          "console.log(total);"
+        ],
+        "expectedOutput": "16"
+      },
+      "itemIds": [
+        "int.array-methods.array-reduce.predict-01",
+        "int.array-methods.array-reduce.concept-01",
+        "int.array-methods.array-reduce.trace-01",
+        "int.array-methods.array-reduce.fill-01",
+        "int.array-methods.array-reduce.fix-01",
+        "int.array-methods.array-reduce.write-01"
+      ]
+    },
+    {
+      "id": "array-methods.lesson-4",
+      "title": "find, some, every and includes",
+      "conceptCard": {
+        "title": "Searching an array",
+        "body": "find returns the first element that passes the test, or undefined. some is true when at least one element passes; every is true only when all pass. includes checks whether an array holds one exact value.",
+        "code": [
+          "const sizes = [5, 9, 14];",
+          "const big = (s) => s > 8;",
+          "console.log(sizes.find(big));",
+          "console.log(sizes.every(big));",
+          "console.log(sizes.some(big));",
+          "console.log(sizes.includes(9));"
+        ],
+        "expectedOutput": "9\nfalse\ntrue\ntrue"
+      },
+      "itemIds": [
+        "int.array-methods.array-find-and-search.predict-01",
+        "int.array-methods.array-find-and-search.concept-01",
+        "int.array-methods.array-find-and-search.trace-01",
+        "int.array-methods.array-find-and-search.parsons-01",
+        "int.array-methods.array-find-and-search.fix-01",
+        "int.array-methods.array-find-and-search.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "int.array-methods.array-map.predict-01",
+      "concept": "array-map",
+      "prerequisites": [
+        "array-iteration",
+        "function-expressions"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const marks = [4, 7, 9];",
+        "const bonus = marks.map(",
+        "  (m) => m + 10",
+        ");",
+        "console.log(bonus.length, marks[1]);"
+      ],
+      "options": [
+        {
+          "text": "3 7",
+          "correct": true,
+          "feedback": "Right. bonus holds one result for each of the three elements, and marks[1] is still 7."
+        },
+        {
+          "text": "3 17",
+          "correct": false,
+          "feedback": "That reads marks[1] as if map had changed the original. map returns a new array and never edits the one it is called on.",
+          "misconception": "iteration-method-mutates-original"
+        },
+        {
+          "text": "1 7",
+          "correct": false,
+          "feedback": "map does not fold the elements into one value. It returns one result per element, so bonus is as long as marks.",
+          "misconception": "map-collapses-to-one-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "3 7"
+      },
+      "explanation": "map returns a new array with one result per element, so bonus has three values. It never changes marks, so marks[1] is still 7.",
+      "hints": [
+        "Look at line 5: it reads a length and one element.",
+        "map returns a new array; the array it was called on keeps its values.",
+        "Count the values the callback produces, then read the second element of the original."
+      ],
+      "reference": {
+        "title": "Array.prototype.map()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:25"
+      ]
+    },
+    {
+      "id": "int.array-methods.array-map.concept-01",
+      "concept": "array-map",
+      "prerequisites": [
+        "array-iteration",
+        "function-expressions"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "const stock = [12, 0, 5];",
+        "const flags = stock.map(",
+        "  (n) => n > 0",
+        ");",
+        "console.log(flags);",
+        "console.log(stock);"
+      ],
+      "options": [
+        {
+          "text": "map returns a new array and leaves stock unchanged.",
+          "correct": true,
+          "feedback": "Right. flags is a separate array, and stock keeps its numbers."
+        },
+        {
+          "text": "map edits stock in place and returns that same array.",
+          "correct": false,
+          "feedback": "If that were true, both arrays printed would hold true and false values. map always builds a new array.",
+          "misconception": "iteration-method-mutates-original"
+        },
+        {
+          "text": "map combines the callback results into a single true or false.",
+          "correct": false,
+          "feedback": "map never joins anything. It returns an array with one result per element.",
+          "misconception": "map-collapses-to-one-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "[true, false, true]\n[12, 0, 5]"
+      },
+      "explanation": "map builds a new array from the callback results and leaves the array it was called on unchanged. Printing both shows the new true and false values next to the original numbers.",
+      "hints": [
+        "Compare the two arrays printed on lines 5 and 6.",
+        "map returns a new array and does not edit the original.",
+        "Ask which of the two arrays still holds the numbers."
+      ],
+      "reference": {
+        "title": "Array.prototype.map()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.array-methods.array-map.trace-01",
+      "concept": "array-map",
+      "prerequisites": [
+        "array-iteration",
+        "function-expressions"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What is the value of seen right after line 4 runs for the second time?",
+      "code": [
+        "const orders = [3, 5, 2];",
+        "let seen = 0;",
+        "const running = orders.map((o) => {",
+        "  seen = seen + o;",
+        "  return seen;",
+        "});",
+        "console.log(running);"
+      ],
+      "options": [
+        {
+          "text": "8",
+          "correct": true,
+          "feedback": "Right. After the first call seen is 3, and the second call adds 5."
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "That is the value after the first run of line 4. The question asks about the second run.",
+          "misconception": "trace-wrong-pass"
+        },
+        {
+          "text": "10",
+          "correct": false,
+          "feedback": "That is the value after all three calls. The question stops at the second one.",
+          "misconception": "final-value-at-every-step"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "seen",
+          "afterLine": 4,
+          "visit": 2
+        },
+        "expectedOutput": "[3, 8, 10]"
+      },
+      "explanation": "seen lives outside the callback, so it keeps its value between calls. The first call adds 3 and the second adds 5, so seen is 8 after the second run of line 4.",
+      "hints": [
+        "Line 4 runs once for every element of orders.",
+        "A variable declared outside the callback keeps its value from one call to the next.",
+        "Add the first two orders only; the third has not been reached yet."
+      ],
+      "reference": {
+        "title": "Array.prototype.map()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.array-methods.array-map.fill-01",
+      "concept": "array-map",
+      "prerequisites": [
+        "array-iteration",
+        "function-expressions"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints [1, 2, 3, [4]].",
+      "code": [
+        "const shelves = [[1, 2], [3, [4]]];",
+        "const merged = shelves.flat(___);",
+        "console.log(merged);"
+      ],
+      "options": [
+        {
+          "text": "1",
+          "correct": true,
+          "feedback": "Right. Depth 1 opens the two inner arrays and leaves [4] nested."
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "Depth 0 opens nothing, so the nested arrays stay as they are."
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "Depth 2 also opens [4], so it prints 4 as a plain element."
+        },
+        {
+          "text": "Infinity",
+          "correct": false,
+          "feedback": "This opens every level of nesting, so [4] disappears into the result."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "1"
+          ]
+        ],
+        "expectedOutput": "[1, 2, 3, [4]]"
+      },
+      "explanation": "flat(depth) lifts the contents of nested arrays by that many levels. One level opens [1, 2] and [3, [4]], but leaves [4] as an array inside the result.",
+      "hints": [
+        "Look at the number inside flat( ).",
+        "The depth tells flat how many levels of nesting to open.",
+        "The target keeps one array inside the result, so not every level is opened."
+      ],
+      "reference": {
+        "title": "Array.prototype.flat()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:20"
+      ]
+    },
+    {
+      "id": "int.array-methods.array-map.fix-01",
+      "concept": "array-map",
+      "prerequisites": [
+        "array-iteration",
+        "function-expressions"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print the temperatures raised by 5. Tap the buggy line, then choose its fix.",
+      "code": [
+        "let temps = [20, 24, 18];",
+        "temps.map((t) => t + 5);",
+        "console.log(temps);"
+      ],
+      "options": [
+        {
+          "text": "temps = temps.map((t) => t + 5);",
+          "correct": true,
+          "feedback": "Right. The new array is stored in temps, so line 3 prints the raised values."
+        },
+        {
+          "text": "temps.map((t) => { t = t + 5; });",
+          "correct": false,
+          "feedback": "Changing the callback parameter t does not change the array, and the callback returns nothing. temps keeps its old values.",
+          "misconception": "iteration-method-mutates-original"
+        },
+        {
+          "text": "temps.forEach((t) => t + 5);",
+          "correct": false,
+          "feedback": "forEach returns nothing and does not store the callback results, so temps keeps its old values."
+        }
+      ],
+      "solution": {
+        "bugLine": 2,
+        "expectedOutput": "[25, 29, 23]"
+      },
+      "explanation": "map returns a new array and leaves temps alone. Line 2 throws that new array away. Assigning the result back to temps, which is declared with let, makes line 3 print the raised values.",
+      "hints": [
+        "Line 3 prints temps. Does line 2 ever change temps?",
+        "map does not edit an array. It returns a new one that must be stored.",
+        "Store the result of map back into temps."
+      ],
+      "reference": {
+        "title": "Array.prototype.map()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.array-methods.array-map.write-01",
+      "concept": "array-map",
+      "prerequisites": [
+        "array-iteration",
+        "function-expressions"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of doubleRecipe(amounts). Return a new array with every amount doubled.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "doubleRecipe",
+          "params": [
+            "amounts"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                1,
+                2,
+                3
+              ]
+            ],
+            "expected": [
+              2,
+              4,
+              6
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                0.5,
+                4
+              ]
+            ],
+            "expected": [
+              1,
+              8
+            ]
+          },
+          {
+            "input": [
+              [
+                -1,
+                0
+              ]
+            ],
+            "expected": [
+              -2,
+              0
+            ]
+          }
+        ],
+        "reference": [
+          "return amounts.map((a) => a + a);"
+        ],
+        "wrongSolutions": [
+          [
+            "return amounts.map((a) => a + 2);"
+          ],
+          [
+            "amounts.map(",
+            "  (a) => a * 2",
+            ");"
+          ],
+          [
+            "return amounts.forEach(",
+            "  (a) => a * 2",
+            ");"
+          ]
+        ]
+      },
+      "explanation": "map applies the callback to every element and returns a new array, so returning amounts.map(...) gives the doubled amounts. The result must be returned, or the function gives back undefined.",
+      "hints": [
+        "Which array method makes a new array from an old one, one element at a time?",
+        "The callback must return the new value for each element.",
+        "Return the result of calling map on amounts."
+      ],
+      "reference": {
+        "title": "Array.prototype.map()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:3"
+      ]
+    },
+    {
+      "id": "int.array-methods.array-filter.predict-01",
+      "concept": "array-filter",
+      "prerequisites": [
+        "array-map",
+        "truthy-and-falsy"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const due = [1, 4, 2, 6, 3];",
+        "const late = due.filter(",
+        "  (d) => d > 3",
+        ");",
+        "console.log(late, due);"
+      ],
+      "options": [
+        {
+          "text": "[4, 6] [1, 4, 2, 6, 3]",
+          "correct": true,
+          "feedback": "Right. Only 4 and 6 pass the test, and due keeps all five values."
+        },
+        {
+          "text": "[4, 6] [4, 6]",
+          "correct": false,
+          "feedback": "filter does not remove elements from the array it is called on. due still holds all five values.",
+          "misconception": "iteration-method-mutates-original"
+        },
+        {
+          "text": "[false, true, false, true, false] [1, 4, 2, 6, 3]",
+          "correct": false,
+          "feedback": "That treats the result as one true or false per element. filter returns the elements that passed, so the result is shorter.",
+          "misconception": "filter-returns-callback-results"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "[4, 6] [1, 4, 2, 6, 3]"
+      },
+      "explanation": "filter keeps the elements whose callback result is truthy, so late holds 4 and 6. It builds a new array and leaves due as it was.",
+      "hints": [
+        "Look at line 2: which values are greater than 3?",
+        "filter returns the elements that pass, not true or false values.",
+        "Two arrays are printed: the new one, then the original."
+      ],
+      "reference": {
+        "title": "Array.prototype.filter()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:23"
+      ]
+    },
+    {
+      "id": "int.array-methods.array-filter.concept-01",
+      "concept": "array-filter",
+      "prerequisites": [
+        "array-map",
+        "truthy-and-falsy"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "const tickets = [3, 0, 7, 0, 2];",
+        "const used = tickets.filter(",
+        "  (t) => t",
+        ");",
+        "console.log(used);"
+      ],
+      "options": [
+        {
+          "text": "filter keeps the elements whose callback result is truthy.",
+          "correct": true,
+          "feedback": "Right. 3, 7 and 2 are truthy and stay; the zeros are falsy and are left out."
+        },
+        {
+          "text": "filter stores the callback results, so used holds the values the callback returned.",
+          "correct": false,
+          "feedback": "filter keeps the original elements, not the callback results. Here they happen to look alike, but a test such as t > 1 would show the difference.",
+          "misconception": "filter-returns-callback-results"
+        },
+        {
+          "text": "filter removes the falsy elements from tickets itself.",
+          "correct": false,
+          "feedback": "filter never edits the array it is called on. used is a new array and tickets still has five elements.",
+          "misconception": "iteration-method-mutates-original"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "[3, 7, 2]"
+      },
+      "explanation": "filter keeps each element whose callback result is truthy and returns those elements. Here the callback returns the element itself, so the two zeros, which are falsy, are dropped.",
+      "hints": [
+        "Look at what the callback on line 3 returns.",
+        "filter keeps an element when the callback result is truthy.",
+        "Think about which of the five numbers are falsy."
+      ],
+      "reference": {
+        "title": "Array.prototype.filter()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.array-methods.array-filter.trace-01",
+      "concept": "array-filter",
+      "prerequisites": [
+        "array-map",
+        "truthy-and-falsy"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What is the value of kept right after line 5 runs for the second time?",
+      "code": [
+        "const sizes = [38, 42, 40, 44, 47];",
+        "let kept = 0;",
+        "const big = sizes.filter((s) => {",
+        "  if (s > 40) {",
+        "    kept = kept + 1;",
+        "  }",
+        "  return s > 40;",
+        "});",
+        "console.log(kept, big);"
+      ],
+      "options": [
+        {
+          "text": "2",
+          "correct": true,
+          "feedback": "Right. Line 5 runs for 42, 44 and 47, and its second run raises kept to 2."
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "That is the value after the first run of line 5. The question asks about the second run, and line 5 runs only for some elements.",
+          "misconception": "trace-wrong-pass"
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "That is the value after all three runs of line 5. The question stops at the second run.",
+          "misconception": "final-value-at-every-step"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "kept",
+          "afterLine": 5,
+          "visit": 2
+        },
+        "expectedOutput": "3 [42, 44, 47]"
+      },
+      "explanation": "Line 5 only runs for sizes above 40, which are 42, 44 and 47. Its second run is for 44, after one earlier increase, so kept becomes 2.",
+      "hints": [
+        "Line 5 sits inside an if, so it does not run for every element.",
+        "Only sizes above 40 reach line 5.",
+        "List the sizes that pass the test, then take the second of them."
+      ],
+      "reference": {
+        "title": "Array.prototype.filter()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.array-methods.array-filter.parsons-01",
+      "concept": "array-filter",
+      "prerequisites": [
+        "array-map",
+        "truthy-and-falsy"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints 3.",
+      "code": [
+        "const first = hrs[0];",
+        "const mins = [5, 12, 8, 20];",
+        "console.log(first);",
+        "const hrs = long.map((m) => m / 4);",
+        "const long = mins.filter(isLong);",
+        "const isLong = (m) => m > 10;"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          5,
+          4,
+          3,
+          0,
+          2
+        ],
+        "acceptedOrders": [
+          [
+            5,
+            1,
+            4,
+            3,
+            0,
+            2
+          ]
+        ],
+        "expectedOutput": "3"
+      },
+      "explanation": "mins must exist before filter reads it, long must exist before map reads it, and first is taken from the mapped result. The filter keeps 12 and 20, map turns them into 3 and 5, and the first is 3.",
+      "hints": [
+        "Every line except one uses a name that an earlier line creates.",
+        "Data first, then the test, then filter, then map, then the result.",
+        "The predicate isLong only needs to exist before filter uses it."
+      ],
+      "reference": {
+        "title": "Array.prototype.filter()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.array-methods.array-filter.fix-01",
+      "concept": "array-filter",
+      "prerequisites": [
+        "array-map",
+        "truthy-and-falsy"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print the multiples of 3. Tap the buggy line, then choose its fix.",
+      "code": [
+        "const rows = [1, 2, 3, 4, 5, 6];",
+        "const byThree = (n) => n % 3;",
+        "console.log(rows.filter(byThree));"
+      ],
+      "options": [
+        {
+          "text": "const byThree = (n) => n % 3 === 0;",
+          "correct": true,
+          "feedback": "Right. The remainder is 0 only for multiples of 3, so only 3 and 6 are kept."
+        },
+        {
+          "text": "const byThree = (n) => n % 3 !== 0;",
+          "correct": false,
+          "feedback": "This keeps the numbers that are not multiples of 3, which is what the buggy line already did."
+        },
+        {
+          "text": "const byThree = (n) => n / 3;",
+          "correct": false,
+          "feedback": "n / 3 is never 0 for these numbers, so every element is truthy and nothing is filtered out."
+        }
+      ],
+      "solution": {
+        "bugLine": 2,
+        "expectedOutput": "[3, 6]"
+      },
+      "explanation": "The remainder of 3 divided by 3 is 0, which is falsy, so the test keeps the numbers that are not multiples. The test must compare the remainder with 0.",
+      "hints": [
+        "Check which numbers make n % 3 truthy.",
+        "filter keeps an element when the test is truthy, and 0 is falsy.",
+        "Compare the remainder with 0 so the test is true for multiples."
+      ],
+      "reference": {
+        "title": "Array.prototype.filter()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.array-methods.array-filter.write-01",
+      "concept": "array-filter",
+      "prerequisites": [
+        "array-map",
+        "truthy-and-falsy"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of evenSpaces(spaces). Return a new array with only the even numbers.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "evenSpaces",
+          "params": [
+            "spaces"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                1,
+                2,
+                3,
+                4
+              ]
+            ],
+            "expected": [
+              2,
+              4
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                7,
+                9
+              ]
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                0,
+                -2,
+                5
+              ]
+            ],
+            "expected": [
+              0,
+              -2
+            ]
+          }
+        ],
+        "reference": [
+          "const isEven = (n) => n % 2 === 0;",
+          "return spaces.filter(isEven);"
+        ],
+        "wrongSolutions": [
+          [
+            "return spaces.filter((s) => s % 2);"
+          ],
+          [
+            "return spaces.map(",
+            "  (s) => s % 2 === 0",
+            ");"
+          ],
+          [
+            "const isEven = (n) => n % 2 === 0;",
+            "return spaces.filter(isEven)[0];"
+          ]
+        ]
+      },
+      "explanation": "filter keeps the elements for which the test is true. A number is even when its remainder after dividing by 2 is 0, so the test compares the remainder with 0.",
+      "hints": [
+        "Which array method keeps only some of the elements?",
+        "An even number leaves a remainder of 0 when divided by 2.",
+        "Return the result of calling filter on spaces with that test."
+      ],
+      "reference": {
+        "title": "Array.prototype.filter()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:4"
+      ]
+    },
+    {
+      "id": "int.array-methods.array-reduce.predict-01",
+      "concept": "array-reduce",
+      "prerequisites": [
+        "array-map",
+        "loop-accumulator"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const fares = [2, 3, 4];",
+        "const add = (sum, f) => sum + f;",
+        "const cash = fares.reduce(add, 20);",
+        "console.log(cash);"
+      ],
+      "options": [
+        {
+          "text": "29",
+          "correct": true,
+          "feedback": "Right. The total starts at 20 and each fare is added once."
+        },
+        {
+          "text": "9",
+          "correct": false,
+          "feedback": "That leaves out the starting value. The second argument of reduce is where the total begins.",
+          "misconception": "reduce-initial-value-ignored"
+        },
+        {
+          "text": "69",
+          "correct": false,
+          "feedback": "That adds 20 on every pass. The starting value is used once, before the first element.",
+          "misconception": "reduce-initial-added-each-pass"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "29"
+      },
+      "explanation": "The second argument 20 is the starting total. The callback adds 2, then 3, then 4 to it, so the total goes 20, 22, 25, 29.",
+      "hints": [
+        "Look at the second argument of reduce on line 3.",
+        "reduce starts with that value and the callback returns the next total.",
+        "Start from the number on line 4 and add each fare once."
+      ],
+      "reference": {
+        "title": "Array.prototype.reduce()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "duel:6"
+      ]
+    },
+    {
+      "id": "int.array-methods.array-reduce.concept-01",
+      "concept": "array-reduce",
+      "prerequisites": [
+        "array-map",
+        "loop-accumulator"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "const calls = [];",
+        "const bags = [5, 8, 2];",
+        "const all = bags.reduce(",
+        "  (sum, b) => {",
+        "    calls.push(b);",
+        "    return sum + b;",
+        "  }",
+        ");",
+        "console.log(calls, all);"
+      ],
+      "options": [
+        {
+          "text": "Without a starting value, the first element is the starting total and the callback runs from the second element.",
+          "correct": true,
+          "feedback": "Right. calls holds 8 and 2, and the total starts at 5."
+        },
+        {
+          "text": "Without a starting value, reduce starts the total at 0 and runs the callback for every element.",
+          "correct": false,
+          "feedback": "Then calls would hold all three bags. reduce does not assume 0 when it has no starting value.",
+          "misconception": "reduce-no-start-uses-zero"
+        },
+        {
+          "text": "Without a starting value, sum is undefined on the first call, so the total is NaN.",
+          "correct": false,
+          "feedback": "The total is a real number here. A missing starting value does not make sum undefined.",
+          "misconception": "reduce-no-start-undefined"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "[8, 2] 15"
+      },
+      "explanation": "Without a starting value, reduce uses the first element as the starting total and calls the callback from the second element. That is why calls holds only 8 and 2.",
+      "hints": [
+        "Look at what calls holds when the program ends.",
+        "The first element is missing from calls, so the callback did not run for it.",
+        "Without a second argument, reduce picks the starting total from the array."
+      ],
+      "reference": {
+        "title": "Array.prototype.reduce()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.array-methods.array-reduce.trace-01",
+      "concept": "array-reduce",
+      "prerequisites": [
+        "array-map",
+        "loop-accumulator"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What is the value of next right after line 4 runs for the third time?",
+      "code": [
+        "const loads = [4, 6, 3, 7];",
+        "const total = loads.reduce(",
+        "  (sum, n) => {",
+        "    const next = sum + n;",
+        "    return next;",
+        "  },",
+        "  0",
+        ");",
+        "console.log(total);"
+      ],
+      "options": [
+        {
+          "text": "13",
+          "correct": true,
+          "feedback": "Right. The third call adds 3 to the 10 returned by the second call."
+        },
+        {
+          "text": "10",
+          "correct": false,
+          "feedback": "That is the value after the second run of line 4. The question asks about the third run.",
+          "misconception": "trace-wrong-pass"
+        },
+        {
+          "text": "20",
+          "correct": false,
+          "feedback": "That is the final total after all four calls. The question stops at the third call.",
+          "misconception": "final-value-at-every-step"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "next",
+          "afterLine": 4,
+          "visit": 3
+        },
+        "expectedOutput": "20"
+      },
+      "explanation": "The total grows by one load per call: 4, then 10, then 13, then 20. The third run of line 4 adds 3 to 10, so next is 13.",
+      "hints": [
+        "Line 4 runs once for every element.",
+        "sum is the total returned by the previous call, starting at 0.",
+        "Add the first three loads; the fourth has not been reached."
+      ],
+      "reference": {
+        "title": "Array.prototype.reduce()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:17"
+      ]
+    },
+    {
+      "id": "int.array-methods.array-reduce.fill-01",
+      "concept": "array-reduce",
+      "prerequisites": [
+        "array-map",
+        "loop-accumulator"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blanks so the program prints 35, the sum of all pots.",
+      "code": [
+        "const pots = [12, 8, 15];",
+        "const all = pots.reduce(",
+        "  (a, p) => ___,",
+        "  ___",
+        ");",
+        "console.log(all);"
+      ],
+      "options": [
+        {
+          "text": "a + p",
+          "correct": true,
+          "feedback": "Right. The running total plus the current pot is the next running total."
+        },
+        {
+          "text": "0",
+          "correct": true,
+          "feedback": "Right. Starting from 0 leaves the sum unchanged by the start."
+        },
+        {
+          "text": "p",
+          "correct": false,
+          "feedback": "This returns only the current element, so the program prints the last pot."
+        },
+        {
+          "text": "a * p",
+          "correct": false,
+          "feedback": "This multiplies instead of adding, so the program prints a product or 0."
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "Starting from 1 adds one extra to the sum, so the program prints a different number."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "a + p"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "expectedOutput": "35"
+      },
+      "explanation": "The callback must return the running total plus the current element, and the total must start at 0. Then reduce adds 12, 8 and 15 one after another and returns 35.",
+      "hints": [
+        "Look at what the callback must return and at the second argument of reduce.",
+        "The callback returns the next running total; the second argument is where it starts.",
+        "Add the running total and the current element, and start from a value that changes nothing."
+      ],
+      "reference": {
+        "title": "Array.prototype.reduce()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:5"
+      ]
+    },
+    {
+      "id": "int.array-methods.array-reduce.fix-01",
+      "concept": "array-reduce",
+      "prerequisites": [
+        "array-map",
+        "loop-accumulator"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print the product of the rolls. Tap the buggy line, then choose its fix.",
+      "code": [
+        "const rolls = [2, 3, 4];",
+        "const product = rolls.reduce(",
+        "  (acc, r) => acc * r,",
+        "  0",
+        ");",
+        "console.log(product);"
+      ],
+      "options": [
+        {
+          "text": "  1",
+          "correct": true,
+          "feedback": "Right. Multiplying by 1 changes nothing, so the product is 2 * 3 * 4 = 24."
+        },
+        {
+          "text": "  rolls[0]",
+          "correct": false,
+          "feedback": "This counts the first roll twice: it is both the start and the first element, so the product is 48."
+        },
+        {
+          "text": "  null",
+          "correct": false,
+          "feedback": "null becomes 0 when multiplied, so the product is still 0."
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "24"
+      },
+      "explanation": "The starting value of a product must not change the result when multiplied, and that value is 1. Starting from 0 makes every product 0.",
+      "hints": [
+        "Look at the last argument of reduce.",
+        "Every step multiplies the running value by the next roll, starting from the starting value.",
+        "Pick the starting value that leaves a product unchanged."
+      ],
+      "reference": {
+        "title": "Array.prototype.reduce()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.array-methods.array-reduce.write-01",
+      "concept": "array-reduce",
+      "prerequisites": [
+        "array-map",
+        "loop-accumulator"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of lowestPrice(prices). Use reduce to return the smallest number.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "lowestPrice",
+          "params": [
+            "prices"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                4,
+                2,
+                9
+              ]
+            ],
+            "expected": 2
+          },
+          {
+            "input": [
+              [
+                -3,
+                -8,
+                -1
+              ]
+            ],
+            "expected": -8
+          },
+          {
+            "input": [
+              [
+                5
+              ]
+            ],
+            "expected": 5
+          },
+          {
+            "input": [
+              [
+                7,
+                7,
+                3,
+                7
+              ]
+            ],
+            "expected": 3
+          }
+        ],
+        "reference": [
+          "return prices.reduce((low, p) => {",
+          "  return p < low ? p : low;",
+          "});"
+        ],
+        "wrongSolutions": [
+          [
+            "return prices[0];"
+          ],
+          [
+            "return prices.reduce((low, p) => {",
+            "  return p > low ? p : low;",
+            "});"
+          ],
+          [
+            "return prices.reduce((low, p) => {",
+            "  return p < low ? p : low;",
+            "}, 0);"
+          ]
+        ]
+      },
+      "explanation": "reduce keeps one running value, the lowest seen so far. Each call returns the smaller of the running value and the current element. A starting value of 0 would beat every positive price, so none is given.",
+      "hints": [
+        "Which method turns a whole array into one value?",
+        "The callback returns the smaller of the running value and the current element.",
+        "Do not give reduce a starting value that could already be smaller than every price."
+      ],
+      "reference": {
+        "title": "Array.prototype.reduce()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:9"
+      ]
+    },
+    {
+      "id": "int.array-methods.array-find-and-search.predict-01",
+      "concept": "array-find-and-search",
+      "prerequisites": [
+        "array-filter"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const delays = [3, 12, 7, 20];",
+        "const late = delays.find(",
+        "  (d) => d > 5",
+        ");",
+        "const none = delays.find(",
+        "  (d) => d > 50",
+        ");",
+        "console.log(late, none);"
+      ],
+      "options": [
+        {
+          "text": "12 undefined",
+          "correct": true,
+          "feedback": "Right. find stops at the first match, 12, and gives undefined when nothing matches."
+        },
+        {
+          "text": "[12, 7, 20] undefined",
+          "correct": false,
+          "feedback": "That is what filter would give. find returns only the first matching element, not an array.",
+          "misconception": "search-method-returns-array"
+        },
+        {
+          "text": "12 null",
+          "correct": false,
+          "feedback": "find does not return null. When nothing matches it returns undefined.",
+          "misconception": "no-match-gives-null"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "12 undefined"
+      },
+      "explanation": "find returns the first element that passes the test, which is 12, not an array. When no element passes, it returns undefined.",
+      "hints": [
+        "Compare the two tests on lines 2 and 5.",
+        "find returns one element, or a special value when nothing matches.",
+        "The first test matches, and the second test matches no delay."
+      ],
+      "reference": {
+        "title": "Array.prototype.find()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:27"
+      ]
+    },
+    {
+      "id": "int.array-methods.array-find-and-search.concept-01",
+      "concept": "array-find-and-search",
+      "prerequisites": [
+        "array-filter"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement is true when no balance is negative?",
+      "code": [
+        "const balances = [40, 15, 90];",
+        "const flag = balances.some(",
+        "  (b) => b < 0",
+        ");",
+        "const list = balances.filter(",
+        "  (b) => b < 0",
+        ");",
+        "console.log(flag, list);"
+      ],
+      "options": [
+        {
+          "text": "some gives false and filter gives an empty array.",
+          "correct": true,
+          "feedback": "Right. some answers true or false, and filter returns the elements that passed, which are none."
+        },
+        {
+          "text": "some gives an empty array, like filter.",
+          "correct": false,
+          "feedback": "some never returns an array. It returns a boolean that says whether any element passed.",
+          "misconception": "search-method-returns-array"
+        },
+        {
+          "text": "some gives null and filter gives an empty array.",
+          "correct": false,
+          "feedback": "some returns a boolean, so it gives false. No array method in this code gives null.",
+          "misconception": "no-match-gives-null"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "false []"
+      },
+      "explanation": "some answers with true or false: whether at least one element passes. filter returns the passing elements, which is an empty array when none pass. Neither returns null.",
+      "hints": [
+        "Compare what lines 2 and 5 return when nothing passes.",
+        "some answers a yes or no question; filter collects elements.",
+        "One result is a boolean and the other is an array."
+      ],
+      "reference": {
+        "title": "Array.prototype.some()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:16"
+      ]
+    },
+    {
+      "id": "int.array-methods.array-find-and-search.trace-01",
+      "concept": "array-find-and-search",
+      "prerequisites": [
+        "array-filter"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What is the value of checks right after line 7 has run?",
+      "code": [
+        "const queue = [4, 2, 9, 3, 8];",
+        "let checks = 0;",
+        "const found = queue.some((n) => {",
+        "  checks = checks + 1;",
+        "  return n > 5;",
+        "});",
+        "console.log(checks, found);"
+      ],
+      "options": [
+        {
+          "text": "3",
+          "correct": true,
+          "feedback": "Right. The callback runs for 4, 2 and 9, and some stops after 9 passes."
+        },
+        {
+          "text": "5",
+          "correct": false,
+          "feedback": "That would mean the callback runs for every element. some stops as soon as one element passes.",
+          "misconception": "some-checks-every-element"
+        },
+        {
+          "text": "4",
+          "correct": false,
+          "feedback": "The callback does not run once more after the match. some stops at the element that passes.",
+          "misconception": "trace-wrong-pass"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "checks",
+          "afterLine": 7,
+          "visit": 1
+        },
+        "expectedOutput": "3 true"
+      },
+      "explanation": "some stops as soon as one element passes. The callback runs for 4, 2 and then 9, which passes, so checks is 3 and the remaining elements are never tested.",
+      "hints": [
+        "Does the callback run for every element of queue?",
+        "some stops at the first element that passes the test.",
+        "Find the first number above 5 and count the elements up to it."
+      ],
+      "reference": {
+        "title": "Array.prototype.some()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.array-methods.array-find-and-search.parsons-01",
+      "concept": "array-find-and-search",
+      "prerequisites": [
+        "array-filter"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints 11, then true.",
+      "code": [
+        "console.log(km.includes(far));",
+        "const far = km.find((k) => k > 10);",
+        "console.log(far);",
+        "const km = [4, 11, 7];"
+      ],
+      "solution": {
+        "lineOrder": [
+          3,
+          1,
+          2,
+          0
+        ],
+        "expectedOutput": "11\ntrue"
+      },
+      "explanation": "km must exist before find reads it, and far must exist before it is printed or searched for. find returns 11, the first trail over 10, and includes finds that value in km.",
+      "hints": [
+        "The array must be declared before anything reads it.",
+        "far is made by find, and both console.log lines use far.",
+        "The program prints 11 before it prints true."
+      ],
+      "reference": {
+        "title": "Array.prototype.includes()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.array-methods.array-find-and-search.fix-01",
+      "concept": "array-find-and-search",
+      "prerequisites": [
+        "array-filter"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print false because one reading is not positive. Tap the buggy line, then choose its fix.",
+      "code": [
+        "const readings = [3, 8, -1, 5];",
+        "const allPositive = readings.some(",
+        "  (r) => r > 0",
+        ");",
+        "console.log(allPositive);"
+      ],
+      "options": [
+        {
+          "text": "const allPositive = readings.every(",
+          "correct": true,
+          "feedback": "Right. every is true only when all readings pass, and -1 does not."
+        },
+        {
+          "text": "const allPositive = readings.find(",
+          "correct": false,
+          "feedback": "find returns the first passing element, so the program would print 3 instead of a boolean."
+        },
+        {
+          "text": "const allPositive = readings.filter(",
+          "correct": false,
+          "feedback": "filter returns an array of the passing readings, so the program would print an array."
+        }
+      ],
+      "solution": {
+        "bugLine": 2,
+        "expectedOutput": "false"
+      },
+      "explanation": "some answers whether at least one element passes, so it prints true here. To test that all elements pass, use every, which is false as soon as one reading fails.",
+      "hints": [
+        "Does the question ask about one reading or about every reading?",
+        "some needs one passing element; every needs all of them.",
+        "Replace the method with the one that requires all readings to pass."
+      ],
+      "reference": {
+        "title": "Array.prototype.every()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:15"
+      ]
+    },
+    {
+      "id": "int.array-methods.array-find-and-search.write-01",
+      "concept": "array-find-and-search",
+      "prerequisites": [
+        "array-filter"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of firstLongTalk(minutes). Return the first number above 10, or -1 if there is none.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "firstLongTalk",
+          "params": [
+            "minutes"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                4,
+                12,
+                30
+              ]
+            ],
+            "expected": 12
+          },
+          {
+            "input": [
+              [
+                3,
+                5
+              ]
+            ],
+            "expected": -1
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": -1
+          },
+          {
+            "input": [
+              [
+                10,
+                10,
+                11
+              ]
+            ],
+            "expected": 11
+          }
+        ],
+        "reference": [
+          "const hit = minutes.find(",
+          "  (m) => m > 10",
+          ");",
+          "return hit === undefined ? -1 : hit;"
+        ],
+        "wrongSolutions": [
+          [
+            "return minutes.filter(",
+            "  (m) => m > 10",
+            ");"
+          ],
+          [
+            "const hit = minutes.find(",
+            "  (m) => m >= 10",
+            ");",
+            "return hit === undefined ? -1 : hit;"
+          ],
+          [
+            "return minutes.some(",
+            "  (m) => m > 10",
+            ");"
+          ]
+        ]
+      },
+      "explanation": "find returns the first element above 10, or undefined when none passes. The function turns undefined into -1. The test must be strictly greater than 10, so a talk of exactly 10 minutes does not count.",
+      "hints": [
+        "Which method returns the first element that passes a test?",
+        "find gives undefined when nothing passes, so check for that.",
+        "Compare the result of find with undefined and return -1 in that case."
+      ],
+      "reference": {
+        "title": "Array.prototype.find()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:18"
+      ]
+    }
+  ]
+}
