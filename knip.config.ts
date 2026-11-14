@@ -64,6 +64,11 @@ export default {
       project: ["src/**/*.ts"],
     },
 
+    "tools/content": {
+      entry: ["src/cli.ts", "src/index.ts", "src/execute/programRunnerWorker.ts"],
+      project: ["src/**/*.ts"],
+    },
+
     "packages/*": {
       project: ["src/**/*.ts"],
     },

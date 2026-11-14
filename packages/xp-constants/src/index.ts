@@ -40,3 +40,4 @@ export function puzzleSolveFeedbackMessage(xpEarned: number, xpAtCap = false): s
   if (xpAtCap) return "Well done!";
   return "Puzzle solved! (no XP — limit reached for this puzzle)";
 }
+export * from "./xpModel.js";

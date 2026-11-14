@@ -26,7 +26,7 @@ module.exports = tseslint.config(
         tsconfigRootDir: __dirname,
         project: [
           "backend/tsconfig.json", "backend/tsconfig.prisma.json", "io/tsconfig.json",
-          "mobile/tsconfig.json", "packages/*/tsconfig.json",
+          "mobile/tsconfig.json", "packages/*/tsconfig.json", "tools/*/tsconfig.json",
         ],
       },
     },

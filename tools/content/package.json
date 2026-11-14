@@ -1,0 +1,28 @@
+{
+  "name": "@project/content-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Question-bank verification pipeline: pre-check, Gate A execution, traces, originality, run logs",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "cli": "tsx src/cli.ts",
+    "verify": "tsx src/cli.ts verify"
+  },
+  "dependencies": {
+    "@project/content-model": "file:../../packages/content-model",
+    "acorn": "^8.15.0",
+    "acorn-walk": "^8.3.4",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.3",
+    "tsx": "^4.21.0",
+    "typescript": "~5.9.3",
+    "vitest": "^3.2.4"
+  }
+}
