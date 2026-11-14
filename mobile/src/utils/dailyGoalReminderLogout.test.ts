@@ -6,7 +6,7 @@ vi.mock("@react-native-async-storage/async-storage", () => ({
   default: { getItem: vi.fn(async () => null), multiSet: vi.fn(), multiRemove: vi.fn(), removeItem: vi.fn() },
 }));
 vi.mock("expo-notifications", () => ({
-  SchedulableTriggerInputTypes: { DAILY: "daily" },
+  SchedulableTriggerInputTypes: { DATE: "date" },
   PermissionStatus: { GRANTED: "granted", UNDETERMINED: "undetermined" },
   getPermissionsAsync: vi.fn(async () => ({ status: "granted" })),
   requestPermissionsAsync: vi.fn(async () => ({ status: "granted" })),
@@ -40,7 +40,8 @@ describe("logout and account deletion clear the daily reminder", () => {
     vi.mocked(Notifications.getAllScheduledNotificationsAsync).mockResolvedValue([]);
     getStateMock.mockReturnValue({
       session: { hasHydrated: true, isGuest: true, isAuthenticated: false },
-      profile: { commitment: "15", notificationsEnabled: false },
+      profile: { notificationsEnabled: false },
+      learning: { progress: { practiceDays: [] }, goals: { dailyGoalLessons: 1 } },
     });
   });
 

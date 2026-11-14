@@ -12,7 +12,7 @@ vi.mock("@react-native-async-storage/async-storage", () => ({
 }));
 
 vi.mock("expo-notifications", () => ({
-  SchedulableTriggerInputTypes: { DAILY: "daily" },
+  SchedulableTriggerInputTypes: { DATE: "date" },
   PermissionStatus: { GRANTED: "granted", UNDETERMINED: "undetermined" },
   getPermissionsAsync: async () => ({ status: "granted" }),
   requestPermissionsAsync: async () => ({ status: "granted" }),
@@ -37,26 +37,25 @@ describe("syncDailyPracticeReminder hardening", () => {
     fakes.scheduled.splice(0);
     getStateMock.mockReturnValue({
       session: { hasHydrated: true, isGuest: true, isAuthenticated: false },
-      profile: { commitment: "15", notificationsEnabled: true },
+      profile: { notificationsEnabled: true },
+      learning: { progress: { practiceDays: [] }, goals: { dailyGoalLessons: 1 } },
     });
   });
 
-  it("two overlapping calls end with exactly one scheduled notification", async () => {
+  it("two overlapping calls end with exactly one week of reminders", async () => {
     await Promise.all([syncDailyPracticeReminder(), syncDailyPracticeReminder()]);
 
-    expect(fakes.scheduled).toHaveLength(1);
-    expect(fakes.storage.get("scheduledNotificationId")).toBe(fakes.scheduled[0]);
+    expect(fakes.scheduled).toHaveLength(7);
+    expect(JSON.parse(fakes.storage.get("scheduledReminderIds") ?? "[]")).toEqual(fakes.scheduled);
   });
 
-  it("heals a pre-existing orphan: cancels everything and reschedules a single reminder", async () => {
-    fakes.scheduled.push("orphan", "tracked");
-    fakes.storage.set("scheduledNotificationId", "tracked");
-    fakes.storage.set("dailyPracticeReminderFp", "true|15|true|false");
+  it("heals a pre-existing orphan: cancels everything and reschedules the week", async () => {
+    await syncDailyPracticeReminder();
+    fakes.scheduled.push("orphan");
 
     await syncDailyPracticeReminder();
 
-    expect(fakes.scheduled).toHaveLength(1);
+    expect(fakes.scheduled).toHaveLength(7);
     expect(fakes.scheduled).not.toContain("orphan");
-    expect(fakes.storage.get("scheduledNotificationId")).toBe(fakes.scheduled[0]);
   });
 });

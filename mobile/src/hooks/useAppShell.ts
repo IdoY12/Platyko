@@ -10,7 +10,7 @@ import { runStreakAppOpen } from "@/redux/streak-slice";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { logAuth } from "@/utils/logger";
 import { subscribeStoreToHybridStorage } from "@/utils/appShellPersistence";
-import { syncDailyPracticeReminder } from "@/utils/dailyGoalNotificationCheck";
+import { isDailyGoalMet, syncDailyPracticeReminder } from "@/utils/dailyGoalNotificationCheck";
 import { setBootstrapProblem } from "@/redux/session-slice";
 
 export function useAppShell() {
@@ -20,7 +20,8 @@ export function useAppShell() {
   const hasHydrated = useAppSelector((s) => s.session.hasHydrated);
   const isAuthenticated = useAppSelector((s) => s.session.isAuthenticated);
   const isGuest = useAppSelector((s) => s.session.isGuest);
-  const commitment = useAppSelector((s) => s.profile.commitment);
+  // Meeting the day's goal removes today's reminder at once.
+  const dailyGoalMet = useAppSelector((s) => isDailyGoalMet(s, getStreakCalendarDate()));
   const notificationsEnabled = useAppSelector((s) => s.profile.notificationsEnabled);
   const appStateRef = useRef<AppStateStatus>(AppState.currentState);
 
@@ -53,7 +54,7 @@ export function useAppShell() {
   useEffect(() => {
     if (!hasHydrated) return;
     void syncDailyPracticeReminder();
-  }, [hasHydrated, isGuest, isAuthenticated, commitment, notificationsEnabled]);
+  }, [hasHydrated, isGuest, isAuthenticated, dailyGoalMet, notificationsEnabled]);
 
   useEffect(() => {
     if (!hasHydrated) return;
