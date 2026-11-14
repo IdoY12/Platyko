@@ -84,7 +84,7 @@ function judgeBugFix(item: Item, { bugLine, fixText }: z.infer<typeof bugFixAnsw
  * generators, which print as an empty object): the solver cannot be held to a text for them, so
  * they are left out of the comparison.
  */
-const UNDEFINED_PRINTED_FORM = /\[Function|\[class|Promise|<[a-z]|NodeList|Iterator|^\{\}$|^[A-Z]\w*(\(\d+\))? \{|^Proxy$|Symbol\(/;
+const UNDEFINED_PRINTED_FORM = /\[Function|\[class|Promise|<[a-z]|NodeList|Iterator|^\{\}$|\b[A-Z]\w*(\(\d+\))? \{|^Proxy$|Symbol\(/;
 
 /** A text global compares by its characters: whether the solver wrote the quotes is not a finding. */
 const unquoted = (value: string | undefined) => value?.trim().replace(/^'(.*)'$/s, "$1");
@@ -103,7 +103,9 @@ function compareTracedFacts(solver: TracedFacts, trace: ItemTrace, report: Findi
   const derivedGlobals = new Map(Object.entries(solver.finalGlobals).filter(([, value]) => !UNDEFINED_PRINTED_FORM.test(value) && !/^Object \[/.test(value)));
   const actualGlobals = finalGlobalsOf(trace);
   const absent = "no such variable";
-  const differences = [...new Set([...actualGlobals.keys(), ...derivedGlobals.keys()])]
+  // Only the values the solver states are compared: the prompt lets it leave out a binding whose
+  // printed form it cannot be sure of, and an omission says nothing about the item.
+  const differences = [...derivedGlobals.keys()]
     .filter((name) => unquoted(derivedGlobals.get(name)) !== unquoted(actualGlobals.get(name)))
     .map((name) => `${name}: the solver has ${derivedGlobals.get(name) ?? absent}, the execution ends with ${actualGlobals.get(name) ?? absent}`);
   if (differences.length > 0) report("solver-globals-mismatch", differences.join("; "));

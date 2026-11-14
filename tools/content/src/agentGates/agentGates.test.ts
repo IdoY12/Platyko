@@ -153,6 +153,8 @@ describe("gate B ingest", () => {
     expect(globals[0].message).toContain("total: the solver has 10, the execution ends with 9");
     // Quotes around a value are a writing slip, not a different value.
     expect(await ingest((outputs) => (solutionOf(outputs, "predict-01").finalGlobals = { total: "'9'" }))).toEqual([]);
+    // A binding the solver leaves out is not compared: it may skip one it cannot be sure of.
+    expect(await ingest((outputs) => (solutionOf(outputs, "predict-01").finalGlobals = {}))).toEqual([]);
   });
 
   it("reports an item the solver skipped, and a file that is missing or is not JSON", async () => {
