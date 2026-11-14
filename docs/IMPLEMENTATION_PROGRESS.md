@@ -138,7 +138,8 @@ Open:
       credentials exist (H6); the smart local reminder covers guests and accounts meanwhile.
 - [ ] Hebrew RTL walk-through of every screen (done: Home, lesson, map, onboarding, Profile,
       Settings).
-- [ ] `npm audit` high/critical advisories in build-tool dependencies (security pass).
+- [ ] `npm audit`: critical shell-quote, postcss and source-map-js patched by overrides; Prisma 7 and
+      Metro image-size remain (H13).
 - [ ] Docker image builds with the new sandbox package (registry timeouts earlier).
 - [ ] 3D model path for the mascot (`platyko.glb`) and `docs/mascot-3d-model.md`.
 - [ ] Legacy tables and endpoints removal after cutover (re-run the migration's data part).
@@ -244,6 +245,7 @@ Tooling notes for the next session:
 | H9 | Human spot-check of a 5% item sample per track and a learner pilot (PRD Q11). | Recommended before launch |
 | H11 | The Hebrew banned-word list for usernames and bios, and where such a list may live under the language rule (PRD Q13). The English list ships in `packages/user-credentials`. | Hebrew username filtering |
 | H12 | Sign in with Apple key (team id, key id, .p8) and a token encryption key in the backend environment, so account deletion revokes the Apple grant (see `.env.example`). Part of H6. | App Store guideline 5.1.1(v) |
+| H13 | Remaining high advisories in production dependencies: the Prisma CLI chain (`prisma`, `@prisma/config`, `deepmerge-ts`, `effect`; fixed only by the Prisma 7 major upgrade, affects the migration CLI's config loader, not request handling) and Metro's `image-size` (build-time only, own assets). Decide: upgrade Prisma to 7 (planned engineering work), or approve a reviewed allowlist with an expiry date for CI's audit step. An attempt to add such an allowlist was blocked by the permission system as weakening a security gate, so CI's audit step stays strict and fails until this is decided. | CI security job |
 
 ## Acceptance criteria evidence (PRD section 20)
 
