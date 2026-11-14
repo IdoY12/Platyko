@@ -17,7 +17,8 @@ COPY io/package.json io/
 COPY mobile/package.json mobile/
 COPY packages/ packages/
 # --ignore-scripts keeps the mobile patch-package hook and Prisma's postinstall out of this image;
-# the two native modules are then rebuilt from the prebuilt binaries bundled in their packages.
+# the two native modules (isolated-vm arrives through @project/code-sandbox) are then rebuilt from the
+# prebuilt binaries bundled in their packages.
 RUN npm ci --workspace backend --ignore-scripts \
   && npm rebuild bcrypt isolated-vm \
   && npx prisma generate --schema packages/db/prisma \
@@ -25,7 +26,7 @@ RUN npm ci --workspace backend --ignore-scripts \
 
 COPY backend/ backend/
 RUN npm --prefix backend run build \
-  && cd backend && node -e "require('bcrypt'); require('isolated-vm'); require('@prisma/client')"
+  && cd backend && node --no-node-snapshot --input-type=module -e "import 'bcrypt'; import '@project/code-sandbox'; import '@prisma/client'"
 
 FROM node:22.23.3-bookworm-slim AS runtime
 ENV NODE_ENV=production NODE_CONFIG_ENV=production
@@ -45,7 +46,7 @@ RUN npm ci --workspace backend --omit=dev --ignore-scripts \
 COPY --from=builder /repo/node_modules/.prisma node_modules/.prisma
 COPY --from=builder /repo/backend/dist backend/dist
 COPY --from=builder /repo/backend/config backend/config
-RUN cd backend && node -e "require('bcrypt'); require('isolated-vm'); require('@prisma/client')"
+RUN cd backend && node --no-node-snapshot --input-type=module -e "import 'bcrypt'; import '@project/code-sandbox'; import '@prisma/client'"
 
 USER platyko
 WORKDIR /repo/backend

@@ -1,0 +1,101 @@
+// Every answer to an item, right or wrong (PRD 15.3).
+model ItemAttempt {
+  id              String         @id @default(cuid())
+  userId          String
+  itemId          String
+  itemVersion     Int
+  correct         Boolean
+  attemptNo       Int
+  /// Which option was chosen, for distractor analysis.
+  optionIndex     Int?
+  /// Highest hint level opened before answering (0 = none).
+  usedHint        Int            @default(0)
+  context         AttemptContext
+  lessonId        String?
+  xpAwarded       Int            @default(0)
+  /// Idempotency key: an offline batch or a second device re-sending the same attempt merges safely.
+  clientAttemptId String         @unique
+  createdAt       DateTime       @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  item Item @relation(fields: [itemId], references: [id], onDelete: Restrict)
+
+  @@index([userId, itemId])
+  @@index([itemId, createdAt])
+  @@index([userId, createdAt])
+}
+
+model LessonCompletion {
+  userId           String
+  lessonId         String
+  firstCompletedAt DateTime @default(now())
+  lastCompletedAt  DateTime @default(now())
+  /// Best share of items answered correctly on the first attempt, 0-100.
+  bestAccuracy     Int
+  flawless         Boolean
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, lessonId])
+}
+
+// The one lesson a user left in progress, so it resumes on any device.
+model LessonResume {
+  userId    String   @id
+  lessonId  String
+  position  Int
+  state     Json
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Mastery score and SM-2 review schedule per concept (PRD 6.7).
+model ConceptMastery {
+  userId         String
+  concept        String
+  /// 0-100, from clean first attempts over the concept's last 10 items.
+  score          Int
+  repetitions    Int       @default(0)
+  intervalDays   Int
+  ease           Float     @default(2.5)
+  dueAt          DateTime
+  lastReviewedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, concept])
+  @@index([userId, dueAt])
+}
+
+// One row per user and local calendar day with activity: feeds the activity map, the weekly
+// and daily goals and the league's weekly XP.
+model PracticeDay {
+  userId               String
+  /// Local calendar date, "YYYY-MM-DD".
+  date                 String
+  lessonsCompleted     Int    @default(0)
+  itemsAnswered        Int    @default(0)
+  xpEarned             Int    @default(0)
+  /// Unrated games that already paid XP today (capped per day, PRD 11.4).
+  unratedMatchXpGames  Int    @default(0)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, date])
+}
+
+model DailyChallengeResult {
+  userId       String
+  /// Local calendar date, "YYYY-MM-DD".
+  date         String
+  correctCount Int
+  totalCount   Int
+  /// Shareable grid of squares that does not reveal the questions (PRD 14.4).
+  resultGrid   Json
+  completedAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, date])
+}

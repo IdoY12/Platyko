@@ -14,7 +14,9 @@ COPY backend/package.json backend/
 COPY io/package.json io/
 COPY mobile/package.json mobile/
 COPY packages/ packages/
-RUN npm ci --workspace io --ignore-scripts \
+# build:packages compiles every shared package, so the builder also installs the code sandbox's
+# dependencies; io never loads it and the runtime stage installs io alone.
+RUN npm ci --workspace io --workspace packages/code-sandbox --ignore-scripts \
   && npx prisma generate --schema packages/db/prisma \
   && npm run build:packages
 

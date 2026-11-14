@@ -1,0 +1,79 @@
+// The unified question bank (PRD 7.2, 15.3). Rows are loaded from the verified content files;
+// an item is never deleted, only retired, so answer history always resolves.
+model Item {
+  /// Stable id from the content file, e.g. `int.closures.loop-var.predict-01`.
+  id           String     @id
+  track        Track
+  unit         String
+  concept      String
+  lessonId     String?
+  format       ItemFormat
+  variant      String?
+  difficulty   Int
+  /// Prompt, code, options, solution, hints, trace and reference.
+  payload      Json
+  /// Author, originality result and verification run id.
+  provenance   Json
+  duelEligible Boolean
+  timeLimitSec Int?
+  status       ItemStatus @default(DRAFT)
+  version      Int
+  orderInUnit  Int
+  flaggedAt    DateTime?
+  updatedAt    DateTime   @updatedAt
+
+  contentUnit ContentUnit    @relation(fields: [unit], references: [unit], onDelete: Restrict)
+  attempts    ItemAttempt[]
+  feedback    ItemFeedback[]
+  analysis    ItemAnalysis?
+
+  @@index([track, unit])
+  @@index([duelEligible, track, status])
+  @@index([concept])
+}
+
+// One row per unit, so the skill map is served without loading item payloads.
+model ContentUnit {
+  /// Slug, unique across the bank: "closures".
+  unit         String @id
+  track        Track
+  orderInTrack Int
+  title        String
+  summary      String
+  /// Concept ids, titles and prerequisites.
+  concepts     Json
+  /// Lesson ids, titles, concept cards and item ids.
+  lessons      Json
+
+  items Item[]
+}
+
+// A learner's thumbs up/down and problem report on one item (PRD 7.6).
+model ItemFeedback {
+  itemId       String
+  userId       String
+  vote         Int?
+  reportReason ItemReportReason?
+  reportedAt   DateTime?
+  updatedAt    DateTime          @updatedAt
+
+  item Item @relation(fields: [itemId], references: [id], onDelete: Restrict)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([itemId, userId])
+  @@index([itemId, reportedAt])
+  @@index([userId])
+}
+
+// Post-launch item statistics recomputed from ItemAttempt (PRD 7.6); derived data only.
+model ItemAnalysis {
+  itemId              String   @id
+  itemVersion         Int
+  answerCount         Int
+  difficultyIndex     Float
+  discriminationIndex Float
+  flags               Json
+  computedAt          DateTime
+
+  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+}

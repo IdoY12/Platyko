@@ -13,7 +13,9 @@
     "prisma:migrate:deploy": "tsx src/scripts/run-prisma.ts migrate deploy",
     "prisma:migrate:reset": "tsx src/scripts/run-prisma.ts migrate reset --force --skip-seed",
     "prisma:seed": "tsx prisma/seed/runMain.ts",
-    "test": "echo \"No tests configured yet\""
+    "migrate:legacy-completions": "tsx src/scripts/migrateLegacyCompletions.ts",
+    "migrate:verify-redesign": "tsx src/scripts/verifyRedesignMigration.ts",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +28,7 @@
     "@aws-sdk/client-s3": "^3.922.0",
     "@prisma/client": "^6.19.0",
     "@project/auth-jwt": "file:../packages/auth-jwt",
+    "@project/code-sandbox": "file:../packages/code-sandbox",
     "@project/db": "file:../packages/db",
     "@project/exercise-answer": "file:../packages/exercise-answer",
     "@project/server-kit": "file:../packages/server-kit",
@@ -39,7 +42,6 @@
     "express-rate-limit": "^8.2.1",
     "google-auth-library": "^9.15.1",
     "helmet": "^8.1.0",
-    "isolated-vm": "^6.1.2",
     "jose": "^6.2.9",
     "resend": "^6.28.0",
     "zod": "^4.3.6"
@@ -51,6 +53,7 @@
     "@types/node": "^25.3.3",
     "prisma": "^6.19.0",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
   }
 }

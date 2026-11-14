@@ -1,0 +1,45 @@
+model PushToken {
+  token     String   @id
+  userId    String
+  platform  String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Achievement {
+  userId   String
+  code     String
+  earnedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, code])
+}
+
+// A weekly league group of up to 30 users with a similar activity level (PRD 14.5).
+model LeagueGroup {
+  id           String @id @default(cuid())
+  /// Local calendar date of the week's first day, "YYYY-MM-DD".
+  weekStart    String
+  activityBand Int
+
+  memberships LeagueMembership[]
+
+  @@index([weekStart])
+}
+
+model LeagueMembership {
+  userId    String
+  weekStart String
+  groupId   String
+  weeklyXp  Int    @default(0)
+
+  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group LeagueGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@id([userId, weekStart])
+  @@index([groupId, weeklyXp])
+}

@@ -15,10 +15,96 @@ model User {
   notificationsEnabled   Boolean           @default(true)
   puzzleXpSolveCounts    Json                  @default("{}")
 
+  // ----- Redesign (PRD 15.3): columns added beside the legacy ones above -----
+
+  /// Always `lower(username)`, for case-insensitive uniqueness and prefix search. Kept in step by
+  /// the `User_usernameLower_sync` trigger (redesign_models migration) and never written by
+  /// application code; the empty default only makes the field optional on create.
+  usernameLower          String            @unique @default("")
+  /// 8 characters from `ABCDEFGHJKMNPQRSTUVWXYZ23456789` (no look-alikes), generated and kept
+  /// unique by the `generate_friend_code()` SQL function (redesign_models migration). Fixed for life.
+  friendCode             String            @unique @default(dbgenerated("generate_friend_code()"))
+  bio                    String?
+  language               String            @default("en")
+  termsAcceptedAt        DateTime?
+
+  // XP, level and streak live on the user, not on a per-level progress row (PRD 6.8).
+  xpTotal                Int               @default(0)
+  level                  Int               @default(1)
+  streakCurrent          Int               @default(0)
+  streakBest             Int               @default(0)
+  streakFreezes          Int               @default(0)
+  streakLastActivityDate String?
+  streakLastCheckedDate  String?
+  weeklyGoalDays         Int               @default(5)
+  dailyGoalLessons       Int               @default(1)
+  startingTrack          Track?
+
+  // Privacy (PRD 11.2).
+  profileVisibility      ProfileVisibility   @default(EVERYONE)
+  friendRequestPolicy    FriendRequestPolicy @default(EVERYONE)
+  searchable             Boolean             @default(true)
+  presenceVisibility     PresenceVisibility  @default(FRIENDS)
+  gameInvitePolicy       GameInvitePolicy    @default(FRIENDS)
+
+  // Glicko-2 duel rating (PRD 11.6) and the leaver cooldown (PRD 11.8).
+  rating                 Float             @default(1500)
+  ratingDeviation        Float             @default(350)
+  ratingVolatility       Float             @default(0.06)
+  ratedGamesPlayed       Int               @default(0)
+  queueCooldownUntil     DateTime?
+
+  // GitHub (PRD 14.3): public data only, shown with explicit consent.
+  githubLogin            String?
+  githubPublicRepos      Int?
+  githubFollowers        Int?
+  githubStatsConsent     Boolean           @default(false)
+  readmeBadgeEnabled     Boolean           @default(false)
+
+  // Engagement: league, push notification types, pinned badges, daily "explain my mistake" quota.
+  leagueOptOut           Boolean           @default(false)
+  notifyGameInvites      Boolean           @default(true)
+  notifyFriendRequests   Boolean           @default(true)
+  notifyStreakRisk       Boolean           @default(true)
+  notifyLeagueResults    Boolean           @default(true)
+  /// Local calendar date of the last retention push; at most one a day (PRD 11.3).
+  lastRetentionPushDate  String?
+  pinnedAchievementCodes String[]          @default([])
+  aiExplainDateKey       String?
+  aiExplainCount         Int               @default(0)
+
   progressRows      UserProgress[]
   refreshTokens     RefreshToken[]
   passwordReset     PasswordReset?
   duelSessionsP1  DuelSession[] @relation("Player1Sessions")
   duelSessionsP2  DuelSession[] @relation("Player2Sessions")
   wonSessions     DuelSession[] @relation("WinnerSessions")
+
+  identities            AuthIdentity[]
+  itemAttempts          ItemAttempt[]
+  itemFeedback          ItemFeedback[]
+  lessonCompletions     LessonCompletion[]
+  lessonResume          LessonResume?
+  conceptMasteries      ConceptMastery[]
+  practiceDays          PracticeDay[]
+  dailyChallengeResults DailyChallengeResult[]
+  friendshipsRequested  Friendship[]           @relation("FriendshipRequester")
+  friendshipsReceived   Friendship[]           @relation("FriendshipAddressee")
+  blocksMade            Block[]                @relation("BlockBlocker")
+  blocksReceived        Block[]                @relation("BlockBlocked")
+  reportsFiled          Report[]               @relation("ReportReporter")
+  reportsReceived       Report[]               @relation("ReportTarget")
+  matchParticipations   MatchParticipant[]
+  gameInvitesSent       GameInvite[]           @relation("GameInviteSender")
+  gameInvitesReceived   GameInvite[]           @relation("GameInviteRecipient")
+  antiCheatFlags        AntiCheatFlag[]
+  pushTokens            PushToken[]
+  achievements          Achievement[]
+  leagueMemberships     LeagueMembership[]
+
+  // Prefix search `"usernameLower" LIKE 'abc%'`: the unique index cannot serve it under a
+  // non-C collation, so the redesign_models migration creates this second btree index with the
+  // `text_pattern_ops` operator class. Prisma neither reads nor compares a btree operator class,
+  // so it is declared plainly here; any SQL that recreates the index must keep the class.
+  @@index([usernameLower], map: "User_usernameLower_prefix_idx")
 }

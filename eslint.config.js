@@ -66,9 +66,9 @@ module.exports = tseslint.config(
     rules: { "@typescript-eslint/require-await": "off" },
   },
   {
-    // Root-level tool configs and package test files (excluded from each package's build
-    // tsconfig so tests never ship in dist) are not part of any tsconfig project.
-    files: ["knip.config.ts", "packages/*/src/**/*.test.ts"],
+    // Tool configs and package or backend test files (excluded from each build tsconfig so
+    // tests never ship in dist) are not part of any tsconfig project.
+    files: ["knip.config.ts", "backend/vitest.config.ts", "packages/*/src/**/*.test.ts", "backend/src/**/*.test.ts"],
     extends: [tseslint.configs.disableTypeChecked],
   }
 );

@@ -1,0 +1,82 @@
+// A finished multiplayer game of 2 to 4 players (PRD 11.4). Replaces DuelSession.
+model Match {
+  id        String       @id @default(cuid())
+  mode      MatchMode
+  variant   MatchVariant @default(CLASSIC)
+  track     Track
+  rounds    Int
+  /// Items in round order, for replay and ghost recordings.
+  itemIds   String[]
+  roomCode  String?
+  startedAt DateTime
+  endedAt   DateTime
+  cancelled Boolean      @default(false)
+
+  participants   MatchParticipant[]
+  antiCheatFlags AntiCheatFlag[]
+
+  @@index([endedAt])
+}
+
+model MatchParticipant {
+  id                       String  @id @default(cuid())
+  matchId                  String
+  /// Null after account deletion: the participant shows as "deleted user" and the game is kept.
+  userId                   String?
+  seat                     Int
+  placement                Int
+  score                    Int
+  correctCount             Int
+  /// Cumulative time on correct answers; the third tie-breaker (PRD 11.5).
+  correctTimeMs            Int
+  /// Per round: answer, time and points.
+  answers                  Json
+  ratingBefore             Float?
+  ratingAfter              Float?
+  left                     Boolean @default(false)
+  isGhost                  Boolean @default(false)
+  /// Ghost seats only: the recorded participant this seat replays.
+  ghostSourceParticipantId String?
+  xpAwarded                Int     @default(0)
+
+  match        Match              @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  user         User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
+  ghostSource  MatchParticipant?  @relation("GhostRecording", fields: [ghostSourceParticipantId], references: [id], onDelete: SetNull)
+  ghostReplays MatchParticipant[] @relation("GhostRecording")
+
+  @@unique([matchId, seat])
+  @@index([userId, matchId])
+}
+
+model GameInvite {
+  id         String           @id @default(cuid())
+  fromUserId String
+  toUserId   String
+  kind       GameInviteKind
+  track      Track?
+  roomCode   String?
+  status     GameInviteStatus @default(PENDING)
+  createdAt  DateTime         @default(now())
+  expiresAt  DateTime
+
+  fromUser User @relation("GameInviteSender", fields: [fromUserId], references: [id], onDelete: Cascade)
+  toUser   User @relation("GameInviteRecipient", fields: [toUserId], references: [id], onDelete: Cascade)
+
+  @@index([toUserId, status])
+  @@index([fromUserId])
+}
+
+// A suspicious event queued for manual review, e.g. a correct answer in under 400 ms (PRD 11.9).
+model AntiCheatFlag {
+  id        String   @id @default(cuid())
+  userId    String
+  matchId   String?
+  kind      String
+  detail    Json?
+  createdAt DateTime @default(now())
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  match Match? @relation(fields: [matchId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+}

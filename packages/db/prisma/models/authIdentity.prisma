@@ -1,0 +1,17 @@
+// A sign-in identity linked to an account; several providers per user (PRD 14.3).
+// Replaces User.googleId and User.appleSub.
+model AuthIdentity {
+  provider             AuthProvider
+  /// The provider's stable user id (Google `sub`, Apple `sub`, GitHub numeric id).
+  subject              String
+  userId               String
+  /// Apple only: the encrypted refresh token, kept to revoke the grant on account deletion.
+  providerRefreshToken String?
+  createdAt            DateTime     @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, subject])
+  @@unique([userId, provider])
+  @@index([userId])
+}

@@ -48,6 +48,11 @@ export function isUniqueConstraintError(error: unknown, field?: string): boolean
   return target.includes(field);
 }
 
+/** True when the username belongs to another account, exactly or by case (`usernameLower` is unique too). */
+export function isUsernameTakenError(error: unknown): boolean {
+  return isUniqueConstraintError(error, "username") || isUniqueConstraintError(error, "usernameLower");
+}
+
 // Client-facing: the real cause is already logged server-side by every handler.
 export const DATABASE_UNAVAILABLE_MESSAGE = "Service is temporarily unavailable. Please try again.";
 

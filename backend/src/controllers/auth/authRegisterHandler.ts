@@ -18,7 +18,7 @@ export async function authRegisterHandler(request: Request, response: Response):
   logInfo("[AUTH]", "register:attempt", { email, username });
   try {
     await purgeStalePendingRegistrations();
-    const taken = await prisma.user.findFirst({ where: { OR: [{ email }, { username }] }, select: { email: true } });
+    const taken = await prisma.user.findFirst({ where: { OR: [{ email }, { usernameLower: username.toLowerCase() }] }, select: { email: true } });
     if (taken) {
       logWarn("[AUTH]", "register:taken", { email, username, field: taken.email === email ? "email" : "username" });
       response.status(409).json({ error: taken.email === email ? EMAIL_TAKEN_MESSAGE : USERNAME_TAKEN_MESSAGE });

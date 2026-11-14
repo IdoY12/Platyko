@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { parsePuzzleXpSolveCounts, prisma, type PendingRegistration, type User } from "@project/db";
 import { EMAIL_TAKEN_MESSAGE, USERNAME_TAKEN_MESSAGE } from "@project/user-credentials";
-import { isUniqueConstraintError } from "../../utils/dbErrors.js";
+import { isUniqueConstraintError, isUsernameTakenError } from "../../utils/dbErrors.js";
 import { hashPassword } from "../../utils/passwordHashing.js";
 import { createProgressRowsFromSnapshot, type GuestSnapshot } from "./guestSnapshotMigration.js";
 import { checkOtpCode, freshOtpFields, otpResendCooldownSecondsLeft, type OtpOutcome } from "./otpCodes.js";
@@ -74,7 +74,7 @@ export async function consumePendingRegistration(pending: PendingRegistration, c
 
 /** Maps a User unique-constraint failure (email/username taken meanwhile) to the client message, else null. */
 export function registrationConflictMessage(error: unknown): string | null {
-  if (isUniqueConstraintError(error, "username")) return USERNAME_TAKEN_MESSAGE;
+  if (isUsernameTakenError(error)) return USERNAME_TAKEN_MESSAGE;
   if (isUniqueConstraintError(error, "email")) return EMAIL_TAKEN_MESSAGE;
   return null;
 }

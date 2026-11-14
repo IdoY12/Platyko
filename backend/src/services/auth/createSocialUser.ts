@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { parsePuzzleXpSolveCounts, prisma, type User } from "@project/db";
 import { USERNAME_MAX_LEN, USERNAME_MIN_LEN } from "@project/user-credentials";
-import { isUniqueConstraintError } from "../../utils/dbErrors.js";
+import { isUsernameTakenError } from "../../utils/dbErrors.js";
 import { createProgressRowsFromSnapshot, type GuestSnapshot } from "./guestSnapshotMigration.js";
 
 const USERNAME_SUFFIX_RETRIES = 12;
@@ -51,7 +51,7 @@ export async function createSocialUserWithProgress(
         return created;
       });
     } catch (error) {
-      if (!isUniqueConstraintError(error, "username")) throw error;
+      if (!isUsernameTakenError(error)) throw error;
       candidate =
         attempt + 1 < USERNAME_SUFFIX_RETRIES
           ? usernameWithCollisionSuffix(deriveUsername(email, displayName))

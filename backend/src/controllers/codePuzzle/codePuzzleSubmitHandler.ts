@@ -12,7 +12,7 @@ import type { AuthenticatedRequest } from "../../@types/auth.js";
 import type { CodePuzzleSubmitDto } from "../../dto/codePuzzleDto.js";
 import { logError } from "../../utils/logger.js";
 import type { CodePuzzleSubmitBody, CodePuzzleSubmitParams } from "../../validators/codePuzzleValidators.js";
-import { codePuzzleAllTestCasesPass } from "../../services/codePuzzle/codePuzzleSandbox.js";
+import { codePuzzleAllTestCasesPass } from "../../services/codePuzzle/codePuzzleTestCases.js";
 
 
 export async function codePuzzleSubmitHandler(request: AuthenticatedRequest, response: Response): Promise<void> {
