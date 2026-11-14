@@ -1,0 +1,1701 @@
+{
+  "track": "BEGINNER",
+  "unit": "conditionals",
+  "order": 4,
+  "title": "Conditionals",
+  "summary": "Choosing which code runs with if, else and else if, the ternary operator, and conditions that are not booleans.",
+  "concepts": [
+    {
+      "id": "if-statement",
+      "title": "Choosing with if",
+      "prerequisites": [
+        "strict-equality",
+        "relational-operators"
+      ]
+    },
+    {
+      "id": "else-branches",
+      "title": "else and else if chains",
+      "prerequisites": [
+        "if-statement"
+      ]
+    },
+    {
+      "id": "ternary-operator",
+      "title": "The ternary operator",
+      "prerequisites": [
+        "else-branches"
+      ]
+    },
+    {
+      "id": "condition-truthiness",
+      "title": "Conditions that are not booleans",
+      "prerequisites": [
+        "if-statement",
+        "truthy-and-falsy"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "block-ignores-condition",
+      "description": "Believes the code in braces runs whatever the condition says."
+    },
+    {
+      "id": "condition-direction-flipped",
+      "description": "Believes a block, or the first value of a ternary, is used when the condition is false."
+    },
+    {
+      "id": "rest-skipped-after-block",
+      "description": "Believes the lines after an if block are skipped once the block has run."
+    },
+    {
+      "id": "else-runs-too",
+      "description": "Believes else runs after the if block as well, or that it needs no condition to be skipped."
+    },
+    {
+      "id": "chain-checks-all",
+      "description": "Believes every else if is tested even after an earlier branch has run."
+    },
+    {
+      "id": "chain-order-ignored",
+      "description": "Believes the order of the branches does not matter, or that the last matching branch wins."
+    },
+    {
+      "id": "ternary-returns-condition",
+      "description": "Believes a ternary gives back the true or false of its condition instead of one of its two values."
+    },
+    {
+      "id": "only-true-passes",
+      "description": "Believes a condition passes only when it is exactly the value true."
+    },
+    {
+      "id": "text-counts-by-meaning",
+      "description": "Judges the truthiness of text by what it says, so 0 looks falsy and an empty text looks like content."
+    },
+    {
+      "id": "wrong-moment-value",
+      "description": "Reads a variable at a different moment than the one asked about."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7731f3c82191ac68b508da2acc5e3b1f30f332e188e392671e4a102133ee286c"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator",
+      "retrievedAt": "2026-11-14",
+      "sha256": "23ca69f000c2099cd51bd67ebfcf21178df5cf0f444b3c4118e42850770114e1"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling",
+      "retrievedAt": "2026-11-14",
+      "sha256": "8e0477a0434a22bb9443b70ebd7d2c94ccebf6314fadbdbc2959b379e0417031"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Truthy",
+      "retrievedAt": "2026-11-14",
+      "sha256": "c0323225cd10458c85cfdc984f95d5d84b93f98cd16112755b566600bdb5a76a"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Falsy",
+      "retrievedAt": "2026-11-14",
+      "sha256": "54efa451e68ab19de0ae7edbfc6a136b86e4dc894ae643c99b1ee2748c24c3f2"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "conditionals.lesson-1",
+      "title": "Choosing with if",
+      "conceptCard": {
+        "title": "Choosing with if",
+        "body": "An if statement runs a block of code only when its condition is true. The block sits inside curly braces. When the condition is false, JavaScript skips the block and carries on with the next line.",
+        "code": [
+          "let height = 150;",
+          "if (height >= 140) {",
+          "  console.log('ride allowed');",
+          "}",
+          "console.log('next');"
+        ],
+        "expectedOutput": "ride allowed\nnext"
+      },
+      "itemIds": [
+        "beg.conditionals.if-statement.predict-01",
+        "beg.conditionals.if-statement.predict-02",
+        "beg.conditionals.if-statement.trace-01",
+        "beg.conditionals.if-statement.fill-01",
+        "beg.conditionals.if-statement.parsons-01",
+        "beg.conditionals.if-statement.concept-01"
+      ]
+    },
+    {
+      "id": "conditionals.lesson-2",
+      "title": "else and else if chains",
+      "conceptCard": {
+        "title": "else and else if chains",
+        "body": "else adds a block that runs when the condition is false. else if adds another test. JavaScript checks from the top and stops at the first true condition, so only one block of the chain runs.",
+        "code": [
+          "let laps = 3;",
+          "if (laps > 5) {",
+          "  console.log('long');",
+          "} else if (laps > 2) {",
+          "  console.log('medium');",
+          "} else {",
+          "  console.log('short');",
+          "}"
+        ],
+        "expectedOutput": "medium"
+      },
+      "itemIds": [
+        "beg.conditionals.else-branches.predict-01",
+        "beg.conditionals.else-branches.predict-02",
+        "beg.conditionals.else-branches.trace-01",
+        "beg.conditionals.else-branches.fill-01",
+        "beg.conditionals.else-branches.parsons-01",
+        "beg.conditionals.else-branches.write-01"
+      ]
+    },
+    {
+      "id": "conditionals.lesson-3",
+      "title": "The ternary operator",
+      "conceptCard": {
+        "title": "The ternary operator",
+        "body": "The ternary operator picks one of two values: condition ? valueIfTrue : valueIfFalse. It is a short form of if and else that gives back a value you can store or print.",
+        "code": [
+          "let sun = 3;",
+          "let plan = sun > 5 ? 'sea' : 'spa';",
+          "console.log(plan);"
+        ],
+        "expectedOutput": "spa"
+      },
+      "itemIds": [
+        "beg.conditionals.ternary-operator.predict-01",
+        "beg.conditionals.ternary-operator.predict-02",
+        "beg.conditionals.ternary-operator.trace-01",
+        "beg.conditionals.ternary-operator.fill-01",
+        "beg.conditionals.ternary-operator.parsons-01",
+        "beg.conditionals.ternary-operator.concept-01"
+      ]
+    },
+    {
+      "id": "conditionals.lesson-4",
+      "title": "Conditions that are not booleans",
+      "conceptCard": {
+        "title": "Conditions that are not booleans",
+        "body": "A condition can be any value. Falsy values skip the block: false, 0, empty text, null and undefined. Every other value is truthy and runs the block. The text 0 is truthy, because it is not empty.",
+        "code": [
+          "let tag = '';",
+          "if (tag) {",
+          "  console.log('tagged');",
+          "} else {",
+          "  console.log('no tag');",
+          "}"
+        ],
+        "expectedOutput": "no tag"
+      },
+      "itemIds": [
+        "beg.conditionals.condition-truthiness.predict-01",
+        "beg.conditionals.condition-truthiness.predict-02",
+        "beg.conditionals.condition-truthiness.trace-01",
+        "beg.conditionals.condition-truthiness.fill-01",
+        "beg.conditionals.condition-truthiness.parsons-01",
+        "beg.conditionals.condition-truthiness.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "beg.conditionals.if-statement.predict-01",
+      "concept": "if-statement",
+      "prerequisites": [
+        "strict-equality",
+        "relational-operators"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let water = 3;",
+        "if (water < 5) {",
+        "  console.log('refill');",
+        "}",
+        "console.log('done');"
+      ],
+      "options": [
+        {
+          "text": "refill\ndone",
+          "correct": true,
+          "feedback": "Right. 3 is less than 5, so the block runs. The last line is outside the braces and always runs."
+        },
+        {
+          "text": "done",
+          "correct": false,
+          "feedback": "You skipped the block. The block runs when the condition is true, and this condition is true.",
+          "misconception": "condition-direction-flipped"
+        },
+        {
+          "text": "refill",
+          "correct": false,
+          "feedback": "You stopped after the block. The line after the closing brace still runs.",
+          "misconception": "rest-skipped-after-block"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "refill\ndone"
+      },
+      "explanation": "An if block runs when its condition is true. Here 3 < 5 is true, so refill prints. The last line is outside the braces, so it prints too.",
+      "hints": [
+        "Look at the condition on line 2.",
+        "The block runs only when the condition is true.",
+        "Is 3 less than 5? Then check which lines are outside the braces."
+      ],
+      "reference": {
+        "title": "if...else",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.if-statement.predict-02",
+      "concept": "if-statement",
+      "prerequisites": [
+        "strict-equality",
+        "relational-operators"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let lateDays = 0;",
+        "if (lateDays > 0) {",
+        "  console.log('fine due');",
+        "}",
+        "console.log('returned');"
+      ],
+      "options": [
+        {
+          "text": "returned",
+          "correct": true,
+          "feedback": "Right. 0 > 0 is false, so the block is skipped and only the last line runs."
+        },
+        {
+          "text": "fine due\nreturned",
+          "correct": false,
+          "feedback": "You ran the block without checking the condition. The condition is false, so JavaScript skips the braces.",
+          "misconception": "block-ignores-condition"
+        },
+        {
+          "text": "fine due",
+          "correct": false,
+          "feedback": "You ran the block and dropped the last line. When the condition is false the block is skipped, and the last line still runs.",
+          "misconception": "block-ignores-condition"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "returned"
+      },
+      "explanation": "The condition 0 > 0 is false, because > is false for equal values. JavaScript skips the block and moves on to the line after the closing brace.",
+      "hints": [
+        "Check line 2 first.",
+        "A false condition makes JavaScript skip the block.",
+        "Is 0 greater than 0?"
+      ],
+      "reference": {
+        "title": "Block statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.if-statement.trace-01",
+      "concept": "if-statement",
+      "prerequisites": [
+        "strict-equality",
+        "relational-operators"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What value does battery hold right after line 3 has run?",
+      "code": [
+        "let battery = 15;",
+        "if (battery < 20) {",
+        "  battery = battery + 50;",
+        "}",
+        "battery = battery - 5;",
+        "console.log(battery);"
+      ],
+      "options": [
+        {
+          "text": "65",
+          "correct": true,
+          "feedback": "Right. 15 < 20 is true, so line 3 adds 50 to 15."
+        },
+        {
+          "text": "60",
+          "correct": false,
+          "feedback": "That is the value after line 5 has also run. The question stops right after line 3.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "15",
+          "correct": false,
+          "feedback": "You skipped the block. The condition is true, so the block runs and line 3 changes battery.",
+          "misconception": "condition-direction-flipped"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "battery",
+          "afterLine": 3,
+          "visit": 1
+        },
+        "expectedOutput": "60"
+      },
+      "explanation": "Line 2 is true for 15, so line 3 runs and stores 65. Line 5 later subtracts 5 and the program prints 60, but the question stops after line 3.",
+      "hints": [
+        "Stop after line 3 and ignore lines 5 and 6.",
+        "Decide first whether the block runs at all.",
+        "Start from 15 and add what line 3 adds."
+      ],
+      "reference": {
+        "title": "if...else",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.if-statement.fill-01",
+      "concept": "if-statement",
+      "prerequisites": [
+        "strict-equality",
+        "relational-operators"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints hot.",
+      "code": [
+        "let temp = 31;",
+        "if (temp ___ 30) {",
+        "  console.log('hot');",
+        "}"
+      ],
+      "options": [
+        {
+          "text": ">",
+          "correct": true,
+          "feedback": "Right. 31 is greater than 30, so the block runs."
+        },
+        {
+          "text": "<",
+          "correct": false,
+          "feedback": "31 is not less than 30, so the block is skipped and nothing prints.",
+          "misconception": "condition-direction-flipped"
+        },
+        {
+          "text": "===",
+          "correct": false,
+          "feedback": "31 is not strictly equal to 30, so the block is skipped and nothing prints.",
+          "misconception": "block-ignores-condition"
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            ">"
+          ]
+        ],
+        "expectedOutput": "hot"
+      },
+      "explanation": "The block prints hot only when the condition is true. temp is 31, so the condition needs a sign that is true for 31 and 30.",
+      "hints": [
+        "Look at the numbers on line 2.",
+        "The condition must be true for 31 and 30.",
+        "You need a sign that asks which number is bigger."
+      ],
+      "reference": {
+        "title": "Greater than (>)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Greater_than",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.if-statement.parsons-01",
+      "concept": "if-statement",
+      "prerequisites": [
+        "strict-equality",
+        "relational-operators"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints umbrella and then go.",
+      "code": [
+        "}",
+        "console.log('go');",
+        "let chance = 70;",
+        "if (chance > 50) {",
+        "  console.log('umbrella');"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          3,
+          4,
+          0,
+          1
+        ],
+        "acceptedOrders": [
+          [
+            4,
+            2,
+            3,
+            1,
+            0
+          ],
+          [
+            2,
+            4,
+            3,
+            1,
+            0
+          ],
+          [
+            2,
+            3,
+            4,
+            1,
+            0
+          ],
+          [
+            4,
+            2,
+            1,
+            3,
+            0
+          ],
+          [
+            2,
+            4,
+            1,
+            3,
+            0
+          ],
+          [
+            4,
+            1,
+            2,
+            3,
+            0
+          ],
+          [
+            4,
+            2,
+            3,
+            0,
+            1
+          ],
+          [
+            2,
+            4,
+            3,
+            0,
+            1
+          ],
+          [
+            2,
+            3,
+            0,
+            4,
+            1
+          ]
+        ],
+        "expectedOutput": "umbrella\ngo"
+      },
+      "explanation": "chance is set first. The if line opens the block, the print goes inside it, and the closing brace ends it. The last print comes after the brace.",
+      "hints": [
+        "A variable must exist before the if reads it.",
+        "The block opens on the if line and ends at the brace.",
+        "Put go after the closing brace."
+      ],
+      "reference": {
+        "title": "Control flow and error handling",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.if-statement.concept-01",
+      "concept": "if-statement",
+      "prerequisites": [
+        "strict-equality",
+        "relational-operators"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement explains what this program prints?",
+      "code": [
+        "let pages = 40;",
+        "if (pages > 50) {",
+        "  console.log('long');",
+        "}",
+        "console.log('read');"
+      ],
+      "options": [
+        {
+          "text": "The block runs only when its condition is true. The line after it always runs.",
+          "correct": true,
+          "feedback": "Right. 40 > 50 is false, so the block is skipped and read prints."
+        },
+        {
+          "text": "The block runs whatever the condition says, so long prints too.",
+          "correct": false,
+          "feedback": "The condition decides. 40 > 50 is false, so long never prints.",
+          "misconception": "block-ignores-condition"
+        },
+        {
+          "text": "The block runs when the condition is false, so long prints.",
+          "correct": false,
+          "feedback": "It is the other way round. A block runs when its condition is true, and here it is false.",
+          "misconception": "condition-direction-flipped"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "read"
+      },
+      "explanation": "An if statement tests its condition. A true condition runs the block; a false one skips it. The line after the braces is not part of the block, so it always runs.",
+      "hints": [
+        "Compare the condition on line 2 with the value on line 1.",
+        "The condition decides if the braces run.",
+        "Which line is outside the braces?"
+      ],
+      "reference": {
+        "title": "if...else",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.else-branches.predict-01",
+      "concept": "else-branches",
+      "prerequisites": [
+        "if-statement"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let delay = 12;",
+        "if (delay > 10) {",
+        "  console.log('late');",
+        "} else {",
+        "  console.log('on time');",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "late",
+          "correct": true,
+          "feedback": "Right. 12 > 10 is true, so only the if block runs and the else block is skipped."
+        },
+        {
+          "text": "on time",
+          "correct": false,
+          "feedback": "You took the else block. else runs only when the condition is false, and this one is true.",
+          "misconception": "condition-direction-flipped"
+        },
+        {
+          "text": "late\non time",
+          "correct": false,
+          "feedback": "You ran both blocks. else is an alternative: when the if block runs, else is skipped.",
+          "misconception": "else-runs-too"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "late"
+      },
+      "explanation": "if and else are two paths and exactly one of them runs. The condition 12 > 10 is true, so the if block runs and the else block is skipped.",
+      "hints": [
+        "Look at the condition on line 2.",
+        "Exactly one of the two blocks runs.",
+        "Is 12 greater than 10?"
+      ],
+      "reference": {
+        "title": "if...else",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.else-branches.predict-02",
+      "concept": "else-branches",
+      "prerequisites": [
+        "if-statement"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "let wins = 9;",
+        "if (wins >= 8) {",
+        "  console.log('master');",
+        "} else if (wins >= 4) {",
+        "  console.log('regular');",
+        "} else {",
+        "  console.log('novice');",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "master",
+          "correct": true,
+          "feedback": "Right. The first true condition wins, and the rest of the chain is skipped."
+        },
+        {
+          "text": "master\nregular",
+          "correct": false,
+          "feedback": "You tested every condition. A chain stops at the first true one, so the else if is never checked.",
+          "misconception": "chain-checks-all"
+        },
+        {
+          "text": "regular",
+          "correct": false,
+          "feedback": "You picked a later branch. JavaScript checks from the top and stops at the first true condition, and that comes first here.",
+          "misconception": "chain-order-ignored"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "master"
+      },
+      "explanation": "A chain is checked from top to bottom. wins >= 8 is true for 9, so master prints. The later conditions are not tested, even though wins >= 4 is true as well.",
+      "hints": [
+        "Start at line 2 and move down.",
+        "Checking stops at the first true condition.",
+        "Is 9 at least 8? If so, nothing below runs."
+      ],
+      "reference": {
+        "title": "if...else",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.else-branches.trace-01",
+      "concept": "else-branches",
+      "prerequisites": [
+        "if-statement"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What value does fee hold right after line 4 has run?",
+      "code": [
+        "let fee = 5;",
+        "let age = 70;",
+        "if (age >= 65) {",
+        "  fee = 2;",
+        "} else {",
+        "  fee = 8;",
+        "}",
+        "fee = fee + 1;",
+        "console.log(fee);"
+      ],
+      "options": [
+        {
+          "text": "2",
+          "correct": true,
+          "feedback": "Right. 70 >= 65 is true, so line 4 stores 2."
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "That is the value after line 8 has added 1. The question stops right after line 4.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "8",
+          "correct": false,
+          "feedback": "You ran the else block as well. After the if block runs, else is skipped.",
+          "misconception": "else-runs-too"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "fee",
+          "afterLine": 4,
+          "visit": 1
+        },
+        "expectedOutput": "3"
+      },
+      "explanation": "The condition is true for 70, so line 4 stores 2 and the else block is skipped. Line 8 adds 1 later, so the program prints 3, but the question stops after line 4.",
+      "hints": [
+        "Stop after line 4.",
+        "Only one of the two blocks runs.",
+        "Is age at least 65? Then follow only that block."
+      ],
+      "reference": {
+        "title": "if...else",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.else-branches.fill-01",
+      "concept": "else-branches",
+      "prerequisites": [
+        "if-statement"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints only storm.",
+      "code": [
+        "let wind = 70;",
+        "if (wind > 60) {",
+        "  console.log('storm');",
+        "} ___ (wind > 30) {",
+        "  console.log('breezy');",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "else if",
+          "correct": true,
+          "feedback": "Right. The second test is only checked when the first one is false, so breezy is skipped."
+        },
+        {
+          "text": "if",
+          "correct": false,
+          "feedback": "This starts a new test. 70 > 30 is true as well, so breezy prints after storm.",
+          "misconception": "chain-checks-all"
+        },
+        {
+          "text": "else",
+          "correct": false,
+          "feedback": "else needs no condition here. The block would run on its own, so breezy prints after storm.",
+          "misconception": "else-runs-too"
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "else if"
+          ]
+        ],
+        "expectedOutput": "storm"
+      },
+      "explanation": "else if joins the second test to the first. JavaScript skips it when the first condition was true. Without it the second test stands alone and also runs.",
+      "hints": [
+        "Look at where the first block ends.",
+        "A second test can be linked to the first one.",
+        "Two words: the first one is the word that means \"otherwise\"."
+      ],
+      "reference": {
+        "title": "if...else",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.else-branches.parsons-01",
+      "concept": "else-branches",
+      "prerequisites": [
+        "if-statement"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints low.",
+      "code": [
+        "  console.log('low');",
+        "}",
+        "let fuel = 10;",
+        "} else {",
+        "if (fuel > 50) {",
+        "  console.log('full');"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          4,
+          5,
+          3,
+          0,
+          1
+        ],
+        "acceptedOrders": [
+          [
+            2,
+            4,
+            5,
+            3,
+            1,
+            0
+          ],
+          [
+            2,
+            0,
+            4,
+            5,
+            3,
+            1
+          ],
+          [
+            0,
+            2,
+            4,
+            5,
+            3,
+            1
+          ]
+        ],
+        "expectedOutput": "low"
+      },
+      "explanation": "fuel is set first. The if line opens the first block, which holds the full print. else opens the second block, with the low print inside. The last brace closes it.",
+      "hints": [
+        "The variable comes first.",
+        "The block for the condition comes before else.",
+        "Put full inside the if block and low inside the else block."
+      ],
+      "reference": {
+        "title": "if...else",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.else-branches.write-01",
+      "concept": "else-branches",
+      "prerequisites": [
+        "if-statement"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "Write an expression for the shipping cost of a parcel of kg: 15 for 10 kg or more, 8 for 2 to 9 kg, and 3 for less.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "kg"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "kg": 12
+            },
+            "expected": 15
+          },
+          {
+            "input": {
+              "kg": 10
+            },
+            "expected": 15
+          },
+          {
+            "input": {
+              "kg": 9
+            },
+            "expected": 8
+          },
+          {
+            "input": {
+              "kg": 2
+            },
+            "expected": 8
+          },
+          {
+            "input": {
+              "kg": 1
+            },
+            "expected": 3
+          },
+          {
+            "input": {
+              "kg": 0
+            },
+            "expected": 3
+          }
+        ],
+        "reference": [
+          "kg >= 10 ? 15 : kg >= 2 ? 8 : 3"
+        ],
+        "wrongSolutions": [
+          [
+            "kg > 10 ? 15 : kg > 2 ? 8 : 3"
+          ],
+          [
+            "kg >= 2 ? 8 : kg >= 10 ? 15 : 3"
+          ],
+          [
+            "kg >= 10 ? 15 : 8"
+          ]
+        ]
+      },
+      "explanation": "Test the biggest group first and use >= so the boundary values 10 and 2 belong to the right group. The last value catches everything else.",
+      "hints": [
+        "You need three possible results, so two conditions.",
+        "Check the biggest group first; the first true condition wins.",
+        "Chain one ? : inside the else part of another ? :."
+      ],
+      "reference": {
+        "title": "Conditional (ternary) operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.ternary-operator.predict-01",
+      "concept": "ternary-operator",
+      "prerequisites": [
+        "else-branches"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let jam = 4;",
+        "let sweet = jam > 2 ? 'yes' : 'no';",
+        "console.log(sweet);"
+      ],
+      "options": [
+        {
+          "text": "yes",
+          "correct": true,
+          "feedback": "Right. 4 > 2 is true, so the ternary gives the value before the colon."
+        },
+        {
+          "text": "no",
+          "correct": false,
+          "feedback": "You took the value after the colon. That one is used only when the condition is false.",
+          "misconception": "condition-direction-flipped"
+        },
+        {
+          "text": "true",
+          "correct": false,
+          "feedback": "The ternary does not give back its condition. It gives back one of the two values after the question mark.",
+          "misconception": "ternary-returns-condition"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "yes"
+      },
+      "explanation": "A ternary gives the first value when its condition is true and the second when it is false. 4 > 2 is true, so sweet holds yes.",
+      "hints": [
+        "Look at the condition before the question mark.",
+        "A ternary picks one of two values.",
+        "The condition is true, so use the first value."
+      ],
+      "reference": {
+        "title": "Conditional (ternary) operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:13"
+      ]
+    },
+    {
+      "id": "beg.conditionals.ternary-operator.predict-02",
+      "concept": "ternary-operator",
+      "prerequisites": [
+        "else-branches"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let hour = 7;",
+        "console.log(hour > 9 ? 1 : 0);"
+      ],
+      "options": [
+        {
+          "text": "0",
+          "correct": true,
+          "feedback": "Right. 7 > 9 is false, so the ternary gives the value after the colon."
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "You took the first value. It is used only when the condition is true, and 7 > 9 is false.",
+          "misconception": "condition-direction-flipped"
+        },
+        {
+          "text": "false",
+          "correct": false,
+          "feedback": "The ternary does not give back its condition. It gives back one of its two values.",
+          "misconception": "ternary-returns-condition"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "0"
+      },
+      "explanation": "The condition 7 > 9 is false. A ternary then gives the value after the colon, so 0 prints.",
+      "hints": [
+        "Look at the condition before the question mark.",
+        "A false condition picks the second value.",
+        "Is 7 greater than 9?"
+      ],
+      "reference": {
+        "title": "Conditional (ternary) operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.ternary-operator.trace-01",
+      "concept": "ternary-operator",
+      "prerequisites": [
+        "else-branches"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What value does pace hold right after line 2 has run?",
+      "code": [
+        "let lap = 1;",
+        "let pace = lap < 3 ? 'jog' : 'run';",
+        "lap = 5;",
+        "pace = lap < 3 ? 'jog' : 'run';",
+        "console.log(pace);"
+      ],
+      "options": [
+        {
+          "text": "'jog'",
+          "correct": true,
+          "feedback": "Right. On line 2, lap is 1 and 1 < 3 is true."
+        },
+        {
+          "text": "'run'",
+          "correct": false,
+          "feedback": "That is the value after line 4. By then lap has changed, but the question stops after line 2.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "true",
+          "correct": false,
+          "feedback": "pace holds one of the two texts, not the result of the condition.",
+          "misconception": "ternary-returns-condition"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "pace",
+          "afterLine": 2,
+          "visit": 1
+        },
+        "expectedOutput": "run"
+      },
+      "explanation": "On line 2, lap is 1 and 1 < 3 is true, so pace stores jog. Line 3 changes lap and line 4 picks again, so the program prints run.",
+      "hints": [
+        "Stop after line 2.",
+        "Use the value lap has at that moment.",
+        "lap is still 1 when line 2 runs."
+      ],
+      "reference": {
+        "title": "Conditional (ternary) operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.ternary-operator.fill-01",
+      "concept": "ternary-operator",
+      "prerequisites": [
+        "else-branches"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints A.",
+      "code": [
+        "let stars = 5;",
+        "let grade = stars > 3 ___ 'A' : 'B';",
+        "console.log(grade);"
+      ],
+      "options": [
+        {
+          "text": "?",
+          "correct": true,
+          "feedback": "Right. The question mark follows the condition and starts the two values."
+        },
+        {
+          "text": ":",
+          "correct": false,
+          "feedback": "The colon separates the two values. It cannot follow the condition, so this fails.",
+          "misconception": "ternary-returns-condition"
+        },
+        {
+          "text": "&&",
+          "correct": false,
+          "feedback": "This is not a ternary and the colon then has no meaning, so the code fails.",
+          "misconception": "ternary-returns-condition"
+        },
+        {
+          "text": "||",
+          "correct": false,
+          "feedback": "This is not a ternary and the colon then has no meaning, so the code fails.",
+          "misconception": "ternary-returns-condition"
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "?"
+          ]
+        ],
+        "expectedOutput": "A"
+      },
+      "explanation": "A ternary has the form condition ? first : second. The question mark follows the condition and the colon separates the two values.",
+      "hints": [
+        "Look at the colon already on line 2.",
+        "A ternary uses two special signs.",
+        "One sign goes right after the condition."
+      ],
+      "reference": {
+        "title": "Conditional (ternary) operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.ternary-operator.parsons-01",
+      "concept": "ternary-operator",
+      "prerequisites": [
+        "else-branches"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints hot.",
+      "code": [
+        "console.log(tag);",
+        "let sold = 3;",
+        "let tag = sold > 2 ? 'hot' : 'slow';"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          2,
+          0
+        ],
+        "expectedOutput": "hot"
+      },
+      "explanation": "tag uses sold, so sold is set first. The print comes last because it uses both variables.",
+      "hints": [
+        "Which variable does another line need?",
+        "A line can only use variables created before it.",
+        "Create sold, then tag, then print."
+      ],
+      "reference": {
+        "title": "Conditional (ternary) operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.ternary-operator.concept-01",
+      "concept": "ternary-operator",
+      "prerequisites": [
+        "else-branches"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement explains the two lines this program prints?",
+      "code": [
+        "let temp = -2;",
+        "let tyre = temp < 0 ? 'ice' : 'dry';",
+        "console.log(tyre);",
+        "console.log(temp < 0);"
+      ],
+      "options": [
+        {
+          "text": "A ternary gives back one of its two values, chosen by the condition.",
+          "correct": true,
+          "feedback": "Right. Line 2 picks one of the two texts. Line 4 is only the condition, so it gives true or false."
+        },
+        {
+          "text": "A ternary gives back true or false, the result of its condition.",
+          "correct": false,
+          "feedback": "Line 3 prints a text, not true. Only the plain comparison on line 4 gives true or false.",
+          "misconception": "ternary-returns-condition"
+        },
+        {
+          "text": "A ternary gives the second value when the condition is true.",
+          "correct": false,
+          "feedback": "It is the other way round. A true condition picks the value before the colon.",
+          "misconception": "condition-direction-flipped"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "ice\ntrue"
+      },
+      "explanation": "The same condition appears on lines 2 and 4. On line 4 it gives true. On line 2 it picks the first value, ice, because a ternary gives back one of its two values.",
+      "hints": [
+        "Compare what lines 3 and 4 print.",
+        "A ternary turns a condition into one of two values.",
+        "The same condition is true on both lines."
+      ],
+      "reference": {
+        "title": "Conditional (ternary) operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.condition-truthiness.predict-01",
+      "concept": "condition-truthiness",
+      "prerequisites": [
+        "if-statement",
+        "truthy-and-falsy"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "let note = '0';",
+        "if (note) {",
+        "  console.log('has note');",
+        "} else {",
+        "  console.log('empty');",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "has note",
+          "correct": true,
+          "feedback": "Right. A text is falsy only when it is empty. The text 0 has one character."
+        },
+        {
+          "text": "empty",
+          "correct": false,
+          "feedback": "You read the text 0 as the number 0. Only the empty text is falsy; any other text is truthy.",
+          "misconception": "text-counts-by-meaning"
+        },
+        {
+          "text": "has note\nempty",
+          "correct": false,
+          "feedback": "You ran both blocks. When the if block runs, else is skipped.",
+          "misconception": "else-runs-too"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "has note"
+      },
+      "explanation": "An if condition can be any value. Only false, 0, empty text, null and undefined are falsy. The text 0 is not empty, so it is truthy and the if block runs.",
+      "hints": [
+        "Look at the quotes on line 1.",
+        "The condition does not have to be true or false.",
+        "Is this text empty?"
+      ],
+      "reference": {
+        "title": "Truthy",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Truthy",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.condition-truthiness.predict-02",
+      "concept": "condition-truthiness",
+      "prerequisites": [
+        "if-statement",
+        "truthy-and-falsy"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "let lanes = 3;",
+        "if (lanes) {",
+        "  console.log('open');",
+        "} else {",
+        "  console.log('full');",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "open",
+          "correct": true,
+          "feedback": "Right. Any number except 0 is truthy, so the if block runs."
+        },
+        {
+          "text": "full",
+          "correct": false,
+          "feedback": "You treated 3 as not true. A condition does not have to be exactly true: any truthy value passes.",
+          "misconception": "only-true-passes"
+        },
+        {
+          "text": "open\nfull",
+          "correct": false,
+          "feedback": "You ran both blocks. When the if block runs, else is skipped.",
+          "misconception": "else-runs-too"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "open"
+      },
+      "explanation": "A number counts as true unless it is 0. lanes is 3, so the condition passes and the if block runs, and the else block is skipped.",
+      "hints": [
+        "Look at the condition on line 2.",
+        "JavaScript turns any value into true or false for a test.",
+        "Is 3 one of the falsy values?"
+      ],
+      "reference": {
+        "title": "Truthy",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Truthy",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.condition-truthiness.trace-01",
+      "concept": "condition-truthiness",
+      "prerequisites": [
+        "if-statement",
+        "truthy-and-falsy"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What value does sign hold right after line 6 has run?",
+      "code": [
+        "let tray = '';",
+        "let sign = '';",
+        "if (tray) {",
+        "  sign = 'full';",
+        "} else {",
+        "  sign = 'empty';",
+        "}",
+        "tray = 'cake';",
+        "if (tray) {",
+        "  sign = 'restocked';",
+        "}",
+        "console.log(sign);"
+      ],
+      "options": [
+        {
+          "text": "'empty'",
+          "correct": true,
+          "feedback": "Right. The empty text is falsy, so the else block runs on line 6."
+        },
+        {
+          "text": "'restocked'",
+          "correct": false,
+          "feedback": "That is the value at the end. Line 10 has not run yet when the question stops.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "'full'",
+          "correct": false,
+          "feedback": "You treated the empty text as passing. The empty text is falsy, so the if block is skipped.",
+          "misconception": "text-counts-by-meaning"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "sign",
+          "afterLine": 6,
+          "visit": 1
+        },
+        "expectedOutput": "restocked"
+      },
+      "explanation": "The empty text is falsy, so the first test fails and else stores empty on line 6. Later tray changes, the second test passes and sign becomes restocked.",
+      "hints": [
+        "Stop after line 6.",
+        "Decide whether tray passes the first test.",
+        "The empty text is one of the falsy values."
+      ],
+      "reference": {
+        "title": "Falsy",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Falsy",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.condition-truthiness.fill-01",
+      "concept": "condition-truthiness",
+      "prerequisites": [
+        "if-statement",
+        "truthy-and-falsy"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints has nickname.",
+      "code": [
+        "let nickname = 'Pip';",
+        "if (___) {",
+        "  console.log('has nickname');",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "nickname",
+          "correct": true,
+          "feedback": "Right. A non-empty text is truthy, so the block runs."
+        },
+        {
+          "text": "!nickname",
+          "correct": false,
+          "feedback": "The ! flips the value. A non-empty text is truthy, so this is false and nothing prints.",
+          "misconception": "only-true-passes"
+        },
+        {
+          "text": "nickname === true",
+          "correct": false,
+          "feedback": "The text Pip is not the value true, so this is false and nothing prints.",
+          "misconception": "only-true-passes"
+        },
+        {
+          "text": "nickname === ''",
+          "correct": false,
+          "feedback": "nickname is not the empty text, so this is false and nothing prints.",
+          "misconception": "text-counts-by-meaning"
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "nickname"
+          ]
+        ],
+        "expectedOutput": "has nickname"
+      },
+      "explanation": "The condition can be the variable itself. A non-empty text is truthy, so the block runs. The other choices turn it into a false condition.",
+      "hints": [
+        "Look at the value on line 1.",
+        "A truthy value can stand alone as a condition.",
+        "You do not need any sign at all."
+      ],
+      "reference": {
+        "title": "Truthy",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Truthy",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.condition-truthiness.parsons-01",
+      "concept": "condition-truthiness",
+      "prerequisites": [
+        "if-statement",
+        "truthy-and-falsy"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints full price.",
+      "code": [
+        "} else {",
+        "  console.log('discount');",
+        "}",
+        "let coupon = null;",
+        "  console.log('full price');",
+        "if (coupon) {"
+      ],
+      "solution": {
+        "lineOrder": [
+          3,
+          5,
+          1,
+          0,
+          4,
+          2
+        ],
+        "acceptedOrders": [
+          [
+            4,
+            3,
+            5,
+            1,
+            0,
+            2
+          ],
+          [
+            3,
+            4,
+            5,
+            1,
+            0,
+            2
+          ],
+          [
+            3,
+            5,
+            1,
+            0,
+            2,
+            4
+          ]
+        ],
+        "expectedOutput": "full price"
+      },
+      "explanation": "null is falsy, so the else block runs. The variable comes first, then the if line with the discount print inside it, then else with the full price print.",
+      "hints": [
+        "The variable comes first.",
+        "The if block comes before else.",
+        "Put the discount print in the if block and the other print in the else block."
+      ],
+      "reference": {
+        "title": "if...else",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.conditionals.condition-truthiness.write-01",
+      "concept": "condition-truthiness",
+      "prerequisites": [
+        "if-statement",
+        "truthy-and-falsy"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "Write an expression that gives 'Hi ' and then who. When who is empty, 0 or null, give 'Hi guest'.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "who"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "who": "Ana"
+            },
+            "expected": "Hi Ana"
+          },
+          {
+            "input": {
+              "who": ""
+            },
+            "expected": "Hi guest"
+          },
+          {
+            "input": {
+              "who": "0"
+            },
+            "expected": "Hi 0"
+          },
+          {
+            "input": {
+              "who": 0
+            },
+            "expected": "Hi guest"
+          },
+          {
+            "input": {
+              "who": null
+            },
+            "expected": "Hi guest"
+          }
+        ],
+        "reference": [
+          "who ? 'Hi ' + who : 'Hi guest'"
+        ],
+        "wrongSolutions": [
+          [
+            "who ? 'Hi guest' : 'Hi ' + who"
+          ],
+          [
+            "who === 0 ? 'Hi guest' : 'Hi ' + who"
+          ],
+          [
+            "'Hi ' + who"
+          ]
+        ]
+      },
+      "explanation": "The variable itself works as the condition. Empty text, 0 and null are falsy, so they choose Hi guest; any other value is truthy and is added after Hi.",
+      "hints": [
+        "Use a ternary.",
+        "The condition can be the variable alone.",
+        "Put the greeting with the name before the colon."
+      ],
+      "reference": {
+        "title": "Truthy",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Truthy",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

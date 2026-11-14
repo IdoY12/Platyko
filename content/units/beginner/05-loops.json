@@ -1,0 +1,1651 @@
+{
+  "track": "BEGINNER",
+  "unit": "loops",
+  "order": 5,
+  "title": "Loops",
+  "summary": "Repeat code with for and while, build results inside loops, and leave early with break and continue.",
+  "concepts": [
+    {
+      "id": "for-loop",
+      "title": "Counting with for",
+      "prerequisites": [
+        "reassignment",
+        "relational-operators"
+      ]
+    },
+    {
+      "id": "while-loop",
+      "title": "Repeating with while",
+      "prerequisites": [
+        "for-loop"
+      ]
+    },
+    {
+      "id": "loop-accumulator",
+      "title": "Building a result inside a loop",
+      "prerequisites": [
+        "for-loop",
+        "if-statement"
+      ]
+    },
+    {
+      "id": "break-and-continue",
+      "title": "Leaving early: break and continue",
+      "prerequisites": [
+        "for-loop",
+        "while-loop",
+        "if-statement"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "bound-off-by-one",
+      "description": "Believes a loop with < also runs for the bound, or that a loop with <= stops one pass early."
+    },
+    {
+      "id": "update-runs-first",
+      "description": "Believes the update part of a for loop runs before the first pass."
+    },
+    {
+      "id": "visit-counted-from-zero",
+      "description": "Counts the first pass through a loop as pass zero."
+    },
+    {
+      "id": "final-value-at-every-step",
+      "description": "Reads the value a variable has at the end of the program for every earlier step."
+    },
+    {
+      "id": "condition-checked-after-body",
+      "description": "Believes the loop condition is checked only after the body has run once."
+    },
+    {
+      "id": "accumulator-overwritten",
+      "description": "Believes each pass replaces the result instead of adding to the value it already holds."
+    },
+    {
+      "id": "declared-inside-keeps-value",
+      "description": "Believes a variable declared inside the loop body keeps its value from one pass to the next."
+    },
+    {
+      "id": "redeclare-error",
+      "description": "Believes a let inside a loop body is declared again on each pass and causes an error."
+    },
+    {
+      "id": "break-continue-confused",
+      "description": "Believes break only skips one pass, or that continue ends the whole loop."
+    },
+    {
+      "id": "break-acts-late",
+      "description": "Believes break or continue takes effect only after the rest of the pass has run."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+      "retrievedAt": "2026-11-14",
+      "sha256": "bd446ea1461039b4dfb2b0221afa60cdcdcf84b660a25c5291dce899588ddf92"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while",
+      "retrievedAt": "2026-11-14",
+      "sha256": "4686817715b0263538e0bb647455e0279a58f54c9e6947925725136ccdaa29ec"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break",
+      "retrievedAt": "2026-11-14",
+      "sha256": "19ab797b925b1d7a42b590f866c68b61bba0b1a35623c73c7bcd3f24577f23f2"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/continue",
+      "retrievedAt": "2026-11-14",
+      "sha256": "4d82a2fcbaf3ca907105233c7c70f1c86264def757bbc0bdbedba70df7d43277"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration",
+      "retrievedAt": "2026-11-14",
+      "sha256": "1b66823a9b07852caece0528c2f4cc6344bd1752a3498099c434c312c2bc4d67"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Increment",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7cd4a478b42c0daa9c8ba4369c390e92e96160909f48ff4792cf77cbb763ed2d"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "loops.lesson-1",
+      "title": "Counting with for",
+      "conceptCard": {
+        "title": "Repeating with for",
+        "body": "A for loop repeats a block. Its header has three parts: a start value, a condition checked before every pass, and an update that runs after every pass. When the condition is false, the loop ends.",
+        "code": [
+          "for (let cup = 1; cup <= 3; cup++) {",
+          "  console.log(\"cup \" + cup);",
+          "}"
+        ],
+        "expectedOutput": "cup 1\ncup 2\ncup 3"
+      },
+      "itemIds": [
+        "beg.loops.for-loop.predict-01",
+        "beg.loops.for-loop.predict-02",
+        "beg.loops.for-loop.trace-01",
+        "beg.loops.for-loop.fill-01",
+        "beg.loops.for-loop.parsons-01",
+        "beg.loops.for-loop.concept-01"
+      ]
+    },
+    {
+      "id": "loops.lesson-2",
+      "title": "Repeating with while",
+      "conceptCard": {
+        "title": "Repeating with while",
+        "body": "A while loop repeats while its condition is true. The condition is checked before every pass, so the body may never run. Nothing changes the variable for you, so the body must update it.",
+        "code": [
+          "let count = 3;",
+          "while (count > 0) {",
+          "  console.log(count);",
+          "  count = count - 1;",
+          "}"
+        ],
+        "expectedOutput": "3\n2\n1"
+      },
+      "itemIds": [
+        "beg.loops.while-loop.predict-01",
+        "beg.loops.while-loop.predict-02",
+        "beg.loops.while-loop.trace-01",
+        "beg.loops.while-loop.fill-01",
+        "beg.loops.while-loop.parsons-01",
+        "beg.loops.while-loop.write-01"
+      ]
+    },
+    {
+      "id": "loops.lesson-3",
+      "title": "Building a result",
+      "conceptCard": {
+        "title": "Building a result in a loop",
+        "body": "To build a result, declare a variable before the loop. Each pass changes it using its old value. After the loop it holds the combined result.",
+        "code": [
+          "let sum = 0;",
+          "for (let n = 1; n <= 3; n++) {",
+          "  sum = sum + n;",
+          "}",
+          "console.log(sum);"
+        ],
+        "expectedOutput": "6"
+      },
+      "itemIds": [
+        "beg.loops.loop-accumulator.predict-01",
+        "beg.loops.loop-accumulator.predict-02",
+        "beg.loops.loop-accumulator.trace-01",
+        "beg.loops.loop-accumulator.fill-01",
+        "beg.loops.loop-accumulator.parsons-01",
+        "beg.loops.loop-accumulator.concept-01"
+      ]
+    },
+    {
+      "id": "loops.lesson-4",
+      "title": "Leaving early",
+      "conceptCard": {
+        "title": "break and continue",
+        "body": "break ends the loop at once. continue skips the rest of the current pass and goes on with the next one. Both are usually placed inside an if.",
+        "code": [
+          "for (let n = 1; n <= 5; n++) {",
+          "  if (n === 2) { continue; }",
+          "  if (n === 4) { break; }",
+          "  console.log(n);",
+          "}"
+        ],
+        "expectedOutput": "1\n3"
+      },
+      "itemIds": [
+        "beg.loops.break-and-continue.predict-01",
+        "beg.loops.break-and-continue.predict-02",
+        "beg.loops.break-and-continue.trace-01",
+        "beg.loops.break-and-continue.fill-01",
+        "beg.loops.break-and-continue.parsons-01",
+        "beg.loops.break-and-continue.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "beg.loops.for-loop.predict-01",
+      "concept": "for-loop",
+      "prerequisites": [
+        "reassignment",
+        "relational-operators"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "for (let i = 1; i <= 3; i++) {",
+        "  console.log(\"tray \" + i);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "tray 1\ntray 2\ntray 3",
+          "correct": true,
+          "feedback": "Right. The loop runs for i equal to 1, 2 and 3 and stops when i becomes 4."
+        },
+        {
+          "text": "tray 1\ntray 2",
+          "correct": false,
+          "feedback": "That stops one pass early. With <= the loop also runs when i equals 3.",
+          "misconception": "bound-off-by-one"
+        },
+        {
+          "text": "tray 2\ntray 3\ntray 4",
+          "correct": false,
+          "feedback": "That adds 1 before the first pass. The start value is used first; the update runs only after a pass.",
+          "misconception": "update-runs-first"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "tray 1\ntray 2\ntray 3"
+      },
+      "explanation": "The loop starts at 1 and repeats while i is at most 3. So i takes the values 1, 2 and 3, and each pass prints one line.",
+      "hints": [
+        "Look at the condition in the for header on line 1.",
+        "The condition <= includes the number on its right side.",
+        "Write down i for each pass, starting with 1, and stop when the condition is false."
+      ],
+      "reference": {
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.for-loop.predict-02",
+      "concept": "for-loop",
+      "prerequisites": [
+        "reassignment",
+        "relational-operators"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "for (let km = 2; km < 10; km += 3) {",
+        "  console.log(km);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "2\n5\n8",
+          "correct": true,
+          "feedback": "Right. After 8 the variable becomes 11, which is not below 10."
+        },
+        {
+          "text": "2\n5\n8\n10",
+          "correct": false,
+          "feedback": "The variable never equals 10 here. It jumps from 8 to 11, and 11 is not below 10.",
+          "misconception": "bound-off-by-one"
+        },
+        {
+          "text": "5\n8\n11",
+          "correct": false,
+          "feedback": "That skips the start value. The first pass uses 2; the step is added only after that pass.",
+          "misconception": "update-runs-first"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "2\n5\n8"
+      },
+      "explanation": "km starts at 2 and grows by 3 after each pass. The values 2, 5 and 8 pass the test km < 10. The next value, 11, does not, so the loop stops.",
+      "hints": [
+        "Look at the third part of the for header.",
+        "The update part runs after each pass and changes the variable.",
+        "Add 3 each time and stop as soon as the value is no longer below 10."
+      ],
+      "reference": {
+        "title": "Addition assignment (+=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition_assignment",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.for-loop.trace-01",
+      "concept": "for-loop",
+      "prerequisites": [
+        "reassignment",
+        "relational-operators"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does rides hold right after line 3 has run for the third time?",
+      "code": [
+        "let rides = 0;",
+        "for (let i = 0; i < 4; i++) {",
+        "  rides = rides + 1;",
+        "}",
+        "console.log(rides);"
+      ],
+      "options": [
+        {
+          "text": "3",
+          "correct": true,
+          "feedback": "Right. Three passes have run, and each added 1."
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "That counts the first pass as pass zero. The question counts the first run of line 3 as the first time.",
+          "misconception": "visit-counted-from-zero"
+        },
+        {
+          "text": "4",
+          "correct": false,
+          "feedback": "That is the value when the loop has finished. The question stops after the third pass.",
+          "misconception": "final-value-at-every-step"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "rides",
+          "afterLine": 3,
+          "visit": 3
+        },
+        "expectedOutput": "4"
+      },
+      "explanation": "Line 3 runs once per pass. The loop runs for i equal to 0, 1, 2 and 3, so four passes. After the third pass rides is 3; the fourth pass makes it 4.",
+      "hints": [
+        "Count how many times line 3 has run.",
+        "Each pass adds 1 to rides, so the value equals the number of passes so far.",
+        "Stop counting at the third pass, not at the end of the loop."
+      ],
+      "reference": {
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:14"
+      ]
+    },
+    {
+      "id": "beg.loops.for-loop.fill-01",
+      "concept": "for-loop",
+      "prerequisites": [
+        "reassignment",
+        "relational-operators"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Complete the loop header so that the program prints 4, 6 and 8.",
+      "code": [
+        "for (let n = ___; n < 9; n += ___) {",
+        "  console.log(n);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "4",
+          "correct": true,
+          "feedback": "Right. The first printed number is the start value."
+        },
+        {
+          "text": "2",
+          "correct": true,
+          "feedback": "Right. This is the gap between 4, 6 and 8."
+        },
+        {
+          "text": "6",
+          "correct": false,
+          "feedback": "As the start value this skips 4. As the step it would jump from 4 straight to 10."
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "As the start value this prints 1 first. As the step it prints every number, not only 4, 6 and 8."
+        },
+        {
+          "text": "8",
+          "correct": false,
+          "feedback": "As the start value this prints only 8. As the step it would print only 4."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "4"
+          ],
+          [
+            "2"
+          ]
+        ],
+        "expectedOutput": "4\n6\n8"
+      },
+      "explanation": "The loop must start at 4 and add 2 after every pass. The condition n < 9 then stops it after 8, so it prints 4, 6 and 8.",
+      "hints": [
+        "Look at the first and the last part of the header.",
+        "The first part is the start value, the last part is the step.",
+        "The step is the gap between two printed numbers."
+      ],
+      "reference": {
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.for-loop.parsons-01",
+      "concept": "for-loop",
+      "prerequisites": [
+        "reassignment",
+        "relational-operators"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so that the program counts down and then prints liftoff.",
+      "code": [
+        "}",
+        "console.log(\"liftoff\");",
+        "  console.log(n);",
+        "for (let n = 3; n > 0; n--) {"
+      ],
+      "solution": {
+        "lineOrder": [
+          3,
+          2,
+          0,
+          1
+        ],
+        "expectedOutput": "3\n2\n1\nliftoff"
+      },
+      "explanation": "The for header comes first, then its body, then the closing brace. The final message goes after the loop so it prints once, when the countdown is over.",
+      "hints": [
+        "Which line opens the loop?",
+        "A block starts with a header, holds its body, and ends with a closing brace.",
+        "The liftoff message belongs after the loop, not inside it."
+      ],
+      "reference": {
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.for-loop.concept-01",
+      "concept": "for-loop",
+      "prerequisites": [
+        "reassignment",
+        "relational-operators"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement about this code is true?",
+      "code": [
+        "for (let n = 5; n < 3; n++) {",
+        "  console.log(\"run \" + n);",
+        "}",
+        "console.log(\"done\");"
+      ],
+      "options": [
+        {
+          "text": "The body never runs, because the condition is false at the first check.",
+          "correct": true,
+          "feedback": "Right. The condition is checked first, so a false condition means zero passes."
+        },
+        {
+          "text": "The body runs once, then the condition is checked.",
+          "correct": false,
+          "feedback": "A for loop checks the condition before the body, not after it. A false first check means no pass at all.",
+          "misconception": "condition-checked-after-body"
+        },
+        {
+          "text": "The body runs once with n equal to 6, because the update comes first.",
+          "correct": false,
+          "feedback": "The update never runs before a pass. The start value is checked first, and here that check fails.",
+          "misconception": "update-runs-first"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "done"
+      },
+      "explanation": "The condition n < 3 is checked before every pass, including the first. Here n is 5, so the check fails at once and the body never runs.",
+      "hints": [
+        "Look at the start value and the condition together.",
+        "A for loop checks its condition before running the body.",
+        "Ask whether 5 is less than 3 at the very first check."
+      ],
+      "reference": {
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.while-loop.predict-01",
+      "concept": "while-loop",
+      "prerequisites": [
+        "for-loop"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let seeds = 3;",
+        "while (seeds > 0) {",
+        "  console.log(\"plant\");",
+        "  seeds = seeds - 1;",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "plant\nplant\nplant",
+          "correct": true,
+          "feedback": "Right. One pass for each value 3, 2 and 1."
+        },
+        {
+          "text": "plant\nplant\nplant\nplant",
+          "correct": false,
+          "feedback": "That adds a pass for 0. The condition seeds > 0 is false when seeds is 0.",
+          "misconception": "bound-off-by-one"
+        },
+        {
+          "text": "plant\nplant",
+          "correct": false,
+          "feedback": "That loses a pass. The loop still runs when seeds is 1, because 1 is greater than 0.",
+          "misconception": "bound-off-by-one"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "plant\nplant\nplant"
+      },
+      "explanation": "seeds goes 3, 2, 1 while the loop runs. The condition seeds > 0 is true for those three values and false at 0, so the body runs three times.",
+      "hints": [
+        "Look at the line that changes seeds.",
+        "A while loop repeats as long as its condition is true.",
+        "Write down seeds before each check, until it is no longer above 0."
+      ],
+      "reference": {
+        "title": "while statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.while-loop.predict-02",
+      "concept": "while-loop",
+      "prerequisites": [
+        "for-loop"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "let n = 10;",
+        "while (n > 3) {",
+        "  n = n - 4;",
+        "}",
+        "console.log(n);"
+      ],
+      "options": [
+        {
+          "text": "2",
+          "correct": true,
+          "feedback": "Right. The check fails as soon as n is 2, so no further subtraction happens."
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "The loop does not stop exactly at the bound. n only takes the values 10, 6 and 2.",
+          "misconception": "bound-off-by-one"
+        },
+        {
+          "text": "-2",
+          "correct": false,
+          "feedback": "That runs one extra pass. The condition is checked before every pass, and 2 is not above 3.",
+          "misconception": "condition-checked-after-body"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "2"
+      },
+      "explanation": "n goes 10, 6, 2. At 10 and at 6 the condition n > 3 is true, so 4 is taken away. At 2 the condition is false, so the loop ends and 2 is printed.",
+      "hints": [
+        "Look at what the loop subtracts.",
+        "The condition is checked before each pass, with the current value of n.",
+        "Write down n after each pass until the condition fails."
+      ],
+      "reference": {
+        "title": "while statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.while-loop.trace-01",
+      "concept": "while-loop",
+      "prerequisites": [
+        "for-loop"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does seats hold right after line 3 has run for the second time?",
+      "code": [
+        "let seats = 0;",
+        "while (seats < 5) {",
+        "  seats = seats + 2;",
+        "}",
+        "console.log(seats);"
+      ],
+      "options": [
+        {
+          "text": "4",
+          "correct": true,
+          "feedback": "Right. Two passes have added 2 each time."
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "That is the value after the first pass. The question asks about the second time line 3 runs.",
+          "misconception": "visit-counted-from-zero"
+        },
+        {
+          "text": "6",
+          "correct": false,
+          "feedback": "That is the final value. The loop needs one more pass after this point.",
+          "misconception": "final-value-at-every-step"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "seats",
+          "afterLine": 3,
+          "visit": 2
+        },
+        "expectedOutput": "6"
+      },
+      "explanation": "seats goes 0, 2, 4, 6. After the second run of line 3 it is 4. The condition 4 < 5 is still true, so a third pass makes it 6 and then the loop ends.",
+      "hints": [
+        "Count the runs of line 3.",
+        "Each pass adds 2 to seats.",
+        "Start from 0 and add 2 twice."
+      ],
+      "reference": {
+        "title": "while statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:18"
+      ]
+    },
+    {
+      "id": "beg.loops.while-loop.fill-01",
+      "concept": "while-loop",
+      "prerequisites": [
+        "for-loop"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Complete the loop so that it prints lap 3, lap 2 and lap 1.",
+      "code": [
+        "let left = 3;",
+        "while (left ___ 0) {",
+        "  console.log(\"lap \" + left);",
+        "  left = left - ___;",
+        "}"
+      ],
+      "options": [
+        {
+          "text": ">",
+          "correct": true,
+          "feedback": "Right. left is above 0 for 3, 2 and 1."
+        },
+        {
+          "text": "1",
+          "correct": true,
+          "feedback": "Right. Taking away 1 each pass visits 3, 2 and 1."
+        },
+        {
+          "text": "<",
+          "correct": false,
+          "feedback": "left starts at 3, which is not below 0, so the loop would never run."
+        },
+        {
+          "text": ">=",
+          "correct": false,
+          "feedback": "This also lets the pass for 0 run, so an extra line would print."
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "Taking away 2 skips a value, so lap 2 would not print."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            ">"
+          ],
+          [
+            "1"
+          ]
+        ],
+        "expectedOutput": "lap 3\nlap 2\nlap 1"
+      },
+      "explanation": "The loop must run while left is above 0, and left must drop by 1 after each print. That gives laps 3, 2 and 1.",
+      "hints": [
+        "Look at line 2 first.",
+        "The loop runs while its condition is true, and left counts down.",
+        "The condition should be false once left reaches 0."
+      ],
+      "reference": {
+        "title": "while statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.while-loop.parsons-01",
+      "concept": "while-loop",
+      "prerequisites": [
+        "for-loop"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so that the program prints page 1, page 2 and page 3.",
+      "code": [
+        "  page++;",
+        "}",
+        "while (page <= 3) {",
+        "  console.log(\"page \" + page);",
+        "let page = 1;"
+      ],
+      "solution": {
+        "lineOrder": [
+          4,
+          2,
+          3,
+          0,
+          1
+        ],
+        "expectedOutput": "page 1\npage 2\npage 3"
+      },
+      "explanation": "page must exist before the loop uses it. Inside the loop the program prints first and then adds 1, so the first line shows page 1.",
+      "hints": [
+        "Which line must come before the while line?",
+        "The variable that the condition reads has to exist first.",
+        "Print before you add 1, or the first line would show page 2."
+      ],
+      "reference": {
+        "title": "while statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.while-loop.write-01",
+      "concept": "while-loop",
+      "prerequisites": [
+        "for-loop"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "A while loop starts with saved at 0 and adds perDay each pass until saved reaches goal. Write an expression for the number of passes.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "goal",
+            "perDay"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "goal": 10,
+              "perDay": 3
+            },
+            "expected": 4
+          },
+          {
+            "input": {
+              "goal": 9,
+              "perDay": 3
+            },
+            "expected": 3
+          },
+          {
+            "input": {
+              "goal": 0,
+              "perDay": 5
+            },
+            "expected": 0
+          },
+          {
+            "input": {
+              "goal": 1,
+              "perDay": 5
+            },
+            "expected": 1
+          }
+        ],
+        "reference": [
+          "Math.ceil(goal / perDay)"
+        ],
+        "wrongSolutions": [
+          [
+            "goal / perDay"
+          ],
+          [
+            "Math.floor(goal / perDay)"
+          ],
+          [
+            "Math.ceil(goal / perDay) + 1"
+          ]
+        ]
+      },
+      "explanation": "Each pass adds perDay, and the loop stops when saved is at least goal. The passes needed are goal divided by perDay, rounded up, because a partly used last pass still counts.",
+      "hints": [
+        "Think about how many times perDay fits into goal.",
+        "A last pass that only partly fills the gap still counts as a pass.",
+        "Divide, then round the result up with Math.ceil."
+      ],
+      "reference": {
+        "title": "while statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.loop-accumulator.predict-01",
+      "concept": "loop-accumulator",
+      "prerequisites": [
+        "for-loop",
+        "if-statement"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let points = 0;",
+        "for (let w = 1; w <= 4; w++) {",
+        "  points = points + w * 10;",
+        "}",
+        "console.log(points);"
+      ],
+      "options": [
+        {
+          "text": "100",
+          "correct": true,
+          "feedback": "Right. 10 + 20 + 30 + 40 is 100."
+        },
+        {
+          "text": "40",
+          "correct": false,
+          "feedback": "That is only the last amount. Every pass adds to the old value instead of replacing it.",
+          "misconception": "accumulator-overwritten"
+        },
+        {
+          "text": "60",
+          "correct": false,
+          "feedback": "That leaves out week 4. With <= the loop also runs when w is 4.",
+          "misconception": "bound-off-by-one"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "100"
+      },
+      "explanation": "points starts at 0. Passes with w from 1 to 4 add 10, 20, 30 and 40, so the total is 100. Each pass adds to what points already holds.",
+      "hints": [
+        "Look at what is added on line 3.",
+        "The variable keeps its value from pass to pass.",
+        "Add 10, 20, 30 and 40 to the start value."
+      ],
+      "reference": {
+        "title": "Loops and iteration",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.loop-accumulator.predict-02",
+      "concept": "loop-accumulator",
+      "prerequisites": [
+        "for-loop",
+        "if-statement"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let line = \"\";",
+        "for (let i = 0; i < 3; i++) {",
+        "  line = line + \"*\";",
+        "}",
+        "console.log(line);"
+      ],
+      "options": [
+        {
+          "text": "***",
+          "correct": true,
+          "feedback": "Right. One star is added per pass, and three passes run."
+        },
+        {
+          "text": "*",
+          "correct": false,
+          "feedback": "That treats line as replaced by one star each pass. The old stars are kept because line is part of the sum.",
+          "misconception": "accumulator-overwritten"
+        },
+        {
+          "text": "****",
+          "correct": false,
+          "feedback": "That counts a fourth pass. With < the loop stops when i reaches 3.",
+          "misconception": "bound-off-by-one"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "***"
+      },
+      "explanation": "line starts empty. Each of the three passes puts one more star after the stars it already holds, so the result has three stars.",
+      "hints": [
+        "Look at line 3.",
+        "The new value is built from the old value plus something.",
+        "Count the passes: i is 0, 1 and 2."
+      ],
+      "reference": {
+        "title": "Loops and iteration",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.loop-accumulator.trace-01",
+      "concept": "loop-accumulator",
+      "prerequisites": [
+        "for-loop",
+        "if-statement"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does best hold right after line 4 has run for the second time?",
+      "code": [
+        "let best = 0;",
+        "for (let n = 1; n <= 4; n++) {",
+        "  if (n * n < 10) {",
+        "    best = n * n;",
+        "  }",
+        "}",
+        "console.log(best);"
+      ],
+      "options": [
+        {
+          "text": "4",
+          "correct": true,
+          "feedback": "Right. The second time line 4 runs is for n equal to 2."
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "That is the value after the first run. The question asks about the second run.",
+          "misconception": "visit-counted-from-zero"
+        },
+        {
+          "text": "9",
+          "correct": false,
+          "feedback": "That is the value when the loop ends. It is reached only on the third run of line 4.",
+          "misconception": "final-value-at-every-step"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "best",
+          "afterLine": 4,
+          "visit": 2
+        },
+        "expectedOutput": "9"
+      },
+      "explanation": "Line 4 only runs when n * n is below 10, which is true for n equal to 1, 2 and 3. Its second run is for n equal to 2, so best becomes 4.",
+      "hints": [
+        "Line 4 does not run on every pass.",
+        "The if decides which passes run line 4. Check n * n each time.",
+        "The second run of line 4 belongs to the second value of n that passes the test."
+      ],
+      "reference": {
+        "title": "Loops and iteration",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.loop-accumulator.fill-01",
+      "concept": "loop-accumulator",
+      "prerequisites": [
+        "for-loop",
+        "if-statement"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Complete the code so that it counts the even numbers from 1 to 6 and prints 3.",
+      "code": [
+        "let evens = ___;",
+        "for (let n = 1; n <= 6; n++) {",
+        "  if (n % 2 === 0) {",
+        "    evens = evens ___ 1;",
+        "  }",
+        "}",
+        "console.log(evens);"
+      ],
+      "options": [
+        {
+          "text": "0",
+          "correct": true,
+          "feedback": "Right. The count starts at zero."
+        },
+        {
+          "text": "+",
+          "correct": true,
+          "feedback": "Right. Adding 1 raises the count each time."
+        },
+        {
+          "text": "-",
+          "correct": false,
+          "feedback": "Taking away 1 makes the count go down, so the output would be negative."
+        },
+        {
+          "text": "*",
+          "correct": false,
+          "feedback": "Multiplying 0 by 1 gives 0 each time, so nothing would be counted."
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "As a start value this gives a count one too high. In the second blank it is not an operator."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "0"
+          ],
+          [
+            "+"
+          ]
+        ],
+        "expectedOutput": "3"
+      },
+      "explanation": "A counter must start at 0. Each time the number is even, the counter grows by 1, so it ends at 3 for 2, 4 and 6.",
+      "hints": [
+        "Look at line 1 and line 4.",
+        "A counter starts before the loop and grows inside the if.",
+        "Growing means adding to the old value."
+      ],
+      "reference": {
+        "title": "Loops and iteration",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.loop-accumulator.parsons-01",
+      "concept": "loop-accumulator",
+      "prerequisites": [
+        "for-loop",
+        "if-statement"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so that the program prints 6.",
+      "code": [
+        "}",
+        "console.log(fare);",
+        "  fare = fare + 2;",
+        "let fare = 0;",
+        "for (let n = 1; n <= 3; n++) {"
+      ],
+      "solution": {
+        "lineOrder": [
+          3,
+          4,
+          2,
+          0,
+          1
+        ],
+        "expectedOutput": "6"
+      },
+      "explanation": "The total starts at 0 before the loop. The loop adds 2 on each of its three passes. The result is printed after the loop ends.",
+      "hints": [
+        "Which line must run before the loop?",
+        "Declare the total first, add to it inside the loop, read it after the loop.",
+        "The print line comes last."
+      ],
+      "reference": {
+        "title": "Loops and iteration",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.loop-accumulator.concept-01",
+      "concept": "loop-accumulator",
+      "prerequisites": [
+        "for-loop",
+        "if-statement"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement about this code is true?",
+      "code": [
+        "for (let n = 1; n <= 3; n++) {",
+        "  let total = 0;",
+        "  total = total + n;",
+        "  console.log(total);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "total starts at 0 on every pass, so nothing is carried over.",
+          "correct": true,
+          "feedback": "Right. The reset on line 2 undoes the earlier additions."
+        },
+        {
+          "text": "total keeps growing, so the lines show 1, 3 and 6.",
+          "correct": false,
+          "feedback": "That needs total to be declared before the loop. Here line 2 sets it to 0 again at the start of every pass.",
+          "misconception": "declared-inside-keeps-value"
+        },
+        {
+          "text": "The program stops with an error, because total is declared three times.",
+          "correct": false,
+          "feedback": "Each pass has its own fresh total, so there is no clash. The code runs without an error.",
+          "misconception": "redeclare-error"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "1\n2\n3"
+      },
+      "explanation": "Line 2 runs on every pass, so total is created again and set to 0 each time. Nothing is carried over, and each line just shows the current n.",
+      "hints": [
+        "Look at where line 2 sits.",
+        "Code inside the loop body runs again on every pass.",
+        "Ask what total is at the start of each pass."
+      ],
+      "reference": {
+        "title": "Loops and iteration",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.break-and-continue.predict-01",
+      "concept": "break-and-continue",
+      "prerequisites": [
+        "for-loop",
+        "while-loop",
+        "if-statement"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "for (let lap = 1; lap <= 5; lap++) {",
+        "  if (lap === 3) {",
+        "    break;",
+        "  }",
+        "  console.log(lap);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "1\n2",
+          "correct": true,
+          "feedback": "Right. break stops the loop as soon as lap is 3."
+        },
+        {
+          "text": "1\n2\n4\n5",
+          "correct": false,
+          "feedback": "That is what continue does. break leaves the loop; it does not just skip one pass.",
+          "misconception": "break-continue-confused"
+        },
+        {
+          "text": "1\n2\n3",
+          "correct": false,
+          "feedback": "The print line comes after break, and break leaves the loop before it can run for 3.",
+          "misconception": "break-acts-late"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "1\n2"
+      },
+      "explanation": "When lap is 3 the if is true and break ends the whole loop at once. The print line after it does not run for 3, and no later lap runs.",
+      "hints": [
+        "Look at what happens when lap equals 3.",
+        "break ends the loop completely, not only the current pass.",
+        "Laps 4 and 5 never get a turn."
+      ],
+      "reference": {
+        "title": "break statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:15"
+      ]
+    },
+    {
+      "id": "beg.loops.break-and-continue.predict-02",
+      "concept": "break-and-continue",
+      "prerequisites": [
+        "for-loop",
+        "while-loop",
+        "if-statement"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "for (let row = 0; row < 5; row++) {",
+        "  if (row === 2) {",
+        "    continue;",
+        "  }",
+        "  console.log(row);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "0\n1\n3\n4",
+          "correct": true,
+          "feedback": "Right. Only the pass for 2 is skipped."
+        },
+        {
+          "text": "0\n1",
+          "correct": false,
+          "feedback": "That is what break does. continue skips one pass; the loop carries on afterwards.",
+          "misconception": "break-continue-confused"
+        },
+        {
+          "text": "0\n1\n2\n3\n4",
+          "correct": false,
+          "feedback": "That lets the skipped pass print anyway. continue acts at once and the print line is not reached.",
+          "misconception": "break-acts-late"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "0\n1\n3\n4"
+      },
+      "explanation": "When row is 2 the continue skips the rest of that pass, so 2 is not printed. The loop then moves on to 3 and 4.",
+      "hints": [
+        "Look at what happens when row equals 2.",
+        "continue skips the rest of one pass and the loop goes on.",
+        "Only one number is missing from the output."
+      ],
+      "reference": {
+        "title": "continue statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/continue",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:16"
+      ]
+    },
+    {
+      "id": "beg.loops.break-and-continue.trace-01",
+      "concept": "break-and-continue",
+      "prerequisites": [
+        "for-loop",
+        "while-loop",
+        "if-statement"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "After line 3 has run twice, what is the value of money?",
+      "code": [
+        "let money = 20;",
+        "for (let day = 1; day <= 5; day++) {",
+        "  money = money - 6;",
+        "  if (money < 5) {",
+        "    break;",
+        "  }",
+        "}",
+        "console.log(money);"
+      ],
+      "options": [
+        {
+          "text": "8",
+          "correct": true,
+          "feedback": "Right. Two passes have taken 12 away from 20."
+        },
+        {
+          "text": "14",
+          "correct": false,
+          "feedback": "That is the value after the first pass. The question asks about the second run of line 3.",
+          "misconception": "visit-counted-from-zero"
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "That is the final value, reached on the third pass. The loop is not finished yet at this point.",
+          "misconception": "final-value-at-every-step"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "money",
+          "afterLine": 3,
+          "visit": 2
+        },
+        "expectedOutput": "2"
+      },
+      "explanation": "money goes 20, 14, 8, 2. After the second run of line 3 it is 8, which is not below 5. After the third it is 2, and break ends the loop.",
+      "hints": [
+        "Count the runs of line 3.",
+        "Each pass takes 6 away from money.",
+        "Take 6 away from 20 two times."
+      ],
+      "reference": {
+        "title": "break statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.break-and-continue.fill-01",
+      "concept": "break-and-continue",
+      "prerequisites": [
+        "for-loop",
+        "while-loop",
+        "if-statement"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Complete the code so that the loop stops when tries reaches 4 and the program prints 4.",
+      "code": [
+        "let tries = 0;",
+        "while (tries < 10) {",
+        "  tries++;",
+        "  if (tries === 4) {",
+        "    ___;",
+        "  }",
+        "}",
+        "console.log(tries);"
+      ],
+      "options": [
+        {
+          "text": "break",
+          "correct": true,
+          "feedback": "Right. It ends the loop as soon as tries is 4."
+        },
+        {
+          "text": "continue",
+          "correct": false,
+          "feedback": "continue only skips the rest of this pass. The loop would carry on until tries is 10."
+        },
+        {
+          "text": "tries = 10",
+          "correct": false,
+          "feedback": "This also ends the loop, but tries is then 10, so the program would print 10."
+        },
+        {
+          "text": "console.log(tries)",
+          "correct": false,
+          "feedback": "This prints 4 but does not stop the loop, so the program would print another number after it."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "break"
+          ]
+        ],
+        "expectedOutput": "4"
+      },
+      "explanation": "break leaves the loop at once, so tries stays at 4. Without it the loop would go on until tries reaches 10.",
+      "hints": [
+        "Look at line 5.",
+        "Something must end the loop early, when tries is 4.",
+        "The word that ends a loop is a statement of its own."
+      ],
+      "reference": {
+        "title": "break statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.break-and-continue.parsons-01",
+      "concept": "break-and-continue",
+      "prerequisites": [
+        "for-loop",
+        "while-loop",
+        "if-statement"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so that the program prints 3.",
+      "code": [
+        "  seen++;",
+        "console.log(seen);",
+        "    break;",
+        "let seen = 0;",
+        "  }",
+        "for (let n = 1; n <= 5; n++) {",
+        "}",
+        "  if (n > 3) {"
+      ],
+      "solution": {
+        "lineOrder": [
+          3,
+          5,
+          7,
+          2,
+          4,
+          0,
+          6,
+          1
+        ],
+        "acceptedOrders": [
+          [
+            3,
+            5,
+            7,
+            1,
+            2,
+            4,
+            0,
+            6
+          ],
+          [
+            3,
+            5,
+            7,
+            1,
+            2,
+            6,
+            0,
+            4
+          ],
+          [
+            3,
+            5,
+            7,
+            2,
+            6,
+            0,
+            4,
+            1
+          ]
+        ],
+        "expectedOutput": "3"
+      },
+      "explanation": "The counter must exist first. In the loop, the if with break comes before the counting line, so the loop stops once n passes 3. Then the result is printed.",
+      "hints": [
+        "The first line declares the counter.",
+        "Inside the loop, the check comes before the counting.",
+        "The closing braces must match the openings: the if first, then the loop."
+      ],
+      "reference": {
+        "title": "break statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.loops.break-and-continue.write-01",
+      "concept": "break-and-continue",
+      "prerequisites": [
+        "for-loop",
+        "while-loop",
+        "if-statement"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "A loop runs n from 1 to limit. It skips every even n with continue and prints the rest. Write an expression for how many numbers it prints.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "limit"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "limit": 5
+            },
+            "expected": 3
+          },
+          {
+            "input": {
+              "limit": 6
+            },
+            "expected": 3
+          },
+          {
+            "input": {
+              "limit": 1
+            },
+            "expected": 1
+          },
+          {
+            "input": {
+              "limit": 0
+            },
+            "expected": 0
+          }
+        ],
+        "reference": [
+          "Math.ceil(limit / 2)"
+        ],
+        "wrongSolutions": [
+          [
+            "limit / 2"
+          ],
+          [
+            "Math.floor(limit / 2)"
+          ],
+          [
+            "limit - 1"
+          ]
+        ]
+      },
+      "explanation": "Only odd values of n reach the print line. Among the numbers 1 to limit, the odd ones are half of limit rounded up: 1, 3 and 5 make three for a limit of 5.",
+      "hints": [
+        "Write out which n are printed for limit 5.",
+        "Only the odd numbers get printed.",
+        "Half of limit is not always whole; decide whether to round up or down."
+      ],
+      "reference": {
+        "title": "continue statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/continue",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}
