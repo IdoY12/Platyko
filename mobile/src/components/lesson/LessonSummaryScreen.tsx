@@ -51,7 +51,7 @@ export function LessonSummaryScreen({ route, navigation }: Props) {
         <AppText variant="screenTitle" align="center" accessibilityRole="header">
           {jumpTrack ? (jumpPassed ? t("summary.jumpPassedTitle", { track: t(`map.track.${jumpTrack}`) }) : t("summary.jumpFailedTitle")) : isChallenge ? t("summary.dailyTitle") : isRevision ? t("summary.revisionTitle") : t("summary.title")}
         </AppText>
-        {challengeGrid ? <DailyChallengeGrid grid={challengeGrid} /> : null}
+        {challengeGrid ? <DailyChallengeGrid grid={challengeGrid} date={dailyChallengeDate(lessonId) ?? undefined} /> : null}
         {jumpTrack ? (
           <AppText align="center" color={palette.text.secondary}>
             {jumpPassed ? t("summary.jumpPassedBody") : t("summary.jumpFailedBody", { pass: jumpTestPassMark(JUMP_TEST_LENGTH), count: JUMP_TEST_LENGTH })}

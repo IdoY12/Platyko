@@ -1,8 +1,9 @@
-import { StyleSheet, View } from "react-native";
+import { Share, StyleSheet, View } from "react-native";
 import type { MatchEndEvent, MatchStartEvent } from "@project/api-contract";
 import { AppText } from "@/components/common/AppText/AppText";
 import { LipButton } from "@/components/common/LipButton/LipButton";
 import { OutlineButton } from "@/components/common/LipButton/OutlineButton";
+import { TextButton } from "@/components/common/LipButton/TextButton";
 import { Screen } from "@/components/common/Screen/Screen";
 import { Surface } from "@/components/common/Surface/Surface";
 import { t } from "@/i18n/translate";
@@ -70,6 +71,7 @@ export function PlayResults({ match, end }: { match: MatchStartEvent; end: Match
         <LipButton label={t("play.again")} onPress={() => void playAgain()} />
       )}
       <OutlineButton label={t("play.backToPlay")} onPress={backToPlay} />
+      {own ? <TextButton label={t("summary.share")} onPress={() => void Share.share({ message: t("play.shareResult", { mode: t(`play.mode.${match.mode}`), place: own.place, players: end.standings.length, points: own.points }) })} /> : null}
     </Screen>
   );
 }
