@@ -45,6 +45,15 @@ export const logoutBodySchema = z.object({
   refreshToken: z.string().max(4096).optional(),
 });
 
+/** GitHub's authorization code, exchanged on the server with the PKCE verifier (PRD 14.3). */
+export const githubAuthBodySchema = z.object({
+  code: z.string().min(1).max(512),
+  codeVerifier: z.string().min(43).max(128),
+  redirectUri: z.string().min(1).max(512),
+  ...guestSnapshotShape,
+});
+export type GitHubAuthBody = z.infer<typeof githubAuthBodySchema>;
+
 export const googleAuthBodySchema = z.object({
   idToken: z.string().min(1, { message: "ID token is required" }).max(8192),
   ...guestSnapshotShape,

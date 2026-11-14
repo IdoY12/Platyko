@@ -12,6 +12,7 @@ export default interface User {
     notificationsEnabled: boolean
     hasPassword: boolean
     authProvider: AuthProviderName | null
+    githubLogin: string | null
     /** The UI language stored on the account. */
     language: Language
     blockProgress?: Record<string, number>

@@ -22,6 +22,8 @@ export type PublicUser = {
   /** Shown once the user has played enough ranked games to be placed; null before or when hidden. */
   rating: number | null;
   bio: string | null;
+  /** The linked GitHub username, shown with the profile (PRD 14.1, 14.3). */
+  githubLogin: string | null;
   relationship: Relationship;
 };
 

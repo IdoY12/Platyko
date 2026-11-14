@@ -12,6 +12,7 @@ import { palette, space } from "@/theme/tokens";
 import { openExternalUrl } from "@/utils/profileUiAndPreferences";
 import { PrivacySection } from "@/components/social/PrivacySection";
 import { AccountDialogs } from "./AccountDialogs";
+import { GitHubSetting } from "./GitHubSetting";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { SetPasswordDialog } from "./SetPasswordDialog";
 import { SettingsRow, SettingsSection } from "./SettingsRow";
@@ -45,6 +46,7 @@ export function SettingsScreen() {
           <SettingsRow icon="camera-outline" label={t("settings.changePhoto")} detail={account.uploadingAvatar ? t("settings.photoUploading", { progress: account.uploadProgress }) : undefined} onPress={account.onAvatarPress} />
           <SettingsRow icon="account-edit-outline" label={t("settings.editUsername")} detail={account.username} onPress={() => account.setUsernameModalVisible(true)} />
           <SettingsRow icon="lock-outline" label={account.hasPassword ? t("settings.changePassword") : t("settings.setPassword")} onPress={() => (account.hasPassword ? account.setPasswordModalVisible(true) : setSetPasswordOpen(true))} />
+          <GitHubSetting />
           <SettingsRow icon="logout" label={t("settings.signOut")} onPress={account.onLogoutPress} />
           <SettingsRow icon="delete-outline" label={t("settings.deleteAccount")} danger onPress={() => account.setDeleteModalVisible(true)} />
         </SettingsSection>

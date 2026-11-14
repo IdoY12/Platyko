@@ -1,5 +1,6 @@
 import { prisma, type Prisma } from "@project/db";
 import type { PublicUser, Relationship } from "@project/api-contract";
+import { PLACEMENT_GAMES } from "@project/match-engine";
 
 /**
  * The only way another user leaves the server (PRD 15.7): every social route builds its users
@@ -7,9 +8,6 @@ import type { PublicUser, Relationship } from "@project/api-contract";
  * completely; a hidden profile keeps only the username and avatar, and only where a friendship
  * or a request already links the two.
  */
-
-/** Ranked games before a rating is shown (PRD 11.6 placement). */
-const PLACEMENT_GAMES = 5;
 
 export const PUBLIC_USER_SELECT = {
   id: true,
@@ -19,6 +17,7 @@ export const PUBLIC_USER_SELECT = {
   rating: true,
   ratedGamesPlayed: true,
   bio: true,
+  githubLogin: true,
   profileVisibility: true,
 } satisfies Prisma.UserSelect;
 
@@ -76,6 +75,7 @@ export async function publicUsersFor(viewerId: string, rows: readonly PublicUser
         level: visible ? row.level : null,
         rating: visible && row.ratedGamesPlayed >= PLACEMENT_GAMES ? Math.round(row.rating) : null,
         bio: visible ? row.bio : null,
+        githubLogin: visible ? row.githubLogin : null,
         relationship,
       },
     ];

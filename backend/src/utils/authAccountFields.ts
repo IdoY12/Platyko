@@ -2,7 +2,8 @@
  * Derived account facts included in every auth/user payload.
  *
  * Responsibility: tell the client whether the account has a password, which social provider
- * it uses (without leaking the hash or the provider IDs) and the UI language it chose.
+ * it uses (without leaking the hash or the provider IDs), the linked GitHub username and the UI
+ * language it chose.
  * Layer: backend utils
  * Consumers: auth controllers, issueSessionForUser, user profile handler
  */
@@ -12,17 +13,18 @@ import type { AuthProvider } from "@project/db";
 import { DEFAULT_LANGUAGE, isLanguage, type Language } from "@project/locales";
 
 /** What `authAccountFields` reads; spread into a Prisma `select`. */
-export const AUTH_ACCOUNT_SELECT = { hashedPassword: true, language: true, identities: { select: { provider: true }, orderBy: { createdAt: "asc" } } } as const;
+export const AUTH_ACCOUNT_SELECT = { hashedPassword: true, language: true, githubLogin: true, identities: { select: { provider: true }, orderBy: { createdAt: "asc" } } } as const;
 
-type AuthAccountSource = { hashedPassword: string | null; language: string; identities: { provider: AuthProvider }[] };
+type AuthAccountSource = { hashedPassword: string | null; language: string; githubLogin: string | null; identities: { provider: AuthProvider }[] };
 
 const PROVIDER_NAME: Record<AuthProvider, AuthProviderName> = { GOOGLE: "google", APPLE: "apple", GITHUB: "github" };
 
-export function authAccountFields(user: AuthAccountSource): { hasPassword: boolean; authProvider: AuthProviderName | null; language: Language } {
+export function authAccountFields(user: AuthAccountSource): { hasPassword: boolean; authProvider: AuthProviderName | null; githubLogin: string | null; language: Language } {
   const first = user.identities[0];
   return {
     hasPassword: user.hashedPassword !== null,
     authProvider: first ? PROVIDER_NAME[first.provider] : null,
+    githubLogin: user.githubLogin,
     language: isLanguage(user.language) ? user.language : DEFAULT_LANGUAGE,
   };
 }

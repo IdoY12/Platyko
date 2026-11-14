@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL, REQUEST_TIMEOUT_MS } from "@/config/network";
+import type { GitHubAuthRequest } from "@project/api-contract";
 import type AuthResponse from "@/models/AuthResponse";
 import type RegisterResponse from "@/models/RegisterResponse";
 import { guestStateRequestBody, type GuestLocalState } from "@/services/authGuestState";
@@ -47,6 +48,24 @@ class AuthService {
   async loginWithGoogle(idToken: string, local?: GuestLocalState): Promise<AuthResponse> {
     try {
       const { data } = await publicApi.post<AuthResponse>("/auth/google", { idToken, ...guestStateRequestBody(local) });
+      return data;
+    } catch (e) {
+      throw new Error(apiErrorMessage(e));
+    }
+  }
+
+  /** The GitHub OAuth client id, or null while GitHub sign-in is off on the server (H7). */
+  async githubClientId(): Promise<string | null> {
+    try {
+      return (await publicApi.get<{ clientId: string | null }>("/auth/github/config")).data.clientId;
+    } catch {
+      return null;
+    }
+  }
+
+  async loginWithGitHub(request: GitHubAuthRequest, local?: GuestLocalState): Promise<AuthResponse> {
+    try {
+      const { data } = await publicApi.post<AuthResponse>("/auth/github", { ...request, ...guestStateRequestBody(local) });
       return data;
     } catch (e) {
       throw new Error(apiErrorMessage(e));

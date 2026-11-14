@@ -9,6 +9,7 @@ export default interface AuthMeResponse {
     avatarUrl: string | null
     hasPassword: boolean
     authProvider: AuthProviderName | null
+    githubLogin: string | null
     /** The UI language stored on the account. */
     language: Language
 }

@@ -2,6 +2,8 @@ import rateLimit from "express-rate-limit";
 import { raw, Router } from "express";
 import {
   deleteAccount,
+  deleteGitHubLink,
+  postGitHubLink,
   getAchievements,
   getGameRecord,
   getPreferences,
@@ -17,6 +19,7 @@ import {
 import { changePasswordRateLimiter } from "../middlewares/authRateLimiters.js";
 import { authMiddleware } from "../middlewares/auth.js";
 import { validateBody, validateQuery } from "../middlewares/validateBody.js";
+import { githubAuthBodySchema } from "../validators/authValidators.js";
 import {
   deleteAccountBodySchema,
   patchAvatarBodySchema,
@@ -38,6 +41,8 @@ userRouter.use(authMiddleware);
 userRouter.get("/profile", getProfile);
 userRouter.get("/game-record", getGameRecord);
 userRouter.get("/achievements", getAchievements);
+userRouter.post("/github", validateBody(githubAuthBodySchema), postGitHubLink);
+userRouter.delete("/github", deleteGitHubLink);
 userRouter.patch("/profile", validateBody(patchProfileBodySchema), patchProfile);
 // raw() parses the binary image body as a Buffer for this route only.
 // The app-level JSON parser skips non-application/json content types.

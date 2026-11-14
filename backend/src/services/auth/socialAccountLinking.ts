@@ -17,8 +17,12 @@ export const PROVIDER_LABEL: Record<AuthProvider, { account: string; signIn: str
   GITHUB: { account: "GitHub account", signIn: "GitHub" },
 };
 
-const NO_EMAIL_MESSAGE =
-  "Apple did not share an email for this account. In Settings > Apple ID > Sign-In & Security, remove this app and try again.";
+/** Google always shares a verified email; Apple only on the first authorization; GitHub only a verified primary one. */
+const NO_EMAIL_MESSAGE: Record<AuthProviderName, string> = {
+  google: "Google did not share an email for this account.",
+  apple: "Apple did not share an email for this account. In Settings > Apple ID > Sign-In & Security, remove this app and try again.",
+  github: "GitHub did not share a verified email. Verify your primary email on GitHub and try again.",
+};
 
 /** Why a sign-in whose email belongs to another account stops: every account has a password or an identity. */
 function blockedReason(existing: { hashedPassword: string | null; identities: { provider: AuthProvider }[] }, provider: AuthProvider): string {
@@ -43,7 +47,7 @@ export async function findOrCreateSocialUser(
 ): Promise<{ user: User; isNew: boolean }> {
   const identity = await prisma.authIdentity.findUnique({ where: { provider_subject: { provider: PROVIDER[provider], subject } }, include: { user: true } });
   if (identity) return { user: identity.user, isNew: false };
-  if (!email) throw new SocialSignInBlockedError(NO_EMAIL_MESSAGE);
+  if (!email) throw new SocialSignInBlockedError(NO_EMAIL_MESSAGE[provider]);
   const byEmail = await prisma.user.findUnique({ where: { email }, select: { hashedPassword: true, identities: { select: { provider: true }, orderBy: { createdAt: "asc" } } } });
   if (byEmail) throw new SocialSignInBlockedError(blockedReason(byEmail, PROVIDER[provider]));
   const user = await createSocialUserWithProgress({ provider: PROVIDER[provider], subject }, email, displayName, guestSnapshot);

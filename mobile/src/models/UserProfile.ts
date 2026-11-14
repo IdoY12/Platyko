@@ -7,6 +7,7 @@ export default interface UserProfile {
   notificationsEnabled: boolean;
   hasPassword: boolean;
   authProvider: AuthProviderName | null;
+  githubLogin: string | null;
   progress: {
     goal: "JOB" | "WORK" | "FUN" | "PROJECT" | null;
     experienceLevel: "JUNIOR" | "MID" | "SENIOR" | null;

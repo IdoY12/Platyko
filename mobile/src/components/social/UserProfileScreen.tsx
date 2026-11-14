@@ -11,6 +11,7 @@ import { Screen } from "@/components/common/Screen/Screen";
 import { ScreenHeader } from "@/components/common/Screen/ScreenHeader";
 import { Surface } from "@/components/common/Surface/Surface";
 import { useInviteToDuel } from "@/components/play/useInviteToDuel";
+import { GitHubLink } from "@/components/profile/profile-screen/GitHubLink";
 import { ProfileAvatar } from "@/components/profile/profile-screen/ProfileAvatar";
 import { localizedError } from "@/i18n/localizedMessage";
 import { t } from "@/i18n/translate";
@@ -79,6 +80,7 @@ export function UserProfileScreen({ route }: Props) {
         {user.level !== null ? <AppText variant="bodyStrong">{t("profile.level")} {user.level}</AppText> : null}
         <AppText color={palette.text.secondary}>{user.rating !== null ? `${t("profile.rating")}: ${user.rating}` : t("user.ratingNone")}</AppText>
         {user.bio ? <AppText align="ltr">{user.bio}</AppText> : null}
+        {user.githubLogin ? <GitHubLink login={user.githubLogin} /> : null}
       </Surface>
       {user.relationship === "none" ? <LipButton label={t("user.addFriend")} onPress={() => void run(() => service.sendRequest({ username: user.username }), t("friends.requestSent"))} /> : null}
       {user.relationship === "requestSent" ? <OutlineButton label={t("user.pending")} disabled onPress={() => undefined} /> : null}

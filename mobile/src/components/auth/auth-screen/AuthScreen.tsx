@@ -9,11 +9,12 @@ import { useAppDispatch } from "@/redux/hooks";
 import { palette, space } from "@/theme/tokens";
 import { openExternalUrl } from "@/utils/profileUiAndPreferences";
 import { AuthAppleButton } from "../auth-apple-button/AuthAppleButton";
+import { AuthGitHubButton } from "../auth-github-button/AuthGitHubButton";
 import { AuthCredentials } from "../auth-credentials/AuthCredentials";
 import { AuthGoogleButton } from "../auth-google-button/AuthGoogleButton";
 import { AuthLayout } from "../auth-layout/AuthLayout";
 
-/** Sign in or create an account (PRD 14.3): email and password, or Google and Apple. */
+/** Sign in or create an account (PRD 14.3): email and password, or Google, Apple and GitHub. */
 export function AuthScreen() {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
@@ -24,6 +25,7 @@ export function AuthScreen() {
       {form.isLogin ? <TextButton label={t("auth.forgotPassword")} onPress={() => navigation.navigate("ForgotPassword", { email: form.email })} /> : null}
       <AuthGoogleButton dispatch={dispatch} />
       <AuthAppleButton dispatch={dispatch} />
+      <AuthGitHubButton dispatch={dispatch} />
       <TextButton label={form.isLogin ? t("auth.switchToRegister") : t("auth.switchToSignIn")} onPress={() => form.setIsLogin((current) => !current)} />
       <AppText variant="label" align="center" color={palette.text.muted}>
         {t("auth.legalNote")}

@@ -18,6 +18,7 @@ import type { RootNavigation } from "@/types/rootNavigation.types";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { ActivityMap } from "./ActivityMap";
 import { ProfileAchievements } from "./ProfileAchievements";
+import { GitHubLink } from "./GitHubLink";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { ProfileGames } from "./ProfileGames";
 import { ProfileLearning } from "./ProfileLearning";
@@ -33,6 +34,7 @@ export function ProfileScreen() {
   const isGuest = useAppSelector((state) => state.session.isGuest);
   const username = useAppSelector((state) => state.profile.username);
   const avatarUrl = useAppSelector((state) => state.profile.avatarUrl);
+  const githubLogin = useAppSelector((state) => state.profile.githubLogin);
   const { map, progress } = useAppSelector((state) => state.learning);
   const [record, setRecord] = useState<GameRecordResponse | null>(null);
   // Games change while the learner plays, so the record is read again each time the tab opens.
@@ -55,6 +57,7 @@ export function ProfileScreen() {
           <MaterialCommunityIcons name="cog-outline" size={26} color={palette.text.secondary} />
         </PressableScale>
       </View>
+      {githubLogin && !isGuest ? <GitHubLink login={githubLogin} /> : null}
       {isGuest ? (
         <Surface style={styles.saveCard}>
           <AppText variant="cardTitle">{t("profile.saveProgressTitle")}</AppText>

@@ -263,7 +263,7 @@ Tooling notes for the next session:
 | H10 | A rigged 3D GLB of the logo platypus at `mobile/assets/mascot/platyko.glb`, following `docs/mascot-3d-model.md` (one clip per mascot state). Needs a 3D artist. | True real-time 3D mascot; the layered 2.5D mascot ships without it |
 | H5 | Reference device for the 60fps criteria (PRD Q7). Simulators are used until then. | Performance sign-off |
 | H6 | Apple Developer account, APNs key, EAS credentials, App Store assets. | Store submission, real push |
-| H7 | GitHub OAuth app (client id and secret). Feature ships behind a flag. | GitHub sign-in |
+| H7 | A GitHub OAuth app with the callback `com.idoyahav.platyko://oauth/github`; its client id and secret in the backend environment with `GITHUB_SIGN_IN_ENABLED=true` (see `backend/.env.example`). Sign-in, linking, the profile link and disconnect are built and tested against stubs; the button and the setting stay hidden until then. | GitHub sign-in and linking |
 | H8 | Confirmation of `platyko.com` ownership and the `apple-app-site-association` deployment (PRD Q14). | Universal invite links |
 | H9 | Human spot-check of a 5% item sample per track and a learner pilot (PRD Q11). | Recommended before launch |
 | H11 | The Hebrew banned-word list for usernames and bios, and where such a list may live under the language rule (PRD Q13). The English list ships in `packages/user-credentials`. | Hebrew username filtering |

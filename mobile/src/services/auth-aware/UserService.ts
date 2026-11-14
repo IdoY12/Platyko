@@ -1,4 +1,4 @@
-import type { AchievementsResponse, GameRecordResponse } from "@project/api-contract";
+import type { AchievementsResponse, GameRecordResponse, GitHubAuthRequest } from "@project/api-contract";
 import type { Language } from "@project/locales";
 import AuthAware from "./AuthAware";
 import { API_BASE_URL, UPLOAD_TIMEOUT_MS } from "@/config/network";
@@ -18,6 +18,10 @@ export default class UserService extends AuthAware {
     const { data } = await this.axiosInstance.post<{ ok: boolean }>("/auth/logout", { refreshToken });
     return data;
   }
+
+  async linkGitHub(request: GitHubAuthRequest): Promise<void> { await this.axiosInstance.post("/user/github", request); }
+
+  async unlinkGitHub(): Promise<void> { await this.axiosInstance.delete("/user/github"); }
 
   async getAchievements(): Promise<string[]> { return (await this.axiosInstance.get<AchievementsResponse>("/user/achievements")).data.codes; }
 

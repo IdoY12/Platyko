@@ -9,6 +9,7 @@
 
 import { Router } from "express";
 import { authAppleHandler } from "../controllers/auth/authAppleHandler.js";
+import { authGitHubConfigHandler, authGitHubHandler } from "../controllers/auth/authGitHubHandler.js";
 import { authGoogleHandler } from "../controllers/auth/authGoogleHandler.js";
 import { authLoginHandler } from "../controllers/auth/authLoginHandler.js";
 import { authLogoutHandler } from "../controllers/auth/authLogoutHandler.js";
@@ -34,7 +35,7 @@ import {
 } from "../middlewares/authRateLimiters.js";
 import { validateBody } from "../middlewares/validateBody.js";
 import { appleAuthBodySchema } from "../validators/appleAuthValidators.js";
-import { googleAuthBodySchema, loginBodySchema, logoutBodySchema, refreshBodySchema, registerBodySchema } from "../validators/authValidators.js";
+import { githubAuthBodySchema, googleAuthBodySchema, loginBodySchema, logoutBodySchema, refreshBodySchema, registerBodySchema } from "../validators/authValidators.js";
 import { resendVerificationBodySchema, verifyEmailBodySchema } from "../validators/emailVerificationValidators.js";
 import { confirmPasswordResetBodySchema, requestPasswordResetBodySchema } from "../validators/passwordResetValidators.js";
 
@@ -47,6 +48,8 @@ authRouter.post("/password-reset/request", authPasswordResetRequestRateLimiter, 
 authRouter.post("/password-reset/confirm", authPasswordResetConfirmRateLimiter, validateBody(confirmPasswordResetBodySchema), authPasswordResetConfirmHandler);
 authRouter.post("/login", authLoginRateLimiter, validateBody(loginBodySchema), authLoginHandler);
 authRouter.post("/google", authLoginRateLimiter, validateBody(googleAuthBodySchema), authGoogleHandler);
+authRouter.get("/github/config", authGitHubConfigHandler);
+authRouter.post("/github", authLoginRateLimiter, validateBody(githubAuthBodySchema), authGitHubHandler);
 authRouter.post("/apple", authLoginRateLimiter, validateBody(appleAuthBodySchema), authAppleHandler);
 authRouter.post("/refresh", authRefreshRateLimiter, validateBody(refreshBodySchema), authRefreshHandler);
 authRouter.get("/me", authMiddleware, authMeHandler);
