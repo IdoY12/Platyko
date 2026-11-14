@@ -25,10 +25,9 @@ For every item write an entry in `solutions`, with the answer in the shape of it
 | `FIX_BUG` | `{ "bugLine": <1-based line number of the bug>, "fixText": "<the exact text of the option that repairs it>" }` |
 | `CODE_WRITE` | `{ "code": [...] }`: your own solution, as lines, that satisfies the prompt for every possible input of the `entry` (the body of the function, or the expression) |
 
-Besides the answer, every item EXCEPT `CODE_WRITE` needs three facts about the SOLVED program (the program with your answer applied: for `FIX_BUG`, after your fix; for `PARSONS`, in your order; for `FILL_BLANK`, with your blanks filled; for `ORDER_OUTPUT`, the program as given), which you derive by tracing it:
+Besides the answer, every item EXCEPT `CODE_WRITE` needs two facts about the SOLVED program (the program with your answer applied: for `FIX_BUG`, after your fix; for `PARSONS`, in your order; for `FILL_BLANK`, with your blanks filled; for `ORDER_OUTPUT`, the program as given), which you derive by tracing it:
 - `printedOutput`: the lines it prints, as an array of strings, in the format of the README (the canonical printed form).
-- `outputLines`: for each printed line, `{ "line": <1-based line of the solved program that printed it>, "text": "<that printed line>" }`. If one statement prints several lines, give each of them the same `line`.
-- `finalGlobals`: an object with every top-level `let`, `const` and `var` binding of the program whose final value is a primitive, an array or a plain object, and that value when the program ends, in the canonical printed form of the README (strings in single quotes, arrays as `[1, 2]`, and so on). Leave out bindings that hold a function, a class, a promise, a DOM node or list, an iterator or a generator.
+- `finalGlobals`: an object with every top-level `let`, `const` and `var` binding of the program whose final value is a primitive, an array or a plain object, and that value when the program ends, in the canonical printed form of the README (strings in single quotes, arrays as `[1, 2]`, and so on). Leave out bindings that hold a function, a class or an instance of one, a Map, a Set, a WeakMap, a WeakSet, a Proxy, an object with symbol keys, a promise, a DOM node or list, an iterator or a generator.
 
 ## Output file shape
 ```json
@@ -39,7 +38,6 @@ Besides the answer, every item EXCEPT `CODE_WRITE` needs three facts about the S
       "id": "beg.example-unit.loops.predict-01",
       "answer": { "optionText": "9" },
       "printedOutput": ["9"],
-      "outputLines": [{ "line": 5, "text": "9" }],
       "finalGlobals": { "total": "9" }
     },
     {

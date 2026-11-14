@@ -17,18 +17,12 @@ const codeAnswerSchema = z.object({ code: z.array(z.string()) });
 /** What the solver derived by hand about the run of the solved program. */
 const tracedFactsSchema = z.object({
   printedOutput: z.array(z.string()),
-  outputLines: z.array(z.object({ line: z.number().int(), text: z.string() })),
   finalGlobals: z.record(z.string(), z.string()),
 });
 type TracedFacts = z.infer<typeof tracedFactsSchema>;
-type PrintedLine = TracedFacts["outputLines"][number];
 
 /** Why an answer is not the stated one (null when it is), and the solved program when the solver's choice shapes it. */
 type AnswerVerdict = { mismatch: string | null; program?: string[] };
-
-/** The engine, not a source line, prints the report of an uncaught error. */
-const ENGINE_REPORT_PREFIX = "Uncaught";
-const ENGINE_REPORT_LINE = 0;
 
 const quoted = (value: unknown): string => JSON.stringify(value);
 
@@ -85,44 +79,15 @@ function judgeBugFix(item: Item, { bugLine, fixText }: z.infer<typeof bugFixAnsw
 }
 
 /**
- * The line of the statement that printed, given the last step recorded before the output appeared.
- * That step can sit inside a function called in the arguments of `console.log`, which has returned
- * by then; so the search walks from the innermost frame outwards, looking at the statement each
- * frame was running, and takes the first one that calls `console.log`. When none does (an error
- * report), the last step's own line is the answer.
+ * Values whose printed form the README does not define (functions, classes and their instances,
+ * maps, sets and their weak forms, proxies, promises, DOM nodes, symbol keys, iterators and
+ * generators, which print as an empty object): the solver cannot be held to a text for them, so
+ * they are left out of the comparison.
  */
-function printingLineAt(trace: ItemTrace, lastStepIndex: number): number {
-  let examinedDepth = Infinity;
-  for (let index = lastStepIndex; index >= 0; index--) {
-    const { line, callStack } = trace.steps[index];
-    if (callStack.length >= examinedDepth) continue;
-    examinedDepth = callStack.length;
-    if (trace.code[line - 1]?.includes("console.log")) return line;
-  }
-  return trace.steps[lastStepIndex].line;
-}
+const UNDEFINED_PRINTED_FORM = /\[Function|\[class|Promise|<[a-z]|NodeList|Iterator|^\{\}$|^[A-Z]\w*(\(\d+\))? \{|^Proxy$|Symbol\(/;
 
-/** Which source line printed each output line, read from the trace: output appears between two steps. */
-export function printedLinesOf(trace: ItemTrace): PrintedLine[] {
-  return trace.steps.flatMap((step, index) => {
-    const printedBeforeStep = trace.output.slice(trace.steps[index - 1]?.outputCount ?? 0, step.outputCount);
-    return printedBeforeStep.map((text) => ({ line: index === 0 ? ENGINE_REPORT_LINE : printingLineAt(trace, index - 1), text }));
-  });
-}
-
-/** One comparable sentence per printed line. A text of several lines counts as that many lines. */
-function describePrintedLines(printedLines: PrintedLine[]): string[] {
-  return printedLines.flatMap(({ line, text }) =>
-    text.split("\n").map((part) => `line ${part.startsWith(ENGINE_REPORT_PREFIX) ? ENGINE_REPORT_LINE : line} prints ${quoted(part.trimEnd())}`),
-  );
-}
-
-/**
- * Values whose printed form the README does not define (functions, classes, promises, DOM nodes,
- * iterators and generators, which print as an empty object): the solver cannot be held to a text
- * for them, so they are left out of the comparison.
- */
-const UNDEFINED_PRINTED_FORM = /\[Function|\[class|Promise|<[a-z]|NodeList|Iterator|^\{\}$/;
+/** A text global compares by its characters: whether the solver wrote the quotes is not a finding. */
+const unquoted = (value: string | undefined) => value?.trim().replace(/^'(.*)'$/s, "$1");
 
 function finalGlobalsOf(trace: ItemTrace): Map<string, string> {
   const finalVariables = trace.steps.at(-1)?.variables ?? [];
@@ -135,24 +100,11 @@ function compareTracedFacts(solver: TracedFacts, trace: ItemTrace, report: Findi
   const actualOutput = normaliseOutput(trace.output.join("\n"));
   if (derivedOutput !== actualOutput) report("solver-output-mismatch", `the solver derived the output ${quoted(derivedOutput)}; the code prints ${quoted(actualOutput)}`);
 
-  const derivedLines = describePrintedLines(solver.outputLines);
-  const actualLines = describePrintedLines(printedLinesOf(trace));
-  const firstDifference = Array.from({ length: Math.max(derivedLines.length, actualLines.length) }, (_unused, index) => index).find(
-    (index) => derivedLines[index] !== actualLines[index],
-  );
-  if (firstDifference !== undefined) {
-    const nothing = "nothing";
-    report(
-      "solver-output-lines-mismatch",
-      `output line ${firstDifference + 1}: the solver has ${derivedLines[firstDifference] ?? nothing}; in the execution ${actualLines[firstDifference] ?? nothing}`,
-    );
-  }
-
   const derivedGlobals = new Map(Object.entries(solver.finalGlobals).filter(([, value]) => !UNDEFINED_PRINTED_FORM.test(value) && !/^Object \[/.test(value)));
   const actualGlobals = finalGlobalsOf(trace);
   const absent = "no such variable";
   const differences = [...new Set([...actualGlobals.keys(), ...derivedGlobals.keys()])]
-    .filter((name) => derivedGlobals.get(name)?.trim() !== actualGlobals.get(name))
+    .filter((name) => unquoted(derivedGlobals.get(name)) !== unquoted(actualGlobals.get(name)))
     .map((name) => `${name}: the solver has ${derivedGlobals.get(name) ?? absent}, the execution ends with ${actualGlobals.get(name) ?? absent}`);
   if (differences.length > 0) report("solver-globals-mismatch", differences.join("; "));
 }

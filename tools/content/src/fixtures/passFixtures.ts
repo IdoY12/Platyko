@@ -2,7 +2,6 @@ import { cpSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { Item, UnitFile } from "@project/content-model";
-import { printedLinesOf } from "../agentGates/solverOutput.js";
 import { CONTENT_ROOT, constructsPath } from "../bank/paths.js";
 import { formatValue } from "../execute/formatValue.js";
 import { runProgram } from "../execute/runProgram.js";
@@ -57,7 +56,6 @@ function correctSolverEntry(item: Item, traces: UnitTraces): Record<string, unkn
     id: item.id,
     answer,
     printedOutput: trace.output,
-    outputLines: printedLinesOf(trace),
     finalGlobals: Object.fromEntries(finalVariables.filter((variable) => variable.scope === "global").map(({ name, value }) => [name, value])),
   };
 }

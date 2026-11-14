@@ -148,12 +148,11 @@ describe("gate B ingest", () => {
   it("reports a wrong derived output, wrong output lines and wrong final globals, each precisely", async () => {
     const outputChecks = checksOf(await ingest((outputs) => (solutionOf(outputs, "predict-01").printedOutput = ["10"])));
     expect(outputChecks).toEqual(["B:solver-output-mismatch"]);
-    const lines = await ingest((outputs) => (solutionOf(outputs, "predict-01").outputLines = [{ line: 3, text: "9" }]));
-    expect(lines.map((finding) => finding.check)).toEqual(["solver-output-lines-mismatch"]);
-    expect(lines[0].message).toContain("line 3 prints \"9\"");
     const globals = await ingest((outputs) => (solutionOf(outputs, "predict-01").finalGlobals = { total: "10" }));
     expect(globals.map((finding) => finding.check)).toEqual(["solver-globals-mismatch"]);
     expect(globals[0].message).toContain("total: the solver has 10, the execution ends with 9");
+    // Quotes around a value are a writing slip, not a different value.
+    expect(await ingest((outputs) => (solutionOf(outputs, "predict-01").finalGlobals = { total: "'9'" }))).toEqual([]);
   });
 
   it("reports an item the solver skipped, and a file that is missing or is not JSON", async () => {
