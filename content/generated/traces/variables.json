@@ -2375,14 +2375,13 @@
    "code": [
     "let seatNo;",
     "let driver = null;",
-    "console.log(seatNo);",
-    "console.log(driver);",
-    "console.log(typeof driver);"
+    "const route = \"42\";",
+    "console.log(seatNo, driver);",
+    "console.log(typeof driver, route);"
    ],
    "output": [
-    "undefined",
-    "null",
-    "object"
+    "undefined null",
+    "object 42"
    ],
    "steps": [
     {
@@ -2444,9 +2443,14 @@
        "name": "driver",
        "scope": "global",
        "value": "null"
+      },
+      {
+       "name": "route",
+       "scope": "global",
+       "value": "'42'"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 0,
      "callStack": [
       "global"
      ],
@@ -2465,9 +2469,14 @@
        "name": "driver",
        "scope": "global",
        "value": "null"
+      },
+      {
+       "name": "route",
+       "scope": "global",
+       "value": "'42'"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [
       "global"
      ],
@@ -2486,9 +2495,14 @@
        "name": "driver",
        "scope": "global",
        "value": "null"
+      },
+      {
+       "name": "route",
+       "scope": "global",
+       "value": "'42'"
       }
      ],
-     "outputCount": 3,
+     "outputCount": 2,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

@@ -1,0 +1,1677 @@
+{
+  "track": "ADVANCED",
+  "unit": "iterators-and-generators",
+  "order": 4,
+  "title": "Iterators and generators",
+  "summary": "Learners follow the iterator protocol, make their own objects iterable, and use generators to produce values lazily, including endless sequences.",
+  "concepts": [
+    {
+      "id": "iteration-protocol",
+      "title": "The iterator protocol",
+      "prerequisites": [
+        "array-iteration",
+        "object-properties",
+        "closure-private-state"
+      ]
+    },
+    {
+      "id": "custom-iterables",
+      "title": "Making an object iterable",
+      "prerequisites": [
+        "iteration-protocol",
+        "class-basics"
+      ]
+    },
+    {
+      "id": "generator-functions",
+      "title": "Generator functions and yield",
+      "prerequisites": [
+        "iteration-protocol"
+      ]
+    },
+    {
+      "id": "lazy-sequences",
+      "title": "Lazy and infinite sequences",
+      "prerequisites": [
+        "generator-functions",
+        "spread-and-rest"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "only-arrays-iterate",
+      "description": "Believes only arrays can be looped or spread, so strings and custom objects must fail."
+    },
+    {
+      "id": "strings-are-single-values",
+      "description": "Believes a string is one value and is not split into characters when it is iterated."
+    },
+    {
+      "id": "next-returns-raw-value",
+      "description": "Believes next() returns the element itself instead of an object with value and done."
+    },
+    {
+      "id": "done-true-on-last-value",
+      "description": "Believes done turns true on the call that returns the last value, not on the call after it."
+    },
+    {
+      "id": "done-true-means-more",
+      "description": "Reads done: true as 'more values are available', so the condition is inverted."
+    },
+    {
+      "id": "objects-are-iterable",
+      "description": "Believes a plain object can be spread or looped with for...of like an array."
+    },
+    {
+      "id": "done-value-included",
+      "description": "Believes the value that comes with done: true is part of what spread or for...of collects."
+    },
+    {
+      "id": "iterator-always-fresh",
+      "description": "Believes every loop gets a new iterator, even when [Symbol.iterator] returns the same object."
+    },
+    {
+      "id": "iterable-loops-once",
+      "description": "Believes an iterable can be looped only once, whatever its [Symbol.iterator] returns."
+    },
+    {
+      "id": "generator-runs-on-call",
+      "description": "Believes calling a generator function runs its body at once."
+    },
+    {
+      "id": "generator-runs-ahead",
+      "description": "Believes a generator computes all its values, or runs its whole body, before they are asked for."
+    },
+    {
+      "id": "return-acts-as-yield",
+      "description": "Believes return inside a generator hands a value to loops just like yield does."
+    },
+    {
+      "id": "each-next-restarts",
+      "description": "Believes each call to next() starts the generator body again from the top."
+    },
+    {
+      "id": "infinite-generator-hangs",
+      "description": "Believes a generator with an endless loop freezes the program as soon as it is used."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols",
+      "retrievedAt": "2026-11-14",
+      "sha256": "77e411d01ed0b13b3a624c706e56932752400c2ba031b2aee8531be453df52e8"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators",
+      "retrievedAt": "2026-11-14",
+      "sha256": "1baba9f6962a7b475edc672abea0abefee9583088fe0f6fe60ebad660c715933"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*",
+      "retrievedAt": "2026-11-14",
+      "sha256": "a81fa27a3d10eb9d035d13790eab68271ca593ddc6cc4c4cadd644a0e2af608e"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield",
+      "retrievedAt": "2026-11-14",
+      "sha256": "dde54fb7049391222dca4481b2822f185ed5f2a30774e3f4aa74f19052f1f87a"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator",
+      "retrievedAt": "2026-11-14",
+      "sha256": "e0e315fbac1da22c718632362b6b9e56f8f156e121179a8810c8e37bb1ed68c6"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "iterators-and-generators.lesson-1",
+      "title": "Walking an iterator by hand",
+      "conceptCard": {
+        "title": "Iterables hand out values one at a time",
+        "body": "An iterable can give its values one at a time. Calling [Symbol.iterator]() returns an iterator. Each next() call returns an object with value and done. When done is true, there are no more values. for...of and spread use this protocol.",
+        "code": [
+          "const fruit = ['fig', 'kiwi'];",
+          "const it = fruit[Symbol.iterator]();",
+          "const one = it.next();",
+          "console.log(one.value, one.done);",
+          "console.log(it.next().value);"
+        ],
+        "expectedOutput": "fig false\nkiwi"
+      },
+      "itemIds": [
+        "adv.iterators-and-generators.iteration-protocol.predict-01",
+        "adv.iterators-and-generators.iteration-protocol.concept-01",
+        "adv.iterators-and-generators.iteration-protocol.fill-01",
+        "adv.iterators-and-generators.iteration-protocol.fix-01",
+        "adv.iterators-and-generators.iteration-protocol.write-01"
+      ]
+    },
+    {
+      "id": "iterators-and-generators.lesson-2",
+      "title": "Making an object iterable",
+      "conceptCard": {
+        "title": "Giving an object its own iterator",
+        "body": "Add a method named [Symbol.iterator] to an object and it becomes iterable. The method returns an iterator: an object with a next() method that gives { value, done }. Spread and for...of then work on your object.",
+        "code": [
+          "const pair = {",
+          "  [Symbol.iterator]() {",
+          "    return 'xy'[Symbol.iterator]();",
+          "  },",
+          "};",
+          "console.log([...pair]);"
+        ],
+        "expectedOutput": "['x', 'y']"
+      },
+      "itemIds": [
+        "adv.iterators-and-generators.custom-iterables.predict-01",
+        "adv.iterators-and-generators.custom-iterables.concept-01",
+        "adv.iterators-and-generators.custom-iterables.fill-01",
+        "adv.iterators-and-generators.custom-iterables.fix-01",
+        "adv.iterators-and-generators.custom-iterables.write-01"
+      ]
+    },
+    {
+      "id": "iterators-and-generators.lesson-3",
+      "title": "Generators and yield",
+      "conceptCard": {
+        "title": "A generator pauses at yield",
+        "body": "Calling a function* returns a generator, and its body does not run yet. Each next() runs the body up to the next yield and hands that value out. The generator then pauses until next() is called again.",
+        "code": [
+          "function* gate() {",
+          "  console.log('open');",
+          "  yield 'in';",
+          "  yield 'out';",
+          "}",
+          "const door = gate();",
+          "console.log(door.next().value);"
+        ],
+        "expectedOutput": "open\nin"
+      },
+      "itemIds": [
+        "adv.iterators-and-generators.generator-functions.predict-01",
+        "adv.iterators-and-generators.generator-functions.concept-01",
+        "adv.iterators-and-generators.generator-functions.fill-01",
+        "adv.iterators-and-generators.generator-functions.fix-01",
+        "adv.iterators-and-generators.generator-functions.write-01"
+      ]
+    },
+    {
+      "id": "iterators-and-generators.lesson-4",
+      "title": "Lazy and infinite sequences",
+      "conceptCard": {
+        "title": "Generators can be endless",
+        "body": "A generator only works when asked, so its loop can be endless. Take only the values you need: call next(), stop a loop early, or destructure. Never spread an endless generator, because it never stops.",
+        "code": [
+          "function* odds() {",
+          "  for (let n = 1; ; n += 2) {",
+          "    yield n;",
+          "  }",
+          "}",
+          "const [a, b, c] = odds();",
+          "console.log(a, b, c);"
+        ],
+        "expectedOutput": "1 3 5"
+      },
+      "itemIds": [
+        "adv.iterators-and-generators.lazy-sequences.predict-01",
+        "adv.iterators-and-generators.lazy-sequences.concept-01",
+        "adv.iterators-and-generators.lazy-sequences.parsons-01",
+        "adv.iterators-and-generators.lazy-sequences.fix-01",
+        "adv.iterators-and-generators.lazy-sequences.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "adv.iterators-and-generators.iteration-protocol.predict-01",
+      "concept": "iteration-protocol",
+      "prerequisites": [
+        "array-iteration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "Array.from walks an iterable and collects what it yields. What does this program print?",
+      "code": [
+        "const parcel = 'K9-M';",
+        "const parts = Array.from(parcel);",
+        "console.log(parts.length, parts[1]);"
+      ],
+      "options": [
+        {
+          "text": "4 9",
+          "correct": true,
+          "feedback": "Right. A string is iterable and yields one character at a time, and every character stays a string."
+        },
+        {
+          "text": "1 undefined",
+          "correct": false,
+          "feedback": "That treats the string as one single value, so there is no second element. A string is iterable, so looping over it yields its characters one by one.",
+          "misconception": "strings-are-single-values"
+        },
+        {
+          "text": "Uncaught TypeError",
+          "correct": false,
+          "feedback": "Array.from does not need an array. Any iterable works, and a string is one, so nothing throws.",
+          "misconception": "only-arrays-iterate"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "4 9"
+      },
+      "explanation": "A string is iterable: its iterator hands out one character per step. Array.from collects every yielded value, so the array has four elements and parts[1] is the character 9, which stays a string.",
+      "hints": [
+        "Look at what Array.from receives on line 2.",
+        "A string is an iterable, so it has an iterator that yields values.",
+        "Count what the string's iterator yields for 'K9-M'; each yielded value becomes one element, and the second one is printed."
+      ],
+      "reference": {
+        "title": "Array.from()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:14"
+      ]
+    },
+    {
+      "id": "adv.iterators-and-generators.iteration-protocol.concept-01",
+      "concept": "iteration-protocol",
+      "prerequisites": [
+        "array-iteration"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "A program asks an array iterator for three results in a row. Which statement about those results is true?",
+      "code": [
+        "const box = ['lime', 'plum'];",
+        "const it = box[Symbol.iterator]();",
+        "const a = it.next();",
+        "const b = it.next();",
+        "const c = it.next();",
+        "console.log(a, b, c.done);"
+      ],
+      "options": [
+        {
+          "text": "Every result is an object with value and done; only the third one, past the last element, has done set to true.",
+          "correct": true,
+          "feedback": "Right. The third result is still an object, and done: true is how it tells you nothing is left."
+        },
+        {
+          "text": "The first two results are the elements themselves, and the third result is plain undefined.",
+          "correct": false,
+          "feedback": "The printed results are objects, not bare elements. Even the last one is an object: its done property reports the end.",
+          "misconception": "next-returns-raw-value"
+        },
+        {
+          "text": "done is true already on the second result, the one holding the last element.",
+          "correct": false,
+          "feedback": "The second result still has done: false. The flag turns true only on a result that has no element left to give.",
+          "misconception": "done-true-on-last-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "{value: 'lime', done: false} {value: 'plum', done: false} true"
+      },
+      "explanation": "Two elements exist, so a and b carry them with done: false. The third request finds none left, which c reports with done: true. That is why c.done prints true.",
+      "hints": [
+        "Compare the three results a, b and c.",
+        "Every call answers with a small object, not with a bare element.",
+        "Ask on which call the iterator runs out of elements."
+      ],
+      "reference": {
+        "title": "Iteration protocols",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.iteration-protocol.fill-01",
+      "concept": "iteration-protocol",
+      "prerequisites": [
+        "array-iteration"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blank so total adds up the seats left on every bus, including the bus with 0 seats.",
+      "code": [
+        "const seats = [4, 0, 2];",
+        "const it = seats[Symbol.iterator]();",
+        "let total = 0;",
+        "let s = it.next();",
+        "while (___) {",
+        "  total += s.value;",
+        "  s = it.next();",
+        "}",
+        "console.log(total);"
+      ],
+      "options": [
+        {
+          "text": "!s.done",
+          "correct": true,
+          "feedback": "Right. The loop continues while the iterator has not reported done."
+        },
+        {
+          "text": "s.done",
+          "correct": false,
+          "feedback": "done is false while values remain, so this loop never starts and total stays 0.",
+          "misconception": "done-true-means-more"
+        },
+        {
+          "text": "s.value",
+          "correct": false,
+          "feedback": "The value 0 is falsy, so the loop stops at the second bus. The total would be 4 instead of the sum of all three.",
+          "misconception": "done-true-means-more"
+        },
+        {
+          "text": "!s.value",
+          "correct": false,
+          "feedback": "The first value, 4, is truthy, so this condition is false at once and total stays 0."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "!s.done"
+          ]
+        ],
+        "expectedOutput": "6"
+      },
+      "explanation": "The end of an iterator is signalled by done, never by the value: 0 and undefined can be real values. Looping while !s.done adds every value and stops after the last.",
+      "hints": [
+        "Compare what each chip tests on line 5.",
+        "An iterator reports its end with the done property, not with the value.",
+        "Keep looping while done is false."
+      ],
+      "reference": {
+        "title": "Iteration protocols",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.iteration-protocol.fix-01",
+      "concept": "iteration-protocol",
+      "prerequisites": [
+        "array-iteration",
+        "object-properties"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The cafe program should print the price of tea, 3, but spreading the menu object throws. Tap the buggy line and pick the fix.",
+      "code": [
+        "const menu = { tea: 3, cake: 5 };",
+        "const prices = [...menu];",
+        "console.log(prices[0]);"
+      ],
+      "options": [
+        {
+          "text": "const prices = Object.values(menu);",
+          "correct": true,
+          "feedback": "Right. Object.values returns an array of the property values, and an array is iterable."
+        },
+        {
+          "text": "const prices = Object.keys(menu);",
+          "correct": false,
+          "feedback": "This gives the names, so prices[0] is the text tea. You need the values, not the keys.",
+          "misconception": "objects-are-iterable"
+        },
+        {
+          "text": "const prices = Array.from(menu);",
+          "correct": false,
+          "feedback": "A plain object has no iterator and no length, so Array.from gives an empty array and prices[0] is undefined.",
+          "misconception": "objects-are-iterable"
+        }
+      ],
+      "solution": {
+        "bugLine": 2,
+        "expectedOutput": "3"
+      },
+      "explanation": "A plain object is not iterable, so spreading it throws. Object.values builds an array of the values, which can be indexed. Object.keys would give names instead of prices.",
+      "hints": [
+        "Check which kind of value line 2 tries to spread.",
+        "Spread needs an iterable, and a plain object has no [Symbol.iterator].",
+        "Turn the object into an array of its values first."
+      ],
+      "reference": {
+        "title": "Spread syntax (...)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.iteration-protocol.write-01",
+      "concept": "iteration-protocol",
+      "prerequisites": [
+        "array-iteration"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of firstTwo(items). Read the iterator of items with next() and return up to two values in an array. A short list gives fewer values.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "firstTwo",
+          "params": [
+            "items"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                "a",
+                "b",
+                "c"
+              ]
+            ],
+            "expected": [
+              "a",
+              "b"
+            ]
+          },
+          {
+            "input": [
+              [
+                "a"
+              ]
+            ],
+            "expected": [
+              "a"
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                0,
+                0,
+                5
+              ]
+            ],
+            "expected": [
+              0,
+              0
+            ]
+          },
+          {
+            "input": [
+              [
+                "x",
+                "y"
+              ]
+            ],
+            "expected": [
+              "x",
+              "y"
+            ]
+          }
+        ],
+        "reference": [
+          "const it = items[Symbol.iterator]();",
+          "const out = [];",
+          "for (let n = 0; n < 2; n++) {",
+          "  const step = it.next();",
+          "  if (!step.done) {",
+          "    out.push(step.value);",
+          "  }",
+          "}",
+          "return out;"
+        ],
+        "wrongSolutions": [
+          [
+            "const it = items[Symbol.iterator]();",
+            "const a = it.next().value;",
+            "const b = it.next().value;",
+            "return [a, b];"
+          ],
+          [
+            "const it = items[Symbol.iterator]();",
+            "return [it.next().value];"
+          ],
+          [
+            "const it = items[Symbol.iterator]();",
+            "return [it.next(), it.next()];"
+          ]
+        ]
+      },
+      "explanation": "Call next() up to two times and keep step.value only while done is false. Ignoring done adds undefined for short lists; one call or the raw result objects give the wrong data.",
+      "hints": [
+        "Start with the iterator from items[Symbol.iterator]().",
+        "Each next() returns an object; only value belongs in the result.",
+        "Loop twice and push step.value only when step.done is false."
+      ],
+      "reference": {
+        "title": "Symbol.iterator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.custom-iterables.predict-01",
+      "concept": "custom-iterables",
+      "prerequisites": [
+        "iteration-protocol",
+        "class-basics"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A class defines [Symbol.iterator], and the program spreads one of its instances. How many values does it print?",
+      "code": [
+        "class Row {",
+        "  [Symbol.iterator]() {",
+        "    let seat = 0;",
+        "    return {",
+        "      next() {",
+        "        seat++;",
+        "        return { done: seat > 2 };",
+        "      },",
+        "    };",
+        "  }",
+        "}",
+        "console.log([...new Row()].length);"
+      ],
+      "options": [
+        {
+          "text": "2",
+          "correct": true,
+          "feedback": "Right. next() reports done on its third call, and the value that comes with done: true is not part of the spread."
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "The third call does return a result, but it has done: true. Spread stops there and does not keep that result.",
+          "misconception": "done-value-included"
+        },
+        {
+          "text": "Uncaught TypeError",
+          "correct": false,
+          "feedback": "Spread accepts any iterable, not only arrays. A class instance with a [Symbol.iterator] method qualifies.",
+          "misconception": "only-arrays-iterate"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "2"
+      },
+      "explanation": "Spread calls [Symbol.iterator] on the instance and then next() until done is true. The first two calls give done: false, so two values are collected. The third call ends the loop and adds nothing.",
+      "hints": [
+        "Follow seat through the calls to next().",
+        "Spread collects values until a call reports done: true.",
+        "Find the first call where seat is greater than 2; calls before it count."
+      ],
+      "reference": {
+        "title": "Iteration protocols",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.custom-iterables.concept-01",
+      "concept": "custom-iterables",
+      "prerequisites": [
+        "iteration-protocol"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "The track program spreads the same object twice and prints 3, then 0. Which statement explains this?",
+      "code": [
+        "let n = 0;",
+        "const laps = {",
+        "  [Symbol.iterator]: () => laps,",
+        "  next() {",
+        "    n++;",
+        "    const done = n > 3;",
+        "    return { done, value: n };",
+        "  },",
+        "};",
+        "console.log([...laps].length);",
+        "console.log([...laps].length);"
+      ],
+      "options": [
+        {
+          "text": "Both spreads receive the same iterator, so the second one starts where the first stopped and finds nothing.",
+          "correct": true,
+          "feedback": "Right. [Symbol.iterator] returns laps itself, so the counter n is shared and is already past the end."
+        },
+        {
+          "text": "Each spread starts a fresh count, so the second spread should report 3 as well.",
+          "correct": false,
+          "feedback": "A fresh count needs a new iterator object each time. Here the method returns the same object, so n keeps growing.",
+          "misconception": "iterator-always-fresh"
+        },
+        {
+          "text": "An object can be spread only once, so every later spread gives an empty array.",
+          "correct": false,
+          "feedback": "Iterables can be looped many times when each loop gets a new iterator. This one is used up because it hands back itself.",
+          "misconception": "iterable-loops-once"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "3\n0"
+      },
+      "explanation": "The iterable and the iterator are one object, and n lives outside both. After the first spread n is 4, so the second spread's first next() call already has done: true. Returning a new iterator each time avoids this.",
+      "hints": [
+        "Compare what [Symbol.iterator] returns with what it could return.",
+        "An iterator remembers its position; a shared iterator keeps it between loops.",
+        "Ask where n is when the second spread begins."
+      ],
+      "reference": {
+        "title": "Symbol.iterator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.custom-iterables.fill-01",
+      "concept": "custom-iterables",
+      "prerequisites": [
+        "iteration-protocol"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blank so the bell iterator finishes after exactly two values and the program prints 2.",
+      "code": [
+        "const bell = {",
+        "  [Symbol.iterator]() {",
+        "    let n = 0;",
+        "    return {",
+        "      next() {",
+        "        n++;",
+        "        return { done: n ___ 2 };",
+        "      },",
+        "    };",
+        "  },",
+        "};",
+        "console.log([...bell].length);"
+      ],
+      "options": [
+        {
+          "text": ">",
+          "correct": true,
+          "feedback": "Right. done turns true on the third call, after two calls with done: false."
+        },
+        {
+          "text": ">=",
+          "correct": false,
+          "feedback": "done turns true on the second call already, so only one value is counted and the program prints 1.",
+          "misconception": "done-true-on-last-value"
+        },
+        {
+          "text": "<",
+          "correct": false,
+          "feedback": "This reports done: true on the first call, because 1 is less than 2. Nothing is collected and the program prints 0.",
+          "misconception": "done-true-means-more"
+        },
+        {
+          "text": "!==",
+          "correct": false,
+          "feedback": "On the first call n is 1, which is not 2, so done is true at once and the program prints 0.",
+          "misconception": "done-true-means-more"
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            ">"
+          ]
+        ],
+        "expectedOutput": "2"
+      },
+      "explanation": "done must be false for the first two calls (n is 1 and 2) and true from the third (n is 3). Only n > 2 does that. A condition that is true too early cuts the values short.",
+      "hints": [
+        "Work out n on each call to next() and what done must be.",
+        "done: true means there is nothing more to give.",
+        "The condition must first become true when n is 3."
+      ],
+      "reference": {
+        "title": "Iteration protocols",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.custom-iterables.fix-01",
+      "concept": "custom-iterables",
+      "prerequisites": [
+        "iteration-protocol"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The bus object should print east, then west, but the for...of loop throws. Tap the buggy line and pick the fix.",
+      "code": [
+        "const stops = ['east', 'west'];",
+        "const bus = {",
+        "  iterator() {",
+        "    return stops[Symbol.iterator]();",
+        "  },",
+        "};",
+        "for (const stop of bus) {",
+        "  console.log(stop);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "[Symbol.iterator]() {",
+          "correct": true,
+          "feedback": "Right. A loop looks for a method under the key Symbol.iterator, so the method needs that exact key."
+        },
+        {
+          "text": "[Symbol.next]() {",
+          "correct": false,
+          "feedback": "Symbol has no property called next, so the key is wrong and the loop still cannot find an iterator method."
+        },
+        {
+          "text": "['iterator']() {",
+          "correct": false,
+          "feedback": "This is a method named with the text iterator, a plain string. Loops look for the symbol key, not a string."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "east\nwest"
+      },
+      "explanation": "for...of calls the method stored under the key Symbol.iterator. A method named iterator is only an ordinary property, so the object is not iterable. The computed key makes it the protocol method.",
+      "hints": [
+        "Compare the name of the method on line 3 with what a loop looks for.",
+        "Loops find the iterator method under a well-known symbol key.",
+        "Use a computed key built from Symbol and its iterator property."
+      ],
+      "reference": {
+        "title": "Symbol.iterator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.custom-iterables.write-01",
+      "concept": "custom-iterables",
+      "prerequisites": [
+        "iteration-protocol"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of collect(from, to). Build an iterable that counts from from up to and including to, then return its values in an array.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "collect",
+          "params": [
+            "from",
+            "to"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              1,
+              3
+            ],
+            "expected": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "input": [
+              2,
+              2
+            ],
+            "expected": [
+              2
+            ]
+          },
+          {
+            "input": [
+              5,
+              4
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              0,
+              2
+            ],
+            "expected": [
+              0,
+              1,
+              2
+            ]
+          },
+          {
+            "input": [
+              -1,
+              1
+            ],
+            "expected": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "reference": [
+          "let at = from;",
+          "const span = {",
+          "  [Symbol.iterator]() {",
+          "    return this;",
+          "  },",
+          "  next() {",
+          "    const done = at > to;",
+          "    return { done, value: at++ };",
+          "  },",
+          "};",
+          "return [...span];"
+        ],
+        "wrongSolutions": [
+          [
+            "let at = from;",
+            "const span = {",
+            "  [Symbol.iterator]() {",
+            "    return this;",
+            "  },",
+            "  next() {",
+            "    const done = at >= to;",
+            "    return { done, value: at++ };",
+            "  },",
+            "};",
+            "return [...span];"
+          ],
+          [
+            "let at = from;",
+            "const span = {",
+            "  [Symbol.iterator]() {",
+            "    return this;",
+            "  },",
+            "  next() {",
+            "    const done = at > to;",
+            "    return { done, value: ++at };",
+            "  },",
+            "};",
+            "return [...span];"
+          ],
+          [
+            "let at = from;",
+            "const span = {",
+            "  [Symbol.iterator]() {",
+            "    return this;",
+            "  },",
+            "  next() {",
+            "    const done = at <= to;",
+            "    return { done, value: at++ };",
+            "  },",
+            "};",
+            "return [...span];"
+          ]
+        ]
+      },
+      "explanation": "The object needs [Symbol.iterator] and a next() that reports done once at passes to, and otherwise returns the current number and moves on. Spreading the object then collects every value.",
+      "hints": [
+        "Give the object a [Symbol.iterator] method that returns the iterator.",
+        "next() returns { done, value }; value is the current number.",
+        "done becomes true as soon as the current number is greater than to."
+      ],
+      "reference": {
+        "title": "Iteration protocols",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.generator-functions.predict-01",
+      "concept": "generator-functions",
+      "prerequisites": [
+        "iteration-protocol"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A generator function logs a line before its first yield. In what order does this program print?",
+      "code": [
+        "function* hike() {",
+        "  console.log('boots on');",
+        "  yield 'ridge';",
+        "  console.log('lunch');",
+        "}",
+        "const walk = hike();",
+        "console.log('at gate');",
+        "console.log(walk.next().value);"
+      ],
+      "options": [
+        {
+          "text": "at gate\nboots on\nridge",
+          "correct": true,
+          "feedback": "Right. Calling hike() runs nothing. The body starts at next() and pauses at the first yield."
+        },
+        {
+          "text": "boots on\nat gate\nridge",
+          "correct": false,
+          "feedback": "Calling a generator function does not start its body. The body runs only when next() is called.",
+          "misconception": "generator-runs-on-call"
+        },
+        {
+          "text": "at gate\nboots on\nlunch\nridge",
+          "correct": false,
+          "feedback": "The body pauses at yield and stops there. lunch would print only if next() were called again.",
+          "misconception": "generator-runs-ahead"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "at gate\nboots on\nridge"
+      },
+      "explanation": "Calling a generator function only creates the generator. The first next() runs the body until yield, so boots on prints, then ridge is handed out. The generator pauses there, so lunch never prints.",
+      "hints": [
+        "Find the line where the body of hike first starts to run.",
+        "A generator pauses at each yield until next() is called again.",
+        "Line 6 runs nothing; the body starts at the next() call and ends at the yield."
+      ],
+      "reference": {
+        "title": "function*",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:23"
+      ]
+    },
+    {
+      "id": "adv.iterators-and-generators.generator-functions.concept-01",
+      "concept": "generator-functions",
+      "prerequisites": [
+        "iteration-protocol"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "The shift generator ends with a return. Which statement about that return value is true?",
+      "code": [
+        "function* shifts() {",
+        "  yield 'am';",
+        "  return 'closed';",
+        "}",
+        "const run = shifts();",
+        "run.next();",
+        "console.log(run.next());",
+        "console.log([...shifts()]);"
+      ],
+      "options": [
+        {
+          "text": "It arrives with done: true, so spread and for...of leave it out.",
+          "correct": true,
+          "feedback": "Right. The returned value ends the generator and is reported with done: true, which loops do not collect."
+        },
+        {
+          "text": "It is yielded like the others, so the spread is ['am', 'closed'].",
+          "correct": false,
+          "feedback": "Only yield hands a value to a loop. The value of return comes with done: true, and loops ignore that result.",
+          "misconception": "return-acts-as-yield"
+        },
+        {
+          "text": "The second next() returns the text closed on its own, not an object.",
+          "correct": false,
+          "feedback": "Every call to next() returns a result object, including the one that finishes the generator.",
+          "misconception": "next-returns-raw-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "{value: 'closed', done: true}\n['am']"
+      },
+      "explanation": "return finishes the generator. Its value is delivered once, in a result with done: true. Spread and for...of stop at done: true without collecting that value, so only yielded values appear.",
+      "hints": [
+        "Compare the two logged lines.",
+        "A result with done: true marks the end and is not collected by loops.",
+        "Check which of the two keywords is used for 'am' and which for 'closed'."
+      ],
+      "reference": {
+        "title": "Generator.prototype.next()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/next",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.generator-functions.fill-01",
+      "concept": "generator-functions",
+      "prerequisites": [
+        "iteration-protocol"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blank so the generator hands out each doubled number and the program prints three values.",
+      "code": [
+        "function* doubled(max) {",
+        "  for (let n = 1; n <= max; n++) {",
+        "    ___ n * 2;",
+        "  }",
+        "}",
+        "console.log([...doubled(3)]);"
+      ],
+      "options": [
+        {
+          "text": "yield",
+          "correct": true,
+          "feedback": "Right. yield hands out one doubled value and pauses; the loop continues on the next request."
+        },
+        {
+          "text": "return",
+          "correct": false,
+          "feedback": "return ends the generator at the first number, so only one value comes out and the loop never continues.",
+          "misconception": "return-acts-as-yield"
+        },
+        {
+          "text": "yield*",
+          "correct": false,
+          "feedback": "yield* delegates to another iterable. A number is not iterable, so this throws."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "yield"
+          ]
+        ],
+        "expectedOutput": "[2, 4, 6]"
+      },
+      "explanation": "yield hands a value out and pauses the generator, so the loop can keep going on later requests. return would end the generator at once, and yield* needs an iterable after it.",
+      "hints": [
+        "Look at what the loop body must do on every pass.",
+        "One keyword gives a value out and lets the generator continue later.",
+        "The keyword is the one that pauses the generator instead of ending it."
+      ],
+      "reference": {
+        "title": "yield",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:28"
+      ]
+    },
+    {
+      "id": "adv.iterators-and-generators.generator-functions.fix-01",
+      "concept": "generator-functions",
+      "prerequisites": [
+        "iteration-protocol"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The pager should print p1, p2 and p3, but the loop throws. Tap the buggy line and pick the fix.",
+      "code": [
+        "function* pages(total) {",
+        "  for (let p = 1; p <= total; p++) {",
+        "    yield 'p' + p;",
+        "  }",
+        "}",
+        "for (const label of pages) {",
+        "  console.log(label);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "for (const label of pages(3)) {",
+          "correct": true,
+          "feedback": "Right. Calling the generator function with 3 gives a generator object, and that object is iterable."
+        },
+        {
+          "text": "for (const label of pages()) {",
+          "correct": false,
+          "feedback": "This calls the function, but total is undefined, so the loop condition is false at once and nothing prints."
+        },
+        {
+          "text": "for (const label in pages(3)) {",
+          "correct": false,
+          "feedback": "for...in walks property names of an object. A generator object has none to list, so nothing prints."
+        }
+      ],
+      "solution": {
+        "bugLine": 6,
+        "expectedOutput": "p1\np2\np3"
+      },
+      "explanation": "pages is the generator function, which is not iterable. Calling it creates a generator object, which is. The argument sets total, and for...of takes each yielded value in turn.",
+      "hints": [
+        "Compare what line 6 loops over with what pages returns.",
+        "A generator function must be called to produce an iterable generator.",
+        "Call pages and give it the number of pages to produce."
+      ],
+      "reference": {
+        "title": "for...of",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.generator-functions.write-01",
+      "concept": "generator-functions",
+      "prerequisites": [
+        "iteration-protocol"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of everyOther(items). Define a generator that yields every second element, starting with the first, and return its values in an array.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "everyOther",
+          "params": [
+            "items"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                "a",
+                "b",
+                "c",
+                "d",
+                "e"
+              ]
+            ],
+            "expected": [
+              "a",
+              "c",
+              "e"
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                "x"
+              ]
+            ],
+            "expected": [
+              "x"
+            ]
+          },
+          {
+            "input": [
+              [
+                1,
+                2,
+                3,
+                4
+              ]
+            ],
+            "expected": [
+              1,
+              3
+            ]
+          },
+          {
+            "input": [
+              [
+                7,
+                8
+              ]
+            ],
+            "expected": [
+              7
+            ]
+          }
+        ],
+        "reference": [
+          "const n = items.length;",
+          "function* pick() {",
+          "  for (let i = 0; i < n; i += 2) {",
+          "    yield items[i];",
+          "  }",
+          "}",
+          "return [...pick()];"
+        ],
+        "wrongSolutions": [
+          [
+            "const n = items.length;",
+            "function* pick() {",
+            "  for (let i = 1; i < n; i += 2) {",
+            "    yield items[i];",
+            "  }",
+            "}",
+            "return [...pick()];"
+          ],
+          [
+            "const n = items.length;",
+            "function* pick() {",
+            "  for (let i = 0; i < n; i += 2) {",
+            "    yield i;",
+            "  }",
+            "}",
+            "return [...pick()];"
+          ],
+          [
+            "const n = items.length;",
+            "function* pick() {",
+            "  for (let i = 0; i < n; i += 2) {",
+            "    return items[i];",
+            "  }",
+            "}",
+            "return [...pick()];"
+          ]
+        ]
+      },
+      "explanation": "A function* with a loop that steps two indexes at a time yields items[i] for each position. Spreading the generator collects the values. Yielding i, starting at 1 or using return gives wrong data.",
+      "hints": [
+        "Write a function* inside the body and spread it at the end.",
+        "Loop with i += 2 and hand out items[i] with yield.",
+        "Start i at 0, stop at the length, and spread the generator."
+      ],
+      "reference": {
+        "title": "Generator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.lazy-sequences.predict-01",
+      "concept": "lazy-sequences",
+      "prerequisites": [
+        "generator-functions"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A generator hands out library card numbers without end. What does this program print?",
+      "code": [
+        "function* cards(id) {",
+        "  while (true) yield id++;",
+        "}",
+        "const desk = cards(100);",
+        "desk.next();",
+        "desk.next();",
+        "console.log(desk.next().value);"
+      ],
+      "options": [
+        {
+          "text": "102",
+          "correct": true,
+          "feedback": "Right. The three calls to next() give 100, 101 and 102, and the last one is printed."
+        },
+        {
+          "text": "100",
+          "correct": false,
+          "feedback": "That treats every call to next() as a restart at 100. The generator keeps its place between calls.",
+          "misconception": "each-next-restarts"
+        },
+        {
+          "text": "The program never finishes",
+          "correct": false,
+          "feedback": "The loop is endless, but the generator runs only until the next yield for each next() call, then pauses.",
+          "misconception": "infinite-generator-hangs"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "102"
+      },
+      "explanation": "The endless loop is safe because the generator pauses at each yield. The first two next() calls give 100 and 101 and are discarded. The third call gives 102, which is printed.",
+      "hints": [
+        "Count how many times next() is called.",
+        "A generator continues from where it paused, not from the top.",
+        "Write down the value of each of the three calls; only the last is printed."
+      ],
+      "reference": {
+        "title": "Generator.prototype.next()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/next",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.lazy-sequences.concept-01",
+      "concept": "lazy-sequences",
+      "prerequisites": [
+        "generator-functions"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "The tile generator logs a line before each yield and the program asks for one value. Which statement is true?",
+      "code": [
+        "function* tiles(n) {",
+        "  while (true) {",
+        "    console.log('cut ' + n);",
+        "    yield n++;",
+        "  }",
+        "}",
+        "const stack = tiles(1);",
+        "console.log(stack.next().value);"
+      ],
+      "options": [
+        {
+          "text": "Only one tile is made, because the generator runs just up to the next yield.",
+          "correct": true,
+          "feedback": "Right. Values are produced on request, so an endless generator costs nothing until you ask."
+        },
+        {
+          "text": "The endless loop starts on the first call and the program never prints the value.",
+          "correct": false,
+          "feedback": "An endless loop is fine when it pauses at each yield. The generator hands the value out and waits.",
+          "misconception": "infinite-generator-hangs"
+        },
+        {
+          "text": "The generator makes a batch of tiles first, so cut 1, cut 2 and cut 3 print before the value.",
+          "correct": false,
+          "feedback": "Nothing is made ahead of time. Each next() runs the body only as far as the next yield.",
+          "misconception": "generator-runs-ahead"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "cut 1\n1"
+      },
+      "explanation": "A generator is lazy: each next() runs the body only up to the next yield. Here one call prints cut 1 and hands out 1, then the generator waits. The endless loop never gets to run on its own.",
+      "hints": [
+        "Look at where the generator pauses inside the loop.",
+        "Lazy means work happens only when a value is requested.",
+        "Count the calls to next(); each call goes around the loop once."
+      ],
+      "reference": {
+        "title": "Iterators and generators",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.lazy-sequences.parsons-01",
+      "concept": "lazy-sequences",
+      "prerequisites": [
+        "generator-functions"
+      ],
+      "format": "PARSONS",
+      "difficulty": 4,
+      "prompt": "Arrange the lines so the program prints 9. The ladder generator multiplies the rung by 3 before it yields.",
+      "code": [
+        "  while (true) yield rung *= 3;",
+        "const climb = ladder(1);",
+        "console.log(climb.next().value);",
+        "const ladder = function* (rung) {",
+        "climb.next();",
+        "};"
+      ],
+      "solution": {
+        "lineOrder": [
+          3,
+          0,
+          5,
+          1,
+          4,
+          2
+        ],
+        "expectedOutput": "9"
+      },
+      "explanation": "The generator must be defined, started with ladder(), advanced once with next(), and read with a second next(). The first yield gives 3 and the second gives 9, so printing the second value gives 9.",
+      "hints": [
+        "Decide which lines define the generator and which use it.",
+        "A generator object must exist before next() is called on it.",
+        "Call next() once without printing, then print the value of the second call."
+      ],
+      "reference": {
+        "title": "Generator.prototype.next()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/next",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.lazy-sequences.fix-01",
+      "concept": "lazy-sequences",
+      "prerequisites": [
+        "generator-functions",
+        "spread-and-rest"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The ticket program should print 2 twice, but it prints 2 and then 0. Tap the buggy line and pick the fix.",
+      "code": [
+        "function* tickets() {",
+        "  yield 'A1';",
+        "  yield 'A2';",
+        "}",
+        "const line = tickets();",
+        "console.log([...line].length);",
+        "console.log([...line].length);"
+      ],
+      "options": [
+        {
+          "text": "console.log([...tickets()].length);",
+          "correct": true,
+          "feedback": "Right. A new generator object starts from the top, so it yields both tickets again."
+        },
+        {
+          "text": "console.log(line.length);",
+          "correct": false,
+          "feedback": "A generator object has no length property, so this prints undefined."
+        },
+        {
+          "text": "console.log(line.next().done);",
+          "correct": false,
+          "feedback": "line is already used up, so this prints true instead of a count."
+        }
+      ],
+      "solution": {
+        "bugLine": 7,
+        "expectedOutput": "2\n2"
+      },
+      "explanation": "A generator object can be consumed once. The first spread runs it to the end, so the second spread finds nothing. Calling tickets() again creates a fresh generator that starts from the top.",
+      "hints": [
+        "Compare what lines 6 and 7 spread.",
+        "A generator object is used up after it has been run to the end.",
+        "Start a new generator for the second count."
+      ],
+      "reference": {
+        "title": "Generator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.iterators-and-generators.lazy-sequences.write-01",
+      "concept": "lazy-sequences",
+      "prerequisites": [
+        "generator-functions",
+        "spread-and-rest"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 5,
+      "prompt": "Write the body of multiples(step, count). An endless generator yields step, 2*step, 3*step and so on. Take the first count values with next() and return them in an array.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "multiples",
+          "params": [
+            "step",
+            "count"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              3,
+              4
+            ],
+            "expected": [
+              3,
+              6,
+              9,
+              12
+            ]
+          },
+          {
+            "input": [
+              5,
+              1
+            ],
+            "expected": [
+              5
+            ]
+          },
+          {
+            "input": [
+              2,
+              0
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              7,
+              3
+            ],
+            "expected": [
+              7,
+              14,
+              21
+            ]
+          },
+          {
+            "input": [
+              10,
+              2
+            ],
+            "expected": [
+              10,
+              20
+            ]
+          }
+        ],
+        "reference": [
+          "function* every() {",
+          "  for (let m = step; ; m += step) {",
+          "    yield m;",
+          "  }",
+          "}",
+          "const seq = every();",
+          "const out = [];",
+          "for (let i = 0; i < count; i++) {",
+          "  out.push(seq.next().value);",
+          "}",
+          "return out;"
+        ],
+        "wrongSolutions": [
+          [
+            "function* every() {",
+            "  for (let m = step; ; m += step) {",
+            "    yield m;",
+            "  }",
+            "}",
+            "const out = [];",
+            "for (let i = 0; i < count; i++) {",
+            "  out.push(every().next().value);",
+            "}",
+            "return out;"
+          ],
+          [
+            "function* every() {",
+            "  for (let m = step; ; m += step) {",
+            "    yield m;",
+            "  }",
+            "}",
+            "const seq = every();",
+            "const out = [];",
+            "for (let i = 0; i <= count; i++) {",
+            "  out.push(seq.next().value);",
+            "}",
+            "return out;"
+          ],
+          [
+            "function* every() {",
+            "  for (let m = step; ; m += step) {",
+            "    yield m;",
+            "  }",
+            "}",
+            "const seq = every();",
+            "const out = [];",
+            "for (let i = 0; i < count; i++) {",
+            "  out.push(seq.next());",
+            "}",
+            "return out;"
+          ]
+        ]
+      },
+      "explanation": "Create one generator and call next() on that same object count times, pushing .value each time. A new generator per call restarts at step; <= takes one too many; without .value you collect result objects.",
+      "hints": [
+        "Define an endless generator, create it once, and loop count times.",
+        "Each next() continues the same generator; keep only its value.",
+        "Call next() on one generator object, and push its value into the array."
+      ],
+      "reference": {
+        "title": "Generator.prototype.next()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/next",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

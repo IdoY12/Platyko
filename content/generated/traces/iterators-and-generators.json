@@ -1,0 +1,5606 @@
+{
+ "unit": "iterators-and-generators",
+ "items": {
+  "adv.iterators-and-generators.iteration-protocol.predict-01": {
+   "code": [
+    "const parcel = 'K9-M';",
+    "const parts = Array.from(parcel);",
+    "console.log(parts.length, parts[1]);"
+   ],
+   "output": [
+    "4 9"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "parcel",
+       "scope": "global",
+       "value": "'K9-M'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "parcel",
+       "scope": "global",
+       "value": "'K9-M'"
+      },
+      {
+       "name": "parts",
+       "scope": "global",
+       "value": "['K', '9', '-', 'M']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "parcel",
+       "scope": "global",
+       "value": "'K9-M'"
+      },
+      {
+       "name": "parts",
+       "scope": "global",
+       "value": "['K', '9', '-', 'M']"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.iteration-protocol.concept-01": {
+   "code": [
+    "const box = ['lime', 'plum'];",
+    "const it = box[Symbol.iterator]();",
+    "const a = it.next();",
+    "const b = it.next();",
+    "const c = it.next();",
+    "console.log(a, b, c.done);"
+   ],
+   "output": [
+    "{value: 'lime', done: false} {value: 'plum', done: false} true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "box",
+       "scope": "global",
+       "value": "['lime', 'plum']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "box",
+       "scope": "global",
+       "value": "['lime', 'plum']"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "box",
+       "scope": "global",
+       "value": "['lime', 'plum']"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "{value: 'lime', done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "box",
+       "scope": "global",
+       "value": "['lime', 'plum']"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "{value: 'lime', done: false}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "{value: 'plum', done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "box",
+       "scope": "global",
+       "value": "['lime', 'plum']"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "{value: 'lime', done: false}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "{value: 'plum', done: false}"
+      },
+      {
+       "name": "c",
+       "scope": "global",
+       "value": "{value: undefined, done: true}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "box",
+       "scope": "global",
+       "value": "['lime', 'plum']"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "{value: 'lime', done: false}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "{value: 'plum', done: false}"
+      },
+      {
+       "name": "c",
+       "scope": "global",
+       "value": "{value: undefined, done: true}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.iteration-protocol.fill-01": {
+   "code": [
+    "const seats = [4, 0, 2];",
+    "const it = seats[Symbol.iterator]();",
+    "let total = 0;",
+    "let s = it.next();",
+    "while (!s.done) {",
+    "  total += s.value;",
+    "  s = it.next();",
+    "}",
+    "console.log(total);"
+   ],
+   "output": [
+    "6"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "{value: 4, done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "{value: 4, done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "{value: 4, done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "{value: 0, done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "{value: 0, done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "{value: 0, done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "{value: 2, done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "{value: 2, done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "6"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "{value: 2, done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "6"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "{value: undefined, done: true}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "6"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "{value: undefined, done: true}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "[4, 0, 2]"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "6"
+      },
+      {
+       "name": "s",
+       "scope": "global",
+       "value": "{value: undefined, done: true}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.iteration-protocol.fix-01": {
+   "code": [
+    "const menu = { tea: 3, cake: 5 };",
+    "const prices = Object.values(menu);",
+    "console.log(prices[0]);"
+   ],
+   "output": [
+    "3"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "menu",
+       "scope": "global",
+       "value": "{tea: 3, cake: 5}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "menu",
+       "scope": "global",
+       "value": "{tea: 3, cake: 5}"
+      },
+      {
+       "name": "prices",
+       "scope": "global",
+       "value": "[3, 5]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "menu",
+       "scope": "global",
+       "value": "{tea: 3, cake: 5}"
+      },
+      {
+       "name": "prices",
+       "scope": "global",
+       "value": "[3, 5]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.iteration-protocol.write-01": {
+   "code": [
+    "function firstTwo(items) {",
+    "const it = items[Symbol.iterator]();",
+    "const out = [];",
+    "for (let n = 0; n < 2; n++) {",
+    "  const step = it.next();",
+    "  if (!step.done) {",
+    "    out.push(step.value);",
+    "  }",
+    "}",
+    "return out;",
+    "}",
+    "console.log(firstTwo([\"a\",\"b\",\"c\"]));"
+   ],
+   "output": [
+    "['a', 'b']"
+   ],
+   "steps": [
+    {
+     "line": 12,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "firstTwo",
+       "value": "['a', 'b', 'c']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firstTwo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "firstTwo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "it",
+       "scope": "firstTwo",
+       "value": "Iterator {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firstTwo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "firstTwo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "it",
+       "scope": "firstTwo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "firstTwo",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firstTwo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "firstTwo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "it",
+       "scope": "firstTwo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "firstTwo",
+       "value": "[]"
+      },
+      {
+       "name": "n",
+       "scope": "firstTwo",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firstTwo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "firstTwo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "it",
+       "scope": "firstTwo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "firstTwo",
+       "value": "[]"
+      },
+      {
+       "name": "n",
+       "scope": "firstTwo",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firstTwo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "firstTwo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "it",
+       "scope": "firstTwo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "firstTwo",
+       "value": "[]"
+      },
+      {
+       "name": "n",
+       "scope": "firstTwo",
+       "value": "0"
+      },
+      {
+       "name": "step",
+       "scope": "firstTwo",
+       "value": "{value: 'a', done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firstTwo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "firstTwo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "it",
+       "scope": "firstTwo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "firstTwo",
+       "value": "[]"
+      },
+      {
+       "name": "n",
+       "scope": "firstTwo",
+       "value": "0"
+      },
+      {
+       "name": "step",
+       "scope": "firstTwo",
+       "value": "{value: 'a', done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firstTwo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "firstTwo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "it",
+       "scope": "firstTwo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "firstTwo",
+       "value": "['a']"
+      },
+      {
+       "name": "n",
+       "scope": "firstTwo",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firstTwo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "firstTwo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "it",
+       "scope": "firstTwo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "firstTwo",
+       "value": "['a']"
+      },
+      {
+       "name": "n",
+       "scope": "firstTwo",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firstTwo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "firstTwo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "it",
+       "scope": "firstTwo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "firstTwo",
+       "value": "['a']"
+      },
+      {
+       "name": "n",
+       "scope": "firstTwo",
+       "value": "1"
+      },
+      {
+       "name": "step",
+       "scope": "firstTwo",
+       "value": "{value: 'b', done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firstTwo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "firstTwo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "it",
+       "scope": "firstTwo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "firstTwo",
+       "value": "['a']"
+      },
+      {
+       "name": "n",
+       "scope": "firstTwo",
+       "value": "1"
+      },
+      {
+       "name": "step",
+       "scope": "firstTwo",
+       "value": "{value: 'b', done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firstTwo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "firstTwo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "it",
+       "scope": "firstTwo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "firstTwo",
+       "value": "['a', 'b']"
+      },
+      {
+       "name": "n",
+       "scope": "firstTwo",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firstTwo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "firstTwo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "it",
+       "scope": "firstTwo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "firstTwo",
+       "value": "['a', 'b']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firstTwo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.custom-iterables.predict-01": {
+   "code": [
+    "class Row {",
+    "  [Symbol.iterator]() {",
+    "    let seat = 0;",
+    "    return {",
+    "      next() {",
+    "        seat++;",
+    "        return { done: seat > 2 };",
+    "      },",
+    "    };",
+    "  }",
+    "}",
+    "console.log([...new Row()].length);"
+   ],
+   "output": [
+    "2"
+   ],
+   "steps": [
+    {
+     "line": 12,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "seat",
+       "scope": "anonymous",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "seat",
+       "scope": "anonymous",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "seat",
+       "scope": "anonymous",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "seat",
+       "scope": "anonymous",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "seat",
+       "scope": "anonymous",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "seat",
+       "scope": "anonymous",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "seat",
+       "scope": "anonymous",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.custom-iterables.concept-01": {
+   "code": [
+    "let n = 0;",
+    "const laps = {",
+    "  [Symbol.iterator]: () => laps,",
+    "  next() {",
+    "    n++;",
+    "    const done = n > 3;",
+    "    return { done, value: n };",
+    "  },",
+    "};",
+    "console.log([...laps].length);",
+    "console.log([...laps].length);"
+   ],
+   "output": [
+    "3",
+    "0"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "done",
+       "scope": "next",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "done",
+       "scope": "next",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "done",
+       "scope": "next",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "done",
+       "scope": "next",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "done",
+       "scope": "next",
+       "value": "true"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.custom-iterables.fill-01": {
+   "code": [
+    "const bell = {",
+    "  [Symbol.iterator]() {",
+    "    let n = 0;",
+    "    return {",
+    "      next() {",
+    "        n++;",
+    "        return { done: n > 2 };",
+    "      },",
+    "    };",
+    "  },",
+    "};",
+    "console.log([...bell].length);"
+   ],
+   "output": [
+    "2"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 12,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.custom-iterables.fix-01": {
+   "code": [
+    "const stops = ['east', 'west'];",
+    "const bus = {",
+    "  [Symbol.iterator]() {",
+    "    return stops[Symbol.iterator]();",
+    "  },",
+    "};",
+    "for (const stop of bus) {",
+    "  console.log(stop);",
+    "}"
+   ],
+   "output": [
+    "east",
+    "west"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "stops",
+       "scope": "global",
+       "value": "['east', 'west']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "stops",
+       "scope": "global",
+       "value": "['east', 'west']"
+      },
+      {
+       "name": "bus",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "stops",
+       "scope": "global",
+       "value": "['east', 'west']"
+      },
+      {
+       "name": "bus",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "stops",
+       "scope": "global",
+       "value": "['east', 'west']"
+      },
+      {
+       "name": "bus",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "stop",
+       "scope": "global",
+       "value": "'east'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "stops",
+       "scope": "global",
+       "value": "['east', 'west']"
+      },
+      {
+       "name": "bus",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "stop",
+       "scope": "global",
+       "value": "'east'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "stops",
+       "scope": "global",
+       "value": "['east', 'west']"
+      },
+      {
+       "name": "bus",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "stop",
+       "scope": "global",
+       "value": "'west'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "stops",
+       "scope": "global",
+       "value": "['east', 'west']"
+      },
+      {
+       "name": "bus",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "stop",
+       "scope": "global",
+       "value": "'west'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "stops",
+       "scope": "global",
+       "value": "['east', 'west']"
+      },
+      {
+       "name": "bus",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.custom-iterables.write-01": {
+   "code": [
+    "function collect(from, to) {",
+    "let at = from;",
+    "const span = {",
+    "  [Symbol.iterator]() {",
+    "    return this;",
+    "  },",
+    "  next() {",
+    "    const done = at > to;",
+    "    return { done, value: at++ };",
+    "  },",
+    "};",
+    "return [...span];",
+    "}",
+    "console.log(collect(1, 3));"
+   ],
+   "output": [
+    "[1, 2, 3]"
+   ],
+   "steps": [
+    {
+     "line": 14,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "from",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "to",
+       "scope": "collect",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collect"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "from",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "to",
+       "scope": "collect",
+       "value": "3"
+      },
+      {
+       "name": "at",
+       "scope": "collect",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collect"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 12,
+     "variables": [
+      {
+       "name": "from",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "to",
+       "scope": "collect",
+       "value": "3"
+      },
+      {
+       "name": "at",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "span",
+       "scope": "collect",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collect"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "from",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "to",
+       "scope": "collect",
+       "value": "3"
+      },
+      {
+       "name": "at",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "span",
+       "scope": "collect",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collect",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "from",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "to",
+       "scope": "collect",
+       "value": "3"
+      },
+      {
+       "name": "at",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "span",
+       "scope": "collect",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collect",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "from",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "to",
+       "scope": "collect",
+       "value": "3"
+      },
+      {
+       "name": "at",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "span",
+       "scope": "collect",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "done",
+       "scope": "next",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collect",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "from",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "to",
+       "scope": "collect",
+       "value": "3"
+      },
+      {
+       "name": "at",
+       "scope": "collect",
+       "value": "2"
+      },
+      {
+       "name": "span",
+       "scope": "collect",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collect",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "from",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "to",
+       "scope": "collect",
+       "value": "3"
+      },
+      {
+       "name": "at",
+       "scope": "collect",
+       "value": "2"
+      },
+      {
+       "name": "span",
+       "scope": "collect",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "done",
+       "scope": "next",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collect",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "from",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "to",
+       "scope": "collect",
+       "value": "3"
+      },
+      {
+       "name": "at",
+       "scope": "collect",
+       "value": "3"
+      },
+      {
+       "name": "span",
+       "scope": "collect",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collect",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "from",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "to",
+       "scope": "collect",
+       "value": "3"
+      },
+      {
+       "name": "at",
+       "scope": "collect",
+       "value": "3"
+      },
+      {
+       "name": "span",
+       "scope": "collect",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "done",
+       "scope": "next",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collect",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "from",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "to",
+       "scope": "collect",
+       "value": "3"
+      },
+      {
+       "name": "at",
+       "scope": "collect",
+       "value": "4"
+      },
+      {
+       "name": "span",
+       "scope": "collect",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collect",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "from",
+       "scope": "collect",
+       "value": "1"
+      },
+      {
+       "name": "to",
+       "scope": "collect",
+       "value": "3"
+      },
+      {
+       "name": "at",
+       "scope": "collect",
+       "value": "4"
+      },
+      {
+       "name": "span",
+       "scope": "collect",
+       "value": "{next: [Function: next], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      },
+      {
+       "name": "done",
+       "scope": "next",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "collect",
+      "next"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.generator-functions.predict-01": {
+   "code": [
+    "function* hike() {",
+    "  console.log('boots on');",
+    "  yield 'ridge';",
+    "  console.log('lunch');",
+    "}",
+    "const walk = hike();",
+    "console.log('at gate');",
+    "console.log(walk.next().value);"
+   ],
+   "output": [
+    "at gate",
+    "boots on",
+    "ridge"
+   ],
+   "steps": [
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "walk",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "walk",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "walk",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "hike"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "walk",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "hike"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "walk",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.generator-functions.concept-01": {
+   "code": [
+    "function* shifts() {",
+    "  yield 'am';",
+    "  return 'closed';",
+    "}",
+    "const run = shifts();",
+    "run.next();",
+    "console.log(run.next());",
+    "console.log([...shifts()]);"
+   ],
+   "output": [
+    "{value: 'closed', done: true}",
+    "['am']"
+   ],
+   "steps": [
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "shifts"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "shifts"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "shifts"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "shifts"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.generator-functions.fill-01": {
+   "code": [
+    "function* doubled(max) {",
+    "  for (let n = 1; n <= max; n++) {",
+    "    yield n * 2;",
+    "  }",
+    "}",
+    "console.log([...doubled(3)]);"
+   ],
+   "output": [
+    "[2, 4, 6]"
+   ],
+   "steps": [
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "max",
+       "scope": "doubled",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "doubled"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "max",
+       "scope": "doubled",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "doubled",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "doubled"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "max",
+       "scope": "doubled",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "doubled",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "doubled"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "max",
+       "scope": "doubled",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "doubled",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "doubled"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "max",
+       "scope": "doubled",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "doubled",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "doubled"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "max",
+       "scope": "doubled",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "doubled",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "doubled"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "max",
+       "scope": "doubled",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "doubled",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "doubled"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "max",
+       "scope": "doubled",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "doubled",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "doubled"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.generator-functions.fix-01": {
+   "code": [
+    "function* pages(total) {",
+    "  for (let p = 1; p <= total; p++) {",
+    "    yield 'p' + p;",
+    "  }",
+    "}",
+    "for (const label of pages(3)) {",
+    "  console.log(label);",
+    "}"
+   ],
+   "output": [
+    "p1",
+    "p2",
+    "p3"
+   ],
+   "steps": [
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "pages",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "pages"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "pages",
+       "value": "3"
+      },
+      {
+       "name": "p",
+       "scope": "pages",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "pages"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "pages",
+       "value": "3"
+      },
+      {
+       "name": "p",
+       "scope": "pages",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "pages"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "label",
+       "scope": "global",
+       "value": "'p1'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "label",
+       "scope": "global",
+       "value": "'p1'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "pages",
+       "value": "3"
+      },
+      {
+       "name": "p",
+       "scope": "pages",
+       "value": "2"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "pages"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "pages",
+       "value": "3"
+      },
+      {
+       "name": "p",
+       "scope": "pages",
+       "value": "2"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "pages"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "label",
+       "scope": "global",
+       "value": "'p2'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "label",
+       "scope": "global",
+       "value": "'p2'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "pages",
+       "value": "3"
+      },
+      {
+       "name": "p",
+       "scope": "pages",
+       "value": "3"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "pages"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "pages",
+       "value": "3"
+      },
+      {
+       "name": "p",
+       "scope": "pages",
+       "value": "3"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "pages"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "label",
+       "scope": "global",
+       "value": "'p3'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "label",
+       "scope": "global",
+       "value": "'p3'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "pages",
+       "value": "3"
+      },
+      {
+       "name": "p",
+       "scope": "pages",
+       "value": "4"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [
+      "global",
+      "pages"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.generator-functions.write-01": {
+   "code": [
+    "function everyOther(items) {",
+    "const n = items.length;",
+    "function* pick() {",
+    "  for (let i = 0; i < n; i += 2) {",
+    "    yield items[i];",
+    "  }",
+    "}",
+    "return [...pick()];",
+    "}",
+    "console.log(everyOther([\"a\",\"b\",\"c\",\"d\",\"e\"]));"
+   ],
+   "output": [
+    "['a', 'c', 'e']"
+   ],
+   "steps": [
+    {
+     "line": 10,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "everyOther",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "everyOther"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "everyOther",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "n",
+       "scope": "everyOther",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "everyOther"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "everyOther",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "n",
+       "scope": "everyOther",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "everyOther",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "everyOther",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "n",
+       "scope": "everyOther",
+       "value": "5"
+      },
+      {
+       "name": "i",
+       "scope": "pick",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "everyOther",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "everyOther",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "n",
+       "scope": "everyOther",
+       "value": "5"
+      },
+      {
+       "name": "i",
+       "scope": "pick",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "everyOther",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "everyOther",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "n",
+       "scope": "everyOther",
+       "value": "5"
+      },
+      {
+       "name": "i",
+       "scope": "pick",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "everyOther",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "everyOther",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "n",
+       "scope": "everyOther",
+       "value": "5"
+      },
+      {
+       "name": "i",
+       "scope": "pick",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "everyOther",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "everyOther",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "n",
+       "scope": "everyOther",
+       "value": "5"
+      },
+      {
+       "name": "i",
+       "scope": "pick",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "everyOther",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "everyOther",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "n",
+       "scope": "everyOther",
+       "value": "5"
+      },
+      {
+       "name": "i",
+       "scope": "pick",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "everyOther",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "everyOther",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "n",
+       "scope": "everyOther",
+       "value": "5"
+      },
+      {
+       "name": "i",
+       "scope": "pick",
+       "value": "6"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "everyOther",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.lazy-sequences.predict-01": {
+   "code": [
+    "function* cards(id) {",
+    "  while (true) yield id++;",
+    "}",
+    "const desk = cards(100);",
+    "desk.next();",
+    "desk.next();",
+    "console.log(desk.next().value);"
+   ],
+   "output": [
+    "102"
+   ],
+   "steps": [
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "desk",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "desk",
+       "scope": "global",
+       "value": "{}"
+      },
+      {
+       "name": "id",
+       "scope": "cards",
+       "value": "100"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "cards"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "desk",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "desk",
+       "scope": "global",
+       "value": "{}"
+      },
+      {
+       "name": "id",
+       "scope": "cards",
+       "value": "101"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "cards"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "desk",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "desk",
+       "scope": "global",
+       "value": "{}"
+      },
+      {
+       "name": "id",
+       "scope": "cards",
+       "value": "102"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "cards"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "desk",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.lazy-sequences.concept-01": {
+   "code": [
+    "function* tiles(n) {",
+    "  while (true) {",
+    "    console.log('cut ' + n);",
+    "    yield n++;",
+    "  }",
+    "}",
+    "const stack = tiles(1);",
+    "console.log(stack.next().value);"
+   ],
+   "output": [
+    "cut 1",
+    "1"
+   ],
+   "steps": [
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "stack",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "stack",
+       "scope": "global",
+       "value": "{}"
+      },
+      {
+       "name": "n",
+       "scope": "tiles",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "tiles"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "stack",
+       "scope": "global",
+       "value": "{}"
+      },
+      {
+       "name": "n",
+       "scope": "tiles",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "tiles"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "stack",
+       "scope": "global",
+       "value": "{}"
+      },
+      {
+       "name": "n",
+       "scope": "tiles",
+       "value": "1"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "tiles"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "stack",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.lazy-sequences.parsons-01": {
+   "code": [
+    "const ladder = function* (rung) {",
+    "  while (true) yield rung *= 3;",
+    "};",
+    "const climb = ladder(1);",
+    "climb.next();",
+    "console.log(climb.next().value);"
+   ],
+   "output": [
+    "9"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "ladder",
+       "scope": "global",
+       "value": "[Function: ladder]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "ladder",
+       "scope": "global",
+       "value": "[Function: ladder]"
+      },
+      {
+       "name": "climb",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "ladder",
+       "scope": "global",
+       "value": "[Function: ladder]"
+      },
+      {
+       "name": "climb",
+       "scope": "global",
+       "value": "{}"
+      },
+      {
+       "name": "rung",
+       "scope": "ladder",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "ladder"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "ladder",
+       "scope": "global",
+       "value": "[Function: ladder]"
+      },
+      {
+       "name": "climb",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "ladder",
+       "scope": "global",
+       "value": "[Function: ladder]"
+      },
+      {
+       "name": "climb",
+       "scope": "global",
+       "value": "{}"
+      },
+      {
+       "name": "rung",
+       "scope": "ladder",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "ladder"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "ladder",
+       "scope": "global",
+       "value": "[Function: ladder]"
+      },
+      {
+       "name": "climb",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.lazy-sequences.fix-01": {
+   "code": [
+    "function* tickets() {",
+    "  yield 'A1';",
+    "  yield 'A2';",
+    "}",
+    "const line = tickets();",
+    "console.log([...line].length);",
+    "console.log([...tickets()].length);"
+   ],
+   "output": [
+    "2",
+    "2"
+   ],
+   "steps": [
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "line",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "line",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "tickets"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "line",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "tickets"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "line",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "line",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "tickets"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "line",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "tickets"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "line",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.iterators-and-generators.lazy-sequences.write-01": {
+   "code": [
+    "function multiples(step, count) {",
+    "function* every() {",
+    "  for (let m = step; ; m += step) {",
+    "    yield m;",
+    "  }",
+    "}",
+    "const seq = every();",
+    "const out = [];",
+    "for (let i = 0; i < count; i++) {",
+    "  out.push(seq.next().value);",
+    "}",
+    "return out;",
+    "}",
+    "console.log(multiples(3, 4));"
+   ],
+   "output": [
+    "[3, 6, 9, 12]"
+   ],
+   "steps": [
+    {
+     "line": 14,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples",
+      "every"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[]"
+      },
+      {
+       "name": "m",
+       "scope": "every",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples",
+      "every"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[3]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[3]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[3]"
+      },
+      {
+       "name": "m",
+       "scope": "every",
+       "value": "6"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples",
+      "every"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[3, 6]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[3, 6]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[3, 6]"
+      },
+      {
+       "name": "m",
+       "scope": "every",
+       "value": "9"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples",
+      "every"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[3, 6, 9]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[3, 6, 9]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[3, 6, 9]"
+      },
+      {
+       "name": "m",
+       "scope": "every",
+       "value": "12"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples",
+      "every"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[3, 6, 9, 12]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 12,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "4"
+      },
+      {
+       "name": "seq",
+       "scope": "multiples",
+       "value": "{}"
+      },
+      {
+       "name": "out",
+       "scope": "multiples",
+       "value": "[3, 6, 9, 12]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ },
+ "conceptCards": {
+  "iterators-and-generators.lesson-1": {
+   "code": [
+    "const fruit = ['fig', 'kiwi'];",
+    "const it = fruit[Symbol.iterator]();",
+    "const one = it.next();",
+    "console.log(one.value, one.done);",
+    "console.log(it.next().value);"
+   ],
+   "output": [
+    "fig false",
+    "kiwi"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "fruit",
+       "scope": "global",
+       "value": "['fig', 'kiwi']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "fruit",
+       "scope": "global",
+       "value": "['fig', 'kiwi']"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "fruit",
+       "scope": "global",
+       "value": "['fig', 'kiwi']"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "one",
+       "scope": "global",
+       "value": "{value: 'fig', done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "fruit",
+       "scope": "global",
+       "value": "['fig', 'kiwi']"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "one",
+       "scope": "global",
+       "value": "{value: 'fig', done: false}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "fruit",
+       "scope": "global",
+       "value": "['fig', 'kiwi']"
+      },
+      {
+       "name": "it",
+       "scope": "global",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "one",
+       "scope": "global",
+       "value": "{value: 'fig', done: false}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "iterators-and-generators.lesson-2": {
+   "code": [
+    "const pair = {",
+    "  [Symbol.iterator]() {",
+    "    return 'xy'[Symbol.iterator]();",
+    "  },",
+    "};",
+    "console.log([...pair]);"
+   ],
+   "output": [
+    "['x', 'y']"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "pair",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "pair",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "pair",
+       "scope": "global",
+       "value": "{[Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "iterators-and-generators.lesson-3": {
+   "code": [
+    "function* gate() {",
+    "  console.log('open');",
+    "  yield 'in';",
+    "  yield 'out';",
+    "}",
+    "const door = gate();",
+    "console.log(door.next().value);"
+   ],
+   "output": [
+    "open",
+    "in"
+   ],
+   "steps": [
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "door",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "door",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "gate"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "door",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "gate"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "door",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "iterators-and-generators.lesson-4": {
+   "code": [
+    "function* odds() {",
+    "  for (let n = 1; ; n += 2) {",
+    "    yield n;",
+    "  }",
+    "}",
+    "const [a, b, c] = odds();",
+    "console.log(a, b, c);"
+   ],
+   "output": [
+    "1 3 5"
+   ],
+   "steps": [
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "odds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "odds",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "odds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "n",
+       "scope": "odds",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "odds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "odds",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "odds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "c",
+       "scope": "global",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "c",
+       "scope": "global",
+       "value": "5"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ }
+}

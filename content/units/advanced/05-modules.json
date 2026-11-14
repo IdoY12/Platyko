@@ -1,0 +1,1711 @@
+{
+  "track": "ADVANCED",
+  "unit": "modules",
+  "order": 5,
+  "title": "Modules",
+  "summary": "Keep names private inside a module, export and import named and default values, share one evaluated module, and avoid reading across circular dependencies too early.",
+  "concepts": [
+    {
+      "id": "module-scope",
+      "title": "Module scope and encapsulation",
+      "prerequisites": [
+        "closure-private-state",
+        "block-scope"
+      ]
+    },
+    {
+      "id": "exports-and-imports",
+      "title": "Named and default exports",
+      "prerequisites": [
+        "module-scope",
+        "destructuring"
+      ]
+    },
+    {
+      "id": "module-singletons",
+      "title": "A module is evaluated once",
+      "prerequisites": [
+        "module-scope",
+        "reference-vs-value"
+      ]
+    },
+    {
+      "id": "dependency-direction",
+      "title": "Dependencies and circular imports",
+      "prerequisites": [
+        "exports-and-imports",
+        "hoisting"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "module-vars-global",
+      "description": "Believes a variable declared inside a module is visible to all other code."
+    },
+    {
+      "id": "unexported-accessible",
+      "description": "Believes names the module did not export can still be reached from outside."
+    },
+    {
+      "id": "snapshot-at-creation",
+      "description": "Believes a module exposes the values its variables had when it was built, so later changes are not seen."
+    },
+    {
+      "id": "inner-cannot-see-private",
+      "description": "Believes a function returned by a module cannot read the module's private variables."
+    },
+    {
+      "id": "rename-direction-reversed",
+      "description": "Believes that in { exported: local } the new name is on the left and the exported name on the right."
+    },
+    {
+      "id": "default-name-fixed",
+      "description": "Believes the importer must use the same name for a default export as the module used."
+    },
+    {
+      "id": "import-makes-copy",
+      "description": "Believes importing a module gives each importer its own copy of the exports."
+    },
+    {
+      "id": "module-reruns-per-import",
+      "description": "Believes the module body runs again for every part of the program that imports it."
+    },
+    {
+      "id": "lazy-runs-at-start",
+      "description": "Believes a lazily loaded module still runs at startup, and only its use is delayed."
+    },
+    {
+      "id": "lazy-runs-each-request",
+      "description": "Believes a lazily loaded module runs again on every request for it."
+    },
+    {
+      "id": "cycle-always-fails",
+      "description": "Believes two modules that depend on each other always fail."
+    },
+    {
+      "id": "cycle-values-ready",
+      "description": "Believes that in a cycle, or in a file, a name is usable before the line that creates it has run."
+    },
+    {
+      "id": "failed-read-stays-failed",
+      "description": "Believes a read that failed once will keep failing, even after the name has been created."
+    },
+    {
+      "id": "unready-reads-undefined",
+      "description": "Believes a name read too early gives undefined for any declaration, so a call fails differently than it does."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
+      "retrievedAt": "2026-11-14",
+      "sha256": "b2ffe36e7616d4d834c01bec9ca417a1063bd2678480fe17a8b9835a9c36febe"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export",
+      "retrievedAt": "2026-11-14",
+      "sha256": "aa5a93342a2bb8ea0718993930dc19dd04e3ec73347848aa013a4743fdca3ef9"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import",
+      "retrievedAt": "2026-11-14",
+      "sha256": "0513342108df668f347675fb329511896f2e7a8c4a4bef52d31df818a88f587c"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import",
+      "retrievedAt": "2026-11-14",
+      "sha256": "9df8111aa71c89cbcc3c669bd8f4de4ff1ae3569a0d41b436e1dbeaa50414080"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
+      "retrievedAt": "2026-11-14",
+      "sha256": "d0bb1e15cd9bc4a284b58a621c9d981a4667f1f5180dc58b975b8e23957a28ce"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/IIFE",
+      "retrievedAt": "2026-11-14",
+      "sha256": "633e81f68bb43bd9ce69120c9cb188843cd22711771623a4304002e4892c5abe"
+    },
+    {
+      "url": "https://tc39.es/ecma262/#sec-modules",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7c67049076faafb9f473c7e888e8f84cb6144e1187210f9c08e581155355ccc6"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "modules.lesson-1",
+      "title": "Module scope and encapsulation",
+      "conceptCard": {
+        "title": "A module keeps its names to itself",
+        "body": "A module is a file with its own scope. Names declared inside stay inside, and only what the module exports is visible outside. Before module files, code gave the same effect with a function that runs at once and returns an object of shared names. Everything else stays private.",
+        "code": [
+          "const jar = (() => {",
+          "  let coins = 5;",
+          "  return { count: () => coins };",
+          "})();",
+          "console.log(jar.count());",
+          "console.log(typeof coins);"
+        ],
+        "expectedOutput": "5\nundefined"
+      },
+      "itemIds": [
+        "adv.modules.module-scope.predict-01",
+        "adv.modules.module-scope.concept-01",
+        "adv.modules.module-scope.fill-01",
+        "adv.modules.module-scope.fix-01",
+        "adv.modules.module-scope.write-01"
+      ]
+    },
+    {
+      "id": "modules.lesson-2",
+      "title": "Named and default exports",
+      "conceptCard": {
+        "title": "Named and default exports",
+        "body": "A module can export several named values. Importers use those names, and may rename one on import. A module can also export one default value, which the importer names freely. In module-pattern code, the returned object lists the names and destructuring plays the importer.",
+        "code": [
+          "const maths = (() => {",
+          "  const double = (n) => n * 2;",
+          "  const half = (n) => n / 2;",
+          "  return { double, half };",
+          "})();",
+          "const { double: twice } = maths;",
+          "console.log(twice(4));"
+        ],
+        "expectedOutput": "8"
+      },
+      "itemIds": [
+        "adv.modules.exports-and-imports.predict-01",
+        "adv.modules.exports-and-imports.concept-01",
+        "adv.modules.exports-and-imports.parsons-01",
+        "adv.modules.exports-and-imports.fix-01",
+        "adv.modules.exports-and-imports.write-01"
+      ]
+    },
+    {
+      "id": "modules.lesson-3",
+      "title": "A module is evaluated once",
+      "conceptCard": {
+        "title": "One evaluation, many importers",
+        "body": "A module's code runs once, the first time it is needed. Every importer receives the same exports, so they share state. A module loaded lazily runs only when it is first requested. In module-pattern code, the function that runs at once stands for that single evaluation.",
+        "code": [
+          "const log = [];",
+          "const store = (() => {",
+          "  log.push('built');",
+          "  return { open: true };",
+          "})();",
+          "console.log(store.open, store.open);",
+          "console.log(log.length);"
+        ],
+        "expectedOutput": "true true\n1"
+      },
+      "itemIds": [
+        "adv.modules.module-singletons.predict-01",
+        "adv.modules.module-singletons.concept-01",
+        "adv.modules.module-singletons.fill-01",
+        "adv.modules.module-singletons.fix-01",
+        "adv.modules.module-singletons.write-01"
+      ]
+    },
+    {
+      "id": "modules.lesson-4",
+      "title": "Dependencies and circular imports",
+      "conceptCard": {
+        "title": "Dependencies and cycles",
+        "body": "A module that imports another needs it ready. In a cycle, A needs B and B needs A, so one of them starts before the other is finished. Reading a name too early fails. Reading it later, inside a function that runs after both are ready, works.",
+        "code": [
+          "const a = { peek: () => b.id };",
+          "const b = { id: 'B' };",
+          "console.log(a.peek());"
+        ],
+        "expectedOutput": "B"
+      },
+      "itemIds": [
+        "adv.modules.dependency-direction.predict-01",
+        "adv.modules.dependency-direction.concept-01",
+        "adv.modules.dependency-direction.parsons-01",
+        "adv.modules.dependency-direction.fix-01",
+        "adv.modules.dependency-direction.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "adv.modules.module-scope.predict-01",
+      "concept": "module-scope",
+      "prerequisites": [
+        "closure-private-state",
+        "block-scope"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "The bin module hides its pen count behind two methods. What does this code print?",
+      "code": [
+        "const bin = (() => {",
+        "  let pens = 2;",
+        "  return {",
+        "    add() { pens += 1; },",
+        "    count() { return pens; },",
+        "  };",
+        "})();",
+        "bin.add();",
+        "console.log(bin.count(), bin.pens);"
+      ],
+      "options": [
+        {
+          "text": "3 undefined",
+          "correct": true,
+          "feedback": "Right. add changes the private count, count reads the new value, and bin has no pens property."
+        },
+        {
+          "text": "3 3",
+          "correct": false,
+          "feedback": "pens is a variable inside the function, not a property of the returned object. Outside, bin.pens does not exist.",
+          "misconception": "module-vars-global"
+        },
+        {
+          "text": "2 undefined",
+          "correct": false,
+          "feedback": "count reads the variable when it is called, not when the module was built. By then add has changed it.",
+          "misconception": "snapshot-at-creation"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "3 undefined"
+      },
+      "explanation": "The module function runs once and keeps pens in its own scope. add and count both close over it, so count sees the update. Only add and count were returned, so bin.pens is undefined.",
+      "hints": [
+        "Look at what the returned object contains on lines 3 to 6.",
+        "Names declared inside the function are private. Only the returned properties are reachable.",
+        "One value comes from a method call after add. The other is a property read on bin."
+      ],
+      "reference": {
+        "title": "IIFE",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/IIFE",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.module-scope.concept-01",
+      "concept": "module-scope",
+      "prerequisites": [
+        "closure-private-state",
+        "block-scope"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Line 6 reads pin from outside the vault. Which statement about this module is true?",
+      "code": [
+        "const vault = (() => {",
+        "  const pin = 4821;",
+        "  return { open: (n) => n === pin };",
+        "})();",
+        "console.log(vault.open(4821));",
+        "console.log(typeof pin);"
+      ],
+      "options": [
+        {
+          "text": "Only the returned object leaves the module. pin stays private, yet open can still use it.",
+          "correct": true,
+          "feedback": "Right. open was created inside the module, so it keeps access to pin even though nothing outside can name it."
+        },
+        {
+          "text": "pin is visible everywhere, so typeof pin reports a number.",
+          "correct": false,
+          "feedback": "A const inside the function belongs to that function. Outside it, the name pin does not exist.",
+          "misconception": "module-vars-global"
+        },
+        {
+          "text": "open cannot read pin, because pin is not one of open's own variables.",
+          "correct": false,
+          "feedback": "A function can read the variables around the place where it was written. The output true shows open did read pin.",
+          "misconception": "inner-cannot-see-private"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\nundefined"
+      },
+      "explanation": "A module's own names live in its scope. The returned object is the only way out. open keeps access to pin by closure, while pin at the top level is not defined, so typeof says undefined.",
+      "hints": [
+        "Compare the two printed lines: one uses the returned function, one names code directly.",
+        "Scope decides who can name a variable. A closure keeps its surroundings even after the outer function ends.",
+        "Which name is returned, and which name is only used inside?"
+      ],
+      "reference": {
+        "title": "JavaScript modules",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.module-scope.fill-01",
+      "concept": "module-scope",
+      "prerequisites": [
+        "closure-private-state",
+        "block-scope"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blank so the program prints 9.",
+      "code": [
+        "const trails = (() => {",
+        "  const up = 6;",
+        "  const down = 3;",
+        "  const total = () => up + down;",
+        "  return { ___ };",
+        "})();",
+        "console.log(trails.total());"
+      ],
+      "options": [
+        {
+          "text": "total",
+          "correct": true,
+          "feedback": "Right. total is returned, so trails.total is a function that adds 6 and 3."
+        },
+        {
+          "text": "up",
+          "correct": false,
+          "feedback": "Returning a number gives trails an up property, not a total function, so the call fails."
+        },
+        {
+          "text": "down",
+          "correct": false,
+          "feedback": "Returning a number gives trails a down property, not a total function, so the call fails."
+        },
+        {
+          "text": "total()",
+          "correct": false,
+          "feedback": "This is not a valid property list for the returned object, so the program cannot run."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "total"
+          ]
+        ],
+        "expectedOutput": "9"
+      },
+      "explanation": "The last line calls trails.total, so the returned object must have a total property. Listing the function name in the braces exports it. The numbers stay private.",
+      "hints": [
+        "Look at the name used after trails on the last line.",
+        "The returned object lists what the module shares.",
+        "The shared name must match the function declared on line 4."
+      ],
+      "reference": {
+        "title": "export",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.module-scope.fix-01",
+      "concept": "module-scope",
+      "prerequisites": [
+        "closure-private-state",
+        "block-scope"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The museum gate should print 1 after one visitor enters, but it prints 0. Tap the buggy line and pick the fix.",
+      "code": [
+        "const gate = (() => {",
+        "  let seen = 0;",
+        "  return {",
+        "    enter: () => { seen += 1; },",
+        "    seen: seen,",
+        "  };",
+        "})();",
+        "gate.enter();",
+        "console.log(gate.seen);"
+      ],
+      "options": [
+        {
+          "text": "    get seen() { return seen; },",
+          "correct": true,
+          "feedback": "Right. A getter reads the private variable each time gate.seen is used."
+        },
+        {
+          "text": "    seen: () => seen,",
+          "correct": false,
+          "feedback": "Now gate.seen is a function, so the program prints the function instead of the count.",
+          "misconception": "snapshot-at-creation"
+        },
+        {
+          "text": "    seen: seen + 0,",
+          "correct": false,
+          "feedback": "This still copies 0 once, when the module is built, and never looks again.",
+          "misconception": "snapshot-at-creation"
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "1"
+      },
+      "explanation": "seen: seen copies the value 0 into a property while the module is being built. Later changes to the variable do not reach that copy. A getter runs on every read and returns the current value.",
+      "hints": [
+        "Look at when line 5 runs compared to line 8.",
+        "A property holds the value it got when the object was created.",
+        "Replace the property with something that runs each time it is read."
+      ],
+      "reference": {
+        "title": "getter",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.module-scope.write-01",
+      "concept": "module-scope",
+      "prerequisites": [
+        "closure-private-state",
+        "block-scope"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of lastTwo(readings). Inside, build a private list module with record and snapshot, record each reading, and return the snapshot. It keeps only the two newest readings.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "lastTwo",
+          "params": [
+            "readings"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                1,
+                2,
+                3
+              ]
+            ],
+            "expected": [
+              2,
+              3
+            ]
+          },
+          {
+            "input": [
+              [
+                4
+              ]
+            ],
+            "expected": [
+              4
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                5,
+                6
+              ]
+            ],
+            "expected": [
+              5,
+              6
+            ]
+          },
+          {
+            "input": [
+              [
+                7,
+                8,
+                9,
+                10
+              ]
+            ],
+            "expected": [
+              9,
+              10
+            ]
+          }
+        ],
+        "reference": [
+          "const recent = [];",
+          "const log = {",
+          "  record(x) {",
+          "    recent.push(x);",
+          "    if (recent.length > 2) {",
+          "      recent.shift();",
+          "    }",
+          "  },",
+          "  snapshot: () => recent.slice(),",
+          "};",
+          "readings.forEach(log.record);",
+          "return log.snapshot();"
+        ],
+        "wrongSolutions": [
+          [
+            "const recent = [];",
+            "for (const x of readings) {",
+            "  recent.push(x);",
+            "}",
+            "return recent.slice();"
+          ],
+          [
+            "const recent = [];",
+            "for (const x of readings) {",
+            "  recent.push(x);",
+            "  recent.shift();",
+            "}",
+            "return recent.slice();"
+          ],
+          [
+            "const recent = [];",
+            "for (const x of readings) {",
+            "  recent.push(x);",
+            "  if (recent.length > 1) {",
+            "    recent.shift();",
+            "  }",
+            "}",
+            "return recent.slice();"
+          ]
+        ]
+      },
+      "explanation": "Keep recent inside the function and expose only record and snapshot. record pushes, then drops the oldest reading when more than two remain. snapshot returns a copy, so callers cannot change the private list.",
+      "hints": [
+        "Test an empty list and a list shorter than two.",
+        "Trim only when the list has grown past two entries.",
+        "After each push, remove the first entry if recent.length is above 2."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.exports-and-imports.predict-01",
+      "concept": "exports-and-imports",
+      "prerequisites": [
+        "module-scope",
+        "destructuring"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "The bus module returns two functions and a program renames one while importing. What does this print?",
+      "code": [
+        "const bus = (() => {",
+        "  const stops = ['Mill', 'Dock'];",
+        "  const first = () => stops[0];",
+        "  const last = () => stops[1];",
+        "  return { first, last };",
+        "})();",
+        "const { first: head, last } = bus;",
+        "console.log(head(), last());",
+        "console.log(typeof stops);"
+      ],
+      "options": [
+        {
+          "text": "Mill Dock\nundefined",
+          "correct": true,
+          "feedback": "Right. head is first under a new name, last keeps its name, and stops was never returned."
+        },
+        {
+          "text": "Mill Dock\nobject",
+          "correct": false,
+          "feedback": "stops is private to the module. Importing first and last does not bring the list along.",
+          "misconception": "unexported-accessible"
+        },
+        {
+          "text": "Uncaught TypeError",
+          "correct": false,
+          "feedback": "In first: head the property name is on the left and the new name on the right. head is bound to first, so it is a function.",
+          "misconception": "rename-direction-reversed"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Mill Dock\nundefined"
+      },
+      "explanation": "In { first: head }, the module's property first is stored in a variable called head. last keeps its name. stops was not returned, so no name stops exists outside and typeof says undefined.",
+      "hints": [
+        "Look at line 7: which side of the colon is the exported name?",
+        "Destructuring takes the property on the left and names the variable on the right.",
+        "Both calls work. The last line asks about a name that was never shared."
+      ],
+      "reference": {
+        "title": "Destructuring",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.exports-and-imports.concept-01",
+      "concept": "exports-and-imports",
+      "prerequisites": [
+        "module-scope",
+        "destructuring"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "The module below hands out one function without a property name, like a default export. Which statement is true?",
+      "code": [
+        "const makeLabel = (() => {",
+        "  return (p) => 'Plant: ' + p;",
+        "})();",
+        "const tag = makeLabel;",
+        "console.log(tag('fern'));",
+        "console.log(tag === makeLabel);"
+      ],
+      "options": [
+        {
+          "text": "The importer may call the value by any name, because the module gave it no name of its own.",
+          "correct": true,
+          "feedback": "Right. A default value is just one value. Each importer picks the variable name it prefers."
+        },
+        {
+          "text": "The importer must keep the name makeLabel, as every named import must match.",
+          "correct": false,
+          "feedback": "Named imports must match the exported names. A single unnamed value is different: tag works the same as makeLabel.",
+          "misconception": "default-name-fixed"
+        },
+        {
+          "text": "tag holds a separate copy of the function, so the last line prints false.",
+          "correct": false,
+          "feedback": "Assigning a function to another name shares it. The last line prints true.",
+          "misconception": "import-makes-copy"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Plant: fern\ntrue"
+      },
+      "explanation": "A default export is one value, and the importing side chooses its name. Here tag and makeLabel are two names for the same function, so the comparison is true. Named exports are matched by name.",
+      "hints": [
+        "Look at what the last two lines print.",
+        "Named values are found by name. A single unnamed value is found by position, as the only one.",
+        "Which statement stays true even if tag were called anything else?"
+      ],
+      "reference": {
+        "title": "export",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.exports-and-imports.parsons-01",
+      "concept": "exports-and-imports",
+      "prerequisites": [
+        "module-scope",
+        "destructuring"
+      ],
+      "format": "PARSONS",
+      "difficulty": 3,
+      "prompt": "Order the lines so the harbour module is built, its boats are taken out under the name fleet, and the count is printed.",
+      "code": [
+        "console.log(fleet);",
+        "})();",
+        "const { boats: fleet } = dock;",
+        "  return { boats };",
+        "const dock = (() => {",
+        "  const boats = 3;"
+      ],
+      "solution": {
+        "lineOrder": [
+          4,
+          5,
+          3,
+          1,
+          2,
+          0
+        ],
+        "acceptedOrders": [
+          [
+            5,
+            4,
+            3,
+            1,
+            2,
+            0
+          ]
+        ],
+        "expectedOutput": "3"
+      },
+      "explanation": "boats must exist before the module returns it, and the module must be finished before its exports can be taken. Only after that can fleet be printed.",
+      "hints": [
+        "Which line opens the module?",
+        "A name has to be declared before a later line can return or read it.",
+        "The closing line of the module comes right after its return."
+      ],
+      "reference": {
+        "title": "import",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.exports-and-imports.fix-01",
+      "concept": "exports-and-imports",
+      "prerequisites": [
+        "module-scope",
+        "destructuring"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The program should print 1 and then ['rye'], but it stops with an error on the last line. Tap the buggy line and pick the fix.",
+      "code": [
+        "const bakery = (() => {",
+        "  const bag = ['rye'];",
+        "  const count = () => bag.length;",
+        "  const ids = () => bag.slice();",
+        "  return { count };",
+        "})();",
+        "const { count, ids } = bakery;",
+        "console.log(count());",
+        "console.log(ids());"
+      ],
+      "options": [
+        {
+          "text": "  return { count, ids };",
+          "correct": true,
+          "feedback": "Right. Both functions are now exported, so both imports find a value."
+        },
+        {
+          "text": "  return { count, bag };",
+          "correct": false,
+          "feedback": "This exports the data but still not ids, so ids is undefined and the call fails.",
+          "misconception": "unexported-accessible"
+        },
+        {
+          "text": "  return { ids };",
+          "correct": false,
+          "feedback": "This exports ids but now count is missing, so the first call fails.",
+          "misconception": "unexported-accessible"
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "1\n['rye']"
+      },
+      "explanation": "Destructuring only finds properties that the module returned. ids was declared inside but never listed in the returned object, so the import gave undefined and calling it threw a TypeError.",
+      "hints": [
+        "Compare the ids on line 7 with the ids on line 5.",
+        "An importer can only take what the module exported.",
+        "Add the missing function to the returned object and keep the one that already works."
+      ],
+      "reference": {
+        "title": "export",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.exports-and-imports.write-01",
+      "concept": "exports-and-imports",
+      "prerequisites": [
+        "module-scope",
+        "destructuring"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of pickNamed(pkg, names). pkg stands for a module's exports. Return a new object with only the listed names that pkg itself has.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "pickNamed",
+          "params": [
+            "pkg",
+            "names"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              {
+                "a": 1,
+                "b": 2
+              },
+              [
+                "a"
+              ]
+            ],
+            "expected": {
+              "a": 1
+            }
+          },
+          {
+            "input": [
+              {
+                "a": 1
+              },
+              [
+                "a",
+                "z"
+              ]
+            ],
+            "expected": {
+              "a": 1
+            }
+          },
+          {
+            "input": [
+              {
+                "a": 1
+              },
+              []
+            ],
+            "expected": {}
+          },
+          {
+            "input": [
+              {},
+              [
+                "a"
+              ]
+            ],
+            "expected": {}
+          },
+          {
+            "input": [
+              {
+                "a": 1
+              },
+              [
+                "toString"
+              ]
+            ],
+            "expected": {}
+          },
+          {
+            "input": [
+              {
+                "x": 5,
+                "y": 6
+              },
+              [
+                "y",
+                "x"
+              ]
+            ],
+            "expected": {
+              "y": 6,
+              "x": 5
+            }
+          }
+        ],
+        "reference": [
+          "const imported = {};",
+          "for (const name of names) {",
+          "  if (pkg.hasOwnProperty(name)) {",
+          "    imported[name] = pkg[name];",
+          "  }",
+          "}",
+          "return imported;"
+        ],
+        "wrongSolutions": [
+          [
+            "return pkg;"
+          ],
+          [
+            "const imported = {};",
+            "for (const name of names) {",
+            "  if (name in pkg) {",
+            "    imported[name] = pkg[name];",
+            "  }",
+            "}",
+            "return imported;"
+          ],
+          [
+            "const imported = {};",
+            "const name = names[0];",
+            "if (pkg.hasOwnProperty(name)) {",
+            "  imported[name] = pkg[name];",
+            "}",
+            "return imported;"
+          ]
+        ]
+      },
+      "explanation": "Loop over the requested names and copy a name only when pkg has it as its own property. A name missing from the module is skipped. hasOwnProperty ignores inherited names such as toString.",
+      "hints": [
+        "Test an empty request and a name that pkg does not have.",
+        "An import only works for names the module really exported.",
+        "Check each name with hasOwnProperty before copying it."
+      ],
+      "reference": {
+        "title": "Object.prototype.hasOwnProperty()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.module-singletons.predict-01",
+      "concept": "module-singletons",
+      "prerequisites": [
+        "module-scope",
+        "reference-vs-value"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "Two parts of a cafe app both use the rota module. What does this code print?",
+      "code": [
+        "let runs = 0;",
+        "const rota = (() => {",
+        "  runs += 1;",
+        "  return { week: 12 };",
+        "})();",
+        "const kitchen = rota;",
+        "const bar = rota;",
+        "console.log(runs, kitchen === bar);"
+      ],
+      "options": [
+        {
+          "text": "1 true",
+          "correct": true,
+          "feedback": "Right. The module body ran once. Both names point at the one object it returned."
+        },
+        {
+          "text": "2 true",
+          "correct": false,
+          "feedback": "Taking rota into another name does not run the module body again. The body ran once, when rota was built.",
+          "misconception": "module-reruns-per-import"
+        },
+        {
+          "text": "1 false",
+          "correct": false,
+          "feedback": "Both names hold the same object, not two copies, so the comparison is true.",
+          "misconception": "import-makes-copy"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "1 true"
+      },
+      "explanation": "The function on lines 2 to 5 runs one time and its result is stored in rota. kitchen and bar are two names for that one result. runs counts a single run, and the objects are identical.",
+      "hints": [
+        "Count how many times line 3 can run.",
+        "A module is evaluated once, and everyone shares what it returned.",
+        "Look at lines 6 and 7: do they call anything?"
+      ],
+      "reference": {
+        "title": "JavaScript modules",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.module-singletons.concept-01",
+      "concept": "module-singletons",
+      "prerequisites": [
+        "module-scope",
+        "reference-vs-value"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "getMap stands for a module that is loaded lazily. Which statement about the output is true?",
+      "code": [
+        "let map;",
+        "const getMap = () => {",
+        "  if (!map) {",
+        "    console.log('map ready');",
+        "    map = { zoom: 3 };",
+        "  }",
+        "  return map;",
+        "};",
+        "console.log('app start');",
+        "getMap();",
+        "getMap();"
+      ],
+      "options": [
+        {
+          "text": "The module body runs on the first request, after startup, and is not repeated for later requests.",
+          "correct": true,
+          "feedback": "Right. Lazy loading postpones the work until the module is first needed. Afterwards the stored result is reused."
+        },
+        {
+          "text": "The module body runs at startup as well, so map ready appears before app start.",
+          "correct": false,
+          "feedback": "A lazily loaded module is not evaluated until requested. Here map ready appears after app start.",
+          "misconception": "lazy-runs-at-start"
+        },
+        {
+          "text": "The module body runs on every request, so map ready appears twice.",
+          "correct": false,
+          "feedback": "The stored result makes the second request skip the body. The text appears only once.",
+          "misconception": "lazy-runs-each-request"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "app start\nmap ready"
+      },
+      "explanation": "Lazy loading defers a module until it is first needed. The first getMap call runs the body once and stores the result. The second call finds the stored map and returns it without running the body again.",
+      "hints": [
+        "Read the order of the printed lines against the order of the calls.",
+        "Lazy means later, at first use. A loaded module is kept, not rebuilt.",
+        "How many times can line 4 run when line 3 checks for a stored map?"
+      ],
+      "reference": {
+        "title": "Dynamic import()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:15"
+      ]
+    },
+    {
+      "id": "adv.modules.module-singletons.fill-01",
+      "concept": "module-singletons",
+      "prerequisites": [
+        "module-scope",
+        "reference-vs-value"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blank so the program prints 2.",
+      "code": [
+        "const lamp = (() => {",
+        "  let uses = 0;",
+        "  return { press: () => ++uses };",
+        "})();",
+        "const hallway = lamp;",
+        "const porch = ___;",
+        "hallway.press();",
+        "console.log(porch.press());"
+      ],
+      "options": [
+        {
+          "text": "lamp",
+          "correct": true,
+          "feedback": "Right. porch is the same module as hallway, so the second press makes the shared count 2."
+        },
+        {
+          "text": "hallway",
+          "correct": true,
+          "feedback": "Right. hallway is the same module as lamp, so the second press makes the shared count 2."
+        },
+        {
+          "text": "lamp.press()",
+          "correct": false,
+          "feedback": "This stores the number 1, not the module, so porch.press is not a function.",
+          "misconception": "import-makes-copy"
+        },
+        {
+          "text": "{}",
+          "correct": false,
+          "feedback": "A new empty object is not the module. It has no press, so the call fails.",
+          "misconception": "import-makes-copy"
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "lamp",
+            "hallway"
+          ]
+        ],
+        "expectedOutput": "2"
+      },
+      "explanation": "The module ran once, so lamp and hallway are the same object with one shared count. If porch is that object too, the first press makes 1 and the second makes 2.",
+      "hints": [
+        "Look at which call comes first and which comes last.",
+        "One module, one shared state: every name for it sees the same count.",
+        "porch must refer to the module itself, not to something else."
+      ],
+      "reference": {
+        "title": "JavaScript modules",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.module-singletons.fix-01",
+      "concept": "module-singletons",
+      "prerequisites": [
+        "module-scope",
+        "reference-vs-value"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "Both pages should show 2 tickets sold, but the second page shows 0. Tap the buggy line and pick the fix.",
+      "code": [
+        "const box = (() => ({ sold: 0 }))();",
+        "const pageA = box;",
+        "const pageB = { ...box };",
+        "pageA.sold += 2;",
+        "console.log(pageB.sold);"
+      ],
+      "options": [
+        {
+          "text": "const pageB = box;",
+          "correct": true,
+          "feedback": "Right. pageB is now the shared module object, so it sees the change made through pageA."
+        },
+        {
+          "text": "const pageB = { ...pageA };",
+          "correct": false,
+          "feedback": "Spreading still builds a new object with its own sold, copied while it was 0.",
+          "misconception": "import-makes-copy"
+        },
+        {
+          "text": "const pageB = { sold: box.sold };",
+          "correct": false,
+          "feedback": "This also builds a new object holding the old 0, which no later change reaches.",
+          "misconception": "import-makes-copy"
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "2"
+      },
+      "explanation": "Spread copies the properties into a brand new object. pageB then has its own sold of 0, and changes to the shared object no longer reach it. Using the module object itself keeps every page in sync.",
+      "hints": [
+        "Compare how line 2 and line 3 get their object.",
+        "Importing a module gives you the shared object, not a copy of it.",
+        "Make pageB use the same object as pageA, with no new braces."
+      ],
+      "reference": {
+        "title": "Destructuring",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.module-singletons.write-01",
+      "concept": "module-singletons",
+      "prerequisites": [
+        "module-scope",
+        "reference-vs-value"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of countRuns(names). Each name stands for a module request. A module's body runs only on its first request. Return how many bodies ran.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "countRuns",
+          "params": [
+            "names"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                "a",
+                "b",
+                "a"
+              ]
+            ],
+            "expected": 2
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              [
+                "x",
+                "x",
+                "x"
+              ]
+            ],
+            "expected": 1
+          },
+          {
+            "input": [
+              [
+                "a",
+                "b"
+              ]
+            ],
+            "expected": 2
+          },
+          {
+            "input": [
+              [
+                "toString"
+              ]
+            ],
+            "expected": 1
+          },
+          {
+            "input": [
+              [
+                "m",
+                "n",
+                "m",
+                "n"
+              ]
+            ],
+            "expected": 2
+          }
+        ],
+        "reference": [
+          "const done = {};",
+          "let runs = 0;",
+          "for (const name of names) {",
+          "  if (!done.hasOwnProperty(name)) {",
+          "    done[name] = true;",
+          "    runs += 1;",
+          "  }",
+          "}",
+          "return runs;"
+        ],
+        "wrongSolutions": [
+          [
+            "return names.length;"
+          ],
+          [
+            "const done = {};",
+            "let runs = 0;",
+            "for (const name of names) {",
+            "  if (!(name in done)) {",
+            "    done[name] = true;",
+            "    runs += 1;",
+            "  }",
+            "}",
+            "return runs;"
+          ],
+          [
+            "let runs = 0;",
+            "let previous;",
+            "for (const name of names) {",
+            "  if (name !== previous) {",
+            "    runs += 1;",
+            "  }",
+            "  previous = name;",
+            "}",
+            "return runs;"
+          ]
+        ]
+      },
+      "explanation": "Remember each name that has already run, for example as a key of an object. Count a run only when the name is not remembered yet. Use hasOwnProperty so that built-in names such as toString still count once.",
+      "hints": [
+        "Test a name that repeats, but not one after the other.",
+        "The module cache remembers what has already been evaluated.",
+        "Keep an object of names seen so far and add 1 only for a new name."
+      ],
+      "reference": {
+        "title": "Object.prototype.hasOwnProperty()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.dependency-direction.predict-01",
+      "concept": "dependency-direction",
+      "prerequisites": [
+        "exports-and-imports",
+        "hoisting"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "The gas module reads the jar module, which is declared later. What does this code print?",
+      "code": [
+        "const gas = { on: () => jar.id };",
+        "const read = () => {",
+        "  try { return gas.on(); }",
+        "  catch (e) { return e.name; }",
+        "};",
+        "console.log(read());",
+        "const jar = { id: 'J' };",
+        "console.log(read());"
+      ],
+      "options": [
+        {
+          "text": "ReferenceError\nJ",
+          "correct": true,
+          "feedback": "Right. The first call runs before jar is ready and fails. The second call runs after, and works."
+        },
+        {
+          "text": "J\nJ",
+          "correct": false,
+          "feedback": "Declaring stove first does not make jar available. At line 6 the line that creates jar has not run yet.",
+          "misconception": "cycle-values-ready"
+        },
+        {
+          "text": "ReferenceError\nReferenceError",
+          "correct": false,
+          "feedback": "Failure is not permanent. Once line 7 has run, jar exists and the same call succeeds.",
+          "misconception": "failed-read-stays-failed"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "ReferenceError\nJ"
+      },
+      "explanation": "A const cannot be read before its line has run. The first read of jar happens at line 6, too early, so it throws a ReferenceError that is caught. After line 7, the same read finds J.",
+      "hints": [
+        "Compare the line where jar is created with the line of the first call.",
+        "A name used before its declaration has run cannot be read yet.",
+        "The two calls are identical. What changed between them?"
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.dependency-direction.concept-01",
+      "concept": "dependency-direction",
+      "prerequisites": [
+        "exports-and-imports",
+        "hoisting"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "Two modules refer to each other. Which statement about this code is true?",
+      "code": [
+        "const odd = { other: () => even };",
+        "const even = { other: () => odd };",
+        "console.log(odd.other() === even);",
+        "console.log(even.other() === odd);"
+      ],
+      "options": [
+        {
+          "text": "A cycle is safe when each side uses the other only inside a function that runs after both exist.",
+          "correct": true,
+          "feedback": "Right. Both objects exist by line 3, so the functions can read each other."
+        },
+        {
+          "text": "Two modules that refer to each other always fail, whatever the code does.",
+          "correct": false,
+          "feedback": "The output shows a working cycle. Failure depends on when a name is read, not on the cycle.",
+          "misconception": "cycle-always-fails"
+        },
+        {
+          "text": "In a cycle, each module sees the other fully set up when its own code starts.",
+          "correct": false,
+          "feedback": "One module always starts first and cannot see the other yet. Here that does not matter because the read is delayed.",
+          "misconception": "cycle-values-ready"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\ntrue"
+      },
+      "explanation": "In a cycle one module must run before the other. That is harmless as long as the code only reads the other name later, from inside a function. The arrows here run after both objects exist.",
+      "hints": [
+        "Check what line 1 does with the name even when it runs.",
+        "Reading a name inside a function delays the read until the function is called.",
+        "Which statement stays true for these four lines and explains the output?"
+      ],
+      "reference": {
+        "title": "Hoisting",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Hoisting",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.dependency-direction.parsons-01",
+      "concept": "dependency-direction",
+      "prerequisites": [
+        "exports-and-imports",
+        "hoisting"
+      ],
+      "format": "PARSONS",
+      "difficulty": 4,
+      "prompt": "Order the lines so the fare module is ready before the leg and quote that use it, and the program prints 9.",
+      "code": [
+        "console.log(quote());",
+        "const leg = { cost: base.fare * 2 };",
+        "const quote = () => leg.cost + 1;",
+        "const base = { fare: 4 };"
+      ],
+      "solution": {
+        "lineOrder": [
+          3,
+          1,
+          2,
+          0
+        ],
+        "acceptedOrders": [
+          [
+            2,
+            3,
+            1,
+            0
+          ],
+          [
+            3,
+            2,
+            1,
+            0
+          ]
+        ],
+        "expectedOutput": "9"
+      },
+      "explanation": "leg reads base while it is built, so base must come first. quote only reads leg when it is called, so its line may sit anywhere before the call. The print comes last.",
+      "hints": [
+        "Which line reads another module at the moment it runs?",
+        "Dependencies go first. A function that reads later only needs to exist by its call.",
+        "base comes before leg, and the print comes last."
+      ],
+      "reference": {
+        "title": "Hoisting",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Hoisting",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.dependency-direction.fix-01",
+      "concept": "dependency-direction",
+      "prerequisites": [
+        "exports-and-imports",
+        "hoisting"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The taxi app should print 8, but it stops with an error on line 2. Tap the buggy line and pick the fix.",
+      "code": [
+        "const app = { run: () => fare(4) };",
+        "console.log(app.run());",
+        "const fare = (km) => km * 2;"
+      ],
+      "options": [
+        {
+          "text": "function fare(km) { return km * 2; }",
+          "correct": true,
+          "feedback": "Right. A function declaration is hoisted with its body, so it is ready before line 2 runs."
+        },
+        {
+          "text": "var fare = (km) => km * 2;",
+          "correct": false,
+          "feedback": "A var name exists early but holds undefined until its line runs, so the call fails.",
+          "misconception": "unready-reads-undefined"
+        },
+        {
+          "text": "let fare = (km) => km * 2;",
+          "correct": false,
+          "feedback": "let is not ready before its line either, so the call fails the same way.",
+          "misconception": "cycle-values-ready"
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "8"
+      },
+      "explanation": "A const arrow function is not ready until its line runs, and line 2 runs first. A function declaration is hoisted with its body, so run can call fare at any point in the file.",
+      "hints": [
+        "Compare the line where fare is used with the line where it is created.",
+        "Only function declarations are hoisted together with their body.",
+        "Keep the name and the body, but change how the function is declared."
+      ],
+      "reference": {
+        "title": "function declaration",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.modules.dependency-direction.write-01",
+      "concept": "dependency-direction",
+      "prerequisites": [
+        "exports-and-imports",
+        "hoisting"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of mutualDependency(deps, first, second). deps maps a module to the list it imports. Return true when each of the two modules imports the other, otherwise false.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "mutualDependency",
+          "params": [
+            "deps",
+            "first",
+            "second"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              {
+                "a": [
+                  "b"
+                ],
+                "b": [
+                  "a"
+                ]
+              },
+              "a",
+              "b"
+            ],
+            "expected": true
+          },
+          {
+            "input": [
+              {
+                "a": [
+                  "b"
+                ],
+                "b": []
+              },
+              "a",
+              "b"
+            ],
+            "expected": false
+          },
+          {
+            "input": [
+              {
+                "a": [
+                  "b"
+                ]
+              },
+              "a",
+              "b"
+            ],
+            "expected": false
+          },
+          {
+            "input": [
+              {
+                "a": [
+                  "c",
+                  "b"
+                ],
+                "b": [
+                  "a"
+                ],
+                "c": []
+              },
+              "a",
+              "b"
+            ],
+            "expected": true
+          },
+          {
+            "input": [
+              {
+                "a": [],
+                "b": [
+                  "a"
+                ]
+              },
+              "a",
+              "b"
+            ],
+            "expected": false
+          }
+        ],
+        "reference": [
+          "const a = deps[first] || [];",
+          "const b = deps[second] || [];",
+          "if (!a.includes(second)) {",
+          "  return false;",
+          "}",
+          "return b.includes(first);"
+        ],
+        "wrongSolutions": [
+          [
+            "const a = deps[first] || [];",
+            "return a.includes(second);"
+          ],
+          [
+            "const a = deps[first] || [];",
+            "const b = deps[second] || [];",
+            "if (a.includes(second)) {",
+            "  return true;",
+            "}",
+            "return b.includes(first);"
+          ],
+          [
+            "const a = deps[first];",
+            "const b = deps[second];",
+            "if (!a.includes(second)) {",
+            "  return false;",
+            "}",
+            "return b.includes(first);"
+          ]
+        ]
+      },
+      "explanation": "A cycle needs both directions. Read each module's import list, using an empty list for a module that is not listed, and require that first imports second and second imports first.",
+      "hints": [
+        "Test a module that is missing from deps and a one-way dependency.",
+        "A circular import needs an arrow in both directions.",
+        "Check one direction, return false when it fails, then return the other check."
+      ],
+      "reference": {
+        "title": "JavaScript modules",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

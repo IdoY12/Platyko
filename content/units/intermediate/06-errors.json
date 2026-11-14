@@ -723,11 +723,12 @@
       "prompt": "Which statement about this program is true?",
       "code": [
         "let basket;",
+        "const fruit = \"pear\";",
         "try {",
-        "  console.log(basket);",
+        "  console.log(basket, fruit);",
         "  console.log(crate);",
-        "} catch (e) {",
-        "  console.log(e.name);",
+        "} catch (problem) {",
+        "  console.log(problem.name);",
         "}"
       ],
       "options": [
@@ -750,11 +751,11 @@
         }
       ],
       "solution": {
-        "expectedOutput": "undefined\nReferenceError"
+        "expectedOutput": "undefined pear\nReferenceError"
       },
       "explanation": "A declared variable without a value reads as undefined and does not throw. A name that was never declared throws a ReferenceError when read.",
       "hints": [
-        "Compare line 1 with the names read on lines 3 and 4.",
+        "Compare line 1 with the names read on lines 4 and 5.",
         "One name exists, the other does not.",
         "Check which line prints undefined and which one throws."
       ],

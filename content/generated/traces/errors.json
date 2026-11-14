@@ -919,15 +919,16 @@
   "int.errors.error-types.concept-01": {
    "code": [
     "let basket;",
+    "const fruit = \"pear\";",
     "try {",
-    "  console.log(basket);",
+    "  console.log(basket, fruit);",
     "  console.log(crate);",
-    "} catch (e) {",
-    "  console.log(e.name);",
+    "} catch (problem) {",
+    "  console.log(problem.name);",
     "}"
    ],
    "output": [
-    "undefined",
+    "undefined pear",
     "ReferenceError"
    ],
    "steps": [
@@ -964,6 +965,11 @@
        "name": "basket",
        "scope": "global",
        "value": "undefined"
+      },
+      {
+       "name": "fruit",
+       "scope": "global",
+       "value": "'pear'"
       }
      ],
      "outputCount": 0,
@@ -980,6 +986,32 @@
        "name": "basket",
        "scope": "global",
        "value": "undefined"
+      },
+      {
+       "name": "fruit",
+       "scope": "global",
+       "value": "'pear'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "basket",
+       "scope": "global",
+       "value": "undefined"
+      },
+      {
+       "name": "fruit",
+       "scope": "global",
+       "value": "'pear'"
       }
      ],
      "outputCount": 1,
@@ -990,7 +1022,7 @@
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 7,
      "variables": [
       {
        "name": "basket",
@@ -998,7 +1030,12 @@
        "value": "undefined"
       },
       {
-       "name": "e",
+       "name": "fruit",
+       "scope": "global",
+       "value": "'pear'"
+      },
+      {
+       "name": "problem",
        "scope": "global",
        "value": "ReferenceError"
       }
@@ -1017,6 +1054,11 @@
        "name": "basket",
        "scope": "global",
        "value": "undefined"
+      },
+      {
+       "name": "fruit",
+       "scope": "global",
+       "value": "'pear'"
       }
      ],
      "outputCount": 2,
