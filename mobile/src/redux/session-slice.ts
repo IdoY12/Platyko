@@ -31,7 +31,14 @@ const sessionSlice = createSlice({
   name: "session",
   initialState,
   reducers: {
-    hydrateSession: (state, a: PayloadAction<Partial<SessionState>>) => void Object.assign(state, a.payload),
+    /**
+     * Restores what the snapshot stores, never this launch's progress flags: a snapshot read after
+     * the session check (a fast refresh keeps the store) must not undo it or hide a keychain problem.
+     */
+    hydrateSession: (state, a: PayloadAction<Partial<SessionState>>) => {
+      const { isAuthenticated, isGuest, accessToken, refreshToken, userId } = { ...state, ...a.payload };
+      Object.assign(state, { isAuthenticated, isGuest, accessToken, refreshToken, userId });
+    },
     setHasHydrated: (state, a: PayloadAction<boolean>) => void (state.hasHydrated = a.payload),
     setAuthChecked: (state, a: PayloadAction<boolean>) => void (state.authChecked = a.payload),
     signIn: (state, a: PayloadAction<SignInPayload>) => {
