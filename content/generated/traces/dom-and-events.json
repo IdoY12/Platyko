@@ -1,0 +1,4283 @@
+{
+ "unit": "dom-and-events",
+ "items": {
+  "int.dom-and-events.dom-tree-and-selection.predict-01": {
+   "code": [
+    "const trains = document",
+    "  .querySelectorAll('.train');",
+    "console.log(trains.length);",
+    "console.log(trains[1].textContent);",
+    "console.log(document",
+    "  .querySelector('.bus'));"
+   ],
+   "output": [
+    "3",
+    "Bergen",
+    "null"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "trains",
+       "scope": "global",
+       "value": "NodeList {'0': <li.train>, '1': <li.train.late>, '2': <li.train>}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "trains",
+       "scope": "global",
+       "value": "NodeList {'0': <li.train>, '1': <li.train.late>, '2': <li.train>}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "trains",
+       "scope": "global",
+       "value": "NodeList {'0': <li.train>, '1': <li.train.late>, '2': <li.train>}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "trains",
+       "scope": "global",
+       "value": "NodeList {'0': <li.train>, '1': <li.train.late>, '2': <li.train>}"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.dom-tree-and-selection.concept-01": {
+   "code": [
+    "const items = document",
+    "  .querySelectorAll('li');",
+    "console.log(items.length);",
+    "console.log(typeof items.map);",
+    "console.log(typeof items.forEach);"
+   ],
+   "output": [
+    "3",
+    "undefined",
+    "function"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "global",
+       "value": "NodeList {'0': <li.train>, '1': <li.train.late>, '2': <li.train>}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "global",
+       "value": "NodeList {'0': <li.train>, '1': <li.train.late>, '2': <li.train>}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "global",
+       "value": "NodeList {'0': <li.train>, '1': <li.train.late>, '2': <li.train>}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "global",
+       "value": "NodeList {'0': <li.train>, '1': <li.train.late>, '2': <li.train>}"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.dom-tree-and-selection.trace-01": {
+   "code": [
+    "let node = document",
+    "  .getElementById('trains')",
+    "  .firstElementChild;",
+    "let got = '';",
+    "while (node !== null) {",
+    "  got += node.textContent[0];",
+    "  node = node.nextElementSibling;",
+    "}",
+    "console.log(got);"
+   ],
+   "output": [
+    "OBN"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "node",
+       "scope": "global",
+       "value": "<li.train>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "node",
+       "scope": "global",
+       "value": "<li.train>"
+      },
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "''"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "node",
+       "scope": "global",
+       "value": "<li.train>"
+      },
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "''"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "node",
+       "scope": "global",
+       "value": "<li.train>"
+      },
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'O'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "node",
+       "scope": "global",
+       "value": "<li.train.late>"
+      },
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'O'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "node",
+       "scope": "global",
+       "value": "<li.train.late>"
+      },
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'O'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "node",
+       "scope": "global",
+       "value": "<li.train.late>"
+      },
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'OB'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "node",
+       "scope": "global",
+       "value": "<li.train>"
+      },
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'OB'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "node",
+       "scope": "global",
+       "value": "<li.train>"
+      },
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'OB'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "node",
+       "scope": "global",
+       "value": "<li.train>"
+      },
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'OBN'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "node",
+       "scope": "global",
+       "value": "null"
+      },
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'OBN'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "node",
+       "scope": "global",
+       "value": "null"
+      },
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'OBN'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "node",
+       "scope": "global",
+       "value": "null"
+      },
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'OBN'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.dom-tree-and-selection.fill-01": {
+   "code": [
+    "const trains = document",
+    "  .getElementById('trains');",
+    "const last = trains.lastElementChild;",
+    "console.log(last.textContent);"
+   ],
+   "output": [
+    "Narvik"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "trains",
+       "scope": "global",
+       "value": "<ul#trains>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "trains",
+       "scope": "global",
+       "value": "<ul#trains>"
+      },
+      {
+       "name": "last",
+       "scope": "global",
+       "value": "<li.train>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "trains",
+       "scope": "global",
+       "value": "<ul#trains>"
+      },
+      {
+       "name": "last",
+       "scope": "global",
+       "value": "<li.train>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.dom-tree-and-selection.parsons-01": {
+   "code": [
+    "const page = document.body;",
+    "const ul = page.querySelector('ul');",
+    "const second = ul.children[1];",
+    "console.log(second.textContent);"
+   ],
+   "output": [
+    "Bergen"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#trains>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#trains>"
+      },
+      {
+       "name": "second",
+       "scope": "global",
+       "value": "<li.train.late>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#trains>"
+      },
+      {
+       "name": "second",
+       "scope": "global",
+       "value": "<li.train.late>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.dom-tree-and-selection.fix-01": {
+   "code": [
+    "const trains = document",
+    "  .getElementById('trains');",
+    "const size = trains.children.length;",
+    "console.log(size);"
+   ],
+   "output": [
+    "3"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "trains",
+       "scope": "global",
+       "value": "<ul#trains>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "trains",
+       "scope": "global",
+       "value": "<ul#trains>"
+      },
+      {
+       "name": "size",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "trains",
+       "scope": "global",
+       "value": "<ul#trains>"
+      },
+      {
+       "name": "size",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.dom-updates.predict-01": {
+   "code": [
+    "const heading = document",
+    "  .getElementById('name');",
+    "heading.textContent = 'Soup 2';",
+    "heading.classList.add('big');",
+    "heading.classList.add('big');",
+    "console.log(heading.textContent);",
+    "console.log(heading.className);"
+   ],
+   "output": [
+    "Soup 2",
+    "big"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "heading",
+       "scope": "global",
+       "value": "<h2#name>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "heading",
+       "scope": "global",
+       "value": "<h2#name>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "heading",
+       "scope": "global",
+       "value": "<h2#name.big>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "heading",
+       "scope": "global",
+       "value": "<h2#name.big>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "heading",
+       "scope": "global",
+       "value": "<h2#name.big>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "heading",
+       "scope": "global",
+       "value": "<h2#name.big>"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.dom-updates.concept-01": {
+   "code": [
+    "const steps = document",
+    "  .getElementById('steps');",
+    "console.log(steps.children.length);",
+    "steps.textContent = 'No steps';",
+    "console.log(steps.children.length);",
+    "console.log(steps.textContent);"
+   ],
+   "output": [
+    "2",
+    "0",
+    "No steps"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "steps",
+       "scope": "global",
+       "value": "<ul#steps>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "steps",
+       "scope": "global",
+       "value": "<ul#steps>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "steps",
+       "scope": "global",
+       "value": "<ul#steps>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "steps",
+       "scope": "global",
+       "value": "<ul#steps>"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "steps",
+       "scope": "global",
+       "value": "<ul#steps>"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.dom-updates.trace-01": {
+   "code": [
+    "const step = document",
+    "  .querySelector('.step');",
+    "step.classList.toggle('done');",
+    "let seen = step.className;",
+    "step.classList.toggle('done');",
+    "step.classList.add('late');",
+    "seen = step.className;",
+    "console.log(seen);"
+   ],
+   "output": [
+    "step late"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "global",
+       "value": "<li.step>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "global",
+       "value": "<li.step.done>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "global",
+       "value": "<li.step.done>"
+      },
+      {
+       "name": "seen",
+       "scope": "global",
+       "value": "'step done'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "global",
+       "value": "<li.step>"
+      },
+      {
+       "name": "seen",
+       "scope": "global",
+       "value": "'step done'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "global",
+       "value": "<li.step.late>"
+      },
+      {
+       "name": "seen",
+       "scope": "global",
+       "value": "'step done'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "global",
+       "value": "<li.step.late>"
+      },
+      {
+       "name": "seen",
+       "scope": "global",
+       "value": "'step late'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "global",
+       "value": "<li.step.late>"
+      },
+      {
+       "name": "seen",
+       "scope": "global",
+       "value": "'step late'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.dom-updates.fill-01": {
+   "code": [
+    "const row = document.createElement('li');",
+    "row.textContent = 'Serve';",
+    "const steps = document",
+    "  .getElementById('steps');",
+    "steps.appendChild(row);",
+    "console.log(steps.children.length);"
+   ],
+   "output": [
+    "3"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "row",
+       "scope": "global",
+       "value": "<li>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "row",
+       "scope": "global",
+       "value": "<li>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "row",
+       "scope": "global",
+       "value": "<li>"
+      },
+      {
+       "name": "steps",
+       "scope": "global",
+       "value": "<ul#steps>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "row",
+       "scope": "global",
+       "value": "<li>"
+      },
+      {
+       "name": "steps",
+       "scope": "global",
+       "value": "<ul#steps>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "row",
+       "scope": "global",
+       "value": "<li>"
+      },
+      {
+       "name": "steps",
+       "scope": "global",
+       "value": "<ul#steps>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.dom-updates.parsons-01": {
+   "code": [
+    "const page = document.body;",
+    "const h2 = page.querySelector('h2');",
+    "h2.textContent = 'Stew';",
+    "h2.textContent += ' (3)';",
+    "h2.textContent += '!';",
+    "console.log(h2.textContent);"
+   ],
+   "output": [
+    "Stew (3)!"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "h2",
+       "scope": "global",
+       "value": "<h2#name>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "h2",
+       "scope": "global",
+       "value": "<h2#name>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "h2",
+       "scope": "global",
+       "value": "<h2#name>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "h2",
+       "scope": "global",
+       "value": "<h2#name>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "h2",
+       "scope": "global",
+       "value": "<h2#name>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.dom-updates.fix-01": {
+   "code": [
+    "const step = document",
+    "  .querySelector('.step');",
+    "step.classList.add('done');",
+    "console.log(step.classList",
+    "  .contains('done'));"
+   ],
+   "output": [
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "global",
+       "value": "<li.step>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "global",
+       "value": "<li.step.done>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "step",
+       "scope": "global",
+       "value": "<li.step.done>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.event-listeners.predict-01": {
+   "code": [
+    "const btn = document",
+    "  .getElementById('book');",
+    "function show() {",
+    "  console.log('btned');",
+    "}",
+    "btn.addEventListener('click', show);",
+    "console.log('ready');",
+    "btn.click();",
+    "btn.click();"
+   ],
+   "output": [
+    "ready",
+    "btned",
+    "btned"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "show"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "show"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.event-listeners.concept-01": {
+   "code": [
+    "const btn = document",
+    "  .getElementById('book');",
+    "const hi = () => console.log('hi');",
+    "btn.addEventListener('click', hi());",
+    "console.log('clicking');",
+    "btn.click();"
+   ],
+   "output": [
+    "hi",
+    "clicking"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "hi"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.event-listeners.trace-01": {
+   "code": [
+    "let order = '';",
+    "function one() { order += 'A'; }",
+    "function two() { order += 'B'; }",
+    "const btn = document",
+    "  .getElementById('book');",
+    "btn.addEventListener('click', two);",
+    "btn.addEventListener('click', one);",
+    "btn.click();",
+    "order += '|';",
+    "btn.click();",
+    "console.log(order);"
+   ],
+   "output": [
+    "BA|BA"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "order",
+       "scope": "global",
+       "value": "''"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "order",
+       "scope": "global",
+       "value": "''"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "order",
+       "scope": "global",
+       "value": "''"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "order",
+       "scope": "global",
+       "value": "''"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "order",
+       "scope": "global",
+       "value": "''"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "two"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "order",
+       "scope": "global",
+       "value": "'B'"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "one"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "order",
+       "scope": "global",
+       "value": "'BA'"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "order",
+       "scope": "global",
+       "value": "'BA|'"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "order",
+       "scope": "global",
+       "value": "'BA|'"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "two"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "order",
+       "scope": "global",
+       "value": "'BA|B'"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "one"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "order",
+       "scope": "global",
+       "value": "'BA|BA'"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "order",
+       "scope": "global",
+       "value": "'BA|BA'"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.event-listeners.fill-01": {
+   "code": [
+    "const btn = document",
+    "  .getElementById('cancel');",
+    "function bye() {",
+    "  console.log('cancelled');",
+    "}",
+    "btn.addEventListener('click', bye);",
+    "btn.click();"
+   ],
+   "output": [
+    "cancelled"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#cancel>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#cancel>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#cancel>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bye"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#cancel>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.event-listeners.parsons-01": {
+   "code": [
+    "const page = document.body;",
+    "const btn = page.children[0];",
+    "const more = () => btn.append('!');",
+    "btn.addEventListener('click', more);",
+    "btn.click();",
+    "btn.append('?');",
+    "console.log(btn.textContent);"
+   ],
+   "output": [
+    "Book!?"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      },
+      {
+       "name": "more",
+       "scope": "global",
+       "value": "[Function: more]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      },
+      {
+       "name": "more",
+       "scope": "global",
+       "value": "[Function: more]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      },
+      {
+       "name": "more",
+       "scope": "global",
+       "value": "[Function: more]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "more"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      },
+      {
+       "name": "more",
+       "scope": "global",
+       "value": "[Function: more]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      },
+      {
+       "name": "more",
+       "scope": "global",
+       "value": "[Function: more]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      },
+      {
+       "name": "more",
+       "scope": "global",
+       "value": "[Function: more]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.event-listeners.fix-01": {
+   "code": [
+    "const btn = document",
+    "  .getElementById('book');",
+    "function ok() {",
+    "  console.log('booked');",
+    "}",
+    "btn.addEventListener('click', ok);",
+    "btn.click();"
+   ],
+   "output": [
+    "booked"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "ok"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "btn",
+       "scope": "global",
+       "value": "<button#book>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.event-propagation.predict-01": {
+   "code": [
+    "const ul = document",
+    "  .getElementById('bikes');",
+    "const li = ul.firstElementChild;",
+    "const bt = li.firstElementChild;",
+    "function show(e) {",
+    "  console.log(e.currentTarget.id);",
+    "}",
+    "ul.addEventListener('click', show);",
+    "li.addEventListener('click', show);",
+    "bt.addEventListener('click', show);",
+    "bt.click();"
+   ],
+   "output": [
+    "rent-city",
+    "city",
+    "bikes"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "li",
+       "scope": "global",
+       "value": "<li#city.bike>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "li",
+       "scope": "global",
+       "value": "<li#city.bike>"
+      },
+      {
+       "name": "bt",
+       "scope": "global",
+       "value": "<button#rent-city.rent>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "li",
+       "scope": "global",
+       "value": "<li#city.bike>"
+      },
+      {
+       "name": "bt",
+       "scope": "global",
+       "value": "<button#rent-city.rent>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "li",
+       "scope": "global",
+       "value": "<li#city.bike>"
+      },
+      {
+       "name": "bt",
+       "scope": "global",
+       "value": "<button#rent-city.rent>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "li",
+       "scope": "global",
+       "value": "<li#city.bike>"
+      },
+      {
+       "name": "bt",
+       "scope": "global",
+       "value": "<button#rent-city.rent>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "li",
+       "scope": "global",
+       "value": "<li#city.bike>"
+      },
+      {
+       "name": "bt",
+       "scope": "global",
+       "value": "<button#rent-city.rent>"
+      },
+      {
+       "name": "e",
+       "scope": "show",
+       "value": "Event {type: 'click'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "show"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "li",
+       "scope": "global",
+       "value": "<li#city.bike>"
+      },
+      {
+       "name": "bt",
+       "scope": "global",
+       "value": "<button#rent-city.rent>"
+      },
+      {
+       "name": "e",
+       "scope": "show",
+       "value": "Event {type: 'click'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "show"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "li",
+       "scope": "global",
+       "value": "<li#city.bike>"
+      },
+      {
+       "name": "bt",
+       "scope": "global",
+       "value": "<button#rent-city.rent>"
+      },
+      {
+       "name": "e",
+       "scope": "show",
+       "value": "Event {type: 'click'}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "show"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "li",
+       "scope": "global",
+       "value": "<li#city.bike>"
+      },
+      {
+       "name": "bt",
+       "scope": "global",
+       "value": "<button#rent-city.rent>"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.event-propagation.concept-01": {
+   "code": [
+    "const ul = document",
+    "  .getElementById('bikes');",
+    "const hit = () => console.log('ok');",
+    "ul.addEventListener('click', hit);",
+    "const li = document",
+    "  .createElement('li');",
+    "ul.appendChild(li);",
+    "li.click();"
+   ],
+   "output": [
+    "ok"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "hit",
+       "scope": "global",
+       "value": "[Function: hit]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "hit",
+       "scope": "global",
+       "value": "[Function: hit]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "hit",
+       "scope": "global",
+       "value": "[Function: hit]"
+      },
+      {
+       "name": "li",
+       "scope": "global",
+       "value": "<li>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "hit",
+       "scope": "global",
+       "value": "[Function: hit]"
+      },
+      {
+       "name": "li",
+       "scope": "global",
+       "value": "<li>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "hit",
+       "scope": "global",
+       "value": "[Function: hit]"
+      },
+      {
+       "name": "li",
+       "scope": "global",
+       "value": "<li>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "hit"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "hit",
+       "scope": "global",
+       "value": "[Function: hit]"
+      },
+      {
+       "name": "li",
+       "scope": "global",
+       "value": "<li>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.event-propagation.trace-01": {
+   "code": [
+    "let got = '';",
+    "const ul = document",
+    "  .getElementById('bikes');",
+    "function pick(e) {",
+    "  got += e.target.closest('li').id;",
+    "}",
+    "ul.addEventListener('click', pick);",
+    "const bts = ul",
+    "  .querySelectorAll('button');",
+    "bts[1].click();",
+    "bts[0].click();",
+    "console.log(got);"
+   ],
+   "output": [
+    "roadcity"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "''"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "''"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "''"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "''"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "bts",
+       "scope": "global",
+       "value": "NodeList {'0': <button#rent-city.rent>, '1': <button#rent-road.rent>, '2': <button#rent-trail.rent>}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "''"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "bts",
+       "scope": "global",
+       "value": "NodeList {'0': <button#rent-city.rent>, '1': <button#rent-road.rent>, '2': <button#rent-trail.rent>}"
+      },
+      {
+       "name": "e",
+       "scope": "pick",
+       "value": "Event {type: 'click'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'road'"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "bts",
+       "scope": "global",
+       "value": "NodeList {'0': <button#rent-city.rent>, '1': <button#rent-road.rent>, '2': <button#rent-trail.rent>}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'road'"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "bts",
+       "scope": "global",
+       "value": "NodeList {'0': <button#rent-city.rent>, '1': <button#rent-road.rent>, '2': <button#rent-trail.rent>}"
+      },
+      {
+       "name": "e",
+       "scope": "pick",
+       "value": "Event {type: 'click'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 12,
+     "variables": [
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'roadcity'"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "bts",
+       "scope": "global",
+       "value": "NodeList {'0': <button#rent-city.rent>, '1': <button#rent-road.rent>, '2': <button#rent-trail.rent>}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "got",
+       "scope": "global",
+       "value": "'roadcity'"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "bts",
+       "scope": "global",
+       "value": "NodeList {'0': <button#rent-city.rent>, '1': <button#rent-road.rent>, '2': <button#rent-trail.rent>}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.event-propagation.fill-01": {
+   "code": [
+    "const ul = document",
+    "  .getElementById('bikes');",
+    "function pick(e) {",
+    "  if (e.target.matches('.rent')) {",
+    "    console.log('rented');",
+    "  }",
+    "}",
+    "ul.addEventListener('click', pick);",
+    "ul.firstElementChild.click();",
+    "ul.querySelector('button').click();",
+    "ul.lastElementChild.click();"
+   ],
+   "output": [
+    "rented"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "e",
+       "scope": "pick",
+       "value": "Event {type: 'click'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "e",
+       "scope": "pick",
+       "value": "Event {type: 'click'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "e",
+       "scope": "pick",
+       "value": "Event {type: 'click'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "e",
+       "scope": "pick",
+       "value": "Event {type: 'click'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.event-propagation.parsons-01": {
+   "code": [
+    "const page = document.body;",
+    "const ul = page.firstElementChild;",
+    "const del = e => e.target.remove();",
+    "ul.addEventListener('click', del);",
+    "ul.children[2].click();",
+    "ul.children[1].click();",
+    "console.log(ul.textContent);"
+   ],
+   "output": [
+    "CityRent"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "del",
+       "scope": "global",
+       "value": "[Function: del]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "del",
+       "scope": "global",
+       "value": "[Function: del]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "del",
+       "scope": "global",
+       "value": "[Function: del]"
+      },
+      {
+       "name": "e",
+       "scope": "del",
+       "value": "Event {type: 'click'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "del"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "del",
+       "scope": "global",
+       "value": "[Function: del]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "del",
+       "scope": "global",
+       "value": "[Function: del]"
+      },
+      {
+       "name": "e",
+       "scope": "del",
+       "value": "Event {type: 'click'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "del"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "del",
+       "scope": "global",
+       "value": "[Function: del]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "del",
+       "scope": "global",
+       "value": "[Function: del]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.dom-and-events.event-propagation.fix-01": {
+   "code": [
+    "const ul = document",
+    "  .getElementById('bikes');",
+    "function who(e) {",
+    "  console.log(e.currentTarget.id);",
+    "}",
+    "ul.addEventListener('click', who);",
+    "ul.querySelector('button').click();"
+   ],
+   "output": [
+    "bikes"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "e",
+       "scope": "who",
+       "value": "Event {type: 'click'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "who"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ },
+ "conceptCards": {
+  "dom-and-events.lesson-1": {
+   "code": [
+    "const page = {",
+    "  tag: 'ul',",
+    "  children: [{ tag: 'li' }, {}],",
+    "};",
+    "console.log(page.children.length);",
+    "console.log(page.children[0].tag);"
+   ],
+   "output": [
+    "2",
+    "li"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "{tag: 'ul', children: [{tag: 'li'}, {}]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "{tag: 'ul', children: [{tag: 'li'}, {}]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "{tag: 'ul', children: [{tag: 'li'}, {}]}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "dom-and-events.lesson-2": {
+   "code": [
+    "const el = {",
+    "  text: 'Soup',",
+    "  cls: ['a'],",
+    "};",
+    "el.text = 'Stew';",
+    "el.cls.push('b');",
+    "console.log(el.text);",
+    "console.log(el.cls.join(' '));"
+   ],
+   "output": [
+    "Stew",
+    "a b"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "el",
+       "scope": "global",
+       "value": "{text: 'Soup', cls: ['a']}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "el",
+       "scope": "global",
+       "value": "{text: 'Stew', cls: ['a']}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "el",
+       "scope": "global",
+       "value": "{text: 'Stew', cls: ['a', 'b']}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "el",
+       "scope": "global",
+       "value": "{text: 'Stew', cls: ['a', 'b']}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "el",
+       "scope": "global",
+       "value": "{text: 'Stew', cls: ['a', 'b']}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "dom-and-events.lesson-3": {
+   "code": [
+    "const listeners = [];",
+    "const hi = () => console.log('hi');",
+    "listeners.push(hi);",
+    "console.log('waiting');",
+    "listeners.forEach((run) => run());",
+    "listeners.forEach((run) => run());"
+   ],
+   "output": [
+    "waiting",
+    "hi",
+    "hi"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "listeners",
+       "scope": "global",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "listeners",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "listeners",
+       "scope": "global",
+       "value": "[[Function: hi]]"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "listeners",
+       "scope": "global",
+       "value": "[[Function: hi]]"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "listeners",
+       "scope": "global",
+       "value": "[[Function: hi]]"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      },
+      {
+       "name": "run",
+       "scope": "anonymous",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "listeners",
+       "scope": "global",
+       "value": "[[Function: hi]]"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "anonymous",
+      "hi"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "listeners",
+       "scope": "global",
+       "value": "[[Function: hi]]"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "listeners",
+       "scope": "global",
+       "value": "[[Function: hi]]"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      },
+      {
+       "name": "run",
+       "scope": "anonymous",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "listeners",
+       "scope": "global",
+       "value": "[[Function: hi]]"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "anonymous",
+      "hi"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "listeners",
+       "scope": "global",
+       "value": "[[Function: hi]]"
+      },
+      {
+       "name": "hi",
+       "scope": "global",
+       "value": "[Function: hi]"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "dom-and-events.lesson-4": {
+   "code": [
+    "const path = ['button', 'li', 'ul'];",
+    "path.forEach((name) => {",
+    "  console.log('reached ' + name);",
+    "});"
+   ],
+   "output": [
+    "reached button",
+    "reached li",
+    "reached ul"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "path",
+       "scope": "global",
+       "value": "['button', 'li', 'ul']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "path",
+       "scope": "global",
+       "value": "['button', 'li', 'ul']"
+      },
+      {
+       "name": "name",
+       "scope": "anonymous",
+       "value": "'button'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "path",
+       "scope": "global",
+       "value": "['button', 'li', 'ul']"
+      },
+      {
+       "name": "name",
+       "scope": "anonymous",
+       "value": "'li'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "path",
+       "scope": "global",
+       "value": "['button', 'li', 'ul']"
+      },
+      {
+       "name": "name",
+       "scope": "anonymous",
+       "value": "'ul'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "path",
+       "scope": "global",
+       "value": "['button', 'li', 'ul']"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ }
+}

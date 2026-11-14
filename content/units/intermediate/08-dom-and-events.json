@@ -1,0 +1,2653 @@
+{
+  "track": "INTERMEDIATE",
+  "unit": "dom-and-events",
+  "order": 8,
+  "title": "DOM and events",
+  "summary": "Select elements in the page tree, change their content and classes, and react to events as they bubble through the tree.",
+  "concepts": [
+    {
+      "id": "dom-tree-and-selection",
+      "title": "The DOM tree and selecting elements",
+      "prerequisites": [
+        "object-properties",
+        "property-access"
+      ]
+    },
+    {
+      "id": "dom-updates",
+      "title": "Changing content and classes",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "property-update"
+      ]
+    },
+    {
+      "id": "event-listeners",
+      "title": "Listening for events",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "callbacks-and-timers"
+      ]
+    },
+    {
+      "id": "event-propagation",
+      "title": "Bubbling, capturing and delegation",
+      "prerequisites": [
+        "event-listeners"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "missing-element-is-undefined",
+      "description": "Believes a selector that matches nothing returns undefined or an empty list instead of null."
+    },
+    {
+      "id": "nodelist-is-array",
+      "description": "Believes querySelectorAll returns a real array, so map, filter and the rest all work."
+    },
+    {
+      "id": "query-all-returns-one",
+      "description": "Believes querySelectorAll stops at the first match, or that a list holds a single element."
+    },
+    {
+      "id": "wrong-step-value",
+      "description": "Reads a variable at the wrong moment of the run, such as the first pass or the final value."
+    },
+    {
+      "id": "classlist-add-duplicates",
+      "description": "Believes classList.add adds a class again when the element already has it."
+    },
+    {
+      "id": "textcontent-appends",
+      "description": "Believes assigning textContent adds to the old text instead of replacing it."
+    },
+    {
+      "id": "textcontent-keeps-children",
+      "description": "Believes assigning textContent changes only the element's own text and keeps its child elements."
+    },
+    {
+      "id": "toggle-only-adds",
+      "description": "Believes classList.toggle always adds the class and never removes it."
+    },
+    {
+      "id": "handler-called-at-registration",
+      "description": "Believes addEventListener runs the handler once when it is added, not only when the event happens."
+    },
+    {
+      "id": "call-equals-reference",
+      "description": "Believes writing handler() and handler in addEventListener mean the same thing."
+    },
+    {
+      "id": "listener-fires-once",
+      "description": "Believes a listener is removed after it runs once."
+    },
+    {
+      "id": "order-follows-code-layout",
+      "description": "Believes handlers or events run in the order they appear in the file or on the page, not the order they were registered, triggered or travel."
+    },
+    {
+      "id": "events-stay-on-target",
+      "description": "Believes a click only calls the listeners on the clicked element, not on its ancestors."
+    },
+    {
+      "id": "listener-covers-only-existing-children",
+      "description": "Believes a listener on a parent works only for children that existed when it was added."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction",
+      "retrievedAt": "2026-11-14",
+      "sha256": "9d0f7383f50ea67c0c8b2a6f2ab8101ea13b5fb6362c4ddd55ac784a03089eef"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll",
+      "retrievedAt": "2026-11-14",
+      "sha256": "75d1c6f6d42eace2bd61cb61b4a0ac0428dbe1f210065638c6bf06b4eb85e5ec"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent",
+      "retrievedAt": "2026-11-14",
+      "sha256": "26934c189db3840f1400357a022c396076d00ae6f1fcc059af9bb0b1d2273202"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/classList",
+      "retrievedAt": "2026-11-14",
+      "sha256": "e1c909fd74503f53221af7a4f9242f53675d6d621a74dcb5ff9da8668f288353"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement",
+      "retrievedAt": "2026-11-14",
+      "sha256": "b62d647a61762ead6a723d159e066a4bede080efd3ab0700e6c1cc9de08c731c"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener",
+      "retrievedAt": "2026-11-14",
+      "sha256": "8d3d7c304217488bfeadd41edee284d226c1196900e99e3a567fc7a4bb6bce44"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Events",
+      "retrievedAt": "2026-11-14",
+      "sha256": "319fe90c02b94b342fe49bb5f9d1ae6c8988c1aaedfbc525f68e3067bca01f89"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Event_bubbling",
+      "retrievedAt": "2026-11-14",
+      "sha256": "037801c29c625a11812e8a5b7ff450501d01d542d000d7572702c94edaeb4110"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Event/currentTarget",
+      "retrievedAt": "2026-11-14",
+      "sha256": "05773606442aeababca2a402ea18835079e2942d93e1a9f426ccdc7d04497fbc"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/closest",
+      "retrievedAt": "2026-11-14",
+      "sha256": "4c3f9474806dfc3b2c0c00ab4477786e55c05060c07be9f3a81242eb68adeb72"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "dom-and-events.lesson-1",
+      "title": "The DOM tree and selection",
+      "conceptCard": {
+        "title": "The page is a tree of elements",
+        "body": "The DOM is a tree: every element can have children, which you reach through properties like children and firstElementChild. querySelector returns the first element that matches a CSS selector, or null. querySelectorAll returns all matches. The object below is a tiny model of such a tree.",
+        "code": [
+          "const page = {",
+          "  tag: 'ul',",
+          "  children: [{ tag: 'li' }, {}],",
+          "};",
+          "console.log(page.children.length);",
+          "console.log(page.children[0].tag);"
+        ],
+        "expectedOutput": "2\nli"
+      },
+      "itemIds": [
+        "int.dom-and-events.dom-tree-and-selection.predict-01",
+        "int.dom-and-events.dom-tree-and-selection.concept-01",
+        "int.dom-and-events.dom-tree-and-selection.trace-01",
+        "int.dom-and-events.dom-tree-and-selection.fill-01",
+        "int.dom-and-events.dom-tree-and-selection.parsons-01",
+        "int.dom-and-events.dom-tree-and-selection.fix-01"
+      ]
+    },
+    {
+      "id": "dom-and-events.lesson-2",
+      "title": "Changing content and classes",
+      "conceptCard": {
+        "title": "Changing what the page shows",
+        "body": "Assigning textContent replaces everything inside an element, child elements too. classList.add, remove and toggle change one class and leave the others. createElement makes a new element, and appendChild puts it into the page. A plain object models the element here.",
+        "code": [
+          "const el = {",
+          "  text: 'Soup',",
+          "  cls: ['a'],",
+          "};",
+          "el.text = 'Stew';",
+          "el.cls.push('b');",
+          "console.log(el.text);",
+          "console.log(el.cls.join(' '));"
+        ],
+        "expectedOutput": "Stew\na b"
+      },
+      "itemIds": [
+        "int.dom-and-events.dom-updates.predict-01",
+        "int.dom-and-events.dom-updates.concept-01",
+        "int.dom-and-events.dom-updates.trace-01",
+        "int.dom-and-events.dom-updates.fill-01",
+        "int.dom-and-events.dom-updates.parsons-01",
+        "int.dom-and-events.dom-updates.fix-01"
+      ]
+    },
+    {
+      "id": "dom-and-events.lesson-3",
+      "title": "Listening for events",
+      "conceptCard": {
+        "title": "A function the page calls later",
+        "body": "addEventListener(type, handler) stores a function that the browser calls each time that event happens. Pass the function itself, never a call to it. The page keeps the stored handlers; an array plays that part below.",
+        "code": [
+          "const listeners = [];",
+          "const hi = () => console.log('hi');",
+          "listeners.push(hi);",
+          "console.log('waiting');",
+          "listeners.forEach((run) => run());",
+          "listeners.forEach((run) => run());"
+        ],
+        "expectedOutput": "waiting\nhi\nhi"
+      },
+      "itemIds": [
+        "int.dom-and-events.event-listeners.predict-01",
+        "int.dom-and-events.event-listeners.concept-01",
+        "int.dom-and-events.event-listeners.trace-01",
+        "int.dom-and-events.event-listeners.fill-01",
+        "int.dom-and-events.event-listeners.parsons-01",
+        "int.dom-and-events.event-listeners.fix-01"
+      ]
+    },
+    {
+      "id": "dom-and-events.lesson-4",
+      "title": "Bubbling and delegation",
+      "conceptCard": {
+        "title": "Events travel up the tree",
+        "body": "An event starts at its target, then bubbles up through every ancestor, calling their listeners on the way. Delegation uses this: one listener on a parent handles all its children, and event.target tells which child started the event. A list of names models the path.",
+        "code": [
+          "const path = ['button', 'li', 'ul'];",
+          "path.forEach((name) => {",
+          "  console.log('reached ' + name);",
+          "});"
+        ],
+        "expectedOutput": "reached button\nreached li\nreached ul"
+      },
+      "itemIds": [
+        "int.dom-and-events.event-propagation.predict-01",
+        "int.dom-and-events.event-propagation.concept-01",
+        "int.dom-and-events.event-propagation.trace-01",
+        "int.dom-and-events.event-propagation.fill-01",
+        "int.dom-and-events.event-propagation.parsons-01",
+        "int.dom-and-events.event-propagation.fix-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "int.dom-and-events.dom-tree-and-selection.predict-01",
+      "concept": "dom-tree-and-selection",
+      "prerequisites": [
+        "object-properties",
+        "property-access"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "The page lists three trains. What does this code print?",
+      "code": [
+        "const trains = document",
+        "  .querySelectorAll('.train');",
+        "console.log(trains.length);",
+        "console.log(trains[1].textContent);",
+        "console.log(document",
+        "  .querySelector('.bus'));"
+      ],
+      "dom": {
+        "tag": "main",
+        "id": "board",
+        "children": [
+          {
+            "tag": "h1",
+            "id": "title",
+            "text": "Departures"
+          },
+          {
+            "tag": "ul",
+            "id": "trains",
+            "children": [
+              {
+                "tag": "li",
+                "classes": [
+                  "train"
+                ],
+                "text": "Oslo"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "train",
+                  "late"
+                ],
+                "text": "Bergen"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "train"
+                ],
+                "text": "Narvik"
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "classes": [
+              "note"
+            ],
+            "text": "Updated 9:00"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "3\nBergen\nnull",
+          "correct": true,
+          "feedback": "Right. Three elements match, index 1 is the second train, and no element has class bus, so null."
+        },
+        {
+          "text": "3\nBergen\nundefined",
+          "correct": false,
+          "feedback": "The list part is right. A selector with no match returns null, not undefined.",
+          "misconception": "missing-element-is-undefined"
+        },
+        {
+          "text": "1\nBergen\nnull",
+          "correct": false,
+          "feedback": "querySelectorAll collects every match, not just the first one. Three trains have the class train.",
+          "misconception": "query-all-returns-one"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "3\nBergen\nnull"
+      },
+      "explanation": "querySelectorAll returns every match, so the list holds 3 trains. Index 1 is the second one, Bergen. querySelector returns null, not undefined, when nothing matches.",
+      "hints": [
+        "Count the elements with class train in the drawn tree.",
+        "Lists start at index 0. A selector that matches nothing gives a special empty value.",
+        "The second line prints a number, the third a train name, the last a value that means no element."
+      ],
+      "reference": {
+        "title": "Document: querySelectorAll() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.dom-tree-and-selection.concept-01",
+      "concept": "dom-tree-and-selection",
+      "prerequisites": [
+        "object-properties",
+        "property-access"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement does this output show about what querySelectorAll returns?",
+      "code": [
+        "const items = document",
+        "  .querySelectorAll('li');",
+        "console.log(items.length);",
+        "console.log(typeof items.map);",
+        "console.log(typeof items.forEach);"
+      ],
+      "dom": {
+        "tag": "main",
+        "id": "board",
+        "children": [
+          {
+            "tag": "h1",
+            "id": "title",
+            "text": "Departures"
+          },
+          {
+            "tag": "ul",
+            "id": "trains",
+            "children": [
+              {
+                "tag": "li",
+                "classes": [
+                  "train"
+                ],
+                "text": "Oslo"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "train",
+                  "late"
+                ],
+                "text": "Bergen"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "train"
+                ],
+                "text": "Narvik"
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "classes": [
+              "note"
+            ],
+            "text": "Updated 9:00"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "It returns a NodeList that has length and forEach but no map",
+          "correct": true,
+          "feedback": "Right. A NodeList is list-like, yet it is not an array and lacks most array methods."
+        },
+        {
+          "text": "It returns a real array, so map works on it",
+          "correct": false,
+          "feedback": "The output shows typeof items.map is undefined. A NodeList is not an array.",
+          "misconception": "nodelist-is-array"
+        },
+        {
+          "text": "It returns only the first matching element",
+          "correct": false,
+          "feedback": "The length is 3, so the call returned all the matches. Only querySelector returns a single element.",
+          "misconception": "query-all-returns-one"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "3\nundefined\nfunction"
+      },
+      "explanation": "querySelectorAll returns a NodeList. It has a length and forEach, but it is not an array, so array methods such as map are missing. Convert it with Array.from first.",
+      "hints": [
+        "Look at the second and third printed lines.",
+        "A NodeList looks like an array but is a different kind of object.",
+        "One printed word says a method exists, the other says it does not."
+      ],
+      "reference": {
+        "title": "NodeList",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/NodeList",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.dom-tree-and-selection.trace-01",
+      "concept": "dom-tree-and-selection",
+      "prerequisites": [
+        "object-properties",
+        "property-access"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "The loop walks the trains from first to last. What does got hold right after line 6 runs for the second time?",
+      "code": [
+        "let node = document",
+        "  .getElementById('trains')",
+        "  .firstElementChild;",
+        "let got = '';",
+        "while (node !== null) {",
+        "  got += node.textContent[0];",
+        "  node = node.nextElementSibling;",
+        "}",
+        "console.log(got);"
+      ],
+      "dom": {
+        "tag": "main",
+        "id": "board",
+        "children": [
+          {
+            "tag": "h1",
+            "id": "title",
+            "text": "Departures"
+          },
+          {
+            "tag": "ul",
+            "id": "trains",
+            "children": [
+              {
+                "tag": "li",
+                "classes": [
+                  "train"
+                ],
+                "text": "Oslo"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "train",
+                  "late"
+                ],
+                "text": "Bergen"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "train"
+                ],
+                "text": "Narvik"
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "classes": [
+              "note"
+            ],
+            "text": "Updated 9:00"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "'OB'",
+          "correct": true,
+          "feedback": "Right. Oslo and Bergen have been visited by then, so got is OB."
+        },
+        {
+          "text": "'O'",
+          "correct": false,
+          "feedback": "That is the value after the first pass. The question asks about the second run of line 6.",
+          "misconception": "wrong-step-value"
+        },
+        {
+          "text": "'OBN'",
+          "correct": false,
+          "feedback": "That is the final value. Narvik is added only on the third pass.",
+          "misconception": "wrong-step-value"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "got",
+          "afterLine": 6,
+          "visit": 2
+        },
+        "expectedOutput": "OBN"
+      },
+      "explanation": "Each pass adds the first letter of the current train: O for Oslo, then B for Bergen. After the second pass got is OB. A third pass adds N.",
+      "hints": [
+        "Count the passes: line 6 has run twice at that moment.",
+        "got grows by one letter per pass, taken from the current element.",
+        "The first letters are O, B and N. Only two of them have been added."
+      ],
+      "reference": {
+        "title": "Element: nextElementSibling property",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/nextElementSibling",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.dom-tree-and-selection.fill-01",
+      "concept": "dom-tree-and-selection",
+      "prerequisites": [
+        "object-properties",
+        "property-access"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints the name of the last train in the list.",
+      "code": [
+        "const trains = document",
+        "  .getElementById('trains');",
+        "const last = trains.___;",
+        "console.log(last.textContent);"
+      ],
+      "dom": {
+        "tag": "main",
+        "id": "board",
+        "children": [
+          {
+            "tag": "h1",
+            "id": "title",
+            "text": "Departures"
+          },
+          {
+            "tag": "ul",
+            "id": "trains",
+            "children": [
+              {
+                "tag": "li",
+                "classes": [
+                  "train"
+                ],
+                "text": "Oslo"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "train",
+                  "late"
+                ],
+                "text": "Bergen"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "train"
+                ],
+                "text": "Narvik"
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "classes": [
+              "note"
+            ],
+            "text": "Updated 9:00"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "lastElementChild",
+          "correct": true,
+          "feedback": "Right. It is the last element inside trains."
+        },
+        {
+          "text": "children[2]",
+          "correct": true,
+          "feedback": "Right. The list has three children, so index 2 is the last."
+        },
+        {
+          "text": "firstElementChild",
+          "correct": false,
+          "feedback": "This is the first train, Oslo, so the program prints the wrong name."
+        },
+        {
+          "text": "children",
+          "correct": false,
+          "feedback": "This is the whole collection. It has no textContent of its own, so undefined is printed."
+        },
+        {
+          "text": "children[3]",
+          "correct": false,
+          "feedback": "Indexes start at 0, so a list of three has no index 3. The next line then throws."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "lastElementChild",
+            "children[2]"
+          ]
+        ],
+        "expectedOutput": "Narvik"
+      },
+      "explanation": "lastElementChild gives the final element inside trains. children[2] reaches the same element by index. children alone is a collection, and index 3 does not exist.",
+      "hints": [
+        "Look at line 3: it must produce one element.",
+        "An element's children are reached by property, by position or by first and last.",
+        "Two chips reach the last element. The others give the first train, a whole collection or a missing index."
+      ],
+      "reference": {
+        "title": "Element: lastElementChild property",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/lastElementChild",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.dom-tree-and-selection.parsons-01",
+      "concept": "dom-tree-and-selection",
+      "prerequisites": [
+        "object-properties",
+        "property-access"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Order the lines so the program prints the name of the second train.",
+      "code": [
+        "const second = ul.children[1];",
+        "const page = document.body;",
+        "console.log(second.textContent);",
+        "const ul = page.querySelector('ul');"
+      ],
+      "dom": {
+        "tag": "main",
+        "id": "board",
+        "children": [
+          {
+            "tag": "h1",
+            "id": "title",
+            "text": "Departures"
+          },
+          {
+            "tag": "ul",
+            "id": "trains",
+            "children": [
+              {
+                "tag": "li",
+                "classes": [
+                  "train"
+                ],
+                "text": "Oslo"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "train",
+                  "late"
+                ],
+                "text": "Bergen"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "train"
+                ],
+                "text": "Narvik"
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "classes": [
+              "note"
+            ],
+            "text": "Updated 9:00"
+          }
+        ]
+      },
+      "solution": {
+        "lineOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "expectedOutput": "Bergen"
+      },
+      "explanation": "Each line uses the variable made by the line before it: page, then ul, then second, then the print. The result is Bergen, at index 1.",
+      "hints": [
+        "Start with the line that has no dependency on another variable.",
+        "A variable must exist before a later line uses it.",
+        "The order is: body, list, second child, print."
+      ],
+      "reference": {
+        "title": "Document: body property",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/body",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.dom-tree-and-selection.fix-01",
+      "concept": "dom-tree-and-selection",
+      "prerequisites": [
+        "object-properties",
+        "property-access"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 2,
+      "prompt": "The program should print 3, the number of trains, but it throws. Tap the buggy line and pick the fix.",
+      "code": [
+        "const trains = document",
+        "  .getElementById('#trains');",
+        "const size = trains.children.length;",
+        "console.log(size);"
+      ],
+      "dom": {
+        "tag": "main",
+        "id": "board",
+        "children": [
+          {
+            "tag": "h1",
+            "id": "title",
+            "text": "Departures"
+          },
+          {
+            "tag": "ul",
+            "id": "trains",
+            "children": [
+              {
+                "tag": "li",
+                "classes": [
+                  "train"
+                ],
+                "text": "Oslo"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "train",
+                  "late"
+                ],
+                "text": "Bergen"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "train"
+                ],
+                "text": "Narvik"
+              }
+            ]
+          },
+          {
+            "tag": "p",
+            "classes": [
+              "note"
+            ],
+            "text": "Updated 9:00"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "  .getElementById('trains');",
+          "correct": true,
+          "feedback": "Right. getElementById takes the id without a # sign."
+        },
+        {
+          "text": "  .querySelector('trains');",
+          "correct": false,
+          "feedback": "Without # this selector looks for a tag named trains. None exists, so the result is null again."
+        },
+        {
+          "text": "  .getElementsById('trains');",
+          "correct": false,
+          "feedback": "There is no method with this name. Calling it throws a TypeError."
+        }
+      ],
+      "solution": {
+        "bugLine": 2,
+        "expectedOutput": "3"
+      },
+      "explanation": "getElementById takes the bare id. The # belongs to selectors such as querySelector('#trains'). With the # included no element is found and the call returns null.",
+      "hints": [
+        "Look at the argument on line 2.",
+        "getElementById and querySelector read their arguments differently.",
+        "One of the replacements writes the id exactly as it appears in the tree."
+      ],
+      "reference": {
+        "title": "Document: getElementById() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.dom-updates.predict-01",
+      "concept": "dom-updates",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "property-update"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "A heading is changed twice. What does this code print?",
+      "code": [
+        "const heading = document",
+        "  .getElementById('name');",
+        "heading.textContent = 'Soup 2';",
+        "heading.classList.add('big');",
+        "heading.classList.add('big');",
+        "console.log(heading.textContent);",
+        "console.log(heading.className);"
+      ],
+      "dom": {
+        "tag": "main",
+        "id": "recipe",
+        "children": [
+          {
+            "tag": "h2",
+            "id": "name",
+            "text": "Soup"
+          },
+          {
+            "tag": "ul",
+            "id": "steps",
+            "children": [
+              {
+                "tag": "li",
+                "classes": [
+                  "step"
+                ],
+                "text": "Chop"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "step",
+                  "done"
+                ],
+                "text": "Boil"
+              }
+            ]
+          },
+          {
+            "tag": "button",
+            "id": "add",
+            "text": "Add"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "Soup 2\nbig",
+          "correct": true,
+          "feedback": "Right. The text is replaced, and the second add does nothing."
+        },
+        {
+          "text": "Soup 2\nbig big",
+          "correct": false,
+          "feedback": "classList.add ignores a class that is already present, so big is listed once.",
+          "misconception": "classlist-add-duplicates"
+        },
+        {
+          "text": "SoupSoup 2\nbig",
+          "correct": false,
+          "feedback": "Assigning to textContent replaces the old text instead of adding to it.",
+          "misconception": "textcontent-appends"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Soup 2\nbig"
+      },
+      "explanation": "Assigning textContent replaces the old text, so the heading reads Soup 2. classList.add skips a class the element already has, so big appears once.",
+      "hints": [
+        "Compare the heading text before and after line 3.",
+        "Assignment replaces the content. A class list never holds the same class twice.",
+        "The first line printed has no trace of the old word Soup alone."
+      ],
+      "reference": {
+        "title": "Node: textContent property",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.dom-updates.concept-01",
+      "concept": "dom-updates",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "property-update"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement does this output show about assigning to textContent?",
+      "code": [
+        "const steps = document",
+        "  .getElementById('steps');",
+        "console.log(steps.children.length);",
+        "steps.textContent = 'No steps';",
+        "console.log(steps.children.length);",
+        "console.log(steps.textContent);"
+      ],
+      "dom": {
+        "tag": "main",
+        "id": "recipe",
+        "children": [
+          {
+            "tag": "h2",
+            "id": "name",
+            "text": "Soup"
+          },
+          {
+            "tag": "ul",
+            "id": "steps",
+            "children": [
+              {
+                "tag": "li",
+                "classes": [
+                  "step"
+                ],
+                "text": "Chop"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "step",
+                  "done"
+                ],
+                "text": "Boil"
+              }
+            ]
+          },
+          {
+            "tag": "button",
+            "id": "add",
+            "text": "Add"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "It replaces everything inside the element, child elements included",
+          "correct": true,
+          "feedback": "Right. The list had 2 children before and has 0 after."
+        },
+        {
+          "text": "It changes only the element's own text and keeps its children",
+          "correct": false,
+          "feedback": "The children count drops from 2 to 0, so the child elements were removed.",
+          "misconception": "textcontent-keeps-children"
+        },
+        {
+          "text": "It adds the new text after the existing content",
+          "correct": false,
+          "feedback": "The final textContent is only the new text, and the old items are gone.",
+          "misconception": "textcontent-appends"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "2\n0\nNo steps"
+      },
+      "explanation": "Assigning to textContent replaces everything inside the element, child elements included. The two li elements are gone, so children.length drops to 0.",
+      "hints": [
+        "Compare the two printed lengths.",
+        "textContent covers the whole content of an element, not only the text next to its children.",
+        "One option says the children survive. The second printed number disagrees."
+      ],
+      "reference": {
+        "title": "Node: textContent property",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.dom-updates.trace-01",
+      "concept": "dom-updates",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "property-update"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What does seen hold right after line 7 runs?",
+      "code": [
+        "const step = document",
+        "  .querySelector('.step');",
+        "step.classList.toggle('done');",
+        "let seen = step.className;",
+        "step.classList.toggle('done');",
+        "step.classList.add('late');",
+        "seen = step.className;",
+        "console.log(seen);"
+      ],
+      "dom": {
+        "tag": "main",
+        "id": "recipe",
+        "children": [
+          {
+            "tag": "h2",
+            "id": "name",
+            "text": "Soup"
+          },
+          {
+            "tag": "ul",
+            "id": "steps",
+            "children": [
+              {
+                "tag": "li",
+                "classes": [
+                  "step"
+                ],
+                "text": "Chop"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "step",
+                  "done"
+                ],
+                "text": "Boil"
+              }
+            ]
+          },
+          {
+            "tag": "button",
+            "id": "add",
+            "text": "Add"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "'step late'",
+          "correct": true,
+          "feedback": "Right. The second toggle undoes the first, and late is added."
+        },
+        {
+          "text": "'step done late'",
+          "correct": false,
+          "feedback": "toggle also removes a class that is present. The second call removes done.",
+          "misconception": "toggle-only-adds"
+        },
+        {
+          "text": "'step done'",
+          "correct": false,
+          "feedback": "That is the value stored on line 4. Line 7 assigns a fresh value after the later changes.",
+          "misconception": "wrong-step-value"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "seen",
+          "afterLine": 7,
+          "visit": 1
+        },
+        "expectedOutput": "step late"
+      },
+      "explanation": "The step starts with the class step. The first toggle adds done and the second removes it. Then add puts late on the list, so seen becomes step late.",
+      "hints": [
+        "Follow the class list after every line, starting from step.",
+        "toggle adds a class when it is missing and removes it when it is present.",
+        "After two toggles of the same class, only the add on line 6 has changed the list."
+      ],
+      "reference": {
+        "title": "DOMTokenList: toggle() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList/toggle",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.dom-updates.fill-01",
+      "concept": "dom-updates",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "property-update"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blanks so a new step is created, added to the list, and the program prints 3.",
+      "code": [
+        "const row = document.___('li');",
+        "row.textContent = 'Serve';",
+        "const steps = document",
+        "  .getElementById('steps');",
+        "steps.___(row);",
+        "console.log(steps.children.length);"
+      ],
+      "dom": {
+        "tag": "main",
+        "id": "recipe",
+        "children": [
+          {
+            "tag": "h2",
+            "id": "name",
+            "text": "Soup"
+          },
+          {
+            "tag": "ul",
+            "id": "steps",
+            "children": [
+              {
+                "tag": "li",
+                "classes": [
+                  "step"
+                ],
+                "text": "Chop"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "step",
+                  "done"
+                ],
+                "text": "Boil"
+              }
+            ]
+          },
+          {
+            "tag": "button",
+            "id": "add",
+            "text": "Add"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "createElement",
+          "correct": true,
+          "feedback": "Right. It creates a new li that is not yet in the page."
+        },
+        {
+          "text": "appendChild",
+          "correct": true,
+          "feedback": "Right. It puts row at the end of the list."
+        },
+        {
+          "text": "append",
+          "correct": true,
+          "feedback": "Right. It also adds row to the end of the list."
+        },
+        {
+          "text": "createNode",
+          "correct": false,
+          "feedback": "Document has no method with this name, so the first line throws."
+        },
+        {
+          "text": "remove",
+          "correct": false,
+          "feedback": "remove deletes steps from the page instead of adding row, so the count stays at 2."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "createElement"
+          ],
+          [
+            "appendChild",
+            "append"
+          ]
+        ],
+        "expectedOutput": "3"
+      },
+      "explanation": "createElement makes a detached element. It shows up on the page only after appendChild or append places it inside the list, which then has three children.",
+      "hints": [
+        "The first blank creates an element, the second puts it in the list.",
+        "A created element does not exist in the page until you add it to a parent.",
+        "Look for a method that makes an element and one that adds a child."
+      ],
+      "reference": {
+        "title": "Document: createElement() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.dom-updates.parsons-01",
+      "concept": "dom-updates",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "property-update"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Order the lines so the heading ends as Stew (3)! and the program prints it.",
+      "code": [
+        "h2.textContent += ' (3)';",
+        "const page = document.body;",
+        "console.log(h2.textContent);",
+        "h2.textContent = 'Stew';",
+        "h2.textContent += '!';",
+        "const h2 = page.querySelector('h2');"
+      ],
+      "dom": {
+        "tag": "main",
+        "id": "recipe",
+        "children": [
+          {
+            "tag": "h2",
+            "id": "name",
+            "text": "Soup"
+          },
+          {
+            "tag": "ul",
+            "id": "steps",
+            "children": [
+              {
+                "tag": "li",
+                "classes": [
+                  "step"
+                ],
+                "text": "Chop"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "step",
+                  "done"
+                ],
+                "text": "Boil"
+              }
+            ]
+          },
+          {
+            "tag": "button",
+            "id": "add",
+            "text": "Add"
+          }
+        ]
+      },
+      "solution": {
+        "lineOrder": [
+          1,
+          5,
+          3,
+          0,
+          4,
+          2
+        ],
+        "expectedOutput": "Stew (3)!"
+      },
+      "explanation": "Assigning Stew replaces the old heading text. Each += then adds to the current text, so (3) must come before the exclamation mark. The print comes last.",
+      "hints": [
+        "The heading must be found before it can change.",
+        "Assignment replaces the text. += adds to what is already there.",
+        "Set the base text first, then add the two pieces in the order they read."
+      ],
+      "reference": {
+        "title": "Node: textContent property",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.dom-updates.fix-01",
+      "concept": "dom-updates",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "property-update"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print true, but the step does not get the class. Tap the buggy line and pick the fix.",
+      "code": [
+        "const step = document",
+        "  .querySelector('.step');",
+        "step.classList.add('.done');",
+        "console.log(step.classList",
+        "  .contains('done'));"
+      ],
+      "dom": {
+        "tag": "main",
+        "id": "recipe",
+        "children": [
+          {
+            "tag": "h2",
+            "id": "name",
+            "text": "Soup"
+          },
+          {
+            "tag": "ul",
+            "id": "steps",
+            "children": [
+              {
+                "tag": "li",
+                "classes": [
+                  "step"
+                ],
+                "text": "Chop"
+              },
+              {
+                "tag": "li",
+                "classes": [
+                  "step",
+                  "done"
+                ],
+                "text": "Boil"
+              }
+            ]
+          },
+          {
+            "tag": "button",
+            "id": "add",
+            "text": "Add"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "step.classList.add('done');",
+          "correct": true,
+          "feedback": "Right. The plain name matches what contains checks."
+        },
+        {
+          "text": "step.classList.toggle('.done');",
+          "correct": false,
+          "feedback": "toggle with the dot still creates a class named .done, so contains('done') stays false."
+        },
+        {
+          "text": "step.classList.add('#done');",
+          "correct": false,
+          "feedback": "A # is for ids in selectors. The class name would be #done, which is not done."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "true"
+      },
+      "explanation": "A selector needs the dot, but classList takes the bare class name. add('.done') creates a class whose name starts with a dot, so contains('done') is false.",
+      "hints": [
+        "Look at the string passed on line 3.",
+        "The dot belongs to selectors only. classList works with plain names.",
+        "One replacement writes the name exactly as line 5 checks it."
+      ],
+      "reference": {
+        "title": "DOMTokenList: add() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList/add",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.event-listeners.predict-01",
+      "concept": "event-listeners",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "callbacks-and-timers"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "A handler is added, then the button is clicked twice. What does this code print?",
+      "code": [
+        "const btn = document",
+        "  .getElementById('book');",
+        "function show() {",
+        "  console.log('btned');",
+        "}",
+        "btn.addEventListener('click', show);",
+        "console.log('ready');",
+        "btn.click();",
+        "btn.click();"
+      ],
+      "dom": {
+        "tag": "body",
+        "children": [
+          {
+            "tag": "button",
+            "id": "book",
+            "text": "Book"
+          },
+          {
+            "tag": "button",
+            "id": "cancel",
+            "text": "Cancel"
+          },
+          {
+            "tag": "p",
+            "id": "status",
+            "text": "Free"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "ready\nbtned\nbtned",
+          "correct": true,
+          "feedback": "Right. The handler waits for clicks, and each click runs it once."
+        },
+        {
+          "text": "btned\nready\nbtned\nbtned",
+          "correct": false,
+          "feedback": "Adding a handler does not run it. The first btned comes only from the first click.",
+          "misconception": "handler-called-at-registration"
+        },
+        {
+          "text": "ready\nbtned",
+          "correct": false,
+          "feedback": "A handler is not removed after it runs. Both clicks trigger it.",
+          "misconception": "listener-fires-once"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "ready\nbtned\nbtned"
+      },
+      "explanation": "addEventListener only stores the handler. It runs once per click, so btned prints twice, after ready because the clicks come later in the file.",
+      "hints": [
+        "Which lines run when the page code is read, and which when a click happens?",
+        "Registering a handler does not run it. Every click runs it again.",
+        "ready comes first, then one btned per click."
+      ],
+      "reference": {
+        "title": "EventTarget: addEventListener() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.event-listeners.concept-01",
+      "concept": "event-listeners",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "callbacks-and-timers"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement explains this output?",
+      "code": [
+        "const btn = document",
+        "  .getElementById('book');",
+        "const hi = () => console.log('hi');",
+        "btn.addEventListener('click', hi());",
+        "console.log('clicking');",
+        "btn.click();"
+      ],
+      "dom": {
+        "tag": "body",
+        "children": [
+          {
+            "tag": "button",
+            "id": "book",
+            "text": "Book"
+          },
+          {
+            "tag": "button",
+            "id": "cancel",
+            "text": "Cancel"
+          },
+          {
+            "tag": "p",
+            "id": "status",
+            "text": "Free"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "hi() ran while the listener was added, and the click triggered nothing",
+          "correct": true,
+          "feedback": "Right. The call happened at registration, and only its result was registered."
+        },
+        {
+          "text": "hi() ran when it was added and runs again on every click",
+          "correct": false,
+          "feedback": "Only one hi is printed, before the click. The registered value is not the function.",
+          "misconception": "handler-called-at-registration"
+        },
+        {
+          "text": "hi() and hi mean the same thing here, so the click runs the handler",
+          "correct": false,
+          "feedback": "With parentheses the function is called at once. hi printing before clicking shows it.",
+          "misconception": "call-equals-reference"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "hi\nclicking"
+      },
+      "explanation": "hi() calls the function on the spot, so hi prints before clicking. The listener receives its return value, undefined, which is not a function, so the click does nothing.",
+      "hints": [
+        "Notice where hi sits in the printed output.",
+        "Parentheses call a function. A listener needs the function itself.",
+        "The click happens after clicking is printed and prints nothing new."
+      ],
+      "reference": {
+        "title": "EventTarget: addEventListener() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.event-listeners.trace-01",
+      "concept": "event-listeners",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "callbacks-and-timers"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What does order hold right after line 10 runs?",
+      "code": [
+        "let order = '';",
+        "function one() { order += 'A'; }",
+        "function two() { order += 'B'; }",
+        "const btn = document",
+        "  .getElementById('book');",
+        "btn.addEventListener('click', two);",
+        "btn.addEventListener('click', one);",
+        "btn.click();",
+        "order += '|';",
+        "btn.click();",
+        "console.log(order);"
+      ],
+      "dom": {
+        "tag": "body",
+        "children": [
+          {
+            "tag": "button",
+            "id": "book",
+            "text": "Book"
+          },
+          {
+            "tag": "button",
+            "id": "cancel",
+            "text": "Cancel"
+          },
+          {
+            "tag": "p",
+            "id": "status",
+            "text": "Free"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "'BA|BA'",
+          "correct": true,
+          "feedback": "Right. two was registered first, and both listeners run on each click."
+        },
+        {
+          "text": "'AB|AB'",
+          "correct": false,
+          "feedback": "Listeners run in the order they were added to the element, not the order the functions are written.",
+          "misconception": "order-follows-code-layout"
+        },
+        {
+          "text": "'BA|'",
+          "correct": false,
+          "feedback": "A listener stays registered after it runs, so the second click triggers both again.",
+          "misconception": "listener-fires-once"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "order",
+          "afterLine": 10,
+          "visit": 1
+        },
+        "expectedOutput": "BA|BA"
+      },
+      "explanation": "Listeners on one element run in the order they were added: two, then one. Each click adds BA. The bar is added between the clicks, so order is BA|BA.",
+      "hints": [
+        "Listeners fire in registration order, which is not the order of the function definitions.",
+        "Both listeners stay registered, so the second click runs them again.",
+        "Each click adds the same two letters. The bar separates the clicks."
+      ],
+      "reference": {
+        "title": "EventTarget: addEventListener() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.event-listeners.fill-01",
+      "concept": "event-listeners",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "callbacks-and-timers"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blanks so clicking the button prints cancelled.",
+      "code": [
+        "const btn = document",
+        "  .getElementById('cancel');",
+        "function bye() {",
+        "  console.log('cancelled');",
+        "}",
+        "btn.___(___, bye);",
+        "btn.click();"
+      ],
+      "dom": {
+        "tag": "body",
+        "children": [
+          {
+            "tag": "button",
+            "id": "book",
+            "text": "Book"
+          },
+          {
+            "tag": "button",
+            "id": "cancel",
+            "text": "Cancel"
+          },
+          {
+            "tag": "p",
+            "id": "status",
+            "text": "Free"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "addEventListener",
+          "correct": true,
+          "feedback": "Right. It registers bye for an event type."
+        },
+        {
+          "text": "'click'",
+          "correct": true,
+          "feedback": "Right. The click on the last line is the event that runs bye."
+        },
+        {
+          "text": "'press'",
+          "correct": false,
+          "feedback": "No event named press is triggered here, so the handler never runs."
+        },
+        {
+          "text": "onclick",
+          "correct": false,
+          "feedback": "onclick is a property, not a method to call, so btn.onclick(...) throws."
+        },
+        {
+          "text": "click",
+          "correct": false,
+          "feedback": "Without quotes click is read as a variable name, which does not exist. The program throws."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "addEventListener"
+          ],
+          [
+            "'click'"
+          ]
+        ],
+        "expectedOutput": "cancelled"
+      },
+      "explanation": "addEventListener takes the event type as a string first, then the handler. The type is click, because that is what button.click() triggers.",
+      "hints": [
+        "Look at line 6: it names a method and an event type.",
+        "A listener is registered with a method that takes an event type and a function.",
+        "The type is a quoted string, written in lower case, for the event the last line triggers."
+      ],
+      "reference": {
+        "title": "EventTarget: addEventListener() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.event-listeners.parsons-01",
+      "concept": "event-listeners",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "callbacks-and-timers"
+      ],
+      "format": "PARSONS",
+      "difficulty": 3,
+      "prompt": "Order the lines so the program prints Book!? after one click and one extra mark.",
+      "code": [
+        "btn.click();",
+        "const btn = page.children[0];",
+        "console.log(btn.textContent);",
+        "const more = () => btn.append('!');",
+        "const page = document.body;",
+        "btn.append('?');",
+        "btn.addEventListener('click', more);"
+      ],
+      "dom": {
+        "tag": "body",
+        "children": [
+          {
+            "tag": "button",
+            "id": "book",
+            "text": "Book"
+          },
+          {
+            "tag": "button",
+            "id": "cancel",
+            "text": "Cancel"
+          },
+          {
+            "tag": "p",
+            "id": "status",
+            "text": "Free"
+          }
+        ]
+      },
+      "solution": {
+        "lineOrder": [
+          4,
+          1,
+          3,
+          6,
+          0,
+          5,
+          2
+        ],
+        "acceptedOrders": [
+          [
+            4,
+            3,
+            1,
+            6,
+            0,
+            5,
+            2
+          ],
+          [
+            3,
+            4,
+            1,
+            6,
+            0,
+            5,
+            2
+          ]
+        ],
+        "expectedOutput": "Book!?"
+      },
+      "explanation": "The button must be found before the handler uses it, and the handler must be added before the click. The click adds ! and the next line adds ?, so the text reads Book!?.",
+      "hints": [
+        "The listener must be added before the click that should trigger it.",
+        "A handler runs at the moment of the click, not when it is added.",
+        "Click first, then append the question mark, then print."
+      ],
+      "reference": {
+        "title": "Element: click() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/click",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.event-listeners.fix-01",
+      "concept": "event-listeners",
+      "prerequisites": [
+        "dom-tree-and-selection",
+        "callbacks-and-timers"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 2,
+      "prompt": "The program should print booked, but nothing prints. Tap the buggy line and pick the fix.",
+      "code": [
+        "const btn = document",
+        "  .getElementById('book');",
+        "function ok() {",
+        "  console.log('booked');",
+        "}",
+        "btn.addEventListener('onclick', ok);",
+        "btn.click();"
+      ],
+      "dom": {
+        "tag": "body",
+        "children": [
+          {
+            "tag": "button",
+            "id": "book",
+            "text": "Book"
+          },
+          {
+            "tag": "button",
+            "id": "cancel",
+            "text": "Cancel"
+          },
+          {
+            "tag": "p",
+            "id": "status",
+            "text": "Free"
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "btn.addEventListener('click', ok);",
+          "correct": true,
+          "feedback": "Right. click is the type of event the last line triggers."
+        },
+        {
+          "text": "btn.addEventListener('Click', ok);",
+          "correct": false,
+          "feedback": "Event types are case-sensitive. Click is not click, so the handler never runs."
+        },
+        {
+          "text": "btn.addEventListener('tap', ok);",
+          "correct": false,
+          "feedback": "No tap event is triggered here, so ok is never called."
+        }
+      ],
+      "solution": {
+        "bugLine": 6,
+        "expectedOutput": "booked"
+      },
+      "explanation": "Event types are written without the on prefix: click, not onclick. The prefix belongs to the old property form. A listener for onclick never matches a click.",
+      "hints": [
+        "Look at the first argument on line 6.",
+        "The event type names the event itself, in lower case.",
+        "One replacement is the plain name of the event that btn.click() triggers."
+      ],
+      "reference": {
+        "title": "EventTarget: addEventListener() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.event-propagation.predict-01",
+      "concept": "event-propagation",
+      "prerequisites": [
+        "event-listeners"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "One handler is added to three nested elements, then the button is clicked. What does this code print?",
+      "code": [
+        "const ul = document",
+        "  .getElementById('bikes');",
+        "const li = ul.firstElementChild;",
+        "const bt = li.firstElementChild;",
+        "function show(e) {",
+        "  console.log(e.currentTarget.id);",
+        "}",
+        "ul.addEventListener('click', show);",
+        "li.addEventListener('click', show);",
+        "bt.addEventListener('click', show);",
+        "bt.click();"
+      ],
+      "dom": {
+        "tag": "ul",
+        "id": "bikes",
+        "children": [
+          {
+            "tag": "li",
+            "id": "city",
+            "classes": [
+              "bike"
+            ],
+            "text": "City",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-city",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          },
+          {
+            "tag": "li",
+            "id": "road",
+            "classes": [
+              "bike"
+            ],
+            "text": "Road",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-road",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          },
+          {
+            "tag": "li",
+            "id": "trail",
+            "classes": [
+              "bike"
+            ],
+            "text": "Trail",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-trail",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "rent-city\ncity\nbikes",
+          "correct": true,
+          "feedback": "Right. The event bubbles from the target outward."
+        },
+        {
+          "text": "bikes\ncity\nrent-city",
+          "correct": false,
+          "feedback": "That is the order the listeners were added. Bubbling decides the order, from the target outward.",
+          "misconception": "order-follows-code-layout"
+        },
+        {
+          "text": "rent-city",
+          "correct": false,
+          "feedback": "A click also reaches the ancestors of its target, and their listeners run too.",
+          "misconception": "events-stay-on-target"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "rent-city\ncity\nbikes"
+      },
+      "explanation": "The click starts on the button and bubbles up through its ancestors. The handler runs for the button, then the item, then the list, whatever order the listeners were added in.",
+      "hints": [
+        "Find where the click starts, then move outward through the parents.",
+        "Bubbling goes from the target to the outermost ancestor.",
+        "The first id printed belongs to the element that was clicked."
+      ],
+      "reference": {
+        "title": "Event bubbling",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Event_bubbling",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.event-propagation.concept-01",
+      "concept": "event-propagation",
+      "prerequisites": [
+        "event-listeners"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "A new item is added after the listener. Which statement explains this output?",
+      "code": [
+        "const ul = document",
+        "  .getElementById('bikes');",
+        "const hit = () => console.log('ok');",
+        "ul.addEventListener('click', hit);",
+        "const li = document",
+        "  .createElement('li');",
+        "ul.appendChild(li);",
+        "li.click();"
+      ],
+      "dom": {
+        "tag": "ul",
+        "id": "bikes",
+        "children": [
+          {
+            "tag": "li",
+            "id": "city",
+            "classes": [
+              "bike"
+            ],
+            "text": "City",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-city",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          },
+          {
+            "tag": "li",
+            "id": "road",
+            "classes": [
+              "bike"
+            ],
+            "text": "Road",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-road",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          },
+          {
+            "tag": "li",
+            "id": "trail",
+            "classes": [
+              "bike"
+            ],
+            "text": "Trail",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-trail",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "The click bubbles from the new item to the list, so one listener covers items added later",
+          "correct": true,
+          "feedback": "Right. This is event delegation."
+        },
+        {
+          "text": "A listener only reacts to elements that existed when it was added",
+          "correct": false,
+          "feedback": "The new li did not exist then, and ok still printed. Its click reached the list.",
+          "misconception": "listener-covers-only-existing-children"
+        },
+        {
+          "text": "The click stays on the new item, so the list's listener would not run",
+          "correct": false,
+          "feedback": "Events bubble to ancestors. The list listener ran, as the printed ok shows.",
+          "misconception": "events-stay-on-target"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "ok"
+      },
+      "explanation": "The click on the new li bubbles up to ul, where the listener sits. One listener on a parent therefore covers children added later. This is event delegation.",
+      "hints": [
+        "Find which element has the listener and which one is clicked.",
+        "A click reaches the ancestors of the element it started on.",
+        "The list got a new child after the listener was added, and it still printed."
+      ],
+      "reference": {
+        "title": "Event bubbling",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Event_bubbling",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.event-propagation.trace-01",
+      "concept": "event-propagation",
+      "prerequisites": [
+        "event-listeners"
+      ],
+      "format": "TRACE",
+      "difficulty": 4,
+      "prompt": "Two buttons are clicked. What does got hold once the handler's line 5 has run twice?",
+      "code": [
+        "let got = '';",
+        "const ul = document",
+        "  .getElementById('bikes');",
+        "function pick(e) {",
+        "  got += e.target.closest('li').id;",
+        "}",
+        "ul.addEventListener('click', pick);",
+        "const bts = ul",
+        "  .querySelectorAll('button');",
+        "bts[1].click();",
+        "bts[0].click();",
+        "console.log(got);"
+      ],
+      "dom": {
+        "tag": "ul",
+        "id": "bikes",
+        "children": [
+          {
+            "tag": "li",
+            "id": "city",
+            "classes": [
+              "bike"
+            ],
+            "text": "City",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-city",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          },
+          {
+            "tag": "li",
+            "id": "road",
+            "classes": [
+              "bike"
+            ],
+            "text": "Road",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-road",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          },
+          {
+            "tag": "li",
+            "id": "trail",
+            "classes": [
+              "bike"
+            ],
+            "text": "Trail",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-trail",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "'roadcity'",
+          "correct": true,
+          "feedback": "Right. The second button is clicked first, so road comes first."
+        },
+        {
+          "text": "'cityroad'",
+          "correct": false,
+          "feedback": "That is page order. The handler runs in the order the clicks happen, and bts[1] is clicked first.",
+          "misconception": "order-follows-code-layout"
+        },
+        {
+          "text": "'road'",
+          "correct": false,
+          "feedback": "That is the value after the first click. The question asks about the second run of line 5.",
+          "misconception": "wrong-step-value"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "got",
+          "afterLine": 5,
+          "visit": 2
+        },
+        "expectedOutput": "roadcity"
+      },
+      "explanation": "The handler adds the id of the item that holds the clicked button. The first click hits bts[1], road. The second hits bts[0], city. So got is roadcity.",
+      "hints": [
+        "Work out which button each click line triggers.",
+        "closest('li') climbs from the clicked button to its item. Clicks run in the order of the lines.",
+        "The clicks happen in the order bts[1], bts[0], not in page order."
+      ],
+      "reference": {
+        "title": "Element: closest() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/closest",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.event-propagation.fill-01",
+      "concept": "event-propagation",
+      "prerequisites": [
+        "event-listeners"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blank so rented prints once for the single click on the rent button, and not for the clicks on items.",
+      "code": [
+        "const ul = document",
+        "  .getElementById('bikes');",
+        "function pick(e) {",
+        "  if (e.target.___('.rent')) {",
+        "    console.log('rented');",
+        "  }",
+        "}",
+        "ul.addEventListener('click', pick);",
+        "ul.firstElementChild.click();",
+        "ul.querySelector('button').click();",
+        "ul.lastElementChild.click();"
+      ],
+      "dom": {
+        "tag": "ul",
+        "id": "bikes",
+        "children": [
+          {
+            "tag": "li",
+            "id": "city",
+            "classes": [
+              "bike"
+            ],
+            "text": "City",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-city",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          },
+          {
+            "tag": "li",
+            "id": "road",
+            "classes": [
+              "bike"
+            ],
+            "text": "Road",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-road",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          },
+          {
+            "tag": "li",
+            "id": "trail",
+            "classes": [
+              "bike"
+            ],
+            "text": "Trail",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-trail",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "matches",
+          "correct": true,
+          "feedback": "Right. It is true only when the target itself has the class rent."
+        },
+        {
+          "text": "closest",
+          "correct": true,
+          "feedback": "Right. For the button it finds the button itself, and for an item it finds nothing."
+        },
+        {
+          "text": "querySelector",
+          "correct": false,
+          "feedback": "It searches inside the target. Each item contains a rent button, so item clicks also print."
+        },
+        {
+          "text": "contains",
+          "correct": false,
+          "feedback": "Elements have no contains with a selector argument here, so the call throws."
+        },
+        {
+          "text": "includes",
+          "correct": false,
+          "feedback": "Elements have no includes method, so the call throws."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "matches",
+            "closest"
+          ]
+        ],
+        "expectedOutput": "rented"
+      },
+      "explanation": "matches checks the target itself against the selector. closest also works: it finds the target when it matches and returns null for an item. querySelector looks inside the target, so an item would pass.",
+      "hints": [
+        "The condition must be true only when the clicked element is the rent button.",
+        "The method asks about the clicked element itself, not about its contents.",
+        "One chip tests the element itself. Another climbs from it. The others search inside it or do not exist."
+      ],
+      "reference": {
+        "title": "Element: matches() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/matches",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.event-propagation.parsons-01",
+      "concept": "event-propagation",
+      "prerequisites": [
+        "event-listeners"
+      ],
+      "format": "PARSONS",
+      "difficulty": 4,
+      "prompt": "A click on an item removes it. Order the lines so the program prints what is left in the list.",
+      "code": [
+        "ul.children[1].click();",
+        "const del = e => e.target.remove();",
+        "console.log(ul.textContent);",
+        "const page = document.body;",
+        "ul.children[2].click();",
+        "const ul = page.firstElementChild;",
+        "ul.addEventListener('click', del);"
+      ],
+      "dom": {
+        "tag": "ul",
+        "id": "bikes",
+        "children": [
+          {
+            "tag": "li",
+            "id": "city",
+            "classes": [
+              "bike"
+            ],
+            "text": "City",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-city",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          },
+          {
+            "tag": "li",
+            "id": "road",
+            "classes": [
+              "bike"
+            ],
+            "text": "Road",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-road",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          },
+          {
+            "tag": "li",
+            "id": "trail",
+            "classes": [
+              "bike"
+            ],
+            "text": "Trail",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-trail",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          }
+        ]
+      },
+      "solution": {
+        "lineOrder": [
+          3,
+          5,
+          1,
+          6,
+          4,
+          0,
+          2
+        ],
+        "acceptedOrders": [
+          [
+            3,
+            1,
+            5,
+            6,
+            4,
+            0,
+            2
+          ],
+          [
+            1,
+            3,
+            5,
+            6,
+            4,
+            0,
+            2
+          ]
+        ],
+        "expectedOutput": "CityRent"
+      },
+      "explanation": "One listener on the list removes whichever item is clicked. The last item goes first, so index 1 still exists for the second click. Reversed, index 2 would be missing and throw.",
+      "hints": [
+        "The listener must exist before any click.",
+        "Removing an item shifts the later ones down.",
+        "Click the highest index first, then the lower one."
+      ],
+      "reference": {
+        "title": "Element: remove() method",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/remove",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.dom-and-events.event-propagation.fix-01",
+      "concept": "event-propagation",
+      "prerequisites": [
+        "event-listeners"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print bikes, the id of the list that has the listener, but it prints another id. Tap the buggy line and pick the fix.",
+      "code": [
+        "const ul = document",
+        "  .getElementById('bikes');",
+        "function who(e) {",
+        "  console.log(e.target.id);",
+        "}",
+        "ul.addEventListener('click', who);",
+        "ul.querySelector('button').click();"
+      ],
+      "dom": {
+        "tag": "ul",
+        "id": "bikes",
+        "children": [
+          {
+            "tag": "li",
+            "id": "city",
+            "classes": [
+              "bike"
+            ],
+            "text": "City",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-city",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          },
+          {
+            "tag": "li",
+            "id": "road",
+            "classes": [
+              "bike"
+            ],
+            "text": "Road",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-road",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          },
+          {
+            "tag": "li",
+            "id": "trail",
+            "classes": [
+              "bike"
+            ],
+            "text": "Trail",
+            "children": [
+              {
+                "tag": "button",
+                "id": "rent-trail",
+                "classes": [
+                  "rent"
+                ],
+                "text": "Rent"
+              }
+            ]
+          }
+        ]
+      },
+      "options": [
+        {
+          "text": "  console.log(e.currentTarget.id);",
+          "correct": true,
+          "feedback": "Right. currentTarget is the list whose listener is running."
+        },
+        {
+          "text": "  console.log(e.type);",
+          "correct": false,
+          "feedback": "type is the name of the event, click. It is not the id of any element."
+        },
+        {
+          "text": "  console.log(e.target.className);",
+          "correct": false,
+          "feedback": "That reads the clicked button's classes and prints rent, not the list's id."
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "bikes"
+      },
+      "explanation": "e.target is the element that was clicked, here the button, so its id prints. The element whose listener is running is e.currentTarget, and that is the list.",
+      "hints": [
+        "Look at line 4 and ask which element it reads.",
+        "target is where the event started, currentTarget is where the listener sits.",
+        "One replacement reads the element that holds the listener."
+      ],
+      "reference": {
+        "title": "Event: currentTarget property",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Event/currentTarget",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

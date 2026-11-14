@@ -1,0 +1,1560 @@
+{
+  "track": "ADVANCED",
+  "unit": "promises-in-depth",
+  "order": 1,
+  "title": "Promises in depth",
+  "summary": "Chain promises, combine them with all, allSettled, race and any, follow rejections down a chain and build promises with new Promise.",
+  "concepts": [
+    {
+      "id": "promise-chaining",
+      "title": "Chaining and returned values",
+      "prerequisites": [
+        "promise-basics"
+      ]
+    },
+    {
+      "id": "promise-combinators",
+      "title": "all, allSettled, race and any",
+      "prerequisites": [
+        "promise-chaining",
+        "array-map"
+      ]
+    },
+    {
+      "id": "promise-rejection-flow",
+      "title": "How rejections travel a chain",
+      "prerequisites": [
+        "promise-chaining",
+        "async-error-handling"
+      ]
+    },
+    {
+      "id": "promise-construction",
+      "title": "Creating promises and wrapping callbacks",
+      "prerequisites": [
+        "promise-chaining",
+        "callbacks-and-timers"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "then-runs-immediately",
+      "description": "Believes a then handler runs at once, before the plain code below it, even when the promise is already settled."
+    },
+    {
+      "id": "chain-value-confusion",
+      "description": "Believes a handler that returns nothing, or logs instead of returning, still passes its value on to the next link."
+    },
+    {
+      "id": "returned-promise-not-unwrapped",
+      "description": "Believes a promise returned from a handler reaches the next handler as a promise object, not as its value."
+    },
+    {
+      "id": "all-ignores-rejections",
+      "description": "Believes Promise.all skips rejected inputs or turns them into undefined and still fulfills."
+    },
+    {
+      "id": "any-rejects-on-first-rejection",
+      "description": "Believes Promise.any rejects as soon as one input rejects, like all."
+    },
+    {
+      "id": "any-collects-all-values",
+      "description": "Believes Promise.any, or race, fulfills with a list of values instead of a single value."
+    },
+    {
+      "id": "catch-ends-chain",
+      "description": "Believes the chain stops after a catch, or that finally handles a rejection, so later links never run or the rejection is gone."
+    },
+    {
+      "id": "then-runs-after-throw",
+      "description": "Believes the next then still runs after a handler has thrown."
+    },
+    {
+      "id": "second-argument-covers-first",
+      "description": "Believes the second function of a then also handles an error thrown by the first function of the same then."
+    },
+    {
+      "id": "throw-escapes-promise",
+      "description": "Believes an error thrown inside a then handler cannot be caught by a later catch."
+    },
+    {
+      "id": "executor-runs-later",
+      "description": "Believes the function passed to new Promise runs later, like a handler."
+    },
+    {
+      "id": "later-call-overrides-settled",
+      "description": "Believes a later resolve or reject call replaces the outcome of a settled promise."
+    },
+    {
+      "id": "settles-more-than-once",
+      "description": "Believes every resolve call delivers its value to the handlers, so a promise can settle many times."
+    },
+    {
+      "id": "call-instead-of-pass",
+      "description": "Calls resolve, or another function, where a function must be handed over to be called later."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises",
+      "retrievedAt": "2026-11-14",
+      "sha256": "f855c7e94df74174f68b186558c5b4019b59544bee251e4b3d6512bd9994c1b2"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+      "retrievedAt": "2026-11-14",
+      "sha256": "6b09b2c5d522f3bd68d1c0389abe52b4a77394250fe4d9bfae713523e8610603"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then",
+      "retrievedAt": "2026-11-14",
+      "sha256": "ab187086098cef51a4fdcaaf473765f6ff07a1a1592dfb91c557543b84037307"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
+      "retrievedAt": "2026-11-14",
+      "sha256": "19d84358b27f9406d2d4ce0beec3623cc0bf49c3b31afde94106a3239f929c5f"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all",
+      "retrievedAt": "2026-11-14",
+      "sha256": "4edd269d7a899237eaa0ed6bb553444000d45c13664bf9df2569574e6edae5be"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled",
+      "retrievedAt": "2026-11-14",
+      "sha256": "a1fd16ea4c0dde2bc72941653750369662aa454cbdd489dbeb48ae47367529a0"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/any",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7d0da90e1ec147af06ba3ff5a0194e486a46f707dce5c2aa36244ec71b690ce3"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race",
+      "retrievedAt": "2026-11-14",
+      "sha256": "77daa49758890903bf6844d91be4746f81f1bc318af040cff0309d5d1a0554fe"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/Promise",
+      "retrievedAt": "2026-11-14",
+      "sha256": "2dc00f4266e3378ef979147ab92716867db15de77a8cfba7c14d03d20a37a739"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "promises-in-depth.lesson-1",
+      "title": "Chaining and returned values",
+      "conceptCard": {
+        "title": "A handler's return value feeds the next link",
+        "body": "Every then returns a new promise. Whatever its handler returns becomes the value of the next link. If the handler returns a promise, the chain waits for it and passes on its result. A handler without return passes on undefined.",
+        "code": [
+          "Promise.resolve(2)",
+          "  .then((n) => n * 3)",
+          "  .then((n) => {",
+          "    console.log(n);",
+          "  });"
+        ],
+        "expectedOutput": "6"
+      },
+      "itemIds": [
+        "adv.promises-in-depth.promise-chaining.predict-01",
+        "adv.promises-in-depth.promise-chaining.concept-01",
+        "adv.promises-in-depth.promise-chaining.fill-01",
+        "adv.promises-in-depth.promise-chaining.fix-01",
+        "adv.promises-in-depth.promise-chaining.write-01"
+      ]
+    },
+    {
+      "id": "promises-in-depth.lesson-2",
+      "title": "Combinators",
+      "conceptCard": {
+        "title": "Waiting for many promises at once",
+        "body": "Promise.all fulfills with every value in order, or rejects with the first rejection. allSettled never rejects and reports a status for each input. race copies the first promise to settle. any copies the first to fulfill and rejects only if all reject.",
+        "code": [
+          "Promise.allSettled([",
+          "  Promise.resolve('a'),",
+          "  Promise.reject(new Error('x')),",
+          "]).then((s) => s.forEach((r) => {",
+          "  console.log(r.status);",
+          "}));"
+        ],
+        "expectedOutput": "fulfilled\nrejected"
+      },
+      "itemIds": [
+        "adv.promises-in-depth.promise-combinators.predict-01",
+        "adv.promises-in-depth.promise-combinators.concept-01",
+        "adv.promises-in-depth.promise-combinators.parsons-01",
+        "adv.promises-in-depth.promise-combinators.fix-01",
+        "adv.promises-in-depth.promise-combinators.write-01"
+      ]
+    },
+    {
+      "id": "promises-in-depth.lesson-3",
+      "title": "Rejection flow",
+      "conceptCard": {
+        "title": "A rejection skips ahead to a catch",
+        "body": "A rejection skips every then until a catch handles it. A throw inside a handler rejects the promise that then returned. After a catch, the chain is fulfilled again, with the value the catch handler returned.",
+        "code": [
+          "Promise.reject(new Error('x'))",
+          "  .then(() => console.log('skip'))",
+          "  .catch(() => 'recovered')",
+          "  .then((v) => console.log(v));"
+        ],
+        "expectedOutput": "recovered"
+      },
+      "itemIds": [
+        "adv.promises-in-depth.promise-rejection-flow.predict-01",
+        "adv.promises-in-depth.promise-rejection-flow.concept-01",
+        "adv.promises-in-depth.promise-rejection-flow.fill-01",
+        "adv.promises-in-depth.promise-rejection-flow.fix-01",
+        "adv.promises-in-depth.promise-rejection-flow.write-01"
+      ]
+    },
+    {
+      "id": "promises-in-depth.lesson-4",
+      "title": "Creating promises",
+      "conceptCard": {
+        "title": "Building a promise yourself",
+        "body": "new Promise runs its executor at once and gives it resolve and reject. A promise settles only once, and later calls are ignored. To wrap a callback, call resolve or reject from inside that callback.",
+        "code": [
+          "const job = new Promise((ok) => {",
+          "  console.log('start');",
+          "  ok('end');",
+          "});",
+          "job.then((v) => console.log(v));"
+        ],
+        "expectedOutput": "start\nend"
+      },
+      "itemIds": [
+        "adv.promises-in-depth.promise-construction.predict-01",
+        "adv.promises-in-depth.promise-construction.concept-01",
+        "adv.promises-in-depth.promise-construction.parsons-01",
+        "adv.promises-in-depth.promise-construction.fix-01",
+        "adv.promises-in-depth.promise-construction.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "adv.promises-in-depth.promise-chaining.predict-01",
+      "concept": "promise-chaining",
+      "prerequisites": [
+        "promise-basics"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A bakery chain doubles the trays, then reports twice. What does this code print?",
+      "code": [
+        "Promise.resolve(5)",
+        "  .then((trays) => trays * 2)",
+        "  .then((loaves) => {",
+        "    console.log(loaves);",
+        "    return loaves + 1;",
+        "  })",
+        "  .then((n) => console.log(n));",
+        "console.log('oven on');"
+      ],
+      "options": [
+        {
+          "text": "oven on\n10\n11",
+          "correct": true,
+          "feedback": "Right. oven on prints first, then each handler passes its returned value on."
+        },
+        {
+          "text": "10\n11\noven on",
+          "correct": false,
+          "feedback": "The handlers wait for the plain code to finish, even though the promise is already fulfilled.",
+          "misconception": "then-runs-immediately"
+        },
+        {
+          "text": "oven on\n10\n10",
+          "correct": false,
+          "feedback": "The last handler gets what the middle handler returned, loaves + 1, not the earlier value.",
+          "misconception": "chain-value-confusion"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "oven on\n10\n11"
+      },
+      "explanation": "Handlers run after the plain code, so oven on prints first. The first handler returns 10, which the second prints. The second returns 11, which the third receives and prints.",
+      "hints": [
+        "Which line prints before any handler runs?",
+        "Each then passes the value its handler returns to the next then.",
+        "Follow the number from 5 through the three handlers: the second one also returns something."
+      ],
+      "reference": {
+        "title": "Promise.prototype.then()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:24"
+      ]
+    },
+    {
+      "id": "adv.promises-in-depth.promise-chaining.concept-01",
+      "concept": "promise-chaining",
+      "prerequisites": [
+        "promise-basics"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement describes what the last handler receives here?",
+      "code": [
+        "Promise.resolve('order-7')",
+        "  .then((id) => {",
+        "    return Promise.resolve(id);",
+        "  })",
+        "  .then((v) => console.log(v));"
+      ],
+      "options": [
+        {
+          "text": "It receives the text the returned promise fulfilled with.",
+          "correct": true,
+          "feedback": "Right. The chain waits for the returned promise and passes on its value."
+        },
+        {
+          "text": "It receives the returned promise object, so it prints a Promise.",
+          "correct": false,
+          "feedback": "A promise returned from a handler is unwrapped. The next handler gets its value, not the promise.",
+          "misconception": "returned-promise-not-unwrapped"
+        },
+        {
+          "text": "It receives undefined, because the inner promise value is dropped.",
+          "correct": false,
+          "feedback": "The value is not dropped. When a handler returns a promise, the next link waits and receives its result.",
+          "misconception": "chain-value-confusion"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "order-7"
+      },
+      "explanation": "When a then handler returns a promise, the promise that then created follows it. The next handler runs after it fulfills and receives its value, order-7.",
+      "hints": [
+        "Look at what the first handler returns.",
+        "Returning a promise makes the chain wait for it and adopt its outcome.",
+        "Ask whether the next handler sees the promise itself or the value inside it."
+      ],
+      "reference": {
+        "title": "Using promises",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.promises-in-depth.promise-chaining.fill-01",
+      "concept": "promise-chaining",
+      "prerequisites": [
+        "promise-basics"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blank so the last handler prints dough baked.",
+      "code": [
+        "Promise.resolve('dough')",
+        "  .then((x) => ___)",
+        "  .then((x) => console.log(x));"
+      ],
+      "options": [
+        {
+          "text": "x + ' baked'",
+          "correct": true,
+          "feedback": "Right. The arrow returns the new text, which the next handler receives."
+        },
+        {
+          "text": "Promise.resolve(x + ' baked')",
+          "correct": true,
+          "feedback": "Right. A returned promise is unwrapped, so the next handler gets the text."
+        },
+        {
+          "text": "{ x + ' baked' }",
+          "correct": false,
+          "feedback": "Braces make a body, and without return it gives back undefined. The next handler prints undefined.",
+          "misconception": "chain-value-confusion"
+        },
+        {
+          "text": "console.log(x)",
+          "correct": false,
+          "feedback": "This prints dough here, and the handler returns undefined, so the last line prints undefined too.",
+          "misconception": "chain-value-confusion"
+        },
+        {
+          "text": "x",
+          "correct": false,
+          "feedback": "This passes dough on unchanged, so the last handler prints dough."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "x + ' baked'",
+            "Promise.resolve(x + ' baked')"
+          ]
+        ],
+        "expectedOutput": "dough baked"
+      },
+      "explanation": "The blank is an arrow body without braces, so its value is returned. A text or a promise of a text both reach the next handler as the text. Braces without return, or a log, hand on undefined.",
+      "hints": [
+        "Look at what the arrow function returns on line 2.",
+        "The next handler receives exactly what this handler returns.",
+        "Two chips return the baked text, one of them wrapped in a promise."
+      ],
+      "reference": {
+        "title": "Promise.prototype.then()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.promises-in-depth.promise-chaining.fix-01",
+      "concept": "promise-chaining",
+      "prerequisites": [
+        "promise-basics"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The last handler should print flour!, but it prints undefined. Tap the buggy line and pick the fix.",
+      "code": [
+        "Promise.resolve('flour')",
+        "  .then((f) => {",
+        "    Promise.resolve(f + '!');",
+        "  })",
+        "  .then((f) => console.log(f));"
+      ],
+      "options": [
+        {
+          "text": "return Promise.resolve(f + '!');",
+          "correct": true,
+          "feedback": "Right. Returning the inner promise makes the chain follow it."
+        },
+        {
+          "text": "Promise.resolve(f + '!').then();",
+          "correct": false,
+          "feedback": "The inner chain is still not returned, so the outer handler gives back undefined.",
+          "misconception": "chain-value-confusion"
+        },
+        {
+          "text": "console.log(f + '!');",
+          "correct": false,
+          "feedback": "This prints flour!, but the handler still returns undefined, so the last line prints undefined.",
+          "misconception": "chain-value-confusion"
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "flour!"
+      },
+      "explanation": "The inner promise is created but never returned, so the handler gives back undefined and the chain does not wait for it. return hands the promise to the chain, which then passes on its value.",
+      "hints": [
+        "Compare what line 3 creates with what the handler returns.",
+        "A handler passes on only what it returns, even when it starts another promise.",
+        "Keep the promise and put the keyword that hands it to the chain in front of it."
+      ],
+      "reference": {
+        "title": "Promise.prototype.then()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.promises-in-depth.promise-chaining.write-01",
+      "concept": "promise-chaining",
+      "prerequisites": [
+        "promise-basics"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of delayTrip(trip), a then handler. trip is {stop, minutes}. Return a new object with minutes plus 10, never above 60.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "delayTrip",
+          "params": [
+            "trip"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              {
+                "stop": "Oak St",
+                "minutes": 20
+              }
+            ],
+            "expected": {
+              "stop": "Oak St",
+              "minutes": 30
+            }
+          },
+          {
+            "input": [
+              {
+                "stop": "Pier",
+                "minutes": 55
+              }
+            ],
+            "expected": {
+              "stop": "Pier",
+              "minutes": 60
+            }
+          },
+          {
+            "input": [
+              {
+                "stop": "Mill",
+                "minutes": 0
+              }
+            ],
+            "expected": {
+              "stop": "Mill",
+              "minutes": 10
+            }
+          },
+          {
+            "input": [
+              {
+                "stop": "Dock",
+                "minutes": 50
+              }
+            ],
+            "expected": {
+              "stop": "Dock",
+              "minutes": 60
+            }
+          }
+        ],
+        "reference": [
+          "const later = trip.minutes + 10;",
+          "const minutes = Math.min(later, 60);",
+          "return { stop: trip.stop, minutes };"
+        ],
+        "wrongSolutions": [
+          [
+            "const minutes = trip.minutes + 10;",
+            "return { stop: trip.stop, minutes };"
+          ],
+          [
+            "trip.minutes += 10;"
+          ],
+          [
+            "const later = trip.minutes + 10;",
+            "return Math.min(later, 60);"
+          ]
+        ]
+      },
+      "explanation": "A then handler hands the next link only what it returns, so the delayed trip must be returned. Add 10 first, then cap the result at 60 with Math.min.",
+      "hints": [
+        "The next link receives only the returned value.",
+        "Return an object with the same stop and a changed minutes value.",
+        "Compute minutes plus 10, then limit it to 60 before building the object."
+      ],
+      "reference": {
+        "title": "Math.min()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/min",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.promises-in-depth.promise-combinators.predict-01",
+      "concept": "promise-combinators",
+      "prerequisites": [
+        "promise-chaining",
+        "array-map"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A hiker prepares gear with three promises, and one rejects. What does this code print?",
+      "code": [
+        "Promise.all([",
+        "  Promise.resolve('tent'),",
+        "  Promise.reject(new Error('x')),",
+        "  Promise.resolve('map'),",
+        "])",
+        "  .then((gear) => console.log(gear))",
+        "  .catch(() => console.log('lost'));"
+      ],
+      "options": [
+        {
+          "text": "lost",
+          "correct": true,
+          "feedback": "Right. One rejection rejects the combined promise, so only catch runs."
+        },
+        {
+          "text": "['tent', 'map']",
+          "correct": false,
+          "feedback": "all does not skip rejected promises. A single rejection rejects the whole result.",
+          "misconception": "all-ignores-rejections"
+        },
+        {
+          "text": "['tent', undefined, 'map']",
+          "correct": false,
+          "feedback": "all never replaces a rejection with undefined. It rejects with that reason instead.",
+          "misconception": "all-ignores-rejections"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "lost"
+      },
+      "explanation": "Promise.all fulfills only when every input fulfills. Here stove rejects, so the combined promise rejects with that reason, the then handler is skipped, and catch prints lost.",
+      "hints": [
+        "Find the promise in the array that rejects.",
+        "Promise.all rejects as soon as any input rejects.",
+        "Decide which of the two handlers can run when the combined promise rejects."
+      ],
+      "reference": {
+        "title": "Promise.all()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:20"
+      ]
+    },
+    {
+      "id": "adv.promises-in-depth.promise-combinators.concept-01",
+      "concept": "promise-combinators",
+      "prerequisites": [
+        "promise-chaining",
+        "array-map"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "Promise.any([",
+        "  Promise.reject(new Error('a')),",
+        "  Promise.resolve('bus 12'),",
+        "  Promise.resolve('bus 40'),",
+        "]).then((f) => console.log(f));"
+      ],
+      "options": [
+        {
+          "text": "any ignores the rejection and fulfills with the first fulfilled value.",
+          "correct": true,
+          "feedback": "Right. any only rejects when every input rejects."
+        },
+        {
+          "text": "any rejects as soon as one input rejects, so nothing is printed.",
+          "correct": false,
+          "feedback": "That describes all. any waits for a fulfilled input and skips rejections.",
+          "misconception": "any-rejects-on-first-rejection"
+        },
+        {
+          "text": "any fulfills with an array of every fulfilled value.",
+          "correct": false,
+          "feedback": "any gives one value, from the first input that fulfills, not a list.",
+          "misconception": "any-collects-all-values"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "bus 12"
+      },
+      "explanation": "Promise.any fulfills with the value of the first input to fulfill and skips rejected inputs. It rejects only when all inputs reject. Here the first fulfilled input is bus 12.",
+      "hints": [
+        "Count how many inputs reject and how many fulfill.",
+        "any looks for one fulfilled promise and passes on its single value.",
+        "Compare with all, which fails on any rejection and gives a list."
+      ],
+      "reference": {
+        "title": "Promise.any()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/any",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.promises-in-depth.promise-combinators.parsons-01",
+      "concept": "promise-combinators",
+      "prerequisites": [
+        "promise-chaining",
+        "array-map"
+      ],
+      "format": "PARSONS",
+      "variant": "ORDER_OUTPUT",
+      "difficulty": 4,
+      "prompt": "Order the three lines that this race program prints, from first to last.",
+      "code": [
+        "const slow = new Promise((ok) => {",
+        "  setTimeout(() => ok('pie'), 300);",
+        "});",
+        "const fast = new Promise((ok) => {",
+        "  setTimeout(() => ok('roll'), 100);",
+        "});",
+        "slow.then((v) => console.log(v));",
+        "fast.then((v) => console.log(v));",
+        "Promise.race([slow, fast])",
+        "  .then(() => console.log('won'));"
+      ],
+      "solution": {
+        "expectedOutput": "roll\nwon\npie"
+      },
+      "explanation": "The 100 ms timer fires first and roll prints. race then settles, so won prints. race does not stop the slower promise, so pie still prints when its 300 ms timer fires.",
+      "hints": [
+        "Sort the two timers by their delays.",
+        "race settles with the first promise to settle, but the others keep running.",
+        "The race handler runs right after the first timer, before the 300 ms timer fires."
+      ],
+      "reference": {
+        "title": "Promise.race()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:21"
+      ]
+    },
+    {
+      "id": "adv.promises-in-depth.promise-combinators.fix-01",
+      "concept": "promise-combinators",
+      "prerequisites": [
+        "promise-chaining",
+        "array-map"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The report should print the status of every job, but the failed job stops it. Tap the buggy line and pick the fix.",
+      "code": [
+        "const jobs = [",
+        "  Promise.resolve('menu'),",
+        "  Promise.reject(new Error('x')),",
+        "];",
+        "Promise.all(jobs)",
+        "  .then((results) => {",
+        "    results.forEach((r) => {",
+        "      console.log(r.status);",
+        "    });",
+        "  });"
+      ],
+      "options": [
+        {
+          "text": "Promise.allSettled(jobs)",
+          "correct": true,
+          "feedback": "Right. allSettled waits for every job and reports an object with a status for each."
+        },
+        {
+          "text": "Promise.any(jobs)",
+          "correct": false,
+          "feedback": "any fulfills with one value, the string menu, so forEach cannot run on it and the handler throws.",
+          "misconception": "any-collects-all-values"
+        },
+        {
+          "text": "Promise.race(jobs)",
+          "correct": false,
+          "feedback": "race fulfills with the first value, the string menu, so forEach cannot run on it and the handler throws."
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "fulfilled\nrejected"
+      },
+      "explanation": "Promise.all rejects on the first failure and never gives the results array. Promise.allSettled always fulfills with one {status, value or reason} object per input, in order.",
+      "hints": [
+        "What happens to Promise.all when one input rejects?",
+        "The handler needs a result for every job, including the failed one.",
+        "Use the combinator that never rejects and reports a status for each input."
+      ],
+      "reference": {
+        "title": "Promise.allSettled()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:22"
+      ]
+    },
+    {
+      "id": "adv.promises-in-depth.promise-combinators.write-01",
+      "concept": "promise-combinators",
+      "prerequisites": [
+        "promise-chaining",
+        "array-map"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of fulfilledValues(results). results is what allSettled gave: objects with status and value or reason. Return the values of the fulfilled ones.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "fulfilledValues",
+          "params": [
+            "results"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                {
+                  "status": "fulfilled",
+                  "value": "a"
+                },
+                {
+                  "status": "rejected",
+                  "reason": "x"
+                },
+                {
+                  "status": "fulfilled",
+                  "value": "b"
+                }
+              ]
+            ],
+            "expected": [
+              "a",
+              "b"
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                {
+                  "status": "rejected",
+                  "reason": "x"
+                }
+              ]
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                {
+                  "status": "fulfilled",
+                  "value": 0
+                }
+              ]
+            ],
+            "expected": [
+              0
+            ]
+          }
+        ],
+        "reference": [
+          "const done = results.filter(",
+          "  (r) => r.status === 'fulfilled'",
+          ");",
+          "return done.map((r) => r.value);"
+        ],
+        "wrongSolutions": [
+          [
+            "return results.map((r) => r.value);"
+          ],
+          [
+            "const failed = results.filter(",
+            "  (r) => r.status === 'rejected'",
+            ");",
+            "return failed.map((r) => r.reason);"
+          ],
+          [
+            "return results",
+            "  .filter((r) => r.value)",
+            "  .map((r) => r.value);"
+          ]
+        ]
+      },
+      "explanation": "Keep only the entries whose status is fulfilled, then read each one's value. Filtering on value itself would drop a fulfilled value such as 0, so test the status.",
+      "hints": [
+        "Each entry has a status you can test.",
+        "Filter the entries first, then map them to their values.",
+        "Keep status fulfilled, then take the value property of each remaining entry."
+      ],
+      "reference": {
+        "title": "Promise.allSettled()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.promises-in-depth.promise-rejection-flow.predict-01",
+      "concept": "promise-rejection-flow",
+      "prerequisites": [
+        "promise-chaining",
+        "async-error-handling"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A garden shop chain throws inside a handler. What does this code print?",
+      "code": [
+        "Promise.resolve('fern')",
+        "  .then((plant) => {",
+        "    throw new Error('wilted');",
+        "  })",
+        "  .then(() => console.log('potted'))",
+        "  .catch((e) => console.log(e.name))",
+        "  .then(() => console.log('open'));"
+      ],
+      "options": [
+        {
+          "text": "Error\nopen",
+          "correct": true,
+          "feedback": "Right. The throw rejects the chain, catch handles it, and the chain fulfills again."
+        },
+        {
+          "text": "Error",
+          "correct": false,
+          "feedback": "catch does not end the chain. It returns a fulfilled promise, so the last handler runs too.",
+          "misconception": "catch-ends-chain"
+        },
+        {
+          "text": "potted\nError\nopen",
+          "correct": false,
+          "feedback": "A throw in a handler rejects its promise, so the next then is skipped.",
+          "misconception": "then-runs-after-throw"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Error\nopen"
+      },
+      "explanation": "The throw makes the promise from the first then reject. The rejection skips the next then and reaches catch, which prints the name. catch returns undefined, so the chain fulfills and the last handler runs.",
+      "hints": [
+        "Find the line that throws.",
+        "A rejection skips every then until the first catch.",
+        "After catch finishes, ask whether the chain is rejected or fulfilled."
+      ],
+      "reference": {
+        "title": "Promise.prototype.catch()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:22"
+      ]
+    },
+    {
+      "id": "adv.promises-in-depth.promise-rejection-flow.concept-01",
+      "concept": "promise-rejection-flow",
+      "prerequisites": [
+        "promise-chaining",
+        "async-error-handling"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "Which statement explains what this code prints?",
+      "code": [
+        "Promise.resolve('ticket')",
+        "  .then(",
+        "    (t) => {",
+        "      throw new Error('void');",
+        "    },",
+        "    () => console.log('handled')",
+        "  )",
+        "  .catch(() => console.log('late'));"
+      ],
+      "options": [
+        {
+          "text": "The second argument of then does not handle errors from the first one, so catch prints late.",
+          "correct": true,
+          "feedback": "Right. Both functions of one then only react to the promise before it."
+        },
+        {
+          "text": "The second argument of then handles the throw, so handled prints.",
+          "correct": false,
+          "feedback": "The second function handles a rejection of the earlier promise. The throw comes from the first function of the same then.",
+          "misconception": "second-argument-covers-first"
+        },
+        {
+          "text": "A throw inside then cannot be caught later, so nothing prints.",
+          "correct": false,
+          "feedback": "The throw rejects the promise that then returned, and a later catch can handle it.",
+          "misconception": "throw-escapes-promise"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "late"
+      },
+      "explanation": "The earlier promise fulfills, so only the first function of then runs. When it throws, the promise returned by that then rejects. The second function does not cover it, but the later catch does.",
+      "hints": [
+        "Is the promise before this then fulfilled or rejected?",
+        "A then with two functions picks one by the state of the earlier promise.",
+        "Find which link after the then can still see the error thrown in the first function."
+      ],
+      "reference": {
+        "title": "Promise.prototype.then()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.promises-in-depth.promise-rejection-flow.fill-01",
+      "concept": "promise-rejection-flow",
+      "prerequisites": [
+        "promise-chaining",
+        "async-error-handling"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blanks so the program prints Error and then open.",
+      "code": [
+        "Promise.reject(new Error('empty'))",
+        "  .then(() => console.log('stock'))",
+        "  .___((e) => console.log(e.name))",
+        "  .___(() => console.log('open'));"
+      ],
+      "options": [
+        {
+          "text": "catch",
+          "correct": true,
+          "feedback": "Right. catch handles the rejection and receives the error, so it can print its name."
+        },
+        {
+          "text": "then",
+          "correct": true,
+          "feedback": "Right. After the catch the chain is fulfilled, so a then handler runs."
+        },
+        {
+          "text": "finally",
+          "correct": true,
+          "feedback": "Right. finally also runs after the catch, and it prints open."
+        },
+        {
+          "text": "all",
+          "correct": false,
+          "feedback": "all is not a method of a promise, so the call fails with a TypeError."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "catch"
+          ],
+          [
+            "then",
+            "finally"
+          ]
+        ],
+        "expectedOutput": "Error\nopen"
+      },
+      "explanation": "The rejection skips line 2 and needs a catch to be handled. Once catch has run, the chain is fulfilled again, so a then or a finally on the last line prints open.",
+      "hints": [
+        "Look at what happens to the rejection on line 2.",
+        "Only one kind of handler reacts to a rejection; the last link follows it.",
+        "The first blank takes a handler for errors, the second one runs once the chain is healthy again."
+      ],
+      "reference": {
+        "title": "Promise.prototype.catch()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.promises-in-depth.promise-rejection-flow.fix-01",
+      "concept": "promise-rejection-flow",
+      "prerequisites": [
+        "promise-chaining",
+        "async-error-handling"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "check(0) rejects and nothing handles it, so the program should print no but ends with an unhandled rejection. Tap the buggy line and pick the fix.",
+      "code": [
+        "const check = (stock) =>",
+        "  stock > 0",
+        "    ? Promise.resolve(stock)",
+        "    : Promise.reject(new Error());",
+        "check(0)",
+        "  .then((n) => console.log(n))",
+        "  .then(() => console.log('no'));"
+      ],
+      "options": [
+        {
+          "text": ".catch(() => console.log('no'));",
+          "correct": true,
+          "feedback": "Right. catch handles the rejection, so no prints and nothing is left unhandled."
+        },
+        {
+          "text": ".finally(() => console.log('no'));",
+          "correct": false,
+          "feedback": "finally prints no, but it does not handle the rejection, which still ends unhandled.",
+          "misconception": "catch-ends-chain"
+        },
+        {
+          "text": ".catch(console.log('no'));",
+          "correct": false,
+          "feedback": "This prints no at once and hands undefined to catch, so the rejection is still unhandled.",
+          "misconception": "call-instead-of-pass"
+        }
+      ],
+      "solution": {
+        "bugLine": 7,
+        "expectedOutput": "no"
+      },
+      "explanation": "A then handler only runs for a fulfilled promise, so the rejection passes over line 7 and nothing handles it. catch with a function handles the rejection and prints no.",
+      "hints": [
+        "Look at which handler is on line 7.",
+        "A then handler never runs for a rejected promise; another method handles rejections.",
+        "Replace the method name and keep the function that prints out."
+      ],
+      "reference": {
+        "title": "Promise.prototype.catch()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:29"
+      ]
+    },
+    {
+      "id": "adv.promises-in-depth.promise-rejection-flow.write-01",
+      "concept": "promise-rejection-flow",
+      "prerequisites": [
+        "promise-chaining",
+        "async-error-handling"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of recover(failure), a catch handler. failure is {item, code}. Return 'item: retry' when code is 'busy', otherwise 'item: skip'.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "recover",
+          "params": [
+            "failure"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              {
+                "item": "bread",
+                "code": "busy"
+              }
+            ],
+            "expected": "bread: retry"
+          },
+          {
+            "input": [
+              {
+                "item": "soup",
+                "code": "gone"
+              }
+            ],
+            "expected": "soup: skip"
+          },
+          {
+            "input": [
+              {
+                "item": "tea",
+                "code": "Busy"
+              }
+            ],
+            "expected": "tea: skip"
+          },
+          {
+            "input": [
+              {
+                "item": "pie",
+                "code": ""
+              }
+            ],
+            "expected": "pie: skip"
+          }
+        ],
+        "reference": [
+          "if (failure.code === 'busy') {",
+          "  return failure.item + ': retry';",
+          "}",
+          "return failure.item + ': skip';"
+        ],
+        "wrongSolutions": [
+          [
+            "if (failure.code === 'busy') {",
+            "  return failure.item + ': retry';",
+            "}"
+          ],
+          [
+            "return failure.item + ': retry';"
+          ],
+          [
+            "if (failure.code) {",
+            "  return failure.item + ': retry';",
+            "}",
+            "return failure.item + ': skip';"
+          ]
+        ]
+      },
+      "explanation": "What a catch handler returns becomes the value of the fulfilled chain, so return in both cases. Compare the code strictly with busy, so Busy and an empty code both skip.",
+      "hints": [
+        "Both outcomes must return text.",
+        "Use an if on failure.code, and return in each outcome.",
+        "Compare with the exact text busy and return the other text when it differs."
+      ],
+      "reference": {
+        "title": "Promise.prototype.catch()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.promises-in-depth.promise-construction.predict-01",
+      "concept": "promise-construction",
+      "prerequisites": [
+        "promise-chaining",
+        "callbacks-and-timers"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A courier builds a promise and reads it later. What does this code print?",
+      "code": [
+        "const job = new Promise((ok) => {",
+        "  console.log('packing');",
+        "  ok('parcel');",
+        "});",
+        "console.log('shipping');",
+        "job.then((p) => console.log(p));"
+      ],
+      "options": [
+        {
+          "text": "packing\nshipping\nparcel",
+          "correct": true,
+          "feedback": "Right. The executor runs at once, and the handler waits for the plain code."
+        },
+        {
+          "text": "shipping\npacking\nparcel",
+          "correct": false,
+          "feedback": "The function passed to new Promise runs immediately, before the next line.",
+          "misconception": "executor-runs-later"
+        },
+        {
+          "text": "packing\nparcel\nshipping",
+          "correct": false,
+          "feedback": "Handlers never run in the middle of the main code, even for a promise that is already fulfilled.",
+          "misconception": "then-runs-immediately"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "packing\nshipping\nparcel"
+      },
+      "explanation": "The executor passed to new Promise runs synchronously, so packing prints first. The then handler is queued and runs after the main code ends, so shipping prints before parcel.",
+      "hints": [
+        "Find the function that new Promise calls right away.",
+        "The executor is synchronous; a then handler is not.",
+        "Print the executor's log, then the plain log, then the handler's."
+      ],
+      "reference": {
+        "title": "Promise() constructor",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/Promise",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.promises-in-depth.promise-construction.concept-01",
+      "concept": "promise-construction",
+      "prerequisites": [
+        "promise-chaining",
+        "callbacks-and-timers"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "Which statement explains what this code prints?",
+      "code": [
+        "const p = new Promise((ok, no) => {",
+        "  ok('first');",
+        "  no(new Error('x'));",
+        "  ok('second');",
+        "});",
+        "p.then((v) => console.log(v));"
+      ],
+      "options": [
+        {
+          "text": "A promise settles once, so the later calls are ignored.",
+          "correct": true,
+          "feedback": "Right. The first call fixes the outcome."
+        },
+        {
+          "text": "The last call wins, so second prints.",
+          "correct": false,
+          "feedback": "A settled promise never changes, so a later resolve does not replace the value.",
+          "misconception": "later-call-overrides-settled"
+        },
+        {
+          "text": "Every resolve call delivers its value, so first and second both print.",
+          "correct": false,
+          "feedback": "The handler runs once, with the value of the first settlement only.",
+          "misconception": "settles-more-than-once"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "first"
+      },
+      "explanation": "The first call to resolve or reject settles the promise, and every later call is ignored. The promise is fulfilled with first, so the handler prints it once.",
+      "hints": [
+        "Look at the order of the three calls inside the executor.",
+        "A promise has one outcome that never changes once it is set.",
+        "Ask which of the three calls runs earliest."
+      ],
+      "reference": {
+        "title": "Promise() constructor",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/Promise",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.promises-in-depth.promise-construction.parsons-01",
+      "concept": "promise-construction",
+      "prerequisites": [
+        "promise-chaining",
+        "callbacks-and-timers"
+      ],
+      "format": "PARSONS",
+      "variant": "ORDER_OUTPUT",
+      "difficulty": 4,
+      "prompt": "Which order do the lines of this coffee program print in? Arrange them.",
+      "code": [
+        "const grind = new Promise((ok) => {",
+        "  setTimeout(ok, 100);",
+        "});",
+        "const brew = new Promise((ok) => {",
+        "  setTimeout(ok, 200);",
+        "});",
+        "console.log('order placed');",
+        "brew",
+        "  .then(() => console.log('tea'));",
+        "grind",
+        "  .then(() => console.log('beans'));",
+        "console.log('waiting');"
+      ],
+      "solution": {
+        "expectedOutput": "order placed\nwaiting\nbeans\ntea"
+      },
+      "explanation": "The plain logs run first: order placed, then waiting. The two promises settle when their timers fire. The 100 ms one prints beans, then the 200 ms one prints tea.",
+      "hints": [
+        "Start with the logs that are not inside a handler.",
+        "Each promise settles when its timer fires, and the shorter delay fires first.",
+        "The order of the then lines does not decide the order, the delays do."
+      ],
+      "reference": {
+        "title": "setTimeout()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.promises-in-depth.promise-construction.fix-01",
+      "concept": "promise-construction",
+      "prerequisites": [
+        "promise-chaining",
+        "callbacks-and-timers"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "loadAsync(4) should print 4 after the delay, but it prints undefined and then crashes. Tap the buggy line and pick the fix.",
+      "code": [
+        "const load = (id, done) => {",
+        "  setTimeout(() => done(id), 100);",
+        "};",
+        "const loadAsync = (id) =>",
+        "  new Promise((resolve) => {",
+        "    load(id, resolve());",
+        "  });",
+        "loadAsync(4)",
+        "  .then((v) => console.log(v));"
+      ],
+      "options": [
+        {
+          "text": "load(id, resolve);",
+          "correct": true,
+          "feedback": "Right. load calls resolve later with the value, which settles the promise."
+        },
+        {
+          "text": "load(id, resolve(id));",
+          "correct": false,
+          "feedback": "This settles at once and passes undefined as the callback, so the timer later crashes.",
+          "misconception": "call-instead-of-pass"
+        },
+        {
+          "text": "load(id, () => resolve);",
+          "correct": false,
+          "feedback": "The callback only returns resolve and never calls it, so the promise never settles."
+        }
+      ],
+      "solution": {
+        "bugLine": 6,
+        "expectedOutput": "4"
+      },
+      "explanation": "resolve() is called right now with no value, and its result undefined is passed as the callback, so the timer crashes later. Pass resolve itself and load calls it with the value.",
+      "hints": [
+        "Look at what line 6 passes as the second argument.",
+        "Parentheses call a function now; load needs a function it can call later.",
+        "Hand resolve over by name, with no parentheses."
+      ],
+      "reference": {
+        "title": "Promise() constructor",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/Promise",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.promises-in-depth.promise-construction.write-01",
+      "concept": "promise-construction",
+      "prerequisites": [
+        "promise-chaining",
+        "callbacks-and-timers"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of outcome(error, data), the core of a callback wrapper. Return {ok: false, error} when error is not null, else {ok: true, data}.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "outcome",
+          "params": [
+            "error",
+            "data"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              null,
+              "ok"
+            ],
+            "expected": {
+              "ok": true,
+              "data": "ok"
+            }
+          },
+          {
+            "input": [
+              "timeout",
+              null
+            ],
+            "expected": {
+              "ok": false,
+              "error": "timeout"
+            }
+          },
+          {
+            "input": [
+              null,
+              0
+            ],
+            "expected": {
+              "ok": true,
+              "data": 0
+            }
+          },
+          {
+            "input": [
+              "bad",
+              5
+            ],
+            "expected": {
+              "ok": false,
+              "error": "bad"
+            }
+          }
+        ],
+        "reference": [
+          "if (error !== null) {",
+          "  return { ok: false, error };",
+          "}",
+          "return { ok: true, data };"
+        ],
+        "wrongSolutions": [
+          [
+            "return { ok: true, data };"
+          ],
+          [
+            "if (data) {",
+            "  return { ok: true, data };",
+            "}",
+            "return { ok: false, error };"
+          ],
+          [
+            "if (error === null) {",
+            "  return { ok: false, error };",
+            "}",
+            "return { ok: true, data };"
+          ]
+        ]
+      },
+      "explanation": "A wrapper rejects when the callback reports an error and fulfills with the data otherwise. Test the error against null, not the data: a data value such as 0 is still a success.",
+      "hints": [
+        "Decide the outcome from the error first.",
+        "Compare error with null, and build the matching object in each case.",
+        "If error is not null, report it; otherwise report the data, even when that is 0."
+      ],
+      "reference": {
+        "title": "Promise() constructor",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/Promise",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}
