@@ -16,7 +16,8 @@ after any context reset, then continue from "Current position".
 
 ## Current position
 
-- **Phase:** 0 — Foundations and trust (in progress).
+- **Phase:** 0 — Foundations and trust (most of it done; see the open list below), with phase 1
+  (mobile learning core) and phase 2 (bank authoring) started in parallel.
 - **Baseline (2026-11-14, HEAD 4bff66a):** typecheck, lint, 28 tests and knip all green.
 - **Local data before migration:** 2 users, 3 `UserProgress`, 2 `DuelSession`, 90 `Exercise`,
   21 `CodePuzzle`, 10 `DuelQuestion`.
@@ -37,25 +38,65 @@ after any context reset, then continue from "Current position".
 
 ### Phase 0
 
+Done (all committed; typecheck, lint and tests green at commit 0d354ed):
+
 - [x] Baseline gates verified green.
-- [x] `@project/content-model` — item, unit, lesson and trace types; shared answer checker (7 tests).
-- [x] XP model (`@project/xp-constants/xpModel`): per-action values and level curve (3 tests).
-- [x] `content/README.md` — authoring, execution, originality and verification rules.
-- [ ] `tools/content` executor, canonical formatter, DOM stub, worker pool, trace generator — sub-agent running.
-- [ ] `tools/content` bank loader, schema, pre-check, originality, construct scan, bank hash — sub-agent running.
-- [ ] `tools/content` Gate A, gates B/C/D export and ingest, run log, CLI — after the two above.
-- [ ] `@project/code-sandbox` (isolated-vm, expression and function-body entries) — sub-agent running.
-- [ ] Prisma: new models beside the old ones, SQL data conversion, verification script — sub-agent running.
-- [ ] Legacy content (90 + 21 + 10) converted to items and passing pre-check and Gate A.
-- [x] Design tokens (`mobile/src/theme/tokens.ts`) with a 44-pair contrast test.
-- [x] `@project/locales` (en, he): lookup, plural forms, key and placeholder parity tests (9 tests).
-- [x] App language module (`mobile/src/i18n`): device default, stored choice, RTL via reload.
-- [x] In-house JavaScript lexer for the code view (11 tests).
-- [x] Native dependencies installed, iOS project regenerated, simulator build succeeds.
+- [x] `@project/content-model` — item, unit, lesson and trace types; shared answer checker.
+- [x] XP model (`@project/xp-constants/xpModel`): per-action values and level curve.
+- [x] `content/README.md` — authoring, lesson recipes, execution, originality, verification rules.
+- [x] `content/concept-catalog.json` — 112 concepts, four per unit, with prerequisites.
+- [x] `tools/content` executor: deterministic vm runner, virtual timers, canonical console
+      format, DOM stub, worker pool; trace generator (acorn instrumentation + V8 promise hooks).
+- [x] `tools/content` bank loader, Zod schema checked against the model, structural pre-check,
+      banned constructs, duplicates, reference links, originality (source ledger), construct
+      scan, bank hash; `content/constructs.json`.
+- [x] `tools/content` Gate A (every Parsons ordering, every chip placement, bug/fix, sandbox for
+      CODE_WRITE, traces for items and concept cards) and the `verify` / `sources` commands.
+      496 tests in the tooling package.
+- [x] `@project/code-sandbox` (isolated-vm; expression and function-body entries; 33 tests);
+      the legacy puzzle endpoint uses it.
+- [x] Prisma: 26 new models and 17 enums beside the legacy ones; one transactional migration
+      with SQL data conversion; `migrate:verify-redesign` passes on the rehearsal copy, the local
+      database and an empty database. `migrate:legacy-completions` is ready and waits for the
+      legacy item map.
+- [x] `content/migration/legacy-triage.json` — target unit for each of the 121 legacy items.
+- [x] Design tokens with a 44-pair contrast test; `@project/locales` (en, he) with parity tests;
+      app language module; in-house JavaScript lexer; native dependencies; simulator build.
+- [x] Mascot from the logo artwork (decision D5): layer cutting script, 12-state machine, Skia
+      rig with parallax, volume shader, scene effects; verified on the simulator (all 12 states).
+- [x] App root: gesture root, fonts, language applied before first render.
+- [x] Design-system kit: `AppText`, `LipButton`, `OutlineButton`, `Surface`,
+      `ProgressSegments`, `Screen` + `AmbientRiver`, `CodeView`.
 - [x] Old-UI reference screenshots in `docs/screenshots/before/`.
-- [ ] Fonts loaded at startup; base components; mascot rig.
+
+Open in phase 0:
+
+- [ ] `tools/content` agent gates B/C/D (export, ingest, comparison), run log, pass commands,
+      release check, catalog and legacy-map checks — sub-agent running (brief: gates B/C/D).
+- [ ] Pilot unit `values-and-types` — sub-agent running; then fan out the other 27 units, two
+      authors at a time, from `content/verification/prompts/unit-author.md`
+      (per-unit briefs are generated from the template, the catalog and the triage file).
 - [ ] CI workflow, repository-wide Hebrew scan.
-- [ ] Section 2 bug fixes (accuracy, progress loss on login, solo wins, XP loopholes).
+- [ ] Backend: content, lesson, attempt and progress endpoints on the new models; seed from
+      `content/`; guest snapshot by item ids; merge on any login; section 2 bug fixes.
+- [ ] knip is red only for the new mobile kit and mascot, which no screen imports yet; it turns
+      green when the phase 1 screens land (do not suppress).
+- [ ] Docker image builds with the new sandbox package could not be verified (registry
+      timeouts); re-run `docker build -f backend/Dockerfile .` and `-f io/Dockerfile .`.
+- [ ] 3D model path for the mascot (`platyko.glb` through a native 3D renderer) and
+      `docs/mascot-3d-model.md`.
+
+Tooling notes for the next session:
+
+- Simulator: iPhone 17 Pro `E5F01F76-1E58-40B2-9E8C-0F834E323D48`; app built at
+  `mobile/ios/build/Build/Products/Debug-iphonesimulator/Platyko.app` (rebuild with
+  `npx expo prebuild --platform ios` and `xcodebuild` after adding a native dependency).
+- Start Metro WITHOUT `CI=1` (`npx expo start --port 8081 --clear < /dev/null`), otherwise it
+  serves a stale bundle after edits.
+- `agent-device --session <name> open com.idoyahav.platyko --platform ios --device "iPhone 17 Pro"`,
+  then `press 'label="…"'`, `snapshot -i`; screenshots with `xcrun simctl io <udid> screenshot`.
+- Mascot layers are regenerated with `tools/mascot-art/cut_layers.py` (Python venv with
+  `rembg`, `opencv-python-headless`; see its README).
 
 ## Owner instructions received mid-run (2026-11-14)
 
@@ -90,6 +131,10 @@ after any context reset, then continue from "Current position".
 | A19 | Free AI provider for "explain my mistake": **Cloudflare Workers AI, Workers Free plan**, through its OpenAI-compatible endpoint; Groq's free plan configured as the second provider; then the pre-written hints. Read on 2026-11-14 from the providers' own pages: Cloudflare gives 10,000 Neurons a day free, fails with an error once exceeded on the free plan, and states it does not use customer content to train models; a request of about 600 input and 120 output tokens costs about 6 to 14 Neurons depending on the model, so roughly 700 to 1,500 explanations a day. Groq does not retain inference requests by default (logs up to 30 days only for abuse or reliability), offers zero data retention, and limits free use per organisation (about 30 requests a minute and 1,000 a day on the models listed). Gemini's free tier was rejected: third-party summaries say free-tier content may be used for product improvement and human review, and its free quotas are unpublished. | Owner decision D6. Official pages were used for the chosen providers; third-party figures are marked as such in PRD S102. Limits must be re-read before launch; the fallback makes changes harmless. |
 | A17 | Language switching uses `I18nManager.forceRTL` plus `reloadAppAsync` from `expo`. | PRD 12.10/16.8 expect a restart; native stack gestures and native controls only follow the direction set at launch. |
 | A18 | Simulator automation uses the `agent-device` CLI (installed globally on the dev machine, not a project dependency). | The earlier CDP fiber driver could not tap native UI; `agent-device` drives real taps through an XCTest runner. |
+| A20 | The `modules` unit shows module behaviour with executable module-pattern code; `import` and `export` appear only in prose. | Snippets run as scripts so that every item can be executed and traced by Gate A; module syntax cannot run there. |
+| A21 | For a `TRACE` item, `expectedOutput` is what the snippet prints and the correct option is the probed value; Gate A checks both. | Keeps `expectedOutput` meaning the same thing in every format. |
+| A22 | Gate B compares three mechanical things beyond the answer: the printed output, the source line that printed each output line, and the final value of every global binding, all against the Gate A trace. | PRD 8.3 asks for the solver's trace to be compared mechanically; a full step-by-step comparison would raise false findings from step-granularity differences, while these three are well-defined. |
+| A23 | The exact prompts given to the author, the solver and the two reviewers are stored in `content/verification/prompts/`. | Provenance: PRD 8.6 records the agents per gate; keeping the prompts makes each pass reproducible after a context reset. |
 | A14 | Gates B, C and D run as fresh sub-agents that receive only exported, redacted item files; their findings are written to files and compared mechanically by `tools/content`. | PRD 8.3/8.4 require blind derivation and independent review with fresh contexts on every pass. |
 
 ## Dependencies added (reason, license)

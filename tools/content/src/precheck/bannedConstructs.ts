@@ -116,7 +116,10 @@ function scanProgram(ast: Program, allowVar: boolean): Violation[] {
   return violations;
 }
 
-/** `var` is taught, not banned, where the concept or the unit is about var, hoisting or scope. */
+/**
+ * `var` is taught, not banned, where the concept or the unit is about var, hoisting or scope, or
+ * where the item declares such a concept as a prerequisite (closures created in a `var` loop).
+ */
 function teachesVar(...slugs: string[]): boolean {
   return slugs
     .flatMap((slug) => slug.split(/[^a-z0-9]+/))
@@ -150,7 +153,7 @@ export function checkBannedConstructs(unit: UnitFile): Finding[] {
   const findings: Finding[] = [];
   for (const item of unit.items) {
     const report = reporterFor(findings, "PRECHECK", unit.unit, item.id);
-    if (!item.retired) checkPrograms(executableProgramsOf(item), teachesVar(item.concept, unit.unit), report);
+    if (!item.retired) checkPrograms(executableProgramsOf(item), teachesVar(item.concept, unit.unit, ...item.prerequisites), report);
   }
   for (const lesson of unit.lessons) {
     const program = { label: `concept card of ${lesson.id}`, lines: lesson.conceptCard.code };
