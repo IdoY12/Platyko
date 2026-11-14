@@ -10,6 +10,7 @@ import { checkOriginality } from "../originality/checkOriginality.js";
 import type { OriginalityResult } from "../originality/checkOriginality.js";
 import { fetchSources } from "../originality/sourceCache.js";
 import { checkBannedConstructs } from "./bannedConstructs.js";
+import { checkConceptCatalog } from "./conceptCatalog.js";
 import { loadConstructsMap, scanConstructs } from "./constructScan.js";
 import { checkDuplicates } from "./duplicates.js";
 import { checkReferenceLinks } from "./referenceLinks.js";
@@ -31,7 +32,7 @@ export type PrecheckOptions = {
 };
 
 export type PrecheckResult = {
-  /** Structure, banned constructs, duplicates, source ledger, originality and reference links. */
+  /** Structure, concept catalog, banned constructs, duplicates, source ledger, originality and reference links. */
   findings: Finding[];
   /** The mechanical part of Gate D, kept apart from the pre-check findings. */
   constructFindings: Finding[];
@@ -67,6 +68,7 @@ export async function runPrecheck(options: PrecheckOptions = {}): Promise<Preche
   return {
     findings: [
       ...checkStructure(units, options),
+      ...checkConceptCatalog(contentRoot, selectedUnits),
       ...selectedUnits.flatMap(({ unit }) => (unit ? checkBannedConstructs(unit) : [])),
       ...checkDuplicates(items),
       ...ledger.findings.filter(inSelectedUnit),

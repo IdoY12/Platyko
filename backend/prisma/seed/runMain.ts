@@ -9,6 +9,7 @@
 
 import { PrismaClient } from "@prisma/client";
 import { injectDatabaseUrlFromConfig } from "@project/db";
+import { seedContent } from "./content/seedContent.js";
 import { persistDuelQuestions } from "./duel/persistDuelQuestions.js";
 import { runAllLessonBlocks } from "./lessons/runAllLessonBlocks.js";
 import { seedCleanup } from "./seedCleanup.js";
@@ -25,10 +26,11 @@ async function main(): Promise<void> {
       await runAllLessonBlocks(tx);
       await persistDuelQuestions(tx);
       await seedCodePuzzles(tx);
+      await seedContent(tx);
     },
     { timeout: 120_000 },
   );
-  console.log("Seed complete: exercises, duel questions, code puzzles.");
+  console.log("Seed complete: exercises, duel questions, code puzzles, question bank.");
 }
 
 main()

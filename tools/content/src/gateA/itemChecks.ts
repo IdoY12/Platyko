@@ -6,7 +6,7 @@ import type { ProgramJob } from "../execute/programRunnerPool.js";
 import type { RunResult } from "../execute/runProgram.js";
 
 /** Runs many programs and returns their results in the same order (the worker pool, or a test double). */
-export type RunPrograms = (jobs: ProgramJob[]) => Promise<RunResult[]>;
+type RunPrograms = (jobs: ProgramJob[]) => Promise<RunResult[]>;
 
 /** Judges learner-style code in the production sandbox (`@project/code-sandbox`). */
 export type JudgeCodeWrite = (entry: CodeWriteEntry, source: string, tests: CodeWriteTest[]) => Promise<{ passed: boolean }>;
@@ -51,7 +51,7 @@ async function checkStatedOutput(item: Item, context: GateAContext, report: Find
 }
 
 /** The value a `TRACE` item asks about, read from the generated trace; null when the probe is never reached. */
-export function probedValue(item: Item, trace: ItemTrace): string | null {
+function probedValue(item: Item, trace: ItemTrace): string | null {
   const probe = item.solution.probe;
   if (!probe) return null;
   const visits = trace.steps.flatMap((step, index) => (step.line === probe.afterLine ? [index] : []));

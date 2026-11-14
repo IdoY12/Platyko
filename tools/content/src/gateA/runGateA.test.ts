@@ -3,21 +3,11 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { AuthoredItem, UnitFile } from "@project/content-model";
-import { wrapCodeWrite } from "../bank/programs.js";
-import { formatValue } from "../execute/formatValue.js";
 import { ProgramRunnerPool } from "../execute/programRunnerPool.js";
-import { runProgram } from "../execute/runProgram.js";
 import { loadFixtureUnit } from "../fixtures/fixtureUnit.js";
-import type { GateAContext, JudgeCodeWrite } from "./itemChecks.js";
+import { judgeWithRunner } from "../fixtures/passFixtures.js";
+import type { GateAContext } from "./itemChecks.js";
 import { runGateA, staleTraceFindings, writeTraces } from "./runGateA.js";
-
-/** Stands in for the isolated-vm sandbox: same verdict, computed with the pipeline's own runner. */
-const judgeWithRunner: JudgeCodeWrite = async (entry, source, tests) => ({
-  passed: tests.every((test) => {
-    const result = runProgram(wrapCodeWrite(entry, source.split("\n"), test.input).join("\n"));
-    return result.uncaughtError === null && result.output.join("\n") === formatValue(test.expected);
-  }),
-});
 
 let pool: ProgramRunnerPool;
 let context: GateAContext;

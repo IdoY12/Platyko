@@ -6,3 +6,5 @@ export { allItems, loadBank } from "./bank/loadBank.js";
 export type { LoadedUnit } from "./bank/loadBank.js";
 export { CONTENT_ROOT, tracesDirectory } from "./bank/paths.js";
 export type { UnitTraces } from "./gateA/runGateA.js";
+export { releaseStatus } from "./runLog/runLog.js";
+export type { RunLog } from "./runLog/runLog.js";
