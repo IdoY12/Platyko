@@ -24,7 +24,8 @@
     "android": "npm --prefix mobile run android",
     "ios": "npm --prefix mobile run ios",
     "ios:device": "npm --prefix mobile run ios:device",
-    "content:verify": "npm --prefix tools/content run verify --"
+    "content:verify": "npm --prefix tools/content run verify --",
+    "check:language": "node .githooks/scan-repository.cjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

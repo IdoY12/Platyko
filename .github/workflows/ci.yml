@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "redesign/**"]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Typecheck, lint, tests, dead code
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      # postinstall builds the shared packages and generates nothing that needs a database.
+      - run: npm ci
+      - run: npm run db:generate
+      - run: npm run typecheck:all
+      - run: npm run lint
+      - run: npm run test:all
+      - run: npx knip
+
+  language:
+    name: English-only repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node .githooks/scan-repository.cjs
+
+  content:
+    name: Question bank pre-check and Gate A
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Structure, banned constructs, duplicates, reference links, originality, then every
+      # snippet executed. A stale generated trace file is a finding (PRD 8.6).
+      - run: npm run content:verify
+
+  migrations:
+    name: Database migrations apply from scratch
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: platyko
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres -d platyko"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm --prefix backend run prisma:migrate:deploy
+
+  security:
+    name: Dependency audit and secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Production dependencies only: a high or critical advisory fails the build.
+      - run: npm audit --omit=dev --audit-level=high
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

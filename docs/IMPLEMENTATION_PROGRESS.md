@@ -76,7 +76,11 @@ Open in phase 0:
 - [ ] Pilot unit `values-and-types` — sub-agent running; then fan out the other 27 units, two
       authors at a time, from `content/verification/prompts/unit-author.md`
       (per-unit briefs are generated from the template, the catalog and the triage file).
-- [ ] CI workflow, repository-wide Hebrew scan.
+- [x] CI workflow (`.github/workflows/ci.yml`: gates, language scan, content pre-check and Gate A,
+      migrations from scratch, audit and secret scan) and `npm run check:language`.
+- [ ] `npm audit --omit=dev --audit-level=high` reports 7 high and 1 critical advisory, all in
+      transitive build-tool dependencies (babel, metro, postcss, shell-quote, image-size,
+      prisma's effect). To be resolved in the security pass with `npm audit fix` and overrides.
 - [ ] Backend: content, lesson, attempt and progress endpoints on the new models; seed from
       `content/`; guest snapshot by item ids; merge on any login; section 2 bug fixes.
 - [ ] knip is red only for the new mobile kit and mascot, which no screen imports yet; it turns
