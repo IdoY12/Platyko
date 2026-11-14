@@ -1,0 +1,1561 @@
+{
+  "track": "BEGINNER",
+  "unit": "operators-and-comparisons",
+  "order": 3,
+  "title": "Operators and comparisons",
+  "summary": "Comparing values with strict and loose equality and the relational signs, and how truthiness drives ! , && and ||.",
+  "concepts": [
+    {
+      "id": "strict-equality",
+      "title": "Comparing with === and !==",
+      "prerequisites": [
+        "boolean-values",
+        "let-declaration"
+      ]
+    },
+    {
+      "id": "loose-equality",
+      "title": "Why == surprises: type conversion",
+      "prerequisites": [
+        "strict-equality",
+        "string-values"
+      ]
+    },
+    {
+      "id": "relational-operators",
+      "title": "Greater, less and their limits",
+      "prerequisites": [
+        "strict-equality"
+      ]
+    },
+    {
+      "id": "truthy-and-falsy",
+      "title": "Truthy, falsy and the logical operators",
+      "prerequisites": [
+        "strict-equality",
+        "undefined-and-null"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "strict-ignores-type",
+      "description": "Believes === compares only what is written, so 7 === '7' is true."
+    },
+    {
+      "id": "returns-operand-not-boolean",
+      "description": "Believes a comparison hands back one of the values it was given instead of true or false."
+    },
+    {
+      "id": "case-ignored",
+      "description": "Believes text comparison ignores the difference between upper case and lower case."
+    },
+    {
+      "id": "wrong-moment-value",
+      "description": "Reads a variable or comparison at a different moment than the one asked about."
+    },
+    {
+      "id": "loose-needs-same-type",
+      "description": "Believes == is false whenever the two sides have different types."
+    },
+    {
+      "id": "equal-boundary-wrong",
+      "description": "Believes > is true for equal values, or that >= is false for equal values."
+    },
+    {
+      "id": "text-compared-as-number",
+      "description": "Believes text made of digits is compared as a number."
+    },
+    {
+      "id": "longer-text-is-bigger",
+      "description": "Believes the text with more characters is always the bigger one."
+    },
+    {
+      "id": "falsy-by-meaning",
+      "description": "Judges truthiness by what a value looks like or means, not by the rules."
+    },
+    {
+      "id": "logical-operand-misread",
+      "description": "Believes && and || give true or false, or always the right-hand side, instead of one operand chosen by truthiness."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness",
+      "retrievedAt": "2026-11-14",
+      "sha256": "185b805fda8e647e7b383722d676236d35a29f0414d37a7b85e33b130e8c4673"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality",
+      "retrievedAt": "2026-11-14",
+      "sha256": "6f1adea8f05163cfef8b2b93611d9509a8eb60a29f215e6bf7359f0da735f444"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality",
+      "retrievedAt": "2026-11-14",
+      "sha256": "01647f0c6198312cc5115bbc512aed8b4d050203cebc5ad8e2d6528b0a7c14a0"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Less_than",
+      "retrievedAt": "2026-11-14",
+      "sha256": "9892dcb6fb2fa5b4fc9ac521fb785d2e6c27043f85079e00136c6ee05e44b2f7"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Falsy",
+      "retrievedAt": "2026-11-14",
+      "sha256": "54efa451e68ab19de0ae7edbfc6a136b86e4dc894ae643c99b1ee2748c24c3f2"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND",
+      "retrievedAt": "2026-11-14",
+      "sha256": "670cfbb3cc4f393f141cbe09907d83fb5bd3c9e40b125dfc7f6590e0f6c234b2"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_OR",
+      "retrievedAt": "2026-11-14",
+      "sha256": "5d42892bb06b0332d116aef079cbc9a5790b7e55a6e0b872ede21a2c24140bb8"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "operators-and-comparisons.lesson-1",
+      "title": "Comparing with === and !==",
+      "conceptCard": {
+        "title": "Comparing with === and !==",
+        "body": "=== asks whether two values are the same. It gives true only when the value and the type both match. !== gives the opposite answer. Both give true or false, never the values themselves.",
+        "code": [
+          "let eggs = 6;",
+          "console.log(eggs === 6);",
+          "console.log(eggs === '6');",
+          "console.log(eggs !== 6);"
+        ],
+        "expectedOutput": "true\nfalse\nfalse"
+      },
+      "itemIds": [
+        "beg.operators-and-comparisons.strict-equality.predict-01",
+        "beg.operators-and-comparisons.strict-equality.predict-02",
+        "beg.operators-and-comparisons.strict-equality.trace-01",
+        "beg.operators-and-comparisons.strict-equality.fill-01",
+        "beg.operators-and-comparisons.strict-equality.parsons-01",
+        "beg.operators-and-comparisons.strict-equality.concept-01"
+      ]
+    },
+    {
+      "id": "operators-and-comparisons.lesson-2",
+      "title": "Why == surprises: type conversion",
+      "conceptCard": {
+        "title": "Why == surprises: type conversion",
+        "body": "== also compares two values, but first it converts them to a common type. So 5 == '5' is true, and false == 0 is true. This surprises many people. Use === when you want an exact match.",
+        "code": [
+          "console.log(5 == '5');",
+          "console.log(false == 0);",
+          "console.log(5 === '5');"
+        ],
+        "expectedOutput": "true\ntrue\nfalse"
+      },
+      "itemIds": [
+        "beg.operators-and-comparisons.loose-equality.predict-01",
+        "beg.operators-and-comparisons.loose-equality.predict-02",
+        "beg.operators-and-comparisons.loose-equality.trace-01",
+        "beg.operators-and-comparisons.loose-equality.fill-01",
+        "beg.operators-and-comparisons.loose-equality.parsons-01",
+        "beg.operators-and-comparisons.loose-equality.write-01"
+      ]
+    },
+    {
+      "id": "operators-and-comparisons.lesson-3",
+      "title": "Greater, less and their limits",
+      "conceptCard": {
+        "title": "Greater, less and their limits",
+        "body": "<, >, <= and >= compare two values and give true or false. > and < are false when both sides are equal; >= and <= are true then. Two texts are compared character by character, not as numbers.",
+        "code": [
+          "console.log(4 > 4);",
+          "console.log(4 >= 4);",
+          "console.log('b' > 'a');"
+        ],
+        "expectedOutput": "false\ntrue\ntrue"
+      },
+      "itemIds": [
+        "beg.operators-and-comparisons.relational-operators.predict-01",
+        "beg.operators-and-comparisons.relational-operators.predict-02",
+        "beg.operators-and-comparisons.relational-operators.trace-01",
+        "beg.operators-and-comparisons.relational-operators.fill-01",
+        "beg.operators-and-comparisons.relational-operators.parsons-01",
+        "beg.operators-and-comparisons.relational-operators.concept-01"
+      ]
+    },
+    {
+      "id": "operators-and-comparisons.lesson-4",
+      "title": "Truthy, falsy and the logical operators",
+      "conceptCard": {
+        "title": "Truthy, falsy and the logical operators",
+        "body": "In a test, every value counts as true or false. Falsy values are false, 0, the empty text, null and undefined. All others are truthy. ! flips a value. && and || give back one of their two operands.",
+        "code": [
+          "console.log(!0);",
+          "console.log(0 && 'x');",
+          "console.log(0 || 'x');"
+        ],
+        "expectedOutput": "true\n0\nx"
+      },
+      "itemIds": [
+        "beg.operators-and-comparisons.truthy-and-falsy.predict-01",
+        "beg.operators-and-comparisons.truthy-and-falsy.predict-02",
+        "beg.operators-and-comparisons.truthy-and-falsy.trace-01",
+        "beg.operators-and-comparisons.truthy-and-falsy.fill-01",
+        "beg.operators-and-comparisons.truthy-and-falsy.parsons-01",
+        "beg.operators-and-comparisons.truthy-and-falsy.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "beg.operators-and-comparisons.strict-equality.predict-01",
+      "concept": "strict-equality",
+      "prerequisites": [
+        "boolean-values",
+        "let-declaration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let loaves = 12;",
+        "let sold = 9;",
+        "console.log(loaves === sold);"
+      ],
+      "options": [
+        {
+          "text": "false",
+          "correct": true,
+          "feedback": "Right. 12 and 9 are different numbers, so === gives false."
+        },
+        {
+          "text": "9",
+          "correct": false,
+          "feedback": "You printed the right-hand value. A comparison never gives back one of its sides; it gives true or false.",
+          "misconception": "returns-operand-not-boolean"
+        },
+        {
+          "text": "12",
+          "correct": false,
+          "feedback": "You printed the left-hand value. A comparison never gives back one of its sides; it gives true or false.",
+          "misconception": "returns-operand-not-boolean"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "false"
+      },
+      "explanation": "The === sign gives true when both sides are the same value and type, and false when they are not. 12 and 9 differ, so the result is false.",
+      "hints": [
+        "Look at the two variables on line 3.",
+        "A comparison never gives back one of its two sides.",
+        "Compare 12 with 9: are they the same number?"
+      ],
+      "reference": {
+        "title": "Strict equality (===)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.strict-equality.predict-02",
+      "concept": "strict-equality",
+      "prerequisites": [
+        "boolean-values",
+        "let-declaration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let drink = 'Tea';",
+        "console.log(drink !== 'tea');"
+      ],
+      "options": [
+        {
+          "text": "true",
+          "correct": true,
+          "feedback": "Right. Tea and tea differ in the first letter, so they are not the same text and !== gives true."
+        },
+        {
+          "text": "false",
+          "correct": false,
+          "feedback": "You read Tea and tea as the same word. Text comparison is case sensitive: T and t are different characters.",
+          "misconception": "case-ignored"
+        },
+        {
+          "text": "Tea",
+          "correct": false,
+          "feedback": "You printed the left-hand text. The !== sign gives true or false, not one of its sides.",
+          "misconception": "returns-operand-not-boolean"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true"
+      },
+      "explanation": "The !== sign gives true when the two sides are not strictly equal. Capital T and small t are different characters, so the two texts differ.",
+      "hints": [
+        "Compare the first letter of each text.",
+        "Upper case and lower case letters are different characters.",
+        "Are the two texts exactly the same? !== answers the opposite."
+      ],
+      "reference": {
+        "title": "Strict inequality (!==)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_inequality",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.strict-equality.trace-01",
+      "concept": "strict-equality",
+      "prerequisites": [
+        "boolean-values",
+        "let-declaration"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What value does full hold right after line 3 has run?",
+      "code": [
+        "let seats = 20;",
+        "let booked = 20;",
+        "let full = seats === booked;",
+        "booked = booked - 1;",
+        "full = seats === booked;",
+        "console.log(full);"
+      ],
+      "options": [
+        {
+          "text": "true",
+          "correct": true,
+          "feedback": "Right. On line 3 both numbers are 20, so the comparison stores true."
+        },
+        {
+          "text": "false",
+          "correct": false,
+          "feedback": "That is the value at the end of the program. Line 5 has not run yet at this point.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "20",
+          "correct": false,
+          "feedback": "You took one of the compared numbers. The variable holds the result of the comparison, true or false.",
+          "misconception": "returns-operand-not-boolean"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "full",
+          "afterLine": 3,
+          "visit": 1
+        },
+        "expectedOutput": "false"
+      },
+      "explanation": "Line 3 compares 20 with 20 and stores true. Line 4 changes booked, and line 5 compares again and stores false, but the question stops after line 3.",
+      "hints": [
+        "Stop after line 3 and ignore lines 4 and 5.",
+        "A comparison stores its own result, not the compared numbers.",
+        "What are seats and booked when line 3 runs?"
+      ],
+      "reference": {
+        "title": "Strict equality (===)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.strict-equality.fill-01",
+      "concept": "strict-equality",
+      "prerequisites": [
+        "boolean-values",
+        "let-declaration"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints false.",
+      "code": [
+        "let cups = 6;",
+        "console.log(cups ___ 6);"
+      ],
+      "options": [
+        {
+          "text": "!==",
+          "correct": true,
+          "feedback": "Right. cups is 6, so 'not strictly equal to 6' is false."
+        },
+        {
+          "text": "===",
+          "correct": false,
+          "feedback": "cups is 6, so this prints true."
+        },
+        {
+          "text": "=",
+          "correct": false,
+          "feedback": "One = stores 6 in cups and prints 6, not false."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "!=="
+          ]
+        ],
+        "expectedOutput": "false"
+      },
+      "explanation": "cups holds 6, so cups === 6 would be true. The !== sign gives the opposite answer, which is false.",
+      "hints": [
+        "Look at the value cups holds.",
+        "One sign asks whether two values differ.",
+        "The sign you need has an exclamation mark."
+      ],
+      "reference": {
+        "title": "Strict inequality (!==)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_inequality",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.strict-equality.parsons-01",
+      "concept": "strict-equality",
+      "prerequisites": [
+        "boolean-values",
+        "let-declaration"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints true twice.",
+      "code": [
+        "ticket = 'B2';",
+        "console.log(ticket === 'A7');",
+        "let ticket = 'A7';",
+        "console.log(ticket === 'B2');"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          1,
+          0,
+          3
+        ],
+        "expectedOutput": "true\ntrue"
+      },
+      "explanation": "The first print runs while ticket is A7, so it is true. After ticket becomes B2, the last line compares with B2, which is true as well.",
+      "hints": [
+        "The variable must exist before any line reads it.",
+        "Each print shows the comparison for the value ticket has at that moment.",
+        "Print the A7 check before ticket changes."
+      ],
+      "reference": {
+        "title": "Strict equality (===)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.strict-equality.concept-01",
+      "concept": "strict-equality",
+      "prerequisites": [
+        "boolean-values",
+        "let-declaration"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement explains the two lines this program prints?",
+      "code": [
+        "console.log(7 === 7);",
+        "console.log(7 === '7');"
+      ],
+      "options": [
+        {
+          "text": "=== gives true only when the value and the type are both the same.",
+          "correct": true,
+          "feedback": "Right. 7 and 7 have the same type and value. 7 and '7' differ in type."
+        },
+        {
+          "text": "=== compares only what is written, so both lines print true.",
+          "correct": false,
+          "feedback": "The second line prints false. The number 7 and the text '7' look alike but have different types.",
+          "misconception": "strict-ignores-type"
+        },
+        {
+          "text": "=== prints the value when both sides match, and false otherwise.",
+          "correct": false,
+          "feedback": "The first line prints true, not 7. A comparison always gives true or false.",
+          "misconception": "returns-operand-not-boolean"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\nfalse"
+      },
+      "explanation": "A number and a text are different types, even when they show the same digit. === checks value and type together, so 7 === '7' is false.",
+      "hints": [
+        "Compare what the second line has on each side.",
+        "=== looks at the type as well as the value.",
+        "One side is a number and the other side is text."
+      ],
+      "reference": {
+        "title": "Equality comparisons and sameness",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:10"
+      ]
+    },
+    {
+      "id": "beg.operators-and-comparisons.loose-equality.predict-01",
+      "concept": "loose-equality",
+      "prerequisites": [
+        "strict-equality",
+        "string-values"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let seat = 14;",
+        "let ticketText = '14';",
+        "console.log(seat == ticketText);"
+      ],
+      "options": [
+        {
+          "text": "true",
+          "correct": true,
+          "feedback": "Right. == turns the text '14' into the number 14 before comparing."
+        },
+        {
+          "text": "false",
+          "correct": false,
+          "feedback": "You thought a number and a text can never be equal. The == sign converts one side first, so the digits can match.",
+          "misconception": "loose-needs-same-type"
+        },
+        {
+          "text": "14",
+          "correct": false,
+          "feedback": "You printed one of the two sides. A comparison gives true or false.",
+          "misconception": "returns-operand-not-boolean"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true"
+      },
+      "explanation": "The == sign first converts values of different types to a common type. The text '14' becomes the number 14, which equals 14, so the result is true.",
+      "hints": [
+        "Look at the types of the two variables.",
+        "== converts the two sides to the same type before comparing.",
+        "Would the text '14' equal 14 after conversion?"
+      ],
+      "reference": {
+        "title": "Equality (==)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:11"
+      ]
+    },
+    {
+      "id": "beg.operators-and-comparisons.loose-equality.predict-02",
+      "concept": "loose-equality",
+      "prerequisites": [
+        "strict-equality",
+        "string-values"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let lightOn = false;",
+        "console.log(lightOn == 0);"
+      ],
+      "options": [
+        {
+          "text": "true",
+          "correct": true,
+          "feedback": "Right. false becomes the number 0, and 0 equals 0."
+        },
+        {
+          "text": "false",
+          "correct": false,
+          "feedback": "You thought a boolean and a number can never be equal. == converts both sides to numbers here, and false becomes 0.",
+          "misconception": "loose-needs-same-type"
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "You printed the right-hand value. A comparison gives true or false.",
+          "misconception": "returns-operand-not-boolean"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true"
+      },
+      "explanation": "With ==, a boolean is converted to a number before comparing: false becomes 0 and true becomes 1. So false == 0 is true.",
+      "hints": [
+        "Look at the types on each side of ==.",
+        "== converts a boolean to a number.",
+        "false turns into 0."
+      ],
+      "reference": {
+        "title": "Type coercion",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Type_coercion",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.loose-equality.trace-01",
+      "concept": "loose-equality",
+      "prerequisites": [
+        "strict-equality",
+        "string-values"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What value does same hold right after line 5 has run?",
+      "code": [
+        "let reading = '30';",
+        "let limit = 30;",
+        "let same = reading == limit;",
+        "reading = reading + '1';",
+        "same = reading == limit;",
+        "console.log(same);"
+      ],
+      "options": [
+        {
+          "text": "false",
+          "correct": true,
+          "feedback": "Right. reading is now '301', which is not equal to 30."
+        },
+        {
+          "text": "true",
+          "correct": false,
+          "feedback": "That is the value after line 3. Line 5 compared again after reading changed.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "30",
+          "correct": false,
+          "feedback": "You took one of the compared values. same holds the result of the comparison.",
+          "misconception": "returns-operand-not-boolean"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "same",
+          "afterLine": 5,
+          "visit": 1
+        },
+        "expectedOutput": "false"
+      },
+      "explanation": "Line 4 joins the text '1' onto '30', so reading becomes '301'. Line 5 compares '301' with 30, which are not equal, so same becomes false.",
+      "hints": [
+        "Work out what reading holds after line 4.",
+        "+ with a text joins; it does not add.",
+        "Compare '301' with 30."
+      ],
+      "reference": {
+        "title": "Equality (==)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.loose-equality.fill-01",
+      "concept": "loose-equality",
+      "prerequisites": [
+        "strict-equality",
+        "string-values"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints true.",
+      "code": [
+        "let typed = '25';",
+        "console.log(typed ___ 25);"
+      ],
+      "options": [
+        {
+          "text": "==",
+          "correct": true,
+          "feedback": "Right. == converts '25' to 25 before comparing, so the result is true."
+        },
+        {
+          "text": "===",
+          "correct": false,
+          "feedback": "The text '25' and the number 25 have different types, so this prints false."
+        },
+        {
+          "text": "!=",
+          "correct": false,
+          "feedback": "This asks whether they differ after conversion, so it prints false."
+        },
+        {
+          "text": "=",
+          "correct": false,
+          "feedback": "One = stores 25 in typed and prints 25, not true."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "=="
+          ]
+        ],
+        "expectedOutput": "true"
+      },
+      "explanation": "typed is text and 25 is a number. Only == converts one side, so the digits match. === and != both give false here.",
+      "hints": [
+        "Look at the type of typed and of 25.",
+        "One sign converts the types before comparing.",
+        "It is not the strict sign."
+      ],
+      "reference": {
+        "title": "Equality (==)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.loose-equality.parsons-01",
+      "concept": "loose-equality",
+      "prerequisites": [
+        "strict-equality",
+        "string-values"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints true, 33 and then false.",
+      "code": [
+        "console.log(answer + 3);",
+        "let answer = '3';",
+        "console.log(answer === 3);",
+        "console.log(answer == 3);"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "expectedOutput": "true\n33\nfalse"
+      },
+      "explanation": "answer is the text '3'. == converts it and gives true, + joins the text and 3 into '33', and === sees different types and gives false.",
+      "hints": [
+        "Work out what each print shows for the text '3'.",
+        "== converts, + joins text, === compares the types too.",
+        "The line that creates answer comes first; true is printed before 33."
+      ],
+      "reference": {
+        "title": "Equality (==)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.loose-equality.write-01",
+      "concept": "loose-equality",
+      "prerequisites": [
+        "strict-equality",
+        "string-values"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "Write an expression that is true when typed holds the same number as target, even if typed is text.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "typed",
+            "target"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "typed": "12",
+              "target": 12
+            },
+            "expected": true
+          },
+          {
+            "input": {
+              "typed": "12",
+              "target": 13
+            },
+            "expected": false
+          },
+          {
+            "input": {
+              "typed": "0",
+              "target": 0
+            },
+            "expected": true
+          },
+          {
+            "input": {
+              "typed": "abc",
+              "target": 0
+            },
+            "expected": false
+          },
+          {
+            "input": {
+              "typed": "12",
+              "target": "12"
+            },
+            "expected": true
+          }
+        ],
+        "reference": [
+          "typed == target"
+        ],
+        "wrongSolutions": [
+          [
+            "typed === target"
+          ],
+          [
+            "typed = target"
+          ],
+          [
+            "typed != target"
+          ]
+        ]
+      },
+      "explanation": "The == sign converts the text to a number before comparing, so '12' matches 12. === would stay false because the types differ.",
+      "hints": [
+        "You need an operator that compares two values.",
+        "One equality operator converts the types first.",
+        "Use a sign made of two equal signs."
+      ],
+      "reference": {
+        "title": "Equality (==)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.relational-operators.predict-01",
+      "concept": "relational-operators",
+      "prerequisites": [
+        "strict-equality"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let tall = 40;",
+        "let shelf = 40;",
+        "console.log(tall >= shelf);",
+        "console.log(tall > shelf);"
+      ],
+      "options": [
+        {
+          "text": "true\nfalse",
+          "correct": true,
+          "feedback": "Right. The numbers are equal, so >= is true and > is false."
+        },
+        {
+          "text": "false\nfalse",
+          "correct": false,
+          "feedback": "You read >= as strictly greater. It is also true when both sides are equal.",
+          "misconception": "equal-boundary-wrong"
+        },
+        {
+          "text": "true\ntrue",
+          "correct": false,
+          "feedback": "You read > as including equal. It is false when both sides are equal.",
+          "misconception": "equal-boundary-wrong"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\nfalse"
+      },
+      "explanation": "Both numbers are 40. The >= sign is true when the sides are equal or the left is bigger. The > sign needs the left to be strictly bigger.",
+      "hints": [
+        "Look at the values of tall and shelf.",
+        "> and >= treat equal numbers differently.",
+        "The numbers are equal: which sign accepts that?"
+      ],
+      "reference": {
+        "title": "Greater than or equal (>=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Greater_than_or_equal",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.relational-operators.predict-02",
+      "concept": "relational-operators",
+      "prerequisites": [
+        "strict-equality"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "let roomA = '10';",
+        "let roomB = '9';",
+        "console.log(roomA < roomB);"
+      ],
+      "options": [
+        {
+          "text": "true",
+          "correct": true,
+          "feedback": "Right. The first characters decide: '1' is smaller than '9'."
+        },
+        {
+          "text": "false",
+          "correct": false,
+          "feedback": "You compared 10 and 9 as numbers. Two texts are compared character by character, and '1' comes before '9'.",
+          "misconception": "text-compared-as-number"
+        },
+        {
+          "text": "10",
+          "correct": false,
+          "feedback": "You printed the left-hand text. A comparison gives true or false.",
+          "misconception": "returns-operand-not-boolean"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true"
+      },
+      "explanation": "When both sides are text, < compares them character by character. The first character of '10' is '1', which comes before '9', so the result is true.",
+      "hints": [
+        "Look at the quotes: both values are text.",
+        "Texts are compared one character at a time.",
+        "Compare the first character of each text."
+      ],
+      "reference": {
+        "title": "Less than (<)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Less_than",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.relational-operators.trace-01",
+      "concept": "relational-operators",
+      "prerequisites": [
+        "strict-equality"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What value does canContinue hold right after line 4 has run?",
+      "code": [
+        "let water = 3;",
+        "let canHike = water >= 2;",
+        "water = water - 2;",
+        "let canContinue = water >= 2;",
+        "console.log(canHike, canContinue);"
+      ],
+      "options": [
+        {
+          "text": "false",
+          "correct": true,
+          "feedback": "Right. water is 1 on line 4, and 1 is not at least 2."
+        },
+        {
+          "text": "true",
+          "correct": false,
+          "feedback": "You used the first value of water, 3. Line 3 has already taken 2 away.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "You took the value of water. canContinue holds the result of the comparison.",
+          "misconception": "returns-operand-not-boolean"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "canContinue",
+          "afterLine": 4,
+          "visit": 1
+        },
+        "expectedOutput": "true false"
+      },
+      "explanation": "Line 3 reduces water from 3 to 1. Line 4 then asks whether 1 >= 2, which is false, so canContinue holds false.",
+      "hints": [
+        "Check what water holds when line 4 runs.",
+        "A variable keeps its newest value.",
+        "Is 1 at least 2?"
+      ],
+      "reference": {
+        "title": "Greater than or equal (>=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Greater_than_or_equal",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.relational-operators.fill-01",
+      "concept": "relational-operators",
+      "prerequisites": [
+        "strict-equality"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints true.",
+      "code": [
+        "let guests = 8;",
+        "let seats = 8;",
+        "console.log(guests ___ seats);"
+      ],
+      "options": [
+        {
+          "text": ">=",
+          "correct": true,
+          "feedback": "Right. The numbers are equal, and >= accepts equal values."
+        },
+        {
+          "text": ">",
+          "correct": false,
+          "feedback": "> needs the left side to be strictly bigger, so this prints false."
+        },
+        {
+          "text": "<",
+          "correct": false,
+          "feedback": "< needs the left side to be strictly smaller, so this prints false."
+        },
+        {
+          "text": "!==",
+          "correct": false,
+          "feedback": "The numbers are equal, so 'not strictly equal' prints false."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            ">="
+          ]
+        ],
+        "expectedOutput": "true"
+      },
+      "explanation": "guests and seats are both 8. Only a sign that accepts equal values gives true here, and among the chips that is >=.",
+      "hints": [
+        "Compare the two values first.",
+        "The sides are equal; some signs reject that.",
+        "Pick the sign that accepts bigger or equal."
+      ],
+      "reference": {
+        "title": "Greater than or equal (>=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Greater_than_or_equal",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.relational-operators.parsons-01",
+      "concept": "relational-operators",
+      "prerequisites": [
+        "strict-equality"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints true twice.",
+      "code": [
+        "steps = steps + 1000;",
+        "console.log(steps >= goal);",
+        "let goal = 5000;",
+        "let steps = goal - 1000;",
+        "console.log(steps < goal);"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          3,
+          4,
+          0,
+          1
+        ],
+        "expectedOutput": "true\ntrue"
+      },
+      "explanation": "steps starts at 4000 and goal is 5000, so steps < goal is true. After adding 1000, steps is 5000, and steps >= goal is true.",
+      "hints": [
+        "steps is computed from goal, so one comes first.",
+        "Each print shows the state at that moment.",
+        "Print the < check while steps is still 4000."
+      ],
+      "reference": {
+        "title": "Less than (<)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Less_than",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.relational-operators.concept-01",
+      "concept": "relational-operators",
+      "prerequisites": [
+        "strict-equality"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement explains the three lines this program prints?",
+      "code": [
+        "console.log('apple' < 'banana');",
+        "console.log('10' < '9');",
+        "console.log(10 < 9);"
+      ],
+      "options": [
+        {
+          "text": "Texts are compared character by character, so '10' comes before '9'. Numbers are compared by value.",
+          "correct": true,
+          "feedback": "Right. The first characters decide for texts, and the values decide for numbers."
+        },
+        {
+          "text": "Texts made of digits are compared as numbers, so line 2 behaves like line 3.",
+          "correct": false,
+          "feedback": "Line 2 prints true and line 3 prints false. Texts are compared by characters, not by numeric value.",
+          "misconception": "text-compared-as-number"
+        },
+        {
+          "text": "A longer text is always bigger, so '10' is bigger than '9'.",
+          "correct": false,
+          "feedback": "Length does not decide. '10' is the smaller text because its first character '1' comes before '9'.",
+          "misconception": "longer-text-is-bigger"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\ntrue\nfalse"
+      },
+      "explanation": "With two texts, < looks at the first character that differs. '1' comes before '9', so '10' < '9' is true. With two numbers, 10 < 9 is false.",
+      "hints": [
+        "Compare line 2 with line 3.",
+        "Texts and numbers follow different comparison rules.",
+        "The text rule looks at one character at a time."
+      ],
+      "reference": {
+        "title": "Less than (<)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Less_than",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.operators-and-comparisons.truthy-and-falsy.predict-01",
+      "concept": "truthy-and-falsy",
+      "prerequisites": [
+        "strict-equality",
+        "undefined-and-null"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let comment = '';",
+        "let spacer = ' ';",
+        "console.log(Boolean(comment));",
+        "console.log(Boolean(spacer));"
+      ],
+      "options": [
+        {
+          "text": "false\ntrue",
+          "correct": true,
+          "feedback": "Right. The empty text is falsy, and a text with a space in it is truthy."
+        },
+        {
+          "text": "false\nfalse",
+          "correct": false,
+          "feedback": "You treated a text with only a space as empty. Any text with at least one character is truthy, even a space.",
+          "misconception": "falsy-by-meaning"
+        },
+        {
+          "text": "true\ntrue",
+          "correct": false,
+          "feedback": "You treated any text as truthy. Only the empty text '' is falsy.",
+          "misconception": "falsy-by-meaning"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "false\ntrue"
+      },
+      "explanation": "Boolean() turns a value into true or false. The empty text '' is falsy. A text with any character in it, even a space, is truthy.",
+      "hints": [
+        "Look at the difference between the two texts.",
+        "The empty text is one of the falsy values.",
+        "One text has no characters; the other has one."
+      ],
+      "reference": {
+        "title": "Boolean",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:2"
+      ]
+    },
+    {
+      "id": "beg.operators-and-comparisons.truthy-and-falsy.predict-02",
+      "concept": "truthy-and-falsy",
+      "prerequisites": [
+        "strict-equality",
+        "undefined-and-null"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let city = 'Lima';",
+        "console.log(city || 'unknown');"
+      ],
+      "options": [
+        {
+          "text": "Lima",
+          "correct": true,
+          "feedback": "Right. 'Lima' is truthy, so || gives back the left side."
+        },
+        {
+          "text": "unknown",
+          "correct": false,
+          "feedback": "You used the right-hand value. || keeps the left side when it is truthy and only moves on when it is falsy.",
+          "misconception": "logical-operand-misread"
+        },
+        {
+          "text": "true",
+          "correct": false,
+          "feedback": "You expected a boolean. || gives back one of its two operands, not true or false.",
+          "misconception": "logical-operand-misread"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Lima"
+      },
+      "explanation": "The || sign gives back its left side when that is truthy. 'Lima' is a non-empty text, so it is returned, and 'unknown' is never used.",
+      "hints": [
+        "Look at the left side of ||.",
+        "|| returns the left side if it is truthy.",
+        "Is a non-empty text truthy or falsy?"
+      ],
+      "reference": {
+        "title": "Logical OR (||)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_OR",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:19"
+      ]
+    },
+    {
+      "id": "beg.operators-and-comparisons.truthy-and-falsy.trace-01",
+      "concept": "truthy-and-falsy",
+      "prerequisites": [
+        "strict-equality",
+        "undefined-and-null"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What value does discount hold right after line 2 has run?",
+      "code": [
+        "let coupon = 0;",
+        "let discount = coupon && 15;",
+        "coupon = 5;",
+        "let bonus = coupon && 15;",
+        "console.log(discount, bonus);"
+      ],
+      "options": [
+        {
+          "text": "0",
+          "correct": true,
+          "feedback": "Right. coupon is 0, which is falsy, so && gives back 0."
+        },
+        {
+          "text": "15",
+          "correct": false,
+          "feedback": "You used the right-hand side. && gives back the left side when it is falsy, and 0 is falsy.",
+          "misconception": "logical-operand-misread"
+        },
+        {
+          "text": "false",
+          "correct": false,
+          "feedback": "You expected a boolean. && gives back one of its two operands, here the number 0.",
+          "misconception": "logical-operand-misread"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "discount",
+          "afterLine": 2,
+          "visit": 1
+        },
+        "expectedOutput": "0 15"
+      },
+      "explanation": "The && sign gives back its left side when that is falsy. coupon is 0 on line 2, so discount holds 0. Line 3 changes coupon only later.",
+      "hints": [
+        "Check what coupon holds on line 2.",
+        "&& stops at the left side if it is falsy.",
+        "Is 0 truthy or falsy?"
+      ],
+      "reference": {
+        "title": "Logical AND (&&)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:17"
+      ]
+    },
+    {
+      "id": "beg.operators-and-comparisons.truthy-and-falsy.fill-01",
+      "concept": "truthy-and-falsy",
+      "prerequisites": [
+        "strict-equality",
+        "undefined-and-null"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 1,
+      "prompt": "Fill the blank so the program prints false.",
+      "code": [
+        "let cart = ___;",
+        "console.log(Boolean(cart));"
+      ],
+      "options": [
+        {
+          "text": "0",
+          "correct": true,
+          "feedback": "Right. The number 0 is falsy, so Boolean(0) is false."
+        },
+        {
+          "text": "'false'",
+          "correct": false,
+          "feedback": "This is a non-empty text, so it is truthy and the program prints true."
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "Any number except 0 is truthy, so the program prints true."
+        },
+        {
+          "text": "true",
+          "correct": false,
+          "feedback": "true is truthy by definition, so the program prints true."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "0"
+          ]
+        ],
+        "expectedOutput": "false"
+      },
+      "explanation": "Boolean() gives false only for falsy values such as 0, the empty text, null and undefined. A text is truthy whenever it has characters, even the word false.",
+      "hints": [
+        "Check which chips are numbers, texts or booleans.",
+        "Only a few values count as falsy; a word that names a value is not one of them.",
+        "The chip is a number."
+      ],
+      "reference": {
+        "title": "Falsy",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Falsy",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:6"
+      ]
+    },
+    {
+      "id": "beg.operators-and-comparisons.truthy-and-falsy.parsons-01",
+      "concept": "truthy-and-falsy",
+      "prerequisites": [
+        "strict-equality",
+        "undefined-and-null"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Arrange the lines so the output is: true, true, open.",
+      "code": [
+        "console.log(isOpen);",
+        "let isOpen = false;",
+        "console.log(!isOpen);",
+        "isOpen = !isOpen;",
+        "console.log(isOpen && 'open');"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          2,
+          3,
+          0,
+          4
+        ],
+        "expectedOutput": "true\ntrue\nopen"
+      },
+      "explanation": "! flips a boolean. The first print shows !false, which is true. Then isOpen becomes true, so printing isOpen gives true, and isOpen && 'open' gives back 'open'.",
+      "hints": [
+        "isOpen must exist before the prints, and it changes in the middle.",
+        "! turns true into false and false into true.",
+        "Print the flipped value before the flip happens."
+      ],
+      "reference": {
+        "title": "Logical NOT (!)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_NOT",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:12"
+      ]
+    },
+    {
+      "id": "beg.operators-and-comparisons.truthy-and-falsy.write-01",
+      "concept": "truthy-and-falsy",
+      "prerequisites": [
+        "strict-equality",
+        "undefined-and-null"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "Write an expression that gives username, or the text 'guest' when username is empty.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "username"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "username": "Mo"
+            },
+            "expected": "Mo"
+          },
+          {
+            "input": {
+              "username": ""
+            },
+            "expected": "guest"
+          },
+          {
+            "input": {
+              "username": "0"
+            },
+            "expected": "0"
+          },
+          {
+            "input": {
+              "username": 0
+            },
+            "expected": "guest"
+          },
+          {
+            "input": {
+              "username": null
+            },
+            "expected": "guest"
+          }
+        ],
+        "reference": [
+          "username || 'guest'"
+        ],
+        "wrongSolutions": [
+          [
+            "username && 'guest'"
+          ],
+          [
+            "'guest' || username"
+          ],
+          [
+            "username || ''"
+          ]
+        ]
+      },
+      "explanation": "The || sign gives back its left side when it is truthy, and its right side when it is falsy. So username || 'guest' falls back to 'guest' only for empty or falsy names.",
+      "hints": [
+        "You need a sign that picks one of two values.",
+        "|| keeps the left side if it is truthy.",
+        "Put username on the left and 'guest' on the right."
+      ],
+      "reference": {
+        "title": "Logical OR (||)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_OR",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

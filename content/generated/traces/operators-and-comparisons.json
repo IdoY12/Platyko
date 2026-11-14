@@ -1,0 +1,2315 @@
+{
+ "unit": "operators-and-comparisons",
+ "items": {
+  "beg.operators-and-comparisons.strict-equality.predict-01": {
+   "code": [
+    "let loaves = 12;",
+    "let sold = 9;",
+    "console.log(loaves === sold);"
+   ],
+   "output": [
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "loaves",
+       "scope": "global",
+       "value": "12"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "loaves",
+       "scope": "global",
+       "value": "12"
+      },
+      {
+       "name": "sold",
+       "scope": "global",
+       "value": "9"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "loaves",
+       "scope": "global",
+       "value": "12"
+      },
+      {
+       "name": "sold",
+       "scope": "global",
+       "value": "9"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.strict-equality.predict-02": {
+   "code": [
+    "let drink = 'Tea';",
+    "console.log(drink !== 'tea');"
+   ],
+   "output": [
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "drink",
+       "scope": "global",
+       "value": "'Tea'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "drink",
+       "scope": "global",
+       "value": "'Tea'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.strict-equality.trace-01": {
+   "code": [
+    "let seats = 20;",
+    "let booked = 20;",
+    "let full = seats === booked;",
+    "booked = booked - 1;",
+    "full = seats === booked;",
+    "console.log(full);"
+   ],
+   "output": [
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "20"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "20"
+      },
+      {
+       "name": "booked",
+       "scope": "global",
+       "value": "20"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "20"
+      },
+      {
+       "name": "booked",
+       "scope": "global",
+       "value": "20"
+      },
+      {
+       "name": "full",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "20"
+      },
+      {
+       "name": "booked",
+       "scope": "global",
+       "value": "19"
+      },
+      {
+       "name": "full",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "20"
+      },
+      {
+       "name": "booked",
+       "scope": "global",
+       "value": "19"
+      },
+      {
+       "name": "full",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "20"
+      },
+      {
+       "name": "booked",
+       "scope": "global",
+       "value": "19"
+      },
+      {
+       "name": "full",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.strict-equality.fill-01": {
+   "code": [
+    "let cups = 6;",
+    "console.log(cups !== 6);"
+   ],
+   "output": [
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "cups",
+       "scope": "global",
+       "value": "6"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "cups",
+       "scope": "global",
+       "value": "6"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.strict-equality.parsons-01": {
+   "code": [
+    "let ticket = 'A7';",
+    "console.log(ticket === 'A7');",
+    "ticket = 'B2';",
+    "console.log(ticket === 'B2');"
+   ],
+   "output": [
+    "true",
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "ticket",
+       "scope": "global",
+       "value": "'A7'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "ticket",
+       "scope": "global",
+       "value": "'A7'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "ticket",
+       "scope": "global",
+       "value": "'B2'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "ticket",
+       "scope": "global",
+       "value": "'B2'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.strict-equality.concept-01": {
+   "code": [
+    "console.log(7 === 7);",
+    "console.log(7 === '7');"
+   ],
+   "output": [
+    "true",
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.loose-equality.predict-01": {
+   "code": [
+    "let seat = 14;",
+    "let ticketText = '14';",
+    "console.log(seat == ticketText);"
+   ],
+   "output": [
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "seat",
+       "scope": "global",
+       "value": "14"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "seat",
+       "scope": "global",
+       "value": "14"
+      },
+      {
+       "name": "ticketText",
+       "scope": "global",
+       "value": "'14'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "seat",
+       "scope": "global",
+       "value": "14"
+      },
+      {
+       "name": "ticketText",
+       "scope": "global",
+       "value": "'14'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.loose-equality.predict-02": {
+   "code": [
+    "let lightOn = false;",
+    "console.log(lightOn == 0);"
+   ],
+   "output": [
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "lightOn",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "lightOn",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.loose-equality.trace-01": {
+   "code": [
+    "let reading = '30';",
+    "let limit = 30;",
+    "let same = reading == limit;",
+    "reading = reading + '1';",
+    "same = reading == limit;",
+    "console.log(same);"
+   ],
+   "output": [
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "reading",
+       "scope": "global",
+       "value": "'30'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "reading",
+       "scope": "global",
+       "value": "'30'"
+      },
+      {
+       "name": "limit",
+       "scope": "global",
+       "value": "30"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "reading",
+       "scope": "global",
+       "value": "'30'"
+      },
+      {
+       "name": "limit",
+       "scope": "global",
+       "value": "30"
+      },
+      {
+       "name": "same",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "reading",
+       "scope": "global",
+       "value": "'301'"
+      },
+      {
+       "name": "limit",
+       "scope": "global",
+       "value": "30"
+      },
+      {
+       "name": "same",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "reading",
+       "scope": "global",
+       "value": "'301'"
+      },
+      {
+       "name": "limit",
+       "scope": "global",
+       "value": "30"
+      },
+      {
+       "name": "same",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "reading",
+       "scope": "global",
+       "value": "'301'"
+      },
+      {
+       "name": "limit",
+       "scope": "global",
+       "value": "30"
+      },
+      {
+       "name": "same",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.loose-equality.fill-01": {
+   "code": [
+    "let typed = '25';",
+    "console.log(typed == 25);"
+   ],
+   "output": [
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "typed",
+       "scope": "global",
+       "value": "'25'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "typed",
+       "scope": "global",
+       "value": "'25'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.loose-equality.parsons-01": {
+   "code": [
+    "let answer = '3';",
+    "console.log(answer == 3);",
+    "console.log(answer + 3);",
+    "console.log(answer === 3);"
+   ],
+   "output": [
+    "true",
+    "33",
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "answer",
+       "scope": "global",
+       "value": "'3'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "answer",
+       "scope": "global",
+       "value": "'3'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "answer",
+       "scope": "global",
+       "value": "'3'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "answer",
+       "scope": "global",
+       "value": "'3'"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.loose-equality.write-01": {
+   "code": [
+    "let typed = \"12\";",
+    "let target = 12;",
+    "console.log(",
+    "typed == target",
+    ");"
+   ],
+   "output": [
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "typed",
+       "scope": "global",
+       "value": "'12'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "typed",
+       "scope": "global",
+       "value": "'12'"
+      },
+      {
+       "name": "target",
+       "scope": "global",
+       "value": "12"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "typed",
+       "scope": "global",
+       "value": "'12'"
+      },
+      {
+       "name": "target",
+       "scope": "global",
+       "value": "12"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.relational-operators.predict-01": {
+   "code": [
+    "let tall = 40;",
+    "let shelf = 40;",
+    "console.log(tall >= shelf);",
+    "console.log(tall > shelf);"
+   ],
+   "output": [
+    "true",
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "tall",
+       "scope": "global",
+       "value": "40"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "tall",
+       "scope": "global",
+       "value": "40"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "40"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "tall",
+       "scope": "global",
+       "value": "40"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "40"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "tall",
+       "scope": "global",
+       "value": "40"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "40"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.relational-operators.predict-02": {
+   "code": [
+    "let roomA = '10';",
+    "let roomB = '9';",
+    "console.log(roomA < roomB);"
+   ],
+   "output": [
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "roomA",
+       "scope": "global",
+       "value": "'10'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "roomA",
+       "scope": "global",
+       "value": "'10'"
+      },
+      {
+       "name": "roomB",
+       "scope": "global",
+       "value": "'9'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "roomA",
+       "scope": "global",
+       "value": "'10'"
+      },
+      {
+       "name": "roomB",
+       "scope": "global",
+       "value": "'9'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.relational-operators.trace-01": {
+   "code": [
+    "let water = 3;",
+    "let canHike = water >= 2;",
+    "water = water - 2;",
+    "let canContinue = water >= 2;",
+    "console.log(canHike, canContinue);"
+   ],
+   "output": [
+    "true false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "water",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "water",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "canHike",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "water",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "canHike",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "water",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "canHike",
+       "scope": "global",
+       "value": "true"
+      },
+      {
+       "name": "canContinue",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "water",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "canHike",
+       "scope": "global",
+       "value": "true"
+      },
+      {
+       "name": "canContinue",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.relational-operators.fill-01": {
+   "code": [
+    "let guests = 8;",
+    "let seats = 8;",
+    "console.log(guests >= seats);"
+   ],
+   "output": [
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "guests",
+       "scope": "global",
+       "value": "8"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "guests",
+       "scope": "global",
+       "value": "8"
+      },
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "8"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "guests",
+       "scope": "global",
+       "value": "8"
+      },
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "8"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.relational-operators.parsons-01": {
+   "code": [
+    "let goal = 5000;",
+    "let steps = goal - 1000;",
+    "console.log(steps < goal);",
+    "steps = steps + 1000;",
+    "console.log(steps >= goal);"
+   ],
+   "output": [
+    "true",
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "goal",
+       "scope": "global",
+       "value": "5000"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "goal",
+       "scope": "global",
+       "value": "5000"
+      },
+      {
+       "name": "steps",
+       "scope": "global",
+       "value": "4000"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "goal",
+       "scope": "global",
+       "value": "5000"
+      },
+      {
+       "name": "steps",
+       "scope": "global",
+       "value": "4000"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "goal",
+       "scope": "global",
+       "value": "5000"
+      },
+      {
+       "name": "steps",
+       "scope": "global",
+       "value": "5000"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "goal",
+       "scope": "global",
+       "value": "5000"
+      },
+      {
+       "name": "steps",
+       "scope": "global",
+       "value": "5000"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.relational-operators.concept-01": {
+   "code": [
+    "console.log('apple' < 'banana');",
+    "console.log('10' < '9');",
+    "console.log(10 < 9);"
+   ],
+   "output": [
+    "true",
+    "true",
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.truthy-and-falsy.predict-01": {
+   "code": [
+    "let comment = '';",
+    "let spacer = ' ';",
+    "console.log(Boolean(comment));",
+    "console.log(Boolean(spacer));"
+   ],
+   "output": [
+    "false",
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "comment",
+       "scope": "global",
+       "value": "''"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "comment",
+       "scope": "global",
+       "value": "''"
+      },
+      {
+       "name": "spacer",
+       "scope": "global",
+       "value": "' '"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "comment",
+       "scope": "global",
+       "value": "''"
+      },
+      {
+       "name": "spacer",
+       "scope": "global",
+       "value": "' '"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "comment",
+       "scope": "global",
+       "value": "''"
+      },
+      {
+       "name": "spacer",
+       "scope": "global",
+       "value": "' '"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.truthy-and-falsy.predict-02": {
+   "code": [
+    "let city = 'Lima';",
+    "console.log(city || 'unknown');"
+   ],
+   "output": [
+    "Lima"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "city",
+       "scope": "global",
+       "value": "'Lima'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "city",
+       "scope": "global",
+       "value": "'Lima'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.truthy-and-falsy.trace-01": {
+   "code": [
+    "let coupon = 0;",
+    "let discount = coupon && 15;",
+    "coupon = 5;",
+    "let bonus = coupon && 15;",
+    "console.log(discount, bonus);"
+   ],
+   "output": [
+    "0 15"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "coupon",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "coupon",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "discount",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "coupon",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "discount",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "coupon",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "discount",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "bonus",
+       "scope": "global",
+       "value": "15"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "coupon",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "discount",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "bonus",
+       "scope": "global",
+       "value": "15"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.truthy-and-falsy.fill-01": {
+   "code": [
+    "let cart = 0;",
+    "console.log(Boolean(cart));"
+   ],
+   "output": [
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "cart",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "cart",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.truthy-and-falsy.parsons-01": {
+   "code": [
+    "let isOpen = false;",
+    "console.log(!isOpen);",
+    "isOpen = !isOpen;",
+    "console.log(isOpen);",
+    "console.log(isOpen && 'open');"
+   ],
+   "output": [
+    "true",
+    "true",
+    "open"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "isOpen",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "isOpen",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "isOpen",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "isOpen",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "isOpen",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.operators-and-comparisons.truthy-and-falsy.write-01": {
+   "code": [
+    "let username = \"Mo\";",
+    "console.log(",
+    "username || 'guest'",
+    ");"
+   ],
+   "output": [
+    "Mo"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "username",
+       "scope": "global",
+       "value": "'Mo'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "username",
+       "scope": "global",
+       "value": "'Mo'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ },
+ "conceptCards": {
+  "operators-and-comparisons.lesson-1": {
+   "code": [
+    "let eggs = 6;",
+    "console.log(eggs === 6);",
+    "console.log(eggs === '6');",
+    "console.log(eggs !== 6);"
+   ],
+   "output": [
+    "true",
+    "false",
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "eggs",
+       "scope": "global",
+       "value": "6"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "eggs",
+       "scope": "global",
+       "value": "6"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "eggs",
+       "scope": "global",
+       "value": "6"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "eggs",
+       "scope": "global",
+       "value": "6"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "operators-and-comparisons.lesson-2": {
+   "code": [
+    "console.log(5 == '5');",
+    "console.log(false == 0);",
+    "console.log(5 === '5');"
+   ],
+   "output": [
+    "true",
+    "true",
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "operators-and-comparisons.lesson-3": {
+   "code": [
+    "console.log(4 > 4);",
+    "console.log(4 >= 4);",
+    "console.log('b' > 'a');"
+   ],
+   "output": [
+    "false",
+    "true",
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "operators-and-comparisons.lesson-4": {
+   "code": [
+    "console.log(!0);",
+    "console.log(0 && 'x');",
+    "console.log(0 || 'x');"
+   ],
+   "output": [
+    "true",
+    "0",
+    "x"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ }
+}
