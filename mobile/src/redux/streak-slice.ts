@@ -40,12 +40,6 @@ const streakSlice = createSlice({
       if (payload.lastActivityDate !== undefined) state.lastActivityDate = payload.lastActivityDate;
       if (payload.lastCheckedDate !== undefined) state.lastCheckedDate = payload.lastCheckedDate;
     },
-    /** The server confirmed qualifying XP today: mirror its count, today becomes the last activity day. */
-    syncStreakFromServer: (state, action: PayloadAction<{ streakCurrent: number; today: string }>) => {
-      state.streakCurrent = action.payload.streakCurrent;
-      state.lastActivityDate = action.payload.today;
-      state.lastCheckedDate = action.payload.today;
-    },
     resetStreak: () => initialState,
     runStreakAppOpen: (state, action: PayloadAction<{ today: string }>) => {
       const next = applyStreakOnAppOpen(toPersisted(state), action.payload.today);
@@ -54,6 +48,6 @@ const streakSlice = createSlice({
   },
 });
 
-export const { hydrateStreak, syncStreakFromServer, resetStreak, runStreakAppOpen } = streakSlice.actions;
+export const { hydrateStreak, resetStreak, runStreakAppOpen } = streakSlice.actions;
 
 export default streakSlice.reducer;

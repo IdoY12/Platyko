@@ -12,7 +12,7 @@ import { OutlineButton } from "@/components/common/LipButton/OutlineButton";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { Mascot } from "@/components/mascot/Mascot";
 import { t } from "@/i18n/translate";
-import { depth, duration, palette, radii, space, springs, wash } from "@/theme/tokens";
+import { bottomSheet, duration, palette, radii, space, springs, wash } from "@/theme/tokens";
 
 type Props = {
   outcome: AttemptOutcome;
@@ -122,20 +122,7 @@ export function FeedbackSheet(props: Props) {
 }
 
 const styles = StyleSheet.create({
-  sheet: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    gap: space.md,
-    padding: space.xl,
-    paddingBottom: space.xxl,
-    backgroundColor: palette.bg.raised,
-    borderTopLeftRadius: radii.sheet,
-    borderTopRightRadius: radii.sheet,
-    borderTopWidth: 3,
-    ...depth.floating,
-  },
+  sheet: bottomSheet,
   header: { flexDirection: "row", alignItems: "center", gap: space.md },
   mascot: { width: 64 },
   headerText: { flex: 1 },

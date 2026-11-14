@@ -4,7 +4,7 @@ import { NativeModules } from "react-native";
 const DEV_BACKEND_PORT = "4000";
 const DEV_IO_PORT = "4001";
 const PROD_API_BASE_URL = "https://api.platyko.com/api";
-const PROD_DUEL_SOCKET_URL = "https://io.platyko.com/duel";
+const PROD_PLAY_SOCKET_URL = "https://io.platyko.com/play";
 
 /** Without a timeout a request to an unreachable host hangs forever and spinners never resolve. */
 export const REQUEST_TIMEOUT_MS = 10_000;
@@ -45,12 +45,7 @@ function getApiBaseUrl(): string {
   return `http://${host}:${DEV_BACKEND_PORT}/api`;
 }
 
-function getDuelSocketUrl(): string {
-  if (!__DEV__) return PROD_DUEL_SOCKET_URL;
-  const host = getExpoHost() ?? "localhost";
-  return `http://${host}:${DEV_IO_PORT}/duel`;
-}
-
 export const API_BASE_URL = getApiBaseUrl();
 
-export const DUEL_SOCKET_URL = getDuelSocketUrl();
+/** The multiplayer namespace (PRD 11.4). */
+export const PLAY_SOCKET_URL = __DEV__ ? `http://${getExpoHost() ?? "localhost"}:${DEV_IO_PORT}/play` : PROD_PLAY_SOCKET_URL;

@@ -12,12 +12,14 @@ import { logAuth } from "@/utils/logger";
 import { subscribeStoreToHybridStorage } from "@/utils/appShellPersistence";
 import { isDailyGoalMet, syncDailyPracticeReminder } from "@/utils/dailyGoalNotificationCheck";
 import { setBootstrapProblem } from "@/redux/session-slice";
+import { playService } from "@/services/playSocket";
 
 export function useAppShell() {
   const dispatch = useAppDispatch();
   const bootstrapProblem = useAppSelector((s) => s.session.bootstrapProblem);
   const [isConnected, setIsConnected] = useState(true);
   const hasHydrated = useAppSelector((s) => s.session.hasHydrated);
+  const authChecked = useAppSelector((s) => s.session.authChecked);
   const isAuthenticated = useAppSelector((s) => s.session.isAuthenticated);
   const isGuest = useAppSelector((s) => s.session.isGuest);
   // Meeting the day's goal removes today's reminder at once.
@@ -50,6 +52,12 @@ export function useAppShell() {
     if (!hasHydrated) return;
     return subscribeStoreToHybridStorage(store);
   }, [hasHydrated]);
+
+  // The game connection opens once the session is confirmed, wherever the learner is, so a game
+  // that was running when the app closed resumes (PRD 11.8). Sign-out closes it.
+  useEffect(() => {
+    if (authChecked && isAuthenticated) playService.connect();
+  }, [authChecked, isAuthenticated]);
 
   useEffect(() => {
     if (!hasHydrated) return;

@@ -10,7 +10,6 @@ import { readTokensAgain } from "@/utils/secureSessionTokens";
 import { identityOf, setNotificationsEnabled, setUserIdentity, updatePreferences, type Commitment } from "@/redux/profile-slice";
 import { hydrateXp } from "@/redux/xp-slice";
 import { hydrateStreak } from "@/redux/streak-slice";
-import { hydrateStats } from "@/redux/duel-slice";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { discardLocalAccount, resetStoresAfterLogout } from "@/utils/resetStoresAfterLogout";
 
@@ -55,7 +54,6 @@ async function _run(dispatch: AppDispatch): Promise<void> {
     const progress = await userService.getProgressSummary(getStreakCalendarDate());
     dispatch(hydrateXp({ xpTotal: progress.xpTotal, level: progress.level }));
     dispatch(hydrateStreak({ streakCurrent: progress.streakCurrent, lastActivityDate: progress.streakLastActivityDate, lastCheckedDate: progress.streakLastCheckedDate }));
-    dispatch(hydrateStats({ duelWins: progress.duelWins, duelLosses: progress.duelLosses, lessonsCompleted: progress.lessonsCompleted }));
   } catch (error) {
     logError("[AUTH]", error, { phase: "bootstrap" });
     if (isBootstrapServerError(error)) {

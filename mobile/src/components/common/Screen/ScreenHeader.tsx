@@ -8,14 +8,18 @@ import { MIN_TOUCH_TARGET, palette, space } from "@/theme/tokens";
 
 const BACK_ICON = I18nManager.isRTL ? "arrow-right" : "arrow-left";
 
-/** A pushed screen's top row: the way back, pointing the way the screen came in, and the title. */
+/**
+ * A screen's top row: the title and, on a pushed screen, the way back pointing the way the screen
+ * came in. A tab's own screen has no way back; the tab bar is how you leave it.
+ */
 export function ScreenHeader({ title }: { title: string }) {
   const navigation = useNavigation();
+  const isTabScreen = navigation.getState()?.type === "tab";
   return (
     <View style={styles.header}>
-      <PressableScale onPress={() => navigation.goBack()} accessibilityRole="button" accessibilityLabel={t("common.back")} style={styles.back}>
+      {isTabScreen ? null : <PressableScale onPress={() => navigation.goBack()} accessibilityRole="button" accessibilityLabel={t("common.back")} style={styles.back}>
         <MaterialCommunityIcons name={BACK_ICON} size={26} color={palette.text.primary} />
-      </PressableScale>
+      </PressableScale>}
       <AppText variant="screenTitle" accessibilityRole="header">
         {title}
       </AppText>

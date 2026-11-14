@@ -1,10 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { AppDispatch } from "@/redux/store";
-import { hydrateSession, reconcileStudyCalendarDay, setBootstrapProblem, setHasHydrated } from "@/redux/session-slice";
+import { hydrateSession, setBootstrapProblem, setHasHydrated } from "@/redux/session-slice";
 import { hydrateProfile } from "@/redux/profile-slice";
 import { hydrateXp } from "@/redux/xp-slice";
 import { hydrateStreak } from "@/redux/streak-slice";
-import { hydrateStats } from "@/redux/duel-slice";
 import { hydrateLearning, type LearningState } from "@/redux/learning-slice";
 import { logAuth, logError } from "@/utils/logger";
 import { EXPIRED_ACCESS_TOKEN } from "@/constants/secureStorageKeyConstants";
@@ -17,7 +16,6 @@ type PersistedReduxSnapshot = {
   profile?: Record<string, unknown>;
   xp?: Record<string, unknown>;
   streak?: Record<string, unknown>;
-  duel?: Record<string, unknown>;
   learning?: Partial<LearningState>;
 };
 
@@ -35,7 +33,6 @@ export async function hydrateStoreFromStorage(dispatch: AppDispatch): Promise<vo
     dispatch(hydrateProfile(parsed.profile as never));
     if (parsed.xp) dispatch(hydrateXp(parsed.xp as never));
     if (parsed.streak) dispatch(hydrateStreak(parsed.streak as never));
-    if (parsed.duel) dispatch(hydrateStats(parsed.duel as never));
     if (parsed.learning) dispatch(hydrateLearning(parsed.learning));
     let secure = { accessToken: null as string | null, refreshToken: null as string | null };
     try {
@@ -49,7 +46,6 @@ export async function hydrateStoreFromStorage(dispatch: AppDispatch): Promise<vo
   } catch (error) {
     logError("[APP]", error, { phase: "hydrate-redux" });
   } finally {
-    dispatch(reconcileStudyCalendarDay());
     dispatch(setHasHydrated(true));
     logAuth("storage:hydrated", { value: true });
   }

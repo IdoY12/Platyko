@@ -3,6 +3,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AppText } from "@/components/common/AppText/AppText";
+import { useAppSelector } from "@/redux/hooks";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { haptic } from "@/theme/haptics";
 import { MIN_TOUCH_TARGET, palette, radii, space } from "@/theme/tokens";
@@ -13,17 +14,20 @@ type TabIconName = React.ComponentProps<typeof MaterialCommunityIcons>["name"];
 const TAB_ICONS: Record<string, { idle: TabIconName; active: TabIconName }> = {
   Home: { idle: "home-variant-outline", active: "home-variant" },
   LearnTab: { idle: "map-outline", active: "map" },
-  DuelTab: { idle: "sword-cross", active: "sword-cross" },
+  PlayTab: { idle: "sword-cross", active: "sword-cross" },
   Profile: { idle: "account-circle-outline", active: "account-circle" },
 };
 
 /**
  * The tab bar: a floating raised strip on the water. Tabs are peers, so switching never slides
  * (PRD 12.7); the active tab is shown by colour, a filled icon and a small pill, not by motion.
- * It follows the layout direction, so in Hebrew the tab order is mirrored.
+ * It follows the layout direction, so in Hebrew the tab order is mirrored. A running game takes
+ * the whole screen, like a lesson, so the bar steps aside while it is on screen.
  */
 export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
+  const inGame = useAppSelector((root) => root.play.match !== null && root.play.end === null);
+  if (inGame && state.routes[state.index].name === "PlayTab") return null;
   return (
     <View style={[styles.wrapper, { paddingBottom: Math.max(insets.bottom, space.md) }]}>
       <View style={styles.bar}>

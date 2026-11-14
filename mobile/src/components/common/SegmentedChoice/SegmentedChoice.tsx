@@ -5,7 +5,7 @@ import { MIN_TOUCH_TARGET, palette, radii, space } from "@/theme/tokens";
 
 type Option<Value extends string> = { value: Value; label: string };
 
-/** One choice among a few, as a pill of options; the chosen one wears the bill orange. */
+/** One choice among a few, as a pill of options that wraps when they do not fit; the chosen one wears the bill orange. */
 export function SegmentedChoice<Value extends string>({ options, selected, onSelect }: { options: readonly Option<Value>[]; selected: Value; onSelect: (value: Value) => void }) {
   return (
     <View style={styles.row} accessibilityRole="radiogroup">
@@ -31,7 +31,7 @@ export function SegmentedChoice<Value extends string>({ options, selected, onSel
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: "row", gap: space.xs, padding: space.xs, borderRadius: radii.pill, backgroundColor: palette.bg.surface, alignSelf: "flex-start" },
+  row: { flexDirection: "row", flexWrap: "wrap", gap: space.xs, padding: space.xs, borderRadius: radii.sheet, backgroundColor: palette.bg.surface, alignSelf: "flex-start" },
   option: { minHeight: MIN_TOUCH_TARGET - space.sm, minWidth: 72, alignItems: "center", justifyContent: "center", paddingHorizontal: space.lg, borderRadius: radii.pill },
   selected: { backgroundColor: palette.brand.primary },
 });

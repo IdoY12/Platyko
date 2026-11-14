@@ -28,10 +28,6 @@ export function logNav(message: string, meta?: LogMeta) {
   write("[NAV]", message, meta);
 }
 
-export function logDuel(message: string, meta?: LogMeta) {
-  write("[DUEL]", message, meta);
-}
-
 /**
  * Unlike the info loggers above, errors are also written in release builds: console.error reaches
  * the OS log (Console.app / logcat), which is the only crash trail until a crash reporter is wired.

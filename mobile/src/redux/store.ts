@@ -3,9 +3,8 @@ import sessionReducer from "./session-slice";
 import profileReducer from "./profile-slice";
 import xpReducer from "./xp-slice";
 import streakReducer from "./streak-slice";
-import duelReducer from "./duel-slice";
-import duelLiveReducer from "./duel-live-slice";
 import learningReducer from "./learning-slice";
+import playReducer from "./play-slice";
 
 const store = configureStore({
   reducer: {
@@ -13,9 +12,8 @@ const store = configureStore({
     profile: profileReducer,
     xp: xpReducer,
     streak: streakReducer,
-    duel: duelReducer,
-    duelLive: duelLiveReducer,
     learning: learningReducer,
+    play: playReducer,
   },
 });
 

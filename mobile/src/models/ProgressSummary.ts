@@ -4,7 +4,4 @@ export default interface ProgressSummary {
   streakCurrent: number;
   streakLastActivityDate: string | null;
   streakLastCheckedDate: string | null;
-  lessonsCompleted: number;
-  duelWins: number;
-  duelLosses: number;
 }

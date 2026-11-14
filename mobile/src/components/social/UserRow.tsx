@@ -7,11 +7,11 @@ import { ProfileAvatar } from "@/components/profile/profile-screen/ProfileAvatar
 import { t } from "@/i18n/translate";
 import { MIN_TOUCH_TARGET, palette, space } from "@/theme/tokens";
 
-/** One user in a list: photo, username and level, opening the profile; `actions` sit at the end. */
-export function UserRow({ user, onOpen, actions }: { user: PublicUser; onOpen: () => void; actions?: ReactNode }) {
+/** One user in a list: photo, username and level, opening the profile when `onOpen` is given; `actions` sit at the end. */
+export function UserRow({ user, onOpen, actions }: { user: Pick<PublicUser, "username" | "avatarUrl" | "level">; onOpen?: () => void; actions?: ReactNode }) {
   return (
     <View style={styles.row}>
-      <PressableScale onPress={onOpen} accessibilityRole="button" accessibilityLabel={user.username} style={styles.identity}>
+      <PressableScale onPress={onOpen} disabled={!onOpen} accessibilityRole={onOpen ? "button" : undefined} accessibilityLabel={user.username} style={styles.identity}>
         <ProfileAvatar name={user.username} avatarUrl={user.avatarUrl} size={40} />
         <View style={styles.text}>
           {/* A username is user data: it reads left to right whatever the UI language. */}

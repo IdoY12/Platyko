@@ -4,7 +4,6 @@ import type { Commitment } from "@/redux/profile-slice";
 import { hydrateProfile, identityOf, setUserIdentity } from "@/redux/profile-slice";
 import { resetXp } from "@/redux/xp-slice";
 import { resetStreak } from "@/redux/streak-slice";
-import { resetStats } from "@/redux/duel-slice";
 import { startAccountSession } from "@/redux/learning-slice";
 import { logAuth } from "@/utils/logger";
 import { adoptAccountLanguage } from "@/i18n/languagePreference";
@@ -41,7 +40,6 @@ export function dispatchSignInSuccess(
 
   dispatch(resetXp());
   dispatch(resetStreak());
-  dispatch(resetStats());
   dispatch(startAccountSession());
   void adoptAccountLanguage(user.language);
 }

@@ -1,6 +1,5 @@
 import type { MutableRefObject } from "react";
 import { AppState, type AppStateStatus } from "react-native";
-import { reconcileStudyCalendarDay } from "@/redux/session-slice";
 import { runStreakAppOpen } from "@/redux/streak-slice";
 import type { AppDispatch } from "@/redux/store";
 import store from "@/redux/store";
@@ -17,11 +16,10 @@ export function attachAppShellSessionForegroundSync(
 ): () => void {
   const sub = AppState.addEventListener("change", (next) => {
     if (appStateRef.current !== "active" && next === "active") {
-      dispatch(reconcileStudyCalendarDay());
       retryUnsavedTokens();
       const { refreshToken, isAuthenticated, isGuest } = store.getState().session;
       if (isAuthenticated && !refreshToken) void bootstrapSession(dispatch); // keychain unreadable at launch: try again
-      if (isAuthenticated && refreshToken && !store.getState().duelLive.sessionId) {
+      if (isAuthenticated && refreshToken) {
         void refreshSessionOrLogoutOnForeground(dispatch);
         void syncRegisteredStreakFromServer(dispatch);
       }

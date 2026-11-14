@@ -106,6 +106,22 @@ export const depth = {
   floating: { shadowColor: palette.bg.deep, shadowOpacity: 0.6, shadowRadius: 24, shadowOffset: { width: 0, height: 12 }, elevation: 12 },
 } as const;
 
+/** A sheet pinned to the bottom of the screen, over the content (lesson feedback, a game's round end). */
+export const bottomSheet = {
+  position: "absolute",
+  left: 0,
+  right: 0,
+  bottom: 0,
+  gap: space.md,
+  padding: space.xl,
+  paddingBottom: space.xxl,
+  backgroundColor: palette.bg.raised,
+  borderTopLeftRadius: radii.sheet,
+  borderTopRightRadius: radii.sheet,
+  borderTopWidth: 3,
+  ...depth.floating,
+} as const;
+
 export function glowShadow(color: string) {
   return { shadowColor: color, shadowOpacity: 0.55, shadowRadius: 16, shadowOffset: { width: 0, height: 0 }, elevation: 8 };
 }

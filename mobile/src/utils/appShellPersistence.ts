@@ -47,7 +47,6 @@ export function subscribeStoreToHybridStorage(appStore: typeof store): () => voi
       profile: state.profile,
       xp: state.xp,
       streak: state.streak,
-      duel: state.duel,
       // The map and opened lessons stay on disk so lessons keep working offline (PRD 16.10).
       learning: state.learning,
     });

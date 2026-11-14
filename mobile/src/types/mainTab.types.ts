@@ -1,6 +1,6 @@
 export type MainTabParamList = {
   Home: undefined;
   LearnTab: undefined;
-  DuelTab: undefined;
+  PlayTab: undefined;
   Profile: undefined;
 };

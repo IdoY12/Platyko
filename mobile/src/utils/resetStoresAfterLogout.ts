@@ -5,8 +5,8 @@ import { signOut } from "@/redux/session-slice";
 import { resetProfile, setNotificationsEnabled } from "@/redux/profile-slice";
 import { resetXp } from "@/redux/xp-slice";
 import { resetStreak } from "@/redux/streak-slice";
-import { resetStats } from "@/redux/duel-slice";
-import { duelReset } from "@/redux/duel-live-slice";
+import { leavePlay } from "@/redux/play-slice";
+import { playService } from "@/services/playSocket";
 import { resetLearning } from "@/redux/learning-slice";
 import { clearSecureSessionTokens } from "@/utils/secureSessionTokens";
 import { syncDailyPracticeReminder } from "@/utils/dailyGoalNotificationCheck";
@@ -19,8 +19,9 @@ export function resetStoresAfterLogout(dispatch: AppDispatch): void {
   dispatch(setNotificationsEnabled(false));
   dispatch(resetXp());
   dispatch(resetStreak());
-  dispatch(resetStats());
-  dispatch(duelReset());
+  // The game connection belongs to the account that just left.
+  playService.disconnect();
+  dispatch(leavePlay());
   dispatch(resetLearning());
   void syncDailyPracticeReminder();
 }
