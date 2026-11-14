@@ -1,0 +1,1464 @@
+{
+  "track": "BEGINNER",
+  "unit": "values-and-types",
+  "order": 1,
+  "title": "Values and types",
+  "summary": "Numbers, text and booleans, how + treats them, and how typeof names a value's type.",
+  "concepts": [
+    {
+      "id": "number-values",
+      "title": "Numbers and arithmetic",
+      "prerequisites": []
+    },
+    {
+      "id": "string-values",
+      "title": "Strings and joining text",
+      "prerequisites": [
+        "number-values"
+      ]
+    },
+    {
+      "id": "boolean-values",
+      "title": "Booleans: true and false",
+      "prerequisites": [
+        "number-values"
+      ]
+    },
+    {
+      "id": "typeof-operator",
+      "title": "Finding a value's type with typeof",
+      "prerequisites": [
+        "number-values",
+        "string-values",
+        "boolean-values"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "precedence-wrong-order",
+      "description": "Believes + and - are done before * and /, or that every operator works strictly from left to right."
+    },
+    {
+      "id": "division-gives-whole-number",
+      "description": "Believes / always gives a whole number, rounding down or to the nearest integer."
+    },
+    {
+      "id": "remainder-is-quotient",
+      "description": "Believes % tells how many times a number fits into another instead of what is left over."
+    },
+    {
+      "id": "wrong-moment-value",
+      "description": "Reads the value a variable has at a different moment than the one asked about, such as the start or the end of the program."
+    },
+    {
+      "id": "plus-always-adds",
+      "description": "Believes + always does arithmetic, so mixing a number with text gives a sum or NaN."
+    },
+    {
+      "id": "trim-removes-one-side",
+      "description": "Believes trim removes spaces from only one end of the text."
+    },
+    {
+      "id": "method-result-ignored",
+      "description": "Believes a string method has no visible effect unless its result is stored, so ignores the new text it returns."
+    },
+    {
+      "id": "falsy-by-meaning",
+      "description": "Judges true or false by what a value looks like or means, not by the rules: thinks 0 is true or that the text \"0\" or \"false\" is false."
+    },
+    {
+      "id": "boolean-joins-wrong",
+      "description": "Believes a boolean joins text as a number or disappears, instead of becoming the word true or false."
+    },
+    {
+      "id": "null-and-undefined-confused",
+      "description": "Treats null and undefined as the same value, or expects typeof to answer null for them."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types",
+      "retrievedAt": "2026-11-14",
+      "sha256": "34081d44927a4b54f9f65cb2e2e9284ddf321d8ed4550f4d1e57696bdc4872e3"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
+      "retrievedAt": "2026-11-14",
+      "sha256": "b1ec3e186f13ce472d9c128c9062abbca121b42f4e32f1124fef6009e9ff6447"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition",
+      "retrievedAt": "2026-11-14",
+      "sha256": "42cef1b7c22ab90c4ab7c847c32099f8c2df2f697a9c6660bce1048db5570ff6"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder",
+      "retrievedAt": "2026-11-14",
+      "sha256": "1758a1993918eb21f59001a40344528ea863c24d76a23949b6b12d22b1023c36"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+      "retrievedAt": "2026-11-14",
+      "sha256": "ae8b9152593d6ce670f6cf8efb85daadf3f85ef94b18569304bc60144a356e3f"
+    },
+    {
+      "url": "https://tc39.es/ecma262/#sec-typeof-operator",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7c67049076faafb9f473c7e888e8f84cb6144e1187210f9c08e581155355ccc6"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "values-and-types.lesson-1",
+      "title": "Numbers and arithmetic",
+      "conceptCard": {
+        "title": "Numbers and arithmetic",
+        "body": "JavaScript has one kind of number, with or without decimals. The signs + - * / work as in maths, and * and / go before + and -. The % sign gives the leftover after dividing, and / keeps the fraction.",
+        "code": [
+          "console.log(6 + 4 * 2);",
+          "console.log(7 / 2);",
+          "console.log(7 % 2);"
+        ],
+        "expectedOutput": "14\n3.5\n1"
+      },
+      "itemIds": [
+        "beg.values-and-types.number-values.predict-01",
+        "beg.values-and-types.number-values.predict-02",
+        "beg.values-and-types.number-values.trace-01",
+        "beg.values-and-types.number-values.fill-01",
+        "beg.values-and-types.number-values.parsons-01",
+        "beg.values-and-types.number-values.concept-01"
+      ]
+    },
+    {
+      "id": "values-and-types.lesson-2",
+      "title": "Strings and joining text",
+      "conceptCard": {
+        "title": "Strings and joining text",
+        "body": "Text goes between quotation marks. Joining texts with + makes one longer text. If one side of + is text, the other side becomes text too. The length property counts the characters.",
+        "code": [
+          "console.log(\"tea\" + \"pot\");",
+          "console.log(\"tea\".length);",
+          "console.log(\"Room \" + 5);"
+        ],
+        "expectedOutput": "teapot\n3\nRoom 5"
+      },
+      "itemIds": [
+        "beg.values-and-types.string-values.predict-01",
+        "beg.values-and-types.string-values.predict-02",
+        "beg.values-and-types.string-values.trace-01",
+        "beg.values-and-types.string-values.fill-01",
+        "beg.values-and-types.string-values.parsons-01",
+        "beg.values-and-types.string-values.write-01"
+      ]
+    },
+    {
+      "id": "values-and-types.lesson-3",
+      "title": "Booleans: true and false",
+      "conceptCard": {
+        "title": "Booleans: true and false",
+        "body": "A boolean is either true or false, written without quotation marks. Boolean turns any value into one of the two. Only a few values give false, such as 0 and empty text. Joined to text, a boolean becomes a word.",
+        "code": [
+          "console.log(true);",
+          "console.log(\"open: \" + false);",
+          "console.log(Boolean(\"\"));"
+        ],
+        "expectedOutput": "true\nopen: false\nfalse"
+      },
+      "itemIds": [
+        "beg.values-and-types.boolean-values.predict-01",
+        "beg.values-and-types.boolean-values.predict-02",
+        "beg.values-and-types.boolean-values.trace-01",
+        "beg.values-and-types.boolean-values.fill-01",
+        "beg.values-and-types.boolean-values.parsons-01",
+        "beg.values-and-types.boolean-values.concept-01"
+      ]
+    },
+    {
+      "id": "values-and-types.lesson-4",
+      "title": "Finding a value's type with typeof",
+      "conceptCard": {
+        "title": "Finding a value's type with typeof",
+        "body": "typeof gives the type of a value as text, such as number, string or boolean. Quotation marks make digits a string. Two values are odd: undefined has its own type, and null reports object.",
+        "code": [
+          "console.log(typeof 5);",
+          "console.log(typeof \"5\");",
+          "console.log(typeof true);"
+        ],
+        "expectedOutput": "number\nstring\nboolean"
+      },
+      "itemIds": [
+        "beg.values-and-types.typeof-operator.predict-01",
+        "beg.values-and-types.typeof-operator.predict-02",
+        "beg.values-and-types.typeof-operator.trace-01",
+        "beg.values-and-types.typeof-operator.fill-01",
+        "beg.values-and-types.typeof-operator.parsons-01",
+        "beg.values-and-types.typeof-operator.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "beg.values-and-types.number-values.predict-01",
+      "concept": "number-values",
+      "prerequisites": [],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "console.log(5 + 2 * 3 + 1);"
+      ],
+      "options": [
+        {
+          "text": "12",
+          "correct": true,
+          "feedback": "Right. 2 * 3 is done first, giving 6, and then 5 + 6 + 1 is 12."
+        },
+        {
+          "text": "22",
+          "correct": false,
+          "feedback": "You worked from left to right: 5 + 2 is 7, then 7 * 3 is 21, plus 1. Multiplication goes before addition.",
+          "misconception": "precedence-wrong-order"
+        },
+        {
+          "text": "28",
+          "correct": false,
+          "feedback": "You added the left part and the right part first. The * sign binds its two neighbours before any + does.",
+          "misconception": "precedence-wrong-order"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "12"
+      },
+      "explanation": "Multiplication happens before addition, whatever the order on the line. So 2 * 3 is 6 first, and then 5 + 6 + 1 gives 12.",
+      "hints": [
+        "Look at the * sign in the middle of the sum.",
+        "Multiplication is done before addition and subtraction.",
+        "Work out 2 * 3 first, then add the rest from left to right."
+      ],
+      "reference": {
+        "title": "Operator precedence",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_precedence",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.number-values.predict-02",
+      "concept": "number-values",
+      "prerequisites": [],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "console.log(9 / 2);"
+      ],
+      "options": [
+        {
+          "text": "4.5",
+          "correct": true,
+          "feedback": "Right. Division is exact, so the result has a fraction."
+        },
+        {
+          "text": "4",
+          "correct": false,
+          "feedback": "You dropped the fraction. The / sign does not round down; the decimal part stays in the result.",
+          "misconception": "division-gives-whole-number"
+        },
+        {
+          "text": "5",
+          "correct": false,
+          "feedback": "You rounded to the nearest whole number. The / sign never rounds; it gives the exact value.",
+          "misconception": "division-gives-whole-number"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "4.5"
+      },
+      "explanation": "The / sign divides exactly. 9 divided by 2 is 4.5, and JavaScript keeps the fraction. Numbers in JavaScript can have decimals.",
+      "hints": [
+        "Look at what / does to the two numbers.",
+        "Division in JavaScript keeps the fractional part.",
+        "9 does not split evenly by 2; half of it is between 4 and 5."
+      ],
+      "reference": {
+        "title": "Division (/)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Division",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.number-values.trace-01",
+      "concept": "number-values",
+      "prerequisites": [],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What value does tray hold right after line 2 has run?",
+      "code": [
+        "let tray = 12;",
+        "tray = tray / 4;",
+        "tray = tray + 5;",
+        "console.log(tray);"
+      ],
+      "options": [
+        {
+          "text": "3",
+          "correct": true,
+          "feedback": "Right. Line 2 replaced 12 with 12 / 4, and line 3 has not run yet."
+        },
+        {
+          "text": "8",
+          "correct": false,
+          "feedback": "That is the value at the end of the program. The question stops after line 2, before line 3 adds 5.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "12",
+          "correct": false,
+          "feedback": "That is the value after line 1. Line 2 has run and replaced it with the result of the division.",
+          "misconception": "wrong-moment-value"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "tray",
+          "afterLine": 2,
+          "visit": 1
+        },
+        "expectedOutput": "8"
+      },
+      "explanation": "Line 1 stores 12. Line 2 divides the stored value by 4 and stores the result, so tray is 3 at that moment. Line 3 changes it later, to 8.",
+      "hints": [
+        "Follow the lines in order and stop after line 2.",
+        "A variable keeps its value until a later line replaces it.",
+        "Divide 12 by 4 and ignore line 3 for now."
+      ],
+      "reference": {
+        "title": "Assignment (=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.number-values.fill-01",
+      "concept": "number-values",
+      "prerequisites": [],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints the remainder of 17 divided by 5.",
+      "code": [
+        "console.log(17 ___ 5);"
+      ],
+      "options": [
+        {
+          "text": "%",
+          "correct": true,
+          "feedback": "Right. 17 % 5 is 2, the leftover after taking 5 out of 17 three times."
+        },
+        {
+          "text": "/",
+          "correct": false,
+          "feedback": "This prints 3.4, the exact quotient, not the leftover."
+        },
+        {
+          "text": "*",
+          "correct": false,
+          "feedback": "This multiplies, so the program prints 85."
+        },
+        {
+          "text": "-",
+          "correct": false,
+          "feedback": "This subtracts once, so the program prints 12."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "%"
+          ]
+        ],
+        "expectedOutput": "2"
+      },
+      "explanation": "The % sign gives what is left over after dividing. 5 fits into 17 three times, which uses 15, and 2 is left over.",
+      "hints": [
+        "Look at the sign between 17 and 5.",
+        "One sign gives the leftover after a division.",
+        "Pick the sign that is not + - * or /."
+      ],
+      "reference": {
+        "title": "Remainder (%)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.number-values.parsons-01",
+      "concept": "number-values",
+      "prerequisites": [],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints 42, 2.5, 2 and 8, one per line.",
+      "code": [
+        "console.log(10 % 4);",
+        "console.log(7 * 6);",
+        "console.log(2 ** 3);",
+        "console.log(20 / 8);"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "expectedOutput": "42\n2.5\n2\n8"
+      },
+      "explanation": "Each line prints one number. 7 * 6 is 42, 20 / 8 is 2.5, 10 % 4 is 2 and 2 ** 3 is 8. The output order is the order of the lines.",
+      "hints": [
+        "Work out what each line prints before you move it.",
+        "** raises a number to a power, and % gives a remainder.",
+        "Start with the line that prints the biggest number."
+      ],
+      "reference": {
+        "title": "Exponentiation (**)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Exponentiation",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.number-values.concept-01",
+      "concept": "number-values",
+      "prerequisites": [],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement explains the two lines this program prints?",
+      "code": [
+        "console.log(10 / 4);",
+        "console.log(10 % 4);"
+      ],
+      "options": [
+        {
+          "text": "/ gives the exact result with its fraction, and % gives the leftover after dividing.",
+          "correct": true,
+          "feedback": "Right. 10 / 4 is 2.5, and 10 % 4 is 2 because two whole 4s leave 2."
+        },
+        {
+          "text": "/ gives a whole number, and % tells you how many times 4 fits into 10.",
+          "correct": false,
+          "feedback": "Neither half is true. The / sign keeps the fraction, and % gives the leftover, not the count of times.",
+          "misconception": "division-gives-whole-number"
+        },
+        {
+          "text": "/ gives the exact result, and % gives how many times 4 fits into 10.",
+          "correct": false,
+          "feedback": "The first half is right, but % does not count. It gives what is left after the whole 4s are taken out.",
+          "misconception": "remainder-is-quotient"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "2.5\n2"
+      },
+      "explanation": "The / sign divides exactly and keeps the fraction, so 10 / 4 is 2.5. The % sign gives the leftover: 4 fits twice into 10, which uses 8, and 2 is left.",
+      "hints": [
+        "Run each line by hand and compare the two results.",
+        "One sign keeps the fraction; the other keeps the leftover.",
+        "The leftover is what remains after taking out as many whole 4s as possible."
+      ],
+      "reference": {
+        "title": "Remainder (%)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.string-values.predict-01",
+      "concept": "string-values",
+      "prerequisites": [
+        "number-values"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "console.log(4 + \"7\");"
+      ],
+      "options": [
+        {
+          "text": "47",
+          "correct": true,
+          "feedback": "Right. The text \"7\" makes + join the two values instead of adding them."
+        },
+        {
+          "text": "11",
+          "correct": false,
+          "feedback": "You added the numbers. The quotation marks make 7 text, and + then joins instead of adding.",
+          "misconception": "plus-always-adds"
+        },
+        {
+          "text": "NaN",
+          "correct": false,
+          "feedback": "JavaScript does not fail here. A + with text on one side simply joins the two values.",
+          "misconception": "plus-always-adds"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "47"
+      },
+      "explanation": "When one side of + is text, + joins instead of adding. The number 4 turns into the text 4 and the two pieces are glued together as 47.",
+      "hints": [
+        "Look at the quotation marks around the 7.",
+        "A + with text on one side joins the two pieces.",
+        "The result looks like two digits side by side."
+      ],
+      "reference": {
+        "title": "Addition (+)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:7"
+      ]
+    },
+    {
+      "id": "beg.values-and-types.string-values.predict-02",
+      "concept": "string-values",
+      "prerequisites": [],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "console.log(\"  tea  \".trim() + \"!\");"
+      ],
+      "options": [
+        {
+          "text": "tea!",
+          "correct": true,
+          "feedback": "Right. Both ends lose their spaces before the ! is joined on."
+        },
+        {
+          "text": "tea  !",
+          "correct": false,
+          "feedback": "You removed only the spaces at the start. The trim method cleans both ends of the text.",
+          "misconception": "trim-removes-one-side"
+        },
+        {
+          "text": "  tea  !",
+          "correct": false,
+          "feedback": "You ignored the text trim returns. The method does not change the original, but its result is what gets joined with the !.",
+          "misconception": "method-result-ignored"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "tea!"
+      },
+      "explanation": "The trim method returns new text without the spaces at the start and at the end. So the text becomes tea, and the ! is joined on the end.",
+      "hints": [
+        "Look at the spaces around tea.",
+        "trim removes spaces from both ends of text.",
+        "Remove the spaces, then add the ! to what is left."
+      ],
+      "reference": {
+        "title": "String.prototype.trim()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:11"
+      ]
+    },
+    {
+      "id": "beg.values-and-types.string-values.trace-01",
+      "concept": "string-values",
+      "prerequisites": [],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does tag hold right after line 2 has run?",
+      "code": [
+        "let tag = \"ab\";",
+        "tag = tag + \"c\";",
+        "tag = tag + tag;",
+        "console.log(tag);"
+      ],
+      "options": [
+        {
+          "text": "'abc'",
+          "correct": true,
+          "feedback": "Right. Line 2 joined c onto ab, and line 3 has not run yet."
+        },
+        {
+          "text": "'abcabc'",
+          "correct": false,
+          "feedback": "That is the value at the end of the program. The question stops after line 2, before line 3 doubles the text.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "'ab'",
+          "correct": false,
+          "feedback": "That is the value after line 1. Line 2 has run and replaced it with the joined text.",
+          "misconception": "wrong-moment-value"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "tag",
+          "afterLine": 2,
+          "visit": 1
+        },
+        "expectedOutput": "abcabc"
+      },
+      "explanation": "Line 1 stores ab. Line 2 joins c on the end and stores abc. Line 3 then joins that text to itself, so the final value is abcabc.",
+      "hints": [
+        "Follow the lines in order and stop after line 2.",
+        "A + between two texts joins them into one text.",
+        "Add c to the right end of ab."
+      ],
+      "reference": {
+        "title": "Addition (+)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.string-values.fill-01",
+      "concept": "string-values",
+      "prerequisites": [],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blanks so the program prints BREAD and then roll.",
+      "code": [
+        "console.log(\"bread\".___());",
+        "console.log(\"ROLL\".___());"
+      ],
+      "options": [
+        {
+          "text": "toUpperCase",
+          "correct": true,
+          "feedback": "Right. This method turns every letter into a capital."
+        },
+        {
+          "text": "toLowerCase",
+          "correct": true,
+          "feedback": "Right. This method turns every letter into a small letter."
+        },
+        {
+          "text": "trim",
+          "correct": false,
+          "feedback": "This only removes spaces, so the text would print unchanged."
+        },
+        {
+          "text": "upper",
+          "correct": false,
+          "feedback": "JavaScript has no method with this name, so the program stops with an error."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "toUpperCase"
+          ],
+          [
+            "toLowerCase"
+          ]
+        ],
+        "expectedOutput": "BREAD\nroll"
+      },
+      "explanation": "toUpperCase returns the text with every letter in capitals, and toLowerCase returns it with every letter in small letters. Each call returns new text.",
+      "hints": [
+        "Compare the capital letters in the output with the text in the code.",
+        "One method makes capitals and one makes small letters.",
+        "The first line needs capitals; the second needs small letters."
+      ],
+      "reference": {
+        "title": "String.prototype.toUpperCase()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:10"
+      ]
+    },
+    {
+      "id": "beg.values-and-types.string-values.parsons-01",
+      "concept": "string-values",
+      "prerequisites": [],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints a short letter: greeting, order line, thanks.",
+      "code": [
+        "console.log(\"Order \" + 12 + \" up\");",
+        "console.log(\"Thanks\" + \"!\");",
+        "console.log(\"Dear \" + \"Sam\");"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          0,
+          1
+        ],
+        "expectedOutput": "Dear Sam\nOrder 12 up\nThanks!"
+      },
+      "explanation": "Each line prints one text, and the output follows the order of the lines. The greeting comes first, then the order line with the number joined in, then the thanks.",
+      "hints": [
+        "Read each line to see which text it prints.",
+        "A greeting comes before the rest of a letter.",
+        "The thanks line ends the letter."
+      ],
+      "reference": {
+        "title": "Addition (+)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.string-values.write-01",
+      "concept": "string-values",
+      "prerequisites": [],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "Write an expression that gives the number of characters in title, spaces included.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "title"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "title": "bread"
+            },
+            "expected": 5
+          },
+          {
+            "input": {
+              "title": ""
+            },
+            "expected": 0
+          },
+          {
+            "input": {
+              "title": "ice cream"
+            },
+            "expected": 9
+          },
+          {
+            "input": {
+              "title": " tea "
+            },
+            "expected": 5
+          },
+          {
+            "input": {
+              "title": "x"
+            },
+            "expected": 1
+          }
+        ],
+        "reference": [
+          "title.length"
+        ],
+        "wrongSolutions": [
+          [
+            "title.length - 1"
+          ],
+          [
+            "title.trim().length"
+          ],
+          [
+            "title.split(\" \").length"
+          ]
+        ]
+      },
+      "explanation": "Every text has a length property that counts all its characters, spaces included. Reading title.length gives that count without changing the text.",
+      "hints": [
+        "You need a property of the text, not a method call.",
+        "The length property counts every character.",
+        "Write the variable name, a dot, then the property name."
+      ],
+      "reference": {
+        "title": "String: length",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:2"
+      ]
+    },
+    {
+      "id": "beg.values-and-types.boolean-values.predict-01",
+      "concept": "boolean-values",
+      "prerequisites": [
+        "string-values"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "console.log(Boolean(0));",
+        "console.log(Boolean(\"0\"));"
+      ],
+      "options": [
+        {
+          "text": "false\ntrue",
+          "correct": true,
+          "feedback": "Right. The number 0 is false, but the text \"0\" has a character in it, so it is true."
+        },
+        {
+          "text": "false\nfalse",
+          "correct": false,
+          "feedback": "You judged \"0\" by its meaning. Boolean looks at the kind of value: any non-empty text is true.",
+          "misconception": "falsy-by-meaning"
+        },
+        {
+          "text": "true\ntrue",
+          "correct": false,
+          "feedback": "The number 0 is one of the few values that count as false, however much it looks like a value.",
+          "misconception": "falsy-by-meaning"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "false\ntrue"
+      },
+      "explanation": "Boolean tells you whether a value counts as true or false. The number 0 is false. The text \"0\" is not empty, so it is true.",
+      "hints": [
+        "Look at the difference between 0 and \"0\".",
+        "Only a few values count as false: 0 and empty text are two of them.",
+        "Any text with at least one character counts as true."
+      ],
+      "reference": {
+        "title": "Boolean",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.boolean-values.predict-02",
+      "concept": "boolean-values",
+      "prerequisites": [],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "console.log(\"[\" + false + \"]\");"
+      ],
+      "options": [
+        {
+          "text": "[false]",
+          "correct": true,
+          "feedback": "Right. A boolean joined to text becomes the word true or false."
+        },
+        {
+          "text": "[0]",
+          "correct": false,
+          "feedback": "A boolean does not become a number when it is joined to text. It becomes the word.",
+          "misconception": "boolean-joins-wrong"
+        },
+        {
+          "text": "[]",
+          "correct": false,
+          "feedback": "False does not disappear when it is joined. It becomes the word false.",
+          "misconception": "boolean-joins-wrong"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "[false]"
+      },
+      "explanation": "When a boolean is joined to text with +, it becomes the word true or false. So the program prints the brackets around the word false.",
+      "hints": [
+        "Look at what is between the + signs.",
+        "A boolean joined to text turns into a word.",
+        "The word is false, with no number in it."
+      ],
+      "reference": {
+        "title": "Addition (+)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.boolean-values.trace-01",
+      "concept": "boolean-values",
+      "prerequisites": [],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does note hold right after line 2 has run?",
+      "code": [
+        "let isOpen = true;",
+        "let note = \"open: \" + isOpen;",
+        "isOpen = false;",
+        "console.log(note);"
+      ],
+      "options": [
+        {
+          "text": "'open: true'",
+          "correct": true,
+          "feedback": "Right. The text was built while isOpen was still true."
+        },
+        {
+          "text": "'open: false'",
+          "correct": false,
+          "feedback": "isOpen only becomes false on line 3, after note was built. The text does not change when isOpen does.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "'open: 1'",
+          "correct": false,
+          "feedback": "A boolean is joined as the word true or false, never as a number.",
+          "misconception": "boolean-joins-wrong"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "note",
+          "afterLine": 2,
+          "visit": 1
+        },
+        "expectedOutput": "open: true"
+      },
+      "explanation": "Line 2 joins open: and the current value of isOpen, which is true, and stores the text. Line 3 changes isOpen later, but note keeps the text it already has.",
+      "hints": [
+        "Follow the lines in order and stop after line 2.",
+        "Joining copies the value at that moment into new text.",
+        "isOpen is still true when line 2 runs."
+      ],
+      "reference": {
+        "title": "Addition (+)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.boolean-values.fill-01",
+      "concept": "boolean-values",
+      "prerequisites": [],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints false.",
+      "code": [
+        "console.log(Boolean(___));"
+      ],
+      "options": [
+        {
+          "text": "0",
+          "correct": true,
+          "feedback": "Right. The number 0 counts as false."
+        },
+        {
+          "text": "\"\"",
+          "correct": true,
+          "feedback": "Right. Empty text counts as false."
+        },
+        {
+          "text": "\"false\"",
+          "correct": false,
+          "feedback": "This text has five characters, so it counts as true and the program prints true."
+        },
+        {
+          "text": "7",
+          "correct": false,
+          "feedback": "Every number except 0 counts as true, so the program prints true."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "0",
+            "\"\""
+          ]
+        ],
+        "expectedOutput": "false"
+      },
+      "explanation": "Boolean gives false for 0 and for empty text. A text such as \"false\" and a number such as 7 both give true.",
+      "hints": [
+        "Look at what Boolean receives on line 1.",
+        "Only a few values give the opposite of true.",
+        "Two of the four chips work; either one is fine."
+      ],
+      "reference": {
+        "title": "Falsy",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Falsy",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.boolean-values.parsons-01",
+      "concept": "boolean-values",
+      "prerequisites": [],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints the one line, then the zero line, then the nil line.",
+      "code": [
+        "console.log(\"nil: \" + Boolean(\"\"));",
+        "console.log(\"one: \" + Boolean(1));",
+        "console.log(\"zero: \" + Boolean(0));"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          2,
+          0
+        ],
+        "expectedOutput": "one: true\nzero: false\nnil: false"
+      },
+      "explanation": "Each line prints a label and a boolean, and the output follows the line order. The labels tell you which line is which, so the order is one, zero, nil.",
+      "hints": [
+        "Each line starts with a label; find the three labels.",
+        "Boolean turns each value into true or false.",
+        "The line with the label one goes first."
+      ],
+      "reference": {
+        "title": "Boolean",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.boolean-values.concept-01",
+      "concept": "boolean-values",
+      "prerequisites": [],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement explains the two lines this program prints?",
+      "code": [
+        "console.log(Boolean(\"false\"));",
+        "console.log(Boolean(\"\"));"
+      ],
+      "options": [
+        {
+          "text": "Text with any character is true, even \"false\"; only empty text is false.",
+          "correct": true,
+          "feedback": "Right. Boolean checks whether the text has characters, not what it says."
+        },
+        {
+          "text": "The text \"false\" is false because it spells false; empty text is false too.",
+          "correct": false,
+          "feedback": "Boolean does not read the meaning of text. The text \"false\" has five characters, so it is true.",
+          "misconception": "falsy-by-meaning"
+        },
+        {
+          "text": "All text is true, so both lines print true.",
+          "correct": false,
+          "feedback": "Empty text is the one text value that counts as false, so the second line prints false.",
+          "misconception": "falsy-by-meaning"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\nfalse"
+      },
+      "explanation": "Boolean treats text by its content, not its meaning. Text with at least one character is true, even the text false. Only empty text counts as false.",
+      "hints": [
+        "Compare the two texts inside the quotation marks.",
+        "Text is checked for characters, not for meaning.",
+        "One text has characters in it; the other has none."
+      ],
+      "reference": {
+        "title": "Falsy",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Falsy",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.typeof-operator.predict-01",
+      "concept": "typeof-operator",
+      "prerequisites": [],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "console.log(typeof undefined);"
+      ],
+      "options": [
+        {
+          "text": "undefined",
+          "correct": true,
+          "feedback": "Right. undefined is its own type, and typeof names it undefined."
+        },
+        {
+          "text": "null",
+          "correct": false,
+          "feedback": "null is a different value. typeof undefined does not give null.",
+          "misconception": "null-and-undefined-confused"
+        },
+        {
+          "text": "object",
+          "correct": false,
+          "feedback": "undefined is not an object. It has a type of its own.",
+          "misconception": "null-and-undefined-confused"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "undefined"
+      },
+      "explanation": "undefined is a value of its own, and it is the only value of its own type. So typeof gives the text undefined.",
+      "hints": [
+        "Look at the word after typeof.",
+        "typeof gives the name of a value's type as text.",
+        "The type has the same name as the value itself."
+      ],
+      "reference": {
+        "title": "undefined",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 15,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:5"
+      ]
+    },
+    {
+      "id": "beg.values-and-types.typeof-operator.predict-02",
+      "concept": "typeof-operator",
+      "prerequisites": [],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "console.log(typeof null);"
+      ],
+      "options": [
+        {
+          "text": "object",
+          "correct": true,
+          "feedback": "Right. This is a known quirk: typeof null gives object."
+        },
+        {
+          "text": "null",
+          "correct": false,
+          "feedback": "It seems logical, but typeof has no null answer. The quirk is that null reports object.",
+          "misconception": "null-and-undefined-confused"
+        },
+        {
+          "text": "undefined",
+          "correct": false,
+          "feedback": "null and undefined are different values, and typeof does not mix them up.",
+          "misconception": "null-and-undefined-confused"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "object"
+      },
+      "explanation": "typeof null gives object. This is an old mistake in JavaScript that was never fixed, because fixing it would break old programs. null is not an object.",
+      "hints": [
+        "Look at the value after typeof.",
+        "null is a special case that surprises many people.",
+        "The printed word is not null and not undefined."
+      ],
+      "reference": {
+        "title": "null",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:0"
+      ]
+    },
+    {
+      "id": "beg.values-and-types.typeof-operator.trace-01",
+      "concept": "typeof-operator",
+      "prerequisites": [],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does label hold right after line 2 has run?",
+      "code": [
+        "let price = 4;",
+        "let label = typeof price;",
+        "price = \"4\";",
+        "console.log(label);"
+      ],
+      "options": [
+        {
+          "text": "'number'",
+          "correct": true,
+          "feedback": "Right. price held a number when line 2 ran."
+        },
+        {
+          "text": "'string'",
+          "correct": false,
+          "feedback": "price becomes text only on line 3, after label was set. label does not change with price.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "'undefined'",
+          "correct": false,
+          "feedback": "label gets its value on line 2, so it is already set after that line.",
+          "misconception": "wrong-moment-value"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "label",
+          "afterLine": 2,
+          "visit": 1
+        },
+        "expectedOutput": "number"
+      },
+      "explanation": "typeof looks at the value in price at that moment, which is the number 4. The result is stored in label. Line 3 changes price later, but label keeps the text it already has.",
+      "hints": [
+        "Follow the lines in order and stop after line 2.",
+        "typeof gives the type of the value the variable holds at that moment.",
+        "The value on line 1 is written without quotation marks."
+      ],
+      "reference": {
+        "title": "typeof",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:3"
+      ]
+    },
+    {
+      "id": "beg.values-and-types.typeof-operator.fill-01",
+      "concept": "typeof-operator",
+      "prerequisites": [],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints boolean.",
+      "code": [
+        "console.log(typeof ___);"
+      ],
+      "options": [
+        {
+          "text": "true",
+          "correct": true,
+          "feedback": "Right. true is a boolean, so typeof gives boolean."
+        },
+        {
+          "text": "false",
+          "correct": true,
+          "feedback": "Right. false is a boolean too."
+        },
+        {
+          "text": "\"true\"",
+          "correct": false,
+          "feedback": "This is text because of the quotation marks, so the program prints string."
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "This is a number, so the program prints number."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "true",
+            "false"
+          ]
+        ],
+        "expectedOutput": "boolean"
+      },
+      "explanation": "typeof gives boolean for true and for false. A value in quotation marks is text, and a number is a number, so those two give other words.",
+      "hints": [
+        "Look at what typeof receives on line 1; quotation marks matter.",
+        "The value you want has only two possible forms.",
+        "Two of the four chips fit; either one works."
+      ],
+      "reference": {
+        "title": "typeof",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:8"
+      ]
+    },
+    {
+      "id": "beg.values-and-types.typeof-operator.parsons-01",
+      "concept": "typeof-operator",
+      "prerequisites": [],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints boolean, string, object and number.",
+      "code": [
+        "console.log(typeof null);",
+        "console.log(typeof 42);",
+        "console.log(typeof false);",
+        "console.log(typeof \"42\");"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "expectedOutput": "boolean\nstring\nobject\nnumber"
+      },
+      "explanation": "Each line prints one type name. false is a boolean, \"42\" in quotes is a string, null reports object, and 42 is a number. The output follows the line order.",
+      "hints": [
+        "Work out what typeof gives for each line.",
+        "Quotation marks turn digits into text.",
+        "Start with the line about false."
+      ],
+      "reference": {
+        "title": "typeof",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.values-and-types.typeof-operator.write-01",
+      "concept": "typeof-operator",
+      "prerequisites": [],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "Write an expression that gives the type of price, a colon, a space, then the value itself. For 4.5 it gives \"number: 4.5\".",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "price"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "price": 4.5
+            },
+            "expected": "number: 4.5"
+          },
+          {
+            "input": {
+              "price": "free"
+            },
+            "expected": "string: free"
+          },
+          {
+            "input": {
+              "price": true
+            },
+            "expected": "boolean: true"
+          },
+          {
+            "input": {
+              "price": null
+            },
+            "expected": "object: null"
+          },
+          {
+            "input": {
+              "price": 0
+            },
+            "expected": "number: 0"
+          }
+        ],
+        "reference": [
+          "typeof price + \": \" + price"
+        ],
+        "wrongSolutions": [
+          [
+            "typeof price"
+          ],
+          [
+            "price + \": \" + typeof price"
+          ],
+          [
+            "typeof (price + \": \" + price)"
+          ]
+        ]
+      },
+      "explanation": "typeof price gives the type name. Joining it to \": \" and then to price builds the text. typeof binds tighter than +, so it applies to price alone.",
+      "hints": [
+        "You need three pieces joined with +.",
+        "typeof price is the first piece.",
+        "Join typeof price, then \": \", then price."
+      ],
+      "reference": {
+        "title": "typeof",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}
