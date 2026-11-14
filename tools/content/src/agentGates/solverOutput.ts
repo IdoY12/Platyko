@@ -117,9 +117,16 @@ function describePrintedLines(printedLines: PrintedLine[]): string[] {
   );
 }
 
+/**
+ * Values whose printed form the README does not define (functions, classes, promises, DOM nodes,
+ * iterators and generators, which print as an empty object): the solver cannot be held to a text
+ * for them, so they are left out of the comparison.
+ */
+const UNDEFINED_PRINTED_FORM = /\[Function|\[class|Promise|<[a-z]|NodeList|Iterator|^\{\}$/;
+
 function finalGlobalsOf(trace: ItemTrace): Map<string, string> {
   const finalVariables = trace.steps.at(-1)?.variables ?? [];
-  return new Map(finalVariables.filter((variable) => variable.scope === "global").map(({ name, value }) => [name, value]));
+  return new Map(finalVariables.filter((variable) => variable.scope === "global" && !UNDEFINED_PRINTED_FORM.test(variable.value)).map(({ name, value }) => [name, value]));
 }
 
 /** The solver's hand-derived facts against the trace of the same program (PRD 8.3, Gate B). */
@@ -141,7 +148,7 @@ function compareTracedFacts(solver: TracedFacts, trace: ItemTrace, report: Findi
     );
   }
 
-  const derivedGlobals = new Map(Object.entries(solver.finalGlobals));
+  const derivedGlobals = new Map(Object.entries(solver.finalGlobals).filter(([, value]) => !UNDEFINED_PRINTED_FORM.test(value) && !/^Object \[/.test(value)));
   const actualGlobals = finalGlobalsOf(trace);
   const absent = "no such variable";
   const differences = [...new Set([...actualGlobals.keys(), ...derivedGlobals.keys()])]
