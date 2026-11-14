@@ -3,50 +3,42 @@ import { passwordPolicyError } from "@project/user-credentials";
 import { Alert } from "react-native";
 import { useAppDispatch } from "@/redux/hooks";
 import { useSingleFlight } from "@/hooks/useSingleFlight";
-import LearningService from "@/services/auth-aware/LearningService";
 import type UserService from "@/services/auth-aware/UserService";
 import { resetLearning } from "@/redux/learning-slice";
 import { changePasswordRequest, deleteAccountRequest, updateUsername } from "@/utils/profileAccountMutations";
-import { patchLearningSettings } from "@/utils/profileUiAndPreferences";
 import { confirmLogout } from "@/utils/confirmLogout";
-import { logError } from "@/utils/logger";
+import { t } from "@/i18n/translate";
 import type { ProfileDraftState } from "./useProfileDraftState";
 import type { ProfileReduxState } from "./useProfileRedux";
+
+export const DELETE_CONFIRMATION_WORD = "DELETE";
 
 export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftState, user: UserService) {
   const dispatch = useAppDispatch();
   const singleFlight = useSingleFlight();
 
-  const onSaveLearningSettings = React.useCallback(() => singleFlight(async () => {
-    if (!r.accessToken || d.saving) return;
-    d.setSaving(true);
-    d.setSaveMessage(null);
-    await patchLearningSettings(user, d.draftGoal, d.draftLevel, d.draftCommitment, d.draftNotifications, dispatch, d.setSaveMessage);
-    d.setSaving(false);
-  }), [r.accessToken, d, dispatch, user, singleFlight]);
-
   const onSaveUsername = React.useCallback(() => singleFlight(async () => {
     if (!r.accessToken || !d.draftUsername.trim() || d.busyAction) return;
     d.setBusyAction("username");
-    await updateUsername(user, d.draftUsername.trim(), dispatch, () => d.setUsernameModalVisible(false), d.setSaveMessage);
+    await updateUsername(user, d.draftUsername.trim(), dispatch, () => d.setUsernameModalVisible(false));
     d.setBusyAction(null);
   }), [r.accessToken, d, dispatch, user, singleFlight]);
 
   const onChangePassword = React.useCallback(() => singleFlight(async () => {
     if (!r.accessToken || d.busyAction) return;
     const passwordError = passwordPolicyError(d.newPassword);
-    if (passwordError) { Alert.alert("Invalid password", passwordError); return; }
+    if (passwordError) { Alert.alert(t("settings.changePassword"), passwordError); return; }
     d.setBusyAction("password");
     await changePasswordRequest(user, d.currentPassword, d.newPassword, dispatch, () => {
       d.setCurrentPassword("");
       d.setNewPassword("");
       d.setPasswordModalVisible(false);
-    }, d.setSaveMessage);
+    });
     d.setBusyAction(null);
   }), [r.accessToken, d, dispatch, user, singleFlight]);
 
   const onDeleteAccount = React.useCallback(() => singleFlight(async () => {
-    if (!r.accessToken || d.confirmDeleteText !== "DELETE" || d.busyAction) return;
+    if (!r.accessToken || d.confirmDeleteText !== DELETE_CONFIRMATION_WORD || d.busyAction) return;
     d.setBusyAction("delete");
     await deleteAccountRequest(user, dispatch, () => {
       d.setDeleteModalVisible(false);
@@ -56,25 +48,19 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
   }), [r.accessToken, d, dispatch, user, singleFlight]);
 
   const onLogoutPress = React.useCallback(() => {
-    Alert.alert("Log out", "Are you sure you want to log out?", [
-      { text: "Cancel", style: "cancel" },
-      { text: "Log Out", style: "destructive", onPress: () => void confirmLogout(dispatch, r.accessToken, r.refreshToken) },
+    Alert.alert(t("settings.signOutTitle"), t("settings.signOutBody"), [
+      { text: t("common.cancel"), style: "cancel" },
+      { text: t("settings.signOut"), style: "destructive", onPress: () => void confirmLogout(dispatch, r.accessToken, r.refreshToken) },
     ]);
   }, [dispatch, r.accessToken, r.refreshToken]);
-  const onResetLearningProgress = React.useCallback(() => {
-    if (!r.accessToken) return;
-    const resetRemoteThenLocal = async () => {
-      if (d.busyAction) return;
-      d.setBusyAction("reset");
-      try { await new LearningService().resetProgress(); dispatch(resetLearning()); }
-      catch (error) { logError("[PROFILE]", error, { phase: "reset-progress" }); Alert.alert("Reset failed", "We could not reset your progress. Check your connection and try again."); }
-      finally { d.setBusyAction(null); }
-    };
-    Alert.alert("Reset Learn Progress", "This will permanently delete all your learning progress and cannot be undone.", [
-      { text: "Cancel", style: "cancel" },
-      { text: "Reset", style: "destructive", onPress: () => void resetRemoteThenLocal() },
-    ]);
-  }, [d, dispatch, r.accessToken]);
 
-  return { onSaveLearningSettings, onSaveUsername, onChangePassword, onDeleteAccount, onLogoutPress, onResetLearningProgress };
+  /** Only a guest resets: their progress lives on this device alone, and a registered account keeps its history. */
+  const onResetLearningProgress = React.useCallback(() => {
+    Alert.alert(t("settings.resetConfirmTitle"), t("settings.resetConfirmBody"), [
+      { text: t("common.cancel"), style: "cancel" },
+      { text: t("settings.resetConfirm"), style: "destructive", onPress: () => dispatch(resetLearning()) },
+    ]);
+  }, [dispatch]);
+
+  return { onSaveUsername, onChangePassword, onDeleteAccount, onLogoutPress, onResetLearningProgress };
 }

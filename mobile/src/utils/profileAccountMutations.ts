@@ -14,7 +14,6 @@ export async function updateUsername(
   name: string,
   dispatch: AppDispatch,
   onDone: () => void,
-  setMessage: (m: string | null) => void,
 ): Promise<void> {
   const trimmed = name.trim();
   const uerr = usernameValidationError(trimmed);
@@ -26,7 +25,6 @@ export async function updateUsername(
     const updated = await user.patchUsername(trimmed);
     dispatch(setUserIdentity({ username: updated.username }));
     onDone();
-    setMessage("Username updated.");
   } catch (error) {
     logError("[PROFILE]", error, { phase: "update-username" });
     if (axios.isAxiosError(error) && error.response?.status === 409) {
@@ -43,13 +41,11 @@ export async function changePasswordRequest(
   newPassword: string,
   dispatch: AppDispatch,
   onSuccess: () => void,
-  setMessage: (m: string | null) => void,
 ): Promise<void> {
   try {
     const { accessToken, refreshToken } = await user.changePassword(currentPassword, newPassword);
     dispatch(updateTokens({ accessToken, refreshToken }));
     onSuccess();
-    setMessage("Password changed.");
   } catch (error) {
     logError("[PROFILE]", error, { phase: "change-password" });
     Alert.alert("Could not change password", serverErrorMessage(error) ?? "Check your current password and try again.");

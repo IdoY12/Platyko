@@ -20,7 +20,6 @@ export async function runAvatarUpload(
   source: "camera" | "library",
   dispatch: AppDispatch,
   setProgress: (n: number) => void,
-  setSaveMessage: (m: string | null) => void,
 ): Promise<void> {
   setProgress(8);
   const allowed = await ensurePickerPermission(source);
@@ -44,7 +43,6 @@ export async function runAvatarUpload(
   setProgress(85);
   await persistAvatarUrl(user, publicUrl, dispatch);
   setProgress(100);
-  setSaveMessage("Profile picture updated.");
 }
 
 export function handleAvatarUploadError(error: unknown): void {

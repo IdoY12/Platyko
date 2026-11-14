@@ -24,6 +24,7 @@ export type RootStackParamList = {
   ResetPassword: { email: string };
   /** A lesson, a unit's summary lesson, or a review session (`lessonId` "review"). */
   LessonPlayer: { lessonId: string };
+  Settings: undefined;
   LessonSummary: { lessonId: string; accuracy: number; xpEarned: number; flawless: boolean; concepts: string[] };
 };
 

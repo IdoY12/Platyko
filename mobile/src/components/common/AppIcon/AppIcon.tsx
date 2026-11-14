@@ -2,7 +2,7 @@ import type { ComponentProps } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "@/theme/theme";
 
-export type AppIconName = ComponentProps<typeof MaterialCommunityIcons>["name"];
+type AppIconName = ComponentProps<typeof MaterialCommunityIcons>["name"];
 
 type Props = {
   name: AppIconName;

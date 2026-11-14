@@ -1,18 +1,9 @@
 import React from "react";
-import { commitmentOptions, goals, levels } from "@/constants/learningSettings";
-import { profileInitials, profileStatsFromRedux } from "@/utils/profileUiAndPreferences";
 import type { ProfileReduxState } from "./useProfileRedux";
 
+/** What the Settings screen is editing: the reminder switch, the photo upload and the account dialogs. */
 export function useProfileDraftState(r: ProfileReduxState) {
-  const [draftGoal, setDraftGoal] = React.useState<(typeof goals)[number]["key"]>(r.goal ?? "FUN");
-  const [draftLevel, setDraftLevel] = React.useState<(typeof levels)[number]["key"]>(r.experienceLevel ?? "JUNIOR");
-  const [draftCommitment, setDraftCommitment] = React.useState<(typeof commitmentOptions)[number]["key"]>(
-    r.commitment ?? "15",
-  );
   const [draftNotifications, setDraftNotifications] = React.useState<boolean>(r.notificationsEnabled);
-  const [saving, setSaving] = React.useState(false);
-  const [saveMessage, setSaveMessage] = React.useState<string | null>(null);
-  const [screenLoading, setScreenLoading] = React.useState(true);
   const [uploadingAvatar, setUploadingAvatar] = React.useState(false);
   const [uploadProgress, setUploadProgress] = React.useState(0);
   const [usernameModalVisible, setUsernameModalVisible] = React.useState(false);
@@ -24,28 +15,9 @@ export function useProfileDraftState(r: ProfileReduxState) {
   const [confirmDeleteText, setConfirmDeleteText] = React.useState("");
   const [busyAction, setBusyAction] = React.useState<string | null>(null);
 
-  const initials = profileInitials(r.username);
-  const { streakCurrent, xp, lessonsCompleted } = r;
-  const stats = React.useMemo(
-    () => profileStatsFromRedux({ streakCurrent, xp, lessonsCompleted }),
-    [streakCurrent, xp, lessonsCompleted],
-  );
-
   return {
-    draftGoal,
-    setDraftGoal,
-    draftLevel,
-    setDraftLevel,
-    draftCommitment,
-    setDraftCommitment,
     draftNotifications,
     setDraftNotifications,
-    saving,
-    setSaving,
-    saveMessage,
-    setSaveMessage,
-    screenLoading,
-    setScreenLoading,
     uploadingAvatar,
     setUploadingAvatar,
     uploadProgress,
@@ -66,11 +38,6 @@ export function useProfileDraftState(r: ProfileReduxState) {
     setConfirmDeleteText,
     busyAction,
     setBusyAction,
-    initials,
-    stats,
-    goals,
-    levels,
-    commitmentOptions,
   };
 }
 

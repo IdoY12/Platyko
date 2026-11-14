@@ -90,6 +90,8 @@ export const MAX_FONT_SCALE = 1.3;
 export const space = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32, xxxl: 48 } as const;
 
 export const SCREEN_MARGIN = 20;
+/** Space kept below scrolling content so its end clears the floating tab bar. */
+export const TAB_BAR_CLEARANCE = 140;
 export const MIN_TOUCH_TARGET = 48;
 
 export const radii = { chip: 8, button: 14, card: 20, sheet: 28, pill: 999 } as const;

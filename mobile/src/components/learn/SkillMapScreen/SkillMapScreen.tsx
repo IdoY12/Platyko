@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { learnerProgressOf } from "@/redux/learning-selectors";
 import { refreshContentMap } from "@/redux/learning-sync";
 import { t } from "@/i18n/translate";
-import { palette, SCREEN_MARGIN, space } from "@/theme/tokens";
+import { palette, SCREEN_MARGIN, space, TAB_BAR_CLEARANCE } from "@/theme/tokens";
 import type { RootNavigation } from "@/types/rootNavigation.types";
 import { LessonNode } from "./LessonNode";
 
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: palette.bg.base },
   middleLayer: { ...StyleSheet.absoluteFillObject },
   bank: { position: "absolute", width: 180, height: 260, borderRadius: 130, backgroundColor: "rgba(27,30,85,0.55)" },
-  content: { paddingHorizontal: SCREEN_MARGIN, paddingBottom: 140, gap: space.xl },
+  content: { paddingHorizontal: SCREEN_MARGIN, paddingBottom: TAB_BAR_CLEARANCE, gap: space.xl },
   track: { gap: space.lg },
   unit: { gap: space.lg },
   unitHeader: { gap: space.xs },

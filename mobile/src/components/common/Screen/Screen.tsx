@@ -2,7 +2,7 @@ import { NavigationContext } from "@react-navigation/native";
 import { useContext, useEffect, useState, type ReactNode } from "react";
 import { ScrollView, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 import { SafeAreaView, type Edge } from "react-native-safe-area-context";
-import { palette, SCREEN_MARGIN, space } from "@/theme/tokens";
+import { palette, SCREEN_MARGIN, space, TAB_BAR_CLEARANCE } from "@/theme/tokens";
 import { AmbientRiver } from "./AmbientRiver";
 
 type Props = {
@@ -56,5 +56,5 @@ const styles = StyleSheet.create({
   fill: { flex: 1 },
   content: { paddingHorizontal: SCREEN_MARGIN },
   // Room for the floating tab bar, so the last card can scroll fully into view.
-  scrollContent: { paddingBottom: 140, gap: space.lg },
+  scrollContent: { paddingBottom: TAB_BAR_CLEARANCE, gap: space.lg },
 });

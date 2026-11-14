@@ -2,6 +2,7 @@ import React from "react";
 import { Alert } from "react-native";
 import { useAppDispatch } from "@/redux/hooks";
 import type UserService from "@/services/auth-aware/UserService";
+import { t } from "@/i18n/translate";
 import { handleAvatarUploadError, runAvatarUpload } from "@/utils/profileAvatarUpload";
 import type { ProfileDraftState } from "./useProfileDraftState";
 import type { ProfileReduxState } from "./useProfileRedux";
@@ -17,7 +18,7 @@ export function useProfileAvatarHandlers(r: ProfileReduxState, d: ProfileDraftSt
 
       try {
         d.setUploadingAvatar(true);
-        await runAvatarUpload(user, source, dispatch, d.setUploadProgress, d.setSaveMessage);
+        await runAvatarUpload(user, source, dispatch, d.setUploadProgress);
       } catch (error) {
         handleAvatarUploadError(error);
       } finally {
@@ -33,10 +34,10 @@ export function useProfileAvatarHandlers(r: ProfileReduxState, d: ProfileDraftSt
   );
 
   const onAvatarPress = React.useCallback(() => {
-    Alert.alert("Update profile picture", "Choose where to get your photo from.", [
-      { text: "Cancel", style: "cancel" },
-      { text: "Take Photo", onPress: () => void pickImageAndUpload("camera") },
-      { text: "Choose from Library", onPress: () => void pickImageAndUpload("library") },
+    Alert.alert(t("settings.photoTitle"), t("settings.photoBody"), [
+      { text: t("common.cancel"), style: "cancel" },
+      { text: t("settings.photoCamera"), onPress: () => void pickImageAndUpload("camera") },
+      { text: t("settings.photoLibrary"), onPress: () => void pickImageAndUpload("library") },
     ]);
   }, [pickImageAndUpload]);
 
