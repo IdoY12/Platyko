@@ -39,5 +39,6 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: palette.bg.base },
   fill: { flex: 1 },
   content: { paddingHorizontal: SCREEN_MARGIN },
-  scrollContent: { paddingBottom: space.xxxl, gap: space.lg },
+  // Room for the floating tab bar, so the last card can scroll fully into view.
+  scrollContent: { paddingBottom: 140, gap: space.lg },
 });

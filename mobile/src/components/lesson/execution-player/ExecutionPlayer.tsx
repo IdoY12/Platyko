@@ -4,7 +4,8 @@ import Animated, { FadeIn, useReducedMotion } from "react-native-reanimated";
 import type { ItemTrace } from "@project/content-model";
 import { AppText } from "@/components/common/AppText/AppText";
 import { CodeView } from "@/components/common/CodeView/CodeView";
-import { OutlineButton } from "@/components/common/LipButton/OutlineButton";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { Surface } from "@/components/common/Surface/Surface";
 import { t } from "@/i18n/translate";
 import { duration, palette, radii, space, syntax } from "@/theme/tokens";
@@ -12,6 +13,24 @@ import { duration, palette, radii, space, syntax } from "@/theme/tokens";
 type Props = { trace: ItemTrace };
 
 const SPEEDS_MS = [1400, 800, 400];
+const SPEED_ICONS = ["speedometer-slow", "speedometer-medium", "speedometer"] as const;
+
+type ControlProps = { icon: React.ComponentProps<typeof MaterialCommunityIcons>["name"]; label: string; disabled?: boolean; primary?: boolean; onPress: () => void };
+
+function ControlButton({ icon, label, disabled = false, primary = false, onPress }: ControlProps) {
+  return (
+    <PressableScale
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ disabled }}
+      disabled={disabled}
+      onPress={onPress}
+      style={[styles.control, primary && styles.primaryControl, disabled && styles.disabledControl]}
+    >
+      <MaterialCommunityIcons name={icon} size={28} color={primary ? palette.text.onBright : palette.text.primary} />
+    </PressableScale>
+  );
+}
 
 function QueueColumn({ title, entries }: { title: string; entries: readonly string[] }) {
   return (
@@ -129,11 +148,11 @@ export function ExecutionPlayer({ trace }: Props) {
       </View>
 
       <View style={styles.controls}>
-        <OutlineButton label={t("player.previous")} disabled={stepIndex === 0} onPress={() => setStepIndex((index) => Math.max(0, index - 1))} style={styles.control} />
-        <OutlineButton label={playing ? t("player.pause") : t("player.play")} disabled={stepIndex >= lastIndex} onPress={() => setPlaying((value) => !value)} style={styles.control} />
-        <OutlineButton label={t("player.next")} disabled={stepIndex >= lastIndex} onPress={() => setStepIndex((index) => Math.min(lastIndex, index + 1))} style={styles.control} />
+        <ControlButton icon="chevron-left" label={t("player.previous")} disabled={stepIndex === 0} onPress={() => setStepIndex((index) => Math.max(0, index - 1))} />
+        <ControlButton icon={playing ? "pause" : "play"} label={playing ? t("player.pause") : t("player.play")} disabled={stepIndex >= lastIndex} primary onPress={() => setPlaying((value) => !value)} />
+        <ControlButton icon="chevron-right" label={t("player.next")} disabled={stepIndex >= lastIndex} onPress={() => setStepIndex((index) => Math.min(lastIndex, index + 1))} />
+        <ControlButton icon={SPEED_ICONS[speedIndex]} label={`${t("player.speed")} ${speedIndex + 1}`} onPress={() => setSpeedIndex((index) => (index + 1) % SPEEDS_MS.length)} />
       </View>
-      <OutlineButton label={`${t("player.speed")} ${"•".repeat(speedIndex + 1)}`} onPress={() => setSpeedIndex((index) => (index + 1) % SPEEDS_MS.length)} />
     </View>
   );
 }
@@ -149,6 +168,8 @@ const styles = StyleSheet.create({
   queue: { flex: 1, gap: space.xs, padding: space.sm, borderRadius: radii.chip, backgroundColor: palette.bg.surface, minHeight: 96 },
   queueEntry: { paddingHorizontal: space.xs, paddingVertical: 2, borderRadius: radii.chip, backgroundColor: palette.bg.raised },
   output: { gap: space.xs, padding: space.md, borderRadius: radii.card, backgroundColor: palette.bg.code },
-  controls: { flexDirection: "row", gap: space.sm },
-  control: { flex: 1, paddingHorizontal: space.sm },
+  controls: { flexDirection: "row", justifyContent: "center", gap: space.lg, direction: "ltr" },
+  control: { width: 56, height: 56, borderRadius: radii.pill, alignItems: "center", justifyContent: "center", backgroundColor: palette.bg.raised },
+  primaryControl: { backgroundColor: palette.brand.primary },
+  disabledControl: { opacity: 0.4 },
 });

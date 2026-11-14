@@ -5,7 +5,7 @@ import { AppText } from "@/components/common/AppText/AppText";
 import { ContentText } from "@/components/common/AppText/ContentText";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { t } from "@/i18n/translate";
-import { duration, MIN_TOUCH_TARGET, palette, radii, space, wash } from "@/theme/tokens";
+import { duration, MIN_TOUCH_TARGET, palette, radii, space } from "@/theme/tokens";
 
 type Props = {
   hints: readonly [string, string, string];
@@ -41,6 +41,6 @@ export function HintPanel({ hints, opened, disabled, onOpenNext }: Props) {
 
 const styles = StyleSheet.create({
   panel: { gap: space.sm },
-  hint: { gap: space.xs, padding: space.md, borderRadius: radii.button, backgroundColor: wash.js },
+  hint: { gap: space.xs, padding: space.md, borderRadius: radii.button, backgroundColor: palette.bg.surface, borderStartWidth: 4, borderStartColor: palette.brand.js },
   button: { minHeight: MIN_TOUCH_TARGET, flexDirection: "row", alignItems: "center", alignSelf: "center", gap: space.sm, paddingHorizontal: space.lg },
 });

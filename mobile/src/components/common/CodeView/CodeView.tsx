@@ -4,7 +4,8 @@ import { AppText } from "@/components/common/AppText/AppText";
 import { t } from "@/i18n/translate";
 import { palette, radii, space, syntax, typography, wash } from "@/theme/tokens";
 import { CODE_GUTTER_WIDTH, CODE_PADDING, fitCodeFontSize } from "./codeLayout";
-import { tokenizeJavaScript, type CodeTokenKind } from "./tokenizeJavaScript";
+import { TOKEN_COLOURS } from "./CodeLineText";
+import { tokenizeJavaScript } from "./tokenizeJavaScript";
 
 type LineTone = "current" | "selected" | "correct" | "wrong";
 
@@ -17,16 +18,6 @@ type Props = {
   lineNumbersShown?: boolean;
 };
 
-const TOKEN_COLOURS: Record<CodeTokenKind, string> = {
-  plain: syntax.plain,
-  keyword: syntax.keyword,
-  string: syntax.string,
-  number: syntax.number,
-  comment: syntax.comment,
-  operator: syntax.operator,
-  functionName: syntax.functionName,
-  punctuation: syntax.punctuation,
-};
 
 const LINE_WASH: Record<LineTone, string> = {
   current: wash.glow,

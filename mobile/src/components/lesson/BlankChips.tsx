@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { BLANK_TOKEN } from "@project/content-model";
 import { AppText } from "@/components/common/AppText/AppText";
+import { CodeLineText } from "@/components/common/CodeView/CodeLineText";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { t } from "@/i18n/translate";
 import { haptic } from "@/theme/haptics";
@@ -66,9 +67,7 @@ export function BlankChips({ code, chips, filled, activeBlank, disabled, verdict
               return (
                 <Fragment key={partIndex}>
                   {partIndex > 0 ? slot(blankNumber) : null}
-                  <AppText variant="code" align="ltr" color={syntax.plain}>
-                    {part}
-                  </AppText>
+                  <CodeLineText text={part} />
                 </Fragment>
               );
             })}
@@ -91,9 +90,7 @@ export function BlankChips({ code, chips, filled, activeBlank, disabled, verdict
             }}
             style={[styles.chip, usedChips.has(chipIndex) && styles.usedChip]}
           >
-            <AppText variant="code" align="ltr" color={syntax.plain}>
-              {text}
-            </AppText>
+            <CodeLineText text={text} />
           </PressableScale>
         ))}
       </View>

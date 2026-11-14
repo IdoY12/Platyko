@@ -31,8 +31,9 @@ const TONES: Record<Tone, { face: string; lip: string; text: string }> = {
  */
 export function LipButton({ label, onPress, tone = "primary", disabled = false, loading = false, style, accessibilityHint }: Props) {
   const [pressed, setPressed] = useState(false);
-  const colours = TONES[tone];
   const inactive = disabled || loading;
+  // A disabled button turns neutral rather than fading its colour, which reads as muddy on navy.
+  const colours = disabled ? TONES.quiet : TONES[tone];
   const sunk = pressed && !inactive;
 
   return (
@@ -49,7 +50,7 @@ export function LipButton({ label, onPress, tone = "primary", disabled = false, 
       onPressOut={() => setPressed(false)}
       onPress={onPress}
       pressRetentionOffset={space.lg}
-      style={[styles.frame, inactive && styles.inactive, style]}
+      style={[styles.frame, disabled && styles.inactive, style]}
     >
       <View style={[styles.lip, { backgroundColor: colours.lip }]} />
       <Animated.View style={[styles.face, transitions.press, { backgroundColor: colours.face, transform: [{ translateY: sunk ? LIP_HEIGHT : 0 }] }]}>
@@ -61,7 +62,7 @@ export function LipButton({ label, onPress, tone = "primary", disabled = false, 
 
 const styles = StyleSheet.create({
   frame: { minHeight: MIN_TOUCH_TARGET + LIP_HEIGHT, paddingBottom: LIP_HEIGHT },
-  inactive: { opacity: 0.45 },
+  inactive: { opacity: 0.7 },
   lip: { position: "absolute", left: 0, right: 0, top: LIP_HEIGHT, bottom: 0, borderRadius: radii.button },
   face: {
     minHeight: MIN_TOUCH_TARGET,

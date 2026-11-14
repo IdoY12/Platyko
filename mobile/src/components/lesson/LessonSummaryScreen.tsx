@@ -55,7 +55,7 @@ export function LessonSummaryScreen({ route, navigation }: Props) {
         <View style={styles.stats}>
           <Stat label={t("summary.accuracy")} value={`${accuracy}%`} colour={palette.state.success} />
           <Stat label={t("summary.xp")} value={`+${xpEarned}`} colour={palette.brand.js} />
-          <Stat label={t("summary.streak")} value={t("summary.days", { count: progress.streak.current })} colour={palette.brand.primary} />
+          <Stat label={t("summary.streak")} value={String(progress.streak.current)} colour={palette.brand.primary} />
         </View>
         {conceptTitles.length > 0 ? (
           <Surface style={styles.concepts}>

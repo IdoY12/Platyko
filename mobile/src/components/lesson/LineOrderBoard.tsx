@@ -1,5 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { AppText } from "@/components/common/AppText/AppText";
+import { CodeLineText } from "@/components/common/CodeView/CodeLineText";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { t } from "@/i18n/translate";
 import { haptic } from "@/theme/haptics";
@@ -38,9 +39,13 @@ export function LineOrderBoard({ lines, placed, linesAreCode, disabled, verdict,
       }}
       style={[styles.line, inAnswer && styles.placedLine]}
     >
-      <AppText variant="code" align="ltr" color={syntax.plain}>
-        {linesAreCode ? lines[index] : lines[index].trim()}
-      </AppText>
+      {linesAreCode ? (
+        <CodeLineText text={lines[index]} />
+      ) : (
+        <AppText variant="code" align="ltr" color={syntax.string}>
+          {lines[index].trim()}
+        </AppText>
+      )}
     </PressableScale>
   );
 
