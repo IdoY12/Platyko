@@ -1,0 +1,1678 @@
+{
+  "track": "ADVANCED",
+  "unit": "prototypes-and-inheritance",
+  "order": 3,
+  "title": "Prototypes and inheritance",
+  "summary": "Follow property lookup along the prototype chain, build objects with new and Object.create, and see classes as syntax over prototypes.",
+  "concepts": [
+    {
+      "id": "prototype-chain",
+      "title": "The prototype chain and property lookup",
+      "prerequisites": [
+        "object-properties",
+        "class-basics"
+      ]
+    },
+    {
+      "id": "constructor-functions",
+      "title": "Constructor functions and new",
+      "prerequisites": [
+        "prototype-chain",
+        "this-in-methods"
+      ]
+    },
+    {
+      "id": "object-create-and-delegation",
+      "title": "Object.create and delegation",
+      "prerequisites": [
+        "prototype-chain"
+      ]
+    },
+    {
+      "id": "class-as-prototype-sugar",
+      "title": "Classes as syntax over prototypes",
+      "prerequisites": [
+        "constructor-functions",
+        "class-inheritance"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "own-check-includes-inherited",
+      "description": "Believes hasOwnProperty, or a list of own keys, also reports properties the object only inherits."
+    },
+    {
+      "id": "lookup-stops-early",
+      "description": "Believes a read looks only at the object itself, or only at its direct prototype, and not further up the chain."
+    },
+    {
+      "id": "write-changes-prototype",
+      "description": "Believes assigning a property through an object changes the inherited property for every object that shares the prototype."
+    },
+    {
+      "id": "inherited-read-only",
+      "description": "Believes a property found on the prototype cannot be overwritten or updated through the inheriting object."
+    },
+    {
+      "id": "methods-copied-into-objects",
+      "description": "Believes methods or properties are copied into each instance, or into a subclass, when it is created."
+    },
+    {
+      "id": "prototype-is-constructor",
+      "description": "Believes the prototype of an instance is the constructor function itself, not its prototype property."
+    },
+    {
+      "id": "prototype-created-late",
+      "description": "Believes a constructor has no prototype object until a method is added to it."
+    },
+    {
+      "id": "method-on-constructor-itself",
+      "description": "Believes a method or value stored on the constructor function is inherited by the objects it builds."
+    },
+    {
+      "id": "prototype-shared-in-constructor",
+      "description": "Believes writing to the prototype inside a constructor gives each instance its own value."
+    },
+    {
+      "id": "create-copies-properties",
+      "description": "Believes Object.create copies the properties of its argument instead of linking to it."
+    },
+    {
+      "id": "delegation-this-is-prototype",
+      "description": "Believes this inside an inherited method is the prototype that holds the method, not the object it was called on."
+    },
+    {
+      "id": "alias-is-delegation",
+      "description": "Believes assigning an object to a second name makes a new object that inherits from the first."
+    },
+    {
+      "id": "class-is-not-function",
+      "description": "Believes a class is a different kind of thing than a function, so typeof does not say function."
+    },
+    {
+      "id": "class-callable-without-new",
+      "description": "Believes a class can be called like a plain function without new."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain",
+      "retrievedAt": "2026-11-14",
+      "sha256": "e64ea056869b1d151cf14a9fd6605a007ea8ee189917ccf47fd13e4d154c9243"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create",
+      "retrievedAt": "2026-11-14",
+      "sha256": "23a0aaf6cad6a08a8934aaeb47de9d7d77ee94c45a148904bd4c9ca4e2a41063"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf",
+      "retrievedAt": "2026-11-14",
+      "sha256": "087df612716479da4fd15855f251e1a94c88728859155b6693631a8187711113"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty",
+      "retrievedAt": "2026-11-14",
+      "sha256": "5b93adc85e5bb9584bea4dc30965221031631b8907d6e039f53c065a33864dad"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new",
+      "retrievedAt": "2026-11-14",
+      "sha256": "3bf614374d3d9052025cf9460791d48508829ddafba34c9f8d148ecdf6f28249"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in",
+      "retrievedAt": "2026-11-14",
+      "sha256": "8dbea0e3df0d9f524b09b828302298d1dc5a5fe57981dcd186fd854769934d3a"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+      "retrievedAt": "2026-11-14",
+      "sha256": "dedc8c6fcb5bc6ab75458cf6febed2c7db6ea2a2124b8565a1f75a83ee45785b"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
+      "retrievedAt": "2026-11-14",
+      "sha256": "00842d5bc9e5ab5d884204d1551c8be1b6609e9790f5ccf12f394e7d0ba9e230"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call",
+      "retrievedAt": "2026-11-14",
+      "sha256": "0b4a76d07fe15c317e13753baac9f067b9ca4eda590588f821d6295332fd2023"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+      "retrievedAt": "2026-11-14",
+      "sha256": "c794dbf1f91a453e33eb99fa7aa88b8e517bc0d482a5acffeab366747184fe4d"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign",
+      "retrievedAt": "2026-11-14",
+      "sha256": "3044dcbf9d48e690a18f3c78ca080ffb08160b624a97003d0b267fce64a94a98"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this",
+      "retrievedAt": "2026-11-14",
+      "sha256": "82de563c85b1f879e6b59f0be2c663317bc5780b709cea92fa27299f2af0fd13"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "prototypes-and-inheritance.lesson-1",
+      "title": "The prototype chain and property lookup",
+      "conceptCard": {
+        "title": "Reads climb the chain, writes stay put",
+        "body": "An object can have a prototype, another object it falls back on. Object.create(base) makes one. A missing property is looked up in the prototype, then in its prototype, and so on. Assigning always writes on the object itself. hasOwnProperty checks only that object.",
+        "code": [
+          "const base = { id: 7 };",
+          "const p = Object.create(base);",
+          "console.log(p.id);",
+          "console.log(p.hasOwnProperty('id'));"
+        ],
+        "expectedOutput": "7\nfalse"
+      },
+      "itemIds": [
+        "adv.prototypes-and-inheritance.prototype-chain.predict-01",
+        "adv.prototypes-and-inheritance.prototype-chain.concept-01",
+        "adv.prototypes-and-inheritance.prototype-chain.fill-01",
+        "adv.prototypes-and-inheritance.prototype-chain.fix-01",
+        "adv.prototypes-and-inheritance.prototype-chain.write-01"
+      ]
+    },
+    {
+      "id": "prototypes-and-inheritance.lesson-2",
+      "title": "Constructor functions and new",
+      "conceptCard": {
+        "title": "new builds an object linked to prototype",
+        "body": "A function called with new builds an object. Inside it, this is that object, and the object's prototype is the function's prototype property. Put shared methods on that property: every instance finds them there instead of owning a copy.",
+        "code": [
+          "function Pen(ink) {",
+          "  this.ink = ink;",
+          "}",
+          "Pen.prototype.write = function () {",
+          "  return this.ink + ' ink';",
+          "};",
+          "const pen = new Pen('blue');",
+          "console.log(pen.write());"
+        ],
+        "expectedOutput": "blue ink"
+      },
+      "itemIds": [
+        "adv.prototypes-and-inheritance.constructor-functions.predict-01",
+        "adv.prototypes-and-inheritance.constructor-functions.concept-01",
+        "adv.prototypes-and-inheritance.constructor-functions.fill-01",
+        "adv.prototypes-and-inheritance.constructor-functions.fix-01",
+        "adv.prototypes-and-inheritance.constructor-functions.write-01"
+      ]
+    },
+    {
+      "id": "prototypes-and-inheritance.lesson-3",
+      "title": "Object.create and delegation",
+      "conceptCard": {
+        "title": "Objects that delegate instead of copy",
+        "body": "Object.create(proto) makes an empty object whose prototype is proto. Nothing is copied. Reads fall through to proto, and a method found there runs with this set to the object you called it on. Writes land on that object.",
+        "code": [
+          "const greeter = {",
+          "  hi() { return 'hi ' + this.who; },",
+          "};",
+          "const ana = Object.create(greeter);",
+          "ana.who = 'Ana';",
+          "console.log(ana.hi());"
+        ],
+        "expectedOutput": "hi Ana"
+      },
+      "itemIds": [
+        "adv.prototypes-and-inheritance.object-create-and-delegation.predict-01",
+        "adv.prototypes-and-inheritance.object-create-and-delegation.concept-01",
+        "adv.prototypes-and-inheritance.object-create-and-delegation.parsons-01",
+        "adv.prototypes-and-inheritance.object-create-and-delegation.fix-01",
+        "adv.prototypes-and-inheritance.object-create-and-delegation.write-01"
+      ]
+    },
+    {
+      "id": "prototypes-and-inheritance.lesson-4",
+      "title": "Classes as syntax over prototypes",
+      "conceptCard": {
+        "title": "A class is a constructor in disguise",
+        "body": "A class is a constructor function with cleaner syntax. Its methods live on the class's prototype property, and extends links the subclass prototype to the parent's. Unlike a plain constructor function, a class cannot be called without new.",
+        "code": [
+          "class Ink {",
+          "  write() { return 'ink'; }",
+          "}",
+          "const w = Ink.prototype.write;",
+          "console.log(typeof Ink);",
+          "console.log(new Ink().write === w);"
+        ],
+        "expectedOutput": "function\ntrue"
+      },
+      "itemIds": [
+        "adv.prototypes-and-inheritance.class-as-prototype-sugar.predict-01",
+        "adv.prototypes-and-inheritance.class-as-prototype-sugar.concept-01",
+        "adv.prototypes-and-inheritance.class-as-prototype-sugar.fill-01",
+        "adv.prototypes-and-inheritance.class-as-prototype-sugar.fix-01",
+        "adv.prototypes-and-inheritance.class-as-prototype-sugar.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "adv.prototypes-and-inheritance.prototype-chain.predict-01",
+      "concept": "prototype-chain",
+      "prerequisites": [
+        "object-properties",
+        "class-basics"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A market object delegates to a shelf object. What does this code print?",
+      "code": [
+        "const shelf = { id: 'A4' };",
+        "const s = Object.create(shelf);",
+        "s.ad = 'sale';",
+        "console.log(s.hasOwnProperty('ad'));",
+        "console.log(s.hasOwnProperty('id'));",
+        "console.log(s.id);"
+      ],
+      "options": [
+        {
+          "text": "true\nfalse\nA4",
+          "correct": true,
+          "feedback": "Right. ad belongs to s itself. id is found on the prototype, so hasOwnProperty says false but the plain read still works."
+        },
+        {
+          "text": "true\ntrue\nA4",
+          "correct": false,
+          "feedback": "hasOwnProperty looks only at the object itself. id lives on shelf, so the second call is false.",
+          "misconception": "own-check-includes-inherited"
+        },
+        {
+          "text": "true\nfalse\nundefined",
+          "correct": false,
+          "feedback": "A read does not stop at the object. When s has no id, the lookup continues in shelf and finds it.",
+          "misconception": "lookup-stops-early"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\nfalse\nA4"
+      },
+      "explanation": "hasOwnProperty tests only the object it is called on, so it is false for id, which s inherits. A normal read follows the chain from s to shelf and finds A4.",
+      "hints": [
+        "Compare line 4 and line 5: which property was assigned on s?",
+        "hasOwnProperty ignores the prototype, but a property read does not.",
+        "ad was written on s. id was never written on s."
+      ],
+      "reference": {
+        "title": "Object.prototype.hasOwnProperty()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:7"
+      ]
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.prototype-chain.concept-01",
+      "concept": "prototype-chain",
+      "prerequisites": [
+        "object-properties",
+        "class-basics"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Line 3 assigns hours through stall. Which statement about that assignment is true?",
+      "code": [
+        "const shop = { hours: 'nine' };",
+        "const stall = Object.create(shop);",
+        "stall.hours = 'ten';",
+        "console.log(shop.hours);",
+        "console.log(stall.hours);"
+      ],
+      "options": [
+        {
+          "text": "It creates hours on stall itself and leaves shop untouched.",
+          "correct": true,
+          "feedback": "Right. Assignment writes on the object before the dot. The inherited value is hidden, not changed."
+        },
+        {
+          "text": "It changes hours on shop, so both objects now say ten.",
+          "correct": false,
+          "feedback": "Assignment never climbs the chain to edit the object that holds the old value. It writes on stall.",
+          "misconception": "write-changes-prototype"
+        },
+        {
+          "text": "It fails, because an inherited property cannot be overwritten.",
+          "correct": false,
+          "feedback": "A normal inherited property can be hidden by writing on the child. Only a read-only one refuses.",
+          "misconception": "inherited-read-only"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "nine\nten"
+      },
+      "explanation": "Assigning always writes on the object named before the dot. stall gets its own hours, which hides the inherited one when stall is read. shop still holds nine.",
+      "hints": [
+        "Compare the two printed values with what lines 3 to 5 touch.",
+        "A write lands on the object you assign through, not on its prototype.",
+        "Two objects now hold an hours property. Which one is read first from stall?"
+      ],
+      "reference": {
+        "title": "Inheritance and the prototype chain",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.prototype-chain.fill-01",
+      "concept": "prototype-chain",
+      "prerequisites": [
+        "object-properties",
+        "class-basics"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blank so the program prints 2saw.",
+      "code": [
+        "const kit = { kind: 'saw', qty: 1 };",
+        "const box = Object.create(kit);",
+        "box.qty = 2;",
+        "const crate = Object.create(box);",
+        "console.log(crate.qty + crate.___);"
+      ],
+      "options": [
+        {
+          "text": "kind",
+          "correct": true,
+          "feedback": "Right. crate has neither property, so the lookup climbs through box to kit and finds kind."
+        },
+        {
+          "text": "qty",
+          "correct": false,
+          "feedback": "This adds the quantity to itself and prints 4, not a name."
+        },
+        {
+          "text": "saw",
+          "correct": false,
+          "feedback": "saw is a value, not a property name, so the read gives undefined.",
+          "misconception": "lookup-stops-early"
+        },
+        {
+          "text": "kit",
+          "correct": false,
+          "feedback": "kit is a variable. No property of the chain is called kit, so the read gives undefined."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "kind"
+          ]
+        ],
+        "expectedOutput": "2saw"
+      },
+      "explanation": "crate.qty is found on box, where it hides the 1 on kit, so it is 2. The second read needs the property name kind. crate has no kind, box has none, and kit holds saw.",
+      "hints": [
+        "Look at which object holds each property.",
+        "A read climbs the chain one prototype at a time until it finds the name.",
+        "The text saw is stored under a property name on kit. Which name?"
+      ],
+      "reference": {
+        "title": "Inheritance and the prototype chain",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.prototype-chain.fix-01",
+      "concept": "prototype-chain",
+      "prerequisites": [
+        "object-properties",
+        "class-basics"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The program should print can open, but it prints nothing. Tap the buggy line and pick the fix.",
+      "code": [
+        "class Shop {",
+        "  open() { return true; }",
+        "}",
+        "const bakery = new Shop();",
+        "if (bakery.hasOwnProperty('open')) {",
+        "  console.log('can open');",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "if ('open' in bakery) {",
+          "correct": true,
+          "feedback": "Right. in also searches the prototype chain, where the class keeps open."
+        },
+        {
+          "text": "if (bakery.hasOwnProperty('Shop')) {",
+          "correct": false,
+          "feedback": "The class name is not a property of bakery, so this is false as well.",
+          "misconception": "own-check-includes-inherited"
+        },
+        {
+          "text": "if (Object.keys(bakery).length) {",
+          "correct": false,
+          "feedback": "bakery has no own properties, so there are no keys and the test is false.",
+          "misconception": "own-check-includes-inherited"
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "can open"
+      },
+      "explanation": "Class methods live on the prototype, not on each instance, so hasOwnProperty says false. The in operator checks the object and its whole chain, so it finds open.",
+      "hints": [
+        "Where does a class keep the methods you declare in its body?",
+        "hasOwnProperty skips the prototype. Another test covers the whole chain.",
+        "Replace the whole condition with a test that also looks at inherited names."
+      ],
+      "reference": {
+        "title": "in operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.prototype-chain.write-01",
+      "concept": "prototype-chain",
+      "prerequisites": [
+        "object-properties",
+        "class-basics"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of lookupOrigin(overrides, key). Make an object that inherits a color default, copy overrides onto it, then return 'own', 'inherited' or 'missing' for key.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "lookupOrigin",
+          "params": [
+            "overrides",
+            "key"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              {
+                "color": "red"
+              },
+              "color"
+            ],
+            "expected": "own"
+          },
+          {
+            "input": [
+              {
+                "size": "M"
+              },
+              "color"
+            ],
+            "expected": "inherited"
+          },
+          {
+            "input": [
+              {},
+              "color"
+            ],
+            "expected": "inherited"
+          },
+          {
+            "input": [
+              {
+                "color": "red"
+              },
+              "size"
+            ],
+            "expected": "missing"
+          },
+          {
+            "input": [
+              {
+                "size": "M"
+              },
+              "size"
+            ],
+            "expected": "own"
+          },
+          {
+            "input": [
+              {},
+              "toString"
+            ],
+            "expected": "inherited"
+          }
+        ],
+        "reference": [
+          "const base = { color: 'grey' };",
+          "const item = Object.create(base);",
+          "Object.assign(item, overrides);",
+          "if (item.hasOwnProperty(key)) {",
+          "  return 'own';",
+          "}",
+          "if (key in item) {",
+          "  return 'inherited';",
+          "}",
+          "return 'missing';"
+        ],
+        "wrongSolutions": [
+          [
+            "const base = { color: 'grey' };",
+            "const item = Object.create(base);",
+            "Object.assign(item, overrides);",
+            "if (key in item) {",
+            "  return 'own';",
+            "}",
+            "return 'missing';"
+          ],
+          [
+            "const base = { color: 'grey' };",
+            "const item = Object.create(base);",
+            "Object.assign(item, overrides);",
+            "if (item.hasOwnProperty(key)) {",
+            "  return 'own';",
+            "}",
+            "return 'missing';"
+          ],
+          [
+            "const base = { color: 'grey' };",
+            "const item = {};",
+            "Object.assign(item, overrides);",
+            "if (item.hasOwnProperty(key)) {",
+            "  return 'own';",
+            "}",
+            "if (key in item) {",
+            "  return 'inherited';",
+            "}",
+            "return 'missing';"
+          ]
+        ]
+      },
+      "explanation": "Make item inherit from base, then copy the overrides onto item. hasOwnProperty finds own names. The in operator also sees inherited names, such as color or the built-in toString.",
+      "hints": [
+        "The built-in toString is inherited too, so it counts.",
+        "Test own names first, then use a test that includes the chain.",
+        "Order matters: an own property also passes the in test."
+      ],
+      "reference": {
+        "title": "Object.prototype.hasOwnProperty()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.constructor-functions.predict-01",
+      "concept": "constructor-functions",
+      "prerequisites": [
+        "prototype-chain",
+        "this-in-methods"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "Two loans are built by the same constructor. What does this code print?",
+      "code": [
+        "function Loan(t) { this.t = t; }",
+        "Loan.prototype.tag = function () {",
+        "  return 'Due: ' + this.t;",
+        "};",
+        "const a = new Loan('Dune');",
+        "const b = new Loan('Emma');",
+        "console.log(a.tag(), b.tag());",
+        "console.log(a.tag === b.tag);"
+      ],
+      "options": [
+        {
+          "text": "Due: Dune Due: Emma\ntrue",
+          "correct": true,
+          "feedback": "Right. Each call uses its own this, and both objects share the one function stored on the prototype."
+        },
+        {
+          "text": "Due: Dune Due: Emma\nfalse",
+          "correct": false,
+          "feedback": "The method is created once, on the prototype. Both loans find that same function, so the comparison is true.",
+          "misconception": "methods-copied-into-objects"
+        },
+        {
+          "text": "Due: Emma Due: Emma\ntrue",
+          "correct": false,
+          "feedback": "this is the object before the dot, not the prototype. a.tag() reads a's own title.",
+          "misconception": "delegation-this-is-prototype"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Due: Dune Due: Emma\ntrue"
+      },
+      "explanation": "The method sits once on Loan.prototype. Both loans reach it through the chain, so the two properties are the same function. Each call sets this to the loan before the dot, so the titles differ.",
+      "hints": [
+        "Where is tag defined, and how many times does line 2 run?",
+        "A shared prototype method gets this from the object it is called on.",
+        "Each loan stores its own t. The function that reads it is one object."
+      ],
+      "reference": {
+        "title": "new operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.constructor-functions.concept-01",
+      "concept": "constructor-functions",
+      "prerequisites": [
+        "prototype-chain",
+        "this-in-methods"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement does the output of this program demonstrate?",
+      "code": [
+        "function Seed() {}",
+        "const s = new Seed();",
+        "const p = Object.getPrototypeOf(s);",
+        "console.log(p === Seed.prototype);",
+        "console.log(p === Seed);"
+      ],
+      "options": [
+        {
+          "text": "new links the object to Seed.prototype, an object owned by the constructor.",
+          "correct": true,
+          "feedback": "Right. The link points to the prototype property, not to the function."
+        },
+        {
+          "text": "The prototype of s is the function Seed itself.",
+          "correct": false,
+          "feedback": "The function and its prototype property are two different objects. Only the property is linked.",
+          "misconception": "prototype-is-constructor"
+        },
+        {
+          "text": "s has no prototype until a method is added to Seed.prototype.",
+          "correct": false,
+          "feedback": "Every function has a prototype object from the start, and new links to it even when it is empty.",
+          "misconception": "prototype-created-late"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\nfalse"
+      },
+      "explanation": "new creates an object and links it to the constructor's prototype property. That property is a separate object from the function, so the first comparison is true and the second is false.",
+      "hints": [
+        "Compare what line 3 and line 4 each compare s's link with.",
+        "A constructor function has a property named prototype.",
+        "The link goes to a property of Seed, not to Seed."
+      ],
+      "reference": {
+        "title": "Object.getPrototypeOf()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.constructor-functions.fill-01",
+      "concept": "constructor-functions",
+      "prerequisites": [
+        "prototype-chain",
+        "this-in-methods"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blank so each plant keeps its own tag and the program prints mint basil.",
+      "code": [
+        "function Plant(tag) {",
+        "  ___.tag = tag;",
+        "}",
+        "const mint = new Plant('mint');",
+        "const basil = new Plant('basil');",
+        "console.log(mint.tag, basil.tag);"
+      ],
+      "options": [
+        {
+          "text": "this",
+          "correct": true,
+          "feedback": "Right. Inside a constructor called with new, this is the new object."
+        },
+        {
+          "text": "Plant.prototype",
+          "correct": false,
+          "feedback": "That writes one tag on the shared prototype. The second call overwrites it, and both plants read basil.",
+          "misconception": "prototype-shared-in-constructor"
+        },
+        {
+          "text": "Plant",
+          "correct": false,
+          "feedback": "That stores the tag on the function. The plants inherit from Plant.prototype, not from the function, so they read undefined.",
+          "misconception": "method-on-constructor-itself"
+        },
+        {
+          "text": "tag",
+          "correct": false,
+          "feedback": "tag is a text value here. Setting a property on it keeps nothing, so the plants have no tags."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "this"
+          ]
+        ],
+        "expectedOutput": "mint basil"
+      },
+      "explanation": "With new, this is the fresh object, so this.tag gives each plant its own property. Writing on Plant.prototype would share one value. Writing on Plant itself is invisible to the instances.",
+      "hints": [
+        "Look at which object the constructor should write on.",
+        "Every call with new gets a fresh object to fill in.",
+        "The keyword you need names the object under construction."
+      ],
+      "reference": {
+        "title": "new operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.constructor-functions.fix-01",
+      "concept": "constructor-functions",
+      "prerequisites": [
+        "prototype-chain",
+        "this-in-methods"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The program should print Seat 12, but line 8 throws. Tap the buggy line and pick the fix.",
+      "code": [
+        "function Pass(seat) {",
+        "  this.seat = seat;",
+        "}",
+        "Pass.show = function () {",
+        "  return 'Seat ' + this.seat;",
+        "};",
+        "const t = new Pass(12);",
+        "console.log(t.show());"
+      ],
+      "options": [
+        {
+          "text": "Pass.prototype.show = function () {",
+          "correct": true,
+          "feedback": "Right. Instances inherit from the prototype property, so show must be stored there."
+        },
+        {
+          "text": "Function.show = function () {",
+          "correct": false,
+          "feedback": "That puts show on the built-in Function. t does not inherit from it.",
+          "misconception": "method-on-constructor-itself"
+        },
+        {
+          "text": "Object.show = function () {",
+          "correct": false,
+          "feedback": "That puts show on the Object function. t does not inherit from it.",
+          "misconception": "method-on-constructor-itself"
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "Seat 12"
+      },
+      "explanation": "A property on the constructor function itself is not part of the chain of its instances. Instances inherit from Pass.prototype, so show belongs there.",
+      "hints": [
+        "Line 4 stores show on something instances do not inherit from.",
+        "new links each object to the prototype property of its constructor.",
+        "Keep the function body, and change what comes before .show."
+      ],
+      "reference": {
+        "title": "Inheritance and the prototype chain",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.constructor-functions.write-01",
+      "concept": "constructor-functions",
+      "prerequisites": [
+        "prototype-chain",
+        "this-in-methods"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of shoutAll(names). Declare constructor Tag(s) with a prototype method shout() returning s in capitals plus '!'. Return shout() of a new Tag for each name.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "shoutAll",
+          "params": [
+            "names"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                "pear",
+                "fig"
+              ]
+            ],
+            "expected": [
+              "PEAR!",
+              "FIG!"
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                "a"
+              ]
+            ],
+            "expected": [
+              "A!"
+            ]
+          },
+          {
+            "input": [
+              [
+                "mixed Up"
+              ]
+            ],
+            "expected": [
+              "MIXED UP!"
+            ]
+          }
+        ],
+        "reference": [
+          "function Tag(s) {",
+          "  this.s = s;",
+          "}",
+          "Tag.prototype.shout = function () {",
+          "  return this.s.toUpperCase() + '!';",
+          "};",
+          "const out = [];",
+          "for (const n of names) {",
+          "  out.push(new Tag(n).shout());",
+          "}",
+          "return out;"
+        ],
+        "wrongSolutions": [
+          [
+            "function Tag(s) {",
+            "  this.s = s;",
+            "}",
+            "Tag.shout = function () {",
+            "  return this.s.toUpperCase() + '!';",
+            "};",
+            "const out = [];",
+            "for (const n of names) {",
+            "  out.push(new Tag(n).shout());",
+            "}",
+            "return out;"
+          ],
+          [
+            "function Tag(s) {",
+            "  this.s = s;",
+            "}",
+            "Tag.prototype.shout = function () {",
+            "  return this.s.toUpperCase();",
+            "};",
+            "const out = [];",
+            "for (const n of names) {",
+            "  out.push(new Tag(n).shout());",
+            "}",
+            "return out;"
+          ],
+          [
+            "function Tag(s) {",
+            "}",
+            "Tag.prototype.shout = function () {",
+            "  return this.s.toUpperCase() + '!';",
+            "};",
+            "const out = [];",
+            "for (const n of names) {",
+            "  out.push(new Tag(n).shout());",
+            "}",
+            "return out;"
+          ]
+        ]
+      },
+      "explanation": "The constructor stores s on this. shout goes on Tag.prototype so every Tag shares it. toUpperCase and the added ! build the result, and the loop collects one result per name.",
+      "hints": [
+        "Both the stored data and the method have to be reachable from each new Tag.",
+        "Data goes on this inside the constructor. The shared method goes on the prototype.",
+        "Build each Tag with new, call shout(), and push the results into an array."
+      ],
+      "reference": {
+        "title": "new operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.object-create-and-delegation.predict-01",
+      "concept": "object-create-and-delegation",
+      "prerequisites": [
+        "prototype-chain"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "Two kiosks delegate to one shared counter object. What does this code print?",
+      "code": [
+        "const visits = {",
+        "  n: 0,",
+        "  add() { this.n += 1; },",
+        "};",
+        "const a = Object.create(visits);",
+        "const b = Object.create(visits);",
+        "a.add();",
+        "console.log(a.n, b.n, visits.n);"
+      ],
+      "options": [
+        {
+          "text": "1 0 0",
+          "correct": true,
+          "feedback": "Right. add runs with this set to a, so the new n is written on a. The other objects still read 0."
+        },
+        {
+          "text": "1 1 1",
+          "correct": false,
+          "feedback": "this is the object before the dot, not the object that holds the method. visits is never changed.",
+          "misconception": "delegation-this-is-prototype"
+        },
+        {
+          "text": "0 0 0",
+          "correct": false,
+          "feedback": "The write is not ignored. Reading n through a gives 0, adding 1 and writing it back on a.",
+          "misconception": "inherited-read-only"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "1 0 0"
+      },
+      "explanation": "a.add() finds add on visits but runs it with this equal to a. It reads the inherited 0, adds 1 and stores 1 as an own property of a. b and visits keep 0.",
+      "hints": [
+        "What is this when add runs on line 7?",
+        "The method comes from visits, but this is the object left of the dot.",
+        "Which object receives the write inside add?"
+      ],
+      "reference": {
+        "title": "this",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.object-create-and-delegation.concept-01",
+      "concept": "object-create-and-delegation",
+      "prerequisites": [
+        "prototype-chain"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement does this program demonstrate about Object.create?",
+      "code": [
+        "const menu = { soup: 'leek' };",
+        "const day = Object.create(menu);",
+        "menu.soup = 'pea';",
+        "console.log(day.soup);",
+        "const own = Object.keys(day);",
+        "console.log(own.length);"
+      ],
+      "options": [
+        {
+          "text": "day holds nothing of its own and reads soup from menu each time.",
+          "correct": true,
+          "feedback": "Right. Delegation looks the value up on menu when it is needed."
+        },
+        {
+          "text": "day got a copy of soup when it was created, so the later change is not visible.",
+          "correct": false,
+          "feedback": "Nothing is copied. The read goes to menu each time, so the new value shows.",
+          "misconception": "create-copies-properties"
+        },
+        {
+          "text": "Object.keys counts soup, because day can read it.",
+          "correct": false,
+          "feedback": "Object.keys lists own properties only. day owns none.",
+          "misconception": "own-check-includes-inherited"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "pea\n0"
+      },
+      "explanation": "Object.create(menu) links day to menu without copying anything. Each read of soup goes to menu, so the change to pea shows. day has no own keys, so the count is 0.",
+      "hints": [
+        "Compare the printed soup with the value at line 1.",
+        "Object.create links objects. It does not copy their properties.",
+        "A read follows the link every time, and Object.keys lists only what day itself owns."
+      ],
+      "reference": {
+        "title": "Object.create()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.object-create-and-delegation.parsons-01",
+      "concept": "object-create-and-delegation",
+      "prerequisites": [
+        "prototype-chain"
+      ],
+      "format": "PARSONS",
+      "difficulty": 3,
+      "prompt": "Put the lines in an order that prints 8 and then 4.",
+      "code": [
+        "console.log(cake.servings);",
+        "const recipe = { servings: 4 };",
+        "console.log(recipe.servings);",
+        "cake.servings = cake.servings * 2;",
+        "const cake = Object.create(recipe);"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          4,
+          3,
+          0,
+          2
+        ],
+        "expectedOutput": "8\n4"
+      },
+      "explanation": "recipe must exist before cake can delegate to it. The doubling reads the inherited 4 and stores 8 on cake. cake prints 8, and recipe still prints 4.",
+      "hints": [
+        "Which line has to come first so that the others can use its name?",
+        "cake needs recipe, and the doubling needs cake.",
+        "The doubling comes before both prints, and the cake print comes before the recipe print."
+      ],
+      "reference": {
+        "title": "Object.create()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.object-create-and-delegation.fix-01",
+      "concept": "object-create-and-delegation",
+      "prerequisites": [
+        "prototype-chain"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The program should print 4 2, but it prints 2 2. Tap the buggy line and pick the fix.",
+      "code": [
+        "const rack = { books: 4 };",
+        "const cart = rack;",
+        "cart.books = 2;",
+        "console.log(rack.books, cart.books);"
+      ],
+      "options": [
+        {
+          "text": "const cart = Object.create(rack);",
+          "correct": true,
+          "feedback": "Right. cart becomes a new object that delegates to rack, so writing books on cart leaves rack alone."
+        },
+        {
+          "text": "const cart = Object.assign(rack);",
+          "correct": false,
+          "feedback": "assign returns its first argument, which is rack itself. cart is still the same object.",
+          "misconception": "alias-is-delegation"
+        },
+        {
+          "text": "const cart = new rack();",
+          "correct": false,
+          "feedback": "rack is a plain object, not a function, so new cannot use it."
+        }
+      ],
+      "solution": {
+        "bugLine": 2,
+        "expectedOutput": "4 2"
+      },
+      "explanation": "const cart = rack gives one object two names, so the write changes both. Object.create(rack) makes a separate object that only reads through to rack, so the write stays on cart.",
+      "hints": [
+        "Does line 2 create a second object?",
+        "Two names for one object share every change.",
+        "You need a new object that falls back on rack."
+      ],
+      "reference": {
+        "title": "Object.create()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.object-create-and-delegation.write-01",
+      "concept": "object-create-and-delegation",
+      "prerequisites": [
+        "prototype-chain"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of describeCritter(species), where species is {name, legs}. Delegate to a shared animal with move() returning this.name + this.legs, then return move() called on your own object.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "describeCritter",
+          "params": [
+            "species"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              {
+                "name": "ant",
+                "legs": 6
+              }
+            ],
+            "expected": "ant6"
+          },
+          {
+            "input": [
+              {
+                "name": "owl",
+                "legs": 2
+              }
+            ],
+            "expected": "owl2"
+          },
+          {
+            "input": [
+              {
+                "name": "eel",
+                "legs": 0
+              }
+            ],
+            "expected": "eel0"
+          },
+          {
+            "input": [
+              {
+                "name": "",
+                "legs": 0
+              }
+            ],
+            "expected": "0"
+          }
+        ],
+        "reference": [
+          "const animal = {",
+          "  move() {",
+          "    return this.name + this.legs;",
+          "  },",
+          "};",
+          "const pet = Object.create(animal);",
+          "pet.name = species.name;",
+          "pet.legs = species.legs;",
+          "return pet.move();"
+        ],
+        "wrongSolutions": [
+          [
+            "const animal = {",
+            "  move() {",
+            "    return this.name + this.legs;",
+            "  },",
+            "};",
+            "return animal.move();"
+          ],
+          [
+            "const animal = {",
+            "  move() {",
+            "    return this.name + this.legs;",
+            "  },",
+            "};",
+            "const pet = Object.create(animal);",
+            "pet.name = species.name;",
+            "return pet.move();"
+          ],
+          [
+            "const animal = {",
+            "  move() {",
+            "    return this.name + this.legs;",
+            "  },",
+            "};",
+            "const pet = Object.create(species);",
+            "return pet.move();"
+          ]
+        ]
+      },
+      "explanation": "pet delegates to animal and holds its own name and legs. Calling pet.move() runs the shared method with this set to critter, so it reads those two fields.",
+      "hints": [
+        "The method must run with your own object as this.",
+        "Create the object with Object.create(animal), then give it the two fields.",
+        "Call move on the new object, not on animal itself."
+      ],
+      "reference": {
+        "title": "Object.create()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.predict-01",
+      "concept": "class-as-prototype-sugar",
+      "prerequisites": [
+        "constructor-functions",
+        "class-inheritance"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A class holds one method. What does this code print?",
+      "code": [
+        "class Cup {",
+        "  fill() { return 'full'; }",
+        "}",
+        "const c = new Cup();",
+        "const f = Cup.prototype.fill;",
+        "console.log(typeof Cup);",
+        "console.log(c.fill === f);",
+        "console.log(Object.keys(c).length);"
+      ],
+      "options": [
+        {
+          "text": "function\ntrue\n0",
+          "correct": true,
+          "feedback": "Right. A class is a function, and its methods live on the prototype that instances inherit from."
+        },
+        {
+          "text": "object\ntrue\n0",
+          "correct": false,
+          "feedback": "A class is a function underneath, so typeof says function.",
+          "misconception": "class-is-not-function"
+        },
+        {
+          "text": "function\nfalse\n1",
+          "correct": false,
+          "feedback": "The method is not copied onto each instance. c finds the single function on Cup.prototype and owns no keys.",
+          "misconception": "methods-copied-into-objects"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "function\ntrue\n0"
+      },
+      "explanation": "A class declaration creates a constructor function. Its methods are stored on Cup.prototype, so c.fill is that very function, and c owns no keys.",
+      "hints": [
+        "Check what typeof reports for a class on line 5.",
+        "Methods declared in a class body go on the prototype.",
+        "c reaches fill through the chain, so it has no own keys."
+      ],
+      "reference": {
+        "title": "Classes",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.concept-01",
+      "concept": "class-as-prototype-sugar",
+      "prerequisites": [
+        "constructor-functions",
+        "class-inheritance"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement does the output of this program demonstrate?",
+      "code": [
+        "class Boat {}",
+        "class Canoe extends Boat {}",
+        "const c = new Canoe();",
+        "const p = Canoe.prototype;",
+        "const q = Object.getPrototypeOf(p);",
+        "console.log(q === Boat.prototype);",
+        "console.log(c instanceof Boat);"
+      ],
+      "options": [
+        {
+          "text": "extends links Canoe.prototype to Boat.prototype, so lookups continue up the chain.",
+          "correct": true,
+          "feedback": "Right. instanceof follows the same links, which is why c counts as a Boat."
+        },
+        {
+          "text": "extends copies Boat's methods into Canoe.prototype when the class is declared.",
+          "correct": false,
+          "feedback": "Nothing is copied. A method added to Boat.prototype later is still found by a Canoe.",
+          "misconception": "methods-copied-into-objects"
+        },
+        {
+          "text": "c instanceof Boat is true only because Boat is the direct parent.",
+          "correct": false,
+          "feedback": "instanceof checks the whole chain, so a grandchild class would also count.",
+          "misconception": "lookup-stops-early"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\ntrue"
+      },
+      "explanation": "extends makes Canoe.prototype delegate to Boat.prototype. That is a chain link, not a copy, and instanceof walks the whole chain of links to find Boat.prototype.",
+      "hints": [
+        "Look at what line 6 compares.",
+        "A subclass is another prototype link in the chain.",
+        "The link is one object pointing at another, so later changes to the parent stay visible."
+      ],
+      "reference": {
+        "title": "extends",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.fill-01",
+      "concept": "class-as-prototype-sugar",
+      "prerequisites": [
+        "constructor-functions",
+        "class-inheritance"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 4,
+      "prompt": "Fill the blank so Bike runs the Vehicle constructor on the new object and the program prints 2.",
+      "code": [
+        "function Vehicle(wheels) {",
+        "  this.wheels = wheels;",
+        "}",
+        "function Bike(wheels) {",
+        "  Vehicle.___(this, wheels);",
+        "}",
+        "console.log(new Bike(2).wheels);"
+      ],
+      "options": [
+        {
+          "text": "call",
+          "correct": true,
+          "feedback": "Right. call runs the function now, with the given this and arguments. A class does the same with super(...)."
+        },
+        {
+          "text": "bind",
+          "correct": false,
+          "feedback": "bind returns a new function and does not run it, so wheels is never set."
+        },
+        {
+          "text": "apply",
+          "correct": false,
+          "feedback": "apply wants its arguments as an array. A single number is not one, so this throws."
+        },
+        {
+          "text": "prototype",
+          "correct": false,
+          "feedback": "prototype is an object, not a function, so calling it throws."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "call"
+          ]
+        ],
+        "expectedOutput": "2"
+      },
+      "explanation": "call runs Vehicle at once with this set to the new Bike object, so wheels is stored on it. This is what super(wheels) does inside a class constructor.",
+      "hints": [
+        "Line 5 must run Vehicle, not only prepare it.",
+        "Some function methods run the function immediately with a chosen this.",
+        "The method takes this first and then the arguments one by one."
+      ],
+      "reference": {
+        "title": "Function.prototype.call()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.fix-01",
+      "concept": "class-as-prototype-sugar",
+      "prerequisites": [
+        "constructor-functions",
+        "class-inheritance"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The program should print sage, but it throws on line 6. Tap the buggy line and pick the fix.",
+      "code": [
+        "class Pot {",
+        "  constructor(herb) {",
+        "    this.herb = herb;",
+        "  }",
+        "}",
+        "const pot = Pot('sage');",
+        "console.log(pot.herb);"
+      ],
+      "options": [
+        {
+          "text": "const pot = new Pot('sage');",
+          "correct": true,
+          "feedback": "Right. A class constructor only runs through new."
+        },
+        {
+          "text": "const pot = Pot.call({}, 'sage');",
+          "correct": false,
+          "feedback": "A class constructor refuses every plain call, including call(). It throws before any code runs.",
+          "misconception": "class-callable-without-new"
+        },
+        {
+          "text": "const pot = Pot.apply({}, ['sage']);",
+          "correct": false,
+          "feedback": "apply is a plain call as well, so the class constructor throws here too.",
+          "misconception": "class-callable-without-new"
+        }
+      ],
+      "solution": {
+        "bugLine": 6,
+        "expectedOutput": "sage"
+      },
+      "explanation": "Unlike an old-style constructor function, a class cannot be called without new. The call on line 6 throws a TypeError, and new is what builds the object and runs the constructor.",
+      "hints": [
+        "Look at how line 6 calls Pot.",
+        "A class is a function, but a stricter one.",
+        "One keyword in front of the call fixes it."
+      ],
+      "reference": {
+        "title": "Classes",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.write-01",
+      "concept": "class-as-prototype-sugar",
+      "prerequisites": [
+        "constructor-functions",
+        "class-inheritance"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 5,
+      "prompt": "Write the body of rushTotals(prices). Declare Fee (cost() returns its amount) and Rush extending Fee, whose cost() doubles super.cost(). Return the Rush cost for each price.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "rushTotals",
+          "params": [
+            "prices"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                1,
+                2,
+                3
+              ]
+            ],
+            "expected": [
+              2,
+              4,
+              6
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                0
+              ]
+            ],
+            "expected": [
+              0
+            ]
+          },
+          {
+            "input": [
+              [
+                2.5
+              ]
+            ],
+            "expected": [
+              5
+            ]
+          }
+        ],
+        "reference": [
+          "class Fee {",
+          "  constructor(a) { this.a = a; }",
+          "  cost() { return this.a; }",
+          "}",
+          "class Rush extends Fee {",
+          "  cost() {",
+          "    return super.cost() * 2;",
+          "  }",
+          "}",
+          "const r = (p) => new Rush(p).cost();",
+          "return prices.map(r);"
+        ],
+        "wrongSolutions": [
+          [
+            "class Fee {",
+            "  constructor(a) { this.a = a; }",
+            "  cost() { return this.a; }",
+            "}",
+            "class Rush extends Fee {",
+            "  cost() {",
+            "    return super.cost() * 2;",
+            "  }",
+            "}",
+            "const r = (p) => new Fee(p).cost();",
+            "return prices.map(r);"
+          ],
+          [
+            "class Fee {",
+            "  constructor(a) { this.a = a; }",
+            "  cost() { return this.a; }",
+            "}",
+            "class Rush extends Fee {",
+            "  cost() {",
+            "    return super.cost() + 2;",
+            "  }",
+            "}",
+            "const r = (p) => new Rush(p).cost();",
+            "return prices.map(r);"
+          ],
+          [
+            "class Fee {",
+            "  constructor(a) { this.a = a; }",
+            "  cost() { return this.a; }",
+            "}",
+            "class Rush extends Fee {",
+            "  cost() {",
+            "    return super.cost() * 2;",
+            "  }",
+            "}",
+            "const r = (p) => new Rush(p);",
+            "return prices.map(r);"
+          ]
+        ]
+      },
+      "explanation": "Fee stores the amount and returns it from cost(). Rush extends Fee and calls super.cost() to reach the parent version, then doubles it. map builds one Rush per price and collects its cost.",
+      "hints": [
+        "The subclass method must reach the parent method.",
+        "super.cost() calls the version defined on Fee.",
+        "Build a Rush for each price and call cost() on it, not on Fee."
+      ],
+      "reference": {
+        "title": "super",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}
