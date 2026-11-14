@@ -16,15 +16,17 @@ after any context reset, then continue from "Current position".
 
 ## Current position
 
-- **Updated:** 2026-11-14 23:30. All gates green (typecheck, lint, tests, knip, language scan,
-  whole-bank verify).
-- **Phases:** 0 nearly done; 1 done; 2 (bank) 27 of 28 units committed, the last (`code-analysis`)
-  authoring, then the verification loop; 3 done apart from server push (needs APNs, H6).
-- **Next for the main thread:** verification loop (pass start --complete; Gate B/C/D agents one per
-  track per gate; fix; repeat to three clean passes); then phase 4 (social).
-- **Next for sub-agents:** keep two unit authors running (Sonnet, `model: "sonnet"`), one unit
-  each, from `scratchpad/briefs/unit-<slug>.md` regenerated from
-  `content/verification/prompts/unit-author.md` (see "How unit authoring runs").
+- **Updated:** 2026-11-15 00:20. All gates green (typecheck, lint, tests, knip, language scan,
+  whole-bank verify offline, legacy map, source ledger).
+- **Phases:** 0 nearly done; 1 done; 2: all 604 items authored, verification pass 1
+  (`run-20261114-205833`) fully resolved and committed, pass 2 next; 3 done apart from server
+  push (H6); 4: profile, privacy, search, friends, block and report done; 5: engine, io `/play`
+  and the Play tab done and played end to end on the simulator against a scripted second player.
+- **Next for the main thread:** verification pass 2 (`pass start --complete`, 15 gate agents in
+  batches, two at a time, briefs from `scratchpad/gates/make_briefs.py`); while agents run, phase
+  4/5 leftovers (friend game invites, presence, retire `/duel` and the legacy duel tables).
+- **Next for sub-agents:** gate agents for pass 2, then fix agents per batch (briefs written from
+  the pass's findings; see pass 1's `scratchpad/fix1/brief-N.md` for the shape).
 - **Owner rules added mid-run:** at most two sub-agents at a time; sub-agents default to Sonnet
   through `.claude/settings.local.json` (`CLAUDE_CODE_SUBAGENT_MODEL=sonnet`); Opus only for
   hard engineering; show the owner each change to usage settings before making it.
@@ -49,10 +51,10 @@ after any context reset, then continue from "Current position".
 |---|---|---|
 | 0 | Item model, attempts, user-level XP, verification pipeline, CI, bug fixes, tokens, fonts, i18n | In progress |
 | 1 | Learning core: lesson player, 7 formats, feedback, code view, execution player, map, Home, onboarding, mascot | Done (Profile, Settings, auth in the new design; EN + HE) |
-| 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); verification loop next |
+| 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); pass 1 resolved (329 findings); pass 2 next |
 | 3 | Retention: review (SM-2), daily challenge, revision, weekly goal, freeze, push, achievements | Done except server push (credentials) |
-| 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Not started |
-| 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Not started |
+| 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Profile, privacy, search, friends, block and report done; presence, invitations inbox, Friend Streak, GitHub (H7), badge open |
+| 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Engine, `/play`, Play tab, reconnect and server-restart recovery done; friend duel invites, multi-simulator run and `/duel` retirement open |
 | 6 | Depth: league, extra modes, AI explain, share cards, item analysis | Not started |
 
 ## Work log
@@ -129,11 +131,11 @@ Done since the first update (all committed):
 
 Open:
 
-- [ ] Full verification loop to three clean passes (all 28 units authored).
+- [ ] Full verification loop to three clean passes: pass 1 resolved (211 item fixes or judgements, 118 tooling notes); pass 2 next.
 - [ ] Server error codes (PRD: "the server keeps returning generic errors and codes"): today the
       app maps the server's English messages to translated text in one place
       (`mobile/src/i18n/localizedMessage.ts`); switching to codes removes the string coupling.
-- [ ] Old xp/streak/duel slices and the old duel screens retire with phases 4–5.
+- [ ] Retire the old duel backend: io `/duel` namespace, `@project/duel-constants`, `DuelQuestion`/`DuelSession` tables and the `duelWins`/`duelLosses` fields of `/user/progress-summary` (the app no longer reads them; the old duel screens and slices are deleted).
 - [ ] Server push through Expo (register tokens, send in the stored language) once APNs and EAS
       credentials exist (H6); the smart local reminder covers guests and accounts meanwhile.
 - [ ] Hebrew RTL walk-through of every screen (done: Home, lesson, map, onboarding, Profile,
@@ -200,6 +202,10 @@ Tooling notes for the next session:
 | A25 | Daily challenge: 5 items a day from finished lessons (a newcomer gets the first lessons), one attempt, 30 XP once a day; no timer. | PRD gives only "L8 daily challenge, 30 XP"; items the learner has met keep it a retention tool, and a timer is optional in PRD 6.x. |
 | A26 | Progress reset is guest-only; a registered account keeps its history and can be deleted instead. | A server-side reset would erase data other features (leagues, badges) rely on; deletion already covers "start over". |
 | A27 | The smart reminder is local (a week of dated notifications, none today once the goal is met) until server push credentials exist. | Satisfies "a reminder is not sent to someone who met the goal" for guests and accounts without APNs. |
+| A28 | The Play tab is one component that shows what the server says the learner is in (results, game, room, queue, start) instead of a navigation stack. A game that starts or resumes opens the tab, except over a lesson; the tab bar hides during a game. | The server owns the game (PRD 11.7–11.8), so state, not navigation history, decides the screen; a relaunch or reconnect lands on the right view with no navigation bookkeeping. |
+| A29 | Every `/play` connection receives `play:sync` (whether the server still holds a game or room for the player); the app drops what the server lost and says so, and rejoins a queue it was searching in. | Games live in memory on the io process; without this a deploy or crash leaves the app showing a stuck game, lobby or search. |
+| A30 | A multiplayer round shows the lesson's answer inputs through a view of the redacted `PlayItem` (no right flags until the round ends); the right answer and standings sit in a bottom sheet between rounds. | One set of inputs for lessons and games (DRY); the sheet keeps the reveal visible within the 3.5 s between rounds, whatever the item's length. |
+| A31 | Before launch, an item id may change when its format must change (pass 1 renamed one FILL_BLANK to PARSONS in `this-and-classes`); after launch ids are frozen. | No learner has progress on the bank yet (it is DRAFT); the format slug is part of the id and the pre-check enforces it. |
 
 ## Dependencies added (reason, license)
 
@@ -225,6 +231,10 @@ Tooling notes for the next session:
   and were resumed after the reset. Long loops (the verification passes) will hit this again.
 
 - The verification loop (PRD 8.4) has no fixed length; every fix restarts the clean-pass count.
+- Pass 1 reframed some items that carry `legacyKeys` (arrays `puzzle:6/12/13/14`, `array-map.fill-01`
+  with `puzzle:20`, code-analysis `exercise:SENIOR:2/6/7`). Legacy progress still maps to them, so
+  a learner who solved the old puzzle starts the new item as seen; acceptable, but worth a look in
+  the H9 spot-check.
 - The N-player engine is a rewrite of `io` with no prior tests.
 - Mascot quality and frame rate depend on SVG animation through Reanimated; Skia is the fallback.
 - Native dependencies (`react-native-svg` and others) require a rebuild of the simulator app.
