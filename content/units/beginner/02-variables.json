@@ -1,0 +1,1557 @@
+{
+  "track": "BEGINNER",
+  "unit": "variables",
+  "order": 2,
+  "title": "Variables",
+  "summary": "Naming values with let and const, changing them, and the two empty values undefined and null.",
+  "concepts": [
+    {
+      "id": "let-declaration",
+      "title": "Naming a value with let",
+      "prerequisites": [
+        "number-values",
+        "string-values"
+      ]
+    },
+    {
+      "id": "reassignment",
+      "title": "Changing what a variable holds",
+      "prerequisites": [
+        "let-declaration"
+      ]
+    },
+    {
+      "id": "const-declaration",
+      "title": "Fixed names with const",
+      "prerequisites": [
+        "let-declaration",
+        "reassignment"
+      ]
+    },
+    {
+      "id": "undefined-and-null",
+      "title": "undefined and null",
+      "prerequisites": [
+        "let-declaration",
+        "typeof-operator"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "unset-let-is-zero",
+      "description": "Believes a variable declared without a value holds 0, empty text or causes an error, instead of holding undefined."
+    },
+    {
+      "id": "name-printed-as-text",
+      "description": "Mixes up names and text: believes console.log prints the variable's name, or that quotes around a name still read the variable."
+    },
+    {
+      "id": "mixes-up-variables",
+      "description": "Reads the value of a neighbouring variable instead of the one a line or question is about."
+    },
+    {
+      "id": "stays-linked",
+      "description": "Believes a variable that was made from another variable keeps following it, so later changes to the source also change the result."
+    },
+    {
+      "id": "wrong-moment-value",
+      "description": "Reads the value from a different moment than the one asked about, such as the first value or the final result."
+    },
+    {
+      "id": "reassign-adds-to-old",
+      "description": "Believes assigning a new value adds it to the old one instead of replacing it."
+    },
+    {
+      "id": "const-reassign-allowed",
+      "description": "Believes assigning to a const name works, or is skipped quietly, instead of stopping the program with an error."
+    },
+    {
+      "id": "const-wrong-error",
+      "description": "Believes const causes the wrong kind of error or an error in the wrong place, such as on any use of the name or on any variable."
+    },
+    {
+      "id": "null-typeof-null",
+      "description": "Expects typeof to answer null for the value null."
+    },
+    {
+      "id": "undefined-null-same",
+      "description": "Treats undefined and null as the same value, or as the same type."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types",
+      "retrievedAt": "2026-11-14",
+      "sha256": "34081d44927a4b54f9f65cb2e2e9284ddf321d8ed4550f4d1e57696bdc4872e3"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+      "retrievedAt": "2026-11-14",
+      "sha256": "297164f1691eadf5f0fa540c894a61797a86a7b13014162d7a3fc0ca43574fd9"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const",
+      "retrievedAt": "2026-11-14",
+      "sha256": "8703a6b25c295aef649b482d6837f92f67a8b0cf14ba2393179b23b969ca4c07"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment",
+      "retrievedAt": "2026-11-14",
+      "sha256": "55344e5b05f77a09887690f7b42613c5268054ddbb739d455ee484f628d24990"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/null",
+      "retrievedAt": "2026-11-14",
+      "sha256": "86ae177090e6619dc84a22f83825058cb72df844977b44db2125badcec2cb7fb"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+      "retrievedAt": "2026-11-14",
+      "sha256": "efe33acf90c815d62875681f582c312e62f569bd0a46ce859f9b7666a43fb461"
+    },
+    {
+      "url": "https://tc39.es/ecma262/#sec-let-and-const-declarations",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7c67049076faafb9f473c7e888e8f84cb6144e1187210f9c08e581155355ccc6"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "variables.lesson-1",
+      "title": "Naming a value with let",
+      "conceptCard": {
+        "title": "Naming a value with let",
+        "body": "let creates a variable, a name that holds a value. Write let, a name, = and the value. Use the name without quotes to read the value. Quotes make plain text instead. A let with no value holds undefined until you store one.",
+        "code": [
+          "let boats = 3;",
+          "let sail = \"red\";",
+          "console.log(sail, boats);",
+          "console.log(\"sail\");"
+        ],
+        "expectedOutput": "red 3\nsail"
+      },
+      "itemIds": [
+        "beg.variables.let-declaration.predict-01",
+        "beg.variables.let-declaration.predict-02",
+        "beg.variables.let-declaration.trace-01",
+        "beg.variables.let-declaration.fill-01",
+        "beg.variables.let-declaration.parsons-01",
+        "beg.variables.let-declaration.concept-01"
+      ]
+    },
+    {
+      "id": "variables.lesson-2",
+      "title": "Changing what a variable holds",
+      "conceptCard": {
+        "title": "Changing what a variable holds",
+        "body": "A variable can hold a new value later. Write its name, = and the new value, without let. The old value is gone. The right side is worked out first, so cups = cups + 3 uses the old value. A copy of a variable gets the value only, not a link.",
+        "code": [
+          "let cups = 2;",
+          "let copy = cups;",
+          "cups = cups + 3;",
+          "console.log(cups, copy);"
+        ],
+        "expectedOutput": "5 2"
+      },
+      "itemIds": [
+        "beg.variables.reassignment.predict-01",
+        "beg.variables.reassignment.predict-02",
+        "beg.variables.reassignment.trace-01",
+        "beg.variables.reassignment.fill-01",
+        "beg.variables.reassignment.parsons-01",
+        "beg.variables.reassignment.write-01"
+      ]
+    },
+    {
+      "id": "variables.lesson-3",
+      "title": "Fixed names with const",
+      "conceptCard": {
+        "title": "Fixed names with const",
+        "body": "const makes a name that cannot get a new value. You give the value where you declare it. Assigning to it later stops the program with a TypeError. Use const for values that stay fixed and let for values that change.",
+        "code": [
+          "const taxRate = 2;",
+          "let total = 10;",
+          "total = total + taxRate;",
+          "console.log(total);"
+        ],
+        "expectedOutput": "12"
+      },
+      "itemIds": [
+        "beg.variables.const-declaration.predict-01",
+        "beg.variables.const-declaration.predict-02",
+        "beg.variables.const-declaration.trace-01",
+        "beg.variables.const-declaration.fill-02",
+        "beg.variables.const-declaration.parsons-02",
+        "beg.variables.const-declaration.concept-02"
+      ]
+    },
+    {
+      "id": "variables.lesson-4",
+      "title": "undefined and null",
+      "conceptCard": {
+        "title": "undefined and null",
+        "body": "undefined means no value was stored yet. null is a value you store on purpose to say empty. typeof answers undefined for the first and object for null, a quirk of the language that was never fixed.",
+        "code": [
+          "let seatNo;",
+          "let driver = null;",
+          "console.log(seatNo);",
+          "console.log(driver);",
+          "console.log(typeof driver);"
+        ],
+        "expectedOutput": "undefined\nnull\nobject"
+      },
+      "itemIds": [
+        "beg.variables.undefined-and-null.predict-01",
+        "beg.variables.undefined-and-null.predict-02",
+        "beg.variables.undefined-and-null.trace-01",
+        "beg.variables.undefined-and-null.fill-01",
+        "beg.variables.undefined-and-null.parsons-02",
+        "beg.variables.undefined-and-null.write-02"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "beg.variables.let-declaration.predict-01",
+      "concept": "let-declaration",
+      "prerequisites": [
+        "number-values",
+        "string-values"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let trail = \"Pine Ridge\";",
+        "let km = 8;",
+        "console.log(trail + \" \" + km);"
+      ],
+      "options": [
+        {
+          "text": "Pine Ridge 8",
+          "correct": true,
+          "feedback": "Right. Each name is replaced by the value stored under it, so the text and the number are joined."
+        },
+        {
+          "text": "trail km",
+          "correct": false,
+          "feedback": "You printed the names. In code, a name without quotes stands for the value it holds.",
+          "misconception": "name-printed-as-text"
+        },
+        {
+          "text": "Pine Ridge km",
+          "correct": false,
+          "feedback": "The first name was read as a value, but km is also a variable. Its stored value is printed, not its name.",
+          "misconception": "name-printed-as-text"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Pine Ridge 8"
+      },
+      "explanation": "A variable name stands for the value stored under it. So trail gives the text Pine Ridge and km gives 8. The + joins them with a space between.",
+      "hints": [
+        "Look at the three names inside the last line.",
+        "A name without quotes is replaced by the value it holds.",
+        "Replace trail and km by their values, then join them."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.let-declaration.predict-02",
+      "concept": "let-declaration",
+      "prerequisites": [
+        "number-values",
+        "string-values"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let petName;",
+        "console.log(petName);"
+      ],
+      "options": [
+        {
+          "text": "undefined",
+          "correct": true,
+          "feedback": "Right. A variable declared without a value exists, but it holds undefined until you store something."
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "A new variable does not start at zero. Zero is a number, and nothing was stored here.",
+          "misconception": "unset-let-is-zero"
+        },
+        {
+          "text": "Uncaught ReferenceError",
+          "correct": false,
+          "feedback": "The name was declared on line 1, so JavaScript knows it. A declared name with no value can be read without an error.",
+          "misconception": "unset-let-is-zero"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "undefined"
+      },
+      "explanation": "Line 1 creates the variable but stores no value. Reading it gives the special value that means nothing has been stored yet.",
+      "hints": [
+        "Look at line 1: is there an = sign?",
+        "A variable with no stored value still exists.",
+        "The answer is neither a number nor an error."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.let-declaration.trace-01",
+      "concept": "let-declaration",
+      "prerequisites": [
+        "number-values",
+        "string-values"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What value does total hold right after line 3 has run?",
+      "code": [
+        "let eggs = 6;",
+        "let cartons = 2;",
+        "let total = eggs * cartons;",
+        "let left = total - 5;",
+        "console.log(left);"
+      ],
+      "options": [
+        {
+          "text": "12",
+          "correct": true,
+          "feedback": "Right. Line 3 multiplies the two stored values, 6 and 2, and stores the result in total."
+        },
+        {
+          "text": "7",
+          "correct": false,
+          "feedback": "That is the value of left, which line 4 stores later. The question stops after line 3.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "6",
+          "correct": false,
+          "feedback": "That is eggs. Line 3 stores a new value in total, found by multiplying eggs by cartons.",
+          "misconception": "mixes-up-variables"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "total",
+          "afterLine": 3,
+          "visit": 1
+        },
+        "expectedOutput": "7"
+      },
+      "explanation": "Line 3 reads eggs and cartons, multiplies 6 by 2 and stores 12 in total. Line 4 uses that 12 later to make left.",
+      "hints": [
+        "Follow the lines in order and stop after line 3.",
+        "Each line stores a value in the name on its left.",
+        "Multiply the values of the two names on line 3."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.let-declaration.fill-01",
+      "concept": "let-declaration",
+      "prerequisites": [
+        "number-values",
+        "string-values"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank with the variable that holds the booked seats, so the program prints 18.",
+      "code": [
+        "let seats = 30;",
+        "let booked = 12;",
+        "console.log(seats - ___);"
+      ],
+      "options": [
+        {
+          "text": "booked",
+          "correct": true,
+          "feedback": "Right. It holds 12, and 30 - 12 is 18."
+        },
+        {
+          "text": "seats",
+          "correct": false,
+          "feedback": "This subtracts the seats from themselves, so the program prints 0."
+        },
+        {
+          "text": "free",
+          "correct": false,
+          "feedback": "No variable called free was declared, so the program stops with a ReferenceError."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "booked"
+          ]
+        ],
+        "expectedOutput": "18"
+      },
+      "explanation": "The program must subtract the booked seats from 30. The variable booked, declared on line 2, holds 12, and 30 - 12 gives 18.",
+      "hints": [
+        "Look at line 2 to see which name holds the number of taken seats.",
+        "Only names that were declared can be used.",
+        "Pick the name declared on line 2."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.let-declaration.parsons-01",
+      "concept": "let-declaration",
+      "prerequisites": [
+        "number-values",
+        "string-values"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints 11.",
+      "code": [
+        "console.log(bags);",
+        "let bags = soil + 1;",
+        "let pots = 5;",
+        "let soil = pots * 2;"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          3,
+          1,
+          0
+        ],
+        "expectedOutput": "11"
+      },
+      "explanation": "A variable must be declared before another line reads it. pots is 5, soil is 10 and bags is 11, so the print line comes last.",
+      "hints": [
+        "Ask which line needs no other variable.",
+        "A name must hold a value before a later line reads it.",
+        "Each line after the first uses the name from the line before."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.let-declaration.concept-01",
+      "concept": "let-declaration",
+      "prerequisites": [
+        "number-values",
+        "string-values"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement explains the two lines this program prints?",
+      "code": [
+        "let mood = \"calm\";",
+        "console.log(mood);",
+        "console.log(\"mood\");"
+      ],
+      "options": [
+        {
+          "text": "Without quotes, mood reads the stored value. With quotes, it is only the text mood.",
+          "correct": true,
+          "feedback": "Right. The first line prints calm and the second prints the word mood."
+        },
+        {
+          "text": "Both lines print calm, because quotes do not change what a name means.",
+          "correct": false,
+          "feedback": "Quotes turn the letters into plain text. They are no longer a name, so the stored value is not read.",
+          "misconception": "name-printed-as-text"
+        },
+        {
+          "text": "Both lines print mood, because console.log shows the name of a variable.",
+          "correct": false,
+          "feedback": "console.log shows values, not names. The unquoted mood is replaced by the value stored under it.",
+          "misconception": "name-printed-as-text"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "calm\nmood"
+      },
+      "explanation": "An unquoted name is read as the variable and gives its stored value, calm. Text in quotes is just text, so line 3 prints the word mood.",
+      "hints": [
+        "Compare line 2 with line 3.",
+        "Quotes make plain text instead of a name.",
+        "One line reads the variable. The other line does not."
+      ],
+      "reference": {
+        "title": "Grammar and types: variables",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#variables",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.reassignment.predict-01",
+      "concept": "reassignment",
+      "prerequisites": [
+        "let-declaration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let bikes = 10;",
+        "bikes = 7;",
+        "console.log(bikes);"
+      ],
+      "options": [
+        {
+          "text": "7",
+          "correct": true,
+          "feedback": "Right. Line 2 stores 7 in bikes and the old value 10 is gone."
+        },
+        {
+          "text": "10",
+          "correct": false,
+          "feedback": "That is the first value. Line 2 replaced it before the print line ran.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "17",
+          "correct": false,
+          "feedback": "A new assignment does not add to the old value. It replaces it.",
+          "misconception": "reassign-adds-to-old"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "7"
+      },
+      "explanation": "Assigning with = to a name that already exists replaces the stored value. After line 2 the variable holds 7, and nothing remains of the 10.",
+      "hints": [
+        "Look at line 2. It has no let in front.",
+        "Assigning again puts a new value in the same name.",
+        "The value on line 1 no longer exists when line 3 runs."
+      ],
+      "reference": {
+        "title": "Assignment (=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.reassignment.predict-02",
+      "concept": "reassignment",
+      "prerequisites": [
+        "let-declaration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "let width = 4;",
+        "let area = width * 3;",
+        "width = 10;",
+        "console.log(area);"
+      ],
+      "options": [
+        {
+          "text": "12",
+          "correct": true,
+          "feedback": "Right. area was calculated on line 2, when width was 4, and it keeps that result."
+        },
+        {
+          "text": "30",
+          "correct": false,
+          "feedback": "You expected area to follow width. A variable stores a result, not the rule that made it.",
+          "misconception": "stays-linked"
+        },
+        {
+          "text": "10",
+          "correct": false,
+          "feedback": "That is width after line 3. The program prints area, a different variable.",
+          "misconception": "mixes-up-variables"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "12"
+      },
+      "explanation": "Line 2 works out 4 * 3 and stores 12 in area. Changing width later does not redo that calculation, so area still holds 12.",
+      "hints": [
+        "Check when area gets its value.",
+        "A variable stores a value, not a formula.",
+        "area is worked out on line 2 only."
+      ],
+      "reference": {
+        "title": "Assignment (=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.reassignment.trace-01",
+      "concept": "reassignment",
+      "prerequisites": [
+        "let-declaration"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What value does baked hold right after line 3 has run?",
+      "code": [
+        "let baked = 24;",
+        "let onShelf = baked;",
+        "onShelf = onShelf - 15;",
+        "console.log(baked);"
+      ],
+      "options": [
+        {
+          "text": "24",
+          "correct": true,
+          "feedback": "Right. Line 2 copied the value 24. Changing the copy does not touch baked."
+        },
+        {
+          "text": "9",
+          "correct": false,
+          "feedback": "You treated the two names as one box. Line 2 copied the value, so the names are independent.",
+          "misconception": "stays-linked"
+        },
+        {
+          "text": "15",
+          "correct": false,
+          "feedback": "That is the number taken away on line 3. The question asks about baked, which never had 15 stored.",
+          "misconception": "mixes-up-variables"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "baked",
+          "afterLine": 3,
+          "visit": 1
+        },
+        "expectedOutput": "24"
+      },
+      "explanation": "Line 2 copies the number 24 into onShelf. Line 3 then replaces the value in onShelf only. The name baked still holds 24.",
+      "hints": [
+        "Ask which name line 3 changes.",
+        "Copying a variable copies its value, not a link.",
+        "Line 3 changes onShelf. It never touches baked."
+      ],
+      "reference": {
+        "title": "Assignment (=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:9"
+      ]
+    },
+    {
+      "id": "beg.variables.reassignment.fill-01",
+      "concept": "reassignment",
+      "prerequisites": [
+        "let-declaration"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank with the keyword that lets spaces be changed on line 2, so the program prints 28.",
+      "code": [
+        "___ spaces = 30;",
+        "spaces = 28;",
+        "console.log(spaces);"
+      ],
+      "options": [
+        {
+          "text": "let",
+          "correct": true,
+          "feedback": "Right. A let variable can be given a new value, so line 2 replaces 30 with 28."
+        },
+        {
+          "text": "const",
+          "correct": false,
+          "feedback": "A const name cannot be assigned again. Line 2 would stop the program with a TypeError."
+        },
+        {
+          "text": "int",
+          "correct": false,
+          "feedback": "JavaScript has no int keyword. The line is not valid code, so the program does not run."
+        },
+        {
+          "text": "set",
+          "correct": false,
+          "feedback": "JavaScript has no set keyword for declaring a variable. The program does not run."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "let"
+          ]
+        ],
+        "expectedOutput": "28"
+      },
+      "explanation": "Line 2 gives spaces a new value. Only a variable declared with let allows that. A name declared with const is fixed after line 1.",
+      "hints": [
+        "Look at line 2: the name is assigned a second time.",
+        "One declaration keyword locks the name. Another keeps it open.",
+        "Pick the keyword that keeps the name open for change."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:1"
+      ]
+    },
+    {
+      "id": "beg.variables.reassignment.parsons-01",
+      "concept": "reassignment",
+      "prerequisites": [
+        "let-declaration"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints 27.",
+      "code": [
+        "console.log(songs);",
+        "songs = songs + 3;",
+        "let songs = 12;",
+        "songs = songs * 2;"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          3,
+          1,
+          0
+        ],
+        "expectedOutput": "27"
+      },
+      "explanation": "Declare first and print last. Doubling 12 gives 24, and adding 3 gives 27. Adding 3 first would give 15 and then 30.",
+      "hints": [
+        "Which line must come before all the others?",
+        "Each line works on the value the earlier line left behind.",
+        "Try the doubling line before the adding line."
+      ],
+      "reference": {
+        "title": "Assignment (=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.reassignment.write-01",
+      "concept": "reassignment",
+      "prerequisites": [
+        "let-declaration"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "A variable starts as start. Then it is set to itself plus deposit, then to itself minus fee. Write an expression for its final value.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "start",
+            "deposit",
+            "fee"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "start": 10,
+              "deposit": 5,
+              "fee": 3
+            },
+            "expected": 12
+          },
+          {
+            "input": {
+              "start": 0,
+              "deposit": 0,
+              "fee": 0
+            },
+            "expected": 0
+          },
+          {
+            "input": {
+              "start": 100,
+              "deposit": 20,
+              "fee": 120
+            },
+            "expected": 0
+          },
+          {
+            "input": {
+              "start": 5,
+              "deposit": 0,
+              "fee": 2
+            },
+            "expected": 3
+          },
+          {
+            "input": {
+              "start": 2,
+              "deposit": 1,
+              "fee": 6
+            },
+            "expected": -3
+          }
+        ],
+        "reference": [
+          "start + deposit - fee"
+        ],
+        "wrongSolutions": [
+          [
+            "start + deposit"
+          ],
+          [
+            "start - fee"
+          ],
+          [
+            "deposit - fee"
+          ]
+        ]
+      },
+      "explanation": "Each reassignment starts from the value the variable holds at that moment. The first adds deposit to start. The second subtracts fee from that result.",
+      "hints": [
+        "Write the steps one after the other.",
+        "Every step uses the value left by the step before.",
+        "Start with start, add deposit, then take away fee."
+      ],
+      "reference": {
+        "title": "Assignment (=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.const-declaration.predict-01",
+      "concept": "const-declaration",
+      "prerequisites": [
+        "let-declaration",
+        "reassignment"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "const maxMeals = 40;",
+        "maxMeals = 50;",
+        "console.log(maxMeals);"
+      ],
+      "options": [
+        {
+          "text": "Uncaught TypeError",
+          "correct": true,
+          "feedback": "Right. A const name cannot get a new value, so line 2 stops the program with a TypeError."
+        },
+        {
+          "text": "40",
+          "correct": false,
+          "feedback": "The old value is not kept quietly. JavaScript does not ignore line 2, it stops with an error.",
+          "misconception": "const-reassign-allowed"
+        },
+        {
+          "text": "50",
+          "correct": false,
+          "feedback": "A const name cannot be given a new value. Line 2 throws an error instead of changing it.",
+          "misconception": "const-reassign-allowed"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Uncaught TypeError"
+      },
+      "explanation": "A name declared with const keeps its first value. Assigning to it again throws a TypeError, and the program stops before the print line.",
+      "hints": [
+        "Look at the keyword on line 1.",
+        "One declaration keyword forbids a second assignment.",
+        "Line 2 breaks that rule, so line 3 never runs."
+      ],
+      "reference": {
+        "title": "TypeError: invalid assignment to const",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Invalid_const_assignment",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:4"
+      ]
+    },
+    {
+      "id": "beg.variables.const-declaration.predict-02",
+      "concept": "const-declaration",
+      "prerequisites": [
+        "let-declaration",
+        "reassignment"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const price = 4;",
+        "let count = 3;",
+        "count = count + 2;",
+        "console.log(price * count);"
+      ],
+      "options": [
+        {
+          "text": "20",
+          "correct": true,
+          "feedback": "Right. count is 5 after line 3, and the const price is only read, so 4 * 5 is 20."
+        },
+        {
+          "text": "12",
+          "correct": false,
+          "feedback": "That is 4 * 3, using the first value of count. Line 3 replaced it with 5.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "Uncaught TypeError",
+          "correct": false,
+          "feedback": "Reading a const is fine, and price is never assigned again. Only count is changed, and it uses let.",
+          "misconception": "const-wrong-error"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "20"
+      },
+      "explanation": "A const can be read as often as you like. Only assigning to it again is an error. The let name count becomes 5, so the print gives 4 * 5.",
+      "hints": [
+        "Check which name is assigned again on line 3.",
+        "Reading a const is allowed. Assigning to it again is not.",
+        "Find the value of count after line 3, then multiply."
+      ],
+      "reference": {
+        "title": "const",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.const-declaration.trace-01",
+      "concept": "const-declaration",
+      "prerequisites": [
+        "let-declaration",
+        "reassignment"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What value does cards hold right after line 3 has run?",
+      "code": [
+        "const perCard = 10;",
+        "let cards = 2;",
+        "cards = cards * perCard;",
+        "cards = cards + 1;",
+        "console.log(cards);"
+      ],
+      "options": [
+        {
+          "text": "20",
+          "correct": true,
+          "feedback": "Right. Line 3 multiplies the stored 2 by 10 and stores 20 in cards."
+        },
+        {
+          "text": "21",
+          "correct": false,
+          "feedback": "That is the value after line 4. The question stops after line 3.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "10",
+          "correct": false,
+          "feedback": "That is perCard, which is only read. Line 3 stores its result in cards.",
+          "misconception": "mixes-up-variables"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "cards",
+          "afterLine": 3,
+          "visit": 1
+        },
+        "expectedOutput": "21"
+      },
+      "explanation": "The const perCard stays 10 and is only read. Line 3 multiplies the 2 in cards by it and stores 20. Line 4 changes it again, later.",
+      "hints": [
+        "Follow the lines and stop after line 3.",
+        "Line 3 reads one name and stores the result in another.",
+        "Multiply 2 by the value of perCard."
+      ],
+      "reference": {
+        "title": "const",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.const-declaration.fill-02",
+      "concept": "const-declaration",
+      "prerequisites": [
+        "let-declaration",
+        "reassignment"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blanks so the program prints 15. One value never changes. The other is updated on line 3.",
+      "code": [
+        "___ boxWeight = 3;",
+        "___ boxes = 1;",
+        "boxes = boxes + 4;",
+        "console.log(boxWeight * boxes);"
+      ],
+      "options": [
+        {
+          "text": "const",
+          "correct": true,
+          "feedback": "This works in the first blank, where nothing is assigned again. In the second blank it would stop the program with a TypeError."
+        },
+        {
+          "text": "let",
+          "correct": true,
+          "feedback": "This works in both blanks. The second blank needs it, because boxes gets a new value on line 3."
+        },
+        {
+          "text": "int",
+          "correct": false,
+          "feedback": "JavaScript has no int keyword, so the program does not run."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "const",
+            "let"
+          ],
+          [
+            "let"
+          ]
+        ],
+        "expectedOutput": "15"
+      },
+      "explanation": "The name changed on line 3 must be declared with the keyword that allows change. The name that never changes can use either one, and const states that intent.",
+      "hints": [
+        "Check which name is assigned again on line 3.",
+        "One keyword locks a name to its first value. The other does not.",
+        "The name on line 2 is assigned again, so it needs the keyword that does not lock."
+      ],
+      "reference": {
+        "title": "const",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.const-declaration.parsons-02",
+      "concept": "const-declaration",
+      "prerequisites": [
+        "let-declaration",
+        "reassignment"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints 16.",
+      "code": [
+        "heat = heat * 2;",
+        "console.log(heat);",
+        "let heat = base;",
+        "const base = 8;"
+      ],
+      "solution": {
+        "lineOrder": [
+          3,
+          2,
+          0,
+          1
+        ],
+        "expectedOutput": "16"
+      },
+      "explanation": "base must exist before heat copies it. heat starts as 8, is doubled to 16 on its own line, and the print line comes last.",
+      "hints": [
+        "Which line needs no other name?",
+        "Each name must be declared before a later line reads it.",
+        "The line that changes heat comes right before the print."
+      ],
+      "reference": {
+        "title": "const",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.const-declaration.concept-02",
+      "concept": "const-declaration",
+      "prerequisites": [
+        "let-declaration",
+        "reassignment"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement explains what this program does?",
+      "code": [
+        "let plays = 1;",
+        "plays = plays + 1;",
+        "const limit = 3;",
+        "limit = 4;",
+        "console.log(plays);"
+      ],
+      "options": [
+        {
+          "text": "It stops at line 4, because a const name cannot be assigned again, while a let name can.",
+          "correct": true,
+          "feedback": "Right. Line 2 changes a let variable without trouble. Line 4 throws a TypeError, so nothing is printed."
+        },
+        {
+          "text": "Line 4 is skipped quietly, so the program prints 2.",
+          "correct": false,
+          "feedback": "JavaScript does not skip it. Assigning to a const stops the program with an error.",
+          "misconception": "const-reassign-allowed"
+        },
+        {
+          "text": "It stops at line 2, because only the first assignment to any variable is allowed.",
+          "correct": false,
+          "feedback": "Let variables can be assigned again. Only const names are fixed, and the error is on line 4.",
+          "misconception": "const-wrong-error"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Uncaught TypeError"
+      },
+      "explanation": "Line 2 is fine because plays was declared with let. Line 4 assigns to a const, which throws a TypeError. The program ends before it prints.",
+      "hints": [
+        "Check the keyword each variable was declared with.",
+        "Only one of the two assigned names is fixed.",
+        "Find the line that assigns to the fixed name."
+      ],
+      "reference": {
+        "title": "const",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.undefined-and-null.predict-01",
+      "concept": "undefined-and-null",
+      "prerequisites": [
+        "let-declaration",
+        "typeof-operator"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let lastStop;",
+        "console.log(\"Stop: \" + lastStop);"
+      ],
+      "options": [
+        {
+          "text": "Stop: undefined",
+          "correct": true,
+          "feedback": "Right. With no value stored, lastStop holds undefined, and + turns it into text."
+        },
+        {
+          "text": "Stop: ",
+          "correct": false,
+          "feedback": "A missing value is not printed as empty text. It has a name, and that name is joined to the text.",
+          "misconception": "unset-let-is-zero"
+        },
+        {
+          "text": "Stop: null",
+          "correct": false,
+          "feedback": "null is a value you store on purpose. A variable you never filled holds a different value.",
+          "misconception": "undefined-null-same"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Stop: undefined"
+      },
+      "explanation": "Line 1 declares lastStop with no value, so it holds undefined. The + joins the text with that value written as a word.",
+      "hints": [
+        "Look at line 1: no value is stored.",
+        "A variable with nothing stored holds a special value.",
+        "The special value is joined to the text like any other value."
+      ],
+      "reference": {
+        "title": "undefined",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.undefined-and-null.predict-02",
+      "concept": "undefined-and-null",
+      "prerequisites": [
+        "let-declaration",
+        "typeof-operator"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "let tip;",
+        "let pin = null;",
+        "console.log(typeof tip, typeof pin);"
+      ],
+      "options": [
+        {
+          "text": "undefined object",
+          "correct": true,
+          "feedback": "Right. typeof gives the type name for the unfilled variable, and null reports a type called object."
+        },
+        {
+          "text": "undefined null",
+          "correct": false,
+          "feedback": "typeof never answers null. For the value null it gives a different word, an old quirk of the language.",
+          "misconception": "null-typeof-null"
+        },
+        {
+          "text": "object object",
+          "correct": false,
+          "feedback": "The two values are not the same. One is a variable with nothing stored, and it has its own type name.",
+          "misconception": "undefined-null-same"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "undefined object"
+      },
+      "explanation": "An unfilled variable has type undefined. For null, typeof answers object, a quirk kept for old code. console.log prints both words with a space.",
+      "hints": [
+        "Work out the two typeof results one at a time.",
+        "The two values have different types.",
+        "One result is the word object."
+      ],
+      "reference": {
+        "title": "typeof",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.undefined-and-null.trace-01",
+      "concept": "undefined-and-null",
+      "prerequisites": [
+        "let-declaration",
+        "typeof-operator"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What value does seat hold right after line 2 has run?",
+      "code": [
+        "let seat = \"A4\";",
+        "seat = null;",
+        "seat = \"B2\";",
+        "console.log(seat);"
+      ],
+      "options": [
+        {
+          "text": "null",
+          "correct": true,
+          "feedback": "Right. Line 2 stores null on purpose to say the seat is empty."
+        },
+        {
+          "text": "'A4'",
+          "correct": false,
+          "feedback": "That is the value after line 1. Line 2 has run and replaced it.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "undefined",
+          "correct": false,
+          "feedback": "undefined means nothing was ever stored. Line 2 stored null, which is a value you choose.",
+          "misconception": "undefined-null-same"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "seat",
+          "afterLine": 2,
+          "visit": 1
+        },
+        "expectedOutput": "B2"
+      },
+      "explanation": "Line 2 replaces the text with null, the value for empty on purpose. Line 3 stores new text later, but the question stops after line 2.",
+      "hints": [
+        "Stop after line 2. Do not read line 3 yet.",
+        "Assigning a new value replaces the old one, even with an empty value.",
+        "The answer is a value you store yourself, not a missing one."
+      ],
+      "reference": {
+        "title": "null",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/null",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.undefined-and-null.fill-01",
+      "concept": "undefined-and-null",
+      "prerequisites": [
+        "let-declaration",
+        "typeof-operator"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints object.",
+      "code": [
+        "let parcel = ___;",
+        "console.log(typeof parcel);"
+      ],
+      "options": [
+        {
+          "text": "null",
+          "correct": true,
+          "feedback": "Right. typeof reports object for the value null."
+        },
+        {
+          "text": "undefined",
+          "correct": false,
+          "feedback": "typeof gives undefined for this value, so the program prints a different word."
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "0 is a number, so typeof gives number."
+        },
+        {
+          "text": "\"\"",
+          "correct": false,
+          "feedback": "Quotes make text, so typeof gives string."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "null"
+          ]
+        ],
+        "expectedOutput": "object"
+      },
+      "explanation": "typeof returns object only for null among these. The other values are an unfilled value, a number and an empty text.",
+      "hints": [
+        "Look at what typeof is asked about.",
+        "One value reports a surprising type name.",
+        "It is the value you store on purpose to mean empty."
+      ],
+      "reference": {
+        "title": "typeof",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.undefined-and-null.parsons-02",
+      "concept": "undefined-and-null",
+      "prerequisites": [
+        "let-declaration",
+        "typeof-operator"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so the program prints before: undefined and then after: 7.",
+      "code": [
+        "ticket = 7;",
+        "console.log(\"after: \" + ticket);",
+        "let ticket;",
+        "console.log(\"before: \" + ticket);"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "expectedOutput": "before: undefined\nafter: 7"
+      },
+      "explanation": "The variable is declared with no value, so the first print shows undefined. After the assignment stores 7, the second print shows 7.",
+      "hints": [
+        "Which line declares the name?",
+        "The first print must happen while ticket has no value.",
+        "The assignment sits between the two print lines."
+      ],
+      "reference": {
+        "title": "undefined",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.variables.undefined-and-null.write-02",
+      "concept": "undefined-and-null",
+      "prerequisites": [
+        "let-declaration",
+        "typeof-operator"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "Write an expression that gives the text Type: followed by the type of value. For null it must give Type: object.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "value"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "value": null
+            },
+            "expected": "Type: object"
+          },
+          {
+            "input": {
+              "value": 12
+            },
+            "expected": "Type: number"
+          },
+          {
+            "input": {
+              "value": "hi"
+            },
+            "expected": "Type: string"
+          },
+          {
+            "input": {
+              "value": true
+            },
+            "expected": "Type: boolean"
+          },
+          {
+            "input": {
+              "value": ""
+            },
+            "expected": "Type: string"
+          }
+        ],
+        "reference": [
+          "\"Type: \" + typeof value"
+        ],
+        "wrongSolutions": [
+          [
+            "\"Type: \" + value"
+          ],
+          [
+            "typeof (\"Type: \" + value)"
+          ],
+          [
+            "\"Type: \" + typeof \"value\""
+          ]
+        ]
+      },
+      "explanation": "The typeof operator gives the type name as text. Joining it to the text Type: with + builds the result. The word typeof must come before the variable, not before the text.",
+      "hints": [
+        "You need the type, not the value itself.",
+        "typeof placed before a value gives its type name as text.",
+        "Join the text Type: with typeof value."
+      ],
+      "reference": {
+        "title": "typeof",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}
