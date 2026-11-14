@@ -97,7 +97,21 @@ Difficulty rises inside a lesson and across a unit: 1 to 2 in Beginner, 2 to 3 i
 - **TRACE probes read a variable by name.** Give the probed variable a name that no inner
   scope shadows.
 - **MDN links.** Glossary pages live under `https://developer.mozilla.org/en-US/docs/Glossary/`,
-  not under `/Web/JavaScript/`.
+  not under `/Web/JavaScript/`. Not every term has a page (there is no `Glossary/Currying`); the
+  online verify run reports broken links.
+- **TRACE probes cannot read a `catch` parameter**; probe a variable of the enclosing scope.
+- **Caught values are printed through an expression** (`'got ' + reason`): the banned-construct
+  scan flags `console.log(caught)` whatever the caught value is, because it cannot know it is not
+  an Error.
+- **`instanceof` belongs to the prototypes unit**; earlier units observe errors and promises
+  through `.name`, custom properties or `typeof`.
+- **CODE_WRITE runs synchronously** and its tests compare returned plain data: no timers, no
+  awaited promises, and no "this call throws" assertion. Promise, async and error concepts test
+  the synchronous core (a `then` handler's body, the logic after an `await`, `try`/`catch`).
+- **The 36-character line limit** applies to every code line an item shows, including FIX_BUG
+  replacement lines and CODE_WRITE solutions, indentation included.
+- **Prompts are compared across all units** for near-duplicates: write a prompt specific to the
+  snippet rather than a stock one ("The program should print 2. Tap the buggy line…").
 
 ### Writing feedback, hints and explanations
 
