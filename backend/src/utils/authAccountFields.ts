@@ -16,7 +16,7 @@ export const AUTH_ACCOUNT_SELECT = { hashedPassword: true, language: true, ident
 
 type AuthAccountSource = { hashedPassword: string | null; language: string; identities: { provider: AuthProvider }[] };
 
-export const PROVIDER_NAME: Record<AuthProvider, AuthProviderName> = { GOOGLE: "google", APPLE: "apple", GITHUB: "github" };
+const PROVIDER_NAME: Record<AuthProvider, AuthProviderName> = { GOOGLE: "google", APPLE: "apple", GITHUB: "github" };
 
 export function authAccountFields(user: AuthAccountSource): { hasPassword: boolean; authProvider: AuthProviderName | null; language: Language } {
   const first = user.identities[0];

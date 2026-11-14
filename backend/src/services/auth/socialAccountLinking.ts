@@ -10,7 +10,7 @@ export class SocialSignInBlockedError extends Error {
   }
 }
 
-export const PROVIDER: Record<AuthProviderName, AuthProvider> = { google: "GOOGLE", apple: "APPLE", github: "GITHUB" };
+const PROVIDER: Record<AuthProviderName, AuthProvider> = { google: "GOOGLE", apple: "APPLE", github: "GITHUB" };
 export const PROVIDER_LABEL: Record<AuthProvider, { account: string; signIn: string }> = {
   GOOGLE: { account: "Google account", signIn: "Google" },
   APPLE: { account: "Apple ID", signIn: "Apple" },
