@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+// Language rule (CLAUDE.md rule 9): commit messages must not contain Hebrew.
+const { readFileSync } = require("node:fs");
+const { findFirstHebrewLineNumber } = require("./hebrew-characters.cjs");
+
+const SCISSORS_LINE = "# ------------------------ >8 ------------------------";
+
+const commitMessageFile = process.argv[2];
+const rawMessage = readFileSync(commitMessageFile, "utf8");
+const messageBeforeScissors = rawMessage.split(SCISSORS_LINE)[0];
+const messageWithoutComments = messageBeforeScissors
+  .split("\n")
+  .map((line) => (line.startsWith("#") ? "" : line))
+  .join("\n");
+
+const lineNumber = findFirstHebrewLineNumber(messageWithoutComments);
+
+if (lineNumber !== null) {
+  console.error("Commit blocked: the commit message contains Hebrew characters");
+  console.error(`on line ${lineNumber}. Commit messages must be in English.`);
+  process.exit(1);
+}

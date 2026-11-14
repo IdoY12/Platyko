@@ -75,7 +75,7 @@
 
 - **No Hebrew anywhere in the repository:** code, comments, docs, commit messages, branch names, PR text.
 - **Only exception:** the Hebrew UI locale resource file(s) under a `locales` folder (`locales/he.*` or `locales/he/`), holding user-facing front-end strings only.
-- Enforced by `.githooks/pre-commit`, which blocks a commit that stages Hebrew characters outside those files or is made on a Hebrew branch name.
+- Enforced by `.githooks/pre-commit`, which blocks a commit that stages Hebrew characters outside those files or is made on a Hebrew branch name, and by `.githooks/commit-msg`, which blocks a commit message containing Hebrew. Both share `.githooks/hebrew-characters.cjs`.
 - After cloning, activate the hook once: `git config core.hooksPath .githooks`.
 
 ---

@@ -2,8 +2,8 @@
 // Language rule (CLAUDE.md rule 9): no Hebrew characters anywhere in the
 // repository except the Hebrew UI locale file(s) under a `locales` folder.
 const { execFileSync } = require("node:child_process");
+const { HEBREW_CHARACTERS, findFirstHebrewLineNumber } = require("./hebrew-characters.cjs");
 
-const HEBREW_CHARACTERS = /\p{Script=Hebrew}/u;
 const HEBREW_LOCALE_PATH = /(^|\/)locales\/he(\.[^/]+|\/.+)$/;
 
 const runGit = (gitArguments) =>
@@ -25,9 +25,8 @@ for (const stagedPath of stagedPaths) {
   }
   const stagedContent = runGit(["show", `:${stagedPath}`]);
   if (isBinary(stagedContent)) continue;
-  const lines = stagedContent.toString("utf8").split("\n");
-  const lineIndex = lines.findIndex((line) => HEBREW_CHARACTERS.test(line));
-  if (lineIndex !== -1) violations.push(`${stagedPath}:${lineIndex + 1}`);
+  const lineNumber = findFirstHebrewLineNumber(stagedContent.toString("utf8"));
+  if (lineNumber !== null) violations.push(`${stagedPath}:${lineNumber}`);
 }
 
 const branchName = runGit(["branch", "--show-current"]).toString("utf8").trim();
