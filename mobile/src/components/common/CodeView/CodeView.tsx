@@ -6,6 +6,7 @@ import { palette, radii, space, syntax, typography, wash } from "@/theme/tokens"
 import { CODE_GUTTER_WIDTH, CODE_PADDING, fitCodeFontSize } from "./codeLayout";
 import { TOKEN_COLOURS } from "./CodeLineText";
 import { tokenizeJavaScript } from "./tokenizeJavaScript";
+import { LtrView } from "@/components/common/AppText/LtrView";
 
 type LineTone = "current" | "selected" | "correct" | "wrong";
 
@@ -42,7 +43,7 @@ export function CodeView({ lines, markedLines = {}, onPressLine, lineNumbersShow
   const onLayout = (event: LayoutChangeEvent) => setWidth(event.nativeEvent.layout.width);
 
   return (
-    <View style={styles.frame} onLayout={onLayout}>
+    <LtrView style={styles.frame} onLayout={onLayout}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         <View>
           {tokens.map((lineTokens, index) => {
@@ -77,13 +78,13 @@ export function CodeView({ lines, markedLines = {}, onPressLine, lineNumbersShow
           })}
         </View>
       </ScrollView>
-    </View>
+    </LtrView>
   );
 }
 
 const styles = StyleSheet.create({
   // Code never mirrors: its container pins the layout direction.
-  frame: { backgroundColor: palette.bg.code, borderRadius: radii.card, borderWidth: StyleSheet.hairlineWidth, borderColor: palette.line.subtle, direction: "ltr" },
+  frame: { backgroundColor: palette.bg.code, borderRadius: radii.card, borderWidth: StyleSheet.hairlineWidth, borderColor: palette.line.subtle },
   scrollContent: { paddingVertical: space.md, paddingHorizontal: CODE_PADDING, flexGrow: 1 },
   line: { flexDirection: "row", alignItems: "center", borderRadius: radii.chip },
   gutter: { width: CODE_GUTTER_WIDTH },

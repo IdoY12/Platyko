@@ -1,13 +1,16 @@
 import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { NavigationContainer, DefaultTheme, type Theme } from "@react-navigation/native";
-import { OnboardingFlow } from "@/components/auth/onboarding-flow/OnboardingFlow";
+import { NavigationContainer, DefaultTheme, createNavigationContainerRef, type Theme } from "@react-navigation/native";
+import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
+import type { RootStackParamList } from "@/types/rootNavigation.types";
 import { ONBOARDING_SEEN_STORAGE_KEY } from "@/constants/onboardingStorageConstants";
 import { logNav } from "@/utils/logger";
 import { useAppSelector } from "@/redux/hooks";
 import { HydrationLoadingScreen } from "@/components/layout/HydrationLoadingScreen/HydrationLoadingScreen";
 import { MainNavigator } from "@/components/layout/MainNavigator/MainNavigator";
 import { colors } from "@/theme/theme";
+
+const navigationRef = createNavigationContainerRef<RootStackParamList>();
 
 const APP_NAV_THEME: Theme = {
   ...DefaultTheme,
@@ -26,6 +29,8 @@ export const AppNavigator = React.memo(function AppNavigator() {
   /** `null` while reading AsyncStorage; then whether the wizard has completed on this device. */
   const [onboardingSeenOnDevice, setOnboardingSeenOnDevice] = React.useState<boolean | null>(null);
   const routeNameRef = React.useRef<string | undefined>(undefined);
+  /** "I have an account" on the welcome screen: open sign-in once the navigator is ready. */
+  const openSignInWhenReady = React.useRef(false);
 
   React.useEffect(() => {
     void AsyncStorage.getItem(ONBOARDING_SEEN_STORAGE_KEY)
@@ -44,7 +49,14 @@ export const AppNavigator = React.memo(function AppNavigator() {
   }
 
   if (!onboardingSeenOnDevice) {
-    return <OnboardingFlow onPersistedToDevice={() => setOnboardingSeenOnDevice(true)} />;
+    return (
+      <OnboardingFlow
+        onFinished={({ openSignIn }) => {
+          openSignInWhenReady.current = openSignIn;
+          setOnboardingSeenOnDevice(true);
+        }}
+      />
+    );
   }
 
   return (
@@ -52,7 +64,12 @@ export const AppNavigator = React.memo(function AppNavigator() {
     // auth transitions never navigate — they remount here into the correct clean root.
     <NavigationContainer
       key={userId ?? "guest"}
+      ref={navigationRef}
       onReady={() => {
+        if (openSignInWhenReady.current && navigationRef.isReady()) {
+          openSignInWhenReady.current = false;
+          navigationRef.navigate("Auth");
+        }
         const currentRoute = routeNameRef.current;
         logNav("screen:enter", { screen: currentRoute ?? "Home" });
       }}

@@ -1,5 +1,5 @@
-import { useIsFocused } from "@react-navigation/native";
-import type { ReactNode } from "react";
+import { NavigationContext } from "@react-navigation/native";
+import { useContext, useEffect, useState, type ReactNode } from "react";
 import { ScrollView, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 import { SafeAreaView, type Edge } from "react-native-safe-area-context";
 import { palette, SCREEN_MARGIN, space } from "@/theme/tokens";
@@ -16,9 +16,25 @@ type Props = {
 
 const DEFAULT_EDGES: Edge[] = ["top", "left", "right"];
 
+/** Whether the screen is in front; true outside a navigator (onboarding runs before it mounts). */
+function useScreenInFront(): boolean {
+  const navigation = useContext(NavigationContext);
+  const [inFront, setInFront] = useState(navigation?.isFocused() ?? true);
+  useEffect(() => {
+    if (!navigation) return;
+    const stopFocus = navigation.addListener("focus", () => setInFront(true));
+    const stopBlur = navigation.addListener("blur", () => setInFront(false));
+    return () => {
+      stopFocus();
+      stopBlur();
+    };
+  }, [navigation]);
+  return inFront;
+}
+
 /** The frame of every screen: the navy background, safe areas and the 20-point side margins. */
 export function Screen({ children, ambient = false, scrollable = false, edges = DEFAULT_EDGES, contentStyle }: Props) {
-  const focused = useIsFocused();
+  const focused = useScreenInFront();
   return (
     <View style={styles.root}>
       {ambient ? <AmbientRiver active={focused} /> : null}

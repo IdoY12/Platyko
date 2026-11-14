@@ -28,10 +28,6 @@ export function logNav(message: string, meta?: LogMeta) {
   write("[NAV]", message, meta);
 }
 
-export function logOnboarding(message: string, meta?: LogMeta) {
-  write("[ONBOARDING]", message, meta);
-}
-
 export function logDuel(message: string, meta?: LogMeta) {
   write("[DUEL]", message, meta);
 }

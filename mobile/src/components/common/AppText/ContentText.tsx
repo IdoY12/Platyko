@@ -16,7 +16,7 @@ type Props = {
 export function ContentText({ children, variant = "body", color = palette.text.primary }: Props) {
   const parts = children.split(/(`[^`]+`)/g).filter((part) => part !== "");
   return (
-    <AppText variant={variant} color={color} align="ltr" style={styles.ltr}>
+    <AppText variant={variant} color={color} align="ltr">
       {parts.map((part, index) =>
         part.startsWith("`") && part.endsWith("`") ? (
           <AppText key={index} variant="code" color={syntax.functionName} style={styles.inlineCode}>
@@ -31,6 +31,5 @@ export function ContentText({ children, variant = "body", color = palette.text.p
 }
 
 const styles = StyleSheet.create({
-  ltr: { writingDirection: "ltr" },
   inlineCode: { fontSize: 15, backgroundColor: palette.bg.code, borderRadius: radii.chip },
 });

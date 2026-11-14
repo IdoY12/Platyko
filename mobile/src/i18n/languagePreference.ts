@@ -13,7 +13,12 @@ async function readPreferredLanguage(): Promise<Language> {
   return isLanguage(stored) ? stored : languageFromLocaleTag(getLocales()[0]?.languageTag);
 }
 
-/** True when the native layout direction already matches the language; otherwise it is forced for the next launch. */
+/**
+ * True when the native layout direction already matches the language; otherwise it is stored for
+ * the next launch. The app owns this setting: expo-localization's `supportsRTL` option is not
+ * used, because it would reset the direction to the device locale's on every launch and a Hebrew
+ * interface must also work on a device set to English (PRD 12.10).
+ */
 function alignLayoutDirection(language: Language): boolean {
   const wantsRightToLeft = isRightToLeft(language);
   if (I18nManager.isRTL === wantsRightToLeft) return true;

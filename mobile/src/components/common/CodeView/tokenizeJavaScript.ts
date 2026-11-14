@@ -4,7 +4,7 @@
  * State carries across lines, so block comments and template literals may span several lines.
  */
 
-export type CodeTokenKind =
+type CodeTokenKind =
   | "plain"
   | "keyword"
   | "string"

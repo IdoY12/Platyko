@@ -17,13 +17,13 @@ export function homeMascotState(now: Date, streak: StreakState, today: string, f
   return firstVisitToday ? "wave" : "idle";
 }
 
-/** The seven calendar dates of the week containing `today`, Monday first. */
-export function weekDates(today: string): string[] {
+/** The seven calendar dates of the week containing `today`; the week starts on Monday, or on Sunday where that is the custom. */
+export function weekDates(today: string, firstDay: "monday" | "sunday" = "monday"): string[] {
   const date = new Date(`${today}T12:00:00Z`);
-  const mondayOffset = (date.getUTCDay() + 6) % 7;
+  const offset = firstDay === "sunday" ? date.getUTCDay() : (date.getUTCDay() + 6) % 7;
   return Array.from({ length: 7 }, (_unused, index) => {
     const day = new Date(date);
-    day.setUTCDate(date.getUTCDate() - mondayOffset + index);
+    day.setUTCDate(date.getUTCDate() - offset + index);
     return day.toISOString().slice(0, 10);
   });
 }

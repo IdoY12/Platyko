@@ -7,6 +7,7 @@ import { PressableScale } from "@/components/common/PressableScale/PressableScal
 import { t } from "@/i18n/translate";
 import { haptic } from "@/theme/haptics";
 import { MIN_TOUCH_TARGET, palette, radii, space, syntax, wash } from "@/theme/tokens";
+import { LtrView } from "@/components/common/AppText/LtrView";
 
 type Props = {
   code: readonly string[];
@@ -58,7 +59,7 @@ export function BlankChips({ code, chips, filled, activeBlank, disabled, verdict
   };
 
   return (
-    <View style={styles.wrapper}>
+    <LtrView style={styles.wrapper}>
       <View style={styles.code}>
         {code.map((line, lineIndex) => (
           <View key={lineIndex} style={styles.codeLine}>
@@ -94,12 +95,12 @@ export function BlankChips({ code, chips, filled, activeBlank, disabled, verdict
           </PressableScale>
         ))}
       </View>
-    </View>
+    </LtrView>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: { gap: space.lg, direction: "ltr" },
+  wrapper: { gap: space.lg },
   code: { backgroundColor: palette.bg.code, borderRadius: radii.card, padding: space.md, gap: space.xs },
   codeLine: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", minHeight: 32 },
   slot: { minWidth: 48, minHeight: 32, justifyContent: "center", alignItems: "center", paddingHorizontal: space.sm, marginHorizontal: 2, borderRadius: radii.chip, borderWidth: 2, borderStyle: "dashed" },

@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import type { ConceptCard } from "@project/content-model";
 import { AppText } from "@/components/common/AppText/AppText";
@@ -7,6 +7,7 @@ import { CodeView } from "@/components/common/CodeView/CodeView";
 import { Surface } from "@/components/common/Surface/Surface";
 import { t } from "@/i18n/translate";
 import { duration, palette, space, syntax } from "@/theme/tokens";
+import { LtrView } from "@/components/common/AppText/LtrView";
 
 /** The ungraded opening of a lesson: one idea, a worked example and what it prints (PRD 6.4). */
 export function ConceptCardView({ card }: { card: ConceptCard }) {
@@ -27,13 +28,13 @@ export function ConceptCardView({ card }: { card: ConceptCard }) {
         <AppText variant="label" color={palette.text.secondary}>
           {t("lesson.conceptCardOutput")}
         </AppText>
-        <View style={styles.outputLines}>
+        <LtrView>
           {card.expectedOutput.split("\n").map((line, index) => (
             <AppText key={index} variant="code" align="ltr" color={syntax.string}>
               {line}
             </AppText>
           ))}
-        </View>
+        </LtrView>
       </Surface>
     </Animated.View>
   );
@@ -42,5 +43,4 @@ export function ConceptCardView({ card }: { card: ConceptCard }) {
 const styles = StyleSheet.create({
   card: { gap: space.lg },
   output: { gap: space.xs, padding: space.lg },
-  outputLines: { direction: "ltr" },
 });

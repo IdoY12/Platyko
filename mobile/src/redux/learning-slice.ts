@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { CompletedLessonReport, ContentMapResponse, LearningGoals, LessonContentResponse, LessonResume, ProgressResponse } from "@project/api-contract";
 import { MAX_GUEST_ATTEMPTS } from "@project/api-contract";
+import type { Track } from "@project/content-model";
 import { applyAttempt, applyLessonCompletion, EMPTY_PROGRESS, type AttemptRecord, type ProgressSnapshot } from "@project/learning-logic";
 
 /**
@@ -17,6 +18,8 @@ export type LearningState = {
   progress: ProgressSnapshot;
   resume: LessonResume | null;
   goals: LearningGoals;
+  /** The track the learner said they know in onboarding; a jump test is offered for any but the first. */
+  startingTrack: Track | null;
   /** Not yet accepted by the server, with what is needed to apply them again on top of its answer. */
   pendingAttempts: PendingAttempt[];
   pendingLessons: PendingLesson[];
@@ -42,6 +45,7 @@ const initialState: LearningState = {
   progress: EMPTY_PROGRESS,
   resume: null,
   goals: { weeklyGoalDays: 5, dailyGoalLessons: 1 },
+  startingTrack: null,
   pendingAttempts: [],
   pendingLessons: [],
   guestHistory: { attempts: [], lessons: [] },
@@ -79,6 +83,10 @@ const learningSlice = createSlice({
       state.pendingLessons.push({ lesson, today });
       if (isGuest) state.guestHistory.lessons.push(lesson);
       if (state.resume?.lessonId === lesson.lessonId) state.resume = null;
+    },
+    setOnboardingChoices: (state, action: PayloadAction<{ startingTrack: Track; weeklyGoalDays: number }>) => {
+      state.startingTrack = action.payload.startingTrack;
+      state.goals.weeklyGoalDays = action.payload.weeklyGoalDays;
     },
     saveResume: (state, action: PayloadAction<LessonResume | null>) => {
       state.resume = action.payload;
@@ -122,6 +130,7 @@ export const {
   cacheLesson,
   recordAttempt,
   recordLessonCompletion,
+  setOnboardingChoices,
   saveResume,
   applyServerProgress,
   startAccountSession,

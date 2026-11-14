@@ -9,7 +9,8 @@ type Props = { practisedDates: ReadonlySet<string>; today: string; goalDays: num
 
 /** The weekly goal (PRD 6.8): one dot per day this week, filled on days with practice. */
 export function HomeWeekRow({ practisedDates, today, goalDays }: Props) {
-  const dates = weekDates(today);
+  // The Hebrew week, as in Israel, starts on Sunday.
+  const dates = weekDates(today, getActiveLanguage() === "he" ? "sunday" : "monday");
   const done = dates.filter((date) => practisedDates.has(date)).length;
   const dayFormat = new Intl.DateTimeFormat(getActiveLanguage(), { weekday: "narrow", timeZone: "UTC" });
   return (

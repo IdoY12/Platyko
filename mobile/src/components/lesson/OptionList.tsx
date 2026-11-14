@@ -6,6 +6,7 @@ import { AppText } from "@/components/common/AppText/AppText";
 import { t } from "@/i18n/translate";
 import { haptic } from "@/theme/haptics";
 import { MIN_TOUCH_TARGET, palette, radii, space, transitions, wash } from "@/theme/tokens";
+import { LtrView } from "@/components/common/AppText/LtrView";
 
 export type OptionVerdict = "correct" | "wrong" | null;
 
@@ -65,11 +66,19 @@ function OptionCard({ text, index, selected, verdict, optionsAreCode, disabled, 
         }}
       >
         <Animated.View style={[styles.card, transitions.colour, { borderColor: border, backgroundColor: background }]}>
-          <View style={[styles.content, optionsAreCode && styles.codeContent]}>
-            <AppText variant={optionsAreCode ? "code" : "body"} align={optionsAreCode ? "ltr" : "start"} style={styles.text}>
-              {text}
-            </AppText>
-          </View>
+          {optionsAreCode ? (
+            <LtrView style={styles.content}>
+              <AppText variant="code" align="ltr" style={styles.text}>
+                {text}
+              </AppText>
+            </LtrView>
+          ) : (
+            <View style={styles.content}>
+              <AppText variant="body" style={styles.text}>
+                {text}
+              </AppText>
+            </View>
+          )}
           {verdict ? (
             <MaterialCommunityIcons
               name={verdict === "correct" ? "check-circle" : "close-circle"}
@@ -116,7 +125,5 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   content: { flex: 1 },
-  // Code inside a card stays left to right even when the card itself is mirrored (PRD 12.10).
-  codeContent: { direction: "ltr" },
   text: { flexShrink: 1 },
 });

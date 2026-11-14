@@ -42,7 +42,7 @@ export function LanguageSwitch() {
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: "row", gap: space.xs, padding: space.xs, borderRadius: radii.pill, backgroundColor: palette.bg.surface, alignSelf: "flex-start" },
+  row: { flexDirection: "row", gap: space.xs, padding: space.xs, borderRadius: radii.pill, backgroundColor: palette.bg.surface },
   option: { minHeight: MIN_TOUCH_TARGET - space.sm, minWidth: 72, alignItems: "center", justifyContent: "center", paddingHorizontal: space.lg, borderRadius: radii.pill },
   selected: { backgroundColor: palette.brand.primary },
 });

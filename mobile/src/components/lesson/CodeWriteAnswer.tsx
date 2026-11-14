@@ -1,11 +1,12 @@
 import { useMemo, useRef, useState } from "react";
-import { ScrollView, StyleSheet, TextInput, View, type NativeSyntheticEvent, type TextInputSelectionChangeEventData } from "react-native";
+import { ScrollView, StyleSheet, TextInput, type NativeSyntheticEvent, type TextInputSelectionChangeEventData } from "react-native";
 import type { Item } from "@project/content-model";
 import { AppText } from "@/components/common/AppText/AppText";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { t } from "@/i18n/translate";
 import { haptic } from "@/theme/haptics";
 import { MIN_TOUCH_TARGET, palette, radii, space, syntax, typography } from "@/theme/tokens";
+import { LtrView } from "@/components/common/AppText/LtrView";
 
 type Props = {
   item: Item;
@@ -91,7 +92,7 @@ export function CodeWriteAnswer({ item, source, disabled, verdict, onChange }: P
   );
 
   return (
-    <View style={styles.wrapper}>
+    <LtrView style={styles.wrapper}>
       <TextInput
         ref={inputRef}
         value={source}
@@ -123,12 +124,12 @@ export function CodeWriteAnswer({ item, source, disabled, verdict, onChange }: P
         {key("↶", t("answer.undo"), undo)}
         {tokens.map((token) => key(token, token, () => replaceSelection(/^[A-Za-z]/.test(token) && token.length > 2 ? `${token} ` : token)))}
       </ScrollView>
-    </View>
+    </LtrView>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: { gap: space.md, direction: "ltr" },
+  wrapper: { gap: space.md },
   input: {
     minHeight: 140,
     maxHeight: 260,

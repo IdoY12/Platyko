@@ -9,6 +9,7 @@ import { PressableScale } from "@/components/common/PressableScale/PressableScal
 import { Surface } from "@/components/common/Surface/Surface";
 import { t } from "@/i18n/translate";
 import { duration, palette, radii, space, syntax } from "@/theme/tokens";
+import { LtrView } from "@/components/common/AppText/LtrView";
 
 type Props = { trace: ItemTrace };
 
@@ -102,7 +103,7 @@ export function ExecutionPlayer({ trace }: Props) {
           step.variables.map((variable) => {
             const isNew = changed(variable.name, variable.scope, variable.value);
             return (
-              <View key={`${variable.scope}.${variable.name}`} style={[styles.variable, isNew && styles.changedVariable]} accessible accessibilityLabel={`${variable.name} = ${variable.value}`}>
+              <LtrView key={`${variable.scope}.${variable.name}`} style={[styles.variable, isNew && styles.changedVariable]} accessible accessibilityLabel={`${variable.name} = ${variable.value}`}>
                 <AppText variant="code" align="ltr" color={syntax.functionName} style={styles.variableName}>
                   {variable.name}
                 </AppText>
@@ -116,18 +117,18 @@ export function ExecutionPlayer({ trace }: Props) {
                     {variable.scope}
                   </AppText>
                 ) : null}
-              </View>
+              </LtrView>
             );
           })
         )}
       </Surface>
 
       {trace.usesEventLoop ? (
-        <View style={styles.eventLoop}>
+        <LtrView style={styles.eventLoop}>
           <QueueColumn title={t("player.callStack")} entries={[...step.callStack].reverse()} />
           <QueueColumn title={t("player.microtasks")} entries={step.microtasks} />
           <QueueColumn title={t("player.macrotasks")} entries={step.macrotasks} />
-        </View>
+        </LtrView>
       ) : null}
 
       <View style={styles.output} accessible accessibilityLabel={`${t("player.output")}: ${trace.output.slice(0, step.outputCount).join(", ") || t("player.noOutput")}`}>
@@ -147,12 +148,12 @@ export function ExecutionPlayer({ trace }: Props) {
         )}
       </View>
 
-      <View style={styles.controls}>
+      <LtrView style={styles.controls}>
         <ControlButton icon="chevron-left" label={t("player.previous")} disabled={stepIndex === 0} onPress={() => setStepIndex((index) => Math.max(0, index - 1))} />
         <ControlButton icon={playing ? "pause" : "play"} label={playing ? t("player.pause") : t("player.play")} disabled={stepIndex >= lastIndex} primary onPress={() => setPlaying((value) => !value)} />
         <ControlButton icon="chevron-right" label={t("player.next")} disabled={stepIndex >= lastIndex} onPress={() => setStepIndex((index) => Math.min(lastIndex, index + 1))} />
         <ControlButton icon={SPEED_ICONS[speedIndex]} label={`${t("player.speed")} ${speedIndex + 1}`} onPress={() => setSpeedIndex((index) => (index + 1) % SPEEDS_MS.length)} />
-      </View>
+      </LtrView>
     </View>
   );
 }
@@ -160,15 +161,15 @@ export function ExecutionPlayer({ trace }: Props) {
 const styles = StyleSheet.create({
   player: { gap: space.lg },
   panel: { gap: space.sm, padding: space.lg },
-  variable: { flexDirection: "row", alignItems: "center", gap: space.md, paddingHorizontal: space.sm, paddingVertical: space.xs, borderRadius: radii.chip, direction: "ltr" },
+  variable: { flexDirection: "row", alignItems: "center", gap: space.md, paddingHorizontal: space.sm, paddingVertical: space.xs, borderRadius: radii.chip },
   changedVariable: { backgroundColor: "rgba(247,223,30,0.12)" },
   variableName: { minWidth: 80 },
   variableValue: { flex: 1 },
-  eventLoop: { flexDirection: "row", gap: space.sm, direction: "ltr" },
+  eventLoop: { flexDirection: "row", gap: space.sm },
   queue: { flex: 1, gap: space.xs, padding: space.sm, borderRadius: radii.chip, backgroundColor: palette.bg.surface, minHeight: 96 },
   queueEntry: { paddingHorizontal: space.xs, paddingVertical: 2, borderRadius: radii.chip, backgroundColor: palette.bg.raised },
   output: { gap: space.xs, padding: space.md, borderRadius: radii.card, backgroundColor: palette.bg.code },
-  controls: { flexDirection: "row", justifyContent: "center", gap: space.lg, direction: "ltr" },
+  controls: { flexDirection: "row", justifyContent: "center", gap: space.lg },
   control: { width: 56, height: 56, borderRadius: radii.pill, alignItems: "center", justifyContent: "center", backgroundColor: palette.bg.raised },
   primaryControl: { backgroundColor: palette.brand.primary },
   disabledControl: { opacity: 0.4 },

@@ -5,6 +5,7 @@ import { PressableScale } from "@/components/common/PressableScale/PressableScal
 import { t } from "@/i18n/translate";
 import { haptic } from "@/theme/haptics";
 import { MIN_TOUCH_TARGET, palette, radii, space, syntax, wash } from "@/theme/tokens";
+import { LtrView } from "@/components/common/AppText/LtrView";
 
 type Props = {
   /** The lines to order, in their shuffled display order. */
@@ -50,7 +51,7 @@ export function LineOrderBoard({ lines, placed, linesAreCode, disabled, verdict,
   );
 
   return (
-    <View style={styles.board}>
+    <LtrView style={styles.board}>
       <View style={[styles.answer, { borderColor: answerBorder }]} accessibilityLabel={t("answer.yourOrder")}>
         {placed.length === 0 ? (
           <AppText variant="label" color={palette.text.muted} align="center">
@@ -61,12 +62,12 @@ export function LineOrderBoard({ lines, placed, linesAreCode, disabled, verdict,
         )}
       </View>
       <View style={styles.pool}>{remaining.map((index) => lineChip(index, false))}</View>
-    </View>
+    </LtrView>
   );
 }
 
 const styles = StyleSheet.create({
-  board: { gap: space.lg, direction: "ltr" },
+  board: { gap: space.lg },
   answer: { minHeight: 120, gap: space.sm, padding: space.md, borderRadius: radii.card, borderWidth: 2, borderStyle: "dashed", justifyContent: "center" },
   pool: { gap: space.sm },
   line: {
