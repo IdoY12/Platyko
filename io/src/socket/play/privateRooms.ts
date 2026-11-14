@@ -83,8 +83,21 @@ export async function startRoom(play: Namespace, hostId: string): Promise<PlayEr
   rooms.delete(room.code);
   const userIds = room.members.map((member) => member.userId);
   const [seats, items] = await Promise.all([seatsFor(userIds), pickPlayItems(room.track, room.rounds, userIds)]);
-  startMatch(play, "room", room.track, seats.map((seat) => ({ ...seat, pingMs: room.members.find((member) => member.userId === seat.userId)?.pingMs ?? 0 })), items, room.code);
+  startMatch(play, "room", room.track, seats.map((seat) => ({ ...seat, pingMs: room.members.find((member) => member.userId === seat.userId)?.pingMs ?? 0 })), items, room.code, (result) => reopenRoom(play, room, result.state.players));
   return null;
+}
+
+/**
+ * After a room's game, the same room opens again for everyone who stayed, nobody ready, so the
+ * results screen can lead "back to lobby" (PRD 11.7). The host stays host if they stayed.
+ */
+async function reopenRoom(play: Namespace, room: Room, players: { id: string; left: boolean }[]): Promise<void> {
+  const stayed = room.members.filter((member) => players.some((player) => player.id === member.userId && !player.left) && !roomOf(member.userId));
+  if (stayed.length === 0 || rooms.has(room.code)) return;
+  const hostId = stayed.some((member) => member.userId === room.hostId) ? room.hostId : stayed[0].userId;
+  const reopened: Room = { ...room, hostId, members: stayed.map((member) => ({ ...member, ready: false })), lastActivity: Date.now() };
+  rooms.set(room.code, reopened);
+  await broadcastLobby(play, reopened);
 }
 
 /** Closes lobbies nobody touched for ten minutes. */

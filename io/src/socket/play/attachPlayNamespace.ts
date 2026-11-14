@@ -62,8 +62,8 @@ export function attachPlayNamespace(io: Server): void {
     on("queue:join", async (payload, reply) => {
       if (!isRecord(payload) || !isTrack(payload.track)) return;
       if (busy()) return reply({ error: "in-another-game" });
-      await joinRankedQueue(userId, payload.track, pingMs());
-      reply({ ok: true });
+      const refused = await joinRankedQueue(userId, payload.track, pingMs());
+      reply(refused ? { error: refused } : { ok: true });
     });
     on("queue:leave", () => leaveRankedQueue(userId));
     on("queue:ghost", async (_payload, reply) => reply({ ok: await startGhostMatch(play, userId) }));

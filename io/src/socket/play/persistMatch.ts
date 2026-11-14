@@ -50,7 +50,9 @@ export async function persistMatch(result: MatchResult): Promise<Map<string, Rew
   for (const user of users) {
     const own = placed.find((player) => player.playerId === user.id)!;
     const capped = result.mode !== "ranked" && (await paidUnratedToday(user.id)) >= UNRATED_MATCH_XP_GAMES_PER_DAY;
-    const xpEarned = own.left || capped ? 0 : XP_REWARDS.matchParticipation + (own.place === 1 && result.mode !== "ghost" ? XP_REWARDS.matchWin : 0);
+    // A win needs points: a game nobody scored in is a draw that pays participation only.
+    const won = own.place === 1 && own.points > 0 && result.mode !== "ghost";
+    const xpEarned = own.left || capped ? 0 : XP_REWARDS.matchParticipation + (won ? XP_REWARDS.matchWin : 0);
     const rating = ratingAfter.get(user.id);
     rewards.set(user.id, { xpEarned, ratingChange: rating ? Math.round(rating.rating - user.rating) : null });
   }

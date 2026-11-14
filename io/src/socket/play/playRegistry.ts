@@ -3,7 +3,7 @@ import type { Namespace } from "socket.io";
 import type { PlayMode, PlaySeat } from "@project/api-contract";
 import type { Item, Track } from "@project/content-model";
 import { prisma } from "@project/db";
-import { LiveMatch, type LiveSeat } from "./liveMatch.js";
+import { LiveMatch, type LiveSeat, type MatchResult } from "./liveMatch.js";
 import { persistMatch } from "./persistMatch.js";
 
 /** The one game each user is in (PRD 11.9: one active game per user). In memory on the io process. */
@@ -23,11 +23,13 @@ export async function seatsFor(userIds: string[]): Promise<PlaySeat[]> {
   });
 }
 
-/** Starts a game for the seats and keeps it registered until it ends. */
-export function startMatch(play: Namespace, mode: PlayMode, track: Track, seats: LiveSeat[], items: Item[], roomCode: string | null): LiveMatch {
+/** Starts a game for the seats and keeps it registered until it ends; `afterEnd` runs once it is saved. */
+export function startMatch(play: Namespace, mode: PlayMode, track: Track, seats: LiveSeat[], items: Item[], roomCode: string | null, afterEnd?: (result: MatchResult) => Promise<void>): LiveMatch {
   const match = new LiveMatch(randomUUID(), mode, track, seats, items, play, roomCode, async (result) => {
     for (const userId of match.userIds) if (matchByUser.get(userId) === match) matchByUser.delete(userId);
-    return persistMatch(result);
+    const rewards = await persistMatch(result);
+    await afterEnd?.(result);
+    return rewards;
   });
   for (const userId of match.userIds) matchByUser.set(userId, match);
   match.start();

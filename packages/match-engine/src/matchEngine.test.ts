@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canMatch, countedResponseMs, GAME_MODES, INITIAL_RATING, isRoomCode, placements, pointsForAnswer, roomCode, searchWindow, tierOf, updateRating } from "./index.js";
+import { canMatch, countedResponseMs, GAME_MODES, INITIAL_RATING, isRoomCode, leaverCooldownMs, placements, pointsForAnswer, roomCode, searchWindow, tierOf, updateRating } from "./index.js";
 
 describe("scoring", () => {
   it("pays 1,000 to 500 by speed, half on the second attempt, nothing when wrong", () => {
@@ -49,6 +49,10 @@ describe("Glicko-2", () => {
 });
 
 describe("ranked play and rooms", () => {
+  it("cools a leaver down from the third leave in a day, doubling each time", () => {
+    expect([0, 1, 2, 3, 4, 5].map(leaverCooldownMs)).toEqual([0, 0, 0, 300_000, 600_000, 1_200_000]);
+  });
+
   it("names six river tiers and widens the search window every five seconds", () => {
     expect([1000, 1350, 1500, 1700, 1800, 2400].map(tierOf)).toEqual(["stream", "creek", "river", "rapids", "delta", "ocean"]);
     expect([0, 4999, 5000, 25_000].map(searchWindow)).toEqual([100, 100, 150, 350]);

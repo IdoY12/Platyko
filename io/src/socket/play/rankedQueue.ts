@@ -1,7 +1,8 @@
 import type { Namespace } from "socket.io";
 import type { Track } from "@project/content-model";
 import { prisma } from "@project/db";
-import { canMatch, GAME_MODES, GHOST_OFFER_AFTER_MS } from "@project/match-engine";
+import type { PlayError } from "@project/api-contract";
+import { canMatch, GAME_MODES, GHOST_OFFER_AFTER_MS, LEAVE_WINDOW_MS, leaverCooldownMs } from "@project/match-engine";
 import type { GhostScript } from "./liveMatch.js";
 import { loadPlayItems, pickPlayItems } from "./playItems.js";
 import { seatsFor, startMatch } from "./playRegistry.js";
@@ -14,9 +15,21 @@ const ROUNDS = GAME_MODES.ranked.rounds[0];
 const blockedBetween = async (first: string, second: string) =>
   (await prisma.block.count({ where: { OR: [{ blockerId: first, blockedId: second }, { blockerId: second, blockedId: first }] } })) > 0;
 
-export async function joinRankedQueue(userId: string, track: Track, pingMs: number): Promise<void> {
+/** Whether recent leaves of ranked games still keep this player out of the queue (PRD 11.8). */
+async function inLeaverCooldown(userId: string): Promise<boolean> {
+  const leaves = await prisma.matchParticipant.findMany({
+    where: { userId, left: true, match: { mode: "RANKED", endedAt: { gte: new Date(Date.now() - LEAVE_WINDOW_MS) } } },
+    orderBy: { match: { endedAt: "desc" } },
+    select: { match: { select: { endedAt: true } } },
+  });
+  return leaves.length > 0 && leaves[0].match.endedAt.getTime() + leaverCooldownMs(leaves.length) > Date.now();
+}
+
+export async function joinRankedQueue(userId: string, track: Track, pingMs: number): Promise<PlayError | null> {
+  if (await inLeaverCooldown(userId)) return "cooldown";
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { rating: true } });
   queue.set(userId, { userId, track, rating: user?.rating ?? 1500, joinedAt: Date.now(), pingMs });
+  return null;
 }
 
 export function leaveRankedQueue(userId: string): void {

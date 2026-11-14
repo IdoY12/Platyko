@@ -29,3 +29,13 @@ export function canMatch(first: { rating: number; waitedMs: number }, second: { 
   const gap = Math.abs(first.rating - second.rating);
   return !blockedEitherWay && gap <= searchWindow(first.waitedMs) && gap <= searchWindow(second.waitedMs);
 }
+
+/** Leaving ranked games (PRD 11.8): from the third leave in a day, a queue cooldown that doubles with each one. */
+const LEAVES_BEFORE_COOLDOWN = 3;
+const FIRST_COOLDOWN_MS = 5 * 60_000;
+export const LEAVE_WINDOW_MS = 24 * 60 * 60_000;
+
+/** How long after the latest leave the player waits to queue again, given their leaves in the last day. */
+export function leaverCooldownMs(leavesInWindow: number): number {
+  return leavesInWindow < LEAVES_BEFORE_COOLDOWN ? 0 : FIRST_COOLDOWN_MS * 2 ** (leavesInWindow - LEAVES_BEFORE_COOLDOWN);
+}

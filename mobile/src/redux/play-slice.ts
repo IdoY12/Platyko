@@ -58,8 +58,8 @@ const initialState: PlayState = {
   presence: {},
 };
 
-/** Leaving a game keeps what belongs to the connection, not to the game. */
-const afterGame = (state: PlayState): PlayState => ({ ...initialState, connected: state.connected, invites: state.invites, presence: state.presence });
+/** Leaving a game keeps what belongs to the connection, not to the game, and a room reopened after it. */
+const afterGame = (state: PlayState): PlayState => ({ ...initialState, connected: state.connected, invites: state.invites, presence: state.presence, lobby: state.lobby });
 
 const playSlice = createSlice({
   name: "play",
