@@ -1,0 +1,44 @@
+{
+  "originalProse": [
+    "The loop starts at 2 and repeats while n is less than 5, so n takes the values 2, 3 and 4. Each pass adds n to total, which grows from 0 to 2, then 5, then 9.",
+    "Arrays count their positions from zero. An array with three elements therefore has indexes 0, 1 and 2, and asking for index 3 gives undefined instead of an error.",
+    "Printing inside a function shows a value to the person watching the console, but the code that called the function receives undefined unless a return statement hands the value over.",
+    "The condition of a for loop is tested before every pass. As soon as it is false the loop ends, and execution moves on to the first statement after the loop.",
+    "Declare the total before the loop, change it inside the loop, and read it after the loop ends. The loop condition decides which values take part.",
+    "The last index is always one less than the number of elements in the array, so reading one position further returns undefined."
+  ],
+  "copiedProse": [
+    "A counting loop repeats its body while a condition stays true. The counter is checked before each pass, so the moment the condition fails, the body is skipped and the program continues with whatever comes after the closing brace.",
+    "A list keeps its entries in the order you added them, and every entry sits at a numbered slot.",
+    "Remember this rule. Keeping a running figure across passes is a common chore. Create the figure before the loop begins, adjust it inside the body on every pass, and only trust its value once the loop has completely finished. It applies to every loop."
+  ],
+  "lightlyEditedProse": [
+    "When you ask a list how many items it holds, the answer is always one larger than the number of its final slot. Forgetting this small gap is the usual reason a program reaches past the end and receives nothing useful back.",
+    "Keeping a running total across passes is a common chore. Create the figure before the loop begins, adjust it inside the body on every pass, and only trust its value once the loop has fully finished.",
+    "A helper that prints a result on the screen has not handed that result to its caller. Only a value that is deliberately sent back can be stored, compared, or passed along to the next helper in the chain.",
+    "A list keeps its entries in the order you inserted them, and every entry sits at a numbered slot. The numbering begins at zero, which surprises many beginners, because people usually count their belongings starting from one.",
+    "A counting loop repeats its body while a condition remains true. The counter is checked before each pass, so the moment the condition fails, the body is skipped and the program proceeds with whatever comes after the closing brace.",
+    "The numbering begins at zero, which surprises many newcomers, because folks usually count their belongings starting from one."
+  ],
+  "originalCode": [
+    ["let total = 0;", "for (let n = 2; n < 5; n++) {", "  total = total + n;", "}", "console.log(total);"],
+    ["let stock = 10;", "const sold = [3, 4, 2];", "for (const amount of sold) {", "  stock = stock - amount;", "}", "console.log(stock);"],
+    ["const cart = { items: 2, sum: 30 };", "const extra = 15;", "cart.sum = cart.sum + extra;", "console.log(cart.sum);"],
+    ["function wrap(label) {", "  console.log(\"inside \" + label);", "  return label + \" done\";", "}", "console.log(\"start\");", "const summary = wrap(\"task\");", "console.log(summary);"],
+    ["function average(marks) {", "  let sum = 0;", "  for (const mark of marks) {", "    sum += mark;", "  }", "  return sum / marks.length;", "}", "console.log(average([4, 8]));"]
+  ],
+  "copiedCode": [
+    ["const shelf = [\"tea\", \"rice\", \"salt\", \"oats\"];", "let longest = shelf[0];", "for (let slot = 1; slot < shelf.length; slot++) {", "  if (shelf[slot].length > longest.length) {", "    longest = shelf[slot];", "  }", "}", "console.log(longest);"],
+    ["function total(prices) {", "  let sum=0;", "  for (const price of prices) { sum = sum+price; }", "  return sum;", "}", "", "console.log( total([120, 80, 45]) );"],
+    ["const words = ['tea', 'rice', 'salt', 'oats'];", "let winner = words[0];", "for (let i = 1; i < words.length; i++) {", "  if (words[i].length > winner.length) { winner = words[i]; }", "}", "console.log(winner);"],
+    ["const tab = { paid: 3, owed: 7 };", "tab.owed = tab.owed - tab.paid;", "console.log(tab.owed);"]
+  ],
+  "lightlyEditedCode": [
+    ["function total(prices) {", "  let sum = 0;", "  for (const price of prices) {", "    sum = sum + price;", "  }", "  return sum;", "}", "console.log(total([120, 80, 50]));"],
+    ["const basket = [5, 9];", "function total(prices) {", "  let sum = 0;", "  for (const price of prices) {", "    sum = sum + price;", "  }", "  return sum;", "}", "console.log(total(basket));"],
+    ["const words = [\"tea\", \"rice\", \"salt\"];", "let winner = words[0];", "for (let i = 1; i < words.length; i++) {", "  if (words[i].length > winner.length) {", "    winner = words[i];", "  }", "}", "console.log(winner);"]
+  ],
+  "sameShapeCode": [
+    ["const scores = [7, 3, 9];", "let best = scores[0];", "for (let i = 1; i < scores.length; i++) {", "  if (scores[i] > best) {", "    best = scores[i];", "  }", "}", "console.log(best);"]
+  ]
+}

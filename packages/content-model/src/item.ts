@@ -38,6 +38,10 @@ export const PARSONS_MAX_LINES = 8;
 export const TRACE_MAX_STEPS = 60;
 export const OPTIONS_PER_ITEM = 3;
 
+/** Formats that may appear in multiplayer (PRD 6.3), and the per-item time limit there. */
+export const DUEL_ELIGIBLE_FORMATS: readonly ItemFormat[] = ["PREDICT_OUTPUT", "PARSONS", "FILL_BLANK", "FIX_BUG", "CONCEPT_MCQ"];
+export const DUEL_TIME_LIMIT_SECONDS = { minimum: 15, maximum: 45 } as const;
+
 /** Marks one blank inside a `FILL_BLANK` snippet. Blanks are numbered in reading order. */
 export const BLANK_TOKEN = "___";
 

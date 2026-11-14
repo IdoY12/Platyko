@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Pond Notes: lists, loops and helpers</title>
+    <style>
+      body { font-family: serif; }
+    </style>
+    <script>
+      const tracker = "this script text must never reach the cache";
+    </script>
+  </head>
+  <body>
+    <!-- This page is invented for the content-tools tests. It is not taken from any real site. -->
+    <h1>Pond Notes: lists, loops &amp; helpers</h1>
+    <p>
+      A list keeps its entries in the order you added them, and every entry sits at a numbered slot. The numbering
+      begins at zero, which surprises many newcomers, because people usually count their belongings starting from one.
+    </p>
+    <p>
+      When you ask a list how many entries it holds, the answer is always one larger than the number of its final
+      slot. Forgetting this small gap is the classic reason a program reaches past the end and receives nothing
+      useful back.
+    </p>
+    <pre><code class="language-js">const shelf = [&quot;tea&quot;, &quot;rice&quot;, &quot;salt&quot;, &quot;oats&quot;];
+let longest = shelf[0];
+<span class="keyword">for</span> (let slot = 1; slot &lt; shelf.length; slot++) {
+  if (shelf[slot].length &gt; longest.length) {
+    longest = shelf[slot];
+  }
+}
+console.log(longest);</code></pre>
+    <p>
+      A counting loop repeats its body while a condition stays true. The counter is checked before each pass, so the
+      moment the condition fails, the body is skipped and the program continues with whatever comes after the closing
+      brace.
+    </p>
+    <p>
+      Keeping a running figure across passes is a common chore. Create the figure before the loop begins, adjust it
+      inside the body on every pass, and only trust its value once the loop has completely finished.
+    </p>
+    <pre>function tally(weights) {
+  let grams = 0;
+  for (const weight of weights) {
+    grams = grams + weight;
+  }
+  return grams;
+}
+console.log(tally([120, 80, 45]));</pre>
+    <p>
+      A helper that announces a result on the screen has not handed that result to its caller. Only a value that is
+      explicitly sent back can be stored, compared, or passed along to the next helper in the chain. The word
+      <code>return</code> is what sends it.
+    </p>
+    <pre><code>const ledger = { paid: 3, owed: 7 };
+ledger.owed = ledger.owed - ledger.paid;
+console.log(ledger.owed);</code></pre>
+  </body>
+</html>

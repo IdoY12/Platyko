@@ -1,0 +1,474 @@
+{
+  "track": "BEGINNER",
+  "unit": "fixture-unit",
+  "order": 9,
+  "title": "Fixture unit",
+  "summary": "A small, fully valid unit with one item of every format. The pipeline's own tests start from it.",
+  "concepts": [
+    { "id": "loop-running-total", "title": "Building a total inside a loop", "prerequisites": [] },
+    { "id": "array-index-and-length", "title": "Array indexes and length", "prerequisites": [] },
+    { "id": "function-return-value", "title": "Returning a value from a function", "prerequisites": ["loop-running-total"] },
+    { "id": "object-property-update", "title": "Changing a property of an object", "prerequisites": [] }
+  ],
+  "misconceptions": [
+    { "id": "loop-includes-bound", "description": "Believes a loop with a < condition also runs for the bound itself." },
+    { "id": "total-is-last-value", "description": "Believes the variable holds only the last value added, not the sum." },
+    { "id": "visit-counted-from-zero", "description": "Counts the first pass through a loop as pass zero." },
+    { "id": "final-value-at-every-step", "description": "Reads the value a variable has at the end of the program for every earlier step." },
+    { "id": "index-starts-at-one", "description": "Believes the first element of an array has index 1." },
+    { "id": "new-property-updates-old", "description": "Believes assigning to a new property name changes an existing property." },
+    { "id": "const-freezes-object", "description": "Believes an object declared with const cannot have its properties changed." },
+    { "id": "const-ignored-for-objects", "description": "Believes const has no effect at all when the value is an object." }
+  ],
+  "sources": [],
+  "lessons": [
+    {
+      "id": "fixture-unit.lesson-1",
+      "title": "A running total",
+      "conceptCard": {
+        "title": "Keeping a running total",
+        "body": "A loop can build a result one step at a time. Declare the total before the loop, change it inside the loop, and read it after the loop ends. The loop condition decides which values take part.",
+        "code": [
+          "let sum = 0;",
+          "for (let n = 1; n <= 3; n++) {",
+          "  sum = sum + n;",
+          "}",
+          "console.log(sum);"
+        ],
+        "expectedOutput": "6"
+      },
+      "itemIds": [
+        "beg.fixture-unit.loop-running-total.predict-01",
+        "beg.fixture-unit.loop-running-total.trace-01"
+      ]
+    },
+    {
+      "id": "fixture-unit.lesson-2",
+      "title": "Positions in an array",
+      "conceptCard": {
+        "title": "Indexes start at zero",
+        "body": "Every element of an array has a position called its index. The first index is 0, so the last index is always one less than the number of elements.",
+        "code": [
+          "const days = [\"mon\", \"tue\", \"wed\"];",
+          "console.log(days[0]);",
+          "console.log(days.length);"
+        ],
+        "expectedOutput": "mon\n3"
+      },
+      "itemIds": [
+        "beg.fixture-unit.array-index-and-length.fill-01",
+        "beg.fixture-unit.array-index-and-length.parsons-01"
+      ]
+    },
+    {
+      "id": "fixture-unit.lesson-3",
+      "title": "Functions that answer",
+      "conceptCard": {
+        "title": "A function hands back a value",
+        "body": "The return statement ends a function and sends a value back to the place that called it. The call itself then stands for that value, so it can be stored in a variable or printed.",
+        "code": [
+          "function area(width, height) {",
+          "  return width * height;",
+          "}",
+          "const size = area(3, 5);",
+          "console.log(size);"
+        ],
+        "expectedOutput": "15"
+      },
+      "itemIds": [
+        "beg.fixture-unit.function-return-value.parsons-01",
+        "beg.fixture-unit.function-return-value.write-01"
+      ]
+    },
+    {
+      "id": "fixture-unit.lesson-4",
+      "title": "Objects that change",
+      "conceptCard": {
+        "title": "Properties can be reassigned",
+        "body": "An object keeps its values in named properties. Assigning to a property that exists replaces its value. Assigning to a name that does not exist yet adds a new property and leaves the others alone.",
+        "code": [
+          "const lamp = { on: false };",
+          "lamp.on = true;",
+          "console.log(lamp.on);"
+        ],
+        "expectedOutput": "true"
+      },
+      "itemIds": [
+        "beg.fixture-unit.object-property-update.concept-01",
+        "beg.fixture-unit.object-property-update.fix-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "beg.fixture-unit.loop-running-total.predict-01",
+      "concept": "loop-running-total",
+      "prerequisites": [],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "let total = 0;",
+        "for (let n = 2; n < 5; n++) {",
+        "  total = total + n;",
+        "}",
+        "console.log(total);"
+      ],
+      "options": [
+        {
+          "text": "9",
+          "correct": true,
+          "feedback": "Right. The loop runs for 2, 3 and 4, and each pass adds that number to the total."
+        },
+        {
+          "text": "14",
+          "correct": false,
+          "feedback": "That also adds 5. The condition n < 5 is false when n reaches 5, so the loop stops before that pass.",
+          "misconception": "loop-includes-bound"
+        },
+        {
+          "text": "4",
+          "correct": false,
+          "feedback": "That is only the last number added. Each pass adds to the total that is already there; it does not replace it.",
+          "misconception": "total-is-last-value"
+        }
+      ],
+      "solution": { "expectedOutput": "9" },
+      "explanation": "The loop starts at 2 and repeats while n is less than 5, so n takes the values 2, 3 and 4. Each pass adds n to total, which grows from 0 to 2, then 5, then 9.",
+      "hints": [
+        "Look at the loop condition on line 2.",
+        "A loop with a < condition stops before the bound is reached.",
+        "Write down n for every pass, then add those numbers together."
+      ],
+      "reference": {
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "content-tools-fixture",
+      "version": 1
+    },
+    {
+      "id": "beg.fixture-unit.loop-running-total.trace-01",
+      "concept": "loop-running-total",
+      "prerequisites": ["array-index-and-length"],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What value does stock hold right after line 4 has run for the second time?",
+      "code": [
+        "let stock = 10;",
+        "const sold = [3, 4, 2];",
+        "for (const amount of sold) {",
+        "  stock = stock - amount;",
+        "}",
+        "console.log(stock);"
+      ],
+      "options": [
+        {
+          "text": "3",
+          "correct": true,
+          "feedback": "Right. The first pass leaves 7 and the second pass takes 4 away from that."
+        },
+        {
+          "text": "7",
+          "correct": false,
+          "feedback": "That is the value after the first pass. The question asks about the second time line 4 runs.",
+          "misconception": "visit-counted-from-zero"
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "That is the value when the program ends, after all three passes. After the second pass one amount is still waiting.",
+          "misconception": "final-value-at-every-step"
+        }
+      ],
+      "solution": { "probe": { "variable": "stock", "afterLine": 4, "visit": 2 }, "expectedOutput": "1" },
+      "explanation": "The loop visits the amounts in order. After the first pass stock is 10 - 3 = 7. After the second pass it is 7 - 4 = 3. The third pass has not happened yet at that moment.",
+      "hints": [
+        "Follow line 4 once for every element of sold.",
+        "The variable keeps its value from one pass to the next.",
+        "Take the first two amounts away from 10, one after the other."
+      ],
+      "reference": {
+        "title": "for...of statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "content-tools-fixture",
+      "version": 1
+    },
+    {
+      "id": "beg.fixture-unit.array-index-and-length.fill-01",
+      "concept": "array-index-and-length",
+      "prerequisites": [],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Complete line 2 so that the program prints the last element of the array.",
+      "code": [
+        "const pets = [\"cat\", \"dog\", \"owl\"];",
+        "const last = pets[pets.___ - ___];",
+        "console.log(last);"
+      ],
+      "options": [
+        {
+          "text": "length",
+          "correct": true,
+          "feedback": "Right. This property holds the number of elements, which is 3 here."
+        },
+        {
+          "text": "1",
+          "correct": true,
+          "feedback": "Right. Indexes start at 0, so the last index is one less than the number of elements."
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "Taking away 0 gives index 3, and no element lives there, so the program prints undefined.",
+          "misconception": "index-starts-at-one"
+        },
+        {
+          "text": "size",
+          "correct": false,
+          "feedback": "Arrays have no property with this name. Reading it gives undefined, and the subtraction then cannot produce a real index."
+        }
+      ],
+      "solution": { "blanks": [["length"], ["1"]], "expectedOutput": "owl" },
+      "explanation": "The array has three elements at indexes 0, 1 and 2. The number of elements is 3, so the last index is 3 - 1 = 2, and pets[2] is \"owl\".",
+      "hints": [
+        "Look at what is inside the square brackets on line 2.",
+        "The last index is one less than the number of elements.",
+        "The first blank asks how many elements there are; the second corrects for counting from zero."
+      ],
+      "reference": {
+        "title": "Array: length",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "content-tools-fixture",
+      "version": 1
+    },
+    {
+      "id": "beg.fixture-unit.array-index-and-length.parsons-01",
+      "concept": "array-index-and-length",
+      "prerequisites": [],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so that the program prints 3 and then cy.",
+      "code": [
+        "console.log(team[2]);",
+        "team.push(extra);",
+        "const team = [\"ana\", \"ben\"];",
+        "console.log(team.length);",
+        "const extra = \"cy\";"
+      ],
+      "solution": {
+        "lineOrder": [2, 4, 1, 3, 0],
+        "acceptedOrders": [[4, 2, 1, 3, 0]],
+        "expectedOutput": "3\ncy"
+      },
+      "explanation": "Both constants must exist before push uses them, and their own order does not matter. After the push the array has three elements, so its length is 3 and index 2 holds the new name.",
+      "hints": [
+        "Find the lines that create the values the other lines need.",
+        "An element can only be read at index 2 once the array has three elements.",
+        "Declare first, add the extra name next, and print the two results last."
+      ],
+      "reference": {
+        "title": "Array.prototype.push()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "content-tools-fixture",
+      "version": 1
+    },
+    {
+      "id": "beg.fixture-unit.function-return-value.parsons-01",
+      "concept": "function-return-value",
+      "prerequisites": [],
+      "format": "PARSONS",
+      "variant": "ORDER_OUTPUT",
+      "difficulty": 2,
+      "prompt": "Put the printed lines in the order in which this program prints them.",
+      "code": [
+        "function wrap(label) {",
+        "  console.log(\"inside \" + label);",
+        "  return label + \" done\";",
+        "}",
+        "console.log(\"start\");",
+        "const summary = wrap(\"task\");",
+        "console.log(summary);"
+      ],
+      "solution": { "expectedOutput": "start\ninside task\ntask done" },
+      "explanation": "Declaring a function prints nothing. Line 5 prints first. The call on line 6 runs the body, which prints its own line and then returns a text. Line 7 prints that returned text last.",
+      "hints": [
+        "Find the first line that runs outside the function.",
+        "The body of a function runs only when the function is called.",
+        "The call on line 6 prints before its result is stored and printed by line 7."
+      ],
+      "reference": {
+        "title": "return statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "content-tools-fixture",
+      "version": 1
+    },
+    {
+      "id": "beg.fixture-unit.function-return-value.write-01",
+      "concept": "function-return-value",
+      "prerequisites": ["loop-running-total", "array-index-and-length"],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of largest so that it returns the biggest number in the array numbers.",
+      "solution": {
+        "entry": { "kind": "function", "name": "largest", "params": ["numbers"] },
+        "tests": [
+          { "input": [[3, 9, 4]], "expected": 9 },
+          { "input": [[-5, -2, -8]], "expected": -2 },
+          { "input": [[7]], "expected": 7 },
+          { "input": [[1, 2, 6]], "expected": 6 }
+        ],
+        "reference": [
+          "let best = numbers[0];",
+          "for (const value of numbers) {",
+          "  if (value > best) {",
+          "    best = value;",
+          "  }",
+          "}",
+          "return best;"
+        ],
+        "wrongSolutions": [
+          ["return numbers[0];"],
+          ["return numbers[numbers.length - 1];"],
+          [
+            "let best = 0;",
+            "for (const value of numbers) {",
+            "  if (value > best) {",
+            "    best = value;",
+            "  }",
+            "}",
+            "return best;"
+          ]
+        ]
+      },
+      "explanation": "Start with the first element as the best so far, compare every element with it, and keep the larger one. Starting from the first element instead of 0 keeps the answer right when every number is negative.",
+      "hints": [
+        "You need one variable that remembers the biggest number seen so far.",
+        "Compare each element with the remembered value and replace it when the element is larger.",
+        "Begin with the first element, loop over the array, and return the remembered value after the loop."
+      ],
+      "reference": {
+        "title": "Functions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "content-tools-fixture",
+      "version": 1
+    },
+    {
+      "id": "beg.fixture-unit.object-property-update.concept-01",
+      "concept": "object-property-update",
+      "prerequisites": [],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Line 2 changes a property of an object declared with const. Which statement explains what the program does?",
+      "code": [
+        "const pet = { kind: \"cat\", age: 3 };",
+        "pet.age = 4;",
+        "console.log(pet.age);"
+      ],
+      "options": [
+        {
+          "text": "const only stops pet from being assigned again; the object it holds can still change.",
+          "correct": true,
+          "feedback": "Right. The variable keeps pointing at the same object, and that object's property is updated, so the program prints 4."
+        },
+        {
+          "text": "The assignment on line 2 is ignored, so the program prints 3.",
+          "correct": false,
+          "feedback": "The program prints 4. const protects the variable, not the contents of the object it refers to.",
+          "misconception": "const-freezes-object"
+        },
+        {
+          "text": "const has no effect on objects, so pet could also be given a new object.",
+          "correct": false,
+          "feedback": "Assigning a new object to pet would throw an error. const still forbids reassigning the variable itself.",
+          "misconception": "const-ignored-for-objects"
+        }
+      ],
+      "solution": { "expectedOutput": "4" },
+      "explanation": "const fixes which value a variable refers to. Here that value is an object, and the object itself stays changeable. Line 2 updates a property of the same object, so line 3 prints the new age.",
+      "hints": [
+        "Look at what stands on the left of the assignment on line 2.",
+        "Changing a property is different from assigning a new value to the variable.",
+        "Ask whether line 2 gives pet a different object or changes the one it already has."
+      ],
+      "reference": {
+        "title": "const",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "content-tools-fixture",
+      "version": 1
+    },
+    {
+      "id": "beg.fixture-unit.object-property-update.fix-01",
+      "concept": "object-property-update",
+      "prerequisites": [],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "This program should print 45, the old sum plus the extra amount. Tap the line with the bug and pick the fix.",
+      "code": [
+        "const cart = { items: 2, sum: 30 };",
+        "const extra = 15;",
+        "cart.total = cart.sum + extra;",
+        "console.log(cart.sum);"
+      ],
+      "options": [
+        {
+          "text": "cart.sum = cart.sum + extra;",
+          "correct": true,
+          "feedback": "Right. Assigning to the property that already exists replaces its value with 45."
+        },
+        {
+          "text": "cart.total = cart.total + extra;",
+          "correct": false,
+          "feedback": "This still writes to a property named total, so the value printed by line 4 stays 30.",
+          "misconception": "new-property-updates-old"
+        },
+        {
+          "text": "cart.sum = extra;",
+          "correct": false,
+          "feedback": "This replaces the old value instead of adding to it, so the program prints 15."
+        }
+      ],
+      "solution": { "bugLine": 3, "expectedOutput": "45" },
+      "explanation": "Line 3 stores the result in a new property called total and leaves sum untouched, so line 4 prints 30. Assigning the result to cart.sum updates the property that is printed.",
+      "hints": [
+        "Compare the property that is assigned with the property that is printed.",
+        "Assigning to a name the object does not have yet adds a new property.",
+        "The result has to be stored under the same name that line 4 reads."
+      ],
+      "reference": {
+        "title": "Working with objects",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "content-tools-fixture",
+      "version": 1
+    }
+  ]
+}
