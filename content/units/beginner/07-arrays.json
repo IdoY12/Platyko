@@ -1,0 +1,1662 @@
+{
+  "track": "BEGINNER",
+  "unit": "arrays",
+  "order": 7,
+  "title": "Arrays",
+  "summary": "Read items by index, use length, add and remove with push and pop, and visit every item in a loop.",
+  "concepts": [
+    {
+      "id": "array-index",
+      "title": "Arrays and reading by index",
+      "prerequisites": [
+        "const-declaration",
+        "number-values"
+      ]
+    },
+    {
+      "id": "array-length",
+      "title": "length and the last element",
+      "prerequisites": [
+        "array-index"
+      ]
+    },
+    {
+      "id": "array-push-pop",
+      "title": "Adding and removing: push and pop",
+      "prerequisites": [
+        "array-length",
+        "const-declaration"
+      ]
+    },
+    {
+      "id": "array-iteration",
+      "title": "Visiting every element",
+      "prerequisites": [
+        "array-length",
+        "for-loop",
+        "loop-accumulator"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "one-based-index",
+      "description": "Believes counting starts at 1, so the first item has index 1 and index 0 is empty."
+    },
+    {
+      "id": "length-is-last-index",
+      "description": "Believes length is the index of the last item, or that the last index equals the number of items."
+    },
+    {
+      "id": "out-of-range-throws",
+      "description": "Believes reading an index that has no item stops the program with an error."
+    },
+    {
+      "id": "ends-confused",
+      "description": "Believes push adds at the front of an array, or that pop removes the first item."
+    },
+    {
+      "id": "pop-returns-rest",
+      "description": "Believes pop returns the array that is left instead of the removed item."
+    },
+    {
+      "id": "const-blocks-push",
+      "description": "Believes an array declared with const cannot be changed by push or pop."
+    },
+    {
+      "id": "loop-bound-includes-length",
+      "description": "Believes the last index equals the length, so a loop may run while i <= length."
+    },
+    {
+      "id": "of-gives-index",
+      "description": "Believes for...of gives the index of each item instead of the item."
+    },
+    {
+      "id": "final-value-at-every-step",
+      "description": "Reads the value a variable has at the end of the program for every earlier step."
+    },
+    {
+      "id": "split-keeps-text",
+      "description": "Believes split leaves the text as one piece or counts its characters."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+      "retrievedAt": "2026-11-14",
+      "sha256": "a163c73a4112a23de61e2b5de875116830d4ba7235b3929631e603a71a6ddf80"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+      "retrievedAt": "2026-11-14",
+      "sha256": "0aa75a29bfe2024854659b8e390fdd1e7c590782a389a023ea3124d923103066"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length",
+      "retrievedAt": "2026-11-14",
+      "sha256": "141e6d51894e49cde801343263b14a033d063911d12b1bd197ddf69e3b38970a"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push",
+      "retrievedAt": "2026-11-14",
+      "sha256": "b6744e86e49d6db176f1e24e626dec4340e4ec64e42848a74d7a4ff4feec30f4"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop",
+      "retrievedAt": "2026-11-14",
+      "sha256": "64bd94694d07f0787a5cd212d4cf0515a3490c9f6298458be655602ab9860d4a"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of",
+      "retrievedAt": "2026-11-14",
+      "sha256": "18bbbd74ab41305d27154fa62c6d4d2b1514ecfce0efa8657b65a44387c94c84"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes",
+      "retrievedAt": "2026-11-14",
+      "sha256": "ae0e28f666a4731e882f2badd7c04d4060e836bfd11513f0a50fbdf4dcad9680"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf",
+      "retrievedAt": "2026-11-14",
+      "sha256": "39066a2209f25c515310de9a43887e8db999e658ea7202c42131561bafb7b5c4"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7b5853f6b9989282d6fa932fa81ee546576bf22385fdeb38783f4385fb1538b9"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7e315313108c83045bc454a90d4f1f632394a89306bde0a72e98851e4ffb9ce8"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Indexed_collections",
+      "retrievedAt": "2026-11-14",
+      "sha256": "ee91abf1a52f3393ca8f153b1109a6761576575ce74ab787721b0e87a1c091fb"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "arrays.lesson-1",
+      "title": "Reading by index",
+      "conceptCard": {
+        "title": "Arrays and indexes",
+        "body": "An array is an ordered list. Each item has an index, a number that starts at 0. Write the array name and the index in square brackets to read an item. An index with no item gives undefined.",
+        "code": [
+          "const days = [\"Mon\", \"Tue\", \"Wed\"];",
+          "console.log(days[0]);",
+          "console.log(days[2]);",
+          "console.log(days[3]);"
+        ],
+        "expectedOutput": "Mon\nWed\nundefined"
+      },
+      "itemIds": [
+        "beg.arrays.index.predict-01",
+        "beg.arrays.index.predict-02",
+        "beg.arrays.index.trace-01",
+        "beg.arrays.index.fill-01",
+        "beg.arrays.index.parsons-01",
+        "beg.arrays.index.concept-01"
+      ]
+    },
+    {
+      "id": "arrays.lesson-2",
+      "title": "Length and the last item",
+      "conceptCard": {
+        "title": "length",
+        "body": "The length property counts the items of an array. Indexes start at 0, so the last index is length - 1. Reading at index length finds nothing and gives undefined.",
+        "code": [
+          "const dogs = [\"Rex\", \"Ada\", \"Bo\"];",
+          "console.log(dogs.length);",
+          "console.log(dogs[dogs.length - 1]);"
+        ],
+        "expectedOutput": "3\nBo"
+      },
+      "itemIds": [
+        "beg.arrays.length.predict-01",
+        "beg.arrays.length.predict-02",
+        "beg.arrays.length.trace-01",
+        "beg.arrays.length.fill-01",
+        "beg.arrays.length.parsons-01",
+        "beg.arrays.length.write-01"
+      ]
+    },
+    {
+      "id": "arrays.lesson-3",
+      "title": "Adding and removing",
+      "conceptCard": {
+        "title": "push and pop",
+        "body": "push adds an item at the end of an array. pop removes the last item and returns it. Both change the array itself, even when it is declared with const.",
+        "code": [
+          "const pile = [1, 2];",
+          "pile.push(3);",
+          "const top = pile.pop();",
+          "console.log(top, pile);"
+        ],
+        "expectedOutput": "3 [1, 2]"
+      },
+      "itemIds": [
+        "beg.arrays.push-pop.predict-01",
+        "beg.arrays.push-pop.predict-02",
+        "beg.arrays.push-pop.trace-01",
+        "beg.arrays.push-pop.fill-01",
+        "beg.arrays.push-pop.parsons-01",
+        "beg.arrays.push-pop.concept-01"
+      ]
+    },
+    {
+      "id": "arrays.lesson-4",
+      "title": "Visiting every item",
+      "conceptCard": {
+        "title": "Looping over an array",
+        "body": "A for loop can count the indexes from 0 up to length - 1. A for...of loop gives you each item directly, without an index. Both visit every item once.",
+        "code": [
+          "const nums = [5, 8];",
+          "const count = nums.length;",
+          "for (let i = 0; i < count; i++) {",
+          "  console.log(nums[i]);",
+          "}",
+          "for (const n of nums) {",
+          "  console.log(n * 2);",
+          "}"
+        ],
+        "expectedOutput": "5\n8\n10\n16"
+      },
+      "itemIds": [
+        "beg.arrays.iteration.predict-01",
+        "beg.arrays.iteration.predict-02",
+        "beg.arrays.iteration.trace-01",
+        "beg.arrays.iteration.fill-01",
+        "beg.arrays.iteration.parsons-01",
+        "beg.arrays.iteration.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "beg.arrays.index.predict-01",
+      "concept": "array-index",
+      "prerequisites": [
+        "const-declaration",
+        "number-values"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "const stops = [\"Oak\", \"Bay\", \"Elm\"];",
+        "console.log(stops[1], stops[3]);"
+      ],
+      "options": [
+        {
+          "text": "Bay undefined",
+          "correct": true,
+          "feedback": "Right. Index 1 is the second item. The array has no index 3, so reading it gives undefined."
+        },
+        {
+          "text": "Oak Elm",
+          "correct": false,
+          "feedback": "You counted from 1. The first item has index 0, so index 1 is the second item.",
+          "misconception": "one-based-index"
+        },
+        {
+          "text": "Bay Elm",
+          "correct": false,
+          "feedback": "Three items use the indexes 0, 1 and 2. Index 3 does not exist, and reading it gives undefined.",
+          "misconception": "length-is-last-index"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Bay undefined"
+      },
+      "explanation": "Indexes start at 0, so stops[1] is the second item, Bay. The array has three items, so the last index is 2. Reading index 3 gives undefined.",
+      "hints": [
+        "Write the index of each item under the array: 0, 1, 2.",
+        "An index counts from 0. Reading an index that has no item gives undefined.",
+        "Find the item at index 1, then check whether index 3 exists."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:26"
+      ]
+    },
+    {
+      "id": "beg.arrays.index.predict-02",
+      "concept": "array-index",
+      "prerequisites": [
+        "const-declaration",
+        "number-values"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "const bread = [\"rye\", \"oat\"];",
+        "const first = bread[0];",
+        "console.log(first);"
+      ],
+      "options": [
+        {
+          "text": "rye",
+          "correct": true,
+          "feedback": "Right. The first item has index 0."
+        },
+        {
+          "text": "undefined",
+          "correct": false,
+          "feedback": "You counted from 1, so index 0 looked empty. Counting starts at 0, and index 0 holds the first item.",
+          "misconception": "one-based-index"
+        },
+        {
+          "text": "oat",
+          "correct": false,
+          "feedback": "That is the item at index 1, the second one. The first item is at index 0.",
+          "misconception": "one-based-index"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "rye"
+      },
+      "explanation": "Array indexes start at 0. The first item is at index 0, so bread[0] is rye.",
+      "hints": [
+        "Look at the number between the brackets on line 2.",
+        "The first item of an array has index 0.",
+        "Pick the item that sits first in the list."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:1"
+      ]
+    },
+    {
+      "id": "beg.arrays.index.trace-01",
+      "concept": "array-index",
+      "prerequisites": [
+        "const-declaration",
+        "number-values"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does spot hold right after line 2 has run?",
+      "code": [
+        "const hike = [\"lake\", \"col\", \"top\"];",
+        "let spot = hike[0];",
+        "spot = hike[2];",
+        "console.log(spot);"
+      ],
+      "options": [
+        {
+          "text": "'lake'",
+          "correct": true,
+          "feedback": "Right. Line 2 reads index 0, the first item."
+        },
+        {
+          "text": "'top'",
+          "correct": false,
+          "feedback": "That is the value after line 3. The question stops after line 2, before spot is changed.",
+          "misconception": "final-value-at-every-step"
+        },
+        {
+          "text": "undefined",
+          "correct": false,
+          "feedback": "You counted from 1, so index 0 looked empty. Index 0 holds the first item.",
+          "misconception": "one-based-index"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "spot",
+          "afterLine": 2,
+          "visit": 1
+        },
+        "expectedOutput": "top"
+      },
+      "explanation": "Line 2 stores hike[0], the first item, in spot. Line 3 replaces it with hike[2], so the program prints top. Right after line 2 the value is lake.",
+      "hints": [
+        "Stop after line 2 and ignore line 3.",
+        "Index 0 is the first item of the array.",
+        "Read the item at index 0 in the list on line 1."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.index.fill-01",
+      "concept": "array-index",
+      "prerequisites": [
+        "const-declaration",
+        "number-values"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blanks so the program prints 1 and then mint.",
+      "code": [
+        "const herbs = [\"mint\", \"dill\"];",
+        "console.log(herbs.___(\"dill\"));",
+        "console.log(herbs[___]);"
+      ],
+      "options": [
+        {
+          "text": "indexOf",
+          "correct": true,
+          "feedback": "Right. indexOf gives the index of a value, here 1."
+        },
+        {
+          "text": "0",
+          "correct": true,
+          "feedback": "Right. Index 0 is the first item, mint."
+        },
+        {
+          "text": "includes",
+          "correct": false,
+          "feedback": "In the first blank this prints true, not 2. includes only says whether a value is there."
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "In the second blank this prints dill, the item at index 1. The first item is at index 0."
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "In the second blank this prints undefined. Two items have the indexes 0 and 1."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "indexOf"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "expectedOutput": "1\nmint"
+      },
+      "explanation": "indexOf returns the index where a value is found, here 1. The first item always has index 0, so herbs[0] is mint.",
+      "hints": [
+        "The first blank asks where a value is. The second blank is an index.",
+        "One array method tells you the position of a value.",
+        "The first item has the smallest possible index."
+      ],
+      "reference": {
+        "title": "Array.prototype.indexOf()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:14"
+      ]
+    },
+    {
+      "id": "beg.arrays.index.parsons-01",
+      "concept": "array-index",
+      "prerequisites": [
+        "const-declaration",
+        "number-values"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Order the lines to build the text Dune! from the second book.",
+      "code": [
+        "const note = pick + \"!\";",
+        "const books = [\"Emma\", \"Dune\"];",
+        "console.log(note);",
+        "const pick = books[1];"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "expectedOutput": "Dune!"
+      },
+      "explanation": "Each line uses the name made by the line before it. books must exist before books[1] is read, and pick before it gets the exclamation mark.",
+      "hints": [
+        "Which line creates a name that no other line creates?",
+        "A name must be created before another line uses it.",
+        "Order the lines by what each one needs: books, then pick, then note."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.index.concept-01",
+      "concept": "array-index",
+      "prerequisites": [
+        "const-declaration",
+        "number-values"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement about this code is true?",
+      "code": [
+        "const seats = [\"A\", \"B\", \"C\", \"D\"];",
+        "console.log(seats[0]);",
+        "console.log(seats[3]);"
+      ],
+      "options": [
+        {
+          "text": "The first item has index 0, so the last of four items has index 3.",
+          "correct": true,
+          "feedback": "Right. The indexes of four items are 0, 1, 2 and 3."
+        },
+        {
+          "text": "The first item has index 1, so seats[0] is empty.",
+          "correct": false,
+          "feedback": "The code prints A for seats[0]. Counting starts at 0, not at 1.",
+          "misconception": "one-based-index"
+        },
+        {
+          "text": "The last of four items has index 4, so seats[3] is the third item.",
+          "correct": false,
+          "feedback": "Four items use the indexes 0 to 3. There is no index 4, and seats[3] is the fourth item.",
+          "misconception": "length-is-last-index"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "A\nD"
+      },
+      "explanation": "Counting starts at 0, so seats[0] is A. With four items the indexes are 0, 1, 2 and 3, and seats[3] is the last item, D.",
+      "hints": [
+        "Look at what each console.log line prints.",
+        "Indexes start at 0.",
+        "Count the items, then count the indexes from 0."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.length.predict-01",
+      "concept": "array-length",
+      "prerequisites": [
+        "array-index"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "const order = \"ham egg cheese\";",
+        "const parts = order.split(\" \");",
+        "console.log(\"n: \" + parts.length);"
+      ],
+      "options": [
+        {
+          "text": "n: 3",
+          "correct": true,
+          "feedback": "Right. split cuts the text at every space into three pieces."
+        },
+        {
+          "text": "n: 2",
+          "correct": false,
+          "feedback": "That is the last index, not the length. Three items have the indexes 0, 1 and 2, but length counts the items.",
+          "misconception": "length-is-last-index"
+        },
+        {
+          "text": "n: 14",
+          "correct": false,
+          "feedback": "That counts the characters of the text. split cuts the text at every space, so the array holds three words.",
+          "misconception": "split-keeps-text"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "n: 3"
+      },
+      "explanation": "split(\" \") cuts the text at each space and returns an array of the pieces: ham, egg and cheese. length counts the items, so it is 3.",
+      "hints": [
+        "Look at what line 2 stores in parts.",
+        "split returns an array, and length counts its items.",
+        "Count the pieces left when the text is cut at the spaces."
+      ],
+      "reference": {
+        "title": "String.prototype.split()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:12"
+      ]
+    },
+    {
+      "id": "beg.arrays.length.predict-02",
+      "concept": "array-length",
+      "prerequisites": [
+        "array-index"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const fish = [\"koi\", \"eel\", \"cod\"];",
+        "console.log(fish[fish.length]);"
+      ],
+      "options": [
+        {
+          "text": "undefined",
+          "correct": true,
+          "feedback": "Right. The array has three items, so its last index is 2. Index 3 has no item."
+        },
+        {
+          "text": "cod",
+          "correct": false,
+          "feedback": "The last item has index fish.length - 1. fish.length itself is one index past it.",
+          "misconception": "length-is-last-index"
+        },
+        {
+          "text": "Uncaught RangeError",
+          "correct": false,
+          "feedback": "Reading an index that does not exist does not stop the program. It gives undefined.",
+          "misconception": "out-of-range-throws"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "undefined"
+      },
+      "explanation": "fish.length is 3, but the indexes are 0 to 2. fish[3] has no item, and reading a missing index gives undefined.",
+      "hints": [
+        "First work out the value of fish.length.",
+        "The last index is always one less than the length.",
+        "Check whether the array has an item at that index."
+      ],
+      "reference": {
+        "title": "Array: length",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.length.trace-01",
+      "concept": "array-length",
+      "prerequisites": [
+        "array-index"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does spot hold right after line 2 has run?",
+      "code": [
+        "const queue = [\"ann\", \"bo\", \"cy\"];",
+        "let spot = queue.length - 1;",
+        "spot = spot - 1;",
+        "console.log(queue[spot]);"
+      ],
+      "options": [
+        {
+          "text": "2",
+          "correct": true,
+          "feedback": "Right. The length is 3, and the last index is one less."
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "That is the length itself. Line 2 subtracts 1 to get the last index.",
+          "misconception": "length-is-last-index"
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "That is the value after line 3. The question stops after line 2.",
+          "misconception": "final-value-at-every-step"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "spot",
+          "afterLine": 2,
+          "visit": 1
+        },
+        "expectedOutput": "bo"
+      },
+      "explanation": "The length is 3, so line 2 stores 2, the last index. Line 3 lowers it to 1, so the program prints queue[1], which is bo.",
+      "hints": [
+        "Stop after line 2 and ignore line 3.",
+        "length counts the items; the last index is one less.",
+        "The array has three items, then subtract 1."
+      ],
+      "reference": {
+        "title": "Array: length",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.length.fill-01",
+      "concept": "array-length",
+      "prerequisites": [
+        "array-index"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blanks so the program prints the last tide, 9.",
+      "code": [
+        "const tides = [3, 7, 5, 9];",
+        "console.log(tides[tides.___ - ___]);"
+      ],
+      "options": [
+        {
+          "text": "length",
+          "correct": true,
+          "feedback": "Right. length is the number of items, 4."
+        },
+        {
+          "text": "1",
+          "correct": true,
+          "feedback": "Right. The last index is the length minus 1."
+        },
+        {
+          "text": "size",
+          "correct": false,
+          "feedback": "Arrays have no size property. It gives undefined, and the program prints undefined."
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "With 0 the index becomes 4, which has no item. The program prints undefined."
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "With 2 the index becomes 2, so the program prints 5, the third item."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "length"
+          ],
+          [
+            "1"
+          ]
+        ],
+        "expectedOutput": "9"
+      },
+      "explanation": "tides.length is 4 and the last index is 3, so tides[tides.length - 1] reads the last item, 9.",
+      "hints": [
+        "Look at the index inside the brackets.",
+        "The last index equals the number of items minus one.",
+        "Use the property that counts the items, then subtract the smallest step."
+      ],
+      "reference": {
+        "title": "Array: length",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.length.parsons-01",
+      "concept": "array-length",
+      "prerequisites": [
+        "array-index"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Arrange the lines so that the program reports the last mug and the number of mugs.",
+      "code": [
+        "console.log(last + \" of \" + count);",
+        "const count = mugs.length;",
+        "const mugs = [\"red\", \"blue\", \"tan\"];",
+        "const last = mugs[count - 1];"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          1,
+          3,
+          0
+        ],
+        "expectedOutput": "tan of 3"
+      },
+      "explanation": "count needs mugs, last needs count, and the print needs both. Each line builds on the one before it.",
+      "hints": [
+        "Which line creates the array?",
+        "A value must exist before a line can use it.",
+        "Order: mugs, then count, then last, then the print."
+      ],
+      "reference": {
+        "title": "Array: length",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.length.write-01",
+      "concept": "array-length",
+      "prerequisites": [
+        "array-index"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "Write an expression that gives the last item of arr.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "arr"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "arr": [
+                1,
+                2,
+                3
+              ]
+            },
+            "expected": 3
+          },
+          {
+            "input": {
+              "arr": [
+                99
+              ]
+            },
+            "expected": 99
+          },
+          {
+            "input": {
+              "arr": [
+                -1,
+                0,
+                2
+              ]
+            },
+            "expected": 2
+          },
+          {
+            "input": {
+              "arr": [
+                "a",
+                "b"
+              ]
+            },
+            "expected": "b"
+          }
+        ],
+        "reference": [
+          "arr[arr.length - 1]"
+        ],
+        "wrongSolutions": [
+          [
+            "arr[arr.length]"
+          ],
+          [
+            "arr[arr.length - 2]"
+          ],
+          [
+            "arr[1]"
+          ]
+        ]
+      },
+      "explanation": "The last index is the length minus 1, so arr[arr.length - 1] works for any non-empty array. arr[arr.length] reads past the end.",
+      "hints": [
+        "The last item has the highest index.",
+        "The highest index is one less than the length.",
+        "Put an expression with arr.length inside the brackets."
+      ],
+      "reference": {
+        "title": "Array: length",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:0"
+      ]
+    },
+    {
+      "id": "beg.arrays.push-pop.predict-01",
+      "concept": "array-push-pop",
+      "prerequisites": [
+        "array-length",
+        "const-declaration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "const plants = [\"fern\", \"cactus\"];",
+        "plants.push(\"orchid\");",
+        "console.log(plants);"
+      ],
+      "options": [
+        {
+          "text": "['fern', 'cactus', 'orchid']",
+          "correct": true,
+          "feedback": "Right. push adds a new item at the end."
+        },
+        {
+          "text": "['orchid', 'fern', 'cactus']",
+          "correct": false,
+          "feedback": "push adds at the end, not the front. The new item comes last.",
+          "misconception": "ends-confused"
+        },
+        {
+          "text": "Uncaught TypeError",
+          "correct": false,
+          "feedback": "const stops the name from pointing to a new array, but the array itself can still grow.",
+          "misconception": "const-blocks-push"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "['fern', 'cactus', 'orchid']"
+      },
+      "explanation": "push adds its argument after the last item. The const only fixes which array plants refers to, so the array may still change.",
+      "hints": [
+        "Look at line 2.",
+        "push adds an item to one end of an array.",
+        "The new item goes after the existing ones."
+      ],
+      "reference": {
+        "title": "Array.prototype.push()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:21"
+      ]
+    },
+    {
+      "id": "beg.arrays.push-pop.predict-02",
+      "concept": "array-push-pop",
+      "prerequisites": [
+        "array-length",
+        "const-declaration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const seeds = [5, 2, 9];",
+        "seeds.pop();",
+        "console.log(seeds.includes(5));"
+      ],
+      "options": [
+        {
+          "text": "true",
+          "correct": true,
+          "feedback": "Right. pop removes the last item, 9. The 5 at the front stays."
+        },
+        {
+          "text": "false",
+          "correct": false,
+          "feedback": "pop removes the last item, not the first. The 5 at the front is still there.",
+          "misconception": "ends-confused"
+        },
+        {
+          "text": "Uncaught TypeError",
+          "correct": false,
+          "feedback": "A const array can still be changed. pop works and the program runs on.",
+          "misconception": "const-blocks-push"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true"
+      },
+      "explanation": "pop removes the last item, 9, so the array becomes [5, 2]. includes(5) asks whether 5 is in the array, and it is.",
+      "hints": [
+        "Work out what the array holds after line 2.",
+        "pop removes one item from one end of the array.",
+        "Check whether 5 is among the items that are left."
+      ],
+      "reference": {
+        "title": "Array.prototype.includes()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:6"
+      ]
+    },
+    {
+      "id": "beg.arrays.push-pop.trace-01",
+      "concept": "array-push-pop",
+      "prerequisites": [
+        "array-length",
+        "const-declaration"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does taken hold right after line 2 has run?",
+      "code": [
+        "const tools = [\"saw\", \"axe\", \"awl\"];",
+        "const taken = tools.pop();",
+        "console.log(\"took \" + taken);",
+        "console.log(tools.length);"
+      ],
+      "options": [
+        {
+          "text": "'awl'",
+          "correct": true,
+          "feedback": "Right. pop gives back the item it removes, the last one."
+        },
+        {
+          "text": "'saw'",
+          "correct": false,
+          "feedback": "pop works on the last item, not the first.",
+          "misconception": "ends-confused"
+        },
+        {
+          "text": "['saw', 'axe']",
+          "correct": false,
+          "feedback": "That is what is left in the array. pop returns the removed item, not the rest.",
+          "misconception": "pop-returns-rest"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "taken",
+          "afterLine": 2,
+          "visit": 1
+        },
+        "expectedOutput": "took awl\n2"
+      },
+      "explanation": "pop removes the last item from tools and returns it, so taken holds awl. The array keeps two items, so the program prints took awl and then 2.",
+      "hints": [
+        "Look at what line 2 stores in taken.",
+        "pop returns the item it removes.",
+        "Which item of the list sits at the end?"
+      ],
+      "reference": {
+        "title": "Array.prototype.pop()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:24"
+      ]
+    },
+    {
+      "id": "beg.arrays.push-pop.fill-01",
+      "concept": "array-push-pop",
+      "prerequisites": [
+        "array-length",
+        "const-declaration"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blanks so the program prints 3.",
+      "code": [
+        "const scores = [4, 6];",
+        "scores.___(9);",
+        "console.log(scores.___);"
+      ],
+      "options": [
+        {
+          "text": "push",
+          "correct": true,
+          "feedback": "Right. push adds 9 at the end, so the array holds three items."
+        },
+        {
+          "text": "length",
+          "correct": true,
+          "feedback": "Right. length counts the three items."
+        },
+        {
+          "text": "pop",
+          "correct": false,
+          "feedback": "pop removes the last item and ignores the 9. The array ends with one item."
+        },
+        {
+          "text": "size",
+          "correct": false,
+          "feedback": "Arrays have no size property. The program would print undefined."
+        },
+        {
+          "text": "sum",
+          "correct": false,
+          "feedback": "Arrays have no sum property. The program would print undefined."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "push"
+          ],
+          [
+            "length"
+          ]
+        ],
+        "expectedOutput": "3"
+      },
+      "explanation": "push(9) adds a third item, and length counts the items, so the program prints 3.",
+      "hints": [
+        "The first blank changes the array. The second reads it.",
+        "One method adds an item at the end.",
+        "Use the method that adds, then the property that counts."
+      ],
+      "reference": {
+        "title": "Array.prototype.push()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:29"
+      ]
+    },
+    {
+      "id": "beg.arrays.push-pop.parsons-01",
+      "concept": "array-push-pop",
+      "prerequisites": [
+        "array-length",
+        "const-declaration"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Reorder the lines so that the program shows the removed item and then what is left.",
+      "code": [
+        "console.log(lane);",
+        "lane.push(\"y\");",
+        "const lane = [\"x\"];",
+        "console.log(lane.pop());"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          1,
+          3,
+          0
+        ],
+        "expectedOutput": "y\n['x']"
+      },
+      "explanation": "The array must exist before push, push must add y before pop removes it, and the array is printed last to show what is left.",
+      "hints": [
+        "Which line creates lane?",
+        "pop removes the item that push added.",
+        "Print the removed item first, then the array that is left."
+      ],
+      "reference": {
+        "title": "Array.prototype.pop()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.push-pop.concept-01",
+      "concept": "array-push-pop",
+      "prerequisites": [
+        "array-length",
+        "const-declaration"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement about this code is true?",
+      "code": [
+        "const stack = [\"a\", \"b\"];",
+        "const gone = stack.pop();",
+        "stack.push(\"c\");",
+        "console.log(stack, gone);"
+      ],
+      "options": [
+        {
+          "text": "pop removes the last item and gives it back; push adds an item at the end.",
+          "correct": true,
+          "feedback": "Right. gone holds b, and c is added after a."
+        },
+        {
+          "text": "pop gives back what is left in the array, and push adds an item at the front.",
+          "correct": false,
+          "feedback": "pop returns the removed item, not the rest. push adds at the end, not the front.",
+          "misconception": "pop-returns-rest"
+        },
+        {
+          "text": "stack is const, so pop and push would stop the program with an error.",
+          "correct": false,
+          "feedback": "const stops reassignment only. The array itself may be changed, and the program runs.",
+          "misconception": "const-blocks-push"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "['a', 'c'] b"
+      },
+      "explanation": "pop removes b and returns it, so gone is b. push then adds c at the end of what is left, so stack is a and c.",
+      "hints": [
+        "Follow the array line by line.",
+        "pop returns the item it removes; push adds at the end.",
+        "Write down the array after line 2 and after line 3."
+      ],
+      "reference": {
+        "title": "Array",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.iteration.predict-01",
+      "concept": "array-iteration",
+      "prerequisites": [
+        "array-length",
+        "for-loop",
+        "loop-accumulator"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const laps = [12, 9, 14];",
+        "const count = laps.length;",
+        "let total = 0;",
+        "for (let i = 0; i <= count; i++) {",
+        "  total += laps[i];",
+        "}",
+        "console.log(total);"
+      ],
+      "options": [
+        {
+          "text": "NaN",
+          "correct": true,
+          "feedback": "Right. The loop runs one pass too many. laps[3] is undefined, and adding undefined makes the total NaN."
+        },
+        {
+          "text": "35",
+          "correct": false,
+          "feedback": "That is the total of the three laps. The condition i <= count also lets i be 3, one pass past the last item.",
+          "misconception": "loop-bound-includes-length"
+        },
+        {
+          "text": "Uncaught TypeError",
+          "correct": false,
+          "feedback": "Reading a missing index does not stop the program. It gives undefined.",
+          "misconception": "out-of-range-throws"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "NaN"
+      },
+      "explanation": "The last index is 2, but the condition i <= count allows i to be 3. laps[3] is undefined, and a number plus undefined is NaN.",
+      "hints": [
+        "Look at the condition on line 4.",
+        "Valid indexes stop one below the length.",
+        "Find the last value of i and what laps holds at that index."
+      ],
+      "reference": {
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.iteration.predict-02",
+      "concept": "array-iteration",
+      "prerequisites": [
+        "array-length",
+        "for-loop",
+        "loop-accumulator"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "const sizes = [4, 7, 5];",
+        "for (const size of sizes) {",
+        "  console.log(\"size \" + size);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "size 4\nsize 7\nsize 5",
+          "correct": true,
+          "feedback": "Right. for...of gives the items themselves, one by one."
+        },
+        {
+          "text": "size 0\nsize 1\nsize 2",
+          "correct": false,
+          "feedback": "for...of gives each item, not its index.",
+          "misconception": "of-gives-index"
+        },
+        {
+          "text": "size 1\nsize 2\nsize 3",
+          "correct": false,
+          "feedback": "for...of gives the items, not a counter that starts at 1.",
+          "misconception": "one-based-index"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "size 4\nsize 7\nsize 5"
+      },
+      "explanation": "A for...of loop takes the items of the array in order and puts each one in size, so the loop prints the three sizes.",
+      "hints": [
+        "Look at the header on line 2.",
+        "for...of hands you one item per pass.",
+        "Read the array from left to right."
+      ],
+      "reference": {
+        "title": "for...of statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.iteration.trace-01",
+      "concept": "array-iteration",
+      "prerequisites": [
+        "array-length",
+        "for-loop",
+        "loop-accumulator"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "Right after line 4 finishes its second pass, what does total hold?",
+      "code": [
+        "const crates = [4, 2, 6, 3];",
+        "let total = 0;",
+        "for (const crate of crates) {",
+        "  total += crate;",
+        "}",
+        "console.log(total);"
+      ],
+      "options": [
+        {
+          "text": "6",
+          "correct": true,
+          "feedback": "Right. After two passes the total is 4 + 2."
+        },
+        {
+          "text": "15",
+          "correct": false,
+          "feedback": "That is the total at the end of the loop. The question stops after the second pass.",
+          "misconception": "final-value-at-every-step"
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "That adds the indexes 0 and 1. for...of gives the items, not their indexes.",
+          "misconception": "of-gives-index"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "total",
+          "afterLine": 4,
+          "visit": 2
+        },
+        "expectedOutput": "15"
+      },
+      "explanation": "Each pass adds one item to total. After the second pass it holds 4 + 2 = 6. After all four passes it holds 15, which the program prints.",
+      "hints": [
+        "Count how often line 4 has run.",
+        "Each pass adds the current item to total.",
+        "Add only the first two items."
+      ],
+      "reference": {
+        "title": "for...of statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.iteration.fill-01",
+      "concept": "array-iteration",
+      "prerequisites": [
+        "array-length",
+        "for-loop",
+        "loop-accumulator"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blanks so the program numbers both cities, starting at 0.",
+      "code": [
+        "const hubs = [\"Oslo\", \"Rome\"];",
+        "for (let n = 0; n < hubs.___; n++) {",
+        "  console.log(\"#\" + n, hubs[___]);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "length",
+          "correct": true,
+          "feedback": "Right. The loop runs while i is below the number of items."
+        },
+        {
+          "text": "n",
+          "correct": true,
+          "feedback": "Right. n takes the indexes 0 and 1."
+        },
+        {
+          "text": "size",
+          "correct": false,
+          "feedback": "Arrays have no size property. The condition is then false and nothing prints."
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "In the second blank both lines show Oslo. The index must change on every pass."
+        },
+        {
+          "text": "hubs",
+          "correct": false,
+          "feedback": "In the first blank hubs.hubs is undefined, so the condition is false and nothing prints."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "length"
+          ],
+          [
+            "n"
+          ]
+        ],
+        "expectedOutput": "#0 Oslo\n#1 Rome"
+      },
+      "explanation": "The loop counts n from 0 up to length - 1, and hubs[n] reads the item at index n on every pass.",
+      "hints": [
+        "Look at the loop condition and at the index in the brackets.",
+        "The index must follow the loop counter.",
+        "Use the property that counts the items, then the loop variable."
+      ],
+      "reference": {
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.iteration.parsons-01",
+      "concept": "array-iteration",
+      "prerequisites": [
+        "array-length",
+        "for-loop",
+        "loop-accumulator"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Arrange the lines so that the program joins the notes into one song with dashes.",
+      "code": [
+        "for (let i = 1; i < count; i++) {",
+        "console.log(song);",
+        "const count = notes.length;",
+        "  song += \"-\" + notes[i];",
+        "const notes = [\"do\", \"re\", \"mi\"];",
+        "}",
+        "let song = notes[0];"
+      ],
+      "solution": {
+        "lineOrder": [
+          4,
+          2,
+          6,
+          0,
+          3,
+          5,
+          1
+        ],
+        "acceptedOrders": [
+          [
+            4,
+            6,
+            2,
+            0,
+            3,
+            5,
+            1
+          ]
+        ],
+        "expectedOutput": "do-re-mi"
+      },
+      "explanation": "song starts with the first note. The loop adds the other notes from index 1, and the print comes after the loop has finished.",
+      "hints": [
+        "Which line must come first?",
+        "A loop header comes first, then its body, then the closing brace.",
+        "Print after the loop so that the whole song is ready."
+      ],
+      "reference": {
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.arrays.iteration.write-01",
+      "concept": "array-iteration",
+      "prerequisites": [
+        "array-length",
+        "for-loop",
+        "loop-accumulator"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "Write an expression that joins the items of arr into one string. Put a space, a vertical bar and a space between items.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "arr"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "arr": [
+                "a",
+                "b"
+              ]
+            },
+            "expected": "a | b"
+          },
+          {
+            "input": {
+              "arr": [
+                1,
+                2,
+                3
+              ]
+            },
+            "expected": "1 | 2 | 3"
+          },
+          {
+            "input": {
+              "arr": []
+            },
+            "expected": ""
+          },
+          {
+            "input": {
+              "arr": [
+                "solo"
+              ]
+            },
+            "expected": "solo"
+          }
+        ],
+        "reference": [
+          "arr.join(\" | \")"
+        ],
+        "wrongSolutions": [
+          [
+            "arr.join(\",\")"
+          ],
+          [
+            "arr.join()"
+          ],
+          [
+            "arr.join(\"|\")"
+          ]
+        ]
+      },
+      "explanation": "join glues the items together with the text you give it between them. Here that text is a space, a bar and a space.",
+      "hints": [
+        "Use a method that belongs to the array.",
+        "join takes the text to put between the items.",
+        "Give join the three characters in quotes."
+      ],
+      "reference": {
+        "title": "Array.prototype.join()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:13"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1659 @@
+{
+  "track": "BEGINNER",
+  "unit": "functions",
+  "order": 6,
+  "title": "Functions",
+  "summary": "Define and call functions, pass arguments, return values, and write arrow functions.",
+  "concepts": [
+    {
+      "id": "function-declaration",
+      "title": "Defining and calling a function",
+      "prerequisites": [
+        "let-declaration",
+        "for-loop"
+      ]
+    },
+    {
+      "id": "parameters-and-arguments",
+      "title": "Parameters and arguments",
+      "prerequisites": [
+        "function-declaration"
+      ]
+    },
+    {
+      "id": "return-value",
+      "title": "Returning a value",
+      "prerequisites": [
+        "parameters-and-arguments",
+        "if-statement"
+      ]
+    },
+    {
+      "id": "function-expressions",
+      "title": "Functions as values and arrow functions",
+      "prerequisites": [
+        "return-value",
+        "const-declaration"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "declaration-runs-body",
+      "description": "Believes writing a function declaration runs its body."
+    },
+    {
+      "id": "call-deferred",
+      "description": "Believes a function call waits until the lines after it have run."
+    },
+    {
+      "id": "final-value-at-every-step",
+      "description": "Reads the value a variable has at the end of the program for every earlier step."
+    },
+    {
+      "id": "visit-counted-from-zero",
+      "description": "Counts the first run of a line as run zero."
+    },
+    {
+      "id": "argument-order-ignored",
+      "description": "Believes arguments are matched to parameters in some order other than position."
+    },
+    {
+      "id": "parameter-keeps-old-value",
+      "description": "Believes a parameter keeps a value from an earlier call or step instead of the current one."
+    },
+    {
+      "id": "outer-variable-changed",
+      "description": "Believes changing a parameter also changes the variable that was passed in."
+    },
+    {
+      "id": "no-return-last-value",
+      "description": "Believes a function gives back its last computed value or its argument without a return."
+    },
+    {
+      "id": "code-after-return-runs",
+      "description": "Believes lines after a return still run, or that a later return can replace an earlier one."
+    },
+    {
+      "id": "function-name-is-call",
+      "description": "Believes a function name without parentheses runs the function, or the reverse."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function",
+      "retrievedAt": "2026-11-14",
+      "sha256": "a8cbb5e801744d585f5ffa16c3994b4a5a31ac78b5c450b8443f9a5643f8e6b9"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
+      "retrievedAt": "2026-11-14",
+      "sha256": "0a4e757bbf254098f5625184589f5c142c39ad4667be10525fbc338aa9d2c28a"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return",
+      "retrievedAt": "2026-11-14",
+      "sha256": "1790eda3d17f0173ad4474c557fec928f0dce8da00f12e1151e367db7c8eb0bb"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+      "retrievedAt": "2026-11-14",
+      "sha256": "3ea3c76dbe2e79a4168ca42aa0b24b15d34b480eafbbb7cc8bdb85ba7f990853"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function",
+      "retrievedAt": "2026-11-14",
+      "sha256": "668431d102be3a050660e5387b2dd8fbadcaf5e4e42f475b8867e7a207df3ec5"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters",
+      "retrievedAt": "2026-11-14",
+      "sha256": "dce1302caa090fdea77b8d1e7605a1f3d79087acb9a366c372b2e26bb37194c3"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "functions.lesson-1",
+      "title": "Defining and calling a function",
+      "conceptCard": {
+        "title": "Defining a function",
+        "body": "A function is a named block of code. Writing it only defines it. The code inside runs each time you call the function with its name and parentheses.",
+        "code": [
+          "function wave() {",
+          "  console.log(\"hello\");",
+          "}",
+          "wave();",
+          "wave();"
+        ],
+        "expectedOutput": "hello\nhello"
+      },
+      "itemIds": [
+        "beg.functions.function-declaration.predict-01",
+        "beg.functions.function-declaration.predict-02",
+        "beg.functions.function-declaration.trace-01",
+        "beg.functions.function-declaration.fill-01",
+        "beg.functions.function-declaration.parsons-01",
+        "beg.functions.function-declaration.concept-01"
+      ]
+    },
+    {
+      "id": "functions.lesson-2",
+      "title": "Parameters and arguments",
+      "conceptCard": {
+        "title": "Parameters and arguments",
+        "body": "A parameter is a name in the function header. An argument is the value you pass in the call. Arguments fill the parameters by position, and each call starts fresh.",
+        "code": [
+          "function add(a, b) {",
+          "  console.log(a + b);",
+          "}",
+          "add(2, 3);",
+          "add(10, 1);"
+        ],
+        "expectedOutput": "5\n11"
+      },
+      "itemIds": [
+        "beg.functions.parameters-and-arguments.predict-01",
+        "beg.functions.parameters-and-arguments.predict-02",
+        "beg.functions.parameters-and-arguments.trace-01",
+        "beg.functions.parameters-and-arguments.fill-01",
+        "beg.functions.parameters-and-arguments.parsons-01",
+        "beg.functions.parameters-and-arguments.write-01"
+      ]
+    },
+    {
+      "id": "functions.lesson-3",
+      "title": "Returning a value",
+      "conceptCard": {
+        "title": "Returning a value",
+        "body": "return gives a value back to the place of the call and ends the function. A function without return gives back undefined.",
+        "code": [
+          "function double(n) {",
+          "  return n * 2;",
+          "}",
+          "let x = double(4);",
+          "console.log(x);"
+        ],
+        "expectedOutput": "8"
+      },
+      "itemIds": [
+        "beg.functions.return-value.predict-01",
+        "beg.functions.return-value.predict-02",
+        "beg.functions.return-value.trace-01",
+        "beg.functions.return-value.fill-01",
+        "beg.functions.return-value.parsons-01",
+        "beg.functions.return-value.concept-01"
+      ]
+    },
+    {
+      "id": "functions.lesson-4",
+      "title": "Functions as values and arrow functions",
+      "conceptCard": {
+        "title": "Functions as values",
+        "body": "A function can be stored in a const. An arrow function uses =>. Without braces its expression is returned automatically; with braces you need return.",
+        "code": [
+          "const add = (a, b) => a + b;",
+          "const show = (n) => {",
+          "  return n + 1;",
+          "};",
+          "console.log(add(2, 3), show(1));"
+        ],
+        "expectedOutput": "5 2"
+      },
+      "itemIds": [
+        "beg.functions.function-expressions.predict-01",
+        "beg.functions.function-expressions.predict-02",
+        "beg.functions.function-expressions.trace-01",
+        "beg.functions.function-expressions.fill-01",
+        "beg.functions.function-expressions.parsons-01",
+        "beg.functions.function-expressions.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "beg.functions.function-declaration.predict-01",
+      "concept": "function-declaration",
+      "prerequisites": [
+        "let-declaration",
+        "for-loop"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "function ring() {",
+        "  console.log(\"ding\");",
+        "}",
+        "ring();",
+        "console.log(\"done\");"
+      ],
+      "options": [
+        {
+          "text": "ding\ndone",
+          "correct": true,
+          "feedback": "Right. The body runs when ring() is called on line 4, and then the last line prints."
+        },
+        {
+          "text": "ding\nding\ndone",
+          "correct": false,
+          "feedback": "That runs the body twice. Writing the function on lines 1 to 3 only defines it; the body runs once per call.",
+          "misconception": "declaration-runs-body"
+        },
+        {
+          "text": "done\nding",
+          "correct": false,
+          "feedback": "That waits to run the call. A call runs at once, before the lines that come after it.",
+          "misconception": "call-deferred"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "ding\ndone"
+      },
+      "explanation": "A function declaration only stores the code. The body runs each time the function is called. The one call on line 4 prints ding, then line 5 prints done.",
+      "hints": [
+        "Look at which lines actually call ring.",
+        "Defining a function does not run it. Only a call does.",
+        "Count the calls, then follow the lines from top to bottom."
+      ],
+      "reference": {
+        "title": "function declaration",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.function-declaration.predict-02",
+      "concept": "function-declaration",
+      "prerequisites": [
+        "let-declaration",
+        "for-loop"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "function pour() {",
+        "  console.log(\"pour\");",
+        "}",
+        "function brew() {",
+        "  console.log(\"heat\");",
+        "  pour();",
+        "  console.log(\"serve\");",
+        "}",
+        "brew();"
+      ],
+      "options": [
+        {
+          "text": "heat\npour\nserve",
+          "correct": true,
+          "feedback": "Right. brew runs line by line, and the call to pour runs completely at its place."
+        },
+        {
+          "text": "heat\nserve\npour",
+          "correct": false,
+          "feedback": "That waits to run pour until brew ends. A call inside a function runs at once, where it is written.",
+          "misconception": "call-deferred"
+        },
+        {
+          "text": "pour\nheat\npour\nserve",
+          "correct": false,
+          "feedback": "That runs pour when it is defined. Defining a function prints nothing; the body runs only on a call.",
+          "misconception": "declaration-runs-body"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "heat\npour\nserve"
+      },
+      "explanation": "Only brew() on line 9 is called at the top. Inside brew, the lines run in order, and the call pour() runs the whole pour body before the next line.",
+      "hints": [
+        "Find the only call that is not inside a function.",
+        "A call runs the function body completely, then the next line continues.",
+        "Follow brew line by line and expand pour() where it is called."
+      ],
+      "reference": {
+        "title": "Functions: calling functions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#calling_functions",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.function-declaration.trace-01",
+      "concept": "function-declaration",
+      "prerequisites": [
+        "let-declaration",
+        "for-loop"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "Line 3 runs once per call. What is laps just after its second run?",
+      "code": [
+        "let laps = 0;",
+        "function addLap() {",
+        "  laps = laps + 1;",
+        "}",
+        "addLap();",
+        "addLap();",
+        "addLap();",
+        "console.log(laps);"
+      ],
+      "options": [
+        {
+          "text": "2",
+          "correct": true,
+          "feedback": "Right. Two calls have run, and each added 1."
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "That counts the first call as call zero. The first run of line 3 is the first time.",
+          "misconception": "visit-counted-from-zero"
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "That is the value after all three calls. The question stops after the second run of line 3.",
+          "misconception": "final-value-at-every-step"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "laps",
+          "afterLine": 3,
+          "visit": 2
+        },
+        "expectedOutput": "3"
+      },
+      "explanation": "Line 3 runs once per call. After the first call laps is 1, and after the second call it is 2. The third call makes it 3.",
+      "hints": [
+        "Count how many times line 3 has run.",
+        "Each call to addLap adds 1 to laps.",
+        "Stop at the second run of line 3, not at the end."
+      ],
+      "reference": {
+        "title": "Functions: calling functions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#calling_functions",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.function-declaration.fill-01",
+      "concept": "function-declaration",
+      "prerequisites": [
+        "let-declaration",
+        "for-loop"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Complete the code so that it prints hey.",
+      "code": [
+        "___ shout() {",
+        "  console.log(\"hey\");",
+        "}",
+        "___();"
+      ],
+      "options": [
+        {
+          "text": "function",
+          "correct": true,
+          "feedback": "Right. This keyword starts a function declaration."
+        },
+        {
+          "text": "shout",
+          "correct": true,
+          "feedback": "Right. Calling the function uses its name."
+        },
+        {
+          "text": "let",
+          "correct": false,
+          "feedback": "As the first word this is not a way to declare a function. In the call it names nothing, so the code fails."
+        },
+        {
+          "text": "hey",
+          "correct": false,
+          "feedback": "This word is the text to print, not a function name. As the first word it is a syntax error; as the call it does not exist."
+        },
+        {
+          "text": "call",
+          "correct": false,
+          "feedback": "There is no such keyword. As the first word it is a syntax error; as the call it names nothing."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "function"
+          ],
+          [
+            "shout"
+          ]
+        ],
+        "expectedOutput": "hey"
+      },
+      "explanation": "A declaration starts with the keyword function, then the name. The call uses that same name followed by parentheses.",
+      "hints": [
+        "Look at the start of line 1 and the start of line 4.",
+        "Line 1 declares the function; line 4 calls it by name.",
+        "One blank is a keyword, the other is the function's own name."
+      ],
+      "reference": {
+        "title": "function declaration",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.function-declaration.parsons-01",
+      "concept": "function-declaration",
+      "prerequisites": [
+        "let-declaration",
+        "for-loop"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so that the program changes n with a function and prints 7.",
+      "code": [
+        "n = n + 4;",
+        "let n = 1;",
+        "console.log(n);",
+        "function bump() { n = n * 3; }",
+        "bump();"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          3,
+          4,
+          0,
+          2
+        ],
+        "expectedOutput": "7",
+        "acceptedOrders": [
+          [
+            3,
+            1,
+            4,
+            0,
+            2
+          ],
+          [
+            1,
+            4,
+            3,
+            0,
+            2
+          ],
+          [
+            1,
+            4,
+            0,
+            3,
+            2
+          ],
+          [
+            1,
+            4,
+            0,
+            2,
+            3
+          ]
+        ]
+      },
+      "explanation": "n must exist before bump runs. bump triples it to 3, then 4 is added to make 7. Adding first would give 15. The function may be declared anywhere.",
+      "hints": [
+        "Which line creates n?",
+        "Tripling and then adding gives a different result than adding and then tripling.",
+        "n must exist before the call, and the print comes last."
+      ],
+      "reference": {
+        "title": "function declaration",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.function-declaration.concept-01",
+      "concept": "function-declaration",
+      "prerequisites": [
+        "let-declaration",
+        "for-loop"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement about this code is true?",
+      "code": [
+        "function water() {",
+        "  console.log(\"watering\");",
+        "}",
+        "console.log(\"ready\");"
+      ],
+      "options": [
+        {
+          "text": "Defining water does not run it, so only ready is printed.",
+          "correct": true,
+          "feedback": "Right. Nothing calls water, so its body never runs."
+        },
+        {
+          "text": "water runs once where it is defined, so watering prints first.",
+          "correct": false,
+          "feedback": "A definition only stores the code. The body runs only when the function is called.",
+          "misconception": "declaration-runs-body"
+        },
+        {
+          "text": "water runs by itself after the last line, so watering prints last.",
+          "correct": false,
+          "feedback": "A function never runs by itself. Something has to call it.",
+          "misconception": "call-deferred"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "ready"
+      },
+      "explanation": "A function declaration stores code for later. Without a call such as water(), the body never runs, so the program prints only ready.",
+      "hints": [
+        "Look for a line that calls water.",
+        "A function runs only when it is called.",
+        "Check lines 3 and 4 for a call with parentheses."
+      ],
+      "reference": {
+        "title": "function declaration",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.parameters-and-arguments.predict-01",
+      "concept": "parameters-and-arguments",
+      "prerequisites": [
+        "function-declaration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "function mix(a, b) {",
+        "  console.log(a + \"-\" + b);",
+        "}",
+        "mix(\"red\", \"blue\");",
+        "mix(\"blue\", \"red\");"
+      ],
+      "options": [
+        {
+          "text": "red-blue\nblue-red",
+          "correct": true,
+          "feedback": "Right. Each call matches arguments to parameters by position, so a gets the first argument."
+        },
+        {
+          "text": "blue-red\nred-blue",
+          "correct": false,
+          "feedback": "That swaps the arguments. The first argument always goes to the first parameter.",
+          "misconception": "argument-order-ignored"
+        },
+        {
+          "text": "red-blue\nred-blue",
+          "correct": false,
+          "feedback": "Each call gets fresh values. The second call does not reuse the first call's arguments.",
+          "misconception": "parameter-keeps-old-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "red-blue\nblue-red"
+      },
+      "explanation": "Parameters get their values from the arguments of each call, in order. The first call sets a to red and b to blue. The second call sets them the other way round.",
+      "hints": [
+        "Compare the order of the arguments in each call.",
+        "Arguments fill the parameters by position, from left to right.",
+        "Write a and b for each call before you read line 2."
+      ],
+      "reference": {
+        "title": "Functions: arguments and parameters",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#function_parameters",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.parameters-and-arguments.predict-02",
+      "concept": "parameters-and-arguments",
+      "prerequisites": [
+        "function-declaration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "let stock = 5;",
+        "function sell(count) {",
+        "  count = count - 1;",
+        "  console.log(count);",
+        "}",
+        "sell(stock);",
+        "console.log(stock);"
+      ],
+      "options": [
+        {
+          "text": "4\n5",
+          "correct": true,
+          "feedback": "Right. count is a separate copy of the value 5, so stock is not changed."
+        },
+        {
+          "text": "4\n4",
+          "correct": false,
+          "feedback": "count receives a copy of the number in stock. Changing the copy does not change stock.",
+          "misconception": "outer-variable-changed"
+        },
+        {
+          "text": "5\n5",
+          "correct": false,
+          "feedback": "count starts as 5, but line 3 changes it to 4 before line 4 prints it.",
+          "misconception": "parameter-keeps-old-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "4\n5"
+      },
+      "explanation": "Calling sell(stock) gives count a copy of the value 5. Line 3 changes only count, so line 4 prints 4. The variable stock still holds 5.",
+      "hints": [
+        "Compare what line 4 and line 7 print.",
+        "A parameter is its own variable. It gets a copy of the argument's value.",
+        "Follow count through line 3, then check whether stock was touched."
+      ],
+      "reference": {
+        "title": "Parameter",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Parameter",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.parameters-and-arguments.trace-01",
+      "concept": "parameters-and-arguments",
+      "prerequisites": [
+        "function-declaration"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does a hold right after line 2 has run for the second time?",
+      "code": [
+        "function tally(a, b) {",
+        "  a = a - b;",
+        "  console.log(a);",
+        "}",
+        "tally(10, 3);",
+        "tally(20, 5);"
+      ],
+      "options": [
+        {
+          "text": "15",
+          "correct": true,
+          "feedback": "Right. In the second call a starts as 20 and b is 5."
+        },
+        {
+          "text": "7",
+          "correct": false,
+          "feedback": "That is the value after the first run of line 2. The question asks about the second run.",
+          "misconception": "visit-counted-from-zero"
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "That reuses the 7 from the first call. Each call starts with new values for a and b.",
+          "misconception": "parameter-keeps-old-value"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "a",
+          "afterLine": 2,
+          "visit": 2
+        },
+        "expectedOutput": "7\n15"
+      },
+      "explanation": "Each call gives a and b new values. The second call starts with a = 20 and b = 5, so line 2 sets a to 15.",
+      "hints": [
+        "Find which call makes line 2 run the second time.",
+        "Every call gives the parameters new values from its arguments.",
+        "Use 20 and 5, not the numbers from the first call."
+      ],
+      "reference": {
+        "title": "Parameter",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Parameter",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.parameters-and-arguments.fill-01",
+      "concept": "parameters-and-arguments",
+      "prerequisites": [
+        "function-declaration"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Complete the call so that the program prints 5.",
+      "code": [
+        "function climb(top, base) {",
+        "  console.log(top - base);",
+        "}",
+        "climb(___, ___);"
+      ],
+      "options": [
+        {
+          "text": "9",
+          "correct": true,
+          "feedback": "Right. The first argument goes to top."
+        },
+        {
+          "text": "4",
+          "correct": true,
+          "feedback": "Right. The second argument goes to base."
+        },
+        {
+          "text": "5",
+          "correct": false,
+          "feedback": "Used as top it gives 5 minus the other value, which is never 5 here. Used as base it gives a smaller result than needed."
+        },
+        {
+          "text": "20",
+          "correct": false,
+          "feedback": "Used as top it gives 16 or more. Used as base it gives a negative number."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "9"
+          ],
+          [
+            "4"
+          ]
+        ],
+        "expectedOutput": "5"
+      },
+      "explanation": "The function prints top minus base, so the call needs a first argument that is 5 more than the second. 9 minus 4 is 5.",
+      "hints": [
+        "Look at what line 2 subtracts.",
+        "The first argument becomes top, the second becomes base.",
+        "Pick two numbers whose difference is 5, larger one first."
+      ],
+      "reference": {
+        "title": "Functions: arguments and parameters",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#function_parameters",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.parameters-and-arguments.parsons-01",
+      "concept": "parameters-and-arguments",
+      "prerequisites": [
+        "function-declaration"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so that the program calls a function with a price and prints a total.",
+      "code": [
+        "receipt(50);",
+        "function receipt(price) {",
+        "  console.log(total);",
+        "  let total = price + tax;",
+        "}",
+        "  let tax = price / 10;"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          5,
+          3,
+          2,
+          4,
+          0
+        ],
+        "expectedOutput": "55",
+        "acceptedOrders": [
+          [
+            0,
+            1,
+            5,
+            3,
+            2,
+            4
+          ]
+        ]
+      },
+      "explanation": "The body computes tax from price, then adds it to price, then prints. The call receipt(50) supplies the price.",
+      "hints": [
+        "Which line opens the function?",
+        "Each line of the body uses a variable made by the line before.",
+        "Compute tax, then total, then print, then close the braces."
+      ],
+      "reference": {
+        "title": "Functions: arguments and parameters",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#function_parameters",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.parameters-and-arguments.write-01",
+      "concept": "parameters-and-arguments",
+      "prerequisites": [
+        "function-declaration"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "A function has parameters price and percent. Write the expression for the price after taking percent off.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "price",
+            "percent"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "price": 200,
+              "percent": 10
+            },
+            "expected": 180
+          },
+          {
+            "input": {
+              "price": 50,
+              "percent": 0
+            },
+            "expected": 50
+          },
+          {
+            "input": {
+              "price": 80,
+              "percent": 100
+            },
+            "expected": 0
+          },
+          {
+            "input": {
+              "price": 30,
+              "percent": 50
+            },
+            "expected": 15
+          }
+        ],
+        "reference": [
+          "price - price * percent / 100"
+        ],
+        "wrongSolutions": [
+          [
+            "price * percent / 100"
+          ],
+          [
+            "price - percent"
+          ],
+          [
+            "price - price * percent"
+          ]
+        ]
+      },
+      "explanation": "The discount is price times percent divided by 100. The new price is the old price minus that amount.",
+      "hints": [
+        "Work out the discount for price 200 and percent 10.",
+        "Percent means parts per 100, so divide by 100.",
+        "Take the discount away from the price."
+      ],
+      "reference": {
+        "title": "Functions: arguments and parameters",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#function_parameters",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.return-value.predict-01",
+      "concept": "return-value",
+      "prerequisites": [
+        "parameters-and-arguments",
+        "if-statement"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "function feed(fish) {",
+        "  console.log(\"feeding \" + fish);",
+        "}",
+        "let result = feed(2);",
+        "console.log(result);"
+      ],
+      "options": [
+        {
+          "text": "feeding 2\nundefined",
+          "correct": true,
+          "feedback": "Right. feed has no return, so the call gives back undefined."
+        },
+        {
+          "text": "feeding 2\nfeeding 2",
+          "correct": false,
+          "feedback": "A function does not hand back what it last printed. Without return, the result is undefined.",
+          "misconception": "no-return-last-value"
+        },
+        {
+          "text": "feeding 2\n2",
+          "correct": false,
+          "feedback": "A function does not hand back its argument by itself. Without return, the result is undefined.",
+          "misconception": "no-return-last-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "feeding 2\nundefined"
+      },
+      "explanation": "feed prints a line but has no return statement. A call without a return gives back undefined, so result holds undefined.",
+      "hints": [
+        "Look at what result receives on line 4.",
+        "A function that never uses return gives back undefined.",
+        "Line 2 prints text, but printing is not returning."
+      ],
+      "reference": {
+        "title": "return statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:28"
+      ]
+    },
+    {
+      "id": "beg.functions.return-value.predict-02",
+      "concept": "return-value",
+      "prerequisites": [
+        "parameters-and-arguments",
+        "if-statement"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "function ship(weight) {",
+        "  return weight * 2;",
+        "  console.log(\"shipped\");",
+        "}",
+        "console.log(ship(3));"
+      ],
+      "options": [
+        {
+          "text": "6",
+          "correct": true,
+          "feedback": "Right. return ends the function at once, so line 3 never runs."
+        },
+        {
+          "text": "shipped\n6",
+          "correct": false,
+          "feedback": "Line 3 comes after return and never runs. return leaves the function immediately.",
+          "misconception": "code-after-return-runs"
+        },
+        {
+          "text": "6\nshipped",
+          "correct": false,
+          "feedback": "Nothing after return runs, so the text is never printed.",
+          "misconception": "code-after-return-runs"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "6"
+      },
+      "explanation": "return gives back its value and leaves the function at once. The log on line 3 is never reached, so only the returned 6 is printed on line 5.",
+      "hints": [
+        "Look at the order of lines 2 and 3.",
+        "return ends the function immediately.",
+        "Ask whether line 3 can run after line 2 has returned."
+      ],
+      "reference": {
+        "title": "return statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.return-value.trace-01",
+      "concept": "return-value",
+      "prerequisites": [
+        "parameters-and-arguments",
+        "if-statement"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "After the second pass of the loop body has finished line 7, what does total hold?",
+      "code": [
+        "function fare(stops) {",
+        "  return stops * 2;",
+        "}",
+        "let total = 0;",
+        "for (let r = 1; r <= 3; r++) {",
+        "  let price = fare(r);",
+        "  total = total + price;",
+        "}",
+        "console.log(total);"
+      ],
+      "options": [
+        {
+          "text": "6",
+          "correct": true,
+          "feedback": "Right. The first ride adds 2 and the second adds 4."
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "That is the value after the first pass. The question asks about the second run of line 6.",
+          "misconception": "visit-counted-from-zero"
+        },
+        {
+          "text": "12",
+          "correct": false,
+          "feedback": "That is the value after all three rides. The question stops after the second.",
+          "misconception": "final-value-at-every-step"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "total",
+          "afterLine": 7,
+          "visit": 2
+        },
+        "expectedOutput": "12"
+      },
+      "explanation": "Each pass adds the value returned by fare(r). Pass 1 returns 2 and pass 2 returns 4, so total is 2 + 4 = 6 after the second pass.",
+      "hints": [
+        "Count the passes of the loop, not the whole program.",
+        "fare(r) returns its argument times 2, and total adds it.",
+        "Add the returned values of the first two passes only."
+      ],
+      "reference": {
+        "title": "return statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.return-value.fill-01",
+      "concept": "return-value",
+      "prerequisites": [
+        "parameters-and-arguments",
+        "if-statement"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Complete the code so that the program prints 12.",
+      "code": [
+        "function fee(days) {",
+        "  ___ days * 3;",
+        "}",
+        "console.log(fee(___));"
+      ],
+      "options": [
+        {
+          "text": "return",
+          "correct": true,
+          "feedback": "Right. return hands the product back to the caller."
+        },
+        {
+          "text": "4",
+          "correct": true,
+          "feedback": "Right. 4 times 3 is 12."
+        },
+        {
+          "text": "print",
+          "correct": false,
+          "feedback": "There is no print keyword in JavaScript, so this line fails."
+        },
+        {
+          "text": "12",
+          "correct": false,
+          "feedback": "As the argument it gives 36. As the first word it is a syntax error."
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "As the argument it gives 9. As the first word it is a syntax error."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "return"
+          ],
+          [
+            "4"
+          ]
+        ],
+        "expectedOutput": "12"
+      },
+      "explanation": "The caller prints what fee gives back, so the body must return days * 3. Then fee(4) gives 12.",
+      "hints": [
+        "Look at what line 4 prints.",
+        "The body needs a keyword that hands a value back, and an argument for days.",
+        "The argument times 3 must equal 12."
+      ],
+      "reference": {
+        "title": "return statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.return-value.parsons-01",
+      "concept": "return-value",
+      "prerequisites": [
+        "parameters-and-arguments",
+        "if-statement"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so that the program builds a label and prints it.",
+      "code": [
+        "console.log(pack(\"jam\"));",
+        "function pack(item) {",
+        "  box = box + \"]\";",
+        "  let box = \"[\" + item;",
+        "}",
+        "  return box;"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          3,
+          2,
+          5,
+          4,
+          0
+        ],
+        "expectedOutput": "[jam]",
+        "acceptedOrders": [
+          [
+            0,
+            1,
+            3,
+            2,
+            5,
+            4
+          ]
+        ]
+      },
+      "explanation": "The body builds box in two steps and then returns it. The final line prints what the call gives back.",
+      "hints": [
+        "Which line opens the function?",
+        "Create box, then add to it, then return it.",
+        "The return line comes last in the body, before the closing brace."
+      ],
+      "reference": {
+        "title": "return statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.return-value.concept-01",
+      "concept": "return-value",
+      "prerequisites": [
+        "parameters-and-arguments",
+        "if-statement"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement about this code is true?",
+      "code": [
+        "function first(a, b) {",
+        "  return a;",
+        "  return b;",
+        "}",
+        "console.log(first(1, 2));"
+      ],
+      "options": [
+        {
+          "text": "The function stops at the first return, so only a comes back.",
+          "correct": true,
+          "feedback": "Right. The first return ends the function."
+        },
+        {
+          "text": "Both values come back, one after the other.",
+          "correct": false,
+          "feedback": "A call gives back one value. The second return is never reached.",
+          "misconception": "code-after-return-runs"
+        },
+        {
+          "text": "The last return wins, so b comes back.",
+          "correct": false,
+          "feedback": "The function leaves at the first return it meets. A later return cannot replace that value.",
+          "misconception": "no-return-last-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "1"
+      },
+      "explanation": "return ends the function at once and gives back one value. Line 2 returns a, so line 3 is never reached and the call gives 1.",
+      "hints": [
+        "Look at the two return lines.",
+        "A function leaves at the first return it runs.",
+        "Ask which return runs first, and whether a second one can run."
+      ],
+      "reference": {
+        "title": "return statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.function-expressions.predict-01",
+      "concept": "function-expressions",
+      "prerequisites": [
+        "return-value",
+        "const-declaration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "const triple = n => n * 3;",
+        "console.log(triple(5));"
+      ],
+      "options": [
+        {
+          "text": "15",
+          "correct": true,
+          "feedback": "Right. A concise arrow function returns its expression without the word return."
+        },
+        {
+          "text": "undefined",
+          "correct": false,
+          "feedback": "With no braces, the expression after => is returned automatically.",
+          "misconception": "no-return-last-value"
+        },
+        {
+          "text": "[Function: triple]",
+          "correct": false,
+          "feedback": "triple(5) has parentheses, so it is a call. Without them you would print the function itself.",
+          "misconception": "function-name-is-call"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "15"
+      },
+      "explanation": "An arrow function without braces returns the value of its expression. triple(5) therefore gives 5 * 3, which is 15.",
+      "hints": [
+        "Look at the part after => on line 1.",
+        "With no braces, an arrow function returns its expression.",
+        "Call triple with 5 and multiply by 3."
+      ],
+      "reference": {
+        "title": "Arrow function expressions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:22"
+      ]
+    },
+    {
+      "id": "beg.functions.function-expressions.predict-02",
+      "concept": "function-expressions",
+      "prerequisites": [
+        "return-value",
+        "const-declaration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const pack = (a, b) => {",
+        "  a + b;",
+        "};",
+        "console.log(pack(2, 3));"
+      ],
+      "options": [
+        {
+          "text": "undefined",
+          "correct": true,
+          "feedback": "Right. With braces, an arrow function needs return to give back a value."
+        },
+        {
+          "text": "5",
+          "correct": false,
+          "feedback": "The braces turn the body into statements, and no statement returns anything. Only a return line hands a value back.",
+          "misconception": "no-return-last-value"
+        },
+        {
+          "text": "[Function: pack]",
+          "correct": false,
+          "feedback": "pack(2, 3) has parentheses, so it is a call and gives back its result, not the function.",
+          "misconception": "function-name-is-call"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "undefined"
+      },
+      "explanation": "A braced arrow function body is a block of statements, like a normal function. Line 2 computes a value but does not return it, so the call gives undefined.",
+      "hints": [
+        "Look at the braces on lines 1 and 3.",
+        "With braces, a value comes back only through return.",
+        "Is there a return in the body?"
+      ],
+      "reference": {
+        "title": "Arrow function expressions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.function-expressions.trace-01",
+      "concept": "function-expressions",
+      "prerequisites": [
+        "return-value",
+        "const-declaration"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "Which value does level have once line 5 has run twice?",
+      "code": [
+        "const step = (x) => x + 2;",
+        "let level = 0;",
+        "for (let i = 0; i < 3; i++) {",
+        "  let next = step(level);",
+        "  level = next;",
+        "}",
+        "console.log(level);"
+      ],
+      "options": [
+        {
+          "text": "4",
+          "correct": true,
+          "feedback": "Right. The first pass makes level 2 and the second makes it 4."
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "That is the value after the first pass. The question asks about the second run of line 5.",
+          "misconception": "visit-counted-from-zero"
+        },
+        {
+          "text": "6",
+          "correct": false,
+          "feedback": "That is the value after the third pass. The question stops after the second.",
+          "misconception": "final-value-at-every-step"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "level",
+          "afterLine": 5,
+          "visit": 2
+        },
+        "expectedOutput": "6"
+      },
+      "explanation": "Each pass passes the current level to step and stores the result. The values are 2 after the first pass, 4 after the second and 6 after the third.",
+      "hints": [
+        "Find the second pass of the loop.",
+        "step adds 2 to whatever it receives.",
+        "Start at 0, add 2 twice."
+      ],
+      "reference": {
+        "title": "Arrow function expressions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.function-expressions.fill-01",
+      "concept": "function-expressions",
+      "prerequisites": [
+        "return-value",
+        "const-declaration"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Complete the code so that the program prints 40.",
+      "code": [
+        "const scale = (n) ___ n * 10;",
+        "console.log(scale(___));"
+      ],
+      "options": [
+        {
+          "text": "=>",
+          "correct": true,
+          "feedback": "Right. The arrow separates the parameters from the result."
+        },
+        {
+          "text": "4",
+          "correct": true,
+          "feedback": "Right. 4 times 10 is 40."
+        },
+        {
+          "text": "->",
+          "correct": false,
+          "feedback": "JavaScript has no -> arrow. As the first blank it is a syntax error; as the argument it fails."
+        },
+        {
+          "text": "40",
+          "correct": false,
+          "feedback": "As the argument it gives 400. As the first blank it is a syntax error."
+        },
+        {
+          "text": "=",
+          "correct": false,
+          "feedback": "A single = assigns. As the first blank it is a syntax error; as the argument it is a syntax error."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "=>"
+          ],
+          [
+            "4"
+          ]
+        ],
+        "expectedOutput": "40"
+      },
+      "explanation": "An arrow function is written as parameters, then =>, then the result. The call scale(4) multiplies 4 by 10.",
+      "hints": [
+        "Look between the parameter and the expression on line 1.",
+        "Arrow functions use a two-character symbol between parameters and body.",
+        "The argument times 10 must equal 40."
+      ],
+      "reference": {
+        "title": "Arrow function expressions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.function-expressions.parsons-01",
+      "concept": "function-expressions",
+      "prerequisites": [
+        "return-value",
+        "const-declaration"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Put the lines in order so that the program raises a price twice with the same arrow function.",
+      "code": [
+        "const second = markUp(first);",
+        "const markUp = (price) => price + 5;",
+        "console.log(second);",
+        "const first = markUp(10);"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "expectedOutput": "20"
+      },
+      "explanation": "The arrow function must be defined before it is used. Each call needs the value made by the line before, and the print comes last.",
+      "hints": [
+        "Which line must exist before any call?",
+        "Each line uses the value created by the one before it.",
+        "Define the function, call it on 10, call it on that result, then print."
+      ],
+      "reference": {
+        "title": "Arrow function expressions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.functions.function-expressions.write-01",
+      "concept": "function-expressions",
+      "prerequisites": [
+        "return-value",
+        "const-declaration"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "An arrow function has the parameter celsius. It returns celsius times 9, divided by 5, plus 32. Write the expression after =>.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "celsius"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "celsius": 0
+            },
+            "expected": 32
+          },
+          {
+            "input": {
+              "celsius": 100
+            },
+            "expected": 212
+          },
+          {
+            "input": {
+              "celsius": -40
+            },
+            "expected": -40
+          },
+          {
+            "input": {
+              "celsius": 10
+            },
+            "expected": 50
+          }
+        ],
+        "reference": [
+          "celsius * 9 / 5 + 32"
+        ],
+        "wrongSolutions": [
+          [
+            "celsius * 9 / 5"
+          ],
+          [
+            "celsius + 32 * 9 / 5"
+          ],
+          [
+            "celsius * 5 / 9 + 32"
+          ]
+        ]
+      },
+      "explanation": "Multiplication and division run before addition. So celsius * 9 / 5 + 32 scales first and adds 32 last.",
+      "hints": [
+        "Check the result for 0 and for 100.",
+        "Do the scaling first and the addition last.",
+        "Write celsius times 9, divided by 5, and then add 32."
+      ],
+      "reference": {
+        "title": "Arrow function expressions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

@@ -90,6 +90,10 @@ Difficulty rises inside a lesson and across a unit: 1 to 2 in Beginner, 2 to 3 i
 - **Parsons orderings.** Gate A runs every ordering, so lines that print the same thing, or
   independent declarations, create extra valid orders. Give each printed line a distinct value
   and make each line depend on the one before it; otherwise record the extra orders.
+- **Function declarations are hoisted**, so a one-line declaration may sit anywhere in a Parsons
+  program; prefer `const name = (…) => …` or programs where order is forced by data.
+- **TRACE probes** may sit on a line that calls a function: a call returning to the line is not a
+  new visit.
 - **MDN links.** Glossary pages live under `https://developer.mozilla.org/en-US/docs/Glossary/`,
   not under `/Web/JavaScript/`.
 

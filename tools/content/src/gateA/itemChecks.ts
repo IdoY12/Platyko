@@ -50,15 +50,31 @@ async function checkStatedOutput(item: Item, context: GateAContext, report: Find
   if (actual !== expectedOutputOf(item)) report("output-mismatch", `the code prints ${JSON.stringify(actual)}, not the stated ${JSON.stringify(expectedOutputOf(item))}`);
 }
 
-/** The value a `TRACE` item asks about, read from the generated trace; null when the probe is never reached. */
-function probedValue(item: Item, trace: ItemTrace): string | null {
+/**
+ * The value a `TRACE` item asks about, read from the generated trace; null when the probe is never
+ * reached. A visit to a line starts when execution arrives at it, not when a call made on that
+ * line returns to it, and the value is read once execution has left the line for good.
+ */
+export function probedValue(item: Item, trace: ItemTrace): string | null {
   const probe = item.solution.probe;
   if (!probe) return null;
-  const visits = trace.steps.flatMap((step, index) => (step.line === probe.afterLine ? [index] : []));
-  const after = trace.steps[visits[probe.visit - 1] + 1];
-  // The innermost binding of that name is the last one listed (outer scopes come first).
-  const variable = after?.variables.filter((candidate) => candidate.name === probe.variable).at(-1);
-  return variable?.value ?? null;
+  const { steps } = trace;
+  let visits = 0;
+  for (let index = 0; index < steps.length; index += 1) {
+    const step = steps[index];
+    if (step.line !== probe.afterLine) continue;
+    // Back on this line after a call made from it: the same visit continues.
+    const depth = step.callStack.length;
+    const lastAtThisDepth = steps.slice(0, index).findLast((earlier) => earlier.callStack.length <= depth);
+    const returningFromCall = steps[index - 1]?.callStack.length > depth && lastAtThisDepth?.line === probe.afterLine;
+    if (returningFromCall) continue;
+    visits += 1;
+    if (visits < probe.visit) continue;
+    const after = steps.slice(index + 1).find((later) => later.callStack.length <= depth && later.line !== probe.afterLine);
+    const variable = after?.variables.filter((candidate) => candidate.name === probe.variable).at(-1);
+    return variable?.value ?? null;
+  }
+  return null;
 }
 
 /** `TRACE`: the snippet prints the stated output, the correct option is the traced value, and no distractor is. */
