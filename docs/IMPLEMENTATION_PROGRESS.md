@@ -16,12 +16,14 @@ after any context reset, then continue from "Current position".
 
 ## Current position
 
-- **Updated:** 2026-11-14 21:10. HEAD 6360072. All gates green (typecheck, lint, tests, knip,
-  language scan).
-- **Phases:** 0 nearly done; 1 (mobile learning core) well under way; 2 (bank) 7 of 28 units
-  committed and verified, two more authoring (`objects`, `array-methods`).
-- **Next for the main thread:** onboarding (5 steps), Profile and Settings rebuild (language on
-  the account, notifications, account), jump test, Hebrew RTL walk-through, then phase 3.
+- **Updated:** 2026-11-14 21:50. All gates green (typecheck, lint, tests, knip, language scan,
+  whole-bank verify).
+- **Phases:** 0 nearly done; 1 (mobile learning core) mostly done — lesson player, map, Home,
+  onboarding, Profile, Settings, RTL; 2 (bank) 15 of 28 units committed (360 items), two more
+  authoring (`dom-and-events`, `promises-in-depth`).
+- **Next for the main thread:** auth screens rebuilt and translated (they still use the old
+  terminal theme and English alerts), language stored on the account, jump test, then phase 3
+  (daily challenge, revision, push reminders, achievements).
 - **Next for sub-agents:** keep two unit authors running (Sonnet, `model: "sonnet"`), one unit
   each, from `scratchpad/briefs/unit-<slug>.md` regenerated from
   `content/verification/prompts/unit-author.md` (see "How unit authoring runs").
@@ -48,8 +50,8 @@ after any context reset, then continue from "Current position".
 | Phase | Scope | Status |
 |---|---|---|
 | 0 | Item model, attempts, user-level XP, verification pipeline, CI, bug fixes, tokens, fonts, i18n | In progress |
-| 1 | Learning core: lesson player, 7 formats, feedback, code view, execution player, map, Home, onboarding, mascot | Not started |
-| 2 | 604-item bank, legacy migration, full verification loop | Not started |
+| 1 | Learning core: lesson player, 7 formats, feedback, code view, execution player, map, Home, onboarding, mascot | Mostly done (auth screens, jump test open) |
+| 2 | 604-item bank, legacy migration, full verification loop | In progress (15 of 28 units) |
 | 3 | Retention: review (SM-2), daily challenge, revision, weekly goal, freeze, push, achievements | Not started |
 | 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Not started |
 | 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Not started |
@@ -105,15 +107,27 @@ Done since the first update (all committed):
       hand-over prompt, language switch. Walked through on the simulator: screenshots in
       `docs/screenshots/after/`.
 - [x] Old Learn/lesson/exercise/code-puzzle screens and state removed.
+- [x] Units 8–15 (objects, array methods, objects in depth, scope and hoisting, closures, this
+      and classes, errors, async basics): 360 items in the bank, whole-bank verify clean.
+- [x] Onboarding in five steps (language, track, first item, weekly goal, reminder); RTL owned by
+      the app (expo-localization no longer resets it); skill map flows from the right in Hebrew.
+- [x] Profile (three measures, 12-week activity map, track progress, mastered and weak concepts,
+      guest save card) and Settings (language, reminder, account dialogs, guest reset, legal
+      pages), English and Hebrew; old terminal profile, preference drafts and the legacy learning
+      service removed. Progress reset is guest-only: a registered account keeps its history and
+      can be deleted instead.
 
 Open:
 
-- [ ] Units 8–28 (21 units), then the full verification loop to three clean passes.
-- [ ] Onboarding (5 steps with language switch, first item in 20 s, weekly goal, notifications).
-- [ ] Profile and Settings rebuild; language stored on the account; old xp/streak slices and
-      the old duel screens retire with phases 4–5.
+- [ ] Units 16–28 (13 units), then the full verification loop to three clean passes.
+- [ ] Auth screens (sign-in, verify email, password reset) in the new design with translated
+      strings and alerts; account error alerts in `utils/profileAccountMutations.ts`,
+      `utils/profileAvatarUpload.ts` and `hooks/useSetPasswordFlow.ts` are still English.
+- [ ] Language stored on the account; old xp/streak slices and the old duel screens retire with
+      phases 4–5.
 - [ ] Jump test per track; daily challenge; revision mode (phase 3).
-- [ ] Hebrew RTL walk-through of every screen.
+- [ ] Hebrew RTL walk-through of every screen (done: Home, lesson, map, onboarding, Profile,
+      Settings).
 - [ ] `npm audit` high/critical advisories in build-tool dependencies (security pass).
 - [ ] Docker image builds with the new sandbox package (registry timeouts earlier).
 - [ ] 3D model path for the mascot (`platyko.glb`) and `docs/mascot-3d-model.md`.
