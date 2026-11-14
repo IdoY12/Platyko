@@ -249,7 +249,7 @@
         "int.this-and-classes.class-inheritance.predict-01",
         "int.this-and-classes.class-inheritance.concept-01",
         "int.this-and-classes.class-inheritance.trace-01",
-        "int.this-and-classes.class-inheritance.fill-01",
+        "int.this-and-classes.class-inheritance.parsons-01",
         "int.this-and-classes.class-inheritance.fix-01",
         "int.this-and-classes.class-inheritance.write-01"
       ]
@@ -1639,58 +1639,38 @@
       "version": 1
     },
     {
-      "id": "int.this-and-classes.class-inheritance.fill-01",
+      "id": "int.this-and-classes.class-inheritance.parsons-01",
       "concept": "class-inheritance",
       "prerequisites": [
         "class-basics"
       ],
-      "format": "FILL_BLANK",
-      "difficulty": 2,
-      "prompt": "Fill the blank so the program prints eats.",
+      "format": "PARSONS",
+      "difficulty": 3,
+      "prompt": "Order the lines so the program prints 8.",
       "code": [
-        "class Animal {",
-        "  eat() {",
-        "    return 'eats';",
-        "  }",
+        "console.log(d.id());",
+        "class Dog extends Pet {",
+        "const d = new Dog();",
+        "class Pet { id() { return 7; } }",
         "}",
-        "class Cat ___ Animal {}",
-        "console.log(new Cat().eat());"
-      ],
-      "options": [
-        {
-          "text": "extends",
-          "correct": true,
-          "feedback": "Right. extends makes Cat a subclass of Animal, so it inherits eat."
-        },
-        {
-          "text": "inherits",
-          "correct": false,
-          "feedback": "inherits is not a JavaScript keyword, so this line is a syntax error."
-        },
-        {
-          "text": "implements",
-          "correct": false,
-          "feedback": "JavaScript has no implements keyword in class declarations. The subclass link is written with another word."
-        },
-        {
-          "text": "super",
-          "correct": false,
-          "feedback": "super is used inside a subclass to reach its parent. It cannot link two classes in this position."
-        }
+        "  id() { return super.id() + 1; }"
       ],
       "solution": {
-        "blanks": [
-          [
-            "extends"
-          ]
+        "lineOrder": [
+          3,
+          1,
+          5,
+          4,
+          2,
+          0
         ],
-        "expectedOutput": "eats"
+        "expectedOutput": "8"
       },
-      "explanation": "class Cat extends Animal makes Cat a subclass. Instances of Cat inherit Animal's methods, so new Cat().eat() runs the Animal version.",
+      "explanation": "Pet is declared first, then Dog extends it. Dog's id adds 1 to super.id(), which is 7. The instance is created from Dog and printed, giving 8.",
       "hints": [
-        "Look at the class line on line 6.",
-        "One keyword sets the parent class of a class.",
-        "Pick the keyword that means Cat builds on Animal."
+        "Start with the line that declares the parent class.",
+        "A class must exist before another class extends it or an instance is made from it.",
+        "The method line sits between the line that opens Dog and the line that closes it."
       ],
       "reference": {
         "title": "extends",
@@ -1698,9 +1678,9 @@
         "source": "MDN"
       },
       "duelEligible": true,
-      "timeLimitSec": 41,
+      "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:2"
       ]
@@ -1771,8 +1751,8 @@
         "class-basics"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 4,
-      "prompt": "Write the body of bedArea(side). Define a class with area(), a subclass that doubles it using super, and return the subclass area for side.",
+      "difficulty": 3,
+      "prompt": "Write bedArea(side). Class Square saves n; area() returns n * n. Subclass DoubleBed overrides area() to return twice the parent's, using super. Return new DoubleBed(side).area().",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1853,7 +1833,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

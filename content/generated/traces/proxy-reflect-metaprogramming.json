@@ -1183,15 +1183,13 @@
     "const tag = Symbol(\"id\");",
     "const book = { title: \"Dune\" };",
     "book[tag] = 7;",
-    "Object.defineProperty(book, \"ean\", {",
-    "  value: 1,",
-    "});",
+    "book.year = 1965;",
     "console.log(Reflect.ownKeys(book));",
     "console.log(Object.keys(book));"
    ],
    "output": [
-    "['title', 'ean', Symbol(id)]",
-    "['title']"
+    "['title', 'year', Symbol(id)]",
+    "['title', 'year']"
    ],
    "steps": [
     {
@@ -1263,7 +1261,7 @@
      "microtasks": []
     },
     {
-     "line": 7,
+     "line": 5,
      "variables": [
       {
        "name": "tag",
@@ -1273,7 +1271,7 @@
       {
        "name": "book",
        "scope": "global",
-       "value": "{title: 'Dune', [Symbol(id)]: 7}"
+       "value": "{title: 'Dune', year: 1965, [Symbol(id)]: 7}"
       }
      ],
      "outputCount": 0,
@@ -1284,7 +1282,7 @@
      "microtasks": []
     },
     {
-     "line": 8,
+     "line": 6,
      "variables": [
       {
        "name": "tag",
@@ -1294,7 +1292,7 @@
       {
        "name": "book",
        "scope": "global",
-       "value": "{title: 'Dune', [Symbol(id)]: 7}"
+       "value": "{title: 'Dune', year: 1965, [Symbol(id)]: 7}"
       }
      ],
      "outputCount": 1,
@@ -1315,7 +1313,7 @@
       {
        "name": "book",
        "scope": "global",
-       "value": "{title: 'Dune', [Symbol(id)]: 7}"
+       "value": "{title: 'Dune', year: 1965, [Symbol(id)]: 7}"
       }
      ],
      "outputCount": 2,
@@ -2463,9 +2461,11 @@
     "    return this.names.values();",
     "  },",
     "};",
+    "console.log([...trail]);",
     "console.log([...trail]);"
    ],
    "output": [
+    "['oak', 'elm']",
     "['oak', 'elm']"
    ],
    "steps": [
@@ -2513,7 +2513,7 @@
      "microtasks": []
     },
     {
-     "line": 0,
+     "line": 8,
      "variables": [
       {
        "name": "trail",
@@ -2522,6 +2522,39 @@
       }
      ],
      "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "trail",
+       "scope": "global",
+       "value": "{names: ['oak', 'elm'], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "trail",
+       "scope": "global",
+       "value": "{names: ['oak', 'elm'], [Symbol(Symbol.iterator)]: [Function: [Symbol.iterator]]}"
+      }
+     ],
+     "outputCount": 2,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

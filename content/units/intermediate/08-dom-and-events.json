@@ -340,7 +340,7 @@
       "hints": [
         "Count the elements with class train in the drawn tree.",
         "Lists start at index 0. A selector that matches nothing gives a special empty value.",
-        "The second line prints a number, the third a train name, the last a value that means no element."
+        "Check the first number against your count, then ask what a selector with no match returns."
       ],
       "reference": {
         "title": "Document: querySelectorAll() method",
@@ -349,7 +349,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.dom-tree-and-selection.concept-01",
@@ -750,7 +750,7 @@
       "hints": [
         "Start with the line that has no dependency on another variable.",
         "A variable must exist before a later line uses it.",
-        "The order is: body, list, second child, print."
+        "Each line needs the variable made by the line before it."
       ],
       "reference": {
         "title": "Document: body property",
@@ -760,7 +760,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.dom-tree-and-selection.fix-01",
@@ -942,7 +942,7 @@
       "hints": [
         "Compare the heading text before and after line 3.",
         "Assignment replaces the content. A class list never holds the same class twice.",
-        "The first line printed has no trace of the old word Soup alone."
+        "Think about what the heading text holds after line 3, not before it."
       ],
       "reference": {
         "title": "Node: textContent property",
@@ -951,7 +951,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.dom-updates.concept-01",
@@ -1493,7 +1493,7 @@
       "hints": [
         "Which lines run when the page code is read, and which when a click happens?",
         "Registering a handler does not run it. Every click runs it again.",
-        "ready comes first, then one btned per click."
+        "Count how many times the handler can run, and what comes before the first click."
       ],
       "reference": {
         "title": "EventTarget: addEventListener() method",
@@ -1502,7 +1502,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.event-listeners.concept-01",
@@ -1568,7 +1568,7 @@
       "hints": [
         "Notice where hi sits in the printed output.",
         "Parentheses call a function. A listener needs the function itself.",
-        "The click happens after clicking is printed and prints nothing new."
+        "Compare where hi appears in the output with where the click happens."
       ],
       "reference": {
         "title": "EventTarget: addEventListener() method",
@@ -1577,7 +1577,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.event-listeners.trace-01",
@@ -2159,7 +2159,7 @@
         "event-listeners"
       ],
       "format": "TRACE",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Two buttons are clicked. What does got hold once the handler's line 5 has run twice?",
       "code": [
         "let got = '';",
@@ -2417,7 +2417,7 @@
         "event-listeners"
       ],
       "format": "PARSONS",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "A click on an item removes it. Order the lines so the program prints what is left in the list.",
       "code": [
         "ul.children[1].click();",

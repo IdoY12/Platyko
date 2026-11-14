@@ -596,12 +596,12 @@
   },
   "int.array-methods.array-map.fill-01": {
    "code": [
-    "const shelves = [[1, 2], [3, [4]]];",
-    "const merged = shelves.flat(1);",
-    "console.log(merged);"
+    "const bags = [3, 1, 4];",
+    "const loads = bags.map((b) => b * 10);",
+    "console.log(loads);"
    ],
    "output": [
-    "[1, 2, 3, [4]]"
+    "[30, 10, 40]"
    ],
    "steps": [
     {
@@ -618,9 +618,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "shelves",
+       "name": "bags",
        "scope": "global",
-       "value": "[[1, 2], [3, [4]]]"
+       "value": "[3, 1, 4]"
       }
      ],
      "outputCount": 0,
@@ -631,17 +631,83 @@
      "microtasks": []
     },
     {
+     "line": 2,
+     "variables": [
+      {
+       "name": "bags",
+       "scope": "global",
+       "value": "[3, 1, 4]"
+      },
+      {
+       "name": "b",
+       "scope": "anonymous",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "bags",
+       "scope": "global",
+       "value": "[3, 1, 4]"
+      },
+      {
+       "name": "b",
+       "scope": "anonymous",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "bags",
+       "scope": "global",
+       "value": "[3, 1, 4]"
+      },
+      {
+       "name": "b",
+       "scope": "anonymous",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 3,
      "variables": [
       {
-       "name": "shelves",
+       "name": "bags",
        "scope": "global",
-       "value": "[[1, 2], [3, [4]]]"
+       "value": "[3, 1, 4]"
       },
       {
-       "name": "merged",
+       "name": "loads",
        "scope": "global",
-       "value": "[1, 2, 3, [4]]"
+       "value": "[30, 10, 40]"
       }
      ],
      "outputCount": 0,
@@ -655,14 +721,14 @@
      "line": 0,
      "variables": [
       {
-       "name": "shelves",
+       "name": "bags",
        "scope": "global",
-       "value": "[[1, 2], [3, [4]]]"
+       "value": "[3, 1, 4]"
       },
       {
-       "name": "merged",
+       "name": "loads",
        "scope": "global",
-       "value": "[1, 2, 3, [4]]"
+       "value": "[30, 10, 40]"
       }
      ],
      "outputCount": 1,

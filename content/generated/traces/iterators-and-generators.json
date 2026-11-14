@@ -4329,21 +4329,20 @@
   },
   "adv.iterators-and-generators.lazy-sequences.fix-01": {
    "code": [
-    "function* tickets() {",
-    "  yield 'A1';",
-    "  yield 'A2';",
+    "function* ids() {",
+    "  for (let n = 1; ; n++) {",
+    "    yield 'T' + n;",
+    "  }",
     "}",
-    "const line = tickets();",
-    "console.log([...line].length);",
-    "console.log([...tickets()].length);"
+    "const [a, b, c] = ids();",
+    "console.log(a, b, c);"
    ],
    "output": [
-    "2",
-    "2"
+    "T1 T2 T3"
    ],
    "steps": [
     {
-     "line": 5,
+     "line": 6,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -4353,34 +4352,12 @@
      "microtasks": []
     },
     {
-     "line": 6,
-     "variables": [
-      {
-       "name": "line",
-       "scope": "global",
-       "value": "{}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 2,
-     "variables": [
-      {
-       "name": "line",
-       "scope": "global",
-       "value": "{}"
-      }
-     ],
+     "variables": [],
      "outputCount": 0,
      "callStack": [
       "global",
-      "tickets"
+      "ids"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -4389,15 +4366,64 @@
      "line": 3,
      "variables": [
       {
-       "name": "line",
-       "scope": "global",
-       "value": "{}"
+       "name": "n",
+       "scope": "ids",
+       "value": "1"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "tickets"
+      "ids"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "'T1'"
+      },
+      {
+       "name": "n",
+       "scope": "ids",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "ids"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "'T1'"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "'T2'"
+      },
+      {
+       "name": "n",
+       "scope": "ids",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "ids"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -4406,48 +4432,24 @@
      "line": 7,
      "variables": [
       {
-       "name": "line",
+       "name": "a",
        "scope": "global",
-       "value": "{}"
+       "value": "'T1'"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "'T2'"
+      },
+      {
+       "name": "c",
+       "scope": "global",
+       "value": "'T3'"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 0,
      "callStack": [
       "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "line",
-       "scope": "global",
-       "value": "{}"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global",
-      "tickets"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "line",
-       "scope": "global",
-       "value": "{}"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global",
-      "tickets"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -4456,12 +4458,22 @@
      "line": 0,
      "variables": [
       {
-       "name": "line",
+       "name": "a",
        "scope": "global",
-       "value": "{}"
+       "value": "'T1'"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "'T2'"
+      },
+      {
+       "name": "c",
+       "scope": "global",
+       "value": "'T3'"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

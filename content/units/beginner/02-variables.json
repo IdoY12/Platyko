@@ -305,7 +305,7 @@
       "hints": [
         "Look at line 1: is there an = sign?",
         "A variable with no stored value still exists.",
-        "The answer is neither a number nor an error."
+        "Reading a name that holds no value does not crash; it gives the special value for nothing stored yet."
       ],
       "reference": {
         "title": "let",
@@ -315,7 +315,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.let-declaration.trace-01",
@@ -420,7 +420,7 @@
       "hints": [
         "Look at line 2 to see which name holds the number of taken seats.",
         "Only names that were declared can be used.",
-        "Pick the name declared on line 2."
+        "Subtract something from 30 to get 18: work out what that something is, then find the name that holds it."
       ],
       "reference": {
         "title": "let",
@@ -430,7 +430,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.let-declaration.parsons-01",
@@ -699,47 +699,47 @@
       ],
       "format": "FILL_BLANK",
       "difficulty": 2,
-      "prompt": "Fill the blank with the keyword that lets spaces be changed on line 2, so the program prints 28.",
+      "prompt": "Fill the blank so line 2 takes 2 away from spaces and the program prints 28.",
       "code": [
-        "___ spaces = 30;",
-        "spaces = 28;",
+        "let spaces = 30;",
+        "spaces = spaces ___ 2;",
         "console.log(spaces);"
       ],
       "options": [
         {
-          "text": "let",
+          "text": "-",
           "correct": true,
-          "feedback": "Right. A let variable can be given a new value, so line 2 replaces 30 with 28."
+          "feedback": "Right. Line 2 works out 30 - 2 using the old value and stores 28."
         },
         {
-          "text": "const",
+          "text": "+",
           "correct": false,
-          "feedback": "A const name cannot be assigned again. Line 2 would stop the program with a TypeError."
+          "feedback": "This adds 2 to the old value, so the program prints 32."
         },
         {
-          "text": "int",
+          "text": "*",
           "correct": false,
-          "feedback": "JavaScript has no int keyword. The line is not valid code, so the program does not run."
+          "feedback": "This multiplies the old value by 2, so the program prints 60."
         },
         {
-          "text": "set",
+          "text": "/",
           "correct": false,
-          "feedback": "JavaScript has no set keyword for declaring a variable. The program does not run."
+          "feedback": "This divides the old value by 2, so the program prints 15."
         }
       ],
       "solution": {
         "blanks": [
           [
-            "let"
+            "-"
           ]
         ],
         "expectedOutput": "28"
       },
-      "explanation": "Line 2 gives spaces a new value. Only a variable declared with let allows that. A name declared with const is fixed after line 1.",
+      "explanation": "Line 2 works out the right side first, using the old value 30, and stores the result in spaces. Only 30 - 2 gives 28, so the old value is replaced by 28.",
       "hints": [
-        "Look at line 2: the name is assigned a second time.",
-        "One declaration keyword locks the name. Another keeps it open.",
-        "Pick the keyword that keeps the name open for change."
+        "Look at line 2: the new value is worked out from the old spaces.",
+        "The right side of = is worked out first, using the old value.",
+        "Try each chip on 30 and 2 and keep the one that gives 28."
       ],
       "reference": {
         "title": "let",
@@ -749,7 +749,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:1"
       ]
@@ -925,7 +925,7 @@
       "hints": [
         "Look at the keyword on line 1.",
         "One declaration keyword forbids a second assignment.",
-        "Line 2 breaks that rule, so line 3 never runs."
+        "Ask whether line 2 is allowed for a name declared on line 1, and what a program does when a line is not allowed."
       ],
       "reference": {
         "title": "TypeError: invalid assignment to const",
@@ -935,7 +935,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:4"
       ]
@@ -1062,23 +1062,24 @@
       ],
       "format": "FILL_BLANK",
       "difficulty": 2,
-      "prompt": "Fill the blanks so the program prints 15. One value never changes. The other is updated on line 3.",
+      "prompt": "Fill the blank so the program stops with a TypeError on line 4 before it prints anything.",
       "code": [
+        "let boxes = 1;",
         "___ boxWeight = 3;",
-        "___ boxes = 1;",
         "boxes = boxes + 4;",
+        "boxWeight = boxWeight + 1;",
         "console.log(boxWeight * boxes);"
       ],
       "options": [
         {
           "text": "const",
           "correct": true,
-          "feedback": "This works in the first blank, where nothing is assigned again. In the second blank it would stop the program with a TypeError."
+          "feedback": "Right. A const name cannot get a new value, so line 4 stops the program with a TypeError."
         },
         {
           "text": "let",
-          "correct": true,
-          "feedback": "This works in both blanks. The second blank needs it, because boxes gets a new value on line 3."
+          "correct": false,
+          "feedback": "A let name can be changed, so line 4 works and the program prints 20 instead of stopping."
         },
         {
           "text": "int",
@@ -1089,20 +1090,16 @@
       "solution": {
         "blanks": [
           [
-            "const",
-            "let"
-          ],
-          [
-            "let"
+            "const"
           ]
         ],
-        "expectedOutput": "15"
+        "expectedOutput": "Uncaught TypeError"
       },
-      "explanation": "The name changed on line 3 must be declared with the keyword that allows change. The name that never changes can use either one, and const states that intent.",
+      "explanation": "A name declared with const cannot get a new value, so line 4 throws a TypeError and the print line never runs. With let, line 4 works and the program prints 20.",
       "hints": [
-        "Check which name is assigned again on line 3.",
-        "One keyword locks a name to its first value. The other does not.",
-        "The name on line 2 is assigned again, so it needs the keyword that does not lock."
+        "Look at line 4: boxWeight gets a new value.",
+        "One keyword locks a name to its first value and stops the program when it is assigned again.",
+        "Line 3 changes a let name without trouble. Ask what the other keyword does when a line like line 4 reaches it."
       ],
       "reference": {
         "title": "const",
@@ -1112,7 +1109,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.const-declaration.parsons-02",
@@ -1483,66 +1480,66 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "Write an expression that gives the text Type: followed by the type of value. For null it must give Type: object.",
+      "prompt": "driver holds a name or null. Write an expression that gives Driver: and a space, then the value of driver. For null it gives Driver: null.",
       "solution": {
         "entry": {
           "kind": "expression",
           "variables": [
-            "value"
+            "driver"
           ]
         },
         "tests": [
           {
             "input": {
-              "value": null
+              "driver": null
             },
-            "expected": "Type: object"
+            "expected": "Driver: null"
           },
           {
             "input": {
-              "value": 12
+              "driver": "Ana"
             },
-            "expected": "Type: number"
+            "expected": "Driver: Ana"
           },
           {
             "input": {
-              "value": "hi"
+              "driver": 12
             },
-            "expected": "Type: string"
+            "expected": "Driver: 12"
           },
           {
             "input": {
-              "value": true
+              "driver": true
             },
-            "expected": "Type: boolean"
+            "expected": "Driver: true"
           },
           {
             "input": {
-              "value": ""
+              "driver": ""
             },
-            "expected": "Type: string"
+            "expected": "Driver: "
           }
         ],
         "reference": [
-          "\"Type: \" + typeof value"
+          "\"Driver: \" + driver"
         ],
         "wrongSolutions": [
           [
-            "\"Type: \" + value"
+            "\"Driver: \" + typeof driver"
           ],
           [
-            "typeof (\"Type: \" + value)"
+            "\"Driver: \" + \"driver\""
           ],
           [
-            "\"Type: \" + typeof \"value\""
+            "driver + \" Driver:\""
           ]
         ]
       },
-      "explanation": "The typeof operator gives the type name as text. Joining it to the text Type: with + builds the result. The word typeof must come before the variable, not before the text.",
+      "explanation": "null is a real value, and joined to text with + it becomes the word null. So the label and driver join into Driver: null. typeof would give the type name object instead of the value.",
       "hints": [
-        "You need the type, not the value itself.",
-        "typeof placed before a value gives its type name as text.",
-        "Join the text Type: with typeof value."
+        "You need the value of driver itself, not its type.",
+        "The + sign joins texts, and a null joined to text shows as the word null.",
+        "Put the label first, with the space after its colon, then driver."
       ],
       "reference": {
         "title": "typeof",
@@ -1551,7 +1548,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

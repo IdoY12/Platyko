@@ -389,7 +389,7 @@
       "hints": [
         "Compare what each chip tests on line 5.",
         "An iterator reports its end with the done property, not with the value.",
-        "Keep looping while done is false."
+        "The loop must go on while the end has not been reported, so read the end flag the right way round."
       ],
       "reference": {
         "title": "Iteration protocols",
@@ -398,7 +398,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.iteration-protocol.fix-01",
@@ -1099,7 +1099,7 @@
         {
           "text": "return",
           "correct": false,
-          "feedback": "return ends the generator at the first number, so only one value comes out and the loop never continues.",
+          "feedback": "return ends the generator at the first number, and a returned value is not collected, so the spread prints an empty array.",
           "misconception": "return-acts-as-yield"
         },
         {
@@ -1130,7 +1130,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:28"
       ]
@@ -1487,42 +1487,42 @@
       ],
       "format": "FIX_BUG",
       "difficulty": 4,
-      "prompt": "The ticket program should print 2 twice, but it prints 2 and then 0. Tap the buggy line and pick the fix.",
+      "prompt": "The program should print the first three ids, but it never finishes. Tap the buggy line and pick the fix.",
       "code": [
-        "function* tickets() {",
-        "  yield 'A1';",
-        "  yield 'A2';",
+        "function* ids() {",
+        "  for (let n = 1; ; n++) {",
+        "    yield 'T' + n;",
+        "  }",
         "}",
-        "const line = tickets();",
-        "console.log([...line].length);",
-        "console.log([...line].length);"
+        "const [a, b, c] = [...ids()];",
+        "console.log(a, b, c);"
       ],
       "options": [
         {
-          "text": "console.log([...tickets()].length);",
+          "text": "const [a, b, c] = ids();",
           "correct": true,
-          "feedback": "Right. A new generator object starts from the top, so it yields both tickets again."
+          "feedback": "Right. Destructuring asks the generator for three values only, then stops."
         },
         {
-          "text": "console.log(line.length);",
+          "text": "const [a, b, c] = ids;",
           "correct": false,
-          "feedback": "A generator object has no length property, so this prints undefined."
+          "feedback": "ids is the generator function, not a generator object, and it is not iterable, so this throws."
         },
         {
-          "text": "console.log(line.next().done);",
+          "text": "const [a, b, c] = ids().slice(0, 3);",
           "correct": false,
-          "feedback": "line is already used up, so this prints true instead of a count."
+          "feedback": "A generator object has no slice method, so this throws."
         }
       ],
       "solution": {
-        "bugLine": 7,
-        "expectedOutput": "2\n2"
+        "bugLine": 6,
+        "expectedOutput": "T1 T2 T3"
       },
-      "explanation": "A generator object can be consumed once. The first spread runs it to the end, so the second spread finds nothing. Calling tickets() again creates a fresh generator that starts from the top.",
+      "explanation": "Spreading asks for every value until done, and an endless generator never finishes, so the program hangs. Destructuring asks for only three values and then stops the generator.",
       "hints": [
-        "Compare what lines 6 and 7 spread.",
-        "A generator object is used up after it has been run to the end.",
-        "Start a new generator for the second count."
+        "Find the line that tries to collect values from the generator.",
+        "Spread asks for values until done is true, and an endless generator never reports done.",
+        "Take only the values you need, without collecting them all first."
       ],
       "reference": {
         "title": "Generator",
@@ -1532,7 +1532,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.lazy-sequences.write-01",
@@ -1542,7 +1542,7 @@
         "spread-and-rest"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "Write the body of multiples(step, count). An endless generator yields step, 2*step, 3*step and so on. Take the first count values with next() and return them in an array.",
       "solution": {
         "entry": {
@@ -1671,7 +1671,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

@@ -189,7 +189,7 @@
       "title": "Truthy, falsy and the logical operators",
       "conceptCard": {
         "title": "Truthy, falsy and the logical operators",
-        "body": "In a test, every value counts as true or false. Falsy values are false, 0, the empty text, null and undefined. All others are truthy. ! flips a value. && and || give back one of their two operands.",
+        "body": "In a test, every value counts as true or false. The falsy values you will meet most are false, 0, the empty text, null and undefined. Nearly every other value is truthy. ! flips a value. && and || give back one of their two operands.",
         "code": [
           "console.log(!0);",
           "console.log(0 && 'x');",
@@ -416,7 +416,7 @@
       "hints": [
         "Look at the value cups holds.",
         "One sign asks whether two values differ.",
-        "The sign you need has an exclamation mark."
+        "Test each chip with cups holding 6 and keep the one that makes the program print false."
       ],
       "reference": {
         "title": "Strict inequality (!==)",
@@ -426,7 +426,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.operators-and-comparisons.strict-equality.parsons-01",
@@ -588,7 +588,7 @@
         "string-values"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 1,
+      "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
         "let lightOn = false;",
@@ -867,7 +867,7 @@
       "hints": [
         "You need an operator that compares two values.",
         "One equality operator converts the types first.",
-        "Use a sign made of two equal signs."
+        "Write typed, then the comparison sign, then target. The sign is a relative of === that is more forgiving."
       ],
       "reference": {
         "title": "Equality (==)",
@@ -876,7 +876,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.predict-01",
@@ -1089,7 +1089,7 @@
       "hints": [
         "Compare the two values first.",
         "The sides are equal; some signs reject that.",
-        "Pick the sign that accepts bigger or equal."
+        "The two numbers are equal, so test each chip on 8 and 8 and keep the one that gives true."
       ],
       "reference": {
         "title": "Greater than or equal (>=)",
@@ -1099,7 +1099,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.parsons-01",
@@ -1315,7 +1315,7 @@
         "undefined-and-null"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What value does discount hold right after line 2 has run?",
       "code": [
         "let coupon = 0;",
@@ -1377,32 +1377,33 @@
         "undefined-and-null"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 1,
-      "prompt": "Fill the blank so the program prints false.",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints 0.",
       "code": [
-        "let cart = ___;",
-        "console.log(Boolean(cart));"
+        "let bonus = ___;",
+        "console.log(bonus && 'extra');"
       ],
       "options": [
         {
           "text": "0",
           "correct": true,
-          "feedback": "Right. The number 0 is falsy, so Boolean(0) is false."
+          "feedback": "Right. 0 is falsy, so && stops there and gives back 0."
         },
         {
-          "text": "'false'",
+          "text": "5",
           "correct": false,
-          "feedback": "This is a non-empty text, so it is truthy and the program prints true."
+          "feedback": "5 is truthy, so && moves on and gives back 'extra'."
         },
         {
-          "text": "1",
+          "text": "'0'",
           "correct": false,
-          "feedback": "Any number except 0 is truthy, so the program prints true."
+          "feedback": "This text has a character in it, so it is truthy and && gives back 'extra'.",
+          "misconception": "falsy-by-meaning"
         },
         {
           "text": "true",
           "correct": false,
-          "feedback": "true is truthy by definition, so the program prints true."
+          "feedback": "true is truthy, so && moves on and gives back 'extra'."
         }
       ],
       "solution": {
@@ -1411,13 +1412,13 @@
             "0"
           ]
         ],
-        "expectedOutput": "false"
+        "expectedOutput": "0"
       },
-      "explanation": "Boolean() gives false only for falsy values such as 0, the empty text, null and undefined. A text is truthy whenever it has characters, even the word false.",
+      "explanation": "&& gives back its left side when that is falsy, and its right side otherwise. Only the number 0 is falsy among the chips, so the program prints 0 and never reaches 'extra'.",
       "hints": [
-        "Check which chips are numbers, texts or booleans.",
-        "Only a few values count as falsy; a word that names a value is not one of them.",
-        "The chip is a number."
+        "Look at the left side of && on line 2.",
+        "&& gives back its left side when it is falsy, and moves on to the right side when it is truthy.",
+        "Try each chip as the left side and keep the one that stops && before 'extra'."
       ],
       "reference": {
         "title": "Falsy",
@@ -1427,7 +1428,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:6"
       ]
@@ -1487,7 +1488,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "Write an expression that gives username, or the text 'guest' when username is empty.",
+      "prompt": "Write an expression that gives username, or the text 'guest' when username is empty text, 0 or null.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -1555,7 +1556,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

@@ -830,65 +830,65 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "A while loop starts with saved at 0 and adds perDay each pass until saved reaches goal. Write an expression for the number of passes.",
+      "prompt": "A while loop starts with day at first, adds 1 to day each pass, and runs while day <= last. Write an expression for the number of passes.",
       "solution": {
         "entry": {
           "kind": "expression",
           "variables": [
-            "goal",
-            "perDay"
+            "first",
+            "last"
           ]
         },
         "tests": [
           {
             "input": {
-              "goal": 10,
-              "perDay": 3
+              "first": 1,
+              "last": 5
             },
-            "expected": 4
+            "expected": 5
           },
           {
             "input": {
-              "goal": 9,
-              "perDay": 3
-            },
-            "expected": 3
-          },
-          {
-            "input": {
-              "goal": 0,
-              "perDay": 5
-            },
-            "expected": 0
-          },
-          {
-            "input": {
-              "goal": 1,
-              "perDay": 5
+              "first": 3,
+              "last": 3
             },
             "expected": 1
+          },
+          {
+            "input": {
+              "first": 2,
+              "last": 6
+            },
+            "expected": 5
+          },
+          {
+            "input": {
+              "first": 0,
+              "last": 3
+            },
+            "expected": 4
           }
         ],
         "reference": [
-          "Math.ceil(goal / perDay)"
+          "last - first + 1"
         ],
         "wrongSolutions": [
           [
-            "goal / perDay"
+            "last - first"
           ],
           [
-            "Math.floor(goal / perDay)"
+            "last"
           ],
           [
-            "Math.ceil(goal / perDay) + 1"
+            "last - first + 2"
           ]
         ]
       },
-      "explanation": "Each pass adds perDay, and the loop stops when saved is at least goal. The passes needed are goal divided by perDay, rounded up, because a partly used last pass still counts.",
+      "explanation": "day takes the values first, first + 1 and so on up to last. Because the condition uses <=, the pass with day equal to last also runs, so the count is last - first + 1.",
       "hints": [
-        "Think about how many times perDay fits into goal.",
-        "A last pass that only partly fills the gap still counts as a pass.",
-        "Divide, then round the result up with Math.ceil."
+        "Try first 2 and last 4, and list the values day takes.",
+        "The condition uses <=, so the pass where day equals last still runs.",
+        "Subtract the start from the end, then decide whether both ends are counted."
       ],
       "reference": {
         "title": "while statement",
@@ -897,7 +897,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.loops.loop-accumulator.predict-01",
@@ -931,7 +931,7 @@
         {
           "text": "60",
           "correct": false,
-          "feedback": "That leaves out week 4. With <= the loop also runs when w is 4.",
+          "feedback": "That leaves out the pass where w is 4. With <= the loop also runs when w is 4.",
           "misconception": "bound-off-by-one"
         }
       ],
@@ -952,7 +952,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.loops.loop-accumulator.predict-02",
@@ -1501,67 +1501,32 @@
       ],
       "format": "PARSONS",
       "difficulty": 2,
-      "prompt": "Put the lines in order so that the program prints 3.",
+      "prompt": "Put the lines in order so that the program prints the total of the numbers before 4.",
       "code": [
-        "  seen++;",
-        "console.log(seen);",
-        "    break;",
-        "let seen = 0;",
-        "  }",
-        "for (let n = 1; n <= 5; n++) {",
+        "  total = total + n;",
+        "console.log(total);",
+        "  if (n === 4) break;",
+        "let total = 0;",
         "}",
-        "  if (n > 3) {"
+        "for (let n = 1; n <= 6; n++) {"
       ],
       "solution": {
         "lineOrder": [
           3,
           5,
-          7,
           2,
-          4,
           0,
-          6,
+          4,
           1
         ],
-        "acceptedOrders": [
-          [
-            3,
-            5,
-            7,
-            1,
-            2,
-            4,
-            0,
-            6
-          ],
-          [
-            3,
-            5,
-            7,
-            1,
-            2,
-            6,
-            0,
-            4
-          ],
-          [
-            3,
-            5,
-            7,
-            2,
-            6,
-            0,
-            4,
-            1
-          ]
-        ],
-        "expectedOutput": "3"
+        "acceptedOrders": [],
+        "expectedOutput": "6"
       },
-      "explanation": "The counter must exist first. In the loop, the if with break comes before the counting line, so the loop stops once n passes 3. Then the result is printed.",
+      "explanation": "total must exist before the loop. In each pass the break check comes before the adding line, so the loop ends at n equal to 4 and total holds 1 + 2 + 3. The print comes after the closing brace.",
       "hints": [
-        "The first line declares the counter.",
-        "Inside the loop, the check comes before the counting.",
-        "The closing braces must match the openings: the if first, then the loop."
+        "Look at the line that declares total: the loop and the print both use it.",
+        "break leaves the loop at once, so lines after it in the same pass do not run.",
+        "The break check comes before the line that adds, and the print comes after the closing brace."
       ],
       "reference": {
         "title": "break statement",
@@ -1571,7 +1536,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.loops.break-and-continue.write-01",
@@ -1583,60 +1548,60 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "A loop runs n from 1 to limit. It skips every even n with continue and prints the rest. Write an expression for how many numbers it prints.",
+      "prompt": "A loop adds each n from 1 to 4 to total but runs continue when n equals skip (1 to 4). Write an expression for the final total.",
       "solution": {
         "entry": {
           "kind": "expression",
           "variables": [
-            "limit"
+            "skip"
           ]
         },
         "tests": [
           {
             "input": {
-              "limit": 5
+              "skip": 1
             },
-            "expected": 3
+            "expected": 9
           },
           {
             "input": {
-              "limit": 6
+              "skip": 2
             },
-            "expected": 3
+            "expected": 8
           },
           {
             "input": {
-              "limit": 1
+              "skip": 3
             },
-            "expected": 1
+            "expected": 7
           },
           {
             "input": {
-              "limit": 0
+              "skip": 4
             },
-            "expected": 0
+            "expected": 6
           }
         ],
         "reference": [
-          "Math.ceil(limit / 2)"
+          "10 - skip"
         ],
         "wrongSolutions": [
           [
-            "limit / 2"
+            "10"
           ],
           [
-            "Math.floor(limit / 2)"
+            "skip"
           ],
           [
-            "limit - 1"
+            "10 + skip"
           ]
         ]
       },
-      "explanation": "Only odd values of n reach the print line. Among the numbers 1 to limit, the odd ones are half of limit rounded up: 1, 3 and 5 make three for a limit of 5.",
+      "explanation": "continue skips the adding line for the pass where n equals skip, so that n never reaches total. Without a skip the total is 1 + 2 + 3 + 4 = 10, so the result is 10 - skip.",
       "hints": [
-        "Write out which n are printed for limit 5.",
-        "Only the odd numbers get printed.",
-        "Half of limit is not always whole; decide whether to round up or down."
+        "Write out which n are added when skip is 2.",
+        "continue skips the rest of the pass, so the skipped n is never added.",
+        "Start from the total when nothing is skipped, then take something away."
       ],
       "reference": {
         "title": "continue statement",
@@ -1645,7 +1610,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

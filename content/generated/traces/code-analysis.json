@@ -4478,18 +4478,16 @@
   },
   "exp.code-analysis.reading-unfamiliar-code.concept-01": {
    "code": [
-    "const price = (key) => {",
-    "  if (key === \"tea\") return 3;",
-    "  if (key === \"cake\") return 5;",
-    "};",
-    "const rates = { tea: 3, cake: 5 };",
-    "const priceOf = (key) => rates[key];",
-    "console.log(price(\"tea\"));",
-    "console.log(priceOf(\"tea\"));"
+    "const cost = { tea: 3, cake: 5 };",
+    "const priceOf = (k) => cost[k] ?? 0;",
+    "const add = (a, b) => a + b;",
+    "const bill = (...keys) =>",
+    "  keys.map(priceOf).reduce(add);",
+    "const menu = [\"tea\", \"cake\", \"pie\"];",
+    "console.log(bill(...menu));"
    ],
    "output": [
-    "3",
-    "3"
+    "8"
    ],
    "steps": [
     {
@@ -4503,12 +4501,59 @@
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 2,
      "variables": [
       {
-       "name": "price",
+       "name": "cost",
        "scope": "global",
-       "value": "[Function: price]"
+       "value": "{tea: 3, cake: 5}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "cost",
+       "scope": "global",
+       "value": "{tea: 3, cake: 5}"
+      },
+      {
+       "name": "priceOf",
+       "scope": "global",
+       "value": "[Function: priceOf]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "cost",
+       "scope": "global",
+       "value": "{tea: 3, cake: 5}"
+      },
+      {
+       "name": "priceOf",
+       "scope": "global",
+       "value": "[Function: priceOf]"
+      },
+      {
+       "name": "add",
+       "scope": "global",
+       "value": "[Function: add]"
       }
      ],
      "outputCount": 0,
@@ -4522,14 +4567,24 @@
      "line": 6,
      "variables": [
       {
-       "name": "price",
-       "scope": "global",
-       "value": "[Function: price]"
-      },
-      {
-       "name": "rates",
+       "name": "cost",
        "scope": "global",
        "value": "{tea: 3, cake: 5}"
+      },
+      {
+       "name": "priceOf",
+       "scope": "global",
+       "value": "[Function: priceOf]"
+      },
+      {
+       "name": "add",
+       "scope": "global",
+       "value": "[Function: add]"
+      },
+      {
+       "name": "bill",
+       "scope": "global",
+       "value": "[Function: bill]"
       }
      ],
      "outputCount": 0,
@@ -4543,12 +4598,7 @@
      "line": 7,
      "variables": [
       {
-       "name": "price",
-       "scope": "global",
-       "value": "[Function: price]"
-      },
-      {
-       "name": "rates",
+       "name": "cost",
        "scope": "global",
        "value": "{tea: 3, cake: 5}"
       },
@@ -4556,11 +4606,68 @@
        "name": "priceOf",
        "scope": "global",
        "value": "[Function: priceOf]"
+      },
+      {
+       "name": "add",
+       "scope": "global",
+       "value": "[Function: add]"
+      },
+      {
+       "name": "bill",
+       "scope": "global",
+       "value": "[Function: bill]"
+      },
+      {
+       "name": "menu",
+       "scope": "global",
+       "value": "['tea', 'cake', 'pie']"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "cost",
+       "scope": "global",
+       "value": "{tea: 3, cake: 5}"
+      },
+      {
+       "name": "priceOf",
+       "scope": "global",
+       "value": "[Function: priceOf]"
+      },
+      {
+       "name": "add",
+       "scope": "global",
+       "value": "[Function: add]"
+      },
+      {
+       "name": "bill",
+       "scope": "global",
+       "value": "[Function: bill]"
+      },
+      {
+       "name": "menu",
+       "scope": "global",
+       "value": "['tea', 'cake', 'pie']"
+      },
+      {
+       "name": "keys",
+       "scope": "bill",
+       "value": "['tea', 'cake', 'pie']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bill"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -4569,12 +4676,7 @@
      "line": 2,
      "variables": [
       {
-       "name": "price",
-       "scope": "global",
-       "value": "[Function: price]"
-      },
-      {
-       "name": "rates",
+       "name": "cost",
        "scope": "global",
        "value": "{tea: 3, cake: 5}"
       },
@@ -4584,55 +4686,40 @@
        "value": "[Function: priceOf]"
       },
       {
-       "name": "key",
-       "scope": "price",
+       "name": "add",
+       "scope": "global",
+       "value": "[Function: add]"
+      },
+      {
+       "name": "bill",
+       "scope": "global",
+       "value": "[Function: bill]"
+      },
+      {
+       "name": "menu",
+       "scope": "global",
+       "value": "['tea', 'cake', 'pie']"
+      },
+      {
+       "name": "k",
+       "scope": "priceOf",
        "value": "'tea'"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "price"
+      "bill",
+      "priceOf"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 8,
+     "line": 2,
      "variables": [
       {
-       "name": "price",
-       "scope": "global",
-       "value": "[Function: price]"
-      },
-      {
-       "name": "rates",
-       "scope": "global",
-       "value": "{tea: 3, cake: 5}"
-      },
-      {
-       "name": "priceOf",
-       "scope": "global",
-       "value": "[Function: priceOf]"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "price",
-       "scope": "global",
-       "value": "[Function: price]"
-      },
-      {
-       "name": "rates",
+       "name": "cost",
        "scope": "global",
        "value": "{tea: 3, cake: 5}"
       },
@@ -4642,15 +4729,170 @@
        "value": "[Function: priceOf]"
       },
       {
-       "name": "key",
+       "name": "add",
+       "scope": "global",
+       "value": "[Function: add]"
+      },
+      {
+       "name": "bill",
+       "scope": "global",
+       "value": "[Function: bill]"
+      },
+      {
+       "name": "menu",
+       "scope": "global",
+       "value": "['tea', 'cake', 'pie']"
+      },
+      {
+       "name": "k",
        "scope": "priceOf",
-       "value": "'tea'"
+       "value": "'cake'"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 0,
      "callStack": [
       "global",
+      "bill",
       "priceOf"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "cost",
+       "scope": "global",
+       "value": "{tea: 3, cake: 5}"
+      },
+      {
+       "name": "priceOf",
+       "scope": "global",
+       "value": "[Function: priceOf]"
+      },
+      {
+       "name": "add",
+       "scope": "global",
+       "value": "[Function: add]"
+      },
+      {
+       "name": "bill",
+       "scope": "global",
+       "value": "[Function: bill]"
+      },
+      {
+       "name": "menu",
+       "scope": "global",
+       "value": "['tea', 'cake', 'pie']"
+      },
+      {
+       "name": "k",
+       "scope": "priceOf",
+       "value": "'pie'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bill",
+      "priceOf"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "cost",
+       "scope": "global",
+       "value": "{tea: 3, cake: 5}"
+      },
+      {
+       "name": "priceOf",
+       "scope": "global",
+       "value": "[Function: priceOf]"
+      },
+      {
+       "name": "add",
+       "scope": "global",
+       "value": "[Function: add]"
+      },
+      {
+       "name": "bill",
+       "scope": "global",
+       "value": "[Function: bill]"
+      },
+      {
+       "name": "menu",
+       "scope": "global",
+       "value": "['tea', 'cake', 'pie']"
+      },
+      {
+       "name": "a",
+       "scope": "add",
+       "value": "3"
+      },
+      {
+       "name": "b",
+       "scope": "add",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bill",
+      "add"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "cost",
+       "scope": "global",
+       "value": "{tea: 3, cake: 5}"
+      },
+      {
+       "name": "priceOf",
+       "scope": "global",
+       "value": "[Function: priceOf]"
+      },
+      {
+       "name": "add",
+       "scope": "global",
+       "value": "[Function: add]"
+      },
+      {
+       "name": "bill",
+       "scope": "global",
+       "value": "[Function: bill]"
+      },
+      {
+       "name": "menu",
+       "scope": "global",
+       "value": "['tea', 'cake', 'pie']"
+      },
+      {
+       "name": "a",
+       "scope": "add",
+       "value": "8"
+      },
+      {
+       "name": "b",
+       "scope": "add",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bill",
+      "add"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -4659,12 +4901,7 @@
      "line": 0,
      "variables": [
       {
-       "name": "price",
-       "scope": "global",
-       "value": "[Function: price]"
-      },
-      {
-       "name": "rates",
+       "name": "cost",
        "scope": "global",
        "value": "{tea: 3, cake: 5}"
       },
@@ -4672,9 +4909,24 @@
        "name": "priceOf",
        "scope": "global",
        "value": "[Function: priceOf]"
+      },
+      {
+       "name": "add",
+       "scope": "global",
+       "value": "[Function: add]"
+      },
+      {
+       "name": "bill",
+       "scope": "global",
+       "value": "[Function: bill]"
+      },
+      {
+       "name": "menu",
+       "scope": "global",
+       "value": "['tea', 'cake', 'pie']"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -4684,12 +4936,11 @@
   },
   "exp.code-analysis.reading-unfamiliar-code.fix-01": {
    "code": [
-    "const makeCounter = () => {",
+    "const mk = (step) => {",
     "  let n = 0;",
-    "  return () => ++n;",
+    "  return () => (n += step);",
     "};",
-    "const a = makeCounter();",
-    "const b = makeCounter();",
+    "const [a, b] = [mk(1), mk(1)];",
     "a();",
     "a();",
     "console.log(a(), b());"
@@ -4712,9 +4963,9 @@
      "line": 5,
      "variables": [
       {
-       "name": "makeCounter",
+       "name": "mk",
        "scope": "global",
-       "value": "[Function: makeCounter]"
+       "value": "[Function: mk]"
       }
      ],
      "outputCount": 0,
@@ -4728,15 +4979,20 @@
      "line": 2,
      "variables": [
       {
-       "name": "makeCounter",
+       "name": "mk",
        "scope": "global",
-       "value": "[Function: makeCounter]"
+       "value": "[Function: mk]"
+      },
+      {
+       "name": "step",
+       "scope": "mk",
+       "value": "1"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "makeCounter"
+      "mk"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -4745,20 +5001,74 @@
      "line": 3,
      "variables": [
       {
-       "name": "makeCounter",
+       "name": "mk",
        "scope": "global",
-       "value": "[Function: makeCounter]"
+       "value": "[Function: mk]"
+      },
+      {
+       "name": "step",
+       "scope": "mk",
+       "value": "1"
       },
       {
        "name": "n",
-       "scope": "makeCounter",
+       "scope": "mk",
        "value": "0"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "makeCounter"
+      "mk"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "mk",
+       "scope": "global",
+       "value": "[Function: mk]"
+      },
+      {
+       "name": "step",
+       "scope": "mk",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "mk"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "mk",
+       "scope": "global",
+       "value": "[Function: mk]"
+      },
+      {
+       "name": "step",
+       "scope": "mk",
+       "value": "1"
+      },
+      {
+       "name": "n",
+       "scope": "mk",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "mk"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -4767,12 +5077,17 @@
      "line": 6,
      "variables": [
       {
-       "name": "makeCounter",
+       "name": "mk",
        "scope": "global",
-       "value": "[Function: makeCounter]"
+       "value": "[Function: mk]"
       },
       {
        "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "b",
        "scope": "global",
        "value": "[Function (anonymous)]"
       }
@@ -4785,34 +5100,12 @@
      "microtasks": []
     },
     {
-     "line": 2,
-     "variables": [
-      {
-       "name": "makeCounter",
-       "scope": "global",
-       "value": "[Function: makeCounter]"
-      },
-      {
-       "name": "a",
-       "scope": "global",
-       "value": "[Function (anonymous)]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "makeCounter"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 3,
      "variables": [
       {
-       "name": "makeCounter",
+       "name": "mk",
        "scope": "global",
-       "value": "[Function: makeCounter]"
+       "value": "[Function: mk]"
       },
       {
        "name": "a",
@@ -4820,15 +5113,25 @@
        "value": "[Function (anonymous)]"
       },
       {
+       "name": "b",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "step",
+       "scope": "mk",
+       "value": "1"
+      },
+      {
        "name": "n",
-       "scope": "makeCounter",
+       "scope": "mk",
        "value": "0"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "makeCounter"
+      "anonymous"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -4837,9 +5140,9 @@
      "line": 7,
      "variables": [
       {
-       "name": "makeCounter",
+       "name": "mk",
        "scope": "global",
-       "value": "[Function: makeCounter]"
+       "value": "[Function: mk]"
       },
       {
        "name": "a",
@@ -4863,9 +5166,9 @@
      "line": 3,
      "variables": [
       {
-       "name": "makeCounter",
+       "name": "mk",
        "scope": "global",
-       "value": "[Function: makeCounter]"
+       "value": "[Function: mk]"
       },
       {
        "name": "a",
@@ -4878,9 +5181,14 @@
        "value": "[Function (anonymous)]"
       },
       {
+       "name": "step",
+       "scope": "mk",
+       "value": "1"
+      },
+      {
        "name": "n",
-       "scope": "makeCounter",
-       "value": "0"
+       "scope": "mk",
+       "value": "1"
       }
      ],
      "outputCount": 0,
@@ -4895,9 +5203,9 @@
      "line": 8,
      "variables": [
       {
-       "name": "makeCounter",
+       "name": "mk",
        "scope": "global",
-       "value": "[Function: makeCounter]"
+       "value": "[Function: mk]"
       },
       {
        "name": "a",
@@ -4921,9 +5229,9 @@
      "line": 3,
      "variables": [
       {
-       "name": "makeCounter",
+       "name": "mk",
        "scope": "global",
-       "value": "[Function: makeCounter]"
+       "value": "[Function: mk]"
       },
       {
        "name": "a",
@@ -4936,66 +5244,13 @@
        "value": "[Function (anonymous)]"
       },
       {
-       "name": "n",
-       "scope": "makeCounter",
+       "name": "step",
+       "scope": "mk",
        "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 9,
-     "variables": [
-      {
-       "name": "makeCounter",
-       "scope": "global",
-       "value": "[Function: makeCounter]"
-      },
-      {
-       "name": "a",
-       "scope": "global",
-       "value": "[Function (anonymous)]"
-      },
-      {
-       "name": "b",
-       "scope": "global",
-       "value": "[Function (anonymous)]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "makeCounter",
-       "scope": "global",
-       "value": "[Function: makeCounter]"
-      },
-      {
-       "name": "a",
-       "scope": "global",
-       "value": "[Function (anonymous)]"
-      },
-      {
-       "name": "b",
-       "scope": "global",
-       "value": "[Function (anonymous)]"
       },
       {
        "name": "n",
-       "scope": "makeCounter",
+       "scope": "mk",
        "value": "2"
       }
      ],
@@ -5011,9 +5266,9 @@
      "line": 3,
      "variables": [
       {
-       "name": "makeCounter",
+       "name": "mk",
        "scope": "global",
-       "value": "[Function: makeCounter]"
+       "value": "[Function: mk]"
       },
       {
        "name": "a",
@@ -5026,8 +5281,13 @@
        "value": "[Function (anonymous)]"
       },
       {
+       "name": "step",
+       "scope": "mk",
+       "value": "1"
+      },
+      {
        "name": "n",
-       "scope": "makeCounter",
+       "scope": "mk",
        "value": "0"
       }
      ],
@@ -5043,9 +5303,9 @@
      "line": 0,
      "variables": [
       {
-       "name": "makeCounter",
+       "name": "mk",
        "scope": "global",
-       "value": "[Function: makeCounter]"
+       "value": "[Function: mk]"
       },
       {
        "name": "a",

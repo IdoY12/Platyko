@@ -1555,10 +1555,13 @@
   "beg.objects.iteration.predict-01": {
    "code": [
     "const band = { sax: 3, bass: 2 };",
-    "console.log(Object.keys(band));"
+    "for (const part in band) {",
+    "  console.log(\"part \" + part);",
+    "}"
    ],
    "output": [
-    "['sax', 'bass']"
+    "part sax",
+    "part bass"
    ],
    "steps": [
     {
@@ -1588,6 +1591,90 @@
      "microtasks": []
     },
     {
+     "line": 2,
+     "variables": [
+      {
+       "name": "band",
+       "scope": "global",
+       "value": "{sax: 3, bass: 2}"
+      },
+      {
+       "name": "part",
+       "scope": "global",
+       "value": "'sax'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "band",
+       "scope": "global",
+       "value": "{sax: 3, bass: 2}"
+      },
+      {
+       "name": "part",
+       "scope": "global",
+       "value": "'sax'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "band",
+       "scope": "global",
+       "value": "{sax: 3, bass: 2}"
+      },
+      {
+       "name": "part",
+       "scope": "global",
+       "value": "'bass'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "band",
+       "scope": "global",
+       "value": "{sax: 3, bass: 2}"
+      },
+      {
+       "name": "part",
+       "scope": "global",
+       "value": "'bass'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 0,
      "variables": [
       {
@@ -1596,7 +1683,7 @@
        "value": "{sax: 3, bass: 2}"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 2,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -2539,8 +2626,10 @@
   "beg.objects.iteration.parsons-01": {
    "code": [
     "const cart = { pen: 2, ink: 5 };",
-    "const names = Object.keys(cart);",
-    "const count = names.length;",
+    "let count = 0;",
+    "for (const key in cart) {",
+    "  count = count + 1;",
+    "}",
     "console.log(\"Items: \" + count);"
    ],
    "output": [
@@ -2582,9 +2671,35 @@
        "value": "{pen: 2, ink: 5}"
       },
       {
-       "name": "names",
+       "name": "count",
        "scope": "global",
-       "value": "['pen', 'ink']"
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "cart",
+       "scope": "global",
+       "value": "{pen: 2, ink: 5}"
+      },
+      {
+       "name": "count",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "key",
+       "scope": "global",
+       "value": "'pen'"
       }
      ],
      "outputCount": 0,
@@ -2603,9 +2718,82 @@
        "value": "{pen: 2, ink: 5}"
       },
       {
-       "name": "names",
+       "name": "count",
        "scope": "global",
-       "value": "['pen', 'ink']"
+       "value": "0"
+      },
+      {
+       "name": "key",
+       "scope": "global",
+       "value": "'pen'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "cart",
+       "scope": "global",
+       "value": "{pen: 2, ink: 5}"
+      },
+      {
+       "name": "count",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "key",
+       "scope": "global",
+       "value": "'ink'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "cart",
+       "scope": "global",
+       "value": "{pen: 2, ink: 5}"
+      },
+      {
+       "name": "count",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "key",
+       "scope": "global",
+       "value": "'ink'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "cart",
+       "scope": "global",
+       "value": "{pen: 2, ink: 5}"
       },
       {
        "name": "count",
@@ -2627,11 +2815,6 @@
        "name": "cart",
        "scope": "global",
        "value": "{pen: 2, ink: 5}"
-      },
-      {
-       "name": "names",
-       "scope": "global",
-       "value": "['pen', 'ink']"
       },
       {
        "name": "count",

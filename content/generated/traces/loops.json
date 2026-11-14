@@ -1818,14 +1818,14 @@
   },
   "beg.loops.while-loop.write-01": {
    "code": [
-    "let goal = 10;",
-    "let perDay = 3;",
+    "let first = 1;",
+    "let last = 5;",
     "console.log(",
-    "Math.ceil(goal / perDay)",
+    "last - first + 1",
     ");"
    ],
    "output": [
-    "4"
+    "5"
    ],
    "steps": [
     {
@@ -1842,9 +1842,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "goal",
+       "name": "first",
        "scope": "global",
-       "value": "10"
+       "value": "1"
       }
      ],
      "outputCount": 0,
@@ -1858,14 +1858,14 @@
      "line": 3,
      "variables": [
       {
-       "name": "goal",
+       "name": "first",
        "scope": "global",
-       "value": "10"
+       "value": "1"
       },
       {
-       "name": "perDay",
+       "name": "last",
        "scope": "global",
-       "value": "3"
+       "value": "5"
       }
      ],
      "outputCount": 0,
@@ -1879,14 +1879,14 @@
      "line": 0,
      "variables": [
       {
-       "name": "goal",
+       "name": "first",
        "scope": "global",
-       "value": "10"
+       "value": "1"
       },
       {
-       "name": "perDay",
+       "name": "last",
        "scope": "global",
-       "value": "3"
+       "value": "5"
       }
      ],
      "outputCount": 1,
@@ -4624,17 +4624,15 @@
   },
   "beg.loops.break-and-continue.parsons-01": {
    "code": [
-    "let seen = 0;",
-    "for (let n = 1; n <= 5; n++) {",
-    "  if (n > 3) {",
-    "    break;",
-    "  }",
-    "  seen++;",
+    "let total = 0;",
+    "for (let n = 1; n <= 6; n++) {",
+    "  if (n === 4) break;",
+    "  total = total + n;",
     "}",
-    "console.log(seen);"
+    "console.log(total);"
    ],
    "output": [
-    "3"
+    "6"
    ],
    "steps": [
     {
@@ -4651,7 +4649,7 @@
      "line": 2,
      "variables": [
       {
-       "name": "seen",
+       "name": "total",
        "scope": "global",
        "value": "0"
       }
@@ -4667,7 +4665,7 @@
      "line": 2,
      "variables": [
       {
-       "name": "seen",
+       "name": "total",
        "scope": "global",
        "value": "0"
       },
@@ -4688,7 +4686,7 @@
      "line": 3,
      "variables": [
       {
-       "name": "seen",
+       "name": "total",
        "scope": "global",
        "value": "0"
       },
@@ -4696,195 +4694,6 @@
        "name": "n",
        "scope": "global",
        "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "seen",
-       "scope": "global",
-       "value": "0"
-      },
-      {
-       "name": "n",
-       "scope": "global",
-       "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "seen",
-       "scope": "global",
-       "value": "1"
-      },
-      {
-       "name": "n",
-       "scope": "global",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "seen",
-       "scope": "global",
-       "value": "1"
-      },
-      {
-       "name": "n",
-       "scope": "global",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "seen",
-       "scope": "global",
-       "value": "1"
-      },
-      {
-       "name": "n",
-       "scope": "global",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "seen",
-       "scope": "global",
-       "value": "2"
-      },
-      {
-       "name": "n",
-       "scope": "global",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "seen",
-       "scope": "global",
-       "value": "2"
-      },
-      {
-       "name": "n",
-       "scope": "global",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "seen",
-       "scope": "global",
-       "value": "2"
-      },
-      {
-       "name": "n",
-       "scope": "global",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "seen",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "n",
-       "scope": "global",
-       "value": "4"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "seen",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "n",
-       "scope": "global",
-       "value": "4"
       }
      ],
      "outputCount": 0,
@@ -4898,9 +4707,156 @@
      "line": 4,
      "variables": [
       {
-       "name": "seen",
+       "name": "total",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "total",
        "scope": "global",
        "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "6"
       },
       {
        "name": "n",
@@ -4916,12 +4872,33 @@
      "microtasks": []
     },
     {
-     "line": 8,
+     "line": 3,
      "variables": [
       {
-       "name": "seen",
+       "name": "total",
        "scope": "global",
-       "value": "3"
+       "value": "6"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "6"
       }
      ],
      "outputCount": 0,
@@ -4935,9 +4912,9 @@
      "line": 0,
      "variables": [
       {
-       "name": "seen",
+       "name": "total",
        "scope": "global",
-       "value": "3"
+       "value": "6"
       }
      ],
      "outputCount": 1,
@@ -4950,13 +4927,13 @@
   },
   "beg.loops.break-and-continue.write-01": {
    "code": [
-    "let limit = 5;",
+    "let skip = 1;",
     "console.log(",
-    "Math.ceil(limit / 2)",
+    "10 - skip",
     ");"
    ],
    "output": [
-    "3"
+    "9"
    ],
    "steps": [
     {
@@ -4973,9 +4950,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "limit",
+       "name": "skip",
        "scope": "global",
-       "value": "5"
+       "value": "1"
       }
      ],
      "outputCount": 0,
@@ -4989,9 +4966,9 @@
      "line": 0,
      "variables": [
       {
-       "name": "limit",
+       "name": "skip",
        "scope": "global",
-       "value": "5"
+       "value": "1"
       }
      ],
      "outputCount": 1,

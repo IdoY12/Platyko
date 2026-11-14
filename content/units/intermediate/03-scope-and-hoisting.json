@@ -847,7 +847,7 @@
       "concept": "function-scope-and-var",
       "prerequisites": [
         "block-scope",
-        "function-declaration"
+        "function-expressions"
       ],
       "format": "PARSONS",
       "difficulty": 3,
@@ -855,8 +855,8 @@
       "code": [
         "  return label;",
         "console.log(pickLabel(8));",
-        "function pickLabel(n) {",
-        "}",
+        "const pickLabel = (n) => {",
+        "};",
         "  if (n > 5) { var label = \"big\"; }"
       ],
       "solution": {
@@ -867,22 +867,14 @@
           3,
           1
         ],
-        "acceptedOrders": [
-          [
-            1,
-            2,
-            4,
-            0,
-            3
-          ]
-        ],
+        "acceptedOrders": [],
         "expectedOutput": "big"
       },
-      "explanation": "The function header opens the body, the if assigns label, the return reads it, and the closing brace ends the function. The call follows the function. Because var is function scoped, return can read label.",
+      "explanation": "The arrow header opens the body, the if assigns label, the return reads it, and the closing line ends the function. The call comes last, after pickLabel is defined. Because var is function scoped, return can read label.",
       "hints": [
-        "The function body sits between the header and the closing brace.",
+        "The function body sits between the header and the closing line.",
         "Inside pickLabel, assign label before you return it.",
-        "The call that prints the result comes after the function is closed."
+        "The line that prints the result comes after the function is closed."
       ],
       "reference": {
         "title": "var",
@@ -892,7 +884,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.fix-01",
@@ -1056,16 +1048,16 @@
         "function opening(s) {",
         "  return s + \" open\";",
         "}",
-        "const closing = (s) => s + \" shut\";"
+        "var closing = (s) => s + \" shut\";"
       ],
       "options": [
         {
-          "text": "bakery open\nUncaught ReferenceError",
+          "text": "bakery open\nUncaught TypeError",
           "correct": true,
-          "feedback": "Right. The declaration is ready from the first line, but the const is not usable until its line has run."
+          "feedback": "Right. The declaration is ready from the first line, but closing holds undefined until line 6 has run."
         },
         {
-          "text": "Uncaught ReferenceError",
+          "text": "Uncaught TypeError",
           "correct": false,
           "feedback": "You thought the function declaration was not ready yet. A function declaration is set up before any line runs, so line 1 works.",
           "misconception": "declaration-not-hoisted"
@@ -1073,18 +1065,18 @@
         {
           "text": "bakery open\nbakery shut",
           "correct": false,
-          "feedback": "You treated the const function expression like a declaration. The const cannot be used before line 6 has run.",
+          "feedback": "You treated the function expression like a declaration. Only the name closing exists early; its function is assigned on line 6.",
           "misconception": "function-expression-hoisted-like-declaration"
         }
       ],
       "solution": {
-        "expectedOutput": "bakery open\nUncaught ReferenceError"
+        "expectedOutput": "bakery open\nUncaught TypeError"
       },
-      "explanation": "A function declaration is hoisted with its body, so line 1 works. closing is a const, so reading it on line 2 is too early and throws a ReferenceError.",
+      "explanation": "A function declaration is hoisted with its body, so line 1 works. closing is a var, so it exists from the start but holds undefined until line 6 runs, and calling undefined on line 2 throws a TypeError.",
       "hints": [
         "Compare line 1 and line 2: each calls a function defined further down.",
         "A function declaration is ready before any line runs; a const is not usable until its line.",
-        "The first call prints, the second one stops the program."
+        "Compare what closing holds when line 2 runs with what opening holds on line 1."
       ],
       "reference": {
         "title": "Hoisting",
@@ -1094,7 +1086,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:20"
       ]
@@ -1445,7 +1437,7 @@
       "hints": [
         "Which rooms does line 3 refer to?",
         "A let covers its whole block, but cannot be read until its declaration line has run.",
-        "Neither a number nor undefined can be read from that variable on line 3."
+        "Line 4 has not run yet when line 3 reads the variable."
       ],
       "reference": {
         "title": "ReferenceError: cannot access before initialization",
@@ -1455,7 +1447,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "duel:8"
       ]
@@ -1484,13 +1476,13 @@
         {
           "text": "Code written above a let declaration can never read it.",
           "correct": false,
-          "feedback": "peek sits above the declaration, yet it works because it runs later.",
+          "feedback": "Where a line is written does not settle it on its own. Ask what has happened by the time that code runs.",
           "misconception": "tdz-depends-on-position"
         },
         {
           "text": "peek gives NaN, because let is hoisted without a value.",
           "correct": false,
-          "feedback": "cap is initialised on line 2 before peek runs on line 3, so it already holds 7.",
+          "feedback": "A let is not handed undefined when it is hoisted. Compare what a var holds early with what a let allows early.",
           "misconception": "tdz-gives-undefined"
         }
       ],
@@ -1511,7 +1503,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.trace-01",

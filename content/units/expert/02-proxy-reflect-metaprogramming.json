@@ -563,43 +563,41 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 4,
-      "prompt": "A library record has a symbol key and a hidden key. What does this code print?",
+      "prompt": "A library record has a symbol key and two string keys. What does this code print?",
       "code": [
         "const tag = Symbol(\"id\");",
         "const book = { title: \"Dune\" };",
         "book[tag] = 7;",
-        "Object.defineProperty(book, \"ean\", {",
-        "  value: 1,",
-        "});",
+        "book.year = 1965;",
         "console.log(Reflect.ownKeys(book));",
         "console.log(Object.keys(book));"
       ],
       "options": [
         {
-          "text": "['title', 'ean', Symbol(id)]\n['title']",
+          "text": "['title', 'year', Symbol(id)]\n['title', 'year']",
           "correct": true,
-          "feedback": "Right. ownKeys lists every own key: strings first, then symbols. Object.keys lists only enumerable string keys."
+          "feedback": "Right. ownKeys lists every own key: strings first, then symbols. Object.keys lists only the string keys."
         },
         {
-          "text": "['title']\n['title']",
+          "text": "['title', 'year']\n['title', 'year']",
           "correct": false,
-          "feedback": "Reflect.ownKeys is not the same as Object.keys. It also lists a hidden string key and symbol keys.",
+          "feedback": "Reflect.ownKeys is not the same as Object.keys. It also lists symbol keys.",
           "misconception": "reflect-ownkeys-like-keys"
         },
         {
-          "text": "[Symbol(id), 'title', 'ean']\n['title']",
+          "text": "[Symbol(id), 'title', 'year']\n['title', 'year']",
           "correct": false,
-          "feedback": "The list has the right members, but string keys come before symbols in own-key order.",
+          "feedback": "The list has the right members, but string keys come before symbols in own-key order, whenever the symbol was added.",
           "misconception": "symbols-listed-first"
         }
       ],
       "solution": {
-        "expectedOutput": "['title', 'ean', Symbol(id)]\n['title']"
+        "expectedOutput": "['title', 'year', Symbol(id)]\n['title', 'year']"
       },
-      "explanation": "Reflect.ownKeys returns all own keys: enumerable or not, string or symbol, strings first. Object.keys keeps only enumerable string keys, and ean is hidden because defineProperty defaults enumerable to false.",
+      "explanation": "Reflect.ownKeys returns all own keys, string keys first in creation order, then symbol keys. Object.keys keeps only the enumerable string keys, so the symbol is missing from the second line.",
       "hints": [
-        "Compare what the two calls on lines 7 and 8 list.",
-        "ownKeys includes non-enumerable and symbol keys; keys does not.",
+        "Compare what the two calls on lines 5 and 6 list.",
+        "ownKeys includes symbol keys; keys does not.",
         "Strings come first in the list, symbols last."
       ],
       "reference": {
@@ -610,7 +608,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:29"
       ]
@@ -732,7 +730,7 @@
         "proxy-traps"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "A garden seed log forwards two operations to the default behaviour. Fill both blanks so the program prints true, false and 0 on separate lines.",
       "code": [
         "const seeds = { basil: 0 };",
@@ -786,7 +784,7 @@
       "hints": [
         "Look at the names of the two traps.",
         "Reflect has one function for every trap, named like the trap.",
-        "Each blank repeats the name of the trap that holds it."
+        "Both operations only read from the target: neither writes, deletes nor lists anything."
       ],
       "reference": {
         "title": "Proxy handler has()",
@@ -795,7 +793,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.property-descriptors.predict-01",
@@ -1159,8 +1157,8 @@
         "iteration-protocol"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 5,
-      "prompt": "A hiking trail object has a generator under Symbol.iterator. Which claim does this code demonstrate?",
+      "difficulty": 4,
+      "prompt": "A hiking trail object returns an iterator from its Symbol.iterator method. Which claim does this code demonstrate?",
       "code": [
         "const trail = {",
         "  names: [\"oak\", \"elm\"],",
@@ -1168,35 +1166,36 @@
         "    return this.names.values();",
         "  },",
         "};",
+        "console.log([...trail]);",
         "console.log([...trail]);"
       ],
       "options": [
         {
-          "text": "Spread works on any object with a Symbol.iterator method, not only arrays",
+          "text": "Each spread calls the Symbol.iterator method again and gets a fresh iterator",
           "correct": true,
-          "feedback": "Right. Spread asks the object for its iterator and uses the values it yields."
+          "feedback": "Right. The method is a hook the language calls whenever it needs the values, so each use starts at the first name."
         },
         {
-          "text": "Spread works only on arrays, so this program ends with an error",
+          "text": "The first spread uses the object up, so the second spread prints an empty array",
           "correct": false,
-          "feedback": "Spread accepts any iterable. An object becomes iterable by having a method under Symbol.iterator.",
+          "feedback": "The object stores no position. Each spread asks for a new iterator, and this method builds one from names every time.",
           "misconception": "protocol-hook-confusion"
         },
         {
           "text": "The Symbol.iterator method runs once when trail is created, and spread reads its stored result",
           "correct": false,
-          "feedback": "The method runs when spread asks for an iterator, and the generator then yields values one at a time.",
+          "feedback": "The method runs when spread asks for an iterator, not at creation, so the second spread can run it again.",
           "misconception": "protocol-hook-confusion"
         }
       ],
       "solution": {
-        "expectedOutput": "['oak', 'elm']"
+        "expectedOutput": "['oak', 'elm']\n['oak', 'elm']"
       },
-      "explanation": "Spread looks up the Symbol.iterator method of its operand and calls it to get values. Any object with that method is iterable, so arrays are not required.",
+      "explanation": "Spread looks up the Symbol.iterator method of its operand and calls it each time it needs values. This method returns a new array iterator on every call, so both spreads print the full list.",
       "hints": [
-        "Look at the key of the method on line 2.",
-        "Spread and for-of look for one well-known symbol method.",
-        "Decide whether trail needs to be an array for spread to work."
+        "Look at the method on line 3 and at the two spreads.",
+        "Spread and for-of look for one well-known symbol method and call it on every use.",
+        "Ask whether anything stored in trail remembers how far an earlier spread got."
       ],
       "reference": {
         "title": "Symbol.iterator",
@@ -1206,7 +1205,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.fix-01",

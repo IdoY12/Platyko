@@ -3,13 +3,13 @@
  "items": {
   "int.objects-in-depth.destructuring.predict-01": {
    "code": [
-    "const order = { buyer: null };",
-    "const { buyer, tip = 0 } = order;",
-    "const who = buyer?.name ?? \"guest\";",
-    "console.log(who, tip);"
+    "const bill = { who: \"Ana\", tip: 0 };",
+    "const { who, tip = 3 } = bill;",
+    "const { note = \"none\" } = bill;",
+    "console.log(who, tip, note);"
    ],
    "output": [
-    "guest 0"
+    "Ana 0 none"
    ],
    "steps": [
     {
@@ -26,9 +26,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "order",
+       "name": "bill",
        "scope": "global",
-       "value": "{buyer: null}"
+       "value": "{who: 'Ana', tip: 0}"
       }
      ],
      "outputCount": 0,
@@ -42,14 +42,14 @@
      "line": 3,
      "variables": [
       {
-       "name": "order",
+       "name": "bill",
        "scope": "global",
-       "value": "{buyer: null}"
+       "value": "{who: 'Ana', tip: 0}"
       },
       {
-       "name": "buyer",
+       "name": "who",
        "scope": "global",
-       "value": "null"
+       "value": "'Ana'"
       },
       {
        "name": "tip",
@@ -68,14 +68,14 @@
      "line": 4,
      "variables": [
       {
-       "name": "order",
+       "name": "bill",
        "scope": "global",
-       "value": "{buyer: null}"
+       "value": "{who: 'Ana', tip: 0}"
       },
       {
-       "name": "buyer",
+       "name": "who",
        "scope": "global",
-       "value": "null"
+       "value": "'Ana'"
       },
       {
        "name": "tip",
@@ -83,9 +83,9 @@
        "value": "0"
       },
       {
-       "name": "who",
+       "name": "note",
        "scope": "global",
-       "value": "'guest'"
+       "value": "'none'"
       }
      ],
      "outputCount": 0,
@@ -99,14 +99,14 @@
      "line": 0,
      "variables": [
       {
-       "name": "order",
+       "name": "bill",
        "scope": "global",
-       "value": "{buyer: null}"
+       "value": "{who: 'Ana', tip: 0}"
       },
       {
-       "name": "buyer",
+       "name": "who",
        "scope": "global",
-       "value": "null"
+       "value": "'Ana'"
       },
       {
        "name": "tip",
@@ -114,9 +114,9 @@
        "value": "0"
       },
       {
-       "name": "who",
+       "name": "note",
        "scope": "global",
-       "value": "'guest'"
+       "value": "'none'"
       }
      ],
      "outputCount": 1,
@@ -218,15 +218,13 @@
   },
   "int.objects-in-depth.destructuring.trace-01": {
    "code": [
-    "const bed = { water: 3, sun: null };",
-    "let { water, sun } = bed;",
-    "sun ??= \"part\";",
-    "water ??= 8;",
-    "sun ??= \"full\";",
-    "console.log(water, sun);"
+    "const bag = { lo: 2 };",
+    "const { lo = 6, hi = lo + 1 } = bag;",
+    "const [first, second = 9] = [4];",
+    "console.log(lo, hi, first, second);"
    ],
    "output": [
-    "3 part"
+    "2 3 4 9"
    ],
    "steps": [
     {
@@ -243,9 +241,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "bed",
+       "name": "bag",
        "scope": "global",
-       "value": "{water: 3, sun: null}"
+       "value": "{lo: 2}"
       }
      ],
      "outputCount": 0,
@@ -259,19 +257,19 @@
      "line": 3,
      "variables": [
       {
-       "name": "bed",
+       "name": "bag",
        "scope": "global",
-       "value": "{water: 3, sun: null}"
+       "value": "{lo: 2}"
       },
       {
-       "name": "water",
+       "name": "lo",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "hi",
        "scope": "global",
        "value": "3"
-      },
-      {
-       "name": "sun",
-       "scope": "global",
-       "value": "null"
       }
      ],
      "outputCount": 0,
@@ -285,71 +283,29 @@
      "line": 4,
      "variables": [
       {
-       "name": "bed",
+       "name": "bag",
        "scope": "global",
-       "value": "{water: 3, sun: null}"
+       "value": "{lo: 2}"
       },
       {
-       "name": "water",
+       "name": "lo",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "hi",
        "scope": "global",
        "value": "3"
       },
       {
-       "name": "sun",
+       "name": "first",
        "scope": "global",
-       "value": "'part'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "bed",
-       "scope": "global",
-       "value": "{water: 3, sun: null}"
+       "value": "4"
       },
       {
-       "name": "water",
+       "name": "second",
        "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "sun",
-       "scope": "global",
-       "value": "'part'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "bed",
-       "scope": "global",
-       "value": "{water: 3, sun: null}"
-      },
-      {
-       "name": "water",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "sun",
-       "scope": "global",
-       "value": "'part'"
+       "value": "9"
       }
      ],
      "outputCount": 0,
@@ -363,19 +319,29 @@
      "line": 0,
      "variables": [
       {
-       "name": "bed",
+       "name": "bag",
        "scope": "global",
-       "value": "{water: 3, sun: null}"
+       "value": "{lo: 2}"
       },
       {
-       "name": "water",
+       "name": "lo",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "hi",
        "scope": "global",
        "value": "3"
       },
       {
-       "name": "sun",
+       "name": "first",
        "scope": "global",
-       "value": "'part'"
+       "value": "4"
+      },
+      {
+       "name": "second",
+       "scope": "global",
+       "value": "9"
       }
      ],
      "outputCount": 1,

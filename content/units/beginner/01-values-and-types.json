@@ -114,10 +114,12 @@
       "title": "Numbers and arithmetic",
       "conceptCard": {
         "title": "Numbers and arithmetic",
-        "body": "JavaScript has one kind of number, with or without decimals. The signs + - * / work as in maths, and * and / go before + and -. The % sign gives the leftover after dividing, and / keeps the fraction.",
+        "body": "JavaScript has one kind of number, with or without decimals. The signs + - * / work as in maths, and * and / go before + and -. The % sign gives the leftover after dividing. A let line stores a value under a name, and a later line can replace it.",
         "code": [
           "console.log(6 + 4 * 2);",
-          "console.log(7 / 2);",
+          "let share = 7;",
+          "share = share / 2;",
+          "console.log(share);",
           "console.log(7 % 2);"
         ],
         "expectedOutput": "14\n3.5\n1"
@@ -136,13 +138,14 @@
       "title": "Strings and joining text",
       "conceptCard": {
         "title": "Strings and joining text",
-        "body": "Text goes between quotation marks. Joining texts with + makes one longer text. If one side of + is text, the other side becomes text too. The length property counts the characters.",
+        "body": "Text goes between quotation marks. Joining texts with + makes one longer text. If one side of + is text, the other side becomes text too. The length property counts the characters. A method such as toUpperCase() is called after a dot and returns new text.",
         "code": [
           "console.log(\"tea\" + \"pot\");",
           "console.log(\"tea\".length);",
-          "console.log(\"Room \" + 5);"
+          "console.log(\"Room \" + 5);",
+          "console.log(\"tea\".toUpperCase());"
         ],
-        "expectedOutput": "teapot\n3\nRoom 5"
+        "expectedOutput": "teapot\n3\nRoom 5\nTEA"
       },
       "itemIds": [
         "beg.values-and-types.string-values.predict-01",
@@ -394,7 +397,7 @@
       "hints": [
         "Look at the sign between 17 and 5.",
         "One sign gives the leftover after a division.",
-        "Pick the sign that is not + - * or /."
+        "Work out 17 / 5 first: 5 fits three whole times. The blank gives what is left after that."
       ],
       "reference": {
         "title": "Remainder (%)",
@@ -404,7 +407,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.values-and-types.number-values.parsons-01",
@@ -837,7 +840,7 @@
         "string-values"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 1,
+      "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
         "console.log(Boolean(0));",
@@ -1001,9 +1004,9 @@
           "feedback": "Right. The number 0 counts as false."
         },
         {
-          "text": "\"\"",
-          "correct": true,
-          "feedback": "Right. Empty text counts as false."
+          "text": "\" \"",
+          "correct": false,
+          "feedback": "A space is a character, so this text is not empty and counts as true. The program prints true."
         },
         {
           "text": "\"false\"",
@@ -1019,17 +1022,16 @@
       "solution": {
         "blanks": [
           [
-            "0",
-            "\"\""
+            "0"
           ]
         ],
         "expectedOutput": "false"
       },
-      "explanation": "Boolean gives false for 0 and for empty text. A text such as \"false\" and a number such as 7 both give true.",
+      "explanation": "Boolean gives false for the number 0. A number such as 7 and any text with at least one character, such as \"false\" or a single space, give true.",
       "hints": [
         "Look at what Boolean receives on line 1.",
         "Only a few values give the opposite of true.",
-        "Two of the four chips work; either one is fine."
+        "The chip you need is a number, not a text."
       ],
       "reference": {
         "title": "Falsy",
@@ -1039,7 +1041,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.values-and-types.boolean-values.parsons-01",
@@ -1213,7 +1215,7 @@
       "hints": [
         "Look at the value after typeof.",
         "null is a special case that surprises many people.",
-        "The printed word is not null and not undefined."
+        "The result is a word you would also expect for a list or a record, not for a single plain value."
       ],
       "reference": {
         "title": "null",
@@ -1223,7 +1225,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:0"
       ]
@@ -1303,9 +1305,9 @@
           "feedback": "Right. true is a boolean, so typeof gives boolean."
         },
         {
-          "text": "false",
-          "correct": true,
-          "feedback": "Right. false is a boolean too."
+          "text": "null",
+          "correct": false,
+          "feedback": "null is the odd case: typeof reports object for it, not boolean."
         },
         {
           "text": "\"true\"",
@@ -1321,17 +1323,16 @@
       "solution": {
         "blanks": [
           [
-            "true",
-            "false"
+            "true"
           ]
         ],
         "expectedOutput": "boolean"
       },
-      "explanation": "typeof gives boolean for true and for false. A value in quotation marks is text, and a number is a number, so those two give other words.",
+      "explanation": "typeof gives boolean for true. A value in quotation marks is text, a digit is a number, and null reports object, so those give other words.",
       "hints": [
         "Look at what typeof receives on line 1; quotation marks matter.",
-        "The value you want has only two possible forms.",
-        "Two of the four chips fit; either one works."
+        "A boolean is written as a bare word with only two possible forms.",
+        "Quotation marks make text and a digit makes a number, so rule out the chips that have them."
       ],
       "reference": {
         "title": "typeof",
@@ -1341,7 +1342,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:8"
       ]
@@ -1448,8 +1449,8 @@
       "explanation": "typeof price gives the type name. Joining it to \": \" and then to price builds the text. typeof binds tighter than +, so it applies to price alone.",
       "hints": [
         "You need three pieces joined with +.",
-        "typeof price is the first piece.",
-        "Join typeof price, then \": \", then price."
+        "typeof gives the type name of a value as text, and + joins texts together.",
+        "The type name goes first and the value itself goes last, with a colon and a space between them."
       ],
       "reference": {
         "title": "typeof",
@@ -1458,7 +1459,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

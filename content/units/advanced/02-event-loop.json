@@ -737,11 +737,6 @@
           "feedback": "Right. 300 sits between 200 and 500, so dry prints in the middle."
         },
         {
-          "text": "400",
-          "correct": true,
-          "feedback": "Right. 400 sits between 200 and 500, so dry prints in the middle."
-        },
-        {
           "text": "100",
           "correct": false,
           "feedback": "All delays count from the same moment. 100 expires before wash at 200, so dry prints first.",
@@ -757,8 +752,7 @@
       "solution": {
         "blanks": [
           [
-            "300",
-            "400"
+            "300"
           ]
         ],
         "expectedOutput": "wash\ndry\nfold"
@@ -767,7 +761,7 @@
       "hints": [
         "Compare the delay in the blank with the two delays around it.",
         "Timers count from the same start, and the smallest delay fires first.",
-        "Two chips lie between wash and fold."
+        "Rule out the chips that are smaller than 200 or larger than 500."
       ],
       "reference": {
         "title": "setTimeout()",
@@ -777,7 +771,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.event-loop.macrotask-queue.fix-01",
@@ -1103,7 +1097,7 @@
       "hints": [
         "Sort the lines into plain code, a promise handler and a timer.",
         "The loop runs plain code, then all microtasks, then the next timer task.",
-        "The promise handler runs before the timer, and both run after cups out."
+        "Think about which of the three deferred and plain parts the loop reaches last."
       ],
       "reference": {
         "title": "Event loop",
@@ -1112,7 +1106,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:10"
       ]
@@ -1466,7 +1460,7 @@
       "hints": [
         "Find which lines run before the function pauses.",
         "The code after await resumes only after the plain code has finished.",
-        "close comes before scan, and open is the first thing printed."
+        "The line after await is not part of the first run of scanBook."
       ],
       "reference": {
         "title": "await",
@@ -1475,7 +1469,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.event-loop.await-scheduling.fix-01",

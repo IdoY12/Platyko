@@ -418,57 +418,57 @@
       ],
       "format": "FILL_BLANK",
       "difficulty": 2,
-      "prompt": "Fill the blank so the program prints [1, 2, 3, [4]].",
+      "prompt": "Fill the blank so the program prints [30, 10, 40].",
       "code": [
-        "const shelves = [[1, 2], [3, [4]]];",
-        "const merged = shelves.flat(___);",
-        "console.log(merged);"
+        "const bags = [3, 1, 4];",
+        "const loads = bags.map(___);",
+        "console.log(loads);"
       ],
       "options": [
         {
-          "text": "1",
+          "text": "(b) => b * 10",
           "correct": true,
-          "feedback": "Right. Depth 1 opens the two inner arrays and leaves [4] nested."
+          "feedback": "Right. map calls this on every bag and collects each result."
         },
         {
-          "text": "0",
+          "text": "(b) => b",
           "correct": false,
-          "feedback": "Depth 0 opens nothing, so the nested arrays stay as they are."
+          "feedback": "This returns each bag unchanged, so the new array matches the old one."
         },
         {
-          "text": "2",
+          "text": "(b) => b > 2",
           "correct": false,
-          "feedback": "Depth 2 also opens [4], so it prints 4 as a plain element."
+          "feedback": "This returns true or false for each bag, so the new array holds booleans."
         },
         {
-          "text": "Infinity",
+          "text": "(b) => { b * 10; }",
           "correct": false,
-          "feedback": "This opens every level of nesting, so [4] disappears into the result."
+          "feedback": "The braces make a block body with no return, so every result is undefined."
         }
       ],
       "solution": {
         "blanks": [
           [
-            "1"
+            "(b) => b * 10"
           ]
         ],
-        "expectedOutput": "[1, 2, 3, [4]]"
+        "expectedOutput": "[30, 10, 40]"
       },
-      "explanation": "flat(depth) lifts the contents of nested arrays by that many levels. One level opens [1, 2] and [3, [4]], but leaves [4] as an array inside the result.",
+      "explanation": "map calls the function on each element and collects the returned values in a new array. An arrow function with no braces returns its expression, so b * 10 gives 30, 10 and 40.",
       "hints": [
-        "Look at the number inside flat( ).",
-        "The depth tells flat how many levels of nesting to open.",
-        "The target keeps one array inside the result, so not every level is opened."
+        "Look at what the function inside map( ) returns.",
+        "map builds a new array from the value the callback returns for each element.",
+        "Each result must be ten times its bag, and the callback has to return it."
       ],
       "reference": {
-        "title": "Array.prototype.flat()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat",
+        "title": "Array.prototype.map()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:20"
       ]
@@ -711,7 +711,7 @@
         {
           "text": "filter stores the callback results, so used holds the values the callback returned.",
           "correct": false,
-          "feedback": "filter keeps the original elements, not the callback results. Here they happen to look alike, but a test such as t > 1 would show the difference.",
+          "feedback": "filter keeps the original elements, not the callback results. With a test such as t > 1 the callback returns booleans, yet filter still hands back numbers.",
           "misconception": "filter-returns-callback-results"
         },
         {
@@ -738,7 +738,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.array-methods.array-filter.trace-01",
@@ -844,8 +844,8 @@
       },
       "explanation": "mins must exist before filter reads it, long must exist before map reads it, and first is taken from the mapped result. The filter keeps 12 and 20, map turns them into 3 and 5, and the first is 3.",
       "hints": [
-        "Every line except one uses a name that an earlier line creates.",
-        "Data first, then the test, then filter, then map, then the result.",
+        "Some lines read a name that another line creates; that line must come first.",
+        "filter keeps the elements that pass a test, and map transforms what filter returns.",
         "The predicate isLong only needs to exist before filter uses it."
       ],
       "reference": {
@@ -856,7 +856,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.array-methods.array-filter.fix-01",
@@ -1051,7 +1051,7 @@
       "hints": [
         "Look at the second argument of reduce on line 3.",
         "reduce starts with that value and the callback returns the next total.",
-        "Start from the number on line 4 and add each fare once."
+        "Start from the number on line 3 and add each fare once."
       ],
       "reference": {
         "title": "Array.prototype.reduce()",
@@ -1061,7 +1061,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "duel:6"
       ]
@@ -1329,7 +1329,7 @@
         "loop-accumulator"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Write the body of lowestPrice(prices). Use reduce to return the smallest number.",
       "solution": {
         "entry": {

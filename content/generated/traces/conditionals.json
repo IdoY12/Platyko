@@ -336,14 +336,13 @@
   },
   "beg.conditionals.if-statement.parsons-01": {
    "code": [
-    "let chance = 70;",
+    "let chance = 30;",
     "if (chance > 50) {",
     "  console.log('umbrella');",
     "}",
     "console.log('go');"
    ],
    "output": [
-    "umbrella",
     "go"
    ],
    "steps": [
@@ -363,23 +362,7 @@
       {
        "name": "chance",
        "scope": "global",
-       "value": "70"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "chance",
-       "scope": "global",
-       "value": "70"
+       "value": "30"
       }
      ],
      "outputCount": 0,
@@ -395,10 +378,10 @@
       {
        "name": "chance",
        "scope": "global",
-       "value": "70"
+       "value": "30"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 0,
      "callStack": [
       "global"
      ],
@@ -411,10 +394,10 @@
       {
        "name": "chance",
        "scope": "global",
-       "value": "70"
+       "value": "30"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -935,7 +918,7 @@
    "code": [
     "let kg = 12;",
     "console.log(",
-    "kg >= 10 ? 15 : kg >= 2 ? 8 : 3",
+    "kg >= 10 && 15 || kg >= 2 && 8 || 3",
     ");"
    ],
    "output": [
@@ -1911,9 +1894,8 @@
     "let coupon = null;",
     "if (coupon) {",
     "  console.log('discount');",
-    "} else {",
-    "  console.log('full price');",
-    "}"
+    "}",
+    "console.log('full price');"
    ],
    "output": [
     "full price"

@@ -184,7 +184,7 @@
       "title": "Conditions that are not booleans",
       "conceptCard": {
         "title": "Conditions that are not booleans",
-        "body": "A condition can be any value. Falsy values skip the block: false, 0, empty text, null and undefined. Every other value is truthy and runs the block. The text 0 is truthy, because it is not empty.",
+        "body": "A condition can be any value. Falsy values skip the block, and the ones you will meet most are false, 0, empty text, null and undefined. Nearly every other value is truthy and runs the block. The text 0 is truthy, because it is not empty.",
         "code": [
           "let tag = '';",
           "if (tag) {",
@@ -444,11 +444,11 @@
       ],
       "format": "PARSONS",
       "difficulty": 2,
-      "prompt": "Put the lines in order so the program prints umbrella and then go.",
+      "prompt": "Put the lines in order so the program prints only go.",
       "code": [
         "}",
         "console.log('go');",
-        "let chance = 70;",
+        "let chance = 30;",
         "if (chance > 50) {",
         "  console.log('umbrella');"
       ],
@@ -462,76 +462,27 @@
         ],
         "acceptedOrders": [
           [
-            4,
+            1,
             2,
             3,
-            1,
+            4,
             0
           ],
           [
             2,
-            4,
-            3,
-            1,
-            0
-          ],
-          [
-            2,
-            3,
-            4,
-            1,
-            0
-          ],
-          [
-            4,
-            2,
             1,
             3,
+            4,
             0
-          ],
-          [
-            2,
-            4,
-            1,
-            3,
-            0
-          ],
-          [
-            4,
-            1,
-            2,
-            3,
-            0
-          ],
-          [
-            4,
-            2,
-            3,
-            0,
-            1
-          ],
-          [
-            2,
-            4,
-            3,
-            0,
-            1
-          ],
-          [
-            2,
-            3,
-            0,
-            4,
-            1
           ]
         ],
-        "expectedOutput": "umbrella\ngo"
+        "expectedOutput": "go"
       },
-      "explanation": "chance is set first. The if line opens the block, the print goes inside it, and the closing brace ends it. The last print comes after the brace.",
+      "explanation": "chance is 30, so the condition is false and JavaScript skips the block. The umbrella print must sit inside the braces, or it would run. The go print is outside the block.",
       "hints": [
         "A variable must exist before the if reads it.",
-        "The block opens on the if line and ends at the brace.",
-        "Put go after the closing brace."
+        "The block opens on the if line and ends at the brace. A false condition skips it.",
+        "Put inside the braces only the print that must not appear in the output."
       ],
       "reference": {
         "title": "Control flow and error handling",
@@ -541,7 +492,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.if-statement.concept-01",
@@ -804,7 +755,7 @@
         {
           "text": "else",
           "correct": false,
-          "feedback": "else needs no condition here. The block would run on its own, so breezy prints after storm.",
+          "feedback": "else takes no condition. The line } else (wind > 30) { is not valid code, so the program does not run.",
           "misconception": "else-runs-too"
         }
       ],
@@ -820,7 +771,7 @@
       "hints": [
         "Look at where the first block ends.",
         "A second test can be linked to the first one.",
-        "Two words: the first one is the word that means \"otherwise\"."
+        "Test each chip with wind holding 70 and keep the one that makes the second block get skipped."
       ],
       "reference": {
         "title": "if...else",
@@ -830,7 +781,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.else-branches.parsons-01",
@@ -906,11 +857,12 @@
       "id": "beg.conditionals.else-branches.write-01",
       "concept": "else-branches",
       "prerequisites": [
-        "if-statement"
+        "if-statement",
+        "truthy-and-falsy"
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "Write an expression for the shipping cost of a parcel of kg: 15 for 10 kg or more, 8 for 2 to 9 kg, and 3 for less.",
+      "prompt": "Write an expression for the shipping cost of kg: 15 for 10 kg or more, 8 for 2 to 9 kg, 3 for less. Use && and ||, biggest first.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -957,34 +909,34 @@
           }
         ],
         "reference": [
-          "kg >= 10 ? 15 : kg >= 2 ? 8 : 3"
+          "kg >= 10 && 15 || kg >= 2 && 8 || 3"
         ],
         "wrongSolutions": [
           [
-            "kg > 10 ? 15 : kg > 2 ? 8 : 3"
+            "kg > 10 && 15 || kg > 2 && 8 || 3"
           ],
           [
-            "kg >= 2 ? 8 : kg >= 10 ? 15 : 3"
+            "kg >= 2 && 8 || kg >= 10 && 15 || 3"
           ],
           [
-            "kg >= 10 ? 15 : 8"
+            "kg >= 10 && 15 || 8"
           ]
         ]
       },
-      "explanation": "Test the biggest group first and use >= so the boundary values 10 and 2 belong to the right group. The last value catches everything else.",
+      "explanation": "Test the biggest group first and use >= so 10 and 2 belong to the right group. && gives the price when its check is true, and || moves on to the next group when the left part is false. The last price catches the rest.",
       "hints": [
-        "You need three possible results, so two conditions.",
-        "Check the biggest group first; the first true condition wins.",
-        "Chain one ? : inside the else part of another ? :."
+        "You need three possible results, so two checks and a final price.",
+        "&& gives its right side when the left side is true, and || moves on to its right side when the left side is falsy.",
+        "Write the 10 kg check with its price, then the 2 kg check with its price, joined by ||, and end with the plain price 3."
       ],
       "reference": {
-        "title": "Conditional (ternary) operator",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator",
+        "title": "Logical OR (||)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_OR",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.ternary-operator.predict-01",
@@ -1026,7 +978,7 @@
       "hints": [
         "Look at the condition before the question mark.",
         "A ternary picks one of two values.",
-        "The condition is true, so use the first value."
+        "Work out whether 4 > 2 is true or false, then see which of the two values sits on that side of the colon."
       ],
       "reference": {
         "title": "Conditional (ternary) operator",
@@ -1036,7 +988,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:13"
       ]
@@ -1235,11 +1187,11 @@
         ],
         "expectedOutput": "hot"
       },
-      "explanation": "tag uses sold, so sold is set first. The print comes last because it uses both variables.",
+      "explanation": "tag is built from sold, so sold is set first. The print line uses tag, so it comes last.",
       "hints": [
         "Which variable does another line need?",
         "A line can only use variables created before it.",
-        "Create sold, then tag, then print."
+        "Start with the line that needs no other variable, and finish with the print."
       ],
       "reference": {
         "title": "Conditional (ternary) operator",
@@ -1249,7 +1201,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.ternary-operator.concept-01",
@@ -1344,7 +1296,7 @@
       "solution": {
         "expectedOutput": "has note"
       },
-      "explanation": "An if condition can be any value. Only false, 0, empty text, null and undefined are falsy. The text 0 is not empty, so it is truthy and the if block runs.",
+      "explanation": "An if condition can be any value. The falsy values include false, 0, empty text, null and undefined. The text 0 is not empty, so it is truthy and the if block runs.",
       "hints": [
         "Look at the quotes on line 1.",
         "The condition does not have to be true or false.",
@@ -1358,7 +1310,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.condition-truthiness.predict-02",
@@ -1535,7 +1487,7 @@
       "hints": [
         "Look at the value on line 1.",
         "A truthy value can stand alone as a condition.",
-        "You do not need any sign at all."
+        "Work out whether each chip is truthy or falsy, and keep the one that lets the block run."
       ],
       "reference": {
         "title": "Truthy",
@@ -1545,7 +1497,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.condition-truthiness.parsons-01",
@@ -1556,57 +1508,45 @@
       ],
       "format": "PARSONS",
       "difficulty": 2,
-      "prompt": "Put the lines in order so the program prints full price.",
+      "prompt": "Put the lines in order so the program prints only full price.",
       "code": [
-        "} else {",
-        "  console.log('discount');",
         "}",
         "let coupon = null;",
-        "  console.log('full price');",
-        "if (coupon) {"
+        "if (coupon) {",
+        "  console.log('discount');",
+        "console.log('full price');"
       ],
       "solution": {
         "lineOrder": [
-          3,
-          5,
           1,
+          2,
+          3,
           0,
-          4,
-          2
+          4
         ],
         "acceptedOrders": [
           [
+            1,
             4,
-            3,
-            5,
-            1,
-            0,
-            2
-          ],
-          [
-            3,
-            4,
-            5,
-            1,
-            0,
-            2
-          ],
-          [
-            3,
-            5,
-            1,
-            0,
             2,
-            4
+            3,
+            0
+          ],
+          [
+            4,
+            1,
+            2,
+            3,
+            0
           ]
         ],
         "expectedOutput": "full price"
       },
-      "explanation": "null is falsy, so the else block runs. The variable comes first, then the if line with the discount print inside it, then else with the full price print.",
+      "explanation": "null is falsy, so the condition is false and the if block is skipped. The discount print must sit inside the braces, or it would run. The full price print stays outside the block.",
       "hints": [
-        "The variable comes first.",
-        "The if block comes before else.",
-        "Put the discount print in the if block and the other print in the else block."
+        "The variable comes first, then the if line.",
+        "A falsy condition skips the whole block.",
+        "Put inside the braces only the print that must not appear in the output."
       ],
       "reference": {
         "title": "if...else",
@@ -1616,7 +1556,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.condition-truthiness.write-01",

@@ -1184,7 +1184,7 @@
         "return-value"
       ],
       "format": "TRACE",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "What does log hold once the finally block has run for the second time?",
       "code": [
         "let log = '';",
@@ -1543,46 +1543,49 @@
         "class-inheritance"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Which statement about this code is true?",
       "code": [
-        "class FullError extends Error {",
-        "  constructor() {",
-        "    this.seats = 4;",
+        "class SeatError extends Error {",
+        "  constructor(left) {",
         "    super();",
+        "    this.name = 'SeatError';",
+        "    this.left = left;",
         "  }",
         "}",
-        "try { new FullError(); } catch (e) {",
-        "  console.log(e.name);",
+        "try {",
+        "  throw new SeatError(0);",
+        "} catch (e) {",
+        "  console.log(e.name, e.left);",
         "}"
       ],
       "options": [
         {
-          "text": "A subclass constructor cannot use this before super() has run, so a ReferenceError reaches catch.",
+          "text": "After super(), the constructor puts its own name and left field on the thrown object, and catch reads both.",
           "correct": true,
-          "feedback": "Right. this does not exist until super() has built it."
+          "feedback": "Right. The subclass adds its own properties to the same error object."
         },
         {
-          "text": "Setting this.seats first is fine, because super() only adds the message afterwards.",
+          "text": "The name line is optional, because a subclass gets its class name as name by itself.",
           "correct": false,
-          "feedback": "In a subclass, this is created by super(). Using it earlier throws.",
-          "misconception": "this-before-super-ok"
+          "feedback": "A subclass keeps the name Error until you assign it, as line 4 does here.",
+          "misconception": "subclass-name-automatic"
         },
         {
-          "text": "The error escapes the try, because it happens while the object is built.",
+          "text": "The two assignments must come before super(), so that the error is built with them.",
           "correct": false,
-          "feedback": "new inside try is protected like any other call. The error reaches catch.",
+          "feedback": "In a subclass, this does not exist until super() has run. Using it earlier throws.",
           "misconception": "this-before-super-ok"
         }
       ],
       "solution": {
-        "expectedOutput": "ReferenceError"
+        "expectedOutput": "SeatError 0"
       },
-      "explanation": "In a class that extends another, super() creates this. Touching this first throws a ReferenceError, which the surrounding try catches.",
+      "explanation": "super() builds the error object. The constructor then assigns name and left on it. throw hands that object to catch, which reads both properties and prints SeatError 0.",
       "hints": [
-        "Compare the order of lines 3 and 4.",
-        "this in a subclass is created by super().",
-        "Check what happens when this is used before it exists."
+        "Look at what the constructor stores on lines 4 and 5.",
+        "A subclass constructor calls super() first, then adds its own properties to this.",
+        "Ask what the catch block can read from the object it receives."
       ],
       "reference": {
         "title": "super",
@@ -1591,7 +1594,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.errors.custom-errors.trace-01",
@@ -1601,7 +1604,7 @@
         "class-inheritance"
       ],
       "format": "TRACE",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "What does got hold right after line 9 runs?",
       "code": [
         "let got = 0;",
@@ -1666,7 +1669,7 @@
         "class-inheritance"
       ],
       "format": "PARSONS",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Put the lines in order so the program rethrows and ends with the uncaught value cup-boxed-sealed.",
       "code": [
         "}",
@@ -1713,7 +1716,7 @@
       "hints": [
         "The text must be built before it is thrown.",
         "The first throw sits in try, the second in catch.",
-        "Declare note, open try, build, throw, then catch and rethrow."
+        "Each line needs the value the line before it built or threw."
       ],
       "reference": {
         "title": "throw",
@@ -1723,7 +1726,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.errors.custom-errors.fix-01",
@@ -1733,7 +1736,7 @@
         "class-inheritance"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The outer catch should report the error code, but the inner catch ends the story. Tap the line that stops the error there, then pick the fix.",
       "code": [
         "function fill(level) {",
@@ -1793,7 +1796,7 @@
         "class-inheritance"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Write describe(n). Define Over extending Error, saving n as this.limit. In try, throw it when n > 10; catch returns 'limit ' + e.limit. Otherwise return 'ok ' + n.",
       "solution": {
         "entry": {
@@ -1887,7 +1890,7 @@
       "hints": [
         "What must the class store, and when?",
         "Call super() before touching this.",
-        "Throw new LimitError(n) only when n is above 10."
+        "Throw new Over(n) only when n is above 10."
       ],
       "reference": {
         "title": "extends",
@@ -1896,7 +1899,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

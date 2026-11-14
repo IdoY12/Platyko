@@ -3,8 +3,9 @@
  "items": {
   "adv.prototypes-and-inheritance.prototype-chain.predict-01": {
    "code": [
-    "const shelf = { id: 'A4' };",
-    "const s = Object.create(shelf);",
+    "class Shelf {}",
+    "Shelf.prototype.id = 'A4';",
+    "const s = new Shelf();",
     "s.ad = 'sale';",
     "console.log(s.hasOwnProperty('ad'));",
     "console.log(s.hasOwnProperty('id'));",
@@ -17,7 +18,7 @@
    ],
    "steps": [
     {
-     "line": 1,
+     "line": 2,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -27,35 +28,8 @@
      "microtasks": []
     },
     {
-     "line": 2,
-     "variables": [
-      {
-       "name": "shelf",
-       "scope": "global",
-       "value": "{id: 'A4'}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 3,
-     "variables": [
-      {
-       "name": "shelf",
-       "scope": "global",
-       "value": "{id: 'A4'}"
-      },
-      {
-       "name": "s",
-       "scope": "global",
-       "value": "{}"
-      }
-     ],
+     "variables": [],
      "outputCount": 0,
      "callStack": [
       "global"
@@ -67,14 +41,9 @@
      "line": 4,
      "variables": [
       {
-       "name": "shelf",
-       "scope": "global",
-       "value": "{id: 'A4'}"
-      },
-      {
        "name": "s",
        "scope": "global",
-       "value": "{ad: 'sale'}"
+       "value": "Shelf {}"
       }
      ],
      "outputCount": 0,
@@ -88,17 +57,12 @@
      "line": 5,
      "variables": [
       {
-       "name": "shelf",
-       "scope": "global",
-       "value": "{id: 'A4'}"
-      },
-      {
        "name": "s",
        "scope": "global",
-       "value": "{ad: 'sale'}"
+       "value": "Shelf {ad: 'sale'}"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 0,
      "callStack": [
       "global"
      ],
@@ -109,14 +73,25 @@
      "line": 6,
      "variables": [
       {
-       "name": "shelf",
+       "name": "s",
        "scope": "global",
-       "value": "{id: 'A4'}"
-      },
+       "value": "Shelf {ad: 'sale'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
       {
        "name": "s",
        "scope": "global",
-       "value": "{ad: 'sale'}"
+       "value": "Shelf {ad: 'sale'}"
       }
      ],
      "outputCount": 2,
@@ -130,14 +105,9 @@
      "line": 0,
      "variables": [
       {
-       "name": "shelf",
-       "scope": "global",
-       "value": "{id: 'A4'}"
-      },
-      {
        "name": "s",
        "scope": "global",
-       "value": "{ad: 'sale'}"
+       "value": "Shelf {ad: 'sale'}"
       }
      ],
      "outputCount": 3,
@@ -150,10 +120,11 @@
   },
   "adv.prototypes-and-inheritance.prototype-chain.concept-01": {
    "code": [
-    "const shop = { hours: 'nine' };",
-    "const stall = Object.create(shop);",
+    "class Shop {}",
+    "Shop.prototype.hours = 'nine';",
+    "const stall = new Shop();",
     "stall.hours = 'ten';",
-    "console.log(shop.hours);",
+    "console.log(Shop.prototype.hours);",
     "console.log(stall.hours);"
    ],
    "output": [
@@ -162,7 +133,7 @@
    ],
    "steps": [
     {
-     "line": 1,
+     "line": 2,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -172,35 +143,8 @@
      "microtasks": []
     },
     {
-     "line": 2,
-     "variables": [
-      {
-       "name": "shop",
-       "scope": "global",
-       "value": "{hours: 'nine'}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 3,
-     "variables": [
-      {
-       "name": "shop",
-       "scope": "global",
-       "value": "{hours: 'nine'}"
-      },
-      {
-       "name": "stall",
-       "scope": "global",
-       "value": "{}"
-      }
-     ],
+     "variables": [],
      "outputCount": 0,
      "callStack": [
       "global"
@@ -212,14 +156,9 @@
      "line": 4,
      "variables": [
       {
-       "name": "shop",
-       "scope": "global",
-       "value": "{hours: 'nine'}"
-      },
-      {
        "name": "stall",
        "scope": "global",
-       "value": "{hours: 'ten'}"
+       "value": "Shop {}"
       }
      ],
      "outputCount": 0,
@@ -233,14 +172,25 @@
      "line": 5,
      "variables": [
       {
-       "name": "shop",
+       "name": "stall",
        "scope": "global",
-       "value": "{hours: 'nine'}"
-      },
+       "value": "Shop {hours: 'ten'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
       {
        "name": "stall",
        "scope": "global",
-       "value": "{hours: 'ten'}"
+       "value": "Shop {hours: 'ten'}"
       }
      ],
      "outputCount": 1,
@@ -254,14 +204,9 @@
      "line": 0,
      "variables": [
       {
-       "name": "shop",
-       "scope": "global",
-       "value": "{hours: 'nine'}"
-      },
-      {
        "name": "stall",
        "scope": "global",
-       "value": "{hours: 'ten'}"
+       "value": "Shop {hours: 'ten'}"
       }
      ],
      "outputCount": 2,
@@ -274,10 +219,11 @@
   },
   "adv.prototypes-and-inheritance.prototype-chain.fill-01": {
    "code": [
-    "const kit = { kind: 'saw', qty: 1 };",
-    "const box = Object.create(kit);",
-    "box.qty = 2;",
-    "const crate = Object.create(box);",
+    "class Kit {}",
+    "Kit.prototype.kind = 'saw';",
+    "Kit.prototype.qty = 1;",
+    "const crate = new Kit();",
+    "crate.qty = 2;",
     "console.log(crate.qty + crate.kind);"
    ],
    "output": [
@@ -285,7 +231,7 @@
    ],
    "steps": [
     {
-     "line": 1,
+     "line": 2,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -295,35 +241,8 @@
      "microtasks": []
     },
     {
-     "line": 2,
-     "variables": [
-      {
-       "name": "kit",
-       "scope": "global",
-       "value": "{kind: 'saw', qty: 1}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 3,
-     "variables": [
-      {
-       "name": "kit",
-       "scope": "global",
-       "value": "{kind: 'saw', qty: 1}"
-      },
-      {
-       "name": "box",
-       "scope": "global",
-       "value": "{}"
-      }
-     ],
+     "variables": [],
      "outputCount": 0,
      "callStack": [
       "global"
@@ -333,18 +252,7 @@
     },
     {
      "line": 4,
-     "variables": [
-      {
-       "name": "kit",
-       "scope": "global",
-       "value": "{kind: 'saw', qty: 1}"
-      },
-      {
-       "name": "box",
-       "scope": "global",
-       "value": "{qty: 2}"
-      }
-     ],
+     "variables": [],
      "outputCount": 0,
      "callStack": [
       "global"
@@ -356,19 +264,25 @@
      "line": 5,
      "variables": [
       {
-       "name": "kit",
+       "name": "crate",
        "scope": "global",
-       "value": "{kind: 'saw', qty: 1}"
-      },
-      {
-       "name": "box",
-       "scope": "global",
-       "value": "{qty: 2}"
-      },
+       "value": "Kit {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
       {
        "name": "crate",
        "scope": "global",
-       "value": "{}"
+       "value": "Kit {qty: 2}"
       }
      ],
      "outputCount": 0,
@@ -382,19 +296,9 @@
      "line": 0,
      "variables": [
       {
-       "name": "kit",
-       "scope": "global",
-       "value": "{kind: 'saw', qty: 1}"
-      },
-      {
-       "name": "box",
-       "scope": "global",
-       "value": "{qty: 2}"
-      },
-      {
        "name": "crate",
        "scope": "global",
-       "value": "{}"
+       "value": "Kit {qty: 2}"
       }
      ],
      "outputCount": 1,
@@ -481,8 +385,9 @@
   "adv.prototypes-and-inheritance.prototype-chain.write-01": {
    "code": [
     "function lookupOrigin(overrides, key) {",
-    "const base = { color: 'grey' };",
-    "const item = Object.create(base);",
+    "class Item {}",
+    "Item.prototype.color = 'grey';",
+    "const item = new Item();",
     "Object.assign(item, overrides);",
     "if (item.hasOwnProperty(key)) {",
     "  return 'own';",
@@ -499,33 +404,11 @@
    ],
    "steps": [
     {
-     "line": 13,
+     "line": 14,
      "variables": [],
      "outputCount": 0,
      "callStack": [
       "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "overrides",
-       "scope": "lookupOrigin",
-       "value": "{color: 'red'}"
-      },
-      {
-       "name": "key",
-       "scope": "lookupOrigin",
-       "value": "'color'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "lookupOrigin"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -542,11 +425,6 @@
        "name": "key",
        "scope": "lookupOrigin",
        "value": "'color'"
-      },
-      {
-       "name": "base",
-       "scope": "lookupOrigin",
-       "value": "{color: 'grey'}"
       }
      ],
      "outputCount": 0,
@@ -569,16 +447,6 @@
        "name": "key",
        "scope": "lookupOrigin",
        "value": "'color'"
-      },
-      {
-       "name": "base",
-       "scope": "lookupOrigin",
-       "value": "{color: 'grey'}"
-      },
-      {
-       "name": "item",
-       "scope": "lookupOrigin",
-       "value": "{}"
       }
      ],
      "outputCount": 0,
@@ -603,14 +471,9 @@
        "value": "'color'"
       },
       {
-       "name": "base",
-       "scope": "lookupOrigin",
-       "value": "{color: 'grey'}"
-      },
-      {
        "name": "item",
        "scope": "lookupOrigin",
-       "value": "{color: 'red'}"
+       "value": "Item {}"
       }
      ],
      "outputCount": 0,
@@ -635,14 +498,36 @@
        "value": "'color'"
       },
       {
-       "name": "base",
+       "name": "item",
        "scope": "lookupOrigin",
-       "value": "{color: 'grey'}"
+       "value": "Item {color: 'red'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "lookupOrigin"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "overrides",
+       "scope": "lookupOrigin",
+       "value": "{color: 'red'}"
+      },
+      {
+       "name": "key",
+       "scope": "lookupOrigin",
+       "value": "'color'"
       },
       {
        "name": "item",
        "scope": "lookupOrigin",
-       "value": "{color: 'red'}"
+       "value": "Item {color: 'red'}"
       }
      ],
      "outputCount": 0,
@@ -3050,19 +2935,37 @@
  "conceptCards": {
   "prototypes-and-inheritance.lesson-1": {
    "code": [
-    "const base = { id: 7 };",
-    "const p = Object.create(base);",
-    "console.log(p.id);",
-    "console.log(p.hasOwnProperty('id'));"
+    "class Base {",
+    "  x() { return 'hi'; }",
+    "}",
+    "const p = new Base();",
+    "console.log(p.x());",
+    "console.log(p.hasOwnProperty('x'));"
    ],
    "output": [
-    "7",
+    "hi",
     "false"
    ],
    "steps": [
     {
-     "line": 1,
+     "line": 4,
      "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "p",
+       "scope": "global",
+       "value": "Base {}"
+      }
+     ],
      "outputCount": 0,
      "callStack": [
       "global"
@@ -3074,51 +2977,26 @@
      "line": 2,
      "variables": [
       {
-       "name": "base",
+       "name": "p",
        "scope": "global",
-       "value": "{id: 7}"
+       "value": "Base {}"
       }
      ],
      "outputCount": 0,
      "callStack": [
-      "global"
+      "global",
+      "x"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 3,
+     "line": 6,
      "variables": [
-      {
-       "name": "base",
-       "scope": "global",
-       "value": "{id: 7}"
-      },
       {
        "name": "p",
        "scope": "global",
-       "value": "{}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "base",
-       "scope": "global",
-       "value": "{id: 7}"
-      },
-      {
-       "name": "p",
-       "scope": "global",
-       "value": "{}"
+       "value": "Base {}"
       }
      ],
      "outputCount": 1,
@@ -3132,14 +3010,9 @@
      "line": 0,
      "variables": [
       {
-       "name": "base",
-       "scope": "global",
-       "value": "{id: 7}"
-      },
-      {
        "name": "p",
        "scope": "global",
-       "value": "{}"
+       "value": "Base {}"
       }
      ],
      "outputCount": 2,

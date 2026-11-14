@@ -93,7 +93,11 @@
     },
     {
       "id": "item-is-index",
-      "description": "Believes the loop variable of for...of is an index number, so reading a property of it gives undefined."
+      "description": "Believes the loop variable of for...of or for...in is an index number, so reading a property of it gives undefined."
+    },
+    {
+      "id": "in-gives-values",
+      "description": "Believes for...in gives the values of an object instead of its keys."
     }
   ],
   "sources": [
@@ -459,9 +463,9 @@
       },
       "explanation": "An object literal is a list of key: value pairs between curly braces. The number 14 is stored under size, so club.size prints it.",
       "hints": [
-        "Look at the first and the last blank on line 1.",
+        "Look at the two blanks on line 1 and the blank on line 2.",
         "Objects are written between curly braces, with key: value pairs inside.",
-        "The last blank is the key that sits next to 14."
+        "The blank on line 2 is the key that sits next to 14."
       ],
       "reference": {
         "title": "Object initializer",
@@ -471,7 +475,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:9"
       ]
@@ -503,9 +507,9 @@
       },
       "explanation": "Each line uses the name made by the line before it. mug must exist before its properties are read, tag before it gets the exclamation mark, and shout before it is printed.",
       "hints": [
-        "Which line creates a name that no other line creates?",
+        "Look for the line that uses no name made by another line.",
         "A name must exist before another line uses it.",
-        "Order the lines by what each one needs: mug, tag, shout, then the print."
+        "The object comes first and the print comes last; the two lines between them follow the chain of names."
       ],
       "reference": {
         "title": "Property accessors",
@@ -515,7 +519,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.properties.concept-01",
@@ -830,9 +834,9 @@
       },
       "explanation": "key gets its text from info.pick, so info comes first. result then uses key inside brackets, and the last line prints result.",
       "hints": [
-        "Which line creates a name that no other line creates?",
+        "Look for the line that uses no name made by another line.",
         "A name must exist before another line uses it.",
-        "info comes first, then key, then result, then the print."
+        "The object comes first and the print comes last; the two lines between them follow the chain of names."
       ],
       "reference": {
         "title": "Property accessors",
@@ -842,7 +846,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.access.write-01",
@@ -922,7 +926,7 @@
       "hints": [
         "The key is held in a variable, not written out.",
         "A dot reads a fixed name. Brackets can use a variable.",
-        "Write prices, then item inside square brackets."
+        "The brackets go right after prices. What goes inside them is the variable that holds the key."
       ],
       "reference": {
         "title": "Property accessors",
@@ -931,7 +935,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.update.predict-01",
@@ -1276,45 +1280,47 @@
       "prompt": "What does this code print?",
       "code": [
         "const band = { sax: 3, bass: 2 };",
-        "console.log(Object.keys(band));"
+        "for (const part in band) {",
+        "  console.log(\"part \" + part);",
+        "}"
       ],
       "options": [
         {
-          "text": "['sax', 'bass']",
+          "text": "part sax\npart bass",
           "correct": true,
-          "feedback": "Right. Object.keys gives the keys as an array, in the order they were written."
+          "feedback": "Right. for...in gives one key per pass, in the order they were written."
         },
         {
-          "text": "[3, 2]",
+          "text": "part 3\npart 2",
           "correct": false,
-          "feedback": "That is Object.values. Object.keys gives the keys, not the values.",
-          "misconception": "keys-return-values"
+          "feedback": "for...in gives the keys, not the values stored under them.",
+          "misconception": "in-gives-values"
         },
         {
-          "text": "2",
+          "text": "part 0\npart 1",
           "correct": false,
-          "feedback": "Object.keys gives an array of the keys, not a count. The count is the length of that array.",
-          "misconception": "object-has-length"
+          "feedback": "An object has no numbered positions. for...in gives the key names.",
+          "misconception": "item-is-index"
         }
       ],
       "solution": {
-        "expectedOutput": "['sax', 'bass']"
+        "expectedOutput": "part sax\npart bass"
       },
-      "explanation": "Object.keys returns an array holding the object's keys, as text, in the order they were written. It does not return the values or a count.",
+      "explanation": "A for...in loop visits the keys of an object in the order they were written, and puts each one in part. The loop prints the two keys, not the values.",
       "hints": [
-        "Look at the name of the function.",
-        "Object.keys gives an array of the keys.",
-        "The answer is an array of two texts."
+        "Look at the loop header on line 2.",
+        "for...in hands you one key of the object per pass.",
+        "The printed values are texts, and there are two of them."
       ],
       "reference": {
-        "title": "Object.keys()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys",
+        "title": "for...in",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:6"
       ]
@@ -1524,35 +1530,49 @@
       "difficulty": 2,
       "prompt": "Order the lines to print how many properties cart has.",
       "code": [
-        "const count = names.length;",
-        "const cart = { pen: 2, ink: 5 };",
         "console.log(\"Items: \" + count);",
-        "const names = Object.keys(cart);"
+        "  count = count + 1;",
+        "let count = 0;",
+        "}",
+        "const cart = { pen: 2, ink: 5 };",
+        "for (const key in cart) {"
       ],
       "solution": {
         "lineOrder": [
+          4,
+          2,
+          5,
           1,
           3,
-          0,
-          2
+          0
         ],
-        "expectedOutput": "Items: 2"
+        "expectedOutput": "Items: 2",
+        "acceptedOrders": [
+          [
+            2,
+            4,
+            5,
+            1,
+            3,
+            0
+          ]
+        ]
       },
-      "explanation": "Object.keys needs the object, so cart comes first. names holds the array of keys, count measures that array, and the last line prints count.",
+      "explanation": "cart and count must exist before the loop. The loop body runs once for each key of cart and adds 1 each time, so count is 2 when the loop ends. The print comes after the closing brace.",
       "hints": [
-        "Which line creates a name that no other line creates?",
-        "A name must exist before another line uses it.",
-        "cart, then names, then count, then the print."
+        "Look for the lines the loop header and the print both rely on.",
+        "A loop body sits between its header and its closing brace.",
+        "The two declarations come first, in either order, and the print comes last."
       ],
       "reference": {
-        "title": "Object.keys()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys",
+        "title": "for...in",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.iteration.write-01",

@@ -1657,10 +1657,10 @@
   },
   "int.scope-and-hoisting.function-scope-and-var.parsons-01": {
    "code": [
-    "function pickLabel(n) {",
+    "const pickLabel = (n) => {",
     "  if (n > 5) { var label = \"big\"; }",
     "  return label;",
-    "}",
+    "};",
     "console.log(pickLabel(8));"
    ],
    "output": [
@@ -1668,8 +1668,24 @@
    ],
    "steps": [
     {
-     "line": 5,
+     "line": 1,
      "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "pickLabel",
+       "scope": "global",
+       "value": "[Function: pickLabel]"
+      }
+     ],
      "outputCount": 0,
      "callStack": [
       "global"
@@ -1680,6 +1696,11 @@
     {
      "line": 2,
      "variables": [
+      {
+       "name": "pickLabel",
+       "scope": "global",
+       "value": "[Function: pickLabel]"
+      },
       {
        "name": "n",
        "scope": "pickLabel",
@@ -1703,6 +1724,11 @@
      "line": 3,
      "variables": [
       {
+       "name": "pickLabel",
+       "scope": "global",
+       "value": "[Function: pickLabel]"
+      },
+      {
        "name": "n",
        "scope": "pickLabel",
        "value": "8"
@@ -1723,7 +1749,13 @@
     },
     {
      "line": 0,
-     "variables": [],
+     "variables": [
+      {
+       "name": "pickLabel",
+       "scope": "global",
+       "value": "[Function: pickLabel]"
+      }
+     ],
      "outputCount": 1,
      "callStack": [],
      "microtasks": [],
@@ -1953,16 +1985,22 @@
     "function opening(s) {",
     "  return s + \" open\";",
     "}",
-    "const closing = (s) => s + \" shut\";"
+    "var closing = (s) => s + \" shut\";"
    ],
    "output": [
     "bakery open",
-    "Uncaught ReferenceError"
+    "Uncaught TypeError"
    ],
    "steps": [
     {
      "line": 1,
-     "variables": [],
+     "variables": [
+      {
+       "name": "closing",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
      "outputCount": 0,
      "callStack": [
       "global"
@@ -1973,6 +2011,11 @@
     {
      "line": 4,
      "variables": [
+      {
+       "name": "closing",
+       "scope": "global",
+       "value": "undefined"
+      },
       {
        "name": "s",
        "scope": "opening",
@@ -1989,7 +2032,13 @@
     },
     {
      "line": 2,
-     "variables": [],
+     "variables": [
+      {
+       "name": "closing",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
      "outputCount": 1,
      "callStack": [
       "global"
@@ -1999,7 +2048,13 @@
     },
     {
      "line": 0,
-     "variables": [],
+     "variables": [
+      {
+       "name": "closing",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
      "outputCount": 2,
      "callStack": [],
      "microtasks": [],

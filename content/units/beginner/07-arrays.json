@@ -76,8 +76,12 @@
       "description": "Reads the value a variable has at the end of the program for every earlier step."
     },
     {
-      "id": "split-keeps-text",
-      "description": "Believes split leaves the text as one piece or counts its characters."
+      "id": "length-counts-characters",
+      "description": "Believes the length of an array adds up the characters of its items instead of counting the items."
+    },
+    {
+      "id": "bound-excludes-last-item",
+      "description": "Believes a loop with i < length stops before the last item."
     }
   ],
   "sources": [
@@ -413,55 +417,51 @@
       ],
       "format": "FILL_BLANK",
       "difficulty": 2,
-      "prompt": "Fill the blanks so the program prints 1 and then mint.",
+      "prompt": "Fill the blanks so that later holds the second spice and earlier holds the first, and the program prints sage/salt.",
       "code": [
-        "const herbs = [\"mint\", \"dill\"];",
-        "console.log(herbs.___(\"dill\"));",
-        "console.log(herbs[___]);"
+        "const spices = [\"salt\", \"sage\"];",
+        "const later = spices[___];",
+        "const earlier = spices[___];",
+        "console.log(later + \"/\" + earlier);"
       ],
       "options": [
         {
-          "text": "indexOf",
+          "text": "1",
           "correct": true,
-          "feedback": "Right. indexOf gives the index of a value, here 1."
+          "feedback": "Right. Index 1 is the second item, sage."
         },
         {
           "text": "0",
           "correct": true,
-          "feedback": "Right. Index 0 is the first item, mint."
+          "feedback": "Right. Index 0 is the first item, salt."
         },
         {
-          "text": "includes",
+          "text": "2",
           "correct": false,
-          "feedback": "In the first blank this prints true, not 2. includes only says whether a value is there."
-        },
-        {
-          "text": "1",
-          "correct": false,
-          "feedback": "In the second blank this prints dill, the item at index 1. The first item is at index 0."
+          "feedback": "Index 2 has no item, so the line would give undefined. Two items have the indexes 0 and 1."
         },
         {
           "text": "3",
           "correct": false,
-          "feedback": "In the second blank this prints undefined. Two items have the indexes 0 and 1."
+          "feedback": "Index 3 has no item, so the line would give undefined. Two items have the indexes 0 and 1."
         }
       ],
       "solution": {
         "blanks": [
           [
-            "indexOf"
+            "1"
           ],
           [
             "0"
           ]
         ],
-        "expectedOutput": "1\nmint"
+        "expectedOutput": "sage/salt"
       },
-      "explanation": "indexOf returns the index where a value is found, here 1. The first item always has index 0, so herbs[0] is mint.",
+      "explanation": "Indexes start at 0, so spices[0] is salt and spices[1] is sage. later needs the second item and earlier needs the first.",
       "hints": [
-        "The first blank asks where a value is. The second blank is an index.",
-        "One array method tells you the position of a value.",
-        "The first item has the smallest possible index."
+        "Look at the two numbers in square brackets.",
+        "Indexes start at 0, so the first item is not at index 1.",
+        "later takes the item that comes second in the array."
       ],
       "reference": {
         "title": "Array.prototype.indexOf()",
@@ -471,7 +471,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:14"
       ]
@@ -503,9 +503,9 @@
       },
       "explanation": "Each line uses the name made by the line before it. books must exist before books[1] is read, and pick before it gets the exclamation mark.",
       "hints": [
-        "Which line creates a name that no other line creates?",
+        "Look for the line that uses no name made by another line.",
         "A name must be created before another line uses it.",
-        "Order the lines by what each one needs: books, then pick, then note."
+        "The array comes first and the print comes last; the two lines between them follow the chain of names."
       ],
       "reference": {
         "title": "Property accessors",
@@ -515,7 +515,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.arrays.index.concept-01",
@@ -580,15 +580,14 @@
       "difficulty": 1,
       "prompt": "What does this code print?",
       "code": [
-        "const order = \"ham egg cheese\";",
-        "const parts = order.split(\" \");",
-        "console.log(\"n: \" + parts.length);"
+        "const menu = [\"tea\", \"cake\", \"pie\"];",
+        "console.log(\"n: \" + menu.length);"
       ],
       "options": [
         {
           "text": "n: 3",
           "correct": true,
-          "feedback": "Right. split cuts the text at every space into three pieces."
+          "feedback": "Right. length counts the three items."
         },
         {
           "text": "n: 2",
@@ -597,30 +596,30 @@
           "misconception": "length-is-last-index"
         },
         {
-          "text": "n: 14",
+          "text": "n: 10",
           "correct": false,
-          "feedback": "That counts the characters of the text. split cuts the text at every space, so the array holds three words.",
-          "misconception": "split-keeps-text"
+          "feedback": "That adds up the letters of the items. length counts the items, not their characters.",
+          "misconception": "length-counts-characters"
         }
       ],
       "solution": {
         "expectedOutput": "n: 3"
       },
-      "explanation": "split(\" \") cuts the text at each space and returns an array of the pieces: ham, egg and cheese. length counts the items, so it is 3.",
+      "explanation": "menu holds three items, and length counts the items of an array. The characters inside the items do not matter.",
       "hints": [
-        "Look at what line 2 stores in parts.",
-        "split returns an array, and length counts its items.",
-        "Count the pieces left when the text is cut at the spaces."
+        "Look at what line 1 stores in menu.",
+        "length counts the items of an array.",
+        "Count the texts between the square brackets."
       ],
       "reference": {
-        "title": "String.prototype.split()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split",
+        "title": "Array: length",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:12"
       ]
@@ -828,7 +827,7 @@
       "hints": [
         "Which line creates the array?",
         "A value must exist before a line can use it.",
-        "Order: mugs, then count, then last, then the print."
+        "The array comes first and the print comes last; the two lines between them follow the chain of names."
       ],
       "reference": {
         "title": "Array: length",
@@ -838,7 +837,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.arrays.length.write-01",
@@ -996,46 +995,46 @@
       "prompt": "What does this code print?",
       "code": [
         "const seeds = [5, 2, 9];",
-        "seeds.pop();",
-        "console.log(seeds.includes(5));"
+        "console.log(seeds.pop());",
+        "console.log(seeds.length);"
       ],
       "options": [
         {
-          "text": "true",
+          "text": "9\n2",
           "correct": true,
-          "feedback": "Right. pop removes the last item, 9. The 5 at the front stays."
+          "feedback": "Right. pop removes and returns the last item, 9, so two items remain."
         },
         {
-          "text": "false",
+          "text": "5\n2",
           "correct": false,
-          "feedback": "pop removes the last item, not the first. The 5 at the front is still there.",
+          "feedback": "pop takes the item from the other end of the array.",
           "misconception": "ends-confused"
         },
         {
-          "text": "Uncaught TypeError",
+          "text": "[5, 2]\n2",
           "correct": false,
-          "feedback": "A const array can still be changed. pop works and the program runs on.",
-          "misconception": "const-blocks-push"
+          "feedback": "pop returns the item it removed, not the array that is left.",
+          "misconception": "pop-returns-rest"
         }
       ],
       "solution": {
-        "expectedOutput": "true"
+        "expectedOutput": "9\n2"
       },
-      "explanation": "pop removes the last item, 9, so the array becomes [5, 2]. includes(5) asks whether 5 is in the array, and it is.",
+      "explanation": "pop removes the last item and returns it, so line 2 prints 9. The array then holds two items, so length is 2.",
       "hints": [
-        "Work out what the array holds after line 2.",
-        "pop removes one item from one end of the array.",
-        "Check whether 5 is among the items that are left."
+        "Look at what line 2 prints.",
+        "pop removes one item from one end of the array and returns it.",
+        "The printed value is the removed item; the second line counts what is left."
       ],
       "reference": {
-        "title": "Array.prototype.includes()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes",
+        "title": "Array.prototype.pop()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:6"
       ]
@@ -1277,44 +1276,44 @@
         "loop-accumulator"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What does this code print?",
       "code": [
         "const laps = [12, 9, 14];",
         "const count = laps.length;",
         "let total = 0;",
-        "for (let i = 0; i <= count; i++) {",
-        "  total += laps[i];",
+        "for (let i = 1; i < count; i++) {",
+        "  total = total + laps[i];",
         "}",
         "console.log(total);"
       ],
       "options": [
         {
-          "text": "NaN",
+          "text": "23",
           "correct": true,
-          "feedback": "Right. The loop runs one pass too many. laps[3] is undefined, and adding undefined makes the total NaN."
+          "feedback": "Right. The loop reads the indexes 1 and 2, so it adds 9 and 14."
         },
         {
           "text": "35",
           "correct": false,
-          "feedback": "That is the total of the three laps. The condition i <= count also lets i be 3, one pass past the last item.",
-          "misconception": "loop-bound-includes-length"
+          "feedback": "That adds all three laps. The loop starts at index 1, but the first lap has index 0.",
+          "misconception": "one-based-index"
         },
         {
-          "text": "Uncaught TypeError",
+          "text": "21",
           "correct": false,
-          "feedback": "Reading a missing index does not stop the program. It gives undefined.",
-          "misconception": "out-of-range-throws"
+          "feedback": "That leaves out the last lap. i < count still allows i to be 2, the last index.",
+          "misconception": "bound-excludes-last-item"
         }
       ],
       "solution": {
-        "expectedOutput": "NaN"
+        "expectedOutput": "23"
       },
-      "explanation": "The last index is 2, but the condition i <= count allows i to be 3. laps[3] is undefined, and a number plus undefined is NaN.",
+      "explanation": "i starts at 1 and stops after 2, the last index. So laps[1] and laps[2] are added, 9 and 14, and laps[0] is never read. The total is 23.",
       "hints": [
-        "Look at the condition on line 4.",
-        "Valid indexes stop one below the length.",
-        "Find the last value of i and what laps holds at that index."
+        "Look at where i starts on line 4.",
+        "The first item of an array has index 0.",
+        "Write down the values of i and the item read at each one."
       ],
       "reference": {
         "title": "for statement",
@@ -1324,7 +1323,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.arrays.iteration.predict-02",
@@ -1463,7 +1462,7 @@
         {
           "text": "length",
           "correct": true,
-          "feedback": "Right. The loop runs while i is below the number of items."
+          "feedback": "Right. The loop runs while n is below the number of items."
         },
         {
           "text": "n",
@@ -1511,7 +1510,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.arrays.iteration.parsons-01",
@@ -1582,7 +1581,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "Write an expression that joins the items of arr into one string. Put a space, a vertical bar and a space between items.",
+      "prompt": "A for loop starts i at 1 and runs while i < arr.length, reading arr[i]. Write an expression for the number of passes. arr has at least one item.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -1594,66 +1593,72 @@
           {
             "input": {
               "arr": [
+                7,
+                8,
+                9
+              ]
+            },
+            "expected": 2
+          },
+          {
+            "input": {
+              "arr": [
+                4
+              ]
+            },
+            "expected": 0
+          },
+          {
+            "input": {
+              "arr": [
                 "a",
                 "b"
               ]
             },
-            "expected": "a | b"
+            "expected": 1
           },
           {
             "input": {
               "arr": [
                 1,
                 2,
-                3
+                3,
+                4,
+                5
               ]
             },
-            "expected": "1 | 2 | 3"
-          },
-          {
-            "input": {
-              "arr": []
-            },
-            "expected": ""
-          },
-          {
-            "input": {
-              "arr": [
-                "solo"
-              ]
-            },
-            "expected": "solo"
+            "expected": 4
           }
         ],
         "reference": [
-          "arr.join(\" | \")"
+          "arr.length - 1"
         ],
         "wrongSolutions": [
           [
-            "arr.join(\",\")"
+            "arr.length"
           ],
           [
-            "arr.join()"
+            "arr.length - 2"
           ],
           [
-            "arr.join(\"|\")"
+            "arr.length + 1"
           ]
         ]
       },
-      "explanation": "join glues the items together with the text you give it between them. Here that text is a space, a bar and a space.",
+      "explanation": "i takes the values 1 up to arr.length - 1. That is one value fewer than the number of items, because index 0 is never visited, so the count is arr.length - 1.",
       "hints": [
-        "Use a method that belongs to the array.",
-        "join takes the text to put between the items.",
-        "Give join the three characters in quotes."
+        "Try an array of three items and list the values of i.",
+        "i < arr.length stops at the last index, and the loop skips index 0.",
+        "Compare the number of passes with the number of items."
       ],
       "reference": {
-        "title": "Array.prototype.join()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join",
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:13"
       ]

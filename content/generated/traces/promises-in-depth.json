@@ -1297,13 +1297,12 @@
   "adv.promises-in-depth.promise-rejection-flow.fill-01": {
    "code": [
     "Promise.reject(new Error('empty'))",
-    "  .then(() => console.log('stock'))",
-    "  .catch((e) => console.log(e.name))",
-    "  .then(() => console.log('open'));"
+    "  .then(() => 'stock')",
+    "  .catch((e) => e.name + '!')",
+    "  .then((v) => console.log(v));"
    ],
    "output": [
-    "Error",
-    "open"
+    "Error!"
    ],
    "steps": [
     {
@@ -1334,8 +1333,14 @@
     },
     {
      "line": 4,
-     "variables": [],
-     "outputCount": 1,
+     "variables": [
+      {
+       "name": "v",
+       "scope": "anonymous",
+       "value": "'Error!'"
+      }
+     ],
+     "outputCount": 0,
      "callStack": [
       "anonymous"
      ],
@@ -1345,7 +1350,7 @@
     {
      "line": 0,
      "variables": [],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

@@ -2916,22 +2916,21 @@
    ],
    "usesEventLoop": false
   },
-  "int.this-and-classes.class-inheritance.fill-01": {
+  "int.this-and-classes.class-inheritance.parsons-01": {
    "code": [
-    "class Animal {",
-    "  eat() {",
-    "    return 'eats';",
-    "  }",
+    "class Pet { id() { return 7; } }",
+    "class Dog extends Pet {",
+    "  id() { return super.id() + 1; }",
     "}",
-    "class Cat extends Animal {}",
-    "console.log(new Cat().eat());"
+    "const d = new Dog();",
+    "console.log(d.id());"
    ],
    "output": [
-    "eats"
+    "8"
    ],
    "steps": [
     {
-     "line": 7,
+     "line": 5,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -2941,19 +2940,65 @@
      "microtasks": []
     },
     {
+     "line": 6,
+     "variables": [
+      {
+       "name": "d",
+       "scope": "global",
+       "value": "Dog {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 3,
-     "variables": [],
+     "variables": [
+      {
+       "name": "d",
+       "scope": "global",
+       "value": "Dog {}"
+      }
+     ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "eat"
+      "id"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "d",
+       "scope": "global",
+       "value": "Dog {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "id",
+      "id"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
      "line": 0,
-     "variables": [],
+     "variables": [
+      {
+       "name": "d",
+       "scope": "global",
+       "value": "Dog {}"
+      }
+     ],
      "outputCount": 1,
      "callStack": [],
      "microtasks": [],

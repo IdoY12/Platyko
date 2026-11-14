@@ -1126,9 +1126,10 @@
           "feedback": "Right. Emptying the list drops the callback, and with it the data array it held."
         },
         {
-          "text": "jobs.pop()",
-          "correct": true,
-          "feedback": "Right. With one stored callback, removing it leaves the list empty and frees its data."
+          "text": "jobs.slice(0)",
+          "correct": false,
+          "feedback": "slice returns a copy and leaves jobs unchanged. The callback stays in the list with its data, so the program prints 1.",
+          "misconception": "null-cancels-existing"
         },
         {
           "text": "jobs.push(null)",
@@ -1146,17 +1147,16 @@
       "solution": {
         "blanks": [
           [
-            "jobs.length = 0",
-            "jobs.pop()"
+            "jobs.length = 0"
           ]
         ],
         "expectedOutput": "0"
       },
-      "explanation": "A callback in a list keeps everything it uses reachable. To release it, remove it from the list. Adding a null entry or calling watch again only adds items, so the first callback and its data stay.",
+      "explanation": "A callback in a list keeps everything it uses reachable. To release it, remove it from the list. Adding a null entry, calling watch again or copying the list with slice leaves the first callback and its data in place.",
       "hints": [
         "Look at what line 3 puts into the list.",
         "Data stays reachable while a stored callback that uses it is still reachable.",
-        "Two chips shorten the list; the other two make it longer."
+        "Only one chip removes the callback from the list; the others add entries or leave the list as it is."
       ],
       "reference": {
         "title": "Array length",
@@ -1166,7 +1166,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:18"
       ]
@@ -1557,7 +1557,7 @@
         "set-collection"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The search should stop at room b and print 2, but it keeps going. Tap the buggy line and pick the fix.",
       "code": [
         "let steps = 0;",
@@ -1604,7 +1604,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.performance-and-memory.algorithmic-cost.write-01",

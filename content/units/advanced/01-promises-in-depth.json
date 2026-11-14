@@ -372,9 +372,10 @@
           "feedback": "Right. The arrow returns the new text, which the next handler receives."
         },
         {
-          "text": "Promise.resolve(x + ' baked')",
-          "correct": true,
-          "feedback": "Right. A returned promise is unwrapped, so the next handler gets the text."
+          "text": "Promise.resolve(x) + ' baked'",
+          "correct": false,
+          "feedback": "Adding text to a promise turns the promise into text, so the last handler prints [object Promise] baked.",
+          "misconception": "returned-promise-not-unwrapped"
         },
         {
           "text": "{ x + ' baked' }",
@@ -397,17 +398,16 @@
       "solution": {
         "blanks": [
           [
-            "x + ' baked'",
-            "Promise.resolve(x + ' baked')"
+            "x + ' baked'"
           ]
         ],
         "expectedOutput": "dough baked"
       },
-      "explanation": "The blank is an arrow body without braces, so its value is returned. A text or a promise of a text both reach the next handler as the text. Braces without return, or a log, hand on undefined.",
+      "explanation": "The blank is an arrow body without braces, so its value is returned and the next handler receives it. Braces without return, or a log, hand on undefined.",
       "hints": [
         "Look at what the arrow function returns on line 2.",
         "The next handler receives exactly what this handler returns.",
-        "Two chips return the baked text, one of them wrapped in a promise."
+        "Only one chip returns the baked text as plain text."
       ],
       "reference": {
         "title": "Promise.prototype.then()",
@@ -417,7 +417,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.promises-in-depth.promise-chaining.fix-01",
@@ -615,7 +615,7 @@
       "solution": {
         "expectedOutput": "lost"
       },
-      "explanation": "Promise.all fulfills only when every input fulfills. Here stove rejects, so the combined promise rejects with that reason, the then handler is skipped, and catch prints lost.",
+      "explanation": "Promise.all fulfills only when every input fulfills. Here the rejected Error input makes the combined promise reject with that reason, the then handler is skipped, and catch prints lost.",
       "hints": [
         "Find the promise in the array that rejects.",
         "Promise.all rejects as soon as any input rejects.",
@@ -629,7 +629,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:20"
       ]
@@ -1032,28 +1032,29 @@
       ],
       "format": "FILL_BLANK",
       "difficulty": 3,
-      "prompt": "Fill the blanks so the program prints Error and then open.",
+      "prompt": "Fill the blanks so the program prints Error!",
       "code": [
         "Promise.reject(new Error('empty'))",
-        "  .then(() => console.log('stock'))",
-        "  .___((e) => console.log(e.name))",
-        "  .___(() => console.log('open'));"
+        "  .then(() => 'stock')",
+        "  .___((e) => e.name + '!')",
+        "  .___((v) => console.log(v));"
       ],
       "options": [
         {
           "text": "catch",
           "correct": true,
-          "feedback": "Right. catch handles the rejection and receives the error, so it can print its name."
+          "feedback": "Right. catch handles the rejection, and its return value is passed on."
         },
         {
           "text": "then",
           "correct": true,
-          "feedback": "Right. After the catch the chain is fulfilled, so a then handler runs."
+          "feedback": "Right. After the catch the chain is fulfilled, so then receives the text."
         },
         {
           "text": "finally",
-          "correct": true,
-          "feedback": "Right. finally also runs after the catch, and it prints open."
+          "correct": false,
+          "feedback": "finally runs after the catch but receives no value, so the last line would print undefined.",
+          "misconception": "catch-ends-chain"
         },
         {
           "text": "all",
@@ -1067,17 +1068,16 @@
             "catch"
           ],
           [
-            "then",
-            "finally"
+            "then"
           ]
         ],
-        "expectedOutput": "Error\nopen"
+        "expectedOutput": "Error!"
       },
-      "explanation": "The rejection skips line 2 and needs a catch to be handled. Once catch has run, the chain is fulfilled again, so a then or a finally on the last line prints open.",
+      "explanation": "The rejection skips line 2 and needs a catch to be handled. Once catch has returned the text, the chain is fulfilled, and a then on the last line receives it. finally gets no value.",
       "hints": [
         "Look at what happens to the rejection on line 2.",
-        "Only one kind of handler reacts to a rejection; the last link follows it.",
-        "The first blank takes a handler for errors, the second one runs once the chain is healthy again."
+        "Only one kind of handler reacts to a rejection; the last link must receive the value it returns.",
+        "The first blank takes a handler for errors, the second one reads a value passed along the chain."
       ],
       "reference": {
         "title": "Promise.prototype.catch()",
@@ -1087,7 +1087,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.promises-in-depth.promise-rejection-flow.fix-01",
@@ -1287,7 +1287,7 @@
       "hints": [
         "Find the function that new Promise calls right away.",
         "The executor is synchronous; a then handler is not.",
-        "Print the executor's log, then the plain log, then the handler's."
+        "Decide which of the three logs is synchronous and which one waits in the queue."
       ],
       "reference": {
         "title": "Promise() constructor",
@@ -1297,7 +1297,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.promises-in-depth.promise-construction.concept-01",
@@ -1445,7 +1445,7 @@
       "hints": [
         "Look at what line 6 passes as the second argument.",
         "Parentheses call a function now; load needs a function it can call later.",
-        "Hand resolve over by name, with no parentheses."
+        "Pass the function itself, so that load can call it later with the value."
       ],
       "reference": {
         "title": "Promise() constructor",
@@ -1454,7 +1454,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.promises-in-depth.promise-construction.write-01",

@@ -814,7 +814,7 @@
   "beg.variables.reassignment.fill-01": {
    "code": [
     "let spaces = 30;",
-    "spaces = 28;",
+    "spaces = spaces - 2;",
     "console.log(spaces);"
    ],
    "output": [
@@ -1358,13 +1358,14 @@
   },
   "beg.variables.const-declaration.fill-02": {
    "code": [
-    "const boxWeight = 3;",
     "let boxes = 1;",
+    "const boxWeight = 3;",
     "boxes = boxes + 4;",
+    "boxWeight = boxWeight + 1;",
     "console.log(boxWeight * boxes);"
    ],
    "output": [
-    "15"
+    "Uncaught TypeError"
    ],
    "steps": [
     {
@@ -1381,27 +1382,6 @@
      "line": 2,
      "variables": [
       {
-       "name": "boxWeight",
-       "scope": "global",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "boxWeight",
-       "scope": "global",
-       "value": "3"
-      },
-      {
        "name": "boxes",
        "scope": "global",
        "value": "1"
@@ -1415,17 +1395,38 @@
      "microtasks": []
     },
     {
-     "line": 4,
+     "line": 3,
      "variables": [
+      {
+       "name": "boxes",
+       "scope": "global",
+       "value": "1"
+      },
       {
        "name": "boxWeight",
        "scope": "global",
        "value": "3"
-      },
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
       {
        "name": "boxes",
        "scope": "global",
        "value": "5"
+      },
+      {
+       "name": "boxWeight",
+       "scope": "global",
+       "value": "3"
       }
      ],
      "outputCount": 0,
@@ -1439,14 +1440,14 @@
      "line": 0,
      "variables": [
       {
-       "name": "boxWeight",
-       "scope": "global",
-       "value": "3"
-      },
-      {
        "name": "boxes",
        "scope": "global",
        "value": "5"
+      },
+      {
+       "name": "boxWeight",
+       "scope": "global",
+       "value": "3"
       }
      ],
      "outputCount": 1,
@@ -2013,13 +2014,13 @@
   },
   "beg.variables.undefined-and-null.write-02": {
    "code": [
-    "let value = null;",
+    "let driver = null;",
     "console.log(",
-    "\"Type: \" + typeof value",
+    "\"Driver: \" + driver",
     ");"
    ],
    "output": [
-    "Type: object"
+    "Driver: null"
    ],
    "steps": [
     {
@@ -2036,7 +2037,7 @@
      "line": 2,
      "variables": [
       {
-       "name": "value",
+       "name": "driver",
        "scope": "global",
        "value": "null"
       }
@@ -2052,7 +2053,7 @@
      "line": 0,
      "variables": [
       {
-       "name": "value",
+       "name": "driver",
        "scope": "global",
        "value": "null"
       }

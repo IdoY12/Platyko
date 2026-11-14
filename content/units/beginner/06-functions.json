@@ -513,7 +513,7 @@
           ]
         ]
       },
-      "explanation": "n must exist before bump runs. bump triples it to 3, then 4 is added to make 7. Adding first would give 15. The function may be declared anywhere.",
+      "explanation": "n must exist before bump runs. bump triples it to 3, then 4 is added to make 7. Adding first would give 15.",
       "hints": [
         "Which line creates n?",
         "Tripling and then adding gives a different result than adding and then tripling.",
@@ -527,7 +527,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.functions.function-declaration.concept-01",
@@ -781,12 +781,12 @@
         {
           "text": "5",
           "correct": false,
-          "feedback": "Used as top it gives 5 minus the other value, which is never 5 here. Used as base it gives a smaller result than needed."
+          "feedback": "Used as top it gives 5 minus the other value, which is never 5 here. Used as base it does not give 5 with 9 or 4 as top."
         },
         {
           "text": "20",
           "correct": false,
-          "feedback": "Used as top it gives 16 or more. Used as base it gives a negative number."
+          "feedback": "Used as top it gives 11 or more, never 5. Used as base it gives a negative number."
         }
       ],
       "solution": {
@@ -814,7 +814,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.functions.parameters-and-arguments.parsons-01",
@@ -1090,7 +1090,7 @@
         {
           "text": "2",
           "correct": false,
-          "feedback": "That is the value after the first pass. The question asks about the second run of line 6.",
+          "feedback": "That is the value after the first pass. The question asks about the second pass of the loop.",
           "misconception": "visit-counted-from-zero"
         },
         {
@@ -1121,7 +1121,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.functions.return-value.fill-01",
@@ -1570,7 +1570,7 @@
       "hints": [
         "Which line must exist before any call?",
         "Each line uses the value created by the one before it.",
-        "Define the function, call it on 10, call it on that result, then print."
+        "The line that calls markUp on a plain number must come before the line that uses its result."
       ],
       "reference": {
         "title": "Arrow function expressions",
@@ -1580,7 +1580,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.functions.function-expressions.write-01",

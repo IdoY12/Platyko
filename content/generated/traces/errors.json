@@ -2832,22 +2832,35 @@
   },
   "int.errors.custom-errors.concept-01": {
    "code": [
-    "class FullError extends Error {",
-    "  constructor() {",
-    "    this.seats = 4;",
+    "class SeatError extends Error {",
+    "  constructor(left) {",
     "    super();",
+    "    this.name = 'SeatError';",
+    "    this.left = left;",
     "  }",
     "}",
-    "try { new FullError(); } catch (e) {",
-    "  console.log(e.name);",
+    "try {",
+    "  throw new SeatError(0);",
+    "} catch (e) {",
+    "  console.log(e.name, e.left);",
     "}"
    ],
    "output": [
-    "ReferenceError"
+    "SeatError 0"
    ],
    "steps": [
     {
-     "line": 7,
+     "line": 8,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -2858,7 +2871,13 @@
     },
     {
      "line": 3,
-     "variables": [],
+     "variables": [
+      {
+       "name": "left",
+       "scope": "constructor",
+       "value": "0"
+      }
+     ],
      "outputCount": 0,
      "callStack": [
       "global",
@@ -2868,12 +2887,46 @@
      "microtasks": []
     },
     {
-     "line": 8,
+     "line": 4,
+     "variables": [
+      {
+       "name": "left",
+       "scope": "constructor",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "left",
+       "scope": "constructor",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
      "variables": [
       {
        "name": "e",
        "scope": "global",
-       "value": "ReferenceError"
+       "value": "SeatError"
       }
      ],
      "outputCount": 0,

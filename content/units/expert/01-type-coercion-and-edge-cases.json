@@ -87,10 +87,6 @@
     {
       "id": "plus-order-and-grouping-confused",
       "description": "Believes + adds all numbers first or joins everything once a string appears, and that brackets do not matter."
-    },
-    {
-      "id": "parseint-in-map-is-safe",
-      "description": "Believes map(parseInt) or another converter works safely, forgetting the index passed as the second argument."
     }
   ],
   "sources": [
@@ -317,7 +313,7 @@
         {
           "text": "Template literals skip the method and call toString, so the last line prints an object text.",
           "correct": false,
-          "feedback": "Symbol.toPrimitive replaces valueOf and toString for every hint, template literals included. toString is not tried when it exists.",
+          "feedback": "Symbol.toPrimitive replaces valueOf and toString for every hint, template literals included. toString is not tried when Symbol.toPrimitive exists.",
           "misconception": "valueof-tostring-order-confused"
         }
       ],
@@ -337,7 +333,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.type-coercion-and-edge-cases.to-primitive-conversion.fix-01",
@@ -696,9 +692,10 @@
           "feedback": "Right. The array becomes the text \"5\", then 5 equals 5."
         },
         {
-          "text": "\"5\"",
-          "correct": true,
-          "feedback": "Right. The array becomes the text \"5\" and two equal texts match."
+          "text": "true",
+          "correct": false,
+          "feedback": "true becomes 1 before the comparison, while the array becomes 5. 5 == 1 is false, so this prints false.",
+          "misconception": "loose-equality-by-truthiness"
         },
         {
           "text": "undefined",
@@ -724,8 +721,7 @@
       "solution": {
         "blanks": [
           [
-            "5",
-            "\"5\""
+            "5"
           ],
           [
             "undefined"
@@ -737,7 +733,7 @@
       "hints": [
         "Line 2 compares an array with a primitive; line 3 compares null.",
         "An array becomes a text and then == compares with the other side.",
-        "The first blank must equal the text form of [5]; null has one partner."
+        "The first blank is a primitive that equals the array's value after conversion; null has one partner."
       ],
       "reference": {
         "title": "Loose equality (==)",
@@ -747,7 +743,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.type-coercion-and-edge-cases.numeric-edge-cases.predict-01",
@@ -1067,41 +1063,40 @@
       ],
       "format": "CONCEPT_MCQ",
       "difficulty": 4,
-      "prompt": "A seat chart joins numbers and text with +. Which statement explains the three results?",
+      "prompt": "A seat chart joins a seat object, a number and text with +. Which statement explains the three results?",
       "code": [
-        "const row = 2;",
-        "const col = 3;",
-        "console.log(row + col + \"x\" + col);",
-        "console.log(\"x\" + row + col);",
-        "console.log(\"x\" + (row + col));"
+        "const seat = { valueOf: () => 2 };",
+        "console.log(seat + 3 + \"x\");",
+        "console.log(\"x\" + seat + 3);",
+        "console.log(\"x\" + (seat + 3));"
       ],
       "options": [
         {
-          "text": "+ works left to right: it adds two numbers, but joins text as soon as one side is text.",
+          "text": "Each + turns the object into 2, then works left to right: it adds two numbers, but joins as soon as one side is text.",
           "correct": true,
           "feedback": "Right. Each + decides by the two values it has at that moment."
         },
         {
-          "text": "+ joins text everywhere as soon as one string appears in the expression, so line 3 prints 23x3.",
+          "text": "+ joins text everywhere as soon as one string appears in the expression, so line 2 prints 23x.",
           "correct": false,
-          "feedback": "+ looks at one pair at a time. row + col is two numbers, so they are added before the text appears.",
+          "feedback": "+ looks at one pair at a time. seat + 3 is two numbers once seat becomes 2, so they are added before the text appears.",
           "misconception": "plus-order-and-grouping-confused"
         },
         {
           "text": "Brackets do not change +, so the last line prints x23.",
           "correct": false,
-          "feedback": "Brackets run first. row + col is added to 5 before it is joined to the text.",
+          "feedback": "Brackets run first. seat + 3 is added to 5 before it is joined to the text.",
           "misconception": "plus-order-and-grouping-confused"
         }
       ],
       "solution": {
-        "expectedOutput": "5x3\nx23\nx5"
+        "expectedOutput": "5x\nx23\nx5"
       },
-      "explanation": "Each + works on one pair, left to right. 2 + 3 adds to 5 and then joins with the texts. In the second line the text comes first, so every later number is joined. Brackets run first.",
+      "explanation": "Each + works on one pair, left to right, after the object becomes the primitive 2. 2 + 3 adds to 5 and then joins with the text. In the second line the text comes first, so every later value is joined. Brackets run first.",
       "hints": [
-        "Work out the pairs one + at a time on lines 3 and 4.",
-        "The type of the two values on each + decides adding or joining.",
-        "Brackets in the last line make 5 before any joining."
+        "Work out the pairs one + at a time on lines 2 and 3.",
+        "The object becomes a primitive first; then the type of the two values on each + decides adding or joining.",
+        "Brackets in the last line are evaluated before any joining."
       ],
       "reference": {
         "title": "Addition (+)",
@@ -1111,7 +1106,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "duel:1"
       ]
@@ -1123,41 +1118,42 @@
         "to-primitive-conversion"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
-      "prompt": "The two gaps between stops should add up to 42, but the program prints NaN. Tap the buggy line and pick the fix.",
+      "difficulty": 4,
+      "prompt": "The program should print the largest bay number, 75, but it prints 9. Tap the buggy line and pick the fix.",
       "code": [
-        "const gaps = [\"8\", \"12\", \"30\"];",
-        "const mins = gaps.map(parseInt);",
-        "console.log(mins[1] + mins[2]);"
+        "const bays = [\"9\", \"10\", \"75\", \"8\"];",
+        "let hi = bays[0];",
+        "for (const n of bays) {",
+        "  if (n > hi) hi = n;",
+        "}",
+        "console.log(hi);"
       ],
       "options": [
         {
-          "text": "const mins = gaps.map(Number);",
+          "text": "  if (+n > +hi) hi = n;",
           "correct": true,
-          "feedback": "Right. Number takes only the value, so the index passed by map is ignored."
+          "feedback": "Right. Unary plus turns both texts into numbers, so the comparison is numeric."
         },
         {
-          "text": "const mins = gaps.map(parseInt, 10);",
+          "text": "  if (n > hi) hi = +n;",
           "correct": false,
-          "feedback": "The second argument of map sets this inside the callback. It does not change the index that map passes as the radix.",
-          "misconception": "parseint-in-map-is-safe"
+          "feedback": "The comparison still sees two texts, so hi stays at 9. Converting after the test is too late."
         },
         {
-          "text": "const mins = gaps.map(String);",
+          "text": "  if (n.length > hi.length) hi = n;",
           "correct": false,
-          "feedback": "String keeps the values as text, so + joins them and the result is the text 1230.",
-          "misconception": "parseint-in-map-is-safe"
+          "feedback": "This compares the number of characters, so it stops at 10 and prints 10."
         }
       ],
       "solution": {
-        "bugLine": 2,
-        "expectedOutput": "42"
+        "bugLine": 4,
+        "expectedOutput": "75"
       },
-      "explanation": "map calls the callback with value and index, so parseInt receives the index as its radix: radix 1 and radix 2 turn \"12\" and \"30\" into NaN. Number ignores extra arguments.",
+      "explanation": "When both sides of > are texts, they are compared character by character, so \"9\" is greater than \"75\". Converting each side to a number first makes the comparison numeric.",
       "hints": [
-        "Check which arguments map gives its callback on line 2.",
-        "map passes the index as a second argument.",
-        "Pick a converter that uses only its first argument."
+        "Look at what line 4 compares.",
+        "Two texts are compared as text; a number comparison needs numbers.",
+        "Convert both sides of the comparison, not the value you store."
       ],
       "reference": {
         "title": "parseInt()",
@@ -1167,7 +1163,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "duel:2"
       ]
@@ -1180,7 +1176,7 @@
       ],
       "format": "FILL_BLANK",
       "difficulty": 5,
-      "prompt": "A depot lists bay numbers as text. Fill the blank so they print in numeric order.",
+      "prompt": "A depot lists bay numbers as text. Fill the blank so they print in numeric order, from smallest to largest.",
       "code": [
         "const bays = [\"9\", \"10\", \"75\", \"8\"];",
         "bays.sort((a, b) => ___);",
@@ -1193,9 +1189,9 @@
           "feedback": "Right. - turns both texts into numbers and returns their difference."
         },
         {
-          "text": "Number(a) - Number(b)",
-          "correct": true,
-          "feedback": "Right. This converts explicitly, which does the same as a - b."
+          "text": "a < b ? -1 : 1",
+          "correct": false,
+          "feedback": "Two texts are compared as text, character by character, so \"10\" lands before \"8\". The result is not in numeric order."
         },
         {
           "text": "b - a",
@@ -1216,8 +1212,7 @@
       "solution": {
         "blanks": [
           [
-            "a - b",
-            "Number(a) - Number(b)"
+            "a - b"
           ]
         ],
         "expectedOutput": "['8', '9', '10', '75']"
@@ -1226,7 +1221,7 @@
       "hints": [
         "Look at what the comparison function must return.",
         "- always works on numbers, so it converts its operands.",
-        "Subtract the second value from the first."
+        "Choose the chip that turns both texts into numbers and is negative when a is the smaller number."
       ],
       "reference": {
         "title": "Array.prototype.sort()",
@@ -1236,7 +1231,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

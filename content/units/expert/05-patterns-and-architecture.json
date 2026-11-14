@@ -411,7 +411,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 5,
-      "prompt": "Write the body of replay. Commands are 'on:name', 'off:name' and 'pub:message'. Return one text per pub: the message followed by the current subscribers, all comma-separated, in subscription order.",
+      "prompt": "Write the body of replay. Commands: 'on:name', 'off:name', 'pub:message'. Return one comma-joined text per pub: the message, then the subscribers in order, each name once.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -540,7 +540,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.predict-01",
@@ -661,7 +661,7 @@
         "parameters-and-arguments"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "cost('taxi', 3) should print 27 by looking up the rule for the mode. Tap the buggy line and pick the fix.",
       "code": [
         "const fare = {",
@@ -706,7 +706,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.fill-01",
@@ -762,7 +762,7 @@
       "explanation": "compose returns a function that applies g to x and then f to that result. With half as g, 10 becomes 5, and fee as f makes it 7. Swapping the two would add the fee first and give 6.",
       "hints": [
         "Check which function should run first for compose(fee, half).",
-        "In f(g(x)) the inner call runs first.",
+        "A call written inside another call's parentheses runs first, and its result feeds the outer call.",
         "The inner blank is the first step; the outer blank is the step that follows."
       ],
       "reference": {
@@ -773,7 +773,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.patterns-and-architecture.factory-and-singleton.predict-01",
@@ -882,7 +882,7 @@
       "hints": [
         "Look at who writes new in this program.",
         "A factory function builds and returns instances on behalf of its caller.",
-        "Check whether lines 9 and 10 mention Bike or Van at all."
+        "Check whether the callers on lines 9 and 10 write new or pass only a name."
       ],
       "reference": {
         "title": "new operator",
@@ -891,7 +891,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:4"
       ]
@@ -1168,7 +1168,7 @@
           "misconception": "register-runs-callback"
         },
         {
-          "text": "run decides when each handler is called and in what order; your code only registers the functions.",
+          "text": "run calls each handler for you, looking it up by event name; your code only registers the functions, and the events decide the order.",
           "correct": true,
           "feedback": "Right. Control sits in run, which calls your code when an event arrives."
         }
@@ -1189,7 +1189,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:8"
       ]
@@ -1201,7 +1201,7 @@
         "parameters-and-arguments"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "notify should use the send function it receives, so the program prints fake ann. Tap the buggy line and pick the fix.",
       "code": [
         "const mail = (to) => 'mail ' + to;",
@@ -1246,7 +1246,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.patterns-and-architecture.dependency-inversion.fill-01",

@@ -3,16 +3,16 @@
  "items": {
   "exp.debugging.off-by-one-and-boundaries.predict-01": {
    "code": [
-    "const stops = [\"Oak\", \"Elm\", \"Fir\"];",
-    "const count = stops.length;",
-    "const seen = [];",
-    "for (let i = 0; i <= count; i++) {",
-    "  seen.push(stops[i]);",
+    "const temps = [4, 7, 5, 9];",
+    "const days = temps.length;",
+    "const out = [];",
+    "for (let i = 0; i < days; i++) {",
+    "  out.push(temps[i + 1] - temps[i]);",
     "}",
-    "console.log(seen);"
+    "console.log(out);"
    ],
    "output": [
-    "['Oak', 'Elm', 'Fir', undefined]"
+    "[3, -2, 4, NaN]"
    ],
    "steps": [
     {
@@ -29,9 +29,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       }
      ],
      "outputCount": 0,
@@ -45,14 +45,14 @@
      "line": 3,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       },
       {
-       "name": "count",
+       "name": "days",
        "scope": "global",
-       "value": "3"
+       "value": "4"
       }
      ],
      "outputCount": 0,
@@ -66,17 +66,17 @@
      "line": 4,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       },
       {
-       "name": "count",
+       "name": "days",
        "scope": "global",
-       "value": "3"
+       "value": "4"
       },
       {
-       "name": "seen",
+       "name": "out",
        "scope": "global",
        "value": "[]"
       }
@@ -92,17 +92,17 @@
      "line": 4,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       },
       {
-       "name": "count",
+       "name": "days",
        "scope": "global",
-       "value": "3"
+       "value": "4"
       },
       {
-       "name": "seen",
+       "name": "out",
        "scope": "global",
        "value": "[]"
       },
@@ -123,17 +123,17 @@
      "line": 5,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       },
       {
-       "name": "count",
+       "name": "days",
        "scope": "global",
-       "value": "3"
+       "value": "4"
       },
       {
-       "name": "seen",
+       "name": "out",
        "scope": "global",
        "value": "[]"
       },
@@ -154,19 +154,19 @@
      "line": 4,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       },
       {
-       "name": "count",
+       "name": "days",
        "scope": "global",
-       "value": "3"
+       "value": "4"
       },
       {
-       "name": "seen",
+       "name": "out",
        "scope": "global",
-       "value": "['Oak']"
+       "value": "[3]"
       },
       {
        "name": "i",
@@ -185,19 +185,19 @@
      "line": 5,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       },
       {
-       "name": "count",
+       "name": "days",
        "scope": "global",
-       "value": "3"
+       "value": "4"
       },
       {
-       "name": "seen",
+       "name": "out",
        "scope": "global",
-       "value": "['Oak']"
+       "value": "[3]"
       },
       {
        "name": "i",
@@ -216,19 +216,19 @@
      "line": 4,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       },
       {
-       "name": "count",
+       "name": "days",
        "scope": "global",
-       "value": "3"
+       "value": "4"
       },
       {
-       "name": "seen",
+       "name": "out",
        "scope": "global",
-       "value": "['Oak', 'Elm']"
+       "value": "[3, -2]"
       },
       {
        "name": "i",
@@ -247,19 +247,19 @@
      "line": 5,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       },
       {
-       "name": "count",
+       "name": "days",
        "scope": "global",
-       "value": "3"
+       "value": "4"
       },
       {
-       "name": "seen",
+       "name": "out",
        "scope": "global",
-       "value": "['Oak', 'Elm']"
+       "value": "[3, -2]"
       },
       {
        "name": "i",
@@ -278,19 +278,19 @@
      "line": 4,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       },
       {
-       "name": "count",
+       "name": "days",
        "scope": "global",
-       "value": "3"
+       "value": "4"
       },
       {
-       "name": "seen",
+       "name": "out",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[3, -2, 4]"
       },
       {
        "name": "i",
@@ -309,19 +309,19 @@
      "line": 5,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       },
       {
-       "name": "count",
+       "name": "days",
        "scope": "global",
-       "value": "3"
+       "value": "4"
       },
       {
-       "name": "seen",
+       "name": "out",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[3, -2, 4]"
       },
       {
        "name": "i",
@@ -340,19 +340,19 @@
      "line": 4,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       },
       {
-       "name": "count",
+       "name": "days",
        "scope": "global",
-       "value": "3"
+       "value": "4"
       },
       {
-       "name": "seen",
+       "name": "out",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir', undefined]"
+       "value": "[3, -2, 4, NaN]"
       },
       {
        "name": "i",
@@ -371,19 +371,19 @@
      "line": 7,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       },
       {
-       "name": "count",
+       "name": "days",
        "scope": "global",
-       "value": "3"
+       "value": "4"
       },
       {
-       "name": "seen",
+       "name": "out",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir', undefined]"
+       "value": "[3, -2, 4, NaN]"
       }
      ],
      "outputCount": 0,
@@ -397,19 +397,19 @@
      "line": 0,
      "variables": [
       {
-       "name": "stops",
+       "name": "temps",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir']"
+       "value": "[4, 7, 5, 9]"
       },
       {
-       "name": "count",
+       "name": "days",
        "scope": "global",
-       "value": "3"
+       "value": "4"
       },
       {
-       "name": "seen",
+       "name": "out",
        "scope": "global",
-       "value": "['Oak', 'Elm', 'Fir', undefined]"
+       "value": "[3, -2, 4, NaN]"
       }
      ],
      "outputCount": 1,

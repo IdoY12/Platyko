@@ -163,14 +163,16 @@
       "title": "The prototype chain and property lookup",
       "conceptCard": {
         "title": "Reads climb the chain, writes stay put",
-        "body": "An object can have a prototype, another object it falls back on. Object.create(base) makes one. A missing property is looked up in the prototype, then in its prototype, and so on. Assigning always writes on the object itself. hasOwnProperty checks only that object.",
+        "body": "An object can have a prototype, another object it falls back on. A class keeps its methods on the prototype of its instances. A missing property is looked up in the prototype, then in its prototype, and so on. An ordinary assignment writes on the object itself. hasOwnProperty checks only that object.",
         "code": [
-          "const base = { id: 7 };",
-          "const p = Object.create(base);",
-          "console.log(p.id);",
-          "console.log(p.hasOwnProperty('id'));"
+          "class Base {",
+          "  x() { return 'hi'; }",
+          "}",
+          "const p = new Base();",
+          "console.log(p.x());",
+          "console.log(p.hasOwnProperty('x'));"
         ],
-        "expectedOutput": "7\nfalse"
+        "expectedOutput": "hi\nfalse"
       },
       "itemIds": [
         "adv.prototypes-and-inheritance.prototype-chain.predict-01",
@@ -265,10 +267,11 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 3,
-      "prompt": "A market object delegates to a shelf object. What does this code print?",
+      "prompt": "A shelf object reads a default from its class prototype. What does this code print?",
       "code": [
-        "const shelf = { id: 'A4' };",
-        "const s = Object.create(shelf);",
+        "class Shelf {}",
+        "Shelf.prototype.id = 'A4';",
+        "const s = new Shelf();",
         "s.ad = 'sale';",
         "console.log(s.hasOwnProperty('ad'));",
         "console.log(s.hasOwnProperty('id'));",
@@ -283,13 +286,13 @@
         {
           "text": "true\ntrue\nA4",
           "correct": false,
-          "feedback": "hasOwnProperty looks only at the object itself. id lives on shelf, so the second call is false.",
+          "feedback": "hasOwnProperty looks only at the object itself. id lives on the prototype, so the second call is false.",
           "misconception": "own-check-includes-inherited"
         },
         {
           "text": "true\nfalse\nundefined",
           "correct": false,
-          "feedback": "A read does not stop at the object. When s has no id, the lookup continues in shelf and finds it.",
+          "feedback": "A read does not stop at the object. When s has no id, the lookup continues in the prototype and finds it.",
           "misconception": "lookup-stops-early"
         }
       ],
@@ -298,7 +301,7 @@
       },
       "explanation": "hasOwnProperty tests only the object it is called on, so it is false for id, which s inherits. A normal read follows the chain from s to shelf and finds A4.",
       "hints": [
-        "Compare line 4 and line 5: which property was assigned on s?",
+        "Compare line 5 and line 6: which property was assigned on s?",
         "hasOwnProperty ignores the prototype, but a property read does not.",
         "ad was written on s. id was never written on s."
       ],
@@ -310,7 +313,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:7"
       ]
@@ -324,22 +327,23 @@
       ],
       "format": "CONCEPT_MCQ",
       "difficulty": 3,
-      "prompt": "Line 3 assigns hours through stall. Which statement about that assignment is true?",
+      "prompt": "Line 4 assigns hours through stall. Which statement about that assignment is true?",
       "code": [
-        "const shop = { hours: 'nine' };",
-        "const stall = Object.create(shop);",
+        "class Shop {}",
+        "Shop.prototype.hours = 'nine';",
+        "const stall = new Shop();",
         "stall.hours = 'ten';",
-        "console.log(shop.hours);",
+        "console.log(Shop.prototype.hours);",
         "console.log(stall.hours);"
       ],
       "options": [
         {
-          "text": "It creates hours on stall itself and leaves shop untouched.",
+          "text": "It creates hours on stall itself and leaves Shop.prototype untouched.",
           "correct": true,
           "feedback": "Right. Assignment writes on the object before the dot. The inherited value is hidden, not changed."
         },
         {
-          "text": "It changes hours on shop, so both objects now say ten.",
+          "text": "It changes hours on Shop.prototype, so both objects now say ten.",
           "correct": false,
           "feedback": "Assignment never climbs the chain to edit the object that holds the old value. It writes on stall.",
           "misconception": "write-changes-prototype"
@@ -354,9 +358,9 @@
       "solution": {
         "expectedOutput": "nine\nten"
       },
-      "explanation": "Assigning always writes on the object named before the dot. stall gets its own hours, which hides the inherited one when stall is read. shop still holds nine.",
+      "explanation": "An ordinary assignment writes on the object named before the dot. stall gets its own hours, which hides the inherited one when stall is read. Shop.prototype still holds nine.",
       "hints": [
-        "Compare the two printed values with what lines 3 to 5 touch.",
+        "Compare the two printed values with what lines 4 to 6 touch.",
         "A write lands on the object you assign through, not on its prototype.",
         "Two objects now hold an hours property. Which one is read first from stall?"
       ],
@@ -368,7 +372,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.prototype-chain.fill-01",
@@ -381,17 +385,18 @@
       "difficulty": 3,
       "prompt": "Fill the blank so the program prints 2saw.",
       "code": [
-        "const kit = { kind: 'saw', qty: 1 };",
-        "const box = Object.create(kit);",
-        "box.qty = 2;",
-        "const crate = Object.create(box);",
+        "class Kit {}",
+        "Kit.prototype.kind = 'saw';",
+        "Kit.prototype.qty = 1;",
+        "const crate = new Kit();",
+        "crate.qty = 2;",
         "console.log(crate.qty + crate.___);"
       ],
       "options": [
         {
           "text": "kind",
           "correct": true,
-          "feedback": "Right. crate has neither property, so the lookup climbs through box to kit and finds kind."
+          "feedback": "Right. crate has no own kind, so the lookup climbs to Kit.prototype and finds it."
         },
         {
           "text": "qty",
@@ -405,9 +410,9 @@
           "misconception": "lookup-stops-early"
         },
         {
-          "text": "kit",
+          "text": "Kit",
           "correct": false,
-          "feedback": "kit is a variable. No property of the chain is called kit, so the read gives undefined."
+          "feedback": "Kit is a class, not a property name. No property of the chain is called Kit, so the read gives undefined."
         }
       ],
       "solution": {
@@ -418,10 +423,10 @@
         ],
         "expectedOutput": "2saw"
       },
-      "explanation": "crate.qty is found on box, where it hides the 1 on kit, so it is 2. The second read needs the property name kind. crate has no kind, box has none, and kit holds saw.",
+      "explanation": "crate.qty is its own 2, which hides the 1 on Kit.prototype. The second read needs the property name kind. crate has no own kind, so the lookup finds saw on Kit.prototype.",
       "hints": [
         "Look at which object holds each property.",
-        "A read climbs the chain one prototype at a time until it finds the name.",
+        "A read starts at the object and climbs the chain until it finds the name.",
         "The text saw is stored under a property name on kit. Which name?"
       ],
       "reference": {
@@ -432,7 +437,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.prototype-chain.fix-01",
@@ -501,7 +506,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of lookupOrigin(overrides, key). Make an object that inherits a color default, copy overrides onto it, then return 'own', 'inherited' or 'missing' for key.",
+      "prompt": "Write the body of lookupOrigin(overrides, key). Declare class Item with prototype color 'grey', build an Item, copy overrides onto it, then return 'own', 'inherited' or 'missing' for key.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -564,8 +569,9 @@
           }
         ],
         "reference": [
-          "const base = { color: 'grey' };",
-          "const item = Object.create(base);",
+          "class Item {}",
+          "Item.prototype.color = 'grey';",
+          "const item = new Item();",
           "Object.assign(item, overrides);",
           "if (item.hasOwnProperty(key)) {",
           "  return 'own';",
@@ -577,8 +583,9 @@
         ],
         "wrongSolutions": [
           [
-            "const base = { color: 'grey' };",
-            "const item = Object.create(base);",
+            "class Item {}",
+            "Item.prototype.color = 'grey';",
+            "const item = new Item();",
             "Object.assign(item, overrides);",
             "if (key in item) {",
             "  return 'own';",
@@ -586,8 +593,9 @@
             "return 'missing';"
           ],
           [
-            "const base = { color: 'grey' };",
-            "const item = Object.create(base);",
+            "class Item {}",
+            "Item.prototype.color = 'grey';",
+            "const item = new Item();",
             "Object.assign(item, overrides);",
             "if (item.hasOwnProperty(key)) {",
             "  return 'own';",
@@ -595,8 +603,8 @@
             "return 'missing';"
           ],
           [
-            "const base = { color: 'grey' };",
-            "const item = {};",
+            "class Item {}",
+            "const item = new Item();",
             "Object.assign(item, overrides);",
             "if (item.hasOwnProperty(key)) {",
             "  return 'own';",
@@ -608,7 +616,7 @@
           ]
         ]
       },
-      "explanation": "Make item inherit from base, then copy the overrides onto item. hasOwnProperty finds own names. The in operator also sees inherited names, such as color or the built-in toString.",
+      "explanation": "Build item from a class whose prototype holds the default, then copy the overrides onto item. hasOwnProperty finds own names. The in operator also sees inherited names, such as color or the built-in toString.",
       "hints": [
         "The built-in toString is inherited too, so it counts.",
         "Test own names first, then use a test that includes the chain.",
@@ -621,7 +629,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.constructor-functions.predict-01",
@@ -722,7 +730,7 @@
       },
       "explanation": "new creates an object and links it to the constructor's prototype property. That property is a separate object from the function, so the first comparison is true and the second is false.",
       "hints": [
-        "Compare what line 3 and line 4 each compare s's link with.",
+        "Compare what line 4 and line 5 each compare s's link with.",
         "A constructor function has a property named prototype.",
         "The link goes to a property of Seed, not to Seed."
       ],
@@ -734,7 +742,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.constructor-functions.fill-01",
@@ -1130,7 +1138,7 @@
       "hints": [
         "Which line has to come first so that the others can use its name?",
         "cake needs recipe, and the doubling needs cake.",
-        "The doubling comes before both prints, and the cake print comes before the recipe print."
+        "Only one of the two prints can show 8, and it needs the doubling to have run already."
       ],
       "reference": {
         "title": "Object.create()",
@@ -1140,7 +1148,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.object-create-and-delegation.fix-01",
@@ -1350,7 +1358,7 @@
       },
       "explanation": "A class declaration creates a constructor function. Its methods are stored on Cup.prototype, so c.fill is that very function, and c owns no keys.",
       "hints": [
-        "Check what typeof reports for a class on line 5.",
+        "Check what typeof reports for a class on line 6.",
         "Methods declared in a class body go on the prototype.",
         "c reaches fill through the chain, so it has no own keys."
       ],
@@ -1362,7 +1370,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.concept-01",
@@ -1552,8 +1560,8 @@
         "class-inheritance"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 5,
-      "prompt": "Write the body of rushTotals(prices). Declare Fee (cost() returns its amount) and Rush extending Fee, whose cost() doubles super.cost(). Return the Rush cost for each price.",
+      "difficulty": 4,
+      "prompt": "Write the body of rushTotals(prices). Declare Fee (constructor stores an amount, cost() returns it) and Rush extending Fee, whose cost() doubles super.cost(). Return the Rush cost for each price.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1672,7 +1680,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

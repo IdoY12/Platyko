@@ -235,13 +235,13 @@
   },
   "beg.arrays.index.fill-01": {
    "code": [
-    "const herbs = [\"mint\", \"dill\"];",
-    "console.log(herbs.indexOf(\"dill\"));",
-    "console.log(herbs[0]);"
+    "const spices = [\"salt\", \"sage\"];",
+    "const later = spices[1];",
+    "const earlier = spices[0];",
+    "console.log(later + \"/\" + earlier);"
    ],
    "output": [
-    "1",
-    "mint"
+    "sage/salt"
    ],
    "steps": [
     {
@@ -258,9 +258,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "herbs",
+       "name": "spices",
        "scope": "global",
-       "value": "['mint', 'dill']"
+       "value": "['salt', 'sage']"
       }
      ],
      "outputCount": 0,
@@ -274,12 +274,43 @@
      "line": 3,
      "variables": [
       {
-       "name": "herbs",
+       "name": "spices",
        "scope": "global",
-       "value": "['mint', 'dill']"
+       "value": "['salt', 'sage']"
+      },
+      {
+       "name": "later",
+       "scope": "global",
+       "value": "'sage'"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "spices",
+       "scope": "global",
+       "value": "['salt', 'sage']"
+      },
+      {
+       "name": "later",
+       "scope": "global",
+       "value": "'sage'"
+      },
+      {
+       "name": "earlier",
+       "scope": "global",
+       "value": "'salt'"
+      }
+     ],
+     "outputCount": 0,
      "callStack": [
       "global"
      ],
@@ -290,12 +321,22 @@
      "line": 0,
      "variables": [
       {
-       "name": "herbs",
+       "name": "spices",
        "scope": "global",
-       "value": "['mint', 'dill']"
+       "value": "['salt', 'sage']"
+      },
+      {
+       "name": "later",
+       "scope": "global",
+       "value": "'sage'"
+      },
+      {
+       "name": "earlier",
+       "scope": "global",
+       "value": "'salt'"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -486,9 +527,8 @@
   },
   "beg.arrays.length.predict-01": {
    "code": [
-    "const order = \"ham egg cheese\";",
-    "const parts = order.split(\" \");",
-    "console.log(\"n: \" + parts.length);"
+    "const menu = [\"tea\", \"cake\", \"pie\"];",
+    "console.log(\"n: \" + menu.length);"
    ],
    "output": [
     "n: 3"
@@ -508,30 +548,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "order",
+       "name": "menu",
        "scope": "global",
-       "value": "'ham egg cheese'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "order",
-       "scope": "global",
-       "value": "'ham egg cheese'"
-      },
-      {
-       "name": "parts",
-       "scope": "global",
-       "value": "['ham', 'egg', 'cheese']"
+       "value": "['tea', 'cake', 'pie']"
       }
      ],
      "outputCount": 0,
@@ -545,14 +564,9 @@
      "line": 0,
      "variables": [
       {
-       "name": "order",
+       "name": "menu",
        "scope": "global",
-       "value": "'ham egg cheese'"
-      },
-      {
-       "name": "parts",
-       "scope": "global",
-       "value": "['ham', 'egg', 'cheese']"
+       "value": "['tea', 'cake', 'pie']"
       }
      ],
      "outputCount": 1,
@@ -1005,11 +1019,12 @@
   "beg.arrays.push-pop.predict-02": {
    "code": [
     "const seeds = [5, 2, 9];",
-    "seeds.pop();",
-    "console.log(seeds.includes(5));"
+    "console.log(seeds.pop());",
+    "console.log(seeds.length);"
    ],
    "output": [
-    "true"
+    "9",
+    "2"
    ],
    "steps": [
     {
@@ -1047,7 +1062,7 @@
        "value": "[5, 2]"
       }
      ],
-     "outputCount": 0,
+     "outputCount": 1,
      "callStack": [
       "global"
      ],
@@ -1063,7 +1078,7 @@
        "value": "[5, 2]"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 2,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -1435,13 +1450,13 @@
     "const laps = [12, 9, 14];",
     "const count = laps.length;",
     "let total = 0;",
-    "for (let i = 0; i <= count; i++) {",
-    "  total += laps[i];",
+    "for (let i = 1; i < count; i++) {",
+    "  total = total + laps[i];",
     "}",
     "console.log(total);"
    ],
    "output": [
-    "NaN"
+    "23"
    ],
    "steps": [
     {
@@ -1538,68 +1553,6 @@
       {
        "name": "i",
        "scope": "global",
-       "value": "0"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "laps",
-       "scope": "global",
-       "value": "[12, 9, 14]"
-      },
-      {
-       "name": "count",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "total",
-       "scope": "global",
-       "value": "0"
-      },
-      {
-       "name": "i",
-       "scope": "global",
-       "value": "0"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "laps",
-       "scope": "global",
-       "value": "[12, 9, 14]"
-      },
-      {
-       "name": "count",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "total",
-       "scope": "global",
-       "value": "12"
-      },
-      {
-       "name": "i",
-       "scope": "global",
        "value": "1"
       }
      ],
@@ -1626,7 +1579,7 @@
       {
        "name": "total",
        "scope": "global",
-       "value": "12"
+       "value": "0"
       },
       {
        "name": "i",
@@ -1657,7 +1610,7 @@
       {
        "name": "total",
        "scope": "global",
-       "value": "21"
+       "value": "9"
       },
       {
        "name": "i",
@@ -1688,7 +1641,7 @@
       {
        "name": "total",
        "scope": "global",
-       "value": "21"
+       "value": "9"
       },
       {
        "name": "i",
@@ -1719,74 +1672,12 @@
       {
        "name": "total",
        "scope": "global",
-       "value": "35"
+       "value": "23"
       },
       {
        "name": "i",
        "scope": "global",
        "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "laps",
-       "scope": "global",
-       "value": "[12, 9, 14]"
-      },
-      {
-       "name": "count",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "total",
-       "scope": "global",
-       "value": "35"
-      },
-      {
-       "name": "i",
-       "scope": "global",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "laps",
-       "scope": "global",
-       "value": "[12, 9, 14]"
-      },
-      {
-       "name": "count",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "total",
-       "scope": "global",
-       "value": "NaN"
-      },
-      {
-       "name": "i",
-       "scope": "global",
-       "value": "4"
       }
      ],
      "outputCount": 0,
@@ -1812,7 +1703,7 @@
       {
        "name": "total",
        "scope": "global",
-       "value": "NaN"
+       "value": "23"
       }
      ],
      "outputCount": 0,
@@ -1838,7 +1729,7 @@
       {
        "name": "total",
        "scope": "global",
-       "value": "NaN"
+       "value": "23"
       }
      ],
      "outputCount": 1,
@@ -2799,13 +2690,13 @@
   },
   "beg.arrays.iteration.write-01": {
    "code": [
-    "let arr = [\"a\",\"b\"];",
+    "let arr = [7,8,9];",
     "console.log(",
-    "arr.join(\" | \")",
+    "arr.length - 1",
     ");"
    ],
    "output": [
-    "a | b"
+    "2"
    ],
    "steps": [
     {
@@ -2824,7 +2715,7 @@
       {
        "name": "arr",
        "scope": "global",
-       "value": "['a', 'b']"
+       "value": "[7, 8, 9]"
       }
      ],
      "outputCount": 0,
@@ -2840,7 +2731,7 @@
       {
        "name": "arr",
        "scope": "global",
-       "value": "['a', 'b']"
+       "value": "[7, 8, 9]"
       }
      ],
      "outputCount": 1,

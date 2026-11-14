@@ -1122,9 +1122,9 @@
           "feedback": "Right. porch is the same module as hallway, so the second press makes the shared count 2."
         },
         {
-          "text": "hallway",
-          "correct": true,
-          "feedback": "Right. hallway is the same module as lamp, so the second press makes the shared count 2."
+          "text": "hallway.press",
+          "correct": false,
+          "feedback": "This is the press function, not the module, so porch.press is undefined and the call fails."
         },
         {
           "text": "lamp.press()",
@@ -1142,8 +1142,7 @@
       "solution": {
         "blanks": [
           [
-            "lamp",
-            "hallway"
+            "lamp"
           ]
         ],
         "expectedOutput": "2"
@@ -1162,7 +1161,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.module-singletons.fix-01",
@@ -1377,7 +1376,7 @@
         {
           "text": "J\nJ",
           "correct": false,
-          "feedback": "Declaring stove first does not make jar available. At line 6 the line that creates jar has not run yet.",
+          "feedback": "Declaring jar later in the file does not make it available earlier. At line 6 the line that creates jar has not run yet.",
           "misconception": "cycle-values-ready"
         },
         {
@@ -1404,7 +1403,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.dependency-direction.concept-01",

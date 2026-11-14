@@ -134,7 +134,7 @@
       "title": "Map keeps keys as they are",
       "conceptCard": {
         "title": "A Map keeps every key as it is",
-        "body": "A Map stores key and value pairs. A key can be any value, and it keeps its type: 1 and \"1\" are different keys. Objects are compared by identity. Set adds an entry, get reads one, size counts them, and a loop gives entries in insertion order.",
+        "body": "A Map stores key and value pairs. A key can be any value, and it keeps its type: 1 and \"1\" are different keys. Objects are compared by identity. The set method adds an entry, get reads one, size counts them, and a loop gives entries in insertion order.",
         "code": [
           "const dates = new Map();",
           "dates.set(1, \"one\");",
@@ -179,7 +179,7 @@
       "title": "Weak collections hold objects",
       "conceptCard": {
         "title": "Weak collections need object keys",
-        "body": "WeakMap keys and WeakSet values must be objects. They cannot be counted or looped over, and have no size. You use them only with an object you already hold: get, set, has, delete and add. Their entries do not keep an object alive.",
+        "body": "WeakMap keys and WeakSet values must be objects (non-registered symbols are allowed too). They cannot be counted or looped over, and have no size. You use them only with an object you already hold: get, set, has, delete and add. Their entries do not keep an object alive.",
         "code": [
           "const owners = new WeakMap();",
           "const bike = {};",
@@ -749,7 +749,7 @@
       "hints": [
         "Line 2 builds an array from a collection.",
         "Only one built-in collection removes repeated values.",
-        "The spread turns the collection back into an array, so use an array's size property."
+        "The spread result is an array, not a Set. Which property does an array use to report how many entries it holds?"
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -759,7 +759,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:16"
       ]
@@ -804,7 +804,7 @@
       "hints": [
         "Look at the property read on line 4.",
         "Arrays use length; Sets use another name.",
-        "Ask the Set itself for its size; no wrapping is needed."
+        "Read a property of vips itself, not of a wrapper around it. One of the two other names offered does not exist on a Set."
       ],
       "reference": {
         "title": "Set",
@@ -814,7 +814,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.map-set-weakmap-symbol.set-collection.write-01",
@@ -1230,10 +1230,10 @@
           ]
         ]
       },
-      "explanation": "Try to store the value in a fresh WeakMap. If set throws, the value is not an object, so return false. null looks like an object under typeof but is rejected.",
+      "explanation": "Try to store the value in a fresh WeakMap. If set throws, the value cannot be a key, as with a string, a number or null. null looks like an object under typeof but is rejected.",
       "hints": [
         "Let the WeakMap decide: try to use the value as a key.",
-        "set throws a TypeError for a value that is not an object.",
+        "set throws a TypeError for a value that cannot be a key, such as a string, a number or null.",
         "Return true after a successful set inside try, and false inside catch."
       ],
       "reference": {
@@ -1243,7 +1243,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.map-set-weakmap-symbol.symbol-keys.predict-01",
@@ -1341,7 +1341,7 @@
       },
       "explanation": "Object.keys returns only string-named keys, so the symbol key is missing from the list. Reading card[secret] works for any code that has the symbol.",
       "hints": [
-        "Compare what line 3 lists with what line 4 reads.",
+        "Compare what line 4 lists with what line 5 reads.",
         "Symbol keys are skipped by listing functions, not by property access.",
         "The list lacks the symbol key, but the symbol itself still opens the property."
       ],
@@ -1353,7 +1353,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.map-set-weakmap-symbol.symbol-keys.fill-01",

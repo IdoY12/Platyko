@@ -82,10 +82,6 @@
       "description": "Believes adding one more branch to an if chain keeps code closed for modification."
     },
     {
-      "id": "same-output-same-design",
-      "description": "Believes two versions that print the same today are equally easy to extend."
-    },
-    {
       "id": "sort-returns-copy",
       "description": "Believes sort returns a sorted copy and leaves the original array in its old order."
     },
@@ -96,6 +92,10 @@
     {
       "id": "soc-split-by-statement-kind",
       "description": "Believes separating concerns means moving a kind of statement, such as a loop or a return, into its own function."
+    },
+    {
+      "id": "missing-key-throws",
+      "description": "Believes reading a key that is missing from an object throws an error instead of giving undefined."
     }
   ],
   "sources": [
@@ -169,7 +169,7 @@
       "title": "Refactoring without changing behaviour",
       "conceptCard": {
         "title": "Same inputs, same outputs",
-        "body": "Refactoring changes the shape of code, not what it does. After a change, the same inputs must give the same outputs, including edge cases such as 0 and undefined. A shorter test is not always the same test.",
+        "body": "Refactoring changes the shape of code, not what it does. After a change, the same inputs must give the same outputs, including edge cases such as 0 and undefined. Moving code into a subclass or a new class is a refactor too: compare the old and new versions on the same inputs.",
         "code": [
           "const hours = [2, 0, undefined];",
           "const has = (h) => h !== undefined;",
@@ -190,7 +190,7 @@
       "title": "Reading dense, unfamiliar code",
       "conceptCard": {
         "title": "Reading from the inside out",
-        "body": "Dense code is easier to read in small parts. Find what each function returns, then what each argument is on the first call. Evaluate the innermost call first and work outward. A factory returns a function that remembers its outer variables.",
+        "body": "Dense code is easier to read in small parts. Find what each function returns, then what each argument is on the first call. Evaluate the innermost call first and work outward. A factory returns a function that remembers its outer variables; a lookup table replaces a chain of ifs.",
         "code": [
           "const scale = (k) => (x) => x * k;",
           "const double = scale(2);",
@@ -568,7 +568,7 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 4,
-      "prompt": "Code written for Box sets size to 20 on every container, then prints what each one stored. What does it print?",
+      "prompt": "Before a refactor the list held two Box objects and the loop printed [20, 20]. The refactor swapped the second one for a Bin. What does the program print now?",
       "code": [
         "class Box {",
         "  set size(v) { this.v = v; }",
@@ -586,12 +586,12 @@
         {
           "text": "[20, 9]",
           "correct": true,
-          "feedback": "Right. The Bin runs its own setter, so the stored value no longer matches what the Box stored."
+          "feedback": "Right. The Bin runs its own setter, so the refactor changed the output."
         },
         {
           "text": "[20, 20]",
           "correct": false,
-          "feedback": "You ran the parent setter for both. A subclass setter takes over for its own objects.",
+          "feedback": "You ran the parent setter for both, as before the refactor. A subclass setter takes over for its own objects.",
           "misconception": "override-ignored"
         },
         {
@@ -604,7 +604,7 @@
       "solution": {
         "expectedOutput": "[20, 9]"
       },
-      "explanation": "A setter in a subclass replaces the parent's setter for that subclass only. The Box stores 20, but the Bin caps it at 9, so code written for Box gets a surprise.",
+      "explanation": "A setter in a subclass replaces the parent's setter for that subclass only. The Box stores 20, but the Bin caps it at 9, so the swap is not a safe refactor: the output changed.",
       "hints": [
         "Look at which class each object in the array comes from.",
         "A subclass setter overrides the parent's only for its own objects.",
@@ -617,7 +617,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:7"
       ]
@@ -632,7 +632,7 @@
       ],
       "format": "CONCEPT_MCQ",
       "difficulty": 4,
-      "prompt": "Receipt both calculates and builds display text. Which method belongs in a separate class so each class has one reason to change?",
+      "prompt": "A refactor splits Receipt so each class has one reason to change, and the program must still print Total: 7. Which split does that?",
       "code": [
         "const add = (a, b) => a + b;",
         "class Receipt {",
@@ -649,9 +649,9 @@
       ],
       "options": [
         {
-          "text": "label(): its wording changes for display reasons, while total() changes with the pricing rule.",
+          "text": "Move label() into a new class that calls total(): its wording changes for display reasons, total() with the pricing rule.",
           "correct": true,
-          "feedback": "Right. Two different reasons to change, so the text building moves out and calls the calculation."
+          "feedback": "Right. The new class calls the same total() on the same prices, so the output stays and the two reasons to change are apart."
         },
         {
           "text": "Both: each class should hold only one method.",
@@ -669,11 +669,11 @@
       "solution": {
         "expectedOutput": "Total: 7"
       },
-      "explanation": "The wording of the text changes for display reasons, while the total changes only when the pricing rule does. Moving label out keeps the output the same and separates the two reasons to change.",
+      "explanation": "Wording changes for display reasons and the total changes with the pricing rule. Moving label out into a class that calls total() separates them and keeps the printed text the same.",
       "hints": [
-        "Ask what could make each method need an edit.",
+        "Ask what could make each method need an edit, and what must stay the same.",
         "One responsibility means one reason to change, not one method.",
-        "Which method would change if the page layout changed?"
+        "Which method would change if the page layout changed, while still calling the other?"
       ],
       "reference": {
         "title": "Classes",
@@ -682,7 +682,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:2"
       ]
@@ -769,9 +769,9 @@
           "feedback": "Right. Only an absent percent falls back to 10."
         },
         {
-          "text": "pct === undefined ? 10 : pct",
-          "correct": true,
-          "feedback": "Right. This tests for an absent value directly and keeps 0."
+          "text": "pct !== 0 ? pct : 10",
+          "correct": false,
+          "feedback": "An absent pct is not 0, so it stays undefined and the first tip is NaN."
         },
         {
           "text": "pct || 10",
@@ -792,8 +792,7 @@
       "solution": {
         "blanks": [
           [
-            "pct ?? 10",
-            "pct === undefined ? 10 : pct"
+            "pct ?? 10"
           ]
         ],
         "expectedOutput": "5 0 10"
@@ -802,7 +801,7 @@
       "hints": [
         "Check what each chip does when pct is 0.",
         "Only an absent value should get the default.",
-        "Two chips test for undefined directly or through the nullish operator."
+        "Only one chip gives 10 for an absent percent and still keeps an explicit 0."
       ],
       "reference": {
         "title": "Nullish coalescing operator (??)",
@@ -812,7 +811,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.code-analysis.reading-unfamiliar-code.predict-01",
@@ -881,44 +880,43 @@
       ],
       "format": "CONCEPT_MCQ",
       "difficulty": 4,
-      "prompt": "Both functions price an order today. Which one can take a new kind, such as soup, without editing any line shown here?",
+      "prompt": "Read the program from the inside out. Which statement explains why pie adds nothing, and how a new kind would get a price?",
       "code": [
-        "const price = (key) => {",
-        "  if (key === \"tea\") return 3;",
-        "  if (key === \"cake\") return 5;",
-        "};",
-        "const rates = { tea: 3, cake: 5 };",
-        "const priceOf = (key) => rates[key];",
-        "console.log(price(\"tea\"));",
-        "console.log(priceOf(\"tea\"));"
+        "const cost = { tea: 3, cake: 5 };",
+        "const priceOf = (k) => cost[k] ?? 0;",
+        "const add = (a, b) => a + b;",
+        "const bill = (...keys) =>",
+        "  keys.map(priceOf).reduce(add);",
+        "const menu = [\"tea\", \"cake\", \"pie\"];",
+        "console.log(bill(...menu));"
       ],
       "options": [
         {
-          "text": "priceOf: assigning rates.soup = 4 afterwards adds soup and no shown line changes.",
+          "text": "priceOf looks the key up in cost and falls back to 0, so pie adds 0. Pricing pie means adding a key to cost.",
           "correct": true,
-          "feedback": "Right. Data is added to the table while the function stays untouched."
+          "feedback": "Right. The data lives in the table, and bill and priceOf stay as they are."
         },
         {
-          "text": "price: each kind has its own line, so soup is just one more line.",
+          "text": "bill has one branch per kind, so pie needs a new branch inside bill.",
           "correct": false,
-          "feedback": "A new if line goes inside price, which means editing a function that already works.",
+          "feedback": "bill has no branches. It maps each key through priceOf, which reads the table.",
           "misconception": "ocp-more-branches-is-open"
         },
         {
-          "text": "Both equally: they print the same result today, so they handle soup alike.",
+          "text": "The program throws for pie, because rates has no pie key.",
           "correct": false,
-          "feedback": "Equal output today says nothing about how each one grows. Only one needs its body edited.",
-          "misconception": "same-output-same-design"
+          "feedback": "Reading a missing key does not throw. It gives undefined, which the ?? operator replaces.",
+          "misconception": "missing-key-throws"
         }
       ],
       "solution": {
-        "expectedOutput": "3\n3"
+        "expectedOutput": "8"
       },
-      "explanation": "A lookup table grows by adding a key after the existing code, so nothing shown changes. An if chain needs a new branch inside its body, which means editing the function.",
+      "explanation": "Work from the inside out: cost[k] gives a price or undefined, ?? 0 turns a missing one into 0, map prices every key and reduce adds them. Soup is missing, so it adds 0; adding pie to cost would price it.",
       "hints": [
-        "Imagine adding soup: where would the new code go?",
-        "Open for extension, closed for modification: extend without editing.",
-        "Which version needs a change inside its own body?"
+        "Start with line 2: what does priceOf return for a key that is not in cost?",
+        "Evaluate the innermost call first: priceOf, then map, then reduce.",
+        "Where would the price of pie be written so that no function changes?"
       ],
       "reference": {
         "title": "Property accessors",
@@ -927,7 +925,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:6"
       ]
@@ -941,45 +939,44 @@
         "spread-and-rest"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
-      "prompt": "Two door counters should count separately and print 3 1. Tap the line that makes them share one count and pick the fix.",
+      "difficulty": 4,
+      "prompt": "Two door counters should count separately and print 3 1, but the program prints 3 4. Tap the buggy line and pick the fix.",
       "code": [
-        "const makeCounter = () => {",
+        "const mk = (step) => {",
         "  let n = 0;",
-        "  return () => ++n;",
+        "  return () => (n += step);",
         "};",
-        "const a = makeCounter();",
-        "const b = a;",
+        "const [a, b] = Array(2).fill(mk(1));",
         "a();",
         "a();",
         "console.log(a(), b());"
       ],
       "options": [
         {
-          "text": "const b = makeCounter();",
+          "text": "const [a, b] = [mk(1), mk(1)];",
           "correct": true,
-          "feedback": "Right. A new call creates a new n, so b counts on its own."
+          "feedback": "Right. Each call of mk creates its own n, so b counts on its own."
         },
         {
-          "text": "const b = a.bind(null);",
+          "text": "const [a, b] = Array(2).fill(mk);",
           "correct": false,
-          "feedback": "bind returns a wrapper around the same function, so both still share one n."
+          "feedback": "This stores the factory itself, so a() builds a counter instead of counting."
         },
         {
-          "text": "const b = makeCounter;",
+          "text": "const [a, b] = Array(2).fill(mk(2));",
           "correct": false,
-          "feedback": "This stores the factory itself, so b() creates a counter instead of counting."
+          "feedback": "A different step still calls mk only once, so both names share one counter."
         }
       ],
       "solution": {
-        "bugLine": 6,
+        "bugLine": 5,
         "expectedOutput": "3 1"
       },
-      "explanation": "Each call of the factory creates its own n. Assigning the existing function to a second name shares one closure. A second counter needs its own call of the factory.",
+      "explanation": "Evaluated from the inside out, mk(1) runs once and fill copies that one function into both slots, so both names share one closure. Each counter needs its own call of the factory.",
       "hints": [
-        "Compare how many times makeCounter is called.",
-        "A closure keeps the variables of the call that created it.",
-        "The second counter needs a call of its own."
+        "Evaluate line 5 from the inside out: how many times is mk called?",
+        "A closure keeps the variables of the call that created it, and fill copies one value into every slot.",
+        "Each counter needs a call of its own."
       ],
       "reference": {
         "title": "Closures",
@@ -989,7 +986,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.code-analysis.reading-unfamiliar-code.write-01",
@@ -1335,9 +1332,9 @@
           "feedback": "Right. It only reads the old count."
         },
         {
-          "text": "bin.apples + n",
-          "correct": true,
-          "feedback": "Right. It also only reads the old count."
+          "text": "s.apples * n",
+          "correct": false,
+          "feedback": "This multiplies instead of adding, so the new count is 12 and not the old count plus n."
         },
         {
           "text": "n",
@@ -1358,8 +1355,7 @@
       "solution": {
         "blanks": [
           [
-            "s.apples + n",
-            "bin.apples + n"
+            "s.apples + n"
           ]
         ],
         "expectedOutput": "3 7"
@@ -1368,7 +1364,7 @@
       "hints": [
         "Check which chips write to the original object.",
         "A pure function only reads its inputs.",
-        "Two chips read the old count and add n without changing it."
+        "Only one chip reads the old count and adds n without changing the original."
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -1378,7 +1374,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

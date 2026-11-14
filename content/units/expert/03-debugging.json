@@ -243,26 +243,26 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 4,
-      "prompt": "A bus route lists three stops. The loop copies each stop into a new array. What does this program print?",
+      "prompt": "A weather log stores four daily temperatures. The loop records the change from each day to the next. What does this program print?",
       "code": [
-        "const stops = [\"Oak\", \"Elm\", \"Fir\"];",
-        "const count = stops.length;",
-        "const seen = [];",
-        "for (let i = 0; i <= count; i++) {",
-        "  seen.push(stops[i]);",
+        "const temps = [4, 7, 5, 9];",
+        "const days = temps.length;",
+        "const out = [];",
+        "for (let i = 0; i < days; i++) {",
+        "  out.push(temps[i + 1] - temps[i]);",
         "}",
-        "console.log(seen);"
+        "console.log(out);"
       ],
       "options": [
         {
-          "text": "['Oak', 'Elm', 'Fir', undefined]",
+          "text": "[3, -2, 4, NaN]",
           "correct": true,
-          "feedback": "Right. The last pass reads index 3, which does not exist, and a missing index gives undefined."
+          "feedback": "Right. On the last pass temps[4] does not exist, so undefined - 9 is NaN, and push adds it."
         },
         {
-          "text": "['Oak', 'Elm', 'Fir']",
+          "text": "[3, -2, 4]",
           "correct": false,
-          "feedback": "You expected the extra pass to add nothing. Reading past the end does not skip the push: it pushes undefined.",
+          "feedback": "You expected the extra pass to add nothing. The loop still runs for the last day, and the missing next day gives NaN, which is pushed.",
           "misconception": "out-of-range-read-skipped"
         },
         {
@@ -273,13 +273,13 @@
         }
       ],
       "solution": {
-        "expectedOutput": "['Oak', 'Elm', 'Fir', undefined]"
+        "expectedOutput": "[3, -2, 4, NaN]"
       },
-      "explanation": "Three stops have indexes 0, 1 and 2. The condition i <= 3 allows a fourth pass, where stops[3] is undefined, and push adds it. Use < to stop after the last index.",
+      "explanation": "Four temperatures have indexes 0 to 3. On the last pass temps[i + 1] is temps[4], which does not exist, so undefined - 9 is NaN and push adds it. The loop should stop one pass earlier.",
       "hints": [
-        "Count how many times line 5 runs.",
-        "The last valid index is one less than the length.",
-        "Check the condition on line 4: how many passes does it allow?"
+        "Look at line 5: which two indexes does it read on the last pass?",
+        "The last valid index is one less than the length, and i + 1 reaches one further.",
+        "Work out what the subtraction gives when its left value is missing."
       ],
       "reference": {
         "title": "Array length",
@@ -289,7 +289,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.off-by-one-and-boundaries.concept-01",
@@ -363,12 +363,12 @@
         {
           "text": "const start = (page - 1) * size;",
           "correct": true,
-          "feedback": "Right. Pages count from 1, so page 2 starts after one full page of three books."
+          "feedback": "Right. Pages count from 1, so page 2 starts after one full page of three rows."
         },
         {
           "text": "const start = page * size - 1;",
           "correct": false,
-          "feedback": "That starts at index 5, which is the sixth row. Page 2 begins at the fourth, so the slice shows the wrong books.",
+          "feedback": "That starts at index 5, which is the sixth row. Page 2 begins at the fourth, so the slice shows the wrong rows.",
           "misconception": "page-number-as-offset"
         },
         {
@@ -396,7 +396,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.off-by-one-and-boundaries.write-01",
@@ -731,9 +731,9 @@
           "feedback": "Right. Spread makes a new array, so sort and push leave the bin alone."
         },
         {
-          "text": "bin.slice()",
-          "correct": true,
-          "feedback": "Right. slice with no arguments returns a new array copy."
+          "text": "bin.entries()",
+          "correct": false,
+          "feedback": "entries() returns an iterator, not an array, and an iterator has no sort method, so the program throws a TypeError."
         },
         {
           "text": "bin",
@@ -754,17 +754,16 @@
       "solution": {
         "blanks": [
           [
-            "[...bin]",
-            "bin.slice()"
+            "[...bin]"
           ]
         ],
         "expectedOutput": "3 4"
       },
-      "explanation": "sort and push change the array they run on. To keep bin unchanged, sort a copy made with spread or slice. A second name or a method that works in place does not make a copy.",
+      "explanation": "sort and push change the array they run on. To keep bin unchanged, sort a copy made with spread. A second name or a method that works in place does not make a copy.",
       "hints": [
         "Look at which array push changes.",
         "A copy is a new array, not another name for the bin.",
-        "Two expressions build a new array from bin."
+        "Only one chip builds a new array; the others share bin, change it in place, empty it or fail."
       ],
       "reference": {
         "title": "Array.prototype.splice()",
@@ -774,7 +773,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.async-ordering-bugs.predict-01",

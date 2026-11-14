@@ -1178,7 +1178,9 @@
   "values-and-types.lesson-1": {
    "code": [
     "console.log(6 + 4 * 2);",
-    "console.log(7 / 2);",
+    "let share = 7;",
+    "share = share / 2;",
+    "console.log(share);",
     "console.log(7 % 2);"
    ],
    "output": [
@@ -1209,7 +1211,45 @@
     },
     {
      "line": 3,
-     "variables": [],
+     "variables": [
+      {
+       "name": "share",
+       "scope": "global",
+       "value": "7"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "share",
+       "scope": "global",
+       "value": "3.5"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "share",
+       "scope": "global",
+       "value": "3.5"
+      }
+     ],
      "outputCount": 2,
      "callStack": [
       "global"
@@ -1219,7 +1259,13 @@
     },
     {
      "line": 0,
-     "variables": [],
+     "variables": [
+      {
+       "name": "share",
+       "scope": "global",
+       "value": "3.5"
+      }
+     ],
      "outputCount": 3,
      "callStack": [],
      "microtasks": [],
@@ -1232,12 +1278,14 @@
    "code": [
     "console.log(\"tea\" + \"pot\");",
     "console.log(\"tea\".length);",
-    "console.log(\"Room \" + 5);"
+    "console.log(\"Room \" + 5);",
+    "console.log(\"tea\".toUpperCase());"
    ],
    "output": [
     "teapot",
     "3",
-    "Room 5"
+    "Room 5",
+    "TEA"
    ],
    "steps": [
     {
@@ -1271,9 +1319,19 @@
      "microtasks": []
     },
     {
-     "line": 0,
+     "line": 4,
      "variables": [],
      "outputCount": 3,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 4,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
