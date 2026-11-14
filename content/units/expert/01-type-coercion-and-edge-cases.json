@@ -488,7 +488,7 @@
           ]
         ]
       },
-      "explanation": "The method gets the hint, so it can return the number for the number hint and text for the others. A plain valueOf or a method that ignores the hint gives the same kind of value everywhere.",
+      "explanation": "The method gets the hint, so it can return n for the number hint and text for the others. A method that ignores the hint returns one kind of value for every conversion, and a plain valueOf leaves the string hint to toString, which gives '[object Object]'.",
       "hints": [
         "Define a method under the Symbol.toPrimitive key and look at its parameter.",
         "The parameter tells which conversion is wanted: number, string or default.",
@@ -501,7 +501,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.predict-01",
@@ -1085,7 +1085,7 @@
         {
           "text": "Brackets do not change +, so the last line prints x23.",
           "correct": false,
-          "feedback": "Brackets run first. seat + 3 is added to 5 before it is joined to the text.",
+          "feedback": "Brackets run first. seat + 3 is worked out as 5 before anything is joined, and that 5 is then joined to the text.",
           "misconception": "plus-order-and-grouping-confused"
         }
       ],
@@ -1106,7 +1106,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "duel:1"
       ]

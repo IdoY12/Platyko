@@ -1447,6 +1447,188 @@
   },
   "beg.arrays.iteration.predict-01": {
    "code": [
+    "const sizes = [4, 7, 5];",
+    "for (const size of sizes) {",
+    "  console.log(\"size \" + size);",
+    "}"
+   ],
+   "output": [
+    "size 4",
+    "size 7",
+    "size 5"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[4, 7, 5]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[4, 7, 5]"
+      },
+      {
+       "name": "size",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[4, 7, 5]"
+      },
+      {
+       "name": "size",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[4, 7, 5]"
+      },
+      {
+       "name": "size",
+       "scope": "global",
+       "value": "7"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[4, 7, 5]"
+      },
+      {
+       "name": "size",
+       "scope": "global",
+       "value": "7"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[4, 7, 5]"
+      },
+      {
+       "name": "size",
+       "scope": "global",
+       "value": "5"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[4, 7, 5]"
+      },
+      {
+       "name": "size",
+       "scope": "global",
+       "value": "5"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[4, 7, 5]"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "beg.arrays.iteration.predict-02": {
+   "code": [
     "const laps = [12, 9, 14];",
     "const count = laps.length;",
     "let total = 0;",
@@ -1733,188 +1915,6 @@
       }
      ],
      "outputCount": 1,
-     "callStack": [],
-     "microtasks": [],
-     "macrotasks": []
-    }
-   ],
-   "usesEventLoop": false
-  },
-  "beg.arrays.iteration.predict-02": {
-   "code": [
-    "const sizes = [4, 7, 5];",
-    "for (const size of sizes) {",
-    "  console.log(\"size \" + size);",
-    "}"
-   ],
-   "output": [
-    "size 4",
-    "size 7",
-    "size 5"
-   ],
-   "steps": [
-    {
-     "line": 1,
-     "variables": [],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "sizes",
-       "scope": "global",
-       "value": "[4, 7, 5]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "sizes",
-       "scope": "global",
-       "value": "[4, 7, 5]"
-      },
-      {
-       "name": "size",
-       "scope": "global",
-       "value": "4"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "sizes",
-       "scope": "global",
-       "value": "[4, 7, 5]"
-      },
-      {
-       "name": "size",
-       "scope": "global",
-       "value": "4"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "sizes",
-       "scope": "global",
-       "value": "[4, 7, 5]"
-      },
-      {
-       "name": "size",
-       "scope": "global",
-       "value": "7"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "sizes",
-       "scope": "global",
-       "value": "[4, 7, 5]"
-      },
-      {
-       "name": "size",
-       "scope": "global",
-       "value": "7"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "sizes",
-       "scope": "global",
-       "value": "[4, 7, 5]"
-      },
-      {
-       "name": "size",
-       "scope": "global",
-       "value": "5"
-      }
-     ],
-     "outputCount": 2,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "sizes",
-       "scope": "global",
-       "value": "[4, 7, 5]"
-      },
-      {
-       "name": "size",
-       "scope": "global",
-       "value": "5"
-      }
-     ],
-     "outputCount": 2,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 0,
-     "variables": [
-      {
-       "name": "sizes",
-       "scope": "global",
-       "value": "[4, 7, 5]"
-      }
-     ],
-     "outputCount": 3,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

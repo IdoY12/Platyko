@@ -268,7 +268,7 @@
         {
           "text": "Bay Elm",
           "correct": false,
-          "feedback": "Three items use the indexes 0, 1 and 2. Index 3 does not exist, and reading it gives undefined.",
+          "feedback": "Three items use the indexes 0, 1 and 2. Index 3 is past the last item, so it does not read an item.",
           "misconception": "length-is-last-index"
         }
       ],
@@ -289,7 +289,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:26"
       ]
@@ -1276,6 +1276,61 @@
         "loop-accumulator"
       ],
       "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "const sizes = [4, 7, 5];",
+        "for (const size of sizes) {",
+        "  console.log(\"size \" + size);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "size 4\nsize 7\nsize 5",
+          "correct": true,
+          "feedback": "Right. for...of gives the items themselves, one by one."
+        },
+        {
+          "text": "size 0\nsize 1\nsize 2",
+          "correct": false,
+          "feedback": "for...of gives each item, not its index.",
+          "misconception": "of-gives-index"
+        },
+        {
+          "text": "size 1\nsize 2\nsize 3",
+          "correct": false,
+          "feedback": "for...of gives the items, not a counter that starts at 1.",
+          "misconception": "one-based-index"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "size 4\nsize 7\nsize 5"
+      },
+      "explanation": "A for...of loop takes the items of the array in order and puts each one in size, so the loop prints the three sizes.",
+      "hints": [
+        "Look at the header on line 2.",
+        "for...of hands you one item per pass.",
+        "Read the array from left to right."
+      ],
+      "reference": {
+        "title": "for...of statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 4
+    },
+    {
+      "id": "beg.arrays.iteration.predict-02",
+      "concept": "array-iteration",
+      "prerequisites": [
+        "array-length",
+        "for-loop",
+        "loop-accumulator"
+      ],
+      "format": "PREDICT_OUTPUT",
       "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
@@ -1323,62 +1378,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
-    },
-    {
-      "id": "beg.arrays.iteration.predict-02",
-      "concept": "array-iteration",
-      "prerequisites": [
-        "array-length",
-        "for-loop",
-        "loop-accumulator"
-      ],
-      "format": "PREDICT_OUTPUT",
-      "difficulty": 1,
-      "prompt": "What does this code print?",
-      "code": [
-        "const sizes = [4, 7, 5];",
-        "for (const size of sizes) {",
-        "  console.log(\"size \" + size);",
-        "}"
-      ],
-      "options": [
-        {
-          "text": "size 4\nsize 7\nsize 5",
-          "correct": true,
-          "feedback": "Right. for...of gives the items themselves, one by one."
-        },
-        {
-          "text": "size 0\nsize 1\nsize 2",
-          "correct": false,
-          "feedback": "for...of gives each item, not its index.",
-          "misconception": "of-gives-index"
-        },
-        {
-          "text": "size 1\nsize 2\nsize 3",
-          "correct": false,
-          "feedback": "for...of gives the items, not a counter that starts at 1.",
-          "misconception": "one-based-index"
-        }
-      ],
-      "solution": {
-        "expectedOutput": "size 4\nsize 7\nsize 5"
-      },
-      "explanation": "A for...of loop takes the items of the array in order and puts each one in size, so the loop prints the three sizes.",
-      "hints": [
-        "Look at the header on line 2.",
-        "for...of hands you one item per pass.",
-        "Read the array from left to right."
-      ],
-      "reference": {
-        "title": "for...of statement",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of",
-        "source": "MDN"
-      },
-      "duelEligible": true,
-      "timeLimitSec": 25,
-      "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.arrays.iteration.trace-01",

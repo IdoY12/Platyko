@@ -779,7 +779,7 @@
       ],
       "format": "TRACE",
       "difficulty": 3,
-      "prompt": "How many names has upper counted once line 6 has run twice?",
+      "prompt": "What is the value of upper right after line 11 has run?",
       "code": [
         "const names = ['fig', null, 'oak'];",
         "let upper = 0;",
@@ -790,40 +790,41 @@
         "  } catch (e) {",
         "    console.log(e.name);",
         "  }",
-        "}"
+        "}",
+        "console.log(upper);"
       ],
       "options": [
         {
           "text": "2",
           "correct": true,
-          "feedback": "Right. fig and oak were converted. null threw before line 6, and the loop moved on to oak."
+          "feedback": "Right. fig and oak were counted. null threw before line 6, and the loop moved on to oak."
         },
         {
           "text": "1",
           "correct": false,
-          "feedback": "The loop does not stop at the error. Once catch has run, the next name is processed.",
+          "feedback": "The loop does not stop at the error. Once catch has run, the next name is processed and can still be counted.",
           "misconception": "error-ends-loop-after-catch"
         },
         {
           "text": "3",
           "correct": false,
-          "feedback": "Line 6 comes after the call that throws, so it is skipped for null and the count does not reach 3.",
+          "feedback": "Line 6 comes after the call that throws, so it is skipped for null and the count stays below 3.",
           "misconception": "code-after-throw-runs"
         }
       ],
       "solution": {
         "probe": {
           "variable": "upper",
-          "afterLine": 6,
-          "visit": 2
+          "afterLine": 11,
+          "visit": 1
         },
-        "expectedOutput": "TypeError"
+        "expectedOutput": "TypeError\n2"
       },
-      "explanation": "null.toUpperCase() throws a TypeError before line 6 can run, and catch prints the name. The loop then goes on, so line 6 runs for oak as its second visit.",
+      "explanation": "null.toUpperCase() throws a TypeError before line 6 can run, and catch prints the name. The loop then goes on, so line 6 runs for oak and upper ends at 2.",
       "hints": [
         "Which names make line 5 throw?",
         "A throw skips the rest of try, but the loop continues afterwards.",
-        "Line 6 runs for fig, skips null and runs again for oak."
+        "Count the names for which line 6 actually runs."
       ],
       "reference": {
         "title": "TypeError",
@@ -832,7 +833,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.errors.error-types.parsons-01",

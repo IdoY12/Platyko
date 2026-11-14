@@ -1724,7 +1724,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write the body of priceList(markup, costs). Return each cost raised by markup percent, using a function factory that remembers the markup.",
+      "prompt": "Write the body of priceList(markup, costs). Return each cost plus markup percent of it, as cost + cost * markup / 100, using a function factory that remembers the markup.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1816,7 +1816,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

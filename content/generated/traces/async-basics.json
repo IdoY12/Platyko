@@ -2799,16 +2799,14 @@
     "Promise.reject(new Error('x'))",
     "  .then(() => console.log('then'))",
     "  .catch(() => console.log('catch'))",
-    "  .finally(() => {",
-    "    console.log('finally');",
-    "  });",
+    "  .then(() => console.log('after'));",
     "console.log('doors closed');"
    ],
    "output": [
     "doors open",
     "doors closed",
     "catch",
-    "finally"
+    "after"
    ],
    "steps": [
     {
@@ -2832,7 +2830,7 @@
      "microtasks": []
     },
     {
-     "line": 8,
+     "line": 6,
      "variables": [],
      "outputCount": 1,
      "callStack": [
@@ -2854,7 +2852,7 @@
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 5,
      "variables": [],
      "outputCount": 3,
      "callStack": [
@@ -2965,27 +2963,20 @@
   },
   "int.async-basics.async-error-handling.write-01": {
    "code": [
-    "function checkReadings(readings) {",
-    "let status = 'ok';",
-    "try {",
-    "  if (readings.length === 0) {",
-    "    throw new Error('empty');",
-    "  }",
-    "} catch (error) {",
-    "  status = 'empty';",
-    "} finally {",
-    "  status = status + '!';",
+    "function handleRejection(reason) {",
+    "if (reason.code === 'timeout') {",
+    "  return 'retry';",
     "}",
-    "return status;",
+    "return 'stop: ' + reason.code;",
     "}",
-    "console.log(checkReadings([4,5]));"
+    "console.log(handleRejection({\"code\":\"timeout\"}));"
    ],
    "output": [
-    "ok!"
+    "retry"
    ],
    "steps": [
     {
-     "line": 14,
+     "line": 7,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -2998,15 +2989,15 @@
      "line": 2,
      "variables": [
       {
-       "name": "readings",
-       "scope": "checkReadings",
-       "value": "[4, 5]"
+       "name": "reason",
+       "scope": "handleRejection",
+       "value": "{code: 'timeout'}"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "checkReadings"
+      "handleRejection"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3015,86 +3006,15 @@
      "line": 3,
      "variables": [
       {
-       "name": "readings",
-       "scope": "checkReadings",
-       "value": "[4, 5]"
-      },
-      {
-       "name": "status",
-       "scope": "checkReadings",
-       "value": "'ok'"
+       "name": "reason",
+       "scope": "handleRejection",
+       "value": "{code: 'timeout'}"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "checkReadings"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "readings",
-       "scope": "checkReadings",
-       "value": "[4, 5]"
-      },
-      {
-       "name": "status",
-       "scope": "checkReadings",
-       "value": "'ok'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "checkReadings"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 10,
-     "variables": [
-      {
-       "name": "readings",
-       "scope": "checkReadings",
-       "value": "[4, 5]"
-      },
-      {
-       "name": "status",
-       "scope": "checkReadings",
-       "value": "'ok'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "checkReadings"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 12,
-     "variables": [
-      {
-       "name": "readings",
-       "scope": "checkReadings",
-       "value": "[4, 5]"
-      },
-      {
-       "name": "status",
-       "scope": "checkReadings",
-       "value": "'ok!'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "checkReadings"
+      "handleRejection"
      ],
      "macrotasks": [],
      "microtasks": []

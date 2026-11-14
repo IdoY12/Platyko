@@ -230,7 +230,7 @@
       "title": "Bubbling and delegation",
       "conceptCard": {
         "title": "Events travel up the tree",
-        "body": "An event starts at its target, then bubbles up through every ancestor, calling their listeners on the way. Delegation uses this: one listener on a parent handles all its children, and event.target tells which child started the event. A list of names models the path.",
+        "body": "An event starts at its target, then bubbles up through every ancestor, calling their listeners. Delegation uses this: one listener on a parent handles all its children. event.target is the element that started the event; target.matches(selector) tests it, and target.closest(selector) returns its nearest ancestor that matches.",
         "code": [
           "const path = ['button', 'li', 'ul'];",
           "path.forEach((name) => {",
@@ -2376,7 +2376,7 @@
         {
           "text": "contains",
           "correct": false,
-          "feedback": "Elements have no contains with a selector argument here, so the call throws."
+          "feedback": "contains expects an element, not a selector string, so passing '.rent' throws an error."
         },
         {
           "text": "includes",
@@ -2405,7 +2405,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.dom-and-events.event-propagation.parsons-01",

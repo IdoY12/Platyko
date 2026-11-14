@@ -169,7 +169,7 @@
       "title": "Property descriptors",
       "conceptCard": {
         "title": "Flags behind every property",
-        "body": "Every property has flags: writable, enumerable and configurable. Plain assignment makes all three true. When Object.defineProperty creates a new property, it sets any flag you leave out to false, so the property is read-only, hidden from Object.keys and cannot be redefined.",
+        "body": "Every property has flags: writable, enumerable and configurable. Plain assignment makes all three true. When Object.defineProperty creates a new property, it sets any flag you leave out to false, so the property is read-only, hidden from Object.keys and cannot be redefined. Assigning to a read-only property is ignored in non-strict code; strict code throws.",
         "code": [
           "const cup = { ml: 250 };",
           "Object.defineProperty(cup, \"tag\", {",
@@ -804,7 +804,7 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 4,
-      "prompt": "A cup gets a property from defineProperty and then an assignment. What does this code print?",
+      "prompt": "A cup gets a property from defineProperty and then an assignment in non-strict code. What does this code print?",
       "code": [
         "const cup = {};",
         "Object.defineProperty(cup, \"ml\", {",
@@ -818,7 +818,7 @@
         {
           "text": "250\n[]",
           "correct": true,
-          "feedback": "Right. defineProperty leaves writable and enumerable false by default, so the assignment is ignored and the key is hidden."
+          "feedback": "Right. defineProperty leaves writable and enumerable false by default, so the assignment is ignored in non-strict code and the key is hidden."
         },
         {
           "text": "300\n[]",
@@ -836,7 +836,7 @@
       "solution": {
         "expectedOutput": "250\n[]"
       },
-      "explanation": "Object.defineProperty sets every flag you leave out to false. A non-writable property keeps its value when assigned, and a non-enumerable one is skipped by Object.keys.",
+      "explanation": "Object.defineProperty sets every flag you leave out to false. A non-writable property keeps its value when assigned (strict code would throw a TypeError), and a non-enumerable one is skipped by Object.keys.",
       "hints": [
         "Look at what the descriptor on lines 2 to 4 leaves out.",
         "Flags missing from a descriptor default to false in defineProperty.",
@@ -850,7 +850,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.property-descriptors.concept-01",

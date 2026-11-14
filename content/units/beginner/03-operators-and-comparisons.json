@@ -1208,46 +1208,46 @@
       "code": [
         "let comment = '';",
         "let spacer = ' ';",
-        "console.log(Boolean(comment));",
-        "console.log(Boolean(spacer));"
+        "console.log(!comment);",
+        "console.log(!spacer);"
       ],
       "options": [
         {
-          "text": "false\ntrue",
+          "text": "true\nfalse",
           "correct": true,
-          "feedback": "Right. The empty text is falsy, and a text with a space in it is truthy."
+          "feedback": "Right. The empty text is falsy, so ! gives true. A text with a space in it is truthy, so ! gives false."
         },
         {
-          "text": "false\nfalse",
+          "text": "true\ntrue",
           "correct": false,
           "feedback": "You treated a text with only a space as empty. Any text with at least one character is truthy, even a space.",
           "misconception": "falsy-by-meaning"
         },
         {
-          "text": "true\ntrue",
+          "text": "false\nfalse",
           "correct": false,
           "feedback": "You treated any text as truthy. Only the empty text '' is falsy.",
           "misconception": "falsy-by-meaning"
         }
       ],
       "solution": {
-        "expectedOutput": "false\ntrue"
+        "expectedOutput": "true\nfalse"
       },
-      "explanation": "Boolean() turns a value into true or false. The empty text '' is falsy. A text with any character in it, even a space, is truthy.",
+      "explanation": "! flips the truthiness of a value. The empty text '' is falsy, so ! gives true. A text with any character in it, even a space, is truthy, so ! gives false.",
       "hints": [
         "Look at the difference between the two texts.",
         "The empty text is one of the falsy values.",
-        "One text has no characters; the other has one."
+        "Decide whether each text is truthy or falsy, then flip it."
       ],
       "reference": {
-        "title": "Boolean",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+        "title": "Logical NOT (!)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_NOT",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:2"
       ]

@@ -1591,60 +1591,65 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "An arrow function has the parameter celsius. It returns celsius times 9, divided by 5, plus 32. Write the expression after =>.",
+      "prompt": "const label = (item, price) => ... joins the item, a colon with a space, and the price, for example tea: 3. Write the expression after =>.",
       "solution": {
         "entry": {
           "kind": "expression",
           "variables": [
-            "celsius"
+            "item",
+            "price"
           ]
         },
         "tests": [
           {
             "input": {
-              "celsius": 0
+              "item": "tea",
+              "price": 3
             },
-            "expected": 32
+            "expected": "tea: 3"
           },
           {
             "input": {
-              "celsius": 100
+              "item": "rice",
+              "price": 12
             },
-            "expected": 212
+            "expected": "rice: 12"
           },
           {
             "input": {
-              "celsius": -40
+              "item": "ink",
+              "price": 0
             },
-            "expected": -40
+            "expected": "ink: 0"
           },
           {
             "input": {
-              "celsius": 10
+              "item": "",
+              "price": 5
             },
-            "expected": 50
+            "expected": ": 5"
           }
         ],
         "reference": [
-          "celsius * 9 / 5 + 32"
+          "item + \": \" + price"
         ],
         "wrongSolutions": [
           [
-            "celsius * 9 / 5"
+            "item + price"
           ],
           [
-            "celsius + 32 * 9 / 5"
+            "price + \": \" + item"
           ],
           [
-            "celsius * 5 / 9 + 32"
+            "item + \": \""
           ]
         ]
       },
-      "explanation": "Multiplication and division run before addition. So celsius * 9 / 5 + 32 scales first and adds 32 last.",
+      "explanation": "An arrow function with an expression after => returns that expression's value. The parameters item and price are joined with + around the text \": \", in that order.",
       "hints": [
-        "Check the result for 0 and for 100.",
-        "Do the scaling first and the addition last.",
-        "Write celsius times 9, divided by 5, and then add 32."
+        "Which two names does the expression need to use?",
+        "Whatever follows => is the returned value, so you write only the expression.",
+        "Build the text from left to right, in the order of the example."
       ],
       "reference": {
         "title": "Arrow function expressions",
@@ -1653,7 +1658,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

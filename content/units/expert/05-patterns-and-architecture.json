@@ -87,12 +87,12 @@
       "description": "Believes pushing onto an array replaces what the array already holds."
     },
     {
-      "id": "registration-order-is-call-order",
-      "description": "Believes registered callbacks always run in the order they were registered."
+      "id": "fake-needs-code-change",
+      "description": "Believes using a different helper means editing the function that uses it."
     },
     {
-      "id": "register-runs-callback",
-      "description": "Believes registering a callback calls it immediately."
+      "id": "dependency-hardwired",
+      "description": "Believes a function that receives a helper still uses its own fixed one, so the passed function cannot change the result."
     }
   ],
   "sources": [
@@ -352,7 +352,7 @@
       "concept": "observer-pattern",
       "prerequisites": [],
       "format": "FIX_BUG",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "off(bell) should remove only the bell listener, so the program prints L. Tap the buggy line and pick the fix.",
       "code": [
         "let fns = [];",
@@ -403,7 +403,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.patterns-and-architecture.observer-pattern.write-01",
@@ -1141,48 +1141,44 @@
         "strategy-and-composition"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 5,
-      "prompt": "Which statement about run and the handlers is correct for this program?",
+      "difficulty": 4,
+      "prompt": "Which statement explains the two printed lines?",
       "code": [
-        "const on = {};",
-        "const register = (name, fn) => {",
-        "  on[name] = fn;",
+        "const flat = () => 5;",
+        "const percent = (n) => n / 10;",
+        "const withFee = (price, fee) => {",
+        "  return price + fee(price);",
         "};",
-        "const say = (t) => console.log(t);",
-        "const run = (events) => {",
-        "  events.forEach((e) => on[e]());",
-        "};",
-        "register('open', () => say('hi'));",
-        "register('close', () => say('bye'));",
-        "run(['close', 'open']);"
+        "console.log(withFee(100, percent));",
+        "console.log(withFee(100, flat));"
       ],
       "options": [
         {
-          "text": "Handlers run in the order they were registered, because register keeps them in order.",
-          "correct": false,
-          "feedback": "register stores a handler under its name. The order of the events array decides what runs first, not the order of registering.",
-          "misconception": "registration-order-is-call-order"
-        },
-        {
-          "text": "register calls each function at once, so both messages print while registering.",
-          "correct": false,
-          "feedback": "register only stores the function. Nothing prints until run calls a handler by name.",
-          "misconception": "register-runs-callback"
-        },
-        {
-          "text": "run calls each handler for you, looking it up by event name; your code only registers the functions, and the events decide the order.",
+          "text": "withFee receives its fee rule as a parameter, so the caller picks the rule and withFee itself never changes.",
           "correct": true,
-          "feedback": "Right. Control sits in run, which calls your code when an event arrives."
+          "feedback": "Right. withFee depends on whatever function it is given, not on one fixed rule."
+        },
+        {
+          "text": "withFee must be edited to switch from percent to flat, because the rule is chosen inside it.",
+          "correct": false,
+          "feedback": "Both calls use the same withFee. The rule arrives as its second argument, so only the caller changes.",
+          "misconception": "fake-needs-code-change"
+        },
+        {
+          "text": "withFee has one fixed fee of its own, and the function passed in only changes how the result looks.",
+          "correct": false,
+          "feedback": "The two printed lines differ, so the passed function does decide the result. A fixed helper inside withFee could not do that.",
+          "misconception": "dependency-hardwired"
         }
       ],
       "solution": {
-        "expectedOutput": "bye\nhi"
+        "expectedOutput": "110\n105"
       },
-      "explanation": "This is inversion of control: your code hands functions to a runner and the runner calls them when it chooses. Here run follows its events list, so the close handler runs before the open handler.",
+      "explanation": "withFee does not choose its fee rule; it receives one. The caller passes percent or flat, so the same code gives 110 and 105. Receiving the helper lets a fake replace the real one.",
       "hints": [
-        "Compare the order of the register lines with the order printed.",
-        "With inversion of control the framework calls your function, not the other way round.",
-        "Ask which line actually calls a handler, and what decides the order."
+        "Compare the last two lines: only the second argument differs.",
+        "A function that receives what it uses depends on an abstraction, not on one fixed helper.",
+        "Ask which line decides the fee rule that withFee uses."
       ],
       "reference": {
         "title": "Callback function",
@@ -1191,7 +1187,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:8"
       ]

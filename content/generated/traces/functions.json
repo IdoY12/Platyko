@@ -2589,13 +2589,14 @@
   },
   "beg.functions.function-expressions.write-01": {
    "code": [
-    "let celsius = 0;",
+    "let item = \"tea\";",
+    "let price = 3;",
     "console.log(",
-    "celsius * 9 / 5 + 32",
+    "item + \": \" + price",
     ");"
    ],
    "output": [
-    "32"
+    "tea: 3"
    ],
    "steps": [
     {
@@ -2612,9 +2613,30 @@
      "line": 2,
      "variables": [
       {
-       "name": "celsius",
+       "name": "item",
        "scope": "global",
-       "value": "0"
+       "value": "'tea'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "item",
+       "scope": "global",
+       "value": "'tea'"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "3"
       }
      ],
      "outputCount": 0,
@@ -2628,9 +2650,14 @@
      "line": 0,
      "variables": [
       {
-       "name": "celsius",
+       "name": "item",
        "scope": "global",
-       "value": "0"
+       "value": "'tea'"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "3"
       }
      ],
      "outputCount": 1,

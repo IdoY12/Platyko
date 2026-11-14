@@ -5986,21 +5986,17 @@
   },
   "exp.patterns-and-architecture.dependency-inversion.concept-01": {
    "code": [
-    "const on = {};",
-    "const register = (name, fn) => {",
-    "  on[name] = fn;",
+    "const flat = () => 5;",
+    "const percent = (n) => n / 10;",
+    "const withFee = (price, fee) => {",
+    "  return price + fee(price);",
     "};",
-    "const say = (t) => console.log(t);",
-    "const run = (events) => {",
-    "  events.forEach((e) => on[e]());",
-    "};",
-    "register('open', () => say('hi'));",
-    "register('close', () => say('bye'));",
-    "run(['close', 'open']);"
+    "console.log(withFee(100, percent));",
+    "console.log(withFee(100, flat));"
    ],
    "output": [
-    "bye",
-    "hi"
+    "110",
+    "105"
    ],
    "steps": [
     {
@@ -6017,9 +6013,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "on",
+       "name": "flat",
        "scope": "global",
-       "value": "{}"
+       "value": "[Function: flat]"
       }
      ],
      "outputCount": 0,
@@ -6030,17 +6026,17 @@
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 3,
      "variables": [
       {
-       "name": "on",
+       "name": "flat",
        "scope": "global",
-       "value": "{}"
+       "value": "[Function: flat]"
       },
       {
-       "name": "register",
+       "name": "percent",
        "scope": "global",
-       "value": "[Function: register]"
+       "value": "[Function: percent]"
       }
      ],
      "outputCount": 0,
@@ -6054,19 +6050,19 @@
      "line": 6,
      "variables": [
       {
-       "name": "on",
+       "name": "flat",
        "scope": "global",
-       "value": "{}"
+       "value": "[Function: flat]"
       },
       {
-       "name": "register",
+       "name": "percent",
        "scope": "global",
-       "value": "[Function: register]"
+       "value": "[Function: percent]"
       },
       {
-       "name": "say",
+       "name": "withFee",
        "scope": "global",
-       "value": "[Function: say]"
+       "value": "[Function: withFee]"
       }
      ],
      "outputCount": 0,
@@ -6077,178 +6073,71 @@
      "microtasks": []
     },
     {
-     "line": 9,
+     "line": 4,
      "variables": [
       {
-       "name": "on",
+       "name": "flat",
        "scope": "global",
-       "value": "{}"
+       "value": "[Function: flat]"
       },
       {
-       "name": "register",
+       "name": "percent",
        "scope": "global",
-       "value": "[Function: register]"
+       "value": "[Function: percent]"
       },
       {
-       "name": "say",
+       "name": "withFee",
        "scope": "global",
-       "value": "[Function: say]"
+       "value": "[Function: withFee]"
       },
       {
-       "name": "run",
-       "scope": "global",
-       "value": "[Function: run]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "on",
-       "scope": "global",
-       "value": "{}"
+       "name": "price",
+       "scope": "withFee",
+       "value": "100"
       },
       {
-       "name": "register",
-       "scope": "global",
-       "value": "[Function: register]"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "run",
-       "scope": "global",
-       "value": "[Function: run]"
-      },
-      {
-       "name": "name",
-       "scope": "register",
-       "value": "'open'"
-      },
-      {
-       "name": "fn",
-       "scope": "register",
-       "value": "[Function (anonymous)]"
+       "name": "fee",
+       "scope": "withFee",
+       "value": "[Function: percent]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "register"
+      "withFee"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 10,
+     "line": 2,
      "variables": [
       {
-       "name": "on",
+       "name": "flat",
        "scope": "global",
-       "value": "{open: [Function (anonymous)]}"
+       "value": "[Function: flat]"
       },
       {
-       "name": "register",
+       "name": "percent",
        "scope": "global",
-       "value": "[Function: register]"
+       "value": "[Function: percent]"
       },
       {
-       "name": "say",
+       "name": "withFee",
        "scope": "global",
-       "value": "[Function: say]"
+       "value": "[Function: withFee]"
       },
       {
-       "name": "run",
-       "scope": "global",
-       "value": "[Function: run]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "on",
-       "scope": "global",
-       "value": "{open: [Function (anonymous)]}"
-      },
-      {
-       "name": "register",
-       "scope": "global",
-       "value": "[Function: register]"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "run",
-       "scope": "global",
-       "value": "[Function: run]"
-      },
-      {
-       "name": "name",
-       "scope": "register",
-       "value": "'close'"
-      },
-      {
-       "name": "fn",
-       "scope": "register",
-       "value": "[Function (anonymous)]"
+       "name": "n",
+       "scope": "percent",
+       "value": "100"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "register"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 11,
-     "variables": [
-      {
-       "name": "on",
-       "scope": "global",
-       "value": "{open: [Function (anonymous)], close: [Function (anonymous)]}"
-      },
-      {
-       "name": "register",
-       "scope": "global",
-       "value": "[Function: register]"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "run",
-       "scope": "global",
-       "value": "[Function: run]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
+      "withFee",
+      "percent"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -6257,269 +6146,89 @@
      "line": 7,
      "variables": [
       {
-       "name": "on",
+       "name": "flat",
        "scope": "global",
-       "value": "{open: [Function (anonymous)], close: [Function (anonymous)]}"
+       "value": "[Function: flat]"
       },
       {
-       "name": "register",
+       "name": "percent",
        "scope": "global",
-       "value": "[Function: register]"
+       "value": "[Function: percent]"
       },
       {
-       "name": "say",
+       "name": "withFee",
        "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "run",
-       "scope": "global",
-       "value": "[Function: run]"
-      },
-      {
-       "name": "events",
-       "scope": "run",
-       "value": "['close', 'open']"
+       "value": "[Function: withFee]"
       }
      ],
-     "outputCount": 0,
+     "outputCount": 1,
      "callStack": [
-      "global",
-      "run"
+      "global"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 7,
+     "line": 4,
      "variables": [
       {
-       "name": "on",
+       "name": "flat",
        "scope": "global",
-       "value": "{open: [Function (anonymous)], close: [Function (anonymous)]}"
+       "value": "[Function: flat]"
       },
       {
-       "name": "register",
+       "name": "percent",
        "scope": "global",
-       "value": "[Function: register]"
+       "value": "[Function: percent]"
       },
       {
-       "name": "say",
+       "name": "withFee",
        "scope": "global",
-       "value": "[Function: say]"
+       "value": "[Function: withFee]"
       },
       {
-       "name": "run",
-       "scope": "global",
-       "value": "[Function: run]"
+       "name": "price",
+       "scope": "withFee",
+       "value": "100"
       },
       {
-       "name": "events",
-       "scope": "run",
-       "value": "['close', 'open']"
-      },
-      {
-       "name": "e",
-       "scope": "anonymous",
-       "value": "'close'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "run",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 10,
-     "variables": [
-      {
-       "name": "on",
-       "scope": "global",
-       "value": "{open: [Function (anonymous)], close: [Function (anonymous)]}"
-      },
-      {
-       "name": "register",
-       "scope": "global",
-       "value": "[Function: register]"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "run",
-       "scope": "global",
-       "value": "[Function: run]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "run",
-      "anonymous",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "on",
-       "scope": "global",
-       "value": "{open: [Function (anonymous)], close: [Function (anonymous)]}"
-      },
-      {
-       "name": "register",
-       "scope": "global",
-       "value": "[Function: register]"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "run",
-       "scope": "global",
-       "value": "[Function: run]"
-      },
-      {
-       "name": "t",
-       "scope": "say",
-       "value": "'bye'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "run",
-      "anonymous",
-      "anonymous",
-      "say"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 7,
-     "variables": [
-      {
-       "name": "on",
-       "scope": "global",
-       "value": "{open: [Function (anonymous)], close: [Function (anonymous)]}"
-      },
-      {
-       "name": "register",
-       "scope": "global",
-       "value": "[Function: register]"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "run",
-       "scope": "global",
-       "value": "[Function: run]"
-      },
-      {
-       "name": "events",
-       "scope": "run",
-       "value": "['close', 'open']"
-      },
-      {
-       "name": "e",
-       "scope": "anonymous",
-       "value": "'open'"
+       "name": "fee",
+       "scope": "withFee",
+       "value": "[Function: flat]"
       }
      ],
      "outputCount": 1,
      "callStack": [
       "global",
-      "run",
-      "anonymous"
+      "withFee"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 9,
+     "line": 1,
      "variables": [
       {
-       "name": "on",
+       "name": "flat",
        "scope": "global",
-       "value": "{open: [Function (anonymous)], close: [Function (anonymous)]}"
+       "value": "[Function: flat]"
       },
       {
-       "name": "register",
+       "name": "percent",
        "scope": "global",
-       "value": "[Function: register]"
+       "value": "[Function: percent]"
       },
       {
-       "name": "say",
+       "name": "withFee",
        "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "run",
-       "scope": "global",
-       "value": "[Function: run]"
+       "value": "[Function: withFee]"
       }
      ],
      "outputCount": 1,
      "callStack": [
       "global",
-      "run",
-      "anonymous",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "on",
-       "scope": "global",
-       "value": "{open: [Function (anonymous)], close: [Function (anonymous)]}"
-      },
-      {
-       "name": "register",
-       "scope": "global",
-       "value": "[Function: register]"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "run",
-       "scope": "global",
-       "value": "[Function: run]"
-      },
-      {
-       "name": "t",
-       "scope": "say",
-       "value": "'hi'"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global",
-      "run",
-      "anonymous",
-      "anonymous",
-      "say"
+      "withFee",
+      "flat"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -6528,24 +6237,19 @@
      "line": 0,
      "variables": [
       {
-       "name": "on",
+       "name": "flat",
        "scope": "global",
-       "value": "{open: [Function (anonymous)], close: [Function (anonymous)]}"
+       "value": "[Function: flat]"
       },
       {
-       "name": "register",
+       "name": "percent",
        "scope": "global",
-       "value": "[Function: register]"
+       "value": "[Function: percent]"
       },
       {
-       "name": "say",
+       "name": "withFee",
        "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "run",
-       "scope": "global",
-       "value": "[Function: run]"
+       "value": "[Function: withFee]"
       }
      ],
      "outputCount": 2,

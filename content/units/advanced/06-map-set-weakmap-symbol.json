@@ -252,7 +252,7 @@
         {
           "text": "2\nAirport",
           "correct": false,
-          "feedback": "The size is right, but get(7) does not match \"7\". A Map compares keys exactly, with no type conversion.",
+          "feedback": "A Map compares keys exactly, with no type conversion, so get(7) does not find the entry stored under \"7\".",
           "misconception": "map-lookup-loose-equality"
         }
       ],
@@ -273,7 +273,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:10"
       ]
@@ -966,7 +966,7 @@
         {
           "text": "tidy\ndone",
           "correct": false,
-          "feedback": "You treated the WeakMap like a Map that takes any key. A WeakMap only accepts objects, so line 5 throws.",
+          "feedback": "You treated the WeakMap like a Map that takes any key. A WeakMap key must be an object (or a non-registered symbol), so line 5 throws.",
           "misconception": "weakmap-accepts-any-key"
         },
         {
@@ -982,7 +982,7 @@
       "explanation": "Line 3 stores a note under an object, and get returns it. A string is not an object, so line 5 throws a TypeError and done never prints.",
       "hints": [
         "Check what kind of value is the key on line 5.",
-        "A WeakMap needs objects as keys.",
+        "A WeakMap key must be an object (or a non-registered symbol).",
         "The first log works; look at what happens at line 5, and whether line 6 is reached."
       ],
       "reference": {
@@ -993,7 +993,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:19"
       ]
@@ -1252,7 +1252,7 @@
         "object-properties"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "A gym creates two lockers with the same label. What does this program print?",
       "code": [
         "const front = Symbol(\"locker\");",
@@ -1275,7 +1275,7 @@
         {
           "text": "false\nlocker",
           "correct": false,
-          "feedback": "The comparison is right, but a symbol prints as Symbol(locker), not as its bare description.",
+          "feedback": "Printing a symbol shows it as a symbol, not as the bare text of its description. Look again at what console.log shows for a symbol.",
           "misconception": "symbol-prints-as-description"
         }
       ],
@@ -1296,7 +1296,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:24"
       ]
@@ -1343,7 +1343,7 @@
       "hints": [
         "Compare what line 4 lists with what line 5 reads.",
         "Symbol keys are skipped by listing functions, not by property access.",
-        "The list lacks the symbol key, but the symbol itself still opens the property."
+        "Reading with the symbol and listing keys are two different operations; compare lines 4 and 5."
       ],
       "reference": {
         "title": "Object.getOwnPropertySymbols()",
@@ -1353,7 +1353,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.map-set-weakmap-symbol.symbol-keys.fill-01",

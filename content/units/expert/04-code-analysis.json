@@ -410,7 +410,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 5,
-      "prompt": "Write the body of countChecks(list, want). Compare each pair once, second index after the first, stop at the first pair adding to want. Return the pairs compared.",
+      "prompt": "Write the body of countChecks(list, want). Test pairs, second index after the first; stop at the first pair adding to want. Return the number of pairs tested, including that one.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -552,7 +552,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.code-analysis.refactoring-equivalence.predict-01",
@@ -741,7 +741,7 @@
         "return-value"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "The old tip function used 10 when no percent was given and kept 0 as 0. Fill the blank so the refactor prints 5 0 10.",
       "code": [
         "const tip = (bill, pct) => {",
@@ -800,7 +800,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.code-analysis.reading-unfamiliar-code.predict-01",

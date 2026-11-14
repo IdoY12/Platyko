@@ -880,7 +880,7 @@
       "hints": [
         "Follow the order of lines 3 and 5 for both calls.",
         "A value saved before an await can be stale after it.",
-        "Both calls save the same value before either one writes."
+        "Compare what seen holds on line 5 with what qty holds by then."
       ],
       "reference": {
         "title": "async function",
@@ -889,7 +889,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.async-ordering-bugs.fix-01",
@@ -1122,7 +1122,7 @@
         "promise-rejection-flow"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "A promise chain throws in its first step. Which statement explains the printed output?",
       "code": [
         "const fail = () => {",
@@ -1170,7 +1170,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.fix-02",
@@ -1237,7 +1237,7 @@
         "promise-rejection-flow"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "A job starts rejected and one step should recover from it. Fill the two blanks so the program prints ['B'].",
       "code": [
         "const log = [];",
@@ -1298,7 +1298,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

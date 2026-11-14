@@ -1270,33 +1270,34 @@
       "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
-        "let tip;",
-        "let pin = null;",
-        "console.log(typeof tip, typeof pin);"
+        "let seat;",
+        "console.log(typeof seat);",
+        "let ticket = null;",
+        "console.log(typeof ticket);"
       ],
       "options": [
         {
-          "text": "undefined object",
+          "text": "undefined\nobject",
           "correct": true,
           "feedback": "Right. typeof gives the type name for the unfilled variable, and null reports a type called object."
         },
         {
-          "text": "undefined null",
+          "text": "undefined\nnull",
           "correct": false,
           "feedback": "typeof never answers null. For the value null it gives a different word, an old quirk of the language.",
           "misconception": "null-typeof-null"
         },
         {
-          "text": "object object",
+          "text": "object\nobject",
           "correct": false,
           "feedback": "The two values are not the same. One is a variable with nothing stored, and it has its own type name.",
           "misconception": "undefined-null-same"
         }
       ],
       "solution": {
-        "expectedOutput": "undefined object"
+        "expectedOutput": "undefined\nobject"
       },
-      "explanation": "An unfilled variable has type undefined. For null, typeof answers object, a quirk kept for old code. console.log prints both words with a space.",
+      "explanation": "An unfilled variable has type undefined. For null, typeof answers object, a quirk kept for old code.",
       "hints": [
         "Work out the two typeof results one at a time.",
         "The two values have different types.",
@@ -1310,7 +1311,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.undefined-and-null.trace-01",
@@ -1542,8 +1543,8 @@
         "Put the label first, with the space after its colon, then driver."
       ],
       "reference": {
-        "title": "typeof",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
+        "title": "null",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Null",
         "source": "MDN"
       },
       "duelEligible": false,

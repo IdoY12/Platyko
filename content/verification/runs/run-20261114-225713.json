@@ -7289,7 +7289,7 @@
       "itemId": "adv.prototypes-and-inheritance.object-create-and-delegation.predict-01",
       "unit": "prototypes-and-inheritance",
       "message": "a: the solver has no such variable, the execution ends with {n: 1}",
-      "resolution": null
+      "resolution": "Not an item defect: the solver left out a binding it could not be sure of (allowed by its prompt); the comparator now compares only the values the solver states (decision A22)."
     },
     {
       "gate": "B",
@@ -7297,7 +7297,7 @@
       "itemId": "adv.prototypes-and-inheritance.object-create-and-delegation.parsons-01",
       "unit": "prototypes-and-inheritance",
       "message": "cake: the solver has no such variable, the execution ends with {servings: 8}",
-      "resolution": null
+      "resolution": "Not an item defect: the solver left out a binding it could not be sure of (allowed by its prompt); the comparator now compares only the values the solver states (decision A22)."
     },
     {
       "gate": "B",
@@ -7305,7 +7305,7 @@
       "itemId": "adv.prototypes-and-inheritance.object-create-and-delegation.fix-01",
       "unit": "prototypes-and-inheritance",
       "message": "cart: the solver has no such variable, the execution ends with {books: 2}",
-      "resolution": null
+      "resolution": "Not an item defect: the solver left out a binding it could not be sure of (allowed by its prompt); the comparator now compares only the values the solver states (decision A22)."
     },
     {
       "gate": "B",
@@ -7313,7 +7313,7 @@
       "itemId": "adv.modules.exports-and-imports.parsons-01",
       "unit": "modules",
       "message": "dock: the solver has no such variable, the execution ends with {boats: 3}",
-      "resolution": null
+      "resolution": "Not an item defect: the solver left out a binding it could not be sure of (allowed by its prompt); the comparator now compares only the values the solver states (decision A22)."
     },
     {
       "gate": "B",
@@ -7321,7 +7321,7 @@
       "itemId": "adv.modules.module-singletons.predict-01",
       "unit": "modules",
       "message": "rota: the solver has no such variable, the execution ends with {week: 12}; kitchen: the solver has no such variable, the execution ends with {week: 12}; bar: the solver has no such variable, the execution ends with {week: 12}",
-      "resolution": null
+      "resolution": "Not an item defect: the solver left out a binding it could not be sure of (allowed by its prompt); the comparator now compares only the values the solver states (decision A22)."
     },
     {
       "gate": "B",
@@ -7329,7 +7329,7 @@
       "itemId": "adv.performance-and-memory.debounce-and-throttle.predict-01",
       "unit": "performance-and-memory",
       "message": "t: the solver has no such variable, the execution ends with 6",
-      "resolution": null
+      "resolution": "Not an item defect: the solver left out a binding it could not be sure of (allowed by its prompt); the comparator now compares only the values the solver states (decision A22)."
     },
     {
       "gate": "B",
@@ -7337,7 +7337,7 @@
       "itemId": "adv.performance-and-memory.debounce-and-throttle.fix-01",
       "unit": "performance-and-memory",
       "message": "timer: the solver has no such variable, the execution ends with 2",
-      "resolution": null
+      "resolution": "Not an item defect: the solver left out a binding it could not be sure of (allowed by its prompt); the comparator now compares only the values the solver states (decision A22)."
     },
     {
       "gate": "B",
@@ -7345,7 +7345,7 @@
       "itemId": "adv.performance-and-memory.memory-leaks.predict-01",
       "unit": "performance-and-memory",
       "message": "id: the solver has no such variable, the execution ends with 1",
-      "resolution": null
+      "resolution": "Not an item defect: the solver left out a binding it could not be sure of (allowed by its prompt); the comparator now compares only the values the solver states (decision A22)."
     },
     {
       "gate": "B",
@@ -7353,7 +7353,7 @@
       "itemId": "adv.performance-and-memory.memory-leaks.concept-01",
       "unit": "performance-and-memory",
       "message": "history: the solver has no such variable, the execution ends with [{text: 'a'}, {text: 'b'}]",
-      "resolution": null
+      "resolution": "Not an item defect: the solver left out a binding it could not be sure of (allowed by its prompt); the comparator now compares only the values the solver states (decision A22)."
     },
     {
       "gate": "B",
@@ -7361,7 +7361,7 @@
       "itemId": "exp.code-analysis.refactoring-equivalence.predict-01",
       "unit": "code-analysis",
       "message": "all: the solver has no such variable, the execution ends with [Box {v: 20}, Bin {v: 9}]",
-      "resolution": null
+      "resolution": "Not an item defect: the solver left out a binding it could not be sure of (allowed by its prompt); the comparator now compares only the values the solver states (decision A22)."
     },
     {
       "gate": "C",
@@ -7369,7 +7369,7 @@
       "itemId": "beg.loops.for-loop.trace-01",
       "unit": "loops",
       "message": "Hint 2 says the value of rides equals the number of passes so far. Together with the prompt (third time) this gives the answer 3 at the concept hint, leaving nothing for hint 3.",
-      "resolution": null
+      "resolution": "Fixed: hint 2 now says only that line 3 runs once per pass and adds 1, no longer equating rides with the pass count."
     },
     {
       "gate": "C",
@@ -7377,7 +7377,7 @@
       "itemId": "beg.loops.while-loop.predict-02",
       "unit": "loops",
       "message": "The feedback for option 3 says n only takes the values 10, 6 and 2, and the feedback for option -2 says 2 is not above 3. Both reveal that the loop ends with n equal to 2, which is the correct answer, so the learner gets no real second attempt.",
-      "resolution": null
+      "resolution": "Fixed: the feedback for options 3 and -2 no longer mentions the values 10, 6, 2 or that 2 is not above 3."
     },
     {
       "gate": "C",
@@ -7385,7 +7385,7 @@
       "itemId": "beg.loops.break-and-continue.write-01",
       "unit": "loops",
       "message": "The explanation says n !== skip would skip every other pass. It would skip every pass except the one where n equals skip; 'every other pass' normally means alternate passes, which is a different and wrong picture.",
-      "resolution": null
+      "resolution": "Fixed: the explanation now says n !== skip would skip every pass except the one where n equals skip."
     },
     {
       "gate": "C",
@@ -7393,7 +7393,7 @@
       "itemId": "beg.functions.function-expressions.write-01",
       "unit": "functions",
       "message": "Hint 3 ('Write celsius times 9, divided by 5, and then add 32') spells out the complete expression in words, so it states the answer instead of coming near it.",
-      "resolution": null
+      "resolution": "Fixed: the item was replaced (see 41) by a prompt with a new hint 3 that only says to build the text left to right in the order of the example."
     },
     {
       "gate": "C",
@@ -7401,7 +7401,7 @@
       "itemId": "beg.arrays.index.predict-01",
       "unit": "arrays",
       "message": "The feedback for 'Bay Elm' says reading index 3 'gives undefined'. That states the exact second value of the correct answer, so the learner no longer has to work it out on the second attempt.",
-      "resolution": null
+      "resolution": "Fixed: the feedback for Bay Elm now says index 3 is past the last item and no longer states undefined."
     },
     {
       "gate": "C",
@@ -7409,7 +7409,7 @@
       "itemId": "beg.objects.properties.predict-02",
       "unit": "objects",
       "message": "The feedback for '410 null' says JavaScript uses undefined for a read of a missing key. That names the exact value of the correct answer, so the second attempt needs no thinking.",
-      "resolution": null
+      "resolution": "Fixed: the feedback for 410 null now says null must be written on purpose and no longer names undefined."
     },
     {
       "gate": "C",
@@ -7417,7 +7417,7 @@
       "itemId": "int.array-methods.array-reduce.concept-01",
       "unit": "array-methods",
       "message": "Hint 3 ('Without a second argument, reduce picks the starting total from the array') restates the correct option almost word for word, so the learner no longer has to reason about the snippet; hint 2 also already states the observation that the first element never reached the callback.",
-      "resolution": null
+      "resolution": "Fixed: hint 2 now only points to the missing starting total rule and hint 3 asks to compare calls with bags, so neither restates the correct option."
     },
     {
       "gate": "C",
@@ -7425,7 +7425,7 @@
       "itemId": "int.objects-in-depth.shallow-copy.fix-01",
       "unit": "objects-in-depth",
       "message": "The shallow copy on line 2 is as much the cause of bag.food changing as the push on line 3, so a learner can reasonably tap line 2. All three replacement options only fit line 3, so that learner finds no matching fix and cannot tell their reading was valid. The prompt does not say which line is meant to stay as written.",
-      "resolution": null
+      "resolution": "Fixed: the prompt now says line 2 stays as written, so only line 3 is the buggy line."
     },
     {
       "gate": "C",
@@ -7433,7 +7433,7 @@
       "itemId": "int.closures.closure-factories.write-01",
       "unit": "closures",
       "message": "The natural alternative c * (1 + markup / 100) is mathematically correct but, in floating point, gives 55.00000000000001 and 110.00000000000001 for the fourth test (markup 10, costs 50 and 100), so it fails the tests while the reference c + c * m / 100 passes. The prompt does not tell the learner which formula shape to use, so a correct solution can be marked wrong.",
-      "resolution": null
+      "resolution": "Fixed: the prompt now states the formula cost + cost * markup / 100, so the floating-point-different alternative is no longer a defensible reading."
     },
     {
       "gate": "C",
@@ -7441,7 +7441,7 @@
       "itemId": "int.this-and-classes.class-basics.write-01",
       "unit": "this-and-classes",
       "message": "Hint 1 asks 'Which keyword makes a Tank from start?' but the prompt never names a class Tank (it only says 'a class with a pour method'). The learner is free to choose the name, so the hint refers to something they have not seen, and it also already points to the keyword new instead of a place to look.",
-      "resolution": null
+      "resolution": "Fixed: hint 1 now points at the constructor receiving start instead of naming a Tank class or the new keyword."
     },
     {
       "gate": "C",
@@ -7449,7 +7449,7 @@
       "itemId": "int.errors.error-types.trace-01",
       "unit": "errors",
       "message": "The prompt says 'once line 6 has run twice', and line 6 adds exactly 1 each time it runs, so upper is 2 by definition. The options 1 and 3 contradict the prompt itself, so the learner can answer without tracing the try/catch at all, and the feedback of option 1 (the loop stops at the error) describes a situation the prompt already rules out. The question does not test the skip-on-throw behaviour it was written for.",
-      "resolution": null
+      "resolution": "Fixed: the trace now probes upper after a new final console.log(upper) line, so the prompt no longer states the answer and the skip-on-throw behaviour is tested."
     },
     {
       "gate": "C",
@@ -7457,7 +7457,7 @@
       "itemId": "int.async-basics.callbacks-and-timers.fill-01",
       "unit": "async-basics",
       "message": "Feedback for the chip 'water' (in quotes) says 'setTimeout throws an error'. That is true in Node, but in browsers setTimeout accepts a string and runs it as code (legacy behaviour), so no error is thrown there and the string simply evaluates the name water without calling it. The feedback presents one engine's behaviour as the rule of the language; it should say only that a string is not a function, so water is never called and watered never prints.",
-      "resolution": null
+      "resolution": "Fixed: the feedback for the string chip now says only that a string is not a function, so water is never called, with no engine-specific claim."
     },
     {
       "gate": "C",
@@ -7465,7 +7465,7 @@
       "itemId": "adv.iterators-and-generators.custom-iterables.predict-01",
       "unit": "iterators-and-generators",
       "message": "The prompt asks 'How many values does it print?', but the program makes a single console.log call that prints one number (the length of the spread array). A careful learner can read the question as the count of printed values (1) rather than the printed number (2). The prompt should ask what the program prints.",
-      "resolution": null
+      "resolution": "Fixed: the prompt now asks what the program prints instead of how many values it prints, since the program logs one number."
     },
     {
       "gate": "C",
@@ -7473,7 +7473,7 @@
       "itemId": "adv.map-set-weakmap-symbol.map-collection.predict-01",
       "unit": "map-set-weakmap-symbol",
       "message": "Feedback for '2\\nAirport' says 'The size is right, but get(7) does not match \"7\"'. This confirms the first line is 2 and rules out Airport, so the learner can pick the correct option without reasoning about the Map.",
-      "resolution": null
+      "resolution": "Fixed: the feedback for the 2/Airport option no longer confirms the size, saying only that a Map compares keys exactly so get(7) does not find the entry stored under \"7\"."
     },
     {
       "gate": "C",
@@ -7481,7 +7481,7 @@
       "itemId": "adv.map-set-weakmap-symbol.weak-collections.predict-01",
       "unit": "map-set-weakmap-symbol",
       "message": "The feedback says 'A WeakMap only accepts objects' (hint 2 and the fix item say keys 'must be objects'). Lesson 3's own card says non-registered symbols are allowed as WeakMap keys too, so 'only objects' contradicts the card and is not strictly true in current ECMAScript.",
-      "resolution": null
+      "resolution": "Fixed: the feedback and hint 2 now say a WeakMap key must be an object or a non-registered symbol, matching the lesson card."
     },
     {
       "gate": "C",
@@ -7489,7 +7489,7 @@
       "itemId": "adv.map-set-weakmap-symbol.symbol-keys.predict-01",
       "unit": "map-set-weakmap-symbol",
       "message": "Feedback for 'false\\nlocker' says 'The comparison is right, but a symbol prints as Symbol(locker)'. It spells out the exact correct second line and confirms the first, so it reveals the answer instead of only addressing the mistaken belief.",
-      "resolution": null
+      "resolution": "Fixed: the feedback for the bare-description option no longer spells out Symbol(locker) or confirms the comparison line."
     },
     {
       "gate": "C",
@@ -7497,7 +7497,7 @@
       "itemId": "adv.map-set-weakmap-symbol.symbol-keys.concept-01",
       "unit": "map-set-weakmap-symbol",
       "message": "Hint 3 ('The list lacks the symbol key, but the symbol itself still opens the property') restates the correct option almost word for word, and hint 2 already states the same rule. The learner no longer has to reason.",
-      "resolution": null
+      "resolution": "Fixed: hint 3 now contrasts listing keys with reading by symbol (lines 4 and 5) instead of restating the correct option."
     },
     {
       "gate": "C",
@@ -7505,7 +7505,7 @@
       "itemId": "adv.performance-and-memory.memory-leaks.write-01",
       "unit": "performance-and-memory",
       "message": "The prompt asks for names 'in order of latest start', but the reference (a Set with add) keeps the position of the FIRST start when a running name is started again, and hint 3 and the explanation say 'start order'. A learner who reads 'latest start' literally would move a restarted name to the end, which the reference does not do. The prompt does not say what a second start of a running name means. The tests never cover it, so the ambiguity goes unnoticed.",
-      "resolution": null
+      "resolution": "Fixed: the prompt now says names are returned in order of first start and that a repeated start changes nothing, with a restart test and a wrong solution added and the explanation and hint aligned."
     },
     {
       "gate": "C",
@@ -7513,7 +7513,7 @@
       "itemId": "exp.type-coercion-and-edge-cases.to-primitive-conversion.write-01",
       "unit": "type-coercion-and-edge-cases",
       "message": "The explanation says 'A plain valueOf ... gives the same kind of value everywhere'. That is not true. With only valueOf, `${obj}` still tries toString first and gives '[object Object]', while +obj and obj + '' use valueOf. The wrong solution is wrong because the string hint is not served, not because every conversion returns the same kind of value.",
-      "resolution": null
+      "resolution": "Fixed: the explanation now says a plain valueOf leaves the string hint to toString (giving '[object Object]') and that a hint-ignoring method returns one kind of value everywhere."
     },
     {
       "gate": "C",
@@ -7521,7 +7521,7 @@
       "itemId": "exp.type-coercion-and-edge-cases.operator-coercion.concept-01",
       "unit": "type-coercion-and-edge-cases",
       "message": "Feedback for the 'Brackets do not change +' option says 'seat + 3 is added to 5 before it is joined to the text'. seat + 3 IS 5; nothing is added to 5. The sentence describes a computation that does not happen and muddles the very rule it is meant to teach (the bracketed sum is evaluated first and gives 5, which is then joined).",
-      "resolution": null
+      "resolution": "Fixed: the feedback now says seat + 3 is worked out as 5 first and that 5 is then joined to the text."
     },
     {
       "gate": "C",
@@ -7529,7 +7529,7 @@
       "itemId": "exp.proxy-reflect-metaprogramming.property-descriptors.predict-01",
       "unit": "proxy-reflect-metaprogramming",
       "message": "The option feedback and explanation present 'the assignment is ignored / changes nothing' as the rule for a non-writable property. That is true only in sloppy (non-strict) code. In strict mode, which includes modules and class bodies, cup.ml = 300 throws a TypeError. The item never says the code is sloppy, so a learner who knows strict mode is taught a mode-specific result as a language rule.",
-      "resolution": null
+      "resolution": "Fixed: the prompt now says non-strict code and the feedback and explanation state that strict code would throw a TypeError."
     },
     {
       "gate": "C",
@@ -7537,7 +7537,7 @@
       "itemId": null,
       "unit": "proxy-reflect-metaprogramming",
       "message": "proxy-reflect-metaprogramming.lesson-3: The worked example assigns cup.tag = \"B\" to a read-only property and shows it silently ignored (output A). That is sloppy-mode behaviour only; in strict code the assignment throws a TypeError. The card calls the property 'read-only' without saying that the silent ignore depends on the mode.",
-      "resolution": null
+      "resolution": "Fixed: the lesson 3 card now adds that assigning to a read-only property is ignored in non-strict code and throws in strict code."
     },
     {
       "gate": "C",
@@ -7545,7 +7545,7 @@
       "itemId": "exp.debugging.async-ordering-bugs.concept-01",
       "unit": "debugging",
       "message": "Hint 3 ('Both calls save the same value before either one writes') is almost word for word the correct option ('Both calls read 5 before either writes ...'), and hint 2 already names the stale-value idea. The learner no longer has to trace the two calls.",
-      "resolution": null
+      "resolution": "Fixed: hint 3 now asks the learner to compare seen on line 5 with qty by then, no longer restating the correct option."
     },
     {
       "gate": "C",
@@ -7553,7 +7553,7 @@
       "itemId": "exp.code-analysis.complexity-analysis.write-01",
       "unit": "code-analysis",
       "message": "The prompt ends with 'Return the pairs compared.' This can be read as returning the pairs themselves (a list of [a, b] pairs), while every test expects a single number, the count of comparisons. Only the function name countChecks hints at a count. The prompt should ask for the number of pairs compared.",
-      "resolution": null
+      "resolution": "Fixed: the prompt now asks for the number of pairs tested, including the matching pair, instead of 'the pairs compared'."
     },
     {
       "gate": "C",
@@ -7561,7 +7561,7 @@
       "itemId": "exp.patterns-and-architecture.dependency-inversion.concept-01",
       "unit": "patterns-and-architecture",
       "message": "The explanation and hint 2 teach 'inversion of control' (a runner calls your registered handlers), which is a different principle from dependency inversion, the concept this item and its lesson are about. The lesson card defines depending on an abstraction as receiving what you need as a parameter, yet here run reads the global table `on` instead of receiving anything. A learner is led to treat the two ideas as one.",
-      "resolution": null
+      "resolution": "Fixed: the item was rewritten to test a dependency received as a parameter (withFee takes its fee rule), with new options, explanation, hints and two misconceptions replacing the unused registry ones."
     },
     {
       "gate": "D",
@@ -7569,7 +7569,7 @@
       "itemId": "beg.values-and-types.boolean-values.concept-01",
       "unit": "values-and-types",
       "message": "The reference is the MDN Glossary page 'Falsy', which is about falsy values and conditions, an idea this unit never teaches. The item is about a boolean versus the text 'true'; the reference should point to the Boolean or string-primitive page so that 'read more' matches the claim.",
-      "resolution": null
+      "resolution": "Fixed: the reference now points to the MDN Glossary page Boolean, which matches the claim about a boolean versus text."
     },
     {
       "gate": "D",
@@ -7577,7 +7577,7 @@
       "itemId": "beg.variables.undefined-and-null.predict-02",
       "unit": "variables",
       "message": "The snippet calls console.log with two comma-separated arguments (typeof tip, typeof pin). Every earlier snippet in the track passes one argument, and the learner has not been taught that console.log joins several arguments with a space; the explanation has to explain it. Joining with + would use only taught ideas.",
-      "resolution": null
+      "resolution": "Fixed: the snippet now uses two single-argument console.log calls (typeof seat, typeof ticket), so no multi-argument logging is needed; options, answer and explanation updated."
     },
     {
       "gate": "D",
@@ -7585,7 +7585,7 @@
       "itemId": "beg.variables.undefined-and-null.write-02",
       "unit": "variables",
       "message": "The reference is the typeof page, but the solution does not use typeof (it only appears in a wrong solution). The item is about joining the value null to text, so the 'read more' link should be the null page or Addition (+).",
-      "resolution": null
+      "resolution": "Fixed: the reference now points to the MDN Glossary page Null, matching the item about joining null to text."
     },
     {
       "gate": "D",
@@ -7593,7 +7593,7 @@
       "itemId": "beg.operators-and-comparisons.truthy-and-falsy.predict-01",
       "unit": "operators-and-comparisons",
       "message": "The snippet relies on the Boolean(value) conversion call, which no earlier unit or lesson teaches and the prompt does not explain; only the explanation after the answer says what it does. It is also the first item of the lesson, rated difficulty 1.",
-      "resolution": null
+      "resolution": "Fixed: the snippet now prints !comment and !spacer (the ! operator is taught on the lesson card) instead of the untaught Boolean() call; options, answer, explanation, hint 3 and reference updated."
     },
     {
       "gate": "D",
@@ -7601,7 +7601,7 @@
       "itemId": "beg.conditionals.else-branches.write-01",
       "unit": "conditionals",
       "message": "The lesson teaches else and else if, but this item asks for no branching at all: it forces the learner to imitate if/else with the idiom 'cond && a || b'. That idiom is not taught anywhere (the ternary comes in the next lesson) and is a known trap, since it returns the wrong branch when a is falsy. It also stacks a comparison, && and || precedence in one expression, which is heavy for the unit's second lesson. It tests a workaround, not the lesson's concept; moving this slot's idea to a simpler expression about a comparison result, or a prompt not tied to branching, would fit better.",
-      "resolution": null
+      "resolution": "Fixed: the slot now asks for the expression that is true exactly when the else branch of if (kg >= 5) runs (kg < 5), testing else directly with no untaught && || idiom; tests, wrong solutions, hints, explanation and reference rewritten."
     },
     {
       "gate": "D",
@@ -7609,7 +7609,7 @@
       "itemId": "beg.loops.for-loop.predict-02",
       "unit": "loops",
       "message": "The for header uses the compound assignment km += 3 and the item is rated difficulty 1. Earlier units only taught reassignment as x = x + n, and neither the item text nor any earlier lesson explains +=; the explanation only says 'grows by 3'. The same += appears in for-loop.fill-01. The learner must decode a new operator while also learning the for header.",
-      "resolution": null
+      "resolution": "Fixed: for-loop.predict-02 now steps with k = k + 3 and fill-01 now uses n++ with start and bound blanks (prints 4, 5, 6), so += is no longer needed."
     },
     {
       "gate": "D",
@@ -7617,7 +7617,7 @@
       "itemId": "beg.functions.function-expressions.write-01",
       "unit": "functions",
       "message": "The slot ends the whole unit but only tests arithmetic precedence (celsius * 9 / 5 + 32), which unit 1 already taught. The arrow function appears only as framing in the prompt ('the expression after =>'); every test and wrong solution would be identical for any function form, so nothing about arrow functions or functions as values is exercised. It is also the plainest item of the lesson, yet it sits at the end rated 2. A prompt whose answer depends on the concise-body rule or on using a parameter would fit the concept.",
-      "resolution": null
+      "resolution": "Fixed: the slot now asks for the body of const label = (item, price) => ... that joins both parameters as text, so it exercises a parameter and the expression body of an arrow function."
     },
     {
       "gate": "D",
@@ -7625,7 +7625,7 @@
       "itemId": "beg.arrays.iteration.predict-01",
       "unit": "arrays",
       "message": "Difficulty must rise inside a lesson, but this opening item (rated 2) is harder than the next one, iteration.predict-02 (rated 1, a plain for...of). It also opens the lesson with an off-by-one trap (a loop starting at index 1, with an accumulator and a stored count) before the learner has seen an ordinary full visit of every element. The plain full-visit item should come first and this trap item later in the lesson.",
-      "resolution": null
+      "resolution": "Fixed: the contents of arrays iteration predict-01 and predict-02 were swapped (ids kept), so the plain for...of item (difficulty 1) opens the lesson and the index-1 loop (difficulty 2) follows."
     },
     {
       "gate": "D",
@@ -7633,7 +7633,7 @@
       "itemId": "int.scope-and-hoisting.function-scope-and-var.trace-01",
       "unit": "scope-and-hoisting",
       "message": "The probed variable cups is shadowed by the var cups inside brew. The README rule for TRACE probes says to give the probed variable a name that no inner scope shadows, because probes read a variable by name. The item should probe a name that exists in only one scope, for example by reading the outer value into a separate variable.",
-      "resolution": null
+      "resolution": "Fixed: the snippet now copies cups into const outer on line 7 and the probe reads outer, a name no inner scope shadows; prompt, explanation and hint 3 updated."
     },
     {
       "gate": "D",
@@ -7641,7 +7641,7 @@
       "itemId": "int.this-and-classes.this-lost-and-bound.trace-01",
       "unit": "this-and-classes",
       "message": "The snippet uses bind with a preset argument (jar.add.bind(jar, 2)), so drop() adds 2 with no argument. The lesson teaches bind as fixing this; partial application through bind is a second idea that is neither declared as a prerequisite nor taught earlier, and the learner must know it to get any of the three options right.",
-      "resolution": null
+      "resolution": "Fixed: bind no longer presets an argument; drop is bound with bind(jar) and called as drop(2), keeping the output 5 7."
     },
     {
       "gate": "D",
@@ -7649,7 +7649,7 @@
       "itemId": "int.async-basics.async-error-handling.parsons-01",
       "unit": "async-basics",
       "message": "The chain ends in Promise.prototype.finally(), which is neither declared nor taught earlier: the Errors unit taught only the try/finally block, and the promise lessons teach then and catch. The learner must know that .finally runs last and passes the result on to order the output.",
-      "resolution": null
+      "resolution": "Fixed: replaced .finally with a final .then after catch so only taught then/catch behaviour is needed, and updated the output, explanation, hints and reference."
     },
     {
       "gate": "D",
@@ -7657,7 +7657,7 @@
       "itemId": "int.async-basics.async-error-handling.write-01",
       "unit": "async-basics",
       "message": "Nothing in the prompt or solution involves async, await or a promise; it is plain try/catch/finally that restates the Errors unit item int.errors.finally-block.write-01 (a status text, a throw in try, finally appending). It does not test this lesson's concept, async error handling.",
-      "resolution": null
+      "resolution": "Fixed: replaced the plain try/catch/finally task with writing a .catch() handler body (branch on reason.code), which tests the lesson's rejection handling and no longer duplicates the Errors item."
     },
     {
       "gate": "D",
@@ -7665,7 +7665,7 @@
       "itemId": "int.dom-and-events.event-propagation.trace-01",
       "unit": "dom-and-events",
       "message": "The handler relies on Element.closest('li'), which no earlier lesson or unit teaches and which is not among the declared prerequisites (only event-listeners). The learner cannot trace the id that gets appended without already knowing closest; the hint explains it only after the learner is stuck.",
-      "resolution": null
+      "resolution": "Fixed: the lesson 4 concept card now teaches target.closest(selector) and target.matches(selector), so the trace's closest call is taught before use."
     },
     {
       "gate": "D",
@@ -7673,7 +7673,7 @@
       "itemId": "int.dom-and-events.event-propagation.fill-01",
       "unit": "dom-and-events",
       "message": "The correct chip is Element.matches(), which no earlier lesson or unit teaches and which is not a declared prerequisite. The blank can be filled only by recalling that method name; the other chips (getAttribute, contains, includes) are all real or plausible names, so this tests API vocabulary rather than the lesson's idea of delegation.",
-      "resolution": null
+      "resolution": "Fixed: the same concept card now teaches matches, and the contains chip feedback was corrected to say it expects an element, not a selector."
     },
     {
       "gate": "D",
@@ -7681,7 +7681,7 @@
       "itemId": "adv.map-set-weakmap-symbol.symbol-keys.predict-01",
       "unit": "map-set-weakmap-symbol",
       "message": "Rated 4, but it is the first item that introduces Symbol: four lines, one idea (two Symbol calls are never equal, and how a symbol prints). Comparable single-idea openers in this unit are rated 3 (set-collection.predict-01, weak-collections.predict-01), so this is 3 for the advanced track.",
-      "resolution": null
+      "resolution": "Fixed: difficulty lowered from 4 to 3 as a single-idea advanced opener."
     },
     {
       "gate": "D",
@@ -7689,7 +7689,7 @@
       "itemId": "adv.performance-and-memory.memory-leaks.fill-01",
       "unit": "performance-and-memory",
       "message": "The only correct chip is 'jobs.length = 0', which relies on knowing that assigning to an array's length truncates it. No earlier unit or declared prerequisite teaches assigning to length (the Arrays and Array methods units cover reading it), and the lesson is about leaks, not array mutation, so a learner who knows the concept can still not find the answer.",
-      "resolution": null
+      "resolution": "Fixed: the correct chip is now jobs.pop(), taught in the Arrays unit, instead of assigning to length, and the feedback and reference were updated."
     },
     {
       "gate": "D",
@@ -7697,7 +7697,7 @@
       "itemId": "adv.performance-and-memory.algorithmic-cost.fill-01",
       "unit": "performance-and-memory",
       "message": "Rated 4, but it is one blank with a method name (has) taught in the immediately preceding unit, in a four-line loop. Comparable one-method Set items elsewhere are rated 3; this is 3 for the advanced track.",
-      "resolution": null
+      "resolution": "Fixed: difficulty lowered from 4 to 3 for a one-method Set blank."
     },
     {
       "gate": "D",
@@ -7705,7 +7705,7 @@
       "itemId": "exp.debugging.reading-a-stack-of-calls.concept-01",
       "unit": "debugging",
       "message": "Rated 5, but it is the same flow already taught in Promises in depth (a throw in a then handler skips later thens, catch recovers, the chain fulfills again; see promise-rejection-flow.predict-01, rated 4 for the advanced track). Four short chained lines with one idea are 4 for the expert track, not its top rating.",
-      "resolution": null
+      "resolution": "Fixed: difficulty lowered from 5 to 4 because the flow was already taught in Promises in depth."
     },
     {
       "gate": "D",
@@ -7713,7 +7713,7 @@
       "itemId": "exp.debugging.reading-a-stack-of-calls.fill-02",
       "unit": "debugging",
       "message": "Rated 5, but it is the same shape as promise-rejection-flow.fill-01 in Promises in depth (rated 3): pick Promise.reject and catch so the chain recovers. Two familiar method names in a five-line chain with no new idea are 4 at most for the expert track.",
-      "resolution": null
+      "resolution": "Fixed: difficulty lowered from 5 to 4 as a familiar two-method chain."
     },
     {
       "gate": "D",
@@ -7721,7 +7721,7 @@
       "itemId": "exp.code-analysis.refactoring-equivalence.fill-01",
       "unit": "code-analysis",
       "message": "Rated 5 (the top of the expert range), but it is a single blank where the whole task is ?? versus ||, a well-known default-value distinction taught with the operators. It needs one idea and no multi-step tracing, so it is a 4, and it should not sit at the same level as the multi-step reducer and closure items of lesson 3.",
-      "resolution": null
+      "resolution": "Fixed: difficulty lowered from 5 to 4 as a single ?? versus || idea."
     },
     {
       "gate": "D",
@@ -7729,7 +7729,7 @@
       "itemId": "exp.patterns-and-architecture.observer-pattern.fix-01",
       "unit": "patterns-and-architecture",
       "message": "Rated 5, but the whole fix is flipping === to !== in a filter predicate that removes a listener. It is one short idea in a short program and matches the 4-rated fixes elsewhere in this unit (strategy-and-composition.fix-01, dependency-inversion.fix-01); it should be 4.",
-      "resolution": null
+      "resolution": "Fixed: difficulty lowered from 5 to 4 as a one-token filter fix."
     },
     {
       "gate": "D",
@@ -7737,7 +7737,7 @@
       "itemId": "exp.patterns-and-architecture.dependency-inversion.concept-01",
       "unit": "patterns-and-architecture",
       "message": "The lesson concept is depending on abstractions (a function receives the thing it uses as a parameter, so a fake can replace it). This item instead tests a handler registry that a runner calls by event name (inversion of control, which is the observer idea from lesson 1), and no option mentions passing a dependency in. It also reads as harder than its siblings only because of long option text. It should test a dependency supplied from outside, or move to the observer lesson.",
-      "resolution": null
+      "resolution": "Fixed: the same rewrite as finding 34 makes the item test a dependency supplied from outside, with difficulty 4 and shorter options."
     }
   ]
 }

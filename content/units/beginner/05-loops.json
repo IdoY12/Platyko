@@ -273,8 +273,8 @@
       "difficulty": 1,
       "prompt": "What does this code print?",
       "code": [
-        "for (let km = 2; km < 10; km += 3) {",
-        "  console.log(km);",
+        "for (let k = 2; k < 10; k = k + 3) {",
+        "  console.log(k);",
         "}"
       ],
       "options": [
@@ -299,21 +299,21 @@
       "solution": {
         "expectedOutput": "2\n5\n8"
       },
-      "explanation": "km starts at 2 and grows by 3 after each pass. The values 2, 5 and 8 pass the test km < 10. The next value, 11, does not, so the loop stops.",
+      "explanation": "k starts at 2 and grows by 3 after each pass. The values 2, 5 and 8 pass the test k < 10. The next value, 11, does not, so the loop stops.",
       "hints": [
         "Look at the third part of the for header.",
         "The update part runs after each pass and changes the variable.",
         "Add 3 each time and stop as soon as the value is no longer below 10."
       ],
       "reference": {
-        "title": "Addition assignment (+=)",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition_assignment",
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.loops.for-loop.trace-01",
@@ -362,7 +362,7 @@
       "explanation": "Line 3 runs once per pass. The loop runs for i equal to 0, 1, 2 and 3, so four passes. After the third pass rides is 3; the fourth pass makes it 4.",
       "hints": [
         "Count how many times line 3 has run.",
-        "Each pass adds 1 to rides, so the value equals the number of passes so far.",
+        "Line 3 runs once per pass of the loop, and each run adds 1 to rides.",
         "Stop counting at the third pass, not at the end of the loop."
       ],
       "reference": {
@@ -372,7 +372,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:14"
       ]
@@ -386,9 +386,9 @@
       ],
       "format": "FILL_BLANK",
       "difficulty": 2,
-      "prompt": "Complete the loop header so that the program prints 4, 6 and 8.",
+      "prompt": "Complete the loop header so that the program prints 4, 5 and 6.",
       "code": [
-        "for (let n = ___; n < 9; n += ___) {",
+        "for (let n = ___; n < ___; n++) {",
         "  console.log(n);",
         "}"
       ],
@@ -399,24 +399,24 @@
           "feedback": "Right. The first printed number is the start value."
         },
         {
-          "text": "2",
+          "text": "7",
           "correct": true,
-          "feedback": "Right. This is the gap between 4, 6 and 8."
+          "feedback": "Right. The loop runs while n is below 7, so the last number printed is 6."
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "As the start value this prints 3 first. As the bound it stops before 3, so nothing is printed."
         },
         {
           "text": "6",
           "correct": false,
-          "feedback": "As the start value this skips 4. As the step it would jump from 4 straight to 10."
-        },
-        {
-          "text": "1",
-          "correct": false,
-          "feedback": "As the start value this prints 1 first. As the step it prints every number, not only 4, 6 and 8."
+          "feedback": "As the start value this skips 4 and 5. As the bound it stops before 6, so 6 is never printed."
         },
         {
           "text": "8",
           "correct": false,
-          "feedback": "As the start value this prints only 8. As the step it would print only 4."
+          "feedback": "As the start value this prints nothing. As the bound it also prints 7."
         }
       ],
       "solution": {
@@ -425,16 +425,16 @@
             "4"
           ],
           [
-            "2"
+            "7"
           ]
         ],
-        "expectedOutput": "4\n6\n8"
+        "expectedOutput": "4\n5\n6"
       },
-      "explanation": "The loop must start at 4 and add 2 after every pass. The condition n < 9 then stops it after 8, so it prints 4, 6 and 8.",
+      "explanation": "The loop must start at 4, and n++ adds 1 after every pass. The condition n < 7 stops it once n reaches 7, so it prints 4, 5 and 6.",
       "hints": [
-        "Look at the first and the last part of the header.",
-        "The first part is the start value, the last part is the step.",
-        "The step is the gap between two printed numbers."
+        "Look at the first and the second part of the header.",
+        "The first part is the start value. The condition is checked before every pass.",
+        "The loop stops before the bound, so the last number printed is below it."
       ],
       "reference": {
         "title": "for statement",
@@ -444,7 +444,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.loops.for-loop.parsons-01",
@@ -620,13 +620,13 @@
         {
           "text": "3",
           "correct": false,
-          "feedback": "The loop does not stop exactly at the bound. n only takes the values 10, 6 and 2.",
+          "feedback": "That assumes the loop lands exactly on the bound. Each pass takes away 4, so n can step past 3.",
           "misconception": "bound-off-by-one"
         },
         {
           "text": "-2",
           "correct": false,
-          "feedback": "That runs one extra pass. The condition is checked before every pass, and 2 is not above 3.",
+          "feedback": "That runs one extra pass. The condition is checked before every pass, so the loop stops as soon as n is no longer above 3.",
           "misconception": "condition-checked-after-body"
         }
       ],
@@ -647,7 +647,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.loops.while-loop.trace-01",
@@ -1637,7 +1637,7 @@
           ]
         ]
       },
-      "explanation": "continue skips the rest of the pass when its condition is true. The pass to skip is the one where n equals skip, so the condition is n === skip. n !== skip would skip every other pass.",
+      "explanation": "continue skips the rest of the pass when its condition is true. The pass to skip is the one where n equals skip, so the condition is n === skip. n !== skip would skip every pass except that one.",
       "hints": [
         "Which pass must not add its n?",
         "continue runs when the condition after if is true.",
@@ -1650,7 +1650,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     }
   ]
 }

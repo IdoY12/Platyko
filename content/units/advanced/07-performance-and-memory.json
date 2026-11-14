@@ -1121,9 +1121,9 @@
       ],
       "options": [
         {
-          "text": "jobs.length = 0",
+          "text": "jobs.pop()",
           "correct": true,
-          "feedback": "Right. Emptying the list drops the callback, and with it the data array it held."
+          "feedback": "Right. Removing the only entry drops the callback, and with it the data array it held."
         },
         {
           "text": "jobs.slice(0)",
@@ -1147,7 +1147,7 @@
       "solution": {
         "blanks": [
           [
-            "jobs.length = 0"
+            "jobs.pop()"
           ]
         ],
         "expectedOutput": "0"
@@ -1159,14 +1159,14 @@
         "Only one chip removes the callback from the list; the others add entries or leave the list as it is."
       ],
       "reference": {
-        "title": "Array length",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length",
+        "title": "Array.prototype.pop()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:18"
       ]
@@ -1242,7 +1242,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of stillRunning(events). Each event is 'start name' or 'stop name'. Return the names running at the end, in order of latest start. Ignore stops of idle names.",
+      "prompt": "Write the body of stillRunning(events); each event is 'start name' or 'stop name'. Return running names by first start. Repeated starts and idle stops change nothing.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1311,6 +1311,19 @@
             "expected": [
               "a"
             ]
+          },
+          {
+            "input": [
+              [
+                "start a",
+                "start b",
+                "start a"
+              ]
+            ],
+            "expected": [
+              "a",
+              "b"
+            ]
           }
         ],
         "reference": [
@@ -1345,14 +1358,23 @@
             "  else on.shift();",
             "}",
             "return on;"
+          ],
+          [
+            "const on = [];",
+            "for (const e of events) {",
+            "  const [op, n] = e.split(' ');",
+            "  if (op === 'start') on.push(n);",
+            "  else on.splice(on.indexOf(n), 1);",
+            "}",
+            "return on;"
           ]
         ]
       },
-      "explanation": "A timer that was stopped no longer runs. Keep the names of running timers: add on start, remove that exact name on stop, and return what is left in start order.",
+      "explanation": "A timer that was stopped no longer runs. Keep the names of running timers: add on start, remove that exact name on stop, and return what is left in order of first start.",
       "hints": [
         "Decide what to keep while reading the events.",
         "A stop must remove the timer it names, not just any timer.",
-        "A set keeps insertion order, so spreading it gives start order."
+        "A set keeps insertion order and ignores a repeated add, so spreading it gives the order of first start."
       ],
       "reference": {
         "title": "Set.prototype.delete()",
@@ -1361,7 +1383,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.performance-and-memory.algorithmic-cost.predict-01",
@@ -1494,7 +1516,7 @@
         "set-collection"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Fill the blank so the loop counts ids it has already seen without rescanning a list. The program should print 1.",
       "code": [
         "const ids = [4, 7, 4, 9];",
@@ -1546,7 +1568,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.performance-and-memory.algorithmic-cost.fix-01",

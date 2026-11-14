@@ -858,11 +858,11 @@
       "concept": "else-branches",
       "prerequisites": [
         "if-statement",
-        "truthy-and-falsy"
+        "relational-operators"
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "Write an expression for the shipping cost of kg: 8 for 5 kg or more, 3 for less. Use && and ||.",
+      "prompt": "A program runs if (kg >= 5) { ... } else { ... }. Write an expression that is true exactly when the else branch runs.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -875,62 +875,62 @@
             "input": {
               "kg": 12
             },
-            "expected": 8
+            "expected": false
           },
           {
             "input": {
               "kg": 5
             },
-            "expected": 8
+            "expected": false
           },
           {
             "input": {
               "kg": 4
             },
-            "expected": 3
+            "expected": true
           },
           {
             "input": {
               "kg": 1
             },
-            "expected": 3
+            "expected": true
           },
           {
             "input": {
               "kg": 0
             },
-            "expected": 3
+            "expected": true
           }
         ],
         "reference": [
-          "kg >= 5 && 8 || 3"
+          "kg < 5"
         ],
         "wrongSolutions": [
           [
-            "kg > 5 && 8 || 3"
+            "kg <= 5"
           ],
           [
-            "kg >= 5 && 3 || 8"
+            "kg > 5"
           ],
           [
-            "kg >= 5 && 8"
+            "kg >= 5"
           ]
         ]
       },
-      "explanation": "Use >= so that 5 kg itself gets the higher price. && gives 8 when its check is true, and || falls back to 3 when the left part is false.",
+      "explanation": "else runs exactly when the if check is false. The opposite of kg >= 5 is kg < 5, which is false at 5 itself. kg <= 5 would wrongly include 5.",
       "hints": [
-        "You need two results, so one check and a fallback price.",
-        "&& gives its right side when the left side is true, and || moves on to its right side when the left side is falsy.",
-        "Write the 5 kg check with its price, then ||, and end with the plain price 3."
+        "Think about which values of kg make the if check false.",
+        "else runs exactly when the if check is false, so you need the opposite comparison.",
+        "Decide what happens at exactly 5 kg, then pick the comparison sign."
       ],
       "reference": {
-        "title": "Logical OR (||)",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_OR",
+        "title": "if...else",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.conditionals.ternary-operator.predict-01",

@@ -1112,8 +1112,8 @@
       "explanation": "Without a starting value, reduce uses the first element as the starting total and calls the callback from the second element. That is why calls holds only 8 and 2.",
       "hints": [
         "Look at what calls holds when the program ends.",
-        "The first element is missing from calls, so the callback did not run for it.",
-        "Without a second argument, reduce picks the starting total from the array."
+        "Reduce needs a starting total, and it has a rule for the case where you give none.",
+        "Compare the elements in calls with the elements of bags to see which one is missing."
       ],
       "reference": {
         "title": "Array.prototype.reduce()",
@@ -1123,7 +1123,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.array-methods.array-reduce.trace-01",

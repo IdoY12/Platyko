@@ -1710,12 +1710,14 @@
   },
   "beg.variables.undefined-and-null.predict-02": {
    "code": [
-    "let tip;",
-    "let pin = null;",
-    "console.log(typeof tip, typeof pin);"
+    "let seat;",
+    "console.log(typeof seat);",
+    "let ticket = null;",
+    "console.log(typeof ticket);"
    ],
    "output": [
-    "undefined object"
+    "undefined",
+    "object"
    ],
    "steps": [
     {
@@ -1732,7 +1734,7 @@
      "line": 2,
      "variables": [
       {
-       "name": "tip",
+       "name": "seat",
        "scope": "global",
        "value": "undefined"
       }
@@ -1748,17 +1750,33 @@
      "line": 3,
      "variables": [
       {
-       "name": "tip",
+       "name": "seat",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "seat",
        "scope": "global",
        "value": "undefined"
       },
       {
-       "name": "pin",
+       "name": "ticket",
        "scope": "global",
        "value": "null"
       }
      ],
-     "outputCount": 0,
+     "outputCount": 1,
      "callStack": [
       "global"
      ],
@@ -1769,17 +1787,17 @@
      "line": 0,
      "variables": [
       {
-       "name": "tip",
+       "name": "seat",
        "scope": "global",
        "value": "undefined"
       },
       {
-       "name": "pin",
+       "name": "ticket",
        "scope": "global",
        "value": "null"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 2,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

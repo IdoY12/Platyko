@@ -1080,10 +1080,12 @@
     "  } catch (e) {",
     "    console.log(e.name);",
     "  }",
-    "}"
+    "}",
+    "console.log(upper);"
    ],
    "output": [
-    "TypeError"
+    "TypeError",
+    "2"
    ],
    "steps": [
     {
@@ -1451,7 +1453,7 @@
      "microtasks": []
     },
     {
-     "line": 0,
+     "line": 11,
      "variables": [
       {
        "name": "names",
@@ -1465,6 +1467,27 @@
       }
      ],
      "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "names",
+       "scope": "global",
+       "value": "['fig', null, 'oak']"
+      },
+      {
+       "name": "upper",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 2,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

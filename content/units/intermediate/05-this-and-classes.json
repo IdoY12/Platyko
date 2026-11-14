@@ -790,9 +790,9 @@
         "    return this.coins;",
         "  }",
         "};",
-        "const drop = jar.add.bind(jar, 2);",
-        "const first = drop();",
-        "const second = drop();",
+        "const drop = jar.add.bind(jar);",
+        "const first = drop(2);",
+        "const second = drop(2);",
         "console.log(first, second);"
       ],
       "options": [
@@ -822,11 +822,11 @@
         },
         "expectedOutput": "5 7"
       },
-      "explanation": "bind fixes this to jar and n to 2. Each call changes jar.coins: 3 becomes 5 on the first call and 7 on the second.",
+      "explanation": "bind fixes this to jar, so drop(2) adds 2 to jar.coins each time: 3 becomes 5 on the first call and 7 on the second.",
       "hints": [
         "Line 9 runs drop before line 10 does.",
         "bind fixes this to the same jar object for every call.",
-        "Add 2 to the starting coins twice."
+        "Each call drop(2) adds 2 to the starting coins."
       ],
       "reference": {
         "title": "Function.prototype.bind()",
@@ -835,7 +835,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.this-and-classes.this-lost-and-bound.parsons-01",
@@ -1452,7 +1452,7 @@
       },
       "explanation": "The constructor stores the starting level on the instance. Each pour adds to this.level, so looping over pours accumulates every amount before the level is returned.",
       "hints": [
-        "Which keyword makes a Tank from start?",
+        "Look at where the starting level comes in: the class constructor must receive start.",
         "pour must add to the stored level, not replace it.",
         "Make the tank, loop over pours calling pour, then return the level."
       ],
@@ -1463,7 +1463,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.class-inheritance.predict-01",

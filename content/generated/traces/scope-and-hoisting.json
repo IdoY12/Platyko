@@ -1550,7 +1550,8 @@
     "  cups = cups + 1;",
     "}",
     "brew();",
-    "console.log(cups);"
+    "const outer = cups;",
+    "console.log(outer);"
    ],
    "output": [
     "2"
@@ -1639,10 +1640,36 @@
      "microtasks": []
     },
     {
+     "line": 8,
+     "variables": [
+      {
+       "name": "cups",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "outer",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 0,
      "variables": [
       {
        "name": "cups",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "outer",
        "scope": "global",
        "value": "2"
       }

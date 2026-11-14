@@ -790,7 +790,7 @@
       ],
       "format": "TRACE",
       "difficulty": 3,
-      "prompt": "What is the value of cups right after line 6 runs?",
+      "prompt": "What is the value of outer right after line 7 runs?",
       "code": [
         "var cups = 2;",
         "function brew() {",
@@ -798,7 +798,8 @@
         "  cups = cups + 1;",
         "}",
         "brew();",
-        "console.log(cups);"
+        "const outer = cups;",
+        "console.log(outer);"
       ],
       "options": [
         {
@@ -821,17 +822,17 @@
       ],
       "solution": {
         "probe": {
-          "variable": "cups",
-          "afterLine": 6,
+          "variable": "outer",
+          "afterLine": 7,
           "visit": 1
         },
         "expectedOutput": "2"
       },
-      "explanation": "The var on line 3 declares a new cups that exists only during the call. Line 4 changes that copy to 6. After brew returns, the outer cups is still 2.",
+      "explanation": "The var on line 3 declares a new cups that exists only during the call. Line 4 changes that copy to 6. After brew returns, the outer cups is still 2, so outer gets 2.",
       "hints": [
         "Find which cups line 4 changes.",
         "A var inside a function is a separate variable from an outer one with the same name.",
-        "The question asks about the cups outside the function."
+        "Line 7 copies the cups that lives outside the function."
       ],
       "reference": {
         "title": "var",
@@ -840,7 +841,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.parsons-01",
