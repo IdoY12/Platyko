@@ -16,15 +16,19 @@ after any context reset, then continue from "Current position".
 
 ## Current position
 
-- **Updated:** 2026-11-15 00:20. All gates green (typecheck, lint, tests, knip, language scan,
+- **Updated:** 2026-11-15 01:00. All gates green (typecheck, lint, tests, knip, language scan,
   whole-bank verify offline, legacy map, source ledger).
 - **Phases:** 0 nearly done; 1 done; 2: all 604 items authored, verification pass 1
-  (`run-20261114-205833`) fully resolved and committed, pass 2 next; 3 done apart from server
-  push (H6); 4: profile, privacy, search, friends, block and report done; 5: engine, io `/play`
-  and the Play tab done and played end to end on the simulator against a scripted second player.
-- **Next for the main thread:** verification pass 2 (`pass start --complete`, 15 gate agents in
-  batches, two at a time, briefs from `scratchpad/gates/make_briefs.py`); while agents run, phase
-  4/5 leftovers (friend game invites, presence, retire `/duel` and the legacy duel tables).
+  (`run-20261114-205833`, 329 findings) and pass 2 (`run-20261114-221204`, 123 findings, 70
+  of them item defects) resolved and committed; pass 3 (`run-20261114-225713`) running; 3 done apart from server
+  push (H6); 4: profile, privacy, search, friends with presence, played recently, block and
+  report, friend and room links done; 5: engine, io `/play`, the Play tab, friends duels with
+  invitations, rooms that reopen after a game, leaver cooldown, Bug Hunt and Output Race done and
+  played end to end on the simulator against scripted players; 6: "explain my mistake" behind
+  its flag done.
+- **Next for the main thread:** finish pass 3 (`pass finish <run> --solver/--clarity/--fit`), fix,
+  repeat to three consecutive clean passes; meanwhile phase 6 (league, share cards, item
+  analysis), Friend Streak, in-game reactions, GitHub behind its flag, multi-simulator run.
 - **Next for sub-agents:** gate agents for pass 2, then fix agents per batch (briefs written from
   the pass's findings; see pass 1's `scratchpad/fix1/brief-N.md` for the shape).
 - **Owner rules added mid-run:** at most two sub-agents at a time; sub-agents default to Sonnet
@@ -53,9 +57,9 @@ after any context reset, then continue from "Current position".
 | 1 | Learning core: lesson player, 7 formats, feedback, code view, execution player, map, Home, onboarding, mascot | Done (Profile, Settings, auth in the new design; EN + HE) |
 | 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); pass 1 resolved (329 findings); pass 2 next |
 | 3 | Retention: review (SM-2), daily challenge, revision, weekly goal, freeze, push, achievements | Done except server push (credentials) |
-| 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Profile, privacy, search, friends, block and report done; presence, invitations inbox, Friend Streak, GitHub (H7), badge open |
-| 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Engine, `/play`, Play tab, reconnect and server-restart recovery done; friend duel invites, multi-simulator run and `/duel` retirement open |
-| 6 | Depth: league, extra modes, AI explain, share cards, item analysis | Not started |
+| 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Done: profile, privacy, search, friends, played recently, presence, invitations inbox, block and report, friend links. Open: Friend Streak, QR code, GitHub (H7), README badge |
+| 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Done: engine, `/play`, Play tab, friends duels and invitations, presence, reconnect and server-restart recovery, rooms reopening, podium, leaver cooldown, room links, `/duel` retired. Open: in-game reactions, multi-simulator run |
+| 6 | Depth: league, extra modes, AI explain, share cards, item analysis | Bug Hunt, Output Race and "explain my mistake" (flag off until H4) done; Reverse (A33), league, share cards, item analysis open |
 
 ## Work log
 
@@ -135,7 +139,7 @@ Open:
 - [ ] Server error codes (PRD: "the server keeps returning generic errors and codes"): today the
       app maps the server's English messages to translated text in one place
       (`mobile/src/i18n/localizedMessage.ts`); switching to codes removes the string coupling.
-- [ ] Retire the old duel backend: io `/duel` namespace, `@project/duel-constants`, `DuelQuestion`/`DuelSession` tables and the `duelWins`/`duelLosses` fields of `/user/progress-summary` (the app no longer reads them; the old duel screens and slices are deleted).
+- [ ] Drop the legacy tables (`DuelQuestion`, `DuelSession`, old exercise and puzzle tables) at cutover, after re-running the redesign migration's data part against production; `/duel`, `duel-constants` and the old duel UI are already gone, so an old app version loses duels once this backend is deployed (ship the backend with the new app).
 - [ ] Server push through Expo (register tokens, send in the stored language) once APNs and EAS
       credentials exist (H6); the smart local reminder covers guests and accounts meanwhile.
 - [ ] Hebrew RTL walk-through of every screen (done: Home, lesson, map, onboarding, Profile,
@@ -205,6 +209,9 @@ Tooling notes for the next session:
 | A28 | The Play tab is one component that shows what the server says the learner is in (results, game, room, queue, start) instead of a navigation stack. A game that starts or resumes opens the tab, except over a lesson; the tab bar hides during a game. | The server owns the game (PRD 11.7–11.8), so state, not navigation history, decides the screen; a relaunch or reconnect lands on the right view with no navigation bookkeeping. |
 | A29 | Every `/play` connection receives `play:sync` (whether the server still holds a game or room for the player); the app drops what the server lost and says so, and rejoins a queue it was searching in. | Games live in memory on the io process; without this a deploy or crash leaves the app showing a stuck game, lobby or search. |
 | A30 | A multiplayer round shows the lesson's answer inputs through a view of the redacted `PlayItem` (no right flags until the round ends); the right answer and standings sit in a bottom sheet between rounds. | One set of inputs for lessons and games (DRY); the sheet keeps the reveal visible within the 3.5 s between rounds, whatever the item's length. |
+| A32 | Leaving ranked games: from the third leave in 24 hours the queue refuses for 5 minutes, doubling with each further leave; a shared first place with no points pays participation XP only. | PRD 11.8's starting values; an idle 0-0 draw must not earn the win bonus for both players. |
+| A33 | The Reverse game mode (PRD 11.10) waits for its own item type: it needs authored input/output items that pass every gate, which the bank does not have. Bug Hunt and Output Race ship as variants of the one engine. | Adding an unverified item type would bypass the verification loop. |
+| A34 | "Explain my mistake" uses two configured slots (primary Cloudflare Workers AI, secondary Groq) of an OpenAI-compatible endpoint, is off by default, and is limited per user per day by the route's rate limiter, which answers "no explanation" rather than an error. | PRD 15.9 and D6; configuration only, no provider SDK; in-memory limiting matches PRD 15.10's single-instance backend. |
 | A31 | Before launch, an item id may change when its format must change (pass 1 renamed one FILL_BLANK to PARSONS in `this-and-classes`); after launch ids are frozen. | No learner has progress on the bank yet (it is DRAFT); the format slug is part of the id and the pre-check enforces it. |
 
 ## Dependencies added (reason, license)
