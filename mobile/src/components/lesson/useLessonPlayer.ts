@@ -18,6 +18,7 @@ import {
   lessonProgress,
   lessonResult,
   pickReviewItems,
+  revisionChoice,
   startLessonSession,
   summaryLessonId,
   type AttemptOutcome,
@@ -35,7 +36,7 @@ import { haptic } from "@/theme/haptics";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { logError } from "@/utils/logger";
 import { draftToAnswer, emptyDraft, isDraftReady, shuffledOutputLines, type AnswerDraft } from "./answerDraft";
-import { conceptByItemId, dueReviewCandidates, reviewCandidatesFor } from "./lessonReview";
+import { conceptByItemId, dueReviewCandidates, reviewCandidatesFor, revisionCandidates } from "./lessonReview";
 
 export const REVIEW_SESSION_ID = "review";
 
@@ -85,8 +86,10 @@ export function useLessonPlayer(lessonId: string) {
   const challengeDate = dailyChallengeDate(lessonId);
   /** A jump test and a daily challenge give one attempt per item and no hints. */
   const isTest = jumpTrack !== null || challengeDate !== null;
-  /** Reviews, jump tests and challenges belong to no lesson: no place to save, no completion. */
-  const isLesson = lessonId !== REVIEW_SESSION_ID && !isTest;
+  /** The units and length of a revision session; null otherwise. */
+  const revision = useMemo(() => revisionChoice(lessonId), [lessonId]);
+  /** Reviews, revisions, jump tests and challenges belong to no lesson: no place to save, no completion. */
+  const isLesson = lessonId !== REVIEW_SESSION_ID && revision === null && !isTest;
 
   const slot = session ? currentSlot(session) : null;
   const item = slot?.kind === "item" ? items[slot.itemId] ?? null : null;
@@ -115,7 +118,10 @@ export function useLessonPlayer(lessonId: string) {
       let known = cachedItems;
       const resume = learning.resume?.lessonId === lessonId ? learning.resume.session : null;
 
-      if (challengeDate) {
+      if (revision) {
+        const candidates = revisionCandidates(learning.map, learning.progress, revision.units, today);
+        plan = pickReviewItems(candidates, revision.length).map((itemId) => ({ kind: "item" as const, itemId, review: false }));
+      } else if (challengeDate) {
         const finished = new Set(learning.progress.completedLessons.map((completed) => completed.lessonId));
         plan = dailyChallengeItemIds(learning.map?.units ?? [], finished, challengeDate).map((itemId) => ({ kind: "item" as const, itemId, review: false }));
       } else if (jumpTrack) {
@@ -162,7 +168,7 @@ export function useLessonPlayer(lessonId: string) {
     return () => {
       cancelled = true;
     };
-  }, [challengeDate, dispatch, isTest, jumpTrack, lessonId]);
+  }, [challengeDate, dispatch, isTest, jumpTrack, lessonId, revision]);
 
   // A fresh draft for every new item on screen.
   useEffect(() => {
@@ -216,7 +222,7 @@ export function useLessonPlayer(lessonId: string) {
           attemptNo: answered.attemptNo,
           optionIndex,
           usedHint: itemHintsUsed(hints, item.id),
-          context: jumpTrack ? "JUMP_TEST" : challengeDate ? "DAILY_CHALLENGE" : lessonId === REVIEW_SESSION_ID || (slot?.kind === "item" && slot.review) ? "REVIEW" : "LESSON",
+          context: jumpTrack ? "JUMP_TEST" : challengeDate ? "DAILY_CHALLENGE" : revision ? "REVISION" : lessonId === REVIEW_SESSION_ID || (slot?.kind === "item" && slot.review) ? "REVIEW" : "LESSON",
           lessonId: isLesson ? lessonId : null,
           answeredAt: new Date().toISOString(),
         },
@@ -230,7 +236,7 @@ export function useLessonPlayer(lessonId: string) {
     setRecentResults((previous) => [...previous.slice(-(MOOD_WINDOW - 1)), correct]);
     setSession(answered.session);
     setChecked({ outcome: answered.outcome, correct, optionIndex, wrongLine, codeVerdict });
-  }, [challengeDate, checked, concepts, dispatch, draft, hints, isGuest, isLesson, item, jumpTrack, lessonId, session, slot]);
+  }, [challengeDate, checked, concepts, dispatch, draft, hints, isGuest, isLesson, item, jumpTrack, lessonId, revision, session, slot]);
 
   const finish = useCallback(
     (finished: LessonSession) => {

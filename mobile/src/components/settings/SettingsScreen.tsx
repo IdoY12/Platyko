@@ -1,41 +1,29 @@
 import { useState } from "react";
-import { I18nManager, StyleSheet, Switch, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { StyleSheet, Switch, View } from "react-native";
 import Constants from "expo-constants";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AppText } from "@/components/common/AppText/AppText";
-import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { Screen } from "@/components/common/Screen/Screen";
+import { ScreenHeader } from "@/components/common/Screen/ScreenHeader";
 import { HELP_CENTER_URL, PRIVACY_POLICY_URL, TERMS_OF_USE_URL } from "@/constants/legalLinks";
 import { useAccountSettings } from "@/hooks/useAccountSettings";
 import { useAppSelector } from "@/redux/hooks";
 import { t } from "@/i18n/translate";
-import { MIN_TOUCH_TARGET, palette, space } from "@/theme/tokens";
+import { palette, space } from "@/theme/tokens";
 import { openExternalUrl } from "@/utils/profileUiAndPreferences";
 import { AccountDialogs } from "./AccountDialogs";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { SetPasswordDialog } from "./SetPasswordDialog";
 import { SettingsRow, SettingsSection } from "./SettingsRow";
 
-const BACK_ICON = I18nManager.isRTL ? "arrow-right" : "arrow-left";
-
 /** Settings (PRD 14.2): language, the reminder, the account, and the legal pages. */
 export function SettingsScreen() {
-  const navigation = useNavigation();
   const isGuest = useAppSelector((state) => state.session.isGuest);
   const account = useAccountSettings();
   const [setPasswordOpen, setSetPasswordOpen] = useState(false);
 
   return (
     <Screen scrollable contentStyle={styles.content}>
-      <View style={styles.header}>
-        <PressableScale onPress={() => navigation.goBack()} accessibilityRole="button" accessibilityLabel={t("common.back")} style={styles.back}>
-          <MaterialCommunityIcons name={BACK_ICON} size={26} color={palette.text.primary} />
-        </PressableScale>
-        <AppText variant="screenTitle" accessibilityRole="header">
-          {t("settings.title")}
-        </AppText>
-      </View>
+      <ScreenHeader title={t("settings.title")} />
       <SettingsSection title={t("settings.language")}>
         <View style={styles.language}>
           <LanguageSwitch confirmRestart />
@@ -76,7 +64,5 @@ export function SettingsScreen() {
 
 const styles = StyleSheet.create({
   content: { gap: space.xl },
-  header: { flexDirection: "row", alignItems: "center", gap: space.sm, paddingTop: space.md },
-  back: { width: MIN_TOUCH_TARGET, height: MIN_TOUCH_TARGET, alignItems: "center", justifyContent: "center" },
   language: { gap: space.md, paddingVertical: space.md },
 });

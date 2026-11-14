@@ -8,3 +8,4 @@ export * from "./lessonSession.js";
 export * from "./progress.js";
 export * from "./jumpTest.js";
 export * from "./dailyChallenge.js";
+export * from "./revision.js";

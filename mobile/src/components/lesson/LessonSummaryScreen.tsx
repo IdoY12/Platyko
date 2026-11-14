@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { dailyChallengeDate, JUMP_TEST_LENGTH, jumpTestPassMark, jumpTestTrack, nextLessonId } from "@project/learning-logic";
+import { dailyChallengeDate, JUMP_TEST_LENGTH, jumpTestPassMark, jumpTestTrack, nextLessonId, revisionChoice } from "@project/learning-logic";
 import { AppText } from "@/components/common/AppText/AppText";
 import { LipButton } from "@/components/common/LipButton/LipButton";
 import { OutlineButton } from "@/components/common/LipButton/OutlineButton";
@@ -35,6 +35,7 @@ export function LessonSummaryScreen({ route, navigation }: Props) {
   const { lessonId, accuracy, xpEarned, flawless, concepts, jumpPassed = false, challengeGrid } = route.params;
   const jumpTrack = jumpTestTrack(lessonId);
   const isChallenge = dailyChallengeDate(lessonId) !== null;
+  const isRevision = revisionChoice(lessonId) !== null;
   const map = useAppSelector((state) => state.learning.map);
   const progress = useAppSelector((state) => state.learning.progress);
   const resume = useAppSelector((state) => state.learning.resume);
@@ -48,7 +49,7 @@ export function LessonSummaryScreen({ route, navigation }: Props) {
       </View>
       <Animated.View entering={FadeInUp.delay(duration.emphasis).duration(duration.transition)} style={styles.body}>
         <AppText variant="screenTitle" align="center" accessibilityRole="header">
-          {jumpTrack ? (jumpPassed ? t("summary.jumpPassedTitle", { track: t(`map.track.${jumpTrack}`) }) : t("summary.jumpFailedTitle")) : isChallenge ? t("summary.dailyTitle") : t("summary.title")}
+          {jumpTrack ? (jumpPassed ? t("summary.jumpPassedTitle", { track: t(`map.track.${jumpTrack}`) }) : t("summary.jumpFailedTitle")) : isChallenge ? t("summary.dailyTitle") : isRevision ? t("summary.revisionTitle") : t("summary.title")}
         </AppText>
         {challengeGrid ? <DailyChallengeGrid grid={challengeGrid} /> : null}
         {jumpTrack ? (
@@ -83,7 +84,7 @@ export function LessonSummaryScreen({ route, navigation }: Props) {
             ))}
           </Surface>
         ) : null}
-        {next && !jumpTrack && !isChallenge ? <LipButton label={t("summary.nextLesson")} onPress={() => navigation.replace("LessonPlayer", { lessonId: next })} /> : null}
+        {next && !jumpTrack && !isChallenge && !isRevision ? <LipButton label={t("summary.nextLesson")} onPress={() => navigation.replace("LessonPlayer", { lessonId: next })} /> : null}
         <OutlineButton label={t("summary.backToMap")} onPress={() => navigation.goBack()} />
       </Animated.View>
     </Screen>

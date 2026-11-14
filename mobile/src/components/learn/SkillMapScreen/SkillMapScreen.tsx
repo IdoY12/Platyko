@@ -4,9 +4,11 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Animated, { useAnimatedScrollHandler, useAnimatedStyle, useReducedMotion, useSharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TRACKS, type Track } from "@project/content-model";
 import { isTrackUnlocked, jumpTestId, lessonStatesOf, summaryLessonId, type MapUnit } from "@project/learning-logic";
 import { AppText } from "@/components/common/AppText/AppText";
+import { OutlineButton } from "@/components/common/LipButton/OutlineButton";
 import { AmbientRiver } from "@/components/common/Screen/AmbientRiver";
 import { Surface } from "@/components/common/Surface/Surface";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -128,9 +130,12 @@ export function SkillMapScreen() {
           contentContainerStyle={styles.content}
           refreshControl={<RefreshControl refreshing={false} onRefresh={() => void refreshContentMap(dispatch)} tintColor={palette.brand.primary} />}
         >
-          <AppText variant="screenTitle" accessibilityRole="header">
-            {t("map.title")}
-          </AppText>
+          <View style={styles.titleRow}>
+            <AppText variant="screenTitle" accessibilityRole="header" style={styles.title}>
+              {t("map.title")}
+            </AppText>
+            {map ? <OutlineButton label={t("map.revision")} onPress={() => navigation.navigate("RevisionSetup")} icon={<MaterialCommunityIcons name="format-list-checks" size={20} color={palette.text.primary} />} /> : null}
+          </View>
           {tracks.length === 0 ? <AppText color={palette.text.secondary}>{t("map.empty")}</AppText> : null}
           {tracks.map(({ track, units }: { track: Track; units: MapUnit[] }) => (
             <View key={track} style={styles.track}>
@@ -155,6 +160,8 @@ const styles = StyleSheet.create({
   bank: { position: "absolute", width: 180, height: 260, borderRadius: 130, backgroundColor: "rgba(27,30,85,0.55)" },
   content: { paddingHorizontal: SCREEN_MARGIN, paddingBottom: TAB_BAR_CLEARANCE, gap: space.xl },
   track: { gap: space.lg },
+  titleRow: { flexDirection: "row", alignItems: "center", gap: space.md },
+  title: { flex: 1 },
   unit: { gap: space.lg },
   unitHeader: { gap: space.xs },
   nodeRow: { position: "absolute", left: 0, right: 0, alignItems: "center" },
