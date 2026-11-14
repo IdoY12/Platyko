@@ -1,0 +1,1720 @@
+{
+  "track": "ADVANCED",
+  "unit": "performance-and-memory",
+  "order": 7,
+  "title": "Performance and memory",
+  "summary": "Cache repeated work, limit how often handlers run, cancel what keeps running, and count the work a loop does.",
+  "concepts": [
+    {
+      "id": "memoization",
+      "title": "Memoization",
+      "prerequisites": [
+        "closure-private-state",
+        "map-collection"
+      ]
+    },
+    {
+      "id": "debounce-and-throttle",
+      "title": "Debounce and throttle",
+      "prerequisites": [
+        "callbacks-and-timers",
+        "closure-private-state"
+      ]
+    },
+    {
+      "id": "memory-leaks",
+      "title": "Leaks: timers, listeners and closures",
+      "prerequisites": [
+        "weak-collections",
+        "event-listeners",
+        "closure-captures-variable"
+      ]
+    },
+    {
+      "id": "algorithmic-cost",
+      "title": "Counting the work a loop does",
+      "prerequisites": [
+        "array-reduce",
+        "array-find-and-search",
+        "set-collection"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "memo-reruns-body",
+      "description": "Believes a memoized function still runs its body on a repeated input."
+    },
+    {
+      "id": "cache-ignores-argument",
+      "description": "Believes that after the first call every later call is served from the cache, whatever the argument."
+    },
+    {
+      "id": "fresh-cache-each-call",
+      "description": "Believes the cache is created anew on every call, so nothing is remembered."
+    },
+    {
+      "id": "falsy-result-means-missing",
+      "description": "Believes testing the stored value shows whether an entry exists, even when the value is 0 or another falsy value."
+    },
+    {
+      "id": "limit-still-runs-every-call",
+      "description": "Believes debounce or throttle only delays calls, so every call still runs eventually."
+    },
+    {
+      "id": "debounce-ignores-gap",
+      "description": "Believes a debounced function runs once after all calls, however long the pauses between them."
+    },
+    {
+      "id": "throttle-waits-for-quiet",
+      "description": "Believes a throttle waits until the calls stop and runs only the last one."
+    },
+    {
+      "id": "any-deferral-debounces",
+      "description": "Believes any deferring or timer function can stand in for setTimeout inside a debounce."
+    },
+    {
+      "id": "null-cancels-existing",
+      "description": "Believes assigning null to a variable, or adding null somewhere, cancels the timer or callback that already exists."
+    },
+    {
+      "id": "interval-fires-immediately",
+      "description": "Believes setInterval runs its callback once at time zero before the first period."
+    },
+    {
+      "id": "reassign-frees-object",
+      "description": "Believes reassigning or clearing a variable frees an object even when another reference still holds it."
+    },
+    {
+      "id": "anonymous-listener-removable",
+      "description": "Believes a new function with the same body can remove a listener added earlier."
+    },
+    {
+      "id": "early-exit-confused",
+      "description": "Mixes up which loop or method stops early, or believes every pass always runs."
+    },
+    {
+      "id": "nested-loops-add",
+      "description": "Believes the work of nested loops adds up, or is counted per loop, instead of multiplying."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Memoization",
+      "retrievedAt": "2026-11-14",
+      "sha256": "f584ba7e00a1956a9882b94fc33846a92e3973abba8c58e982120f800af96941"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Memory_management",
+      "retrievedAt": "2026-11-14",
+      "sha256": "fd4a1036184b0ac9b50632cea74d1b76f82074e41e937c9c3a4ffaee2340a280"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
+      "retrievedAt": "2026-11-14",
+      "sha256": "a69265c8b8343ea02df4b2d6e8cdea42898100c6ffd478da0a69ac7eaa58caab"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval",
+      "retrievedAt": "2026-11-14",
+      "sha256": "bb9fca1eba664a6cefd3ffde034bf13a5a6d516c3f7882a29877f166715e5032"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7d71f9f6a40dc8df979db43f64c8f853b2651071338655ccf42e7e52feeaa580"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find",
+      "retrievedAt": "2026-11-14",
+      "sha256": "79aff8ca33b59664e28768cddad791040859083337e682016bdc215d8267de63"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+      "retrievedAt": "2026-11-14",
+      "sha256": "c7f247484f4da7488313fa4901170cf5563351256861873dde533b3b1a0e4bf8"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "performance-and-memory.lesson-1",
+      "title": "Memoization",
+      "conceptCard": {
+        "title": "Remember results by input",
+        "body": "A function that gives the same answer for the same input can store its answers. Keep a Map outside the call. Look the input up first; do the real work only when it is missing, then store the result. A repeated input costs one lookup.",
+        "code": [
+          "const cache = new Map();",
+          "const double = (n) => {",
+          "  if (!cache.has(n)) {",
+          "    cache.set(n, n * 2);",
+          "  }",
+          "  return cache.get(n);",
+          "};",
+          "console.log(double(4), double(4));"
+        ],
+        "expectedOutput": "8 8"
+      },
+      "itemIds": [
+        "adv.performance-and-memory.memoization.predict-01",
+        "adv.performance-and-memory.memoization.concept-01",
+        "adv.performance-and-memory.memoization.parsons-01",
+        "adv.performance-and-memory.memoization.fix-01",
+        "adv.performance-and-memory.memoization.write-01"
+      ]
+    },
+    {
+      "id": "performance-and-memory.lesson-2",
+      "title": "Debounce and throttle",
+      "conceptCard": {
+        "title": "Slow down a busy function",
+        "body": "Debounce and throttle limit how often a function runs. Debounce waits: each new call cancels the pending timer and starts a new one, so the function runs once after the calls stop. Throttle spaces runs: at most one per interval, the calls in between are dropped.",
+        "code": [
+          "const say = (x) => console.log(x);",
+          "let t;",
+          "const ping = (x) => {",
+          "  clearTimeout(t);",
+          "  t = setTimeout(() => say(x), 100);",
+          "};",
+          "ping(1);",
+          "ping(2);"
+        ],
+        "expectedOutput": "2"
+      },
+      "itemIds": [
+        "adv.performance-and-memory.debounce-and-throttle.predict-01",
+        "adv.performance-and-memory.debounce-and-throttle.concept-01",
+        "adv.performance-and-memory.debounce-and-throttle.fill-01",
+        "adv.performance-and-memory.debounce-and-throttle.fix-01",
+        "adv.performance-and-memory.debounce-and-throttle.write-01"
+      ]
+    },
+    {
+      "id": "performance-and-memory.lesson-3",
+      "title": "Leaks: timers, listeners and closures",
+      "conceptCard": {
+        "title": "Cancel what you start",
+        "body": "A timer, a listener or a stored callback keeps working until it is cancelled. Dropping your own variable does not cancel it. Whatever a live callback uses stays reachable. Clear timers by their id, remove listeners by the same function, and empty lists you no longer need.",
+        "code": [
+          "let count = 0;",
+          "const tick = () => count++;",
+          "const id = setInterval(tick, 100);",
+          "setTimeout(() => {",
+          "  clearInterval(id);",
+          "  console.log(count);",
+          "}, 250);"
+        ],
+        "expectedOutput": "2"
+      },
+      "itemIds": [
+        "adv.performance-and-memory.memory-leaks.predict-01",
+        "adv.performance-and-memory.memory-leaks.concept-01",
+        "adv.performance-and-memory.memory-leaks.fill-01",
+        "adv.performance-and-memory.memory-leaks.fix-01",
+        "adv.performance-and-memory.memory-leaks.write-01"
+      ]
+    },
+    {
+      "id": "performance-and-memory.lesson-4",
+      "title": "Counting the work a loop does",
+      "conceptCard": {
+        "title": "Count steps, not lines",
+        "body": "To compare two ways of doing a job, count the steps. Count how many times the loop body runs, not how many lines you wrote. A loop runs once per element, a loop inside a loop runs its inner body once per outer pass, and stopping early saves the rest.",
+        "code": [
+          "let steps = 0;",
+          "for (const a of [1, 2]) {",
+          "  for (const b of [1, 2, 3]) {",
+          "    steps++;",
+          "  }",
+          "}",
+          "console.log(steps);"
+        ],
+        "expectedOutput": "6"
+      },
+      "itemIds": [
+        "adv.performance-and-memory.algorithmic-cost.predict-01",
+        "adv.performance-and-memory.algorithmic-cost.concept-01",
+        "adv.performance-and-memory.algorithmic-cost.fill-01",
+        "adv.performance-and-memory.algorithmic-cost.fix-01",
+        "adv.performance-and-memory.algorithmic-cost.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "adv.performance-and-memory.memoization.predict-01",
+      "concept": "memoization",
+      "prerequisites": [
+        "closure-private-state",
+        "map-collection"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A fruit stall caches its prices by weight. What does this program print?",
+      "code": [
+        "let calls = 0;",
+        "const cache = new Map();",
+        "const price = (kg) => {",
+        "  if (!cache.has(kg)) {",
+        "    calls++;",
+        "    cache.set(kg, kg * 4);",
+        "  }",
+        "  return cache.get(kg);",
+        "};",
+        "price(2); price(3); price(2);",
+        "console.log(calls);"
+      ],
+      "options": [
+        {
+          "text": "2",
+          "correct": true,
+          "feedback": "Right. The body runs for 2 and for 3. The second call for 2 finds the stored price and skips the counter line."
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "That counts all three calls. A call whose weight is already in the cache returns the stored price without running the counter line.",
+          "misconception": "memo-reruns-body"
+        },
+        {
+          "text": "1",
+          "correct": false,
+          "feedback": "That treats every call after the first as a hit. The cache is keyed by weight, so the new weight 3 is a miss.",
+          "misconception": "cache-ignores-argument"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "2"
+      },
+      "explanation": "The counter sits inside the if, so it only runs on a cache miss. Weights 2 and 3 are misses; the repeated 2 is a hit and returns the stored price. That makes two runs of the body.",
+      "hints": [
+        "Look at which line increases calls, and when line 4 lets it run.",
+        "A memoized function runs its real work only for an input it has not seen.",
+        "Compare the three weights: one of them has already been stored by the time it is asked again."
+      ],
+      "reference": {
+        "title": "Memoization",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Memoization",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:14"
+      ]
+    },
+    {
+      "id": "adv.performance-and-memory.memoization.concept-01",
+      "concept": "memoization",
+      "prerequisites": [
+        "closure-private-state",
+        "map-collection"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "This program prints 110 twice although tax changed in between. Which statement does it demonstrate?",
+      "code": [
+        "let tax = 10;",
+        "const cache = new Map();",
+        "function withTax(p) {",
+        "  if (!cache.has(p)) {",
+        "    cache.set(p, p + tax);",
+        "  }",
+        "  return cache.get(p);",
+        "}",
+        "console.log(withTax(100));",
+        "tax = 20;",
+        "console.log(withTax(100));"
+      ],
+      "options": [
+        {
+          "text": "A cached answer goes stale when the result also depends on a value outside the arguments.",
+          "correct": true,
+          "feedback": "Right. The cache only knows the argument 100, so it keeps returning the answer stored when tax was 10."
+        },
+        {
+          "text": "The second call ran the body again, but it still read the old tax.",
+          "correct": false,
+          "feedback": "If the body had run again it would have read tax as 20 and printed 120. The 110 comes straight from the cache.",
+          "misconception": "memo-reruns-body"
+        },
+        {
+          "text": "Every call to withTax starts with an empty cache.",
+          "correct": false,
+          "feedback": "The cache is declared outside the function, so it survives between calls. That is why the second call finds the first answer.",
+          "misconception": "fresh-cache-each-call"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "110\n110"
+      },
+      "explanation": "Memoization is safe only when the result depends on the arguments alone. Here the result also depends on tax, but the cache is keyed by p only, so after tax changes the stored 110 is returned again.",
+      "hints": [
+        "Compare the two printed numbers with the value of tax at each call.",
+        "A cache remembers answers by input; it does not notice other values changing.",
+        "Ask where the cache lives and what its key contains."
+      ],
+      "reference": {
+        "title": "Memoization",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Memoization",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.performance-and-memory.memoization.parsons-01",
+      "concept": "memoization",
+      "prerequisites": [
+        "closure-private-state",
+        "map-collection"
+      ],
+      "format": "PARSONS",
+      "difficulty": 3,
+      "prompt": "Order the lines so the visit log prints miss hit: the first check of 7 stores it, the second finds it.",
+      "code": [
+        "const first = check(7);",
+        "  const known = seen.has(k);",
+        "const seen = new Set();",
+        "};",
+        "console.log(first, check(7));",
+        "  seen.add(k);",
+        "const check = (k) => {",
+        "  return known ? 'hit' : 'miss';"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          6,
+          1,
+          5,
+          7,
+          3,
+          0,
+          4
+        ],
+        "acceptedOrders": [
+          [
+            6,
+            1,
+            5,
+            7,
+            3,
+            2,
+            0,
+            4
+          ]
+        ],
+        "expectedOutput": "miss hit"
+      },
+      "explanation": "The check reads has before add, so the first call reports a miss and stores the key. Only then can the second call find it. The set may be created before or after the function, but both must come before the calls.",
+      "hints": [
+        "Find the line that reads has and the line that stores the key. Which must come first?",
+        "A cache lookup asks the question first and stores the answer afterwards.",
+        "The two calls come last, and the printing call is the one that uses the first result."
+      ],
+      "reference": {
+        "title": "Set.prototype.has()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/has",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.performance-and-memory.memoization.fix-01",
+      "concept": "memoization",
+      "prerequisites": [
+        "closure-private-state",
+        "map-collection"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The warehouse program should print 1 because the second stock(1) hits the cache. Tap the buggy line and pick the fix.",
+      "code": [
+        "let runs = 0;",
+        "const seen = {};",
+        "function stock(k) {",
+        "  if (seen[k]) return seen[k];",
+        "  runs++;",
+        "  seen[k] = k - 1;",
+        "  return seen[k];",
+        "}",
+        "stock(1); stock(1);",
+        "console.log(runs);"
+      ],
+      "options": [
+        {
+          "text": "if (k in seen) return seen[k];",
+          "correct": true,
+          "feedback": "Right. The in operator asks whether the key exists, even when the stored answer is 0."
+        },
+        {
+          "text": "if (seen[k] !== 0) return seen[k];",
+          "correct": false,
+          "feedback": "For a new key seen[k] is undefined, which is not 0, so the function returns undefined before it ever computes anything.",
+          "misconception": "falsy-result-means-missing"
+        },
+        {
+          "text": "if (seen.k) return seen.k;",
+          "correct": false,
+          "feedback": "seen.k looks for a property literally named k, which never exists. Nothing is ever read from the cache."
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "1"
+      },
+      "explanation": "The stored answer for key 1 is 0, and 0 is falsy, so the check treats a stored answer as a miss. Test whether the key exists instead of testing the value.",
+      "hints": [
+        "Check what stock(1) stores, then what line 4 does with that value.",
+        "A truthiness test cannot tell a stored 0 from a missing entry.",
+        "Ask about the key, not about the stored value."
+      ],
+      "reference": {
+        "title": "in operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.performance-and-memory.memoization.write-01",
+      "concept": "memoization",
+      "prerequisites": [
+        "closure-private-state",
+        "map-collection"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of cacheMisses(requests). A memoized function is asked for each id in order. Return how many requests it had to compute instead of reading from the cache.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "cacheMisses",
+          "params": [
+            "requests"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              []
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              [
+                5
+              ]
+            ],
+            "expected": 1
+          },
+          {
+            "input": [
+              [
+                3,
+                3,
+                3
+              ]
+            ],
+            "expected": 1
+          },
+          {
+            "input": [
+              [
+                1,
+                2,
+                1,
+                2
+              ]
+            ],
+            "expected": 2
+          },
+          {
+            "input": [
+              [
+                "a",
+                "b",
+                "a",
+                "c",
+                "b"
+              ]
+            ],
+            "expected": 3
+          }
+        ],
+        "reference": [
+          "const seen = new Set();",
+          "let misses = 0;",
+          "for (const id of requests) {",
+          "  if (!seen.has(id)) {",
+          "    seen.add(id);",
+          "    misses++;",
+          "  }",
+          "}",
+          "return misses;"
+        ],
+        "wrongSolutions": [
+          [
+            "return requests.length;"
+          ],
+          [
+            "const seen = new Set(requests);",
+            "return requests.length - seen.size;"
+          ],
+          [
+            "return requests.filter((id, i) => {",
+            "  return id !== requests[i - 1];",
+            "}).length;"
+          ]
+        ]
+      },
+      "explanation": "A request is a miss only the first time its id appears. Keep a set of ids already stored; count an id when it is not in the set, then add it.",
+      "hints": [
+        "Think about what must be remembered between requests.",
+        "A miss is the first time an id is asked for.",
+        "Keep a set of seen ids and count the ids that are not in it yet."
+      ],
+      "reference": {
+        "title": "Set",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.performance-and-memory.debounce-and-throttle.predict-01",
+      "concept": "debounce-and-throttle",
+      "prerequisites": [
+        "callbacks-and-timers",
+        "closure-private-state"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A search box logs a query once typing pauses for 200 ms. Calls arrive at 0, 100 and 400 ms. What does this print?",
+      "code": [
+        "let t;",
+        "const say = (x) => console.log(x);",
+        "const ping = (x) => {",
+        "  clearTimeout(t);",
+        "  t = setTimeout(() => say(x), 200);",
+        "};",
+        "setTimeout(() => ping('a'), 0);",
+        "setTimeout(() => ping('b'), 100);",
+        "setTimeout(() => ping('c'), 400);"
+      ],
+      "options": [
+        {
+          "text": "b\nc",
+          "correct": true,
+          "feedback": "Right. The call at 100 cancels a, b runs at 300, and c at 400 starts a new wait that nothing interrupts."
+        },
+        {
+          "text": "a\nb\nc",
+          "correct": false,
+          "feedback": "That lets every call run. Each new call clears the timer of the previous one if it has not fired yet.",
+          "misconception": "limit-still-runs-every-call"
+        },
+        {
+          "text": "c",
+          "correct": false,
+          "feedback": "That merges all three calls. b has already fired at 300 because no call arrived during its 200 ms wait.",
+          "misconception": "debounce-ignores-gap"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "b\nc"
+      },
+      "explanation": "Each call clears the pending timer and starts a new 200 ms wait. a is cancelled by b at 100. b waits until 300 and runs because nothing arrives before then. c arrives at 400 and runs at 600.",
+      "hints": [
+        "Write down when each call happens and when its timer would fire.",
+        "A debounced call is cancelled by any call that arrives before its wait is over.",
+        "Check whether the call at 400 comes before or after the timer of the call at 100."
+      ],
+      "reference": {
+        "title": "clearTimeout()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/clearTimeout",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:13"
+      ]
+    },
+    {
+      "id": "adv.performance-and-memory.debounce-and-throttle.concept-01",
+      "concept": "debounce-and-throttle",
+      "prerequisites": [
+        "callbacks-and-timers",
+        "closure-private-state"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Four calls arrive at the times in the array, and only two lines print. Which statement does this code demonstrate?",
+      "code": [
+        "let lastRun = -1000;",
+        "const gate = (t) => {",
+        "  if (t - lastRun >= 300) {",
+        "    lastRun = t;",
+        "    console.log('run ' + t);",
+        "  }",
+        "};",
+        "[0, 100, 250, 300].forEach(gate);"
+      ],
+      "options": [
+        {
+          "text": "A throttled function runs at most once per interval and ignores the calls in between.",
+          "correct": true,
+          "feedback": "Right. After a run at 0 the calls at 100 and 250 are dropped, and 300 is the first call far enough away."
+        },
+        {
+          "text": "It waits until the calls stop and then runs only the last one.",
+          "correct": false,
+          "feedback": "That describes a debounce. This code runs at 0 straight away and never waits for the calls to stop.",
+          "misconception": "throttle-waits-for-quiet"
+        },
+        {
+          "text": "It runs every call, only later.",
+          "correct": false,
+          "feedback": "Calls at 100 and 250 print nothing. They are dropped, not delayed.",
+          "misconception": "limit-still-runs-every-call"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "run 0\nrun 300"
+      },
+      "explanation": "A throttle remembers when it last ran. A call runs only if enough time has passed since then, otherwise it is dropped. So 0 and 300 run, and the calls at 100 and 250 do nothing.",
+      "hints": [
+        "Follow lastRun as each time in the array is checked.",
+        "A throttle caps how often the function runs; it does not queue the extra calls.",
+        "Check which calls print and what the dropped calls had in common."
+      ],
+      "reference": {
+        "title": "setTimeout()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.performance-and-memory.debounce-and-throttle.fill-01",
+      "concept": "debounce-and-throttle",
+      "prerequisites": [
+        "callbacks-and-timers",
+        "closure-private-state"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blank so the debounced hi forwards its arguments and prints only y after the wait.",
+      "code": [
+        "function debounce(fn) {",
+        "  let t;",
+        "  return (...args) => {",
+        "    clearTimeout(t);",
+        "    t = ___(() => fn(...args), 100);",
+        "  };",
+        "}",
+        "const hi = debounce(console.log);",
+        "hi('x');",
+        "hi('y');"
+      ],
+      "options": [
+        {
+          "text": "setTimeout",
+          "correct": true,
+          "feedback": "Right. A timer waits for the delay, and the next call can cancel it before it fires."
+        },
+        {
+          "text": "queueMicrotask",
+          "correct": false,
+          "feedback": "A microtask runs as soon as the current code ends and ignores the delay, so there is nothing for clearTimeout to cancel and both x and y print.",
+          "misconception": "any-deferral-debounces"
+        },
+        {
+          "text": "clearTimeout",
+          "correct": false,
+          "feedback": "This only cancels; it never schedules fn. Nothing is printed at all.",
+          "misconception": "any-deferral-debounces"
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "setTimeout"
+          ]
+        ],
+        "expectedOutput": "y"
+      },
+      "explanation": "A debounce needs a cancellable delayed call. setTimeout schedules fn(...args) after wait and returns the id that the next call clears. The arrow keeps args, so the latest arguments reach fn.",
+      "hints": [
+        "Look at what the line must store in t so line 4 can clear it.",
+        "Debounce needs a call that waits for a delay and that a later call can cancel.",
+        "Pick the function that takes a callback and a delay in milliseconds."
+      ],
+      "reference": {
+        "title": "setTimeout()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:19"
+      ]
+    },
+    {
+      "id": "adv.performance-and-memory.debounce-and-throttle.fix-01",
+      "concept": "debounce-and-throttle",
+      "prerequisites": [
+        "callbacks-and-timers",
+        "closure-private-state"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The search should log only find cat, but it logs both queries. Tap the buggy line and pick the fix.",
+      "code": [
+        "let timer;",
+        "const find = (q) => {",
+        "  clearTimeout(q);",
+        "  timer = setTimeout(() => {",
+        "    console.log('find ' + q);",
+        "  }, 300);",
+        "};",
+        "find('ca'); find('cat');"
+      ],
+      "options": [
+        {
+          "text": "clearTimeout(timer);",
+          "correct": true,
+          "feedback": "Right. The id of the earlier timer is stored in timer, so that is what must be cleared."
+        },
+        {
+          "text": "timer = null;",
+          "correct": false,
+          "feedback": "Setting the variable to null only forgets the id. The earlier timer is still scheduled and still fires.",
+          "misconception": "null-cancels-existing"
+        },
+        {
+          "text": "clearTimeout();",
+          "correct": false,
+          "feedback": "Without an id there is nothing to cancel, so both timers still fire."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "find cat"
+      },
+      "explanation": "clearTimeout needs the id that setTimeout returned. The query string is not an id, so the first timer is never cancelled. Clear the stored id before a new timer is stored.",
+      "hints": [
+        "Compare what line 3 clears with what line 4 stores.",
+        "clearTimeout takes the value that setTimeout returned.",
+        "The id is kept in a variable declared on line 1."
+      ],
+      "reference": {
+        "title": "clearTimeout()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/clearTimeout",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.performance-and-memory.debounce-and-throttle.write-01",
+      "concept": "debounce-and-throttle",
+      "prerequisites": [
+        "callbacks-and-timers",
+        "closure-private-state"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of throttleRuns(times, gap). A call runs if it is the first, or at least gap after the last run. Return the times that run.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "throttleRuns",
+          "params": [
+            "times",
+            "gap"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [],
+              100
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                0,
+                50,
+                100,
+                150,
+                200
+              ],
+              100
+            ],
+            "expected": [
+              0,
+              100,
+              200
+            ]
+          },
+          {
+            "input": [
+              [
+                0,
+                60,
+                120,
+                180
+              ],
+              100
+            ],
+            "expected": [
+              0,
+              120
+            ]
+          },
+          {
+            "input": [
+              [
+                50,
+                80
+              ],
+              100
+            ],
+            "expected": [
+              50
+            ]
+          },
+          {
+            "input": [
+              [
+                10
+              ],
+              5
+            ],
+            "expected": [
+              10
+            ]
+          }
+        ],
+        "reference": [
+          "const ran = [];",
+          "let last = -Infinity;",
+          "for (const t of times) {",
+          "  if (t - last >= gap) {",
+          "    ran.push(t);",
+          "    last = t;",
+          "  }",
+          "}",
+          "return ran;"
+        ],
+        "wrongSolutions": [
+          [
+            "const ran = [];",
+            "let last = -Infinity;",
+            "for (const t of times) {",
+            "  if (t - last >= gap) ran.push(t);",
+            "  last = t;",
+            "}",
+            "return ran;"
+          ],
+          [
+            "const ran = [];",
+            "let last = -Infinity;",
+            "for (const t of times) {",
+            "  if (t - last > gap) {",
+            "    ran.push(t);",
+            "    last = t;",
+            "  }",
+            "}",
+            "return ran;"
+          ],
+          [
+            "const ran = [];",
+            "let last = 0;",
+            "for (const t of times) {",
+            "  if (t - last >= gap) {",
+            "    ran.push(t);",
+            "    last = t;",
+            "  }",
+            "}",
+            "return ran;"
+          ]
+        ]
+      },
+      "explanation": "Remember the time of the last call that ran, not the last call. A call runs when it is first or when the gap since that run is at least gap, and only then does the remembered time change.",
+      "hints": [
+        "Decide what must be remembered between calls.",
+        "Update the remembered time only when a call actually runs.",
+        "The first call always runs, so start from a time infinitely far back."
+      ],
+      "reference": {
+        "title": "Array.prototype.push()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.performance-and-memory.memory-leaks.predict-01",
+      "concept": "memory-leaks",
+      "prerequisites": [
+        "weak-collections",
+        "event-listeners",
+        "closure-captures-variable"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "The page sets poll to null at 250 ms and logs the tick count at 450 ms. What does this program print?",
+      "code": [
+        "let ticks = 0;",
+        "const tick = () => ticks++;",
+        "const id = setInterval(tick, 100);",
+        "let poll = id;",
+        "setTimeout(() => {",
+        "  poll = null;",
+        "}, 250);",
+        "setTimeout(() => {",
+        "  console.log(ticks);",
+        "  clearInterval(id);",
+        "}, 450);"
+      ],
+      "options": [
+        {
+          "text": "4",
+          "correct": true,
+          "feedback": "Right. The interval was never cleared, so it still fires at 100, 200, 300 and 400 before the log."
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "That assumes setting poll to null stopped the interval at 250. The timer system holds the interval, not the variable, so it keeps firing.",
+          "misconception": "null-cancels-existing"
+        },
+        {
+          "text": "5",
+          "correct": false,
+          "feedback": "That counts a tick at 0. An interval waits one full period before its first run, so the first tick is at 100.",
+          "misconception": "interval-fires-immediately"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "4"
+      },
+      "explanation": "Only clearInterval stops an interval. Assigning null to poll just loses the id, so the interval fires at 100, 200, 300 and 400. The log at 450 sees four ticks.",
+      "hints": [
+        "List the times at which the interval fires.",
+        "Changing a variable does not change a timer that was already started.",
+        "Count the interval ticks that happen before 450 ms."
+      ],
+      "reference": {
+        "title": "clearInterval()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.performance-and-memory.memory-leaks.concept-01",
+      "concept": "memory-leaks",
+      "prerequisites": [
+        "weak-collections",
+        "event-listeners",
+        "closure-captures-variable"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "The program prints 2. After its last assignment, which statement about the two objects is true?",
+      "code": [
+        "let draft = { text: 'a' };",
+        "const history = [draft];",
+        "draft = { text: 'b' };",
+        "history.push(draft);",
+        "draft = null;",
+        "console.log(history.length);"
+      ],
+      "options": [
+        {
+          "text": "Both objects are still reachable, because the history array holds a reference to each.",
+          "correct": true,
+          "feedback": "Right. An object stays alive while any reference reaches it, and the array keeps a reference to each of them."
+        },
+        {
+          "text": "Only the object with text b is reachable, because draft moved on from a.",
+          "correct": false,
+          "feedback": "Moving draft away only removes one reference to a. The array was given its own reference on line 2, so a is still reachable.",
+          "misconception": "reassign-frees-object"
+        },
+        {
+          "text": "Neither object is reachable, because draft is null.",
+          "correct": false,
+          "feedback": "draft was only one of the references. The array still holds both objects, whatever draft contains.",
+          "misconception": "reassign-frees-object"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "2"
+      },
+      "explanation": "An object can be freed only when nothing reachable refers to it. Reassigning or clearing draft removes one reference at a time. The history array still refers to both objects, so both stay reachable.",
+      "hints": [
+        "Count the places that refer to each object after line 5.",
+        "Memory is freed only when no reachable reference is left.",
+        "The array was filled before draft changed. What does it still hold?"
+      ],
+      "reference": {
+        "title": "Memory management",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Memory_management",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:16"
+      ]
+    },
+    {
+      "id": "adv.performance-and-memory.memory-leaks.fill-01",
+      "concept": "memory-leaks",
+      "prerequisites": [
+        "weak-collections",
+        "event-listeners",
+        "closure-captures-variable"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 4,
+      "prompt": "Each stored callback keeps its data array reachable. Fill the blank so every stored callback is released and the program prints 0.",
+      "code": [
+        "const jobs = [];",
+        "function watch(data) {",
+        "  jobs.push(() => data.length);",
+        "}",
+        "watch([1, 2, 3]);",
+        "___;",
+        "console.log(jobs.length);"
+      ],
+      "options": [
+        {
+          "text": "jobs.length = 0",
+          "correct": true,
+          "feedback": "Right. Emptying the list drops the callback, and with it the data array it held."
+        },
+        {
+          "text": "jobs.pop()",
+          "correct": true,
+          "feedback": "Right. With one stored callback, removing it leaves the list empty and frees its data."
+        },
+        {
+          "text": "jobs.push(null)",
+          "correct": false,
+          "feedback": "This adds another entry instead of removing the callback. The list holds two items and the callback still keeps its data.",
+          "misconception": "null-cancels-existing"
+        },
+        {
+          "text": "watch(null)",
+          "correct": false,
+          "feedback": "Calling watch again stores a second callback. The first callback is still in the list with its data.",
+          "misconception": "null-cancels-existing"
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "jobs.length = 0",
+            "jobs.pop()"
+          ]
+        ],
+        "expectedOutput": "0"
+      },
+      "explanation": "A callback in a list keeps everything it uses reachable. To release it, remove it from the list. Adding a null entry or calling watch again only adds items, so the first callback and its data stay.",
+      "hints": [
+        "Look at what line 3 puts into the list.",
+        "Data stays reachable while a stored callback that uses it is still reachable.",
+        "Two chips shorten the list; the other two make it longer."
+      ],
+      "reference": {
+        "title": "Array length",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:18"
+      ]
+    },
+    {
+      "id": "adv.performance-and-memory.memory-leaks.fix-01",
+      "concept": "memory-leaks",
+      "prerequisites": [
+        "weak-collections",
+        "event-listeners",
+        "closure-captures-variable"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The tick listener should be removed before the event fires, so hits stays 0. Tap the buggy line and pick the fix.",
+      "code": [
+        "const listeners = new Set();",
+        "let hits = 0;",
+        "const tick = () => hits++;",
+        "listeners.add(tick);",
+        "listeners.delete(() => hits++);",
+        "listeners.forEach((fn) => fn());",
+        "console.log(hits);"
+      ],
+      "options": [
+        {
+          "text": "listeners.delete(tick);",
+          "correct": true,
+          "feedback": "Right. The set holds the function stored on line 4, and deleting by the same reference removes it."
+        },
+        {
+          "text": "listeners.delete(() => tick());",
+          "correct": false,
+          "feedback": "This is yet another new function. Two functions with the same body are different values, so nothing is removed.",
+          "misconception": "anonymous-listener-removable"
+        },
+        {
+          "text": "listeners.delete(tick());",
+          "correct": false,
+          "feedback": "Parentheses call tick, which changes hits and returns a number. The set holds a function, so nothing is removed."
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "0"
+      },
+      "explanation": "A listener is removed by the same function value that was added. An arrow written again on line 5 is a different function, so the set keeps tick and it still fires. Pass the stored reference.",
+      "hints": [
+        "Compare the value added on line 4 with the value removed on line 5.",
+        "Two functions are equal only when they are the very same function.",
+        "Remove it by the name it was stored under, without calling it."
+      ],
+      "reference": {
+        "title": "Set.prototype.delete()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/delete",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:12"
+      ]
+    },
+    {
+      "id": "adv.performance-and-memory.memory-leaks.write-01",
+      "concept": "memory-leaks",
+      "prerequisites": [
+        "weak-collections",
+        "event-listeners",
+        "closure-captures-variable"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of stillRunning(events). Each event is 'start name' or 'stop name' for a timer. Return the names never stopped, in the order they started.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "stillRunning",
+          "params": [
+            "events"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                "start a"
+              ]
+            ],
+            "expected": [
+              "a"
+            ]
+          },
+          {
+            "input": [
+              [
+                "start a",
+                "stop a"
+              ]
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                "start a",
+                "start b",
+                "stop a"
+              ]
+            ],
+            "expected": [
+              "b"
+            ]
+          },
+          {
+            "input": [
+              [
+                "start a",
+                "start b",
+                "stop b"
+              ]
+            ],
+            "expected": [
+              "a"
+            ]
+          },
+          {
+            "input": [
+              [
+                "start a",
+                "stop z"
+              ]
+            ],
+            "expected": [
+              "a"
+            ]
+          }
+        ],
+        "reference": [
+          "const on = new Set();",
+          "for (const e of events) {",
+          "  const [act, name] = e.split(' ');",
+          "  if (act === 'start') on.add(name);",
+          "  else on.delete(name);",
+          "}",
+          "return [...on];"
+        ],
+        "wrongSolutions": [
+          [
+            "return events",
+            "  .filter((e) => e[0] === 's')",
+            "  .map((e) => e.split(' ')[1]);"
+          ],
+          [
+            "const on = [];",
+            "for (const e of events) {",
+            "  const [op, name] = e.split(' ');",
+            "  if (op === 'start') on.push(name);",
+            "  else on.pop();",
+            "}",
+            "return on;"
+          ],
+          [
+            "const on = [];",
+            "for (const e of events) {",
+            "  const [op, name] = e.split(' ');",
+            "  if (op === 'start') on.push(name);",
+            "  else on.shift();",
+            "}",
+            "return on;"
+          ]
+        ]
+      },
+      "explanation": "A timer that was stopped no longer runs. Keep the names of running timers: add on start, remove that exact name on stop, and return what is left in start order.",
+      "hints": [
+        "Decide what to keep while reading the events.",
+        "A stop must remove the timer it names, not just any timer.",
+        "A set keeps insertion order, so spreading it gives start order."
+      ],
+      "reference": {
+        "title": "Set.prototype.delete()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/delete",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.performance-and-memory.algorithmic-cost.predict-01",
+      "concept": "algorithmic-cost",
+      "prerequisites": [
+        "array-reduce",
+        "array-find-and-search",
+        "set-collection"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "forEach and find both look at the stops. The counters record how many stops each one visits. What does this print?",
+      "code": [
+        "const stops = [5, 8, 3, 9, 2, 7];",
+        "let scanned = 0;",
+        "let visited = 0;",
+        "stops.forEach((s) => {",
+        "  scanned++;",
+        "});",
+        "stops.find((s) => {",
+        "  visited++;",
+        "  return s === 3;",
+        "});",
+        "console.log(scanned, visited);"
+      ],
+      "options": [
+        {
+          "text": "6 3",
+          "correct": true,
+          "feedback": "Right. forEach visits all six stops. find returns at the third stop, so its callback runs three times."
+        },
+        {
+          "text": "6 6",
+          "correct": false,
+          "feedback": "find stops at the first stop that makes its callback return true. It never visits the stops after the 3.",
+          "misconception": "early-exit-confused"
+        },
+        {
+          "text": "3 6",
+          "correct": false,
+          "feedback": "This swaps the two. forEach always runs for every element, and it is find that quits early.",
+          "misconception": "early-exit-confused"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "6 3"
+      },
+      "explanation": "forEach has no early exit, so its callback runs once per element: six times. find stops at the first match. The 3 is in third position, so visited is 3. Fewer steps means less work.",
+      "hints": [
+        "Count the callback runs separately for each method.",
+        "One of the two methods stops as soon as it has its answer.",
+        "Find the position of 3 in the list."
+      ],
+      "reference": {
+        "title": "Array.prototype.find()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:17"
+      ]
+    },
+    {
+      "id": "adv.performance-and-memory.algorithmic-cost.concept-01",
+      "concept": "algorithmic-cost",
+      "prerequisites": [
+        "array-reduce",
+        "array-find-and-search",
+        "set-collection"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "This program prints 16. Which statement about nested loops does it demonstrate?",
+      "code": [
+        "let steps = 0;",
+        "for (const a of [1, 2, 3, 4]) {",
+        "  for (const b of [1, 2, 3, 4]) {",
+        "    steps++;",
+        "  }",
+        "}",
+        "console.log(steps);"
+      ],
+      "options": [
+        {
+          "text": "The inner body runs once for every pass of the outer loop, so the steps multiply.",
+          "correct": true,
+          "feedback": "Right. Four passes of the outer loop each run the inner body four times: 4 times 4."
+        },
+        {
+          "text": "The steps add up: four from the outer loop and four from the inner loop.",
+          "correct": false,
+          "feedback": "That would be 8. The inner loop starts again from the beginning on every outer pass, so its steps are repeated.",
+          "misconception": "nested-loops-add"
+        },
+        {
+          "text": "Two loops cost two steps, whatever the lists hold.",
+          "correct": false,
+          "feedback": "Cost is the number of times the body runs, not the number of loops. Each pass over each list adds work.",
+          "misconception": "nested-loops-add"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "16"
+      },
+      "explanation": "A loop inside a loop restarts for every pass of the outer loop. With 4 outer passes and 4 inner passes each, the body runs 4 times 4 = 16 times. Count body runs, not loops.",
+      "hints": [
+        "Count how many times line 4 runs for one value of a.",
+        "The inner loop starts over on each outer pass.",
+        "Multiply the passes of the outer loop by the passes of the inner loop."
+      ],
+      "reference": {
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.performance-and-memory.algorithmic-cost.fill-01",
+      "concept": "algorithmic-cost",
+      "prerequisites": [
+        "array-reduce",
+        "array-find-and-search",
+        "set-collection"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 4,
+      "prompt": "Fill the blank so the loop counts ids it has already seen without rescanning a list. The program should print 1.",
+      "code": [
+        "const ids = [4, 7, 4, 9];",
+        "const seen = new Set();",
+        "let repeated = 0;",
+        "for (const id of ids) {",
+        "  if (seen.___(id)) repeated++;",
+        "  seen.add(id);",
+        "}",
+        "console.log(repeated);"
+      ],
+      "options": [
+        {
+          "text": "has",
+          "correct": true,
+          "feedback": "Right. has answers whether the id is in the set in one step, without scanning the earlier ids."
+        },
+        {
+          "text": "add",
+          "correct": false,
+          "feedback": "add returns the set itself, which counts as true for every id. Every id would count as repeated.",
+          "misconception": "early-exit-confused"
+        },
+        {
+          "text": "includes",
+          "correct": false,
+          "feedback": "Arrays have includes, but a Set does not, so this call fails."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "has"
+          ]
+        ],
+        "expectedOutput": "1"
+      },
+      "explanation": "A Set answers membership with has, which does not rescan earlier ids. Only the second 4 is already in the set, so repeated ends at 1.",
+      "hints": [
+        "Look at what the condition on line 5 must ask the set.",
+        "Sets have their own method to test membership.",
+        "The method name is a short question word about the set."
+      ],
+      "reference": {
+        "title": "Set.prototype.has()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/has",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.performance-and-memory.algorithmic-cost.fix-01",
+      "concept": "algorithmic-cost",
+      "prerequisites": [
+        "array-reduce",
+        "array-find-and-search",
+        "set-collection"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The search should stop at room b and print 2, but it keeps going. Tap the buggy line and pick the fix.",
+      "code": [
+        "let steps = 0;",
+        "const rooms = ['a', 'b', 'c', 'd'];",
+        "for (const room of rooms) {",
+        "  steps++;",
+        "  if (room === 'b') continue;",
+        "}",
+        "console.log(steps);"
+      ],
+      "options": [
+        {
+          "text": "if (room === 'b') break;",
+          "correct": true,
+          "feedback": "Right. break leaves the loop at once, so the later rooms are never visited."
+        },
+        {
+          "text": "if (room !== 'b') break;",
+          "correct": false,
+          "feedback": "This leaves the loop at the first room that is not b, which is room a, so steps ends at 1.",
+          "misconception": "early-exit-confused"
+        },
+        {
+          "text": "if (room === 'b') steps = 2;",
+          "correct": false,
+          "feedback": "This sets the counter but the loop still visits c and d, so steps goes on to 4."
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "2"
+      },
+      "explanation": "continue only skips the rest of the current pass, and nothing follows it. The loop still visits c and d. break ends the loop, so the work stops at room b.",
+      "hints": [
+        "Compare what line 5 does at room b with what you want.",
+        "continue skips to the next pass; another keyword leaves the loop.",
+        "The loop should end the moment room b is reached."
+      ],
+      "reference": {
+        "title": "break statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.performance-and-memory.algorithmic-cost.write-01",
+      "concept": "algorithmic-cost",
+      "prerequisites": [
+        "array-reduce",
+        "array-find-and-search",
+        "set-collection"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of pairChecks(list). A duplicate check compares every item with each item after it, with no early exit. Return how many comparisons that makes.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "pairChecks",
+          "params": [
+            "list"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              []
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              [
+                1
+              ]
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              [
+                1,
+                2,
+                3
+              ]
+            ],
+            "expected": 3
+          },
+          {
+            "input": [
+              [
+                4,
+                4,
+                4,
+                4
+              ]
+            ],
+            "expected": 6
+          },
+          {
+            "input": [
+              [
+                1,
+                2
+              ]
+            ],
+            "expected": 1
+          }
+        ],
+        "reference": [
+          "const n = list.length;",
+          "let count = 0;",
+          "for (let i = 0; i < n; i++) {",
+          "  for (let j = i + 1; j < n; j++) {",
+          "    count++;",
+          "  }",
+          "}",
+          "return count;"
+        ],
+        "wrongSolutions": [
+          [
+            "return list.length * list.length;"
+          ],
+          [
+            "const n = list.length;",
+            "return n * (n - 1);"
+          ],
+          [
+            "const n = list.length;",
+            "let count = 0;",
+            "for (let i = 0; i < n; i++) {",
+            "  for (let j = i; j < n; j++) {",
+            "    count++;",
+            "  }",
+            "}",
+            "return count;"
+          ]
+        ]
+      },
+      "explanation": "Each item is compared with the items after it only: n - 1, then n - 2, and so on. Count the inner body runs with a nested loop that starts at i + 1.",
+      "hints": [
+        "Count how many items come after the item at position i.",
+        "The inner loop should not look backwards or at the item itself.",
+        "Start the inner index one step after the outer index."
+      ],
+      "reference": {
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}
