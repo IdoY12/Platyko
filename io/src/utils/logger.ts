@@ -1,5 +1,5 @@
 /**
- * Re-exports shared structured logging for the Socket.IO duel service.
+ * Re-exports shared structured logging for the Socket.IO game service.
  *
  * Responsibility: keep io and backend on identical redaction rules.
  * Layer: io service
@@ -7,4 +7,4 @@
  * Consumers: io socket handlers and bootstrap
  */
 
-export { logError, logInfo } from "@project/server-kit/logger";
+export { logInfo } from "@project/server-kit/logger";

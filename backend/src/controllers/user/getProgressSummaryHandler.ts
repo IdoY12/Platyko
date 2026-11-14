@@ -1,7 +1,7 @@
 /**
- * GET /api/user/progress-summary — aggregates XP, streak, duel stats.
+ * GET /api/user/progress-summary — the account's XP, level and streak.
  *
- * Responsibility: parallel reads for dashboard cards on the mobile home screen.
+ * Responsibility: the numbers the app restores after sign-in and on returning to the foreground.
  * Query `localDate` (YYYY-MM-DD, client local calendar) is required so streak open rules use the user's day boundary.
  * Layer: backend user HTTP handlers
  * Consumers: user router
@@ -24,28 +24,12 @@ export async function getProgressSummary(req: AuthenticatedRequest, res: Respons
 
     const progress = await getProgressForActiveUser(prisma, userId);
 
-    const [duelWins, duelLosses] = await Promise.all([
-      prisma.duelSession.count({ where: { winnerId: userId } }),
-      prisma.duelSession.count({
-        where: {
-          AND: [
-            { OR: [{ player1Id: userId }, { player2Id: userId }] },
-            { winnerId: { not: null } },
-            { NOT: { winnerId: userId } },
-          ],
-        },
-      }),
-    ]);
-
     return res.json({
       xpTotal: progress?.xpTotal ?? 0,
       level: progress?.level ?? 1,
       streakCurrent: progress?.streakCurrent ?? 0,
       streakLastActivityDate: progress?.streakLastActivityDate ?? null,
       streakLastCheckedDate: progress?.streakLastCheckedDate ?? null,
-      lessonsCompleted: progress?.currentExerciseIndex ?? 0,
-      duelWins,
-      duelLosses,
     });
   } catch (error) {
     logError("[USER]", error, { phase: "progress-summary", userId: req.user?.userId });

@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-# Platyko Socket.IO duel service. Build context is the repo root (root .dockerignore applies):
+# Platyko Socket.IO game service. Build context is the repo root (root .dockerignore applies):
 #   docker build --platform linux/arm64 -f io/Dockerfile -t platyko-io .
 # Same two-stage layout as backend/Dockerfile: scoped install + compile, then a production-only,
 # non-root runtime image.

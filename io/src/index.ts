@@ -1,17 +1,15 @@
 /**
- * Boots the Platyko Socket.IO duel server with health checks and CORS.
+ * Boots the Platyko Socket.IO game server (the `/play` namespace) with health checks and CORS.
  */
 
 import config from "config";
 import http from "http";
-import { Server, type DefaultEventsMap } from "socket.io";
+import { Server } from "socket.io";
 import { connectDatabase, prisma } from "@project/db";
 import { resolveSocketIoCors } from "@project/server-kit/cors";
 import { logError, logInfo } from "@project/server-kit/logger";
 import { validateIoProductionSecuritySettings } from "@project/server-kit/validateIoSecurity";
-import { attachDuelNamespace } from "./socket/duel/index.js";
 import { attachPlayNamespace } from "./socket/play/attachPlayNamespace.js";
-import type { DuelSocketData } from "./socket/duel/types.js";
 
 // Global error handlers to prevent the process from crashing silently
 process.on("unhandledRejection", (reason) => {
@@ -38,17 +36,16 @@ const server = http.createServer((req, res) => {
   res.end(JSON.stringify({ error: "Not found" }));
 });
 
-const io = new Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, DuelSocketData>(server, {
+const io = new Server(server, {
   cors: resolveSocketIoCors(),
-  // Duel payloads are a few hundred bytes; the 1 MB default only helps memory-exhaustion attacks.
+  // Game payloads are a few hundred bytes; the 1 MB default only helps memory-exhaustion attacks.
   maxHttpBufferSize: 16_384,
   // Min detection: 9 s (> client 8 s grace); max detection: 3 + 9 = 12 s.
   pingInterval: 3_000,
   pingTimeout: 9_000,
 });
 
-attachDuelNamespace(io);
-attachPlayNamespace(io as never);
+attachPlayNamespace(io);
 
 const port = Number(config.get<number | string>("app.port"));
 const host = config.get<string>("app.host");
