@@ -3,6 +3,7 @@ import type { ProgressResponse, SubmitProgressRequest, SubmitProgressResponse } 
 import { applyAttempt, applyLessonCompletion, levelOf, type AttemptRecord, type ProgressSnapshot } from "@project/learning-logic";
 import { streakOnAppOpen, trustedCalendarDate } from "@project/streak-logic";
 import { knownLessonIds } from "../content/contentCatalog.js";
+import { withPassedJumpTests } from "./jumpTestPass.js";
 import { loadProgress, saveProgress, storedAttemptId, type StoredProgress } from "./progressStore.js";
 
 const toResponse = (stored: StoredProgress, snapshot: ProgressSnapshot): ProgressResponse => ({
@@ -60,6 +61,7 @@ export async function submitProgress(userId: string, request: SubmitProgressRequ
       xpEarned += applied.xpEarned;
     }
 
+    snapshot = await withPassedJumpTests(tx, userId, snapshot, fresh);
     await saveProgress(tx, userId, stored.snapshot, snapshot, recorded);
     const finishedResume = stored.resume !== null && finishedLessons.some((lesson) => lesson.lessonId === stored.resume?.lessonId);
     if (finishedResume) await tx.lessonResume.delete({ where: { userId } });

@@ -82,7 +82,7 @@ export function LessonPlayerScreen({ route, navigation }: Props) {
         {item && draft ? (
           <>
             <ItemAnswerArea item={item} draft={draft} checked={checked} review={slot?.kind === "item" && slot.review} outputLines={player.outputLines} onDraftChange={player.setDraft} />
-            {!checked ? <HintPanel hints={item.hints} opened={player.hintsOpened} disabled={false} onOpenNext={player.openHint} /> : null}
+            {!checked && !player.isTest ? <HintPanel hints={item.hints} opened={player.hintsOpened} disabled={false} onOpenNext={player.openHint} /> : null}
             {offlineNotice ? (
               <View style={styles.notice}>
                 <AppText color={palette.text.secondary}>{t("lesson.offlineCodeWrite")}</AppText>

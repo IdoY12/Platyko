@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { nextLessonId } from "@project/learning-logic";
+import { JUMP_TEST_LENGTH, jumpTestPassMark, jumpTestTrack, nextLessonId } from "@project/learning-logic";
 import { AppText } from "@/components/common/AppText/AppText";
 import { LipButton } from "@/components/common/LipButton/LipButton";
 import { OutlineButton } from "@/components/common/LipButton/OutlineButton";
@@ -31,7 +31,8 @@ function Stat({ label, value, colour }: { label: string; value: string; colour: 
 
 /** The end of a lesson (PRD 16.3): the mascot releases the XP from its cheeks, then real accuracy, XP and streak. */
 export function LessonSummaryScreen({ route, navigation }: Props) {
-  const { accuracy, xpEarned, flawless, concepts } = route.params;
+  const { lessonId, accuracy, xpEarned, flawless, concepts, jumpPassed = false } = route.params;
+  const jumpTrack = jumpTestTrack(lessonId);
   const map = useAppSelector((state) => state.learning.map);
   const progress = useAppSelector((state) => state.learning.progress);
   const resume = useAppSelector((state) => state.learning.resume);
@@ -41,23 +42,33 @@ export function LessonSummaryScreen({ route, navigation }: Props) {
   return (
     <Screen ambient scrollable contentStyle={styles.content}>
       <View style={styles.mascot}>
-        <Mascot state={flawless ? "glow" : "cheer"} streakLength={progress.streak.current} mood={accuracy >= 80 ? 1 : 0} />
+        <Mascot state={jumpTrack ? (jumpPassed ? "victory" : "comfort") : flawless ? "glow" : "cheer"} streakLength={progress.streak.current} mood={accuracy >= 80 ? 1 : 0} />
       </View>
       <Animated.View entering={FadeInUp.delay(duration.emphasis).duration(duration.transition)} style={styles.body}>
         <AppText variant="screenTitle" align="center" accessibilityRole="header">
-          {t("summary.title")}
+          {jumpTrack ? (jumpPassed ? t("summary.jumpPassedTitle", { track: t(`map.track.${jumpTrack}`) }) : t("summary.jumpFailedTitle")) : t("summary.title")}
         </AppText>
-        {flawless ? (
+        {jumpTrack ? (
+          <AppText align="center" color={palette.text.secondary}>
+            {jumpPassed ? t("summary.jumpPassedBody") : t("summary.jumpFailedBody", { pass: jumpTestPassMark(JUMP_TEST_LENGTH), count: JUMP_TEST_LENGTH })}
+          </AppText>
+        ) : null}
+        {flawless && !jumpTrack ? (
           <AppText variant="bodyStrong" align="center" color={palette.brand.glow}>
             {t("summary.flawless")}
           </AppText>
         ) : null}
         <View style={styles.stats}>
           <Stat label={t("summary.accuracy")} value={`${accuracy}%`} colour={palette.state.success} />
-          <Stat label={t("summary.xp")} value={`+${xpEarned}`} colour={palette.brand.js} />
-          <Stat label={t("summary.streak")} value={String(progress.streak.current)} colour={palette.brand.primary} />
+          {/* A test pays no XP and keeps no streak: its score is the whole result. */}
+          {jumpTrack ? null : (
+            <>
+              <Stat label={t("summary.xp")} value={`+${xpEarned}`} colour={palette.brand.js} />
+              <Stat label={t("summary.streak")} value={String(progress.streak.current)} colour={palette.brand.primary} />
+            </>
+          )}
         </View>
-        {conceptTitles.length > 0 ? (
+        {conceptTitles.length > 0 && !jumpTrack ? (
           <Surface style={styles.concepts}>
             <AppText variant="label" color={palette.text.secondary}>
               {t("summary.concepts")}
@@ -69,7 +80,7 @@ export function LessonSummaryScreen({ route, navigation }: Props) {
             ))}
           </Surface>
         ) : null}
-        {next ? <LipButton label={t("summary.nextLesson")} onPress={() => navigation.replace("LessonPlayer", { lessonId: next })} /> : null}
+        {next && !jumpTrack ? <LipButton label={t("summary.nextLesson")} onPress={() => navigation.replace("LessonPlayer", { lessonId: next })} /> : null}
         <OutlineButton label={t("summary.backToMap")} onPress={() => navigation.goBack()} />
       </Animated.View>
     </Screen>

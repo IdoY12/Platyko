@@ -9,7 +9,10 @@ import {
   buildLessonPlan,
   buildSummaryLessonPlan,
   currentSlot,
+  isJumpTestPassed,
   isLessonFinished,
+  jumpTestItemIds,
+  jumpTestTrack,
   lessonProgress,
   lessonResult,
   pickReviewItems,
@@ -24,7 +27,7 @@ import ContentService from "@/services/auth-aware/ContentService";
 import ProgressService from "@/services/auth-aware/ProgressService";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import store from "@/redux/store";
-import { cacheLesson, recordAttempt, recordLessonCompletion, saveResume } from "@/redux/learning-slice";
+import { cacheLesson, recordAttempt, recordJumpTestPass, recordLessonCompletion, saveResume } from "@/redux/learning-slice";
 import { syncLearningProgress } from "@/redux/learning-sync";
 import { haptic } from "@/theme/haptics";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
@@ -74,6 +77,10 @@ export function useLessonPlayer(lessonId: string) {
   const [recentResults, setRecentResults] = useState<boolean[]>([]);
   const xpAtStart = useRef(store.getState().learning.progress.xpTotal);
   const concepts = useMemo(() => conceptByItemId(map), [map]);
+  /** The track a jump test opens; null for a lesson or a review. */
+  const jumpTrack = jumpTestTrack(lessonId);
+  /** Neither a review nor a jump test belongs to a lesson: no place to save, no completion. */
+  const isLesson = lessonId !== REVIEW_SESSION_ID && jumpTrack === null;
 
   const slot = session ? currentSlot(session) : null;
   const item = slot?.kind === "item" ? items[slot.itemId] ?? null : null;
@@ -102,7 +109,9 @@ export function useLessonPlayer(lessonId: string) {
       let known = cachedItems;
       const resume = learning.resume?.lessonId === lessonId ? learning.resume.session : null;
 
-      if (lessonId === REVIEW_SESSION_ID) {
+      if (jumpTrack) {
+        plan = jumpTestItemIds(learning.map?.units ?? [], jumpTrack).map((itemId) => ({ kind: "item" as const, itemId, review: false }));
+      } else if (lessonId === REVIEW_SESSION_ID) {
         const reviewIds = pickReviewItems(dueReviewCandidates(learning.map, learning.progress, today), LESSON_SLOTS);
         plan = reviewIds.map((itemId) => ({ kind: "item" as const, itemId, review: true }));
       } else {
@@ -131,7 +140,7 @@ export function useLessonPlayer(lessonId: string) {
       if (cancelled) return;
       // An item that is gone (flagged or retired) or unreachable offline is skipped; earlier attempts stay (PRD 17.1).
       const playable = (resume ?? startLessonSession(lessonId, plan)).slots.filter((planned) => planned.kind === "conceptCard" || known[planned.itemId]);
-      const start = resume ? { ...resume, slots: playable, position: Math.min(resume.position, playable.length) } : startLessonSession(lessonId, playable);
+      const start = resume ? { ...resume, slots: playable, position: Math.min(resume.position, playable.length) } : startLessonSession(lessonId, playable, { test: jumpTrack !== null });
       setItems(known);
       setSession(start);
       setLoad(playable.length > 0 ? { status: "ready" } : { status: "error" });
@@ -144,7 +153,7 @@ export function useLessonPlayer(lessonId: string) {
     return () => {
       cancelled = true;
     };
-  }, [dispatch, lessonId]);
+  }, [dispatch, jumpTrack, lessonId]);
 
   // A fresh draft for every new item on screen.
   useEffect(() => {
@@ -153,12 +162,12 @@ export function useLessonPlayer(lessonId: string) {
 
   const persistPlace = useCallback(
     (next: LessonSession) => {
-      if (lessonId === REVIEW_SESSION_ID) return;
+      if (!isLesson) return;
       const resume = { lessonId, session: next };
       dispatch(saveResume(resume));
       if (!store.getState().session.isGuest) void new ProgressService().saveResume(resume).catch(() => undefined);
     },
-    [dispatch, lessonId],
+    [dispatch, isLesson, lessonId],
   );
 
   const mood = recentResults.length === 0 ? 0 : recentResults.reduce((sum, correct) => sum + (correct ? 1 : -1), 0) / recentResults.length;
@@ -198,8 +207,8 @@ export function useLessonPlayer(lessonId: string) {
           attemptNo: answered.attemptNo,
           optionIndex,
           usedHint: itemHintsUsed(hints, item.id),
-          context: lessonId === REVIEW_SESSION_ID || slot?.kind === "item" && slot.review ? "REVIEW" : "LESSON",
-          lessonId: lessonId === REVIEW_SESSION_ID ? null : lessonId,
+          context: jumpTrack ? "JUMP_TEST" : lessonId === REVIEW_SESSION_ID || (slot?.kind === "item" && slot.review) ? "REVIEW" : "LESSON",
+          lessonId: isLesson ? lessonId : null,
           answeredAt: new Date().toISOString(),
         },
         concept: concepts.get(item.id) ?? item.concept,
@@ -212,12 +221,14 @@ export function useLessonPlayer(lessonId: string) {
     setRecentResults((previous) => [...previous.slice(-(MOOD_WINDOW - 1)), correct]);
     setSession(answered.session);
     setChecked({ outcome: answered.outcome, correct, optionIndex, wrongLine, codeVerdict });
-  }, [checked, concepts, dispatch, draft, hints, isGuest, item, lessonId, session, slot]);
+  }, [checked, concepts, dispatch, draft, hints, isGuest, isLesson, item, jumpTrack, lessonId, session, slot]);
 
   const finish = useCallback(
     (finished: LessonSession) => {
       const result = lessonResult(finished);
-      if (lessonId !== REVIEW_SESSION_ID) {
+      const jumpPassed = jumpTrack !== null && isJumpTestPassed(result.firstAttemptCorrect, finished.slots.length);
+      if (jumpTrack && jumpPassed) dispatch(recordJumpTestPass(jumpTrack));
+      if (isLesson) {
         dispatch(recordLessonCompletion({ lesson: { lessonId, flawless: result.flawless, accuracy: result.accuracy }, today: getStreakCalendarDate(), isGuest }));
         if (!isGuest) void new ProgressService().clearResume().catch(() => undefined);
       }
@@ -228,9 +239,10 @@ export function useLessonPlayer(lessonId: string) {
         flawless: result.flawless,
         xpEarned: store.getState().learning.progress.xpTotal - xpAtStart.current,
         concepts: practised,
+        jumpPassed,
       };
     },
-    [concepts, dispatch, isGuest, items, lessonId],
+    [concepts, dispatch, isGuest, isLesson, items, jumpTrack, lessonId],
   );
 
   /** Moves on after the feedback sheet (or the concept card). Returns the lesson result once the lesson ends. */
@@ -273,6 +285,8 @@ export function useLessonPlayer(lessonId: string) {
   return {
     load,
     session,
+    /** A test shows no hints: its score is what the learner knows unaided. */
+    isTest: jumpTrack !== null,
     slot,
     item,
     conceptCard,

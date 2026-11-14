@@ -90,6 +90,7 @@ export async function saveProgress(
       streakFreezes: after.streak.freezes,
       streakLastActivityDate: after.streak.lastActivityDate,
       streakLastCheckedDate: after.streak.lastCheckedDate,
+      jumpedTracks: after.jumpedTracks,
       lastActiveAt: new Date(),
     },
   });

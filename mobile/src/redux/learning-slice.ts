@@ -2,7 +2,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { CompletedLessonReport, ContentMapResponse, LearningGoals, LessonContentResponse, LessonResume, ProgressResponse } from "@project/api-contract";
 import { MAX_GUEST_ATTEMPTS } from "@project/api-contract";
 import type { Track } from "@project/content-model";
-import { applyAttempt, applyLessonCompletion, EMPTY_PROGRESS, type AttemptRecord, type ProgressSnapshot } from "@project/learning-logic";
+import { applyAttempt, applyLessonCompletion, EMPTY_PROGRESS, withJumpedTrack, type AttemptRecord, type ProgressSnapshot } from "@project/learning-logic";
 
 /**
  * Everything the learning screens read. Attempts apply here at once with the same rules the
@@ -88,6 +88,10 @@ const learningSlice = createSlice({
       state.startingTrack = action.payload.startingTrack;
       state.goals.weeklyGoalDays = action.payload.weeklyGoalDays;
     },
+    /** A passed jump test opens its track at once; for an account the server confirms it on sync. */
+    recordJumpTestPass: (state, action: PayloadAction<Track>) => {
+      state.progress = withJumpedTrack(state.progress, action.payload);
+    },
     saveResume: (state, action: PayloadAction<LessonResume | null>) => {
       state.resume = action.payload;
     },
@@ -131,6 +135,7 @@ export const {
   recordAttempt,
   recordLessonCompletion,
   setOnboardingChoices,
+  recordJumpTestPass,
   saveResume,
   applyServerProgress,
   startAccountSession,

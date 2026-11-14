@@ -5,7 +5,7 @@ import Animated, { useAnimatedScrollHandler, useAnimatedStyle, useReducedMotion,
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
 import { TRACKS, type Track } from "@project/content-model";
-import { isTrackUnlocked, lessonStatesOf, summaryLessonId, type MapUnit } from "@project/learning-logic";
+import { isTrackUnlocked, jumpTestId, lessonStatesOf, summaryLessonId, type MapUnit } from "@project/learning-logic";
 import { AppText } from "@/components/common/AppText/AppText";
 import { AmbientRiver } from "@/components/common/Screen/AmbientRiver";
 import { Surface } from "@/components/common/Surface/Surface";
@@ -15,6 +15,7 @@ import { refreshContentMap } from "@/redux/learning-sync";
 import { t } from "@/i18n/translate";
 import { palette, SCREEN_MARGIN, space, TAB_BAR_CLEARANCE } from "@/theme/tokens";
 import type { RootNavigation } from "@/types/rootNavigation.types";
+import { JumpTestCard } from "./JumpTestCard";
 import { LessonNode } from "./LessonNode";
 
 /**
@@ -136,11 +137,7 @@ export function SkillMapScreen() {
               <AppText variant="label" color={palette.brand.glow}>
                 {t(`map.track.${track}`)}
               </AppText>
-              {!isTrackUnlocked(map?.units ?? [], track, learner) ? (
-                <AppText variant="body" color={palette.text.muted}>
-                  {t("map.trackLocked")}
-                </AppText>
-              ) : null}
+              {!isTrackUnlocked(map?.units ?? [], track, learner) ? <JumpTestCard track={track} onStart={() => openLesson(jumpTestId(track))} /> : null}
               {units.map((unit) => (
                 <UnitSection key={unit.unit} unit={unit} width={width} onOpen={openLesson} />
               ))}

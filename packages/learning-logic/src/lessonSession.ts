@@ -23,10 +23,12 @@ export type LessonSession = {
   slots: LessonSlot[];
   position: number;
   items: Record<string, ItemProgress>;
+  /** A test (the jump test) moves on after each item: a wrong item does not come back. */
+  test?: boolean;
 };
 
-export function startLessonSession(lessonId: string, plan: readonly LessonSlot[]): LessonSession {
-  return { lessonId, slots: [...plan], position: 0, items: {} };
+export function startLessonSession(lessonId: string, plan: readonly LessonSlot[], options: { test?: boolean } = {}): LessonSession {
+  return { lessonId, slots: [...plan], position: 0, items: {}, ...(options.test ? { test: true } : {}) };
 }
 
 export function currentSlot(session: LessonSession): LessonSlot | null {
@@ -55,7 +57,8 @@ export function answerCurrentItem(session: LessonSession, correct: boolean): { s
   const returning = isReturnVisit(session, session.position);
   const previous = session.items[slot.itemId] ?? { attempts: 0, firstVisit: null, firstAttemptCorrect: false, returned: false };
   const visitAttempt = (returning ? previous.attempts - MAX_ATTEMPTS_PER_ITEM : previous.attempts) + 1;
-  const outcome = attemptOutcome(visitAttempt, correct);
+  // A test gives one attempt per item: a wrong answer shows the solution and the test moves on.
+  const outcome = session.test && !correct ? "reveal" : attemptOutcome(visitAttempt, correct);
   const progress: ItemProgress = {
     ...previous,
     attempts: returning ? MAX_ATTEMPTS_PER_ITEM + visitAttempt : visitAttempt,
@@ -70,7 +73,7 @@ export function advanceLesson(session: LessonSession): LessonSession {
   const slot = currentSlot(session);
   if (slot?.kind !== "item") return { ...session, position: session.position + 1 };
   const progress = session.items[slot.itemId];
-  const shouldReturn = progress !== undefined && !progress.firstAttemptCorrect && !progress.returned;
+  const shouldReturn = !session.test && progress !== undefined && !progress.firstAttemptCorrect && !progress.returned;
   if (!shouldReturn) return { ...session, position: session.position + 1 };
   return {
     ...session,
