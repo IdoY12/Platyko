@@ -5,6 +5,7 @@ import type { ForgotPasswordNavigation } from "@/types/rootNavigation.types";
 import { logAuth, logError, logNav } from "@/utils/logger";
 import passwordResetService from "@/services/passwordReset";
 import { useSingleFlight } from "@/hooks/useSingleFlight";
+import { localizedError } from "@/i18n/localizedMessage";
 
 type ForgotPasswordRouteParams = { email?: string };
 
@@ -36,7 +37,7 @@ export function useForgotPasswordScreen() {
       navigation.replace("ResetPassword", { email: normalizedEmail });
     } catch (requestError) {
       logError("[AUTH]", requestError, { mode: "password-reset-request" });
-      setError(requestError instanceof Error ? requestError.message : "Unable to send the code");
+      setError(localizedError(requestError));
       setLoading(false);
     }
   }), [canSubmit, email, navigation, singleFlight]);

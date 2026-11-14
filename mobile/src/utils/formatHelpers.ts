@@ -1,4 +1,5 @@
 import { Alert } from "react-native";
+import { t } from "@/i18n/translate";
 
 export function duelQueueRejectMessage(reason: string): string {
   if (reason === "already_in_duel") {
@@ -15,9 +16,8 @@ export function guardDuelAccess(isGuest: boolean, onAuth: () => void, onAllowed:
     onAllowed();
     return;
   }
-  Alert.alert(
-    "Account Required",
-    "To play 1v1 Duels, you need a free account. Your XP and match history are tied to your account and cannot be saved as a guest.",
-    [{ text: "Cancel", style: "cancel" }, { text: "Sign In / Register", onPress: onAuth }],
-  );
+  Alert.alert(t("auth.duelsNeedAccountTitle"), t("auth.duelsNeedAccountBody"), [
+    { text: t("common.cancel"), style: "cancel" },
+    { text: t("auth.signInOrRegister"), onPress: onAuth },
+  ]);
 }

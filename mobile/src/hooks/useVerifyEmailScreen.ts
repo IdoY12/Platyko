@@ -6,6 +6,7 @@ import { useOtpCodeEntry } from "@/hooks/useOtpCodeEntry";
 import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
 import { logAuth, logError, logNav } from "@/utils/logger";
 import emailVerificationService from "@/services/emailVerification";
+import { localizedError } from "@/i18n/localizedMessage";
 
 type VerifyEmailRouteParams = { email: string; registrationToken: string };
 
@@ -40,7 +41,7 @@ export function useVerifyEmailScreen() {
       logAuth("verify-email:success", { userId: response.user.id });
     } catch (verifyError) {
       logError("[AUTH]", verifyError, { mode: "verify-email" });
-      setError(verifyError instanceof Error ? verifyError.message : "Unable to verify the code");
+      setError(localizedError(verifyError));
     } finally {
       setLoading(false);
     }

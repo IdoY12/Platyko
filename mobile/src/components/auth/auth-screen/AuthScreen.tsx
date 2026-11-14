@@ -1,55 +1,41 @@
-import type { Dispatch, SetStateAction } from "react";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { AppText } from "@/components/common/AppText/AppText";
+import { TextButton } from "@/components/common/LipButton/TextButton";
 import { PRIVACY_POLICY_URL, TERMS_OF_USE_URL } from "@/constants/legalLinks";
 import { useAuthScreen } from "@/hooks/useAuthScreen";
-import { openExternalUrl } from "@/utils/profileUiAndPreferences";
-import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
+import { t } from "@/i18n/translate";
 import { useAppDispatch } from "@/redux/hooks";
-import type { AppDispatch } from "@/redux/store";
+import { palette, space } from "@/theme/tokens";
+import { openExternalUrl } from "@/utils/profileUiAndPreferences";
 import { AuthAppleButton } from "../auth-apple-button/AuthAppleButton";
 import { AuthCredentials } from "../auth-credentials/AuthCredentials";
 import { AuthGoogleButton } from "../auth-google-button/AuthGoogleButton";
-import { styles } from "./AuthScreen.styles";
+import { AuthLayout } from "../auth-layout/AuthLayout";
 
-function AuthFooter({ dispatch, email, isLogin, setIsLogin }: { dispatch: AppDispatch; email: string; isLogin: boolean; setIsLogin: Dispatch<SetStateAction<boolean>> }) {
-  const navigation = useNavigation();
-  return (
-    <>
-      {isLogin ? (
-        <Pressable onPress={() => navigation.navigate("ForgotPassword", { email })} style={styles.switchAuthBtn}>
-          <Text style={styles.switchAuthText}>Forgot password?</Text>
-        </Pressable>
-      ) : null}
-      <AuthGoogleButton dispatch={dispatch} />
-      <AuthAppleButton dispatch={dispatch} />
-      <Text style={styles.terms}>
-        By continuing, you agree to our{" "}
-        <Text style={styles.termsLink} onPress={() => openExternalUrl(TERMS_OF_USE_URL)}>Terms</Text> and{" "}
-        <Text style={styles.termsLink} onPress={() => openExternalUrl(PRIVACY_POLICY_URL)}>Privacy Policy</Text>.
-      </Text>
-      <Pressable onPress={() => setIsLogin((v) => !v)} style={styles.switchAuthBtn}>
-        <Text style={styles.switchAuthText}>
-          {isLogin ? "Need an account? Register" : "Already have an account? Sign in"}
-        </Text>
-      </Pressable>
-    </>
-  );
-}
-
+/** Sign in or create an account (PRD 14.3): email and password, or Google and Apple. */
 export function AuthScreen() {
   const dispatch = useAppDispatch();
-  const a = useAuthScreen(dispatch);
+  const navigation = useNavigation();
+  const form = useAuthScreen(dispatch);
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <MatrixRain opacity={0.3} />
-      <KeyboardAvoidingView style={styles.keyboardAvoid} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-        <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
-          <AuthCredentials {...a} />
-          <AuthFooter dispatch={dispatch} email={a.email} isLogin={a.isLogin} setIsLogin={a.setIsLogin} />
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+    <AuthLayout title={form.isLogin ? t("auth.signInTitle") : t("auth.registerTitle")} body={form.isLogin ? t("auth.signInBody") : t("auth.registerBody")}>
+      <AuthCredentials {...form} />
+      {form.isLogin ? <TextButton label={t("auth.forgotPassword")} onPress={() => navigation.navigate("ForgotPassword", { email: form.email })} /> : null}
+      <AuthGoogleButton dispatch={dispatch} />
+      <AuthAppleButton dispatch={dispatch} />
+      <TextButton label={form.isLogin ? t("auth.switchToRegister") : t("auth.switchToSignIn")} onPress={() => form.setIsLogin((current) => !current)} />
+      <AppText variant="label" align="center" color={palette.text.muted}>
+        {t("auth.legalNote")}
+      </AppText>
+      <View style={styles.legalLinks}>
+        <TextButton label={t("settings.terms")} onPress={() => openExternalUrl(TERMS_OF_USE_URL)} />
+        <TextButton label={t("settings.privacy")} onPress={() => openExternalUrl(PRIVACY_POLICY_URL)} />
+      </View>
+    </AuthLayout>
   );
 }
+
+const styles = StyleSheet.create({
+  legalLinks: { flexDirection: "row", justifyContent: "center", gap: space.xl },
+});

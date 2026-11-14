@@ -1,6 +1,6 @@
 import { NavigationContext } from "@react-navigation/native";
 import { useContext, useEffect, useState, type ReactNode } from "react";
-import { ScrollView, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 import { SafeAreaView, type Edge } from "react-native-safe-area-context";
 import { palette, SCREEN_MARGIN, space, TAB_BAR_CLEARANCE } from "@/theme/tokens";
 import { AmbientRiver } from "./AmbientRiver";
@@ -40,9 +40,13 @@ export function Screen({ children, ambient = false, scrollable = false, edges = 
       {ambient ? <AmbientRiver active={focused} /> : null}
       <SafeAreaView style={styles.fill} edges={edges}>
         {scrollable ? (
-          <ScrollView contentContainerStyle={[styles.content, styles.scrollContent, contentStyle]} showsVerticalScrollIndicator={false}>
-            {children}
-          </ScrollView>
+          // Forms live in scrolling screens: the keyboard lifts the content, and a tap outside a
+          // field reaches its button instead of only closing the keyboard.
+          <KeyboardAvoidingView style={styles.fill} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+            <ScrollView contentContainerStyle={[styles.content, styles.scrollContent, contentStyle]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+              {children}
+            </ScrollView>
+          </KeyboardAvoidingView>
         ) : (
           <View style={[styles.fill, styles.content, contentStyle]}>{children}</View>
         )}

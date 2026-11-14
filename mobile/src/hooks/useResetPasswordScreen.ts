@@ -6,6 +6,7 @@ import { useSingleFlight } from "@/hooks/useSingleFlight";
 import { useOtpCodeEntry } from "@/hooks/useOtpCodeEntry";
 import { logAuth, logError, logNav } from "@/utils/logger";
 import passwordResetService from "@/services/passwordReset";
+import { localizedError } from "@/i18n/localizedMessage";
 
 type ResetPasswordRouteParams = { email: string };
 
@@ -37,7 +38,7 @@ export function useResetPasswordScreen() {
       setDone(true);
     } catch (confirmError) {
       logError("[AUTH]", confirmError, { mode: "password-reset-confirm" });
-      setError(confirmError instanceof Error ? confirmError.message : "Unable to reset the password");
+      setError(localizedError(confirmError));
     } finally {
       setLoading(false);
     }

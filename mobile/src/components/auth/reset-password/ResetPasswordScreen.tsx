@@ -1,41 +1,30 @@
-import { ScrollView, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
-import { PressableScale } from "@/components/common/PressableScale/PressableScale";
+import { LipButton } from "@/components/common/LipButton/LipButton";
+import { CodeField } from "@/components/common/TextField/CodeField";
+import { PasswordField } from "@/components/common/TextField/PasswordField";
 import { useResetPasswordScreen } from "@/hooks/useResetPasswordScreen";
-import { styles as authStyles } from "../auth-screen/AuthScreen.styles";
-import { styles as credentialStyles } from "../auth-credentials/AuthCredentials.styles";
-import { styles as verifyStyles } from "../verify-email/VerifyEmailScreen.styles";
-import { ResetPasswordForm } from "./ResetPasswordForm";
+import { localizedMessage } from "@/i18n/localizedMessage";
+import { t } from "@/i18n/translate";
+import { AuthLayout, AuthMessage } from "../auth-layout/AuthLayout";
+import { ResendCodeButton } from "../auth-layout/ResendCodeButton";
 
+/** The emailed code and a new password; afterwards every session is signed out. */
 export function ResetPasswordScreen() {
-  const r = useResetPasswordScreen();
+  const reset = useResetPasswordScreen();
+  if (reset.done) {
+    return (
+      <AuthLayout title={t("auth.passwordUpdatedTitle")} body={t("auth.passwordUpdatedBody")}>
+        <LipButton label={t("auth.backToSignIn")} onPress={reset.onBackToSignIn} />
+      </AuthLayout>
+    );
+  }
   return (
-    <SafeAreaView style={authStyles.container} edges={["top", "bottom"]}>
-      <MatrixRain opacity={0.3} />
-      <ScrollView contentContainerStyle={authStyles.content} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
-        {r.done ? (
-          <>
-            <Text style={credentialStyles.title}>Password updated.</Text>
-            <Text style={verifyStyles.subtitle}>
-              Your password was changed and every other session was signed out. Sign in with your new password.
-            </Text>
-            <PressableScale
-              style={credentialStyles.primaryButton}
-              haptic="medium"
-              onPress={r.onBackToSignIn}
-              accessibilityLabel="Back to sign in"
-            >
-              <Text style={credentialStyles.primaryLabel}>Back to Sign In</Text>
-            </PressableScale>
-          </>
-        ) : (
-          <>
-            <Text style={credentialStyles.title}>Choose a new password.</Text>
-            <ResetPasswordForm {...r} />
-          </>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+    <AuthLayout title={t("auth.resetTitle")} body={t("auth.codeSentWithPassword", { email: reset.email })}>
+      <CodeField value={reset.code} onChangeText={reset.setCode} />
+      <PasswordField value={reset.newPassword} onChangeText={reset.setNewPassword} placeholder={t("auth.newPassword")} newPassword />
+      <AuthMessage text={reset.passwordHint ? localizedMessage(reset.passwordHint) : null} />
+      <LipButton label={reset.loading ? t("auth.wait") : t("auth.updatePassword")} disabled={!reset.canSubmit} loading={reset.loading} onPress={reset.onSubmit} />
+      <AuthMessage text={reset.error} />
+      <ResendCodeButton secondsLeft={reset.resendSecondsLeft} onPress={reset.onResend} />
+    </AuthLayout>
   );
 }

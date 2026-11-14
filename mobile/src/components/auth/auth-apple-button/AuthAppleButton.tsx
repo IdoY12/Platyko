@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Alert, Platform } from "react-native";
+import { Alert, Platform, StyleSheet } from "react-native";
 import * as AppleAuthentication from "expo-apple-authentication";
 import store, { type AppDispatch } from "@/redux/store";
 import { useSingleFlight } from "@/hooks/useSingleFlight";
@@ -7,8 +7,9 @@ import { dispatchSignInSuccess } from "@/utils/dispatchSignInSuccess";
 import authService from "@/services/auth";
 import { buildGuestLocalState } from "@/services/authGuestState";
 import { logAuth, logError } from "@/utils/logger";
-import { radius } from "@/theme/theme";
-import { styles } from "../auth-screen/AuthScreen.styles";
+import { localizedError } from "@/i18n/localizedMessage";
+import { t } from "@/i18n/translate";
+import { MIN_TOUCH_TARGET, radii } from "@/theme/tokens";
 
 function formatFullName(name: AppleAuthentication.AppleAuthenticationFullName | null): string | undefined {
   const joined = [name?.givenName, name?.familyName].filter(Boolean).join(" ").trim();
@@ -28,7 +29,7 @@ export function AuthAppleButton({ dispatch }: { dispatch: AppDispatch }) {
           AppleAuthentication.AppleAuthenticationScope.EMAIL,
         ],
       });
-      if (!credential.identityToken) throw new Error("Apple sign-in failed. Please try again.");
+      if (!credential.identityToken) throw new Error("Apple returned no identity token");
       const state = store.getState();
       const r = await authService.loginWithApple(
         credential.identityToken,
@@ -42,9 +43,9 @@ export function AuthAppleButton({ dispatch }: { dispatch: AppDispatch }) {
     } catch (e) {
       if ((e as { code?: string }).code === "ERR_REQUEST_CANCELED") return;
       logError("[AUTH]", e, { mode: "apple" });
-      // Server replies are already user-facing (apiErrorMessage); native CodedErrors are not.
+      // Server replies map to translated messages; native errors and anything unknown read as a failed sign-in.
       const isNativeError = typeof (e as { code?: unknown }).code === "string";
-      Alert.alert("Apple sign-in", !isNativeError && e instanceof Error ? e.message : "Apple sign-in failed. Please try again.");
+      Alert.alert(t("auth.signIn"), isNativeError ? t("errors.socialSignInFailed") : localizedError(e));
     } finally {
       setBusy(false);
     }
@@ -54,9 +55,13 @@ export function AuthAppleButton({ dispatch }: { dispatch: AppDispatch }) {
     <AppleAuthentication.AppleAuthenticationButton
       buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE}
       buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
-      cornerRadius={radius.button}
-      style={styles.appleButton}
+      cornerRadius={radii.button}
+      style={styles.button}
       onPress={() => void start()}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  button: { height: MIN_TOUCH_TARGET + 4 },
+});

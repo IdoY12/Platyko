@@ -1,9 +1,9 @@
 import { usernameValidationError } from "@project/user-credentials";
-import axios from "axios";
 import { Alert } from "react-native";
 import type { AppDispatch } from "@/redux/store";
 import type UserService from "@/services/auth-aware/UserService";
-import { apiErrorMessage, serverErrorMessage } from "@/services/auth";
+import { localizedError, localizedMessage } from "@/i18n/localizedMessage";
+import { t } from "@/i18n/translate";
 import { logError } from "@/utils/logger";
 import { setUserIdentity } from "@/redux/profile-slice";
 import { updateTokens } from "@/redux/session-slice";
@@ -18,7 +18,7 @@ export async function updateUsername(
   const trimmed = name.trim();
   const uerr = usernameValidationError(trimmed);
   if (uerr) {
-    Alert.alert("Invalid username", uerr);
+    Alert.alert(t("settings.editUsername"), localizedMessage(uerr));
     return;
   }
   try {
@@ -27,11 +27,7 @@ export async function updateUsername(
     onDone();
   } catch (error) {
     logError("[PROFILE]", error, { phase: "update-username" });
-    if (axios.isAxiosError(error) && error.response?.status === 409) {
-      Alert.alert("Update failed", apiErrorMessage(error));
-      return;
-    }
-    Alert.alert("Update failed", "Could not update username right now.");
+    Alert.alert(t("settings.editUsername"), localizedError(error));
   }
 }
 
@@ -48,7 +44,7 @@ export async function changePasswordRequest(
     onSuccess();
   } catch (error) {
     logError("[PROFILE]", error, { phase: "change-password" });
-    Alert.alert("Could not change password", serverErrorMessage(error) ?? "Check your current password and try again.");
+    Alert.alert(t("settings.changePassword"), localizedError(error));
   }
 }
 
@@ -63,6 +59,6 @@ export async function deleteAccountRequest(
     onClose();
   } catch (error) {
     logError("[PROFILE]", error, { phase: "delete-account" });
-    Alert.alert("Deletion failed", "We could not delete your account. Please try again.");
+    Alert.alert(t("settings.deleteAccount"), t("errors.generic"));
   }
 }

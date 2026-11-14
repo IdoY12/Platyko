@@ -1,4 +1,5 @@
 import { Alert } from "react-native";
+import { t } from "@/i18n/translate";
 import * as ImagePicker from "expo-image-picker";
 import * as ImageManipulator from "expo-image-manipulator";
 
@@ -10,7 +11,7 @@ export async function ensurePickerPermission(source: "camera" | "library"): Prom
       ? await ImagePicker.requestCameraPermissionsAsync()
       : await ImagePicker.requestMediaLibraryPermissionsAsync();
   if (result.status === ImagePicker.PermissionStatus.GRANTED) return true;
-  Alert.alert("Permission needed", "Please allow photo access to upload an avatar.");
+  Alert.alert(t("settings.photoTitle"), t("errors.photoPermission"));
   return false;
 }
 
@@ -35,6 +36,6 @@ export async function resizeToJpeg(uri: string): Promise<string> {
 
 export function alertIfBlobTooLarge(blob: Blob): boolean {
   if (blob.size <= MAX_BYTES) return false;
-  Alert.alert("Image too large", "Please choose an image smaller than 5MB.");
+  Alert.alert(t("settings.photoTitle"), t("errors.photoTooLarge"));
   return true;
 }

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSingleFlight } from "@/hooks/useSingleFlight";
 import { logError } from "@/utils/logger";
+import { localizedError } from "@/i18n/localizedMessage";
 
 const OTP_RESEND_COOLDOWN_SECONDS = 60;
 
@@ -38,7 +39,7 @@ export function useOtpCodeEntry(codeJustSent: boolean) {
         restartResendCooldown();
       } catch (error) {
         logError("[AUTH]", error, { mode: logMode });
-        failure = error instanceof Error ? error.message : "Unable to resend the code";
+        failure = localizedError(error);
       }
     });
     return failure;

@@ -7,6 +7,7 @@ import { logAuth, logError, logNav } from "@/utils/logger";
 import authService from "@/services/auth";
 import { buildGuestLocalState } from "@/services/authGuestState";
 import { useSingleFlight } from "@/hooks/useSingleFlight";
+import { localizedError } from "@/i18n/localizedMessage";
 
 export function useAuthScreen(dispatch: AppDispatch) {
   const singleFlight = useSingleFlight();
@@ -14,7 +15,6 @@ export function useAuthScreen(dispatch: AppDispatch) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [secure, setSecure] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -56,14 +56,14 @@ export function useAuthScreen(dispatch: AppDispatch) {
       logAuth("submit:success", { mode: isLogin ? "login" : "register", email: normalizedEmail });
     } catch (submitError) {
       logError("[AUTH]", submitError, { mode: isLogin ? "login" : "register" });
-      setError(submitError instanceof Error ? submitError.message : "Unable to continue");
+      setError(localizedError(submitError));
     } finally {
       setLoading(false);
     }
   }), [canSubmit, dispatch, email, isLogin, loading, navigation, password, username, singleFlight]);
 
   return {
-    email, setEmail, username, setUsername, password, setPassword, secure, setSecure,
+    email, setEmail, username, setUsername, password, setPassword,
     isLogin, setIsLogin, loading, error, formHint, canSubmit, onSubmit,
   };
 }

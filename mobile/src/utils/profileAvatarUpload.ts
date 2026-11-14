@@ -1,4 +1,5 @@
 import { Alert } from "react-native";
+import { t } from "@/i18n/translate";
 import type { AppDispatch } from "@/redux/store";
 import type UserService from "@/services/auth-aware/UserService";
 import { logError } from "@/utils/logger";
@@ -47,5 +48,5 @@ export async function runAvatarUpload(
 
 export function handleAvatarUploadError(error: unknown): void {
   logError("[PROFILE]", error, { phase: "avatar-upload" });
-  Alert.alert("Upload failed", "Could not update profile picture. Please try again.");
+  Alert.alert(t("settings.photoTitle"), t("errors.photoUploadFailed"));
 }

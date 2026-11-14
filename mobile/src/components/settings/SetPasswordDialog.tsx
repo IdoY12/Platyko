@@ -1,10 +1,11 @@
-import { StyleSheet } from "react-native";
-import { AppText } from "@/components/common/AppText/AppText";
-import { PressableScale } from "@/components/common/PressableScale/PressableScale";
+import { AuthMessage } from "@/components/auth/auth-layout/AuthLayout";
+import { ResendCodeButton } from "@/components/auth/auth-layout/ResendCodeButton";
+import { CodeField } from "@/components/common/TextField/CodeField";
+import { PasswordField } from "@/components/common/TextField/PasswordField";
 import { useSetPasswordFlow } from "@/hooks/useSetPasswordFlow";
+import { localizedMessage } from "@/i18n/localizedMessage";
 import { t } from "@/i18n/translate";
-import { MIN_TOUCH_TARGET, palette } from "@/theme/tokens";
-import { AccountDialog, DialogInput } from "./AccountDialog";
+import { AccountDialog } from "./AccountDialog";
 
 /**
  * A Google or Apple account sets its first password with a code sent by email. Rendered only
@@ -12,36 +13,23 @@ import { AccountDialog, DialogInput } from "./AccountDialog";
  */
 export function SetPasswordDialog({ onClose }: { onClose: () => void }) {
   const flow = useSetPasswordFlow(onClose);
-  const resendLabel = flow.resendSecondsLeft > 0 ? t("settings.resendIn", { seconds: flow.resendSecondsLeft }) : t("settings.resend");
   return (
     <AccountDialog
       title={t("settings.setPassword")}
-      body={flow.codeSent ? t("settings.setPasswordCodeSent", { email: flow.email }) : t("settings.setPasswordIntro")}
-      confirmLabel={flow.loading ? t("settings.saving") : flow.codeSent ? t("settings.setPassword") : t("settings.sendCode")}
+      body={flow.codeSent ? t("auth.codeSentWithPassword", { email: flow.email }) : t("settings.setPasswordIntro")}
+      confirmLabel={flow.loading ? t("auth.wait") : flow.codeSent ? t("settings.setPassword") : t("auth.sendCode")}
       confirmDisabled={flow.codeSent ? !flow.canSubmit : flow.loading}
       onConfirm={() => void (flow.codeSent ? flow.submit() : flow.sendCode())}
       onClose={onClose}
-      footer={
-        flow.codeSent ? (
-          <PressableScale disabled={flow.resendSecondsLeft > 0} onPress={() => void flow.sendCode()} accessibilityRole="button" style={styles.resend}>
-            <AppText variant="label" align="center" color={palette.text.secondary}>
-              {resendLabel}
-            </AppText>
-          </PressableScale>
-        ) : null
-      }
+      footer={flow.codeSent ? <ResendCodeButton secondsLeft={flow.resendSecondsLeft} onPress={() => void flow.sendCode()} /> : null}
     >
       {flow.codeSent ? (
         <>
-          <DialogInput value={flow.code} onChangeText={flow.setCode} keyboardType="number-pad" maxLength={6} textContentType="oneTimeCode" autoComplete="one-time-code" placeholder={t("settings.codePlaceholder")} accessibilityLabel={t("settings.codePlaceholder")} />
-          <DialogInput value={flow.newPassword} onChangeText={flow.setNewPassword} secureTextEntry placeholder={t("settings.newPassword")} accessibilityLabel={t("settings.newPassword")} />
+          <CodeField value={flow.code} onChangeText={flow.setCode} />
+          <PasswordField value={flow.newPassword} onChangeText={flow.setNewPassword} placeholder={t("auth.newPassword")} newPassword />
         </>
       ) : null}
-      {flow.passwordHint ?? flow.error ? <AppText variant="label" color={palette.state.danger}>{flow.passwordHint ?? flow.error}</AppText> : null}
+      <AuthMessage text={flow.passwordHint ? localizedMessage(flow.passwordHint) : flow.error} />
     </AccountDialog>
   );
 }
-
-const styles = StyleSheet.create({
-  resend: { minHeight: MIN_TOUCH_TARGET, justifyContent: "center" },
-});

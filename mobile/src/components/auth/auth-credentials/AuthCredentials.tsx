@@ -1,80 +1,23 @@
-import type { Dispatch, SetStateAction } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
-import { colors } from "@/theme/theme";
-import { PressableScale } from "@/components/common/PressableScale/PressableScale";
-import { styles } from "./AuthCredentials.styles";
+import { LipButton } from "@/components/common/LipButton/LipButton";
+import { PasswordField } from "@/components/common/TextField/PasswordField";
+import { TextField } from "@/components/common/TextField/TextField";
+import type { useAuthScreen } from "@/hooks/useAuthScreen";
+import { localizedMessage } from "@/i18n/localizedMessage";
+import { t } from "@/i18n/translate";
+import { AuthMessage } from "../auth-layout/AuthLayout";
 
-type Props = {
-  isLogin: boolean;
-  email: string;
-  setEmail: (v: string) => void;
-  username: string;
-  setUsername: (v: string) => void;
-  password: string;
-  setPassword: (v: string) => void;
-  secure: boolean;
-  setSecure: Dispatch<SetStateAction<boolean>>;
-  canSubmit: boolean;
-  loading: boolean;
-  error: string | null;
-  formHint: string | null;
-  onSubmit: () => void;
-};
-
-export function AuthCredentials(p: Props) {
-  const title = p.isLogin ? "Welcome back. Sign in to continue." : "Save your progress. Create a free account.";
-  const a11y = p.isLogin ? "Sign in" : "Create account";
-  const label = p.isLogin ? "Sign In" : "Create Account";
+/** Email, username (when registering) and password, then the one primary action. */
+export function AuthCredentials(form: ReturnType<typeof useAuthScreen>) {
   return (
     <>
-      <Text style={styles.title}>{title}</Text>
-      <TextInput
-        value={p.email}
-        onChangeText={p.setEmail}
-        placeholder="Email"
-        placeholderTextColor={colors.textMuted}
-        style={styles.input}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        accessibilityLabel="Email input"
-      />
-      {p.isLogin ? null : (
-        <TextInput
-          value={p.username}
-          onChangeText={p.setUsername}
-          placeholder="Username"
-          placeholderTextColor={colors.textMuted}
-          style={styles.input}
-          autoCapitalize="none"
-          accessibilityLabel="Username input"
-        />
+      <TextField value={form.email} onChangeText={form.setEmail} placeholder={t("auth.email")} accessibilityLabel={t("auth.email")} keyboardType="email-address" textContentType="emailAddress" autoComplete="email" autoCapitalize="none" autoCorrect={false} />
+      {form.isLogin ? null : (
+        <TextField value={form.username} onChangeText={form.setUsername} placeholder={t("auth.username")} accessibilityLabel={t("auth.username")} textContentType="username" autoCapitalize="none" autoCorrect={false} />
       )}
-      <View style={styles.passwordRow}>
-        <TextInput
-          value={p.password}
-          onChangeText={p.setPassword}
-          placeholder="Password"
-          placeholderTextColor={colors.textMuted}
-          style={[styles.input, styles.passwordInput]}
-          secureTextEntry={p.secure}
-          autoCapitalize="none" autoCorrect={false}
-          accessibilityLabel="Password input"
-        />
-        <Pressable onPress={() => p.setSecure((v) => !v)} style={styles.showHide}>
-          <Text style={styles.showHideText}>{p.secure ? "Show" : "Hide"}</Text>
-        </Pressable>
-      </View>
-      {p.formHint ? <Text style={styles.errorText}>{p.formHint}</Text> : null}
-      <PressableScale
-        disabled={!p.canSubmit || p.loading}
-        style={[styles.primaryButton, (!p.canSubmit || p.loading) && styles.disabled]}
-        haptic="medium"
-        onPress={p.onSubmit}
-        accessibilityLabel={a11y}
-      >
-        <Text style={styles.primaryLabel}>{p.loading ? "Please wait..." : label}</Text>
-      </PressableScale>
-      {p.error ? <Text style={styles.errorText}>{p.error}</Text> : null}
+      <PasswordField value={form.password} onChangeText={form.setPassword} placeholder={t("auth.password")} newPassword={!form.isLogin} />
+      <AuthMessage text={form.formHint ? localizedMessage(form.formHint) : null} />
+      <LipButton label={form.loading ? t("auth.wait") : form.isLogin ? t("auth.signIn") : t("auth.createAccount")} disabled={!form.canSubmit || form.loading} loading={form.loading} onPress={form.onSubmit} />
+      <AuthMessage text={form.error} />
     </>
   );
 }

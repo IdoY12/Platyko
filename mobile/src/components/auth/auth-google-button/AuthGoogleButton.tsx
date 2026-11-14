@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Alert, Image, Pressable, Text } from "react-native";
+import { Alert, Image, StyleSheet } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import store, { type AppDispatch } from "@/redux/store";
@@ -8,8 +8,10 @@ import authService from "@/services/auth";
 import { buildGuestLocalState } from "@/services/authGuestState";
 import { logAuth, logError } from "@/utils/logger";
 import { googleAuthRequestConfig, googleSignInUnavailableReason } from "@/config/googleOAuth";
+import { OutlineButton } from "@/components/common/LipButton/OutlineButton";
+import { localizedError } from "@/i18n/localizedMessage";
+import { t } from "@/i18n/translate";
 import { handleGoogleAuthResponse } from "./handleGoogleAuthResponse";
-import { styles } from "../auth-screen/AuthScreen.styles";
 import googleLogo from "../../../../assets/google-g-logo.png";
 
 WebBrowser.maybeCompleteAuthSession();
@@ -28,7 +30,7 @@ export function AuthGoogleButton({ dispatch }: { dispatch: AppDispatch }) {
         logAuth("submit:success", { mode: "google", userId: r.user.id });
       } catch (e) {
         logError("[AUTH]", e, { mode: "google" });
-        Alert.alert("Google sign-in", e instanceof Error ? e.message : "Unable to sign in");
+        Alert.alert(t("auth.google"), localizedError(e));
       } finally {
         setBusy(false);
       }
@@ -46,20 +48,16 @@ export function AuthGoogleButton({ dispatch }: { dispatch: AppDispatch }) {
     const unavailable = googleSignInUnavailableReason();
     if (unavailable) {
       logAuth("google:unavailable", { reason: unavailable });
-      Alert.alert("Google sign-in", unavailable);
+      Alert.alert(t("auth.google"), t("errors.googleUnavailable"));
       return;
     }
     void promptAsync();
   }, [promptAsync]);
   return (
-    <Pressable
-      disabled={!req || busy}
-      style={({ pressed }) => [styles.secondaryButton, pressed && styles.secondaryPressed]}
-      onPress={start}
-      accessibilityLabel="Continue with Google"
-    >
-      <Image source={googleLogo} style={styles.googleLogo} />
-      <Text style={styles.secondaryLabel}>Continue with Google</Text>
-    </Pressable>
+    <OutlineButton label={t("auth.google")} disabled={!req || busy} onPress={start} icon={<Image source={googleLogo} style={styles.logo} />} />
   );
 }
+
+const styles = StyleSheet.create({
+  logo: { width: 18, height: 18, resizeMode: "contain" },
+});

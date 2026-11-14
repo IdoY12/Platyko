@@ -8,8 +8,10 @@ import passwordResetService from "@/services/passwordReset";
 import { useSingleFlight } from "@/hooks/useSingleFlight";
 import { useOtpCodeEntry } from "@/hooks/useOtpCodeEntry";
 import { logAuth, logError } from "@/utils/logger";
+import { localizedError } from "@/i18n/localizedMessage";
+import { t } from "@/i18n/translate";
 
-/** Drives the Profile "Set Password" modal: OTP request -> confirm -> silent re-login (confirm revokes every session). */
+/** Drives the Settings "Set a password" dialog: OTP request -> confirm -> silent re-login (confirm revokes every session). */
 export function useSetPasswordFlow(onDone: () => void) {
   const singleFlight = useSingleFlight();
   const dispatch = useAppDispatch();
@@ -39,7 +41,7 @@ export function useSetPasswordFlow(onDone: () => void) {
       await passwordResetService.confirmReset(email, code, newPassword);
     } catch (confirmError) {
       logError("[PROFILE]", confirmError, { phase: "set-password-confirm" });
-      setError(confirmError instanceof Error ? confirmError.message : "Unable to set the password");
+      setError(localizedError(confirmError));
       setLoading(false);
       return;
     }
@@ -53,7 +55,7 @@ export function useSetPasswordFlow(onDone: () => void) {
     } catch (loginError) {
       logError("[PROFILE]", loginError, { phase: "set-password-relogin" });
       dispatch(setUserIdentity({ hasPassword: true }));
-      setError("Your password was set, but the session could not be refreshed. Please sign in again.");
+      setError(t("errors.passwordSetSignInAgain"));
     } finally {
       setLoading(false);
     }

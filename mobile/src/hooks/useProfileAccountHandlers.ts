@@ -7,6 +7,7 @@ import type UserService from "@/services/auth-aware/UserService";
 import { resetLearning } from "@/redux/learning-slice";
 import { changePasswordRequest, deleteAccountRequest, updateUsername } from "@/utils/profileAccountMutations";
 import { confirmLogout } from "@/utils/confirmLogout";
+import { localizedMessage } from "@/i18n/localizedMessage";
 import { t } from "@/i18n/translate";
 import type { ProfileDraftState } from "./useProfileDraftState";
 import type { ProfileReduxState } from "./useProfileRedux";
@@ -27,7 +28,7 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
   const onChangePassword = React.useCallback(() => singleFlight(async () => {
     if (!r.accessToken || d.busyAction) return;
     const passwordError = passwordPolicyError(d.newPassword);
-    if (passwordError) { Alert.alert(t("settings.changePassword"), passwordError); return; }
+    if (passwordError) { Alert.alert(t("settings.changePassword"), localizedMessage(passwordError)); return; }
     d.setBusyAction("password");
     await changePasswordRequest(user, d.currentPassword, d.newPassword, dispatch, () => {
       d.setCurrentPassword("");
