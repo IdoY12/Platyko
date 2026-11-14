@@ -1,0 +1,1859 @@
+{
+  "track": "INTERMEDIATE",
+  "unit": "this-and-classes",
+  "order": 5,
+  "title": "`this` and classes",
+  "summary": "How this is decided by the call, how bind, call and arrow functions control it, and how classes, extends, super and static build objects.",
+  "concepts": [
+    {
+      "id": "this-in-methods",
+      "title": "this in a method call",
+      "prerequisites": [
+        "object-properties",
+        "function-expressions"
+      ]
+    },
+    {
+      "id": "this-lost-and-bound",
+      "title": "Losing this: arrows, bind and call",
+      "prerequisites": [
+        "this-in-methods",
+        "closure-captures-variable"
+      ]
+    },
+    {
+      "id": "class-basics",
+      "title": "Classes, constructors and methods",
+      "prerequisites": [
+        "this-in-methods"
+      ]
+    },
+    {
+      "id": "class-inheritance",
+      "title": "extends, super and static",
+      "prerequisites": [
+        "class-basics"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "this-is-not-the-object",
+      "description": "Believes this inside a method is not the object it was called on: a global object, undefined, or an argument."
+    },
+    {
+      "id": "this-fixed-at-definition",
+      "description": "Believes this is fixed by where a function was written or by the first object that used it."
+    },
+    {
+      "id": "this-is-function-itself",
+      "description": "Believes this inside a function refers to that function."
+    },
+    {
+      "id": "state-resets-each-call",
+      "description": "Believes object state starts again from its first value on every call, or that bind works on a copy."
+    },
+    {
+      "id": "bind-calls-now",
+      "description": "Believes bind calls the function immediately instead of returning a new function."
+    },
+    {
+      "id": "bind-locks-every-argument",
+      "description": "Believes bind fixes every argument, so later calls cannot supply new values."
+    },
+    {
+      "id": "arrow-gets-own-this",
+      "description": "Believes an arrow function gets its own this, like a regular function."
+    },
+    {
+      "id": "instances-share-fields",
+      "description": "Believes all instances share one set of field values, or that fields live on the class."
+    },
+    {
+      "id": "class-call-without-new",
+      "description": "Believes a class can be called like a function without new."
+    },
+    {
+      "id": "super-call-result-is-lost",
+      "description": "Believes an overriding method is ignored, or that the value returned by super.method() is dropped."
+    },
+    {
+      "id": "static-copied-to-instances",
+      "description": "Believes a static method is available on instances, or cannot create instances of its own class."
+    },
+    {
+      "id": "subclass-skips-parent-constructor",
+      "description": "Believes the parent constructor does not run when a subclass instance is created."
+    },
+    {
+      "id": "trace-wrong-pass",
+      "description": "Takes the wrong run of a line that executes many times."
+    },
+    {
+      "id": "final-value-at-every-step",
+      "description": "Reads the value a variable has at the end of the program for every earlier step."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this",
+      "retrievedAt": "2026-11-14",
+      "sha256": "82de563c85b1f879e6b59f0be2c663317bc5780b709cea92fa27299f2af0fd13"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Method_definitions",
+      "retrievedAt": "2026-11-14",
+      "sha256": "8facc6c600a4d15151c94cc90a774714d8aec8c63276fe6f78032ae0436cc75a"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind",
+      "retrievedAt": "2026-11-14",
+      "sha256": "9fe1bb997fb67a0887336555db7fd1d9816ca80e1a95ca7b5c077118e87a510b"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call",
+      "retrievedAt": "2026-11-14",
+      "sha256": "0b4a76d07fe15c317e13753baac9f067b9ca4eda590588f821d6295332fd2023"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+      "retrievedAt": "2026-11-14",
+      "sha256": "3ea3c76dbe2e79a4168ca42aa0b24b15d34b480eafbbb7cc8bdb85ba7f990853"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+      "retrievedAt": "2026-11-14",
+      "sha256": "dedc8c6fcb5bc6ab75458cf6febed2c7db6ea2a2124b8565a1f75a83ee45785b"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor",
+      "retrievedAt": "2026-11-14",
+      "sha256": "2f8895a066b7a58776de381a4d813a688fc95f1b4aa977c8d8dc8921bc24f93c"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new",
+      "retrievedAt": "2026-11-14",
+      "sha256": "3bf614374d3d9052025cf9460791d48508829ddafba34c9f8d148ecdf6f28249"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
+      "retrievedAt": "2026-11-14",
+      "sha256": "00842d5bc9e5ab5d884204d1551c8be1b6609e9790f5ccf12f394e7d0ba9e230"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+      "retrievedAt": "2026-11-14",
+      "sha256": "c794dbf1f91a453e33eb99fa7aa88b8e517bc0d482a5acffeab366747184fe4d"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static",
+      "retrievedAt": "2026-11-14",
+      "sha256": "61c99382c8f4921888f47d3fb87a33feb077bd97a4d9baaea40d51144c6945cb"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "this-and-classes.lesson-1",
+      "title": "this in a method call",
+      "conceptCard": {
+        "title": "this is the object before the dot",
+        "body": "A method is a function stored on an object. When you call it as obj.method(), this inside it is obj. The same function called on another object sees that object instead.",
+        "code": [
+          "const cat = {",
+          "  name: 'Tia',",
+          "  hi() {",
+          "    return 'I am ' + this.name;",
+          "  }",
+          "};",
+          "console.log(cat.hi());"
+        ],
+        "expectedOutput": "I am Tia"
+      },
+      "itemIds": [
+        "int.this-and-classes.this-in-methods.predict-01",
+        "int.this-and-classes.this-in-methods.concept-01",
+        "int.this-and-classes.this-in-methods.trace-01",
+        "int.this-and-classes.this-in-methods.fill-01",
+        "int.this-and-classes.this-in-methods.fix-01",
+        "int.this-and-classes.this-in-methods.write-01"
+      ]
+    },
+    {
+      "id": "this-and-classes.lesson-2",
+      "title": "Losing this: arrows, bind and call",
+      "conceptCard": {
+        "title": "Losing this, and fixing it",
+        "body": "A method copied into a variable loses its object. call runs a function once with a chosen this. bind returns a new function with this fixed. An arrow function has no this of its own and uses the one around it.",
+        "code": [
+          "function hi() {",
+          "  return 'hi ' + this.who;",
+          "}",
+          "const ann = { who: 'Ann' };",
+          "console.log(hi.call(ann));",
+          "const say = hi.bind(ann);",
+          "console.log(say());"
+        ],
+        "expectedOutput": "hi Ann\nhi Ann"
+      },
+      "itemIds": [
+        "int.this-and-classes.this-lost-and-bound.predict-01",
+        "int.this-and-classes.this-lost-and-bound.concept-01",
+        "int.this-and-classes.this-lost-and-bound.trace-01",
+        "int.this-and-classes.this-lost-and-bound.parsons-01",
+        "int.this-and-classes.this-lost-and-bound.fix-01",
+        "int.this-and-classes.this-lost-and-bound.write-01"
+      ]
+    },
+    {
+      "id": "this-and-classes.lesson-3",
+      "title": "Classes, constructors and methods",
+      "conceptCard": {
+        "title": "Classes build objects",
+        "body": "A class describes objects. new runs its constructor on a fresh object, and this inside the constructor is that object. Methods in the class see the instance they are called on as this.",
+        "code": [
+          "class Cup {",
+          "  constructor(ml) { this.ml = ml; }",
+          "  half() { return this.ml / 2; }",
+          "}",
+          "console.log(new Cup(300).half());"
+        ],
+        "expectedOutput": "150"
+      },
+      "itemIds": [
+        "int.this-and-classes.class-basics.predict-01",
+        "int.this-and-classes.class-basics.concept-01",
+        "int.this-and-classes.class-basics.trace-01",
+        "int.this-and-classes.class-basics.fill-01",
+        "int.this-and-classes.class-basics.fix-01",
+        "int.this-and-classes.class-basics.write-01"
+      ]
+    },
+    {
+      "id": "this-and-classes.lesson-4",
+      "title": "extends, super and static",
+      "conceptCard": {
+        "title": "extends, super and static",
+        "body": "extends makes a subclass that inherits the parent's methods. A subclass constructor must call super() before using this. super.method() reaches the parent's version. static methods live on the class, not on instances.",
+        "code": [
+          "class Bird {",
+          "  go() { return 4; }",
+          "}",
+          "class Duck extends Bird {",
+          "  go() { return super.go() + 1; }",
+          "}",
+          "console.log(new Duck().go());"
+        ],
+        "expectedOutput": "5"
+      },
+      "itemIds": [
+        "int.this-and-classes.class-inheritance.predict-01",
+        "int.this-and-classes.class-inheritance.concept-01",
+        "int.this-and-classes.class-inheritance.trace-01",
+        "int.this-and-classes.class-inheritance.fill-01",
+        "int.this-and-classes.class-inheritance.fix-01",
+        "int.this-and-classes.class-inheritance.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "int.this-and-classes.this-in-methods.predict-01",
+      "concept": "this-in-methods",
+      "prerequisites": [
+        "object-properties",
+        "function-expressions"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const shop = {",
+        "  title: 'Fern Corner',",
+        "  info() {",
+        "    return this.title + ' open';",
+        "  }",
+        "};",
+        "console.log(shop.info());"
+      ],
+      "options": [
+        {
+          "text": "Fern Corner open",
+          "correct": true,
+          "feedback": "Right. The call shop.info() has shop before the dot, so this is shop inside the method."
+        },
+        {
+          "text": "undefined open",
+          "correct": false,
+          "feedback": "That treats this as some outer or global object that has no title. In a method call, this is the object before the dot.",
+          "misconception": "this-is-not-the-object"
+        },
+        {
+          "text": "Uncaught TypeError",
+          "correct": false,
+          "feedback": "this is not undefined here. Called as shop.info(), the method gets shop as this, so reading its properties works.",
+          "misconception": "this-is-not-the-object"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Fern Corner open"
+      },
+      "explanation": "In a method call, this is the object before the dot. Here that is shop, so this.title reads shop's own property.",
+      "hints": [
+        "Look at line 7: what stands before the dot in the call?",
+        "Inside a method, this is the object the method was called on.",
+        "Replace this with the object in the call, then read its title."
+      ],
+      "reference": {
+        "title": "this",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 41,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.this-in-methods.concept-01",
+      "concept": "this-in-methods",
+      "prerequisites": [
+        "object-properties",
+        "function-expressions"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "const kai = {",
+        "  name: 'Kai',",
+        "  hi() { return this.name; }",
+        "};",
+        "const mia = { name: 'Mia' };",
+        "mia.hi = kai.hi;",
+        "console.log(kai.hi(), mia.hi());"
+      ],
+      "options": [
+        {
+          "text": "this is decided by the call, so each call reads the name of the object before the dot.",
+          "correct": true,
+          "feedback": "Right. The same function runs twice with a different this each time."
+        },
+        {
+          "text": "hi was written inside kai, so both calls read the name Kai.",
+          "correct": false,
+          "feedback": "Where the function was written does not fix this. The call mia.hi() uses mia as this.",
+          "misconception": "this-fixed-at-definition"
+        },
+        {
+          "text": "this is the hi function itself, so the names come from the function.",
+          "correct": false,
+          "feedback": "this is not the method. It is the object the method was called on, which holds the name property.",
+          "misconception": "this-is-function-itself"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Kai Mia"
+      },
+      "explanation": "A regular function gets its this when it is called. kai.hi() uses kai, and mia.hi() uses mia, even though both calls run the same function.",
+      "hints": [
+        "Compare the two calls on line 7.",
+        "this depends on the call, not on where the function was written.",
+        "Look at which object stands before the dot in each call."
+      ],
+      "reference": {
+        "title": "this",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 41,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.this-in-methods.trace-01",
+      "concept": "this-in-methods",
+      "prerequisites": [
+        "object-properties",
+        "function-expressions"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What is the value of now right after line 5 runs for the second time?",
+      "code": [
+        "const till = {",
+        "  total: 0,",
+        "  add(price) {",
+        "    this.total = this.total + price;",
+        "    const now = this.total;",
+        "    return now;",
+        "  }",
+        "};",
+        "till.add(4);",
+        "till.add(6);",
+        "console.log(till.total);"
+      ],
+      "options": [
+        {
+          "text": "10",
+          "correct": true,
+          "feedback": "Right. till keeps its total between calls: 4 after the first, then 4 plus 6."
+        },
+        {
+          "text": "4",
+          "correct": false,
+          "feedback": "That is the value after the first run of line 5. The question asks about the second run.",
+          "misconception": "trace-wrong-pass"
+        },
+        {
+          "text": "6",
+          "correct": false,
+          "feedback": "The total is stored on till, not on the call. It does not start again at 0, so the second price is added to 4.",
+          "misconception": "state-resets-each-call"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "now",
+          "afterLine": 5,
+          "visit": 2
+        },
+        "expectedOutput": "10"
+      },
+      "explanation": "this.total lives on the till object, so it survives between calls. The first call makes it 4. The second adds 6, so now is 10.",
+      "hints": [
+        "Line 5 runs once for each call of add.",
+        "The total is a property of till, so it keeps its value from call to call.",
+        "Add the first price to the starting total, then add the second."
+      ],
+      "reference": {
+        "title": "Method definitions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Method_definitions",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.this-in-methods.fill-01",
+      "concept": "this-in-methods",
+      "prerequisites": [
+        "object-properties",
+        "function-expressions"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints oat loaf.",
+      "code": [
+        "function info() {",
+        "  return this.label + ' loaf';",
+        "}",
+        "const rye = { label: 'rye', info };",
+        "const oat = { label: 'oat', info };",
+        "console.log(___.info());"
+      ],
+      "options": [
+        {
+          "text": "oat",
+          "correct": true,
+          "feedback": "Right. oat is before the dot, so this.label is 'oat'."
+        },
+        {
+          "text": "rye",
+          "correct": false,
+          "feedback": "With rye before the dot, this is rye and the program prints rye loaf."
+        },
+        {
+          "text": "this",
+          "correct": false,
+          "feedback": "At the top level this is not one of the two objects, so this.info is not the method of oat."
+        },
+        {
+          "text": "label",
+          "correct": false,
+          "feedback": "label is not a variable. It is a property name, so using it alone throws an error."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "oat"
+          ]
+        ],
+        "expectedOutput": "oat loaf"
+      },
+      "explanation": "this is the object before the dot in the call. To read the label 'oat', the call must be oat.info().",
+      "hints": [
+        "Look at what stands before the dot on line 6.",
+        "The object before the dot becomes this inside info.",
+        "Pick the variable whose label is 'oat'."
+      ],
+      "reference": {
+        "title": "this",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 38,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.this-in-methods.fix-01",
+      "concept": "this-in-methods",
+      "prerequisites": [
+        "object-properties",
+        "function-expressions"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print 7. Tap the buggy line, then choose its fix.",
+      "code": [
+        "const seats = {",
+        "  free: 12,",
+        "  taken: 5,",
+        "  left() {",
+        "    return free - taken;",
+        "  },",
+        "};",
+        "console.log(seats.left());"
+      ],
+      "options": [
+        {
+          "text": "return this.free - this.taken;",
+          "correct": true,
+          "feedback": "Right. Both properties are read through this, which is seats in this call."
+        },
+        {
+          "text": "return this.free - taken;",
+          "correct": false,
+          "feedback": "Only one name is fixed. taken is still a bare name that no variable holds, so it throws an error."
+        },
+        {
+          "text": "return this.taken - this.free;",
+          "correct": false,
+          "feedback": "Both properties are read, but the subtraction is reversed, so the result is -7."
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "7"
+      },
+      "explanation": "free and taken are properties, not variables. Inside a method they are reached through this, so this.free - this.taken reads them from seats.",
+      "hints": [
+        "Line 5 uses two names. Are they variables?",
+        "Properties of the object are read through this inside a method.",
+        "Put this and a dot before each property name."
+      ],
+      "reference": {
+        "title": "Method definitions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Method_definitions",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 44,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.this-in-methods.write-01",
+      "concept": "this-in-methods",
+      "prerequisites": [
+        "object-properties",
+        "function-expressions"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of totalCost(price, qty). Build an object with a total() method that uses this, call it and return the result.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "totalCost",
+          "params": [
+            "price",
+            "qty"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              4,
+              3
+            ],
+            "expected": 12
+          },
+          {
+            "input": [
+              0,
+              5
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              7,
+              1
+            ],
+            "expected": 7
+          },
+          {
+            "input": [
+              5,
+              0
+            ],
+            "expected": 0
+          }
+        ],
+        "reference": [
+          "const line = {",
+          "  price: price,",
+          "  qty: qty,",
+          "  total() {",
+          "    return this.price * this.qty;",
+          "  }",
+          "};",
+          "return line.total();"
+        ],
+        "wrongSolutions": [
+          [
+            "return price + qty;"
+          ],
+          [
+            "return price;"
+          ],
+          [
+            "const line = {",
+            "  total() {",
+            "    return this.price * this.qty;",
+            "  }",
+            "};",
+            "return line.total();"
+          ]
+        ]
+      },
+      "explanation": "The method reads price and qty through this, and calling line.total() makes line the this. Returning that result gives the cost.",
+      "hints": [
+        "Which object will hold price, qty and the method?",
+        "Inside the method, properties are read with this.",
+        "Return the result of calling the method on your object."
+      ],
+      "reference": {
+        "title": "this",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.this-lost-and-bound.predict-01",
+      "concept": "this-lost-and-bound",
+      "prerequisites": [
+        "this-in-methods",
+        "closure-captures-variable"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "What does this code print?",
+      "code": [
+        "function times(factor, n) {",
+        "  return factor * n;",
+        "}",
+        "const triple = times.bind(null, 3);",
+        "console.log(triple(5), triple(10));"
+      ],
+      "options": [
+        {
+          "text": "15 30",
+          "correct": true,
+          "feedback": "Right. bind fixed the first argument at 3, and each call supplies the second."
+        },
+        {
+          "text": "15 15",
+          "correct": false,
+          "feedback": "bind fixes only the arguments it was given. The second argument is still taken from each call.",
+          "misconception": "bind-locks-every-argument"
+        },
+        {
+          "text": "Uncaught TypeError",
+          "correct": false,
+          "feedback": "bind does not call times. It returns a new function, so triple can be called.",
+          "misconception": "bind-calls-now"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "15 30"
+      },
+      "explanation": "bind returns a new function with the given arguments filled in first. triple(5) runs times(3, 5) and triple(10) runs times(3, 10).",
+      "hints": [
+        "Look at line 4: is times called there?",
+        "bind makes a new function with some arguments already set.",
+        "triple gets its first argument from bind and its second from each call."
+      ],
+      "reference": {
+        "title": "Function.prototype.bind()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:27"
+      ]
+    },
+    {
+      "id": "int.this-and-classes.this-lost-and-bound.concept-01",
+      "concept": "this-lost-and-bound",
+      "prerequisites": [
+        "this-in-methods",
+        "closure-captures-variable"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "const club = {",
+        "  name: 'Chess',",
+        "  members: ['Ana', 'Bo'],",
+        "  list() {",
+        "    return this.members.map(",
+        "      (m) => m + ' @ ' + this.name",
+        "    );",
+        "  }",
+        "};",
+        "console.log(club.list());"
+      ],
+      "options": [
+        {
+          "text": "The arrow function has no this of its own, so it uses the this of list.",
+          "correct": true,
+          "feedback": "Right. this.name inside the arrow is the same this as in list, which is club."
+        },
+        {
+          "text": "The callback gets its own this, so this.name is undefined.",
+          "correct": false,
+          "feedback": "A regular function would get its own this, but an arrow function does not. It uses the one around it.",
+          "misconception": "arrow-gets-own-this"
+        },
+        {
+          "text": "this inside the arrow is the current member m.",
+          "correct": false,
+          "feedback": "The member is the parameter m. this is not a parameter, and it does not change with the element.",
+          "misconception": "this-is-not-the-object"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "['Ana @ Chess', 'Bo @ Chess']"
+      },
+      "explanation": "An arrow function takes this from the code around it. Inside list, this is club, so the arrow reads club.name for every member.",
+      "hints": [
+        "Look at this.name on line 6, inside the arrow.",
+        "An arrow function does not create its own this.",
+        "Ask which this the code around the arrow has."
+      ],
+      "reference": {
+        "title": "Arrow function expressions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.this-lost-and-bound.trace-01",
+      "concept": "this-lost-and-bound",
+      "prerequisites": [
+        "this-in-methods",
+        "closure-captures-variable"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What is the value of second right after line 10 runs?",
+      "code": [
+        "const jar = {",
+        "  coins: 3,",
+        "  add(n) {",
+        "    this.coins = this.coins + n;",
+        "    return this.coins;",
+        "  }",
+        "};",
+        "const drop = jar.add.bind(jar, 2);",
+        "const first = drop();",
+        "const second = drop();",
+        "console.log(first, second);"
+      ],
+      "options": [
+        {
+          "text": "7",
+          "correct": true,
+          "feedback": "Right. The bound function always uses jar, so the coins grow from 3 to 5, then to 7."
+        },
+        {
+          "text": "5",
+          "correct": false,
+          "feedback": "That is the value of first, set by the previous call. The second call continues from it.",
+          "misconception": "trace-wrong-pass"
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "That treats the bound function as working on a copy, so jar would stay at 3. bind keeps the same jar, and its changes persist.",
+          "misconception": "state-resets-each-call"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "second",
+          "afterLine": 10,
+          "visit": 1
+        },
+        "expectedOutput": "5 7"
+      },
+      "explanation": "bind fixes this to jar and n to 2. Each call changes jar.coins: 3 becomes 5 on the first call and 7 on the second.",
+      "hints": [
+        "Line 9 runs drop before line 10 does.",
+        "bind fixes this to the same jar object for every call.",
+        "Add 2 to the starting coins twice."
+      ],
+      "reference": {
+        "title": "Function.prototype.bind()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.this-lost-and-bound.parsons-01",
+      "concept": "this-lost-and-bound",
+      "prerequisites": [
+        "this-in-methods",
+        "closure-captures-variable"
+      ],
+      "format": "PARSONS",
+      "difficulty": 3,
+      "prompt": "Put the lines in order so the program prints 20.",
+      "code": [
+        "const check = count.bind(bus);",
+        "  return this.seats;",
+        "const bus = { seats: 20 };",
+        "console.log(check());",
+        "};",
+        "const count = function () {"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          5,
+          1,
+          4,
+          0,
+          3
+        ],
+        "acceptedOrders": [
+          [
+            5,
+            1,
+            4,
+            2,
+            0,
+            3
+          ]
+        ],
+        "expectedOutput": "20"
+      },
+      "explanation": "count must exist, and so must bus, before bind joins them. check is built from count.bind(bus), and only then can it be called.",
+      "hints": [
+        "The line with bind uses two names that must already exist.",
+        "bind needs both the function and the object that becomes this.",
+        "Define the object and the function first, then bind, then call."
+      ],
+      "reference": {
+        "title": "Function.prototype.bind()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 38,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.this-lost-and-bound.fix-01",
+      "concept": "this-lost-and-bound",
+      "prerequisites": [
+        "this-in-methods",
+        "closure-captures-variable"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print 300 ml. Tap the buggy line, then choose its fix.",
+      "code": [
+        "const mug = {",
+        "  size: 300,",
+        "  fill() {",
+        "    return this.size + ' ml';",
+        "  }",
+        "};",
+        "const pour = mug.fill;",
+        "console.log(pour());"
+      ],
+      "options": [
+        {
+          "text": "const pour = mug.fill.bind(mug);",
+          "correct": true,
+          "feedback": "Right. bind fixes this to mug, so pour reads mug.size even without a dot."
+        },
+        {
+          "text": "const pour = mug.fill();",
+          "correct": false,
+          "feedback": "This calls fill now and stores the text. pour is then a string, so calling it throws an error.",
+          "misconception": "bind-calls-now"
+        },
+        {
+          "text": "const pour = mug.fill.bind();",
+          "correct": false,
+          "feedback": "bind without an argument fixes nothing useful. this is still not mug, so size is not found."
+        }
+      ],
+      "solution": {
+        "bugLine": 7,
+        "expectedOutput": "300 ml"
+      },
+      "explanation": "Copying mug.fill into pour separates the method from mug. Calling pour() has nothing before the dot, so this is not mug. bind(mug) fixes this permanently.",
+      "hints": [
+        "Line 8 calls pour with nothing before the dot.",
+        "A method copied into a variable loses the object it came from.",
+        "Make a version of fill that always uses mug."
+      ],
+      "reference": {
+        "title": "Function.prototype.bind()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 44,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.this-lost-and-bound.write-01",
+      "concept": "this-lost-and-bound",
+      "prerequisites": [
+        "this-in-methods",
+        "closure-captures-variable"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of totalKg(boxKg, packingKg). Define a function that reads this.kg and this.packing, then run it with call on an object.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "totalKg",
+          "params": [
+            "boxKg",
+            "packingKg"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              10,
+              2
+            ],
+            "expected": 12
+          },
+          {
+            "input": [
+              0,
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              7,
+              0
+            ],
+            "expected": 7
+          },
+          {
+            "input": [
+              0,
+              3
+            ],
+            "expected": 3
+          }
+        ],
+        "reference": [
+          "function weigh() {",
+          "  return this.kg + this.packing;",
+          "}",
+          "const parcel = {",
+          "  kg: boxKg,",
+          "  packing: packingKg",
+          "};",
+          "return weigh.call(parcel);"
+        ],
+        "wrongSolutions": [
+          [
+            "function weigh() {",
+            "  return this.kg + this.packing;",
+            "}",
+            "return weigh();"
+          ],
+          [
+            "function weigh() {",
+            "  return this.kg + this.packing;",
+            "}",
+            "return weigh.call(boxKg, packingKg);"
+          ],
+          [
+            "return boxKg - packingKg;"
+          ]
+        ]
+      },
+      "explanation": "call runs weigh once with parcel as this, so this.kg and this.packing read the parcel's properties. Without call, this would not be parcel.",
+      "hints": [
+        "Which method runs a function with a chosen this?",
+        "call takes the object to use as this as its first argument.",
+        "Build an object with kg and packing, then call weigh with it."
+      ],
+      "reference": {
+        "title": "Function.prototype.call()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.class-basics.predict-01",
+      "concept": "class-basics",
+      "prerequisites": [
+        "this-in-methods"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "class Puppy {",
+        "  constructor(name) {",
+        "    this.name = name;",
+        "  }",
+        "  bark() {",
+        "    return this.name + ' barks';",
+        "  }",
+        "}",
+        "const a = new Puppy('Pip');",
+        "const b = new Puppy('Moss');",
+        "console.log(a.bark(), b.bark());"
+      ],
+      "options": [
+        {
+          "text": "Pip barks Moss barks",
+          "correct": true,
+          "feedback": "Right. Each instance keeps its own name, and bark reads the name of the instance it is called on."
+        },
+        {
+          "text": "Moss barks Moss barks",
+          "correct": false,
+          "feedback": "The second new Puppy did not replace the first one's name. Every instance has its own copy of name.",
+          "misconception": "instances-share-fields"
+        },
+        {
+          "text": "Pip barks Pip barks",
+          "correct": false,
+          "feedback": "bark is not tied to the first instance. this is whichever instance stands before the dot in the call.",
+          "misconception": "this-fixed-at-definition"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Pip barks Moss barks"
+      },
+      "explanation": "new runs the constructor on a fresh object each time, so a and b have separate names. In bark, this is a for the first call and b for the second.",
+      "hints": [
+        "Look at lines 9 and 10: two instances are made.",
+        "Each new call builds a separate object with its own fields.",
+        "The first call reads a's name and the second reads b's."
+      ],
+      "reference": {
+        "title": "Classes",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:1"
+      ]
+    },
+    {
+      "id": "int.this-and-classes.class-basics.concept-01",
+      "concept": "class-basics",
+      "prerequisites": [
+        "this-in-methods"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "class Plant {",
+        "  constructor(species) {",
+        "    this.species = species;",
+        "  }",
+        "}",
+        "const fern = new Plant('fern');",
+        "console.log(fern.species);",
+        "console.log(fern);"
+      ],
+      "options": [
+        {
+          "text": "new makes a fresh object from Plant and runs the constructor on it.",
+          "correct": true,
+          "feedback": "Right. The object printed on line 8 was created by new and filled in by the constructor."
+        },
+        {
+          "text": "The species is stored on Plant itself, so every plant shares it.",
+          "correct": false,
+          "feedback": "The constructor sets this.species on the new object, not on the class. Another new Plant would get its own species.",
+          "misconception": "instances-share-fields"
+        },
+        {
+          "text": "Plant('fern') without new would build the same object.",
+          "correct": false,
+          "feedback": "A class cannot be called without new. That call throws an error instead of making an instance.",
+          "misconception": "class-call-without-new"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "fern\nPlant {species: 'fern'}"
+      },
+      "explanation": "new creates an empty object that uses the class, runs the constructor with this set to that object, and returns it. The printed object shows the field the constructor set.",
+      "hints": [
+        "Look at what line 8 prints.",
+        "new makes the object, and the constructor fills it in.",
+        "The field belongs to the object that new returned."
+      ],
+      "reference": {
+        "title": "new operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 44,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:4"
+      ]
+    },
+    {
+      "id": "int.this-and-classes.class-basics.trace-01",
+      "concept": "class-basics",
+      "prerequisites": [
+        "this-in-methods"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "After line 4 runs for the second time, which value does next hold?",
+      "code": [
+        "class Meter {",
+        "  constructor() { this.sum = 10; }",
+        "  tick(step) {",
+        "    const next = this.sum + step;",
+        "    this.sum = next;",
+        "    return next;",
+        "  }",
+        "}",
+        "const m = new Meter();",
+        "m.tick(2);",
+        "console.log(m.tick(5));"
+      ],
+      "options": [
+        {
+          "text": "17",
+          "correct": true,
+          "feedback": "Right. The first tick makes sum 12, and the second adds 5 to that."
+        },
+        {
+          "text": "12",
+          "correct": false,
+          "feedback": "That is the value after the first run of line 4. The question asks about the second run.",
+          "misconception": "trace-wrong-pass"
+        },
+        {
+          "text": "15",
+          "correct": false,
+          "feedback": "The constructor runs once, when new is called. It does not reset sum before each tick.",
+          "misconception": "state-resets-each-call"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "next",
+          "afterLine": 4,
+          "visit": 2
+        },
+        "expectedOutput": "17"
+      },
+      "explanation": "The constructor runs only once, in new Meter(). After that, sum is stored on m: 10 plus 2 gives 12, and then 12 plus 5 gives 17.",
+      "hints": [
+        "Line 4 runs once for each tick.",
+        "The constructor runs once; sum stays on the instance afterwards.",
+        "Start at 10, add 2, then add 5."
+      ],
+      "reference": {
+        "title": "Classes",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.class-basics.fill-01",
+      "concept": "class-basics",
+      "prerequisites": [
+        "this-in-methods"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints 2.",
+      "code": [
+        "class Counter {",
+        "  constructor() {",
+        "    this.clicks = 0;",
+        "  }",
+        "  press() {",
+        "    this.clicks = ___ + 1;",
+        "  }",
+        "}",
+        "const c = new Counter();",
+        "c.press();",
+        "c.press();",
+        "console.log(c.clicks);"
+      ],
+      "options": [
+        {
+          "text": "this.clicks",
+          "correct": true,
+          "feedback": "Right. Reading the current field value and adding 1 makes each press count."
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "This always stores 1, so two presses still leave clicks at 1."
+        },
+        {
+          "text": "clicks",
+          "correct": false,
+          "feedback": "clicks is a property, not a variable. Used alone it throws an error."
+        },
+        {
+          "text": "Counter.clicks",
+          "correct": false,
+          "feedback": "The class has no clicks field. The count lives on the instance, so this gives NaN."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "this.clicks"
+          ]
+        ],
+        "expectedOutput": "2"
+      },
+      "explanation": "The field must be read from the instance through this. Each press stores the old this.clicks plus 1, so two presses give 2.",
+      "hints": [
+        "Look at the right side of line 6.",
+        "The new value is the current value plus one.",
+        "Read the current value from the object the method runs on."
+      ],
+      "reference": {
+        "title": "Classes",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:8"
+      ]
+    },
+    {
+      "id": "int.this-and-classes.class-basics.fix-01",
+      "concept": "class-basics",
+      "prerequisites": [
+        "this-in-methods"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print 14. Tap the buggy line, then choose its fix.",
+      "code": [
+        "class Ticket {",
+        "  constructor(seat) {",
+        "    this.seat = seat;",
+        "  }",
+        "}",
+        "const t = Ticket(14);",
+        "console.log(t.seat);"
+      ],
+      "options": [
+        {
+          "text": "const t = new Ticket(14);",
+          "correct": true,
+          "feedback": "Right. new builds the object and runs the constructor on it."
+        },
+        {
+          "text": "const t = Ticket.new(14);",
+          "correct": false,
+          "feedback": "A class has no method called new. new is an operator written before the class name."
+        },
+        {
+          "text": "const t = new Ticket;",
+          "correct": false,
+          "feedback": "This does create an instance, but no seat is passed, so t.seat is undefined."
+        }
+      ],
+      "solution": {
+        "bugLine": 6,
+        "expectedOutput": "14"
+      },
+      "explanation": "A class cannot be called like a plain function. The new operator makes the instance and passes 14 to the constructor.",
+      "hints": [
+        "Line 6 creates the ticket.",
+        "Classes are used to make instances with a special keyword.",
+        "Put the keyword before Ticket and keep the argument."
+      ],
+      "reference": {
+        "title": "new operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 41,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.class-basics.write-01",
+      "concept": "class-basics",
+      "prerequisites": [
+        "this-in-methods"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of waterLevel(start, pours). Use a class with a pour method, add every amount in pours, and return the final level.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "waterLevel",
+          "params": [
+            "start",
+            "pours"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              5,
+              [
+                1,
+                2
+              ]
+            ],
+            "expected": 8
+          },
+          {
+            "input": [
+              0,
+              []
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              3,
+              []
+            ],
+            "expected": 3
+          },
+          {
+            "input": [
+              1,
+              [
+                4
+              ]
+            ],
+            "expected": 5
+          }
+        ],
+        "reference": [
+          "class Tank {",
+          "  constructor(n) { this.level = n; }",
+          "  pour(n) {",
+          "    this.level = this.level + n;",
+          "  }",
+          "}",
+          "const tank = new Tank(start);",
+          "for (const p of pours) {",
+          "  tank.pour(p);",
+          "}",
+          "return tank.level;"
+        ],
+        "wrongSolutions": [
+          [
+            "return start;"
+          ],
+          [
+            "class Tank {",
+            "  constructor(n) { this.level = n; }",
+            "  pour(n) {",
+            "    this.level = n;",
+            "  }",
+            "}",
+            "const tank = new Tank(start);",
+            "for (const p of pours) {",
+            "  tank.pour(p);",
+            "}",
+            "return tank.level;"
+          ],
+          [
+            "class Tank {",
+            "  constructor(n) { this.level = n; }",
+            "  pour(n) {",
+            "    this.level = this.level + n;",
+            "  }",
+            "}",
+            "const tank = new Tank(start);",
+            "tank.pour(pours[0]);",
+            "return tank.level;"
+          ]
+        ]
+      },
+      "explanation": "The constructor stores the starting level on the instance. Each pour adds to this.level, so looping over pours accumulates every amount before the level is returned.",
+      "hints": [
+        "Which keyword makes a Tank from start?",
+        "pour must add to the stored level, not replace it.",
+        "Make the tank, loop over pours calling pour, then return the level."
+      ],
+      "reference": {
+        "title": "Classes",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.class-inheritance.predict-01",
+      "concept": "class-inheritance",
+      "prerequisites": [
+        "class-basics"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "What does this code print?",
+      "code": [
+        "class Boat {",
+        "  speed() {",
+        "    return 10;",
+        "  }",
+        "}",
+        "class Ferry extends Boat {",
+        "  speed() {",
+        "    return super.speed() + 5;",
+        "  }",
+        "}",
+        "console.log(new Ferry().speed());"
+      ],
+      "options": [
+        {
+          "text": "15",
+          "correct": true,
+          "feedback": "Right. super.speed() runs the Boat version, which returns 10, and Ferry adds 5."
+        },
+        {
+          "text": "10",
+          "correct": false,
+          "feedback": "Ferry defines its own speed, so that version runs. It uses the Boat result but does not stop there.",
+          "misconception": "super-call-result-is-lost"
+        },
+        {
+          "text": "5",
+          "correct": false,
+          "feedback": "super.speed() is a call that returns 10. Its result is part of the sum, so it is not dropped.",
+          "misconception": "super-call-result-is-lost"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "15"
+      },
+      "explanation": "A method in the subclass replaces the parent's method for its instances. super.speed() reaches the parent's version, so Ferry's speed is 10 plus 5.",
+      "hints": [
+        "Look at line 8: it calls super.speed().",
+        "A subclass method overrides the parent's, and super reaches the parent's.",
+        "Work out what super.speed() returns, then add 5."
+      ],
+      "reference": {
+        "title": "super",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.class-inheritance.concept-01",
+      "concept": "class-inheritance",
+      "prerequisites": [
+        "class-basics"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "class Pair {",
+        "  constructor(a) { this.a = a; }",
+        "  static twin(a) {",
+        "    return new Pair(a);",
+        "  }",
+        "}",
+        "const p = Pair.twin(3);",
+        "console.log(p.a);",
+        "console.log(typeof p.twin);"
+      ],
+      "options": [
+        {
+          "text": "A static method belongs to the class and is not available on instances.",
+          "correct": true,
+          "feedback": "Right. Pair.twin works, but the instance p has no twin, so typeof gives undefined."
+        },
+        {
+          "text": "twin is copied to every instance, so p.twin is a function.",
+          "correct": false,
+          "feedback": "static keeps the method on the class itself. The output shows p has no twin.",
+          "misconception": "static-copied-to-instances"
+        },
+        {
+          "text": "A static method cannot create instances of its own class.",
+          "correct": false,
+          "feedback": "twin does exactly that: Pair.twin(3) returns a new Pair whose a is 3.",
+          "misconception": "static-copied-to-instances"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "3\nundefined"
+      },
+      "explanation": "static methods are called on the class, as in Pair.twin(3). Instances do not inherit them, so typeof p.twin is undefined.",
+      "hints": [
+        "Compare line 7, which calls twin on Pair, with line 9.",
+        "static puts a method on the class, not on its instances.",
+        "Check what typeof reports for the method on p."
+      ],
+      "reference": {
+        "title": "static",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.class-inheritance.trace-01",
+      "concept": "class-inheritance",
+      "prerequisites": [
+        "class-basics"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What is the value of seen right after line 7 runs?",
+      "code": [
+        "class Base {",
+        "  constructor() { this.log = 'b'; }",
+        "}",
+        "class Kid extends Base {",
+        "  constructor() {",
+        "    super();",
+        "    const seen = this.log;",
+        "    this.log = seen + 'k';",
+        "  }",
+        "}",
+        "const k = new Kid();",
+        "console.log(k.log);"
+      ],
+      "options": [
+        {
+          "text": "'b'",
+          "correct": true,
+          "feedback": "Right. super() ran the Base constructor, which set log to 'b', before line 7 read it."
+        },
+        {
+          "text": "'bk'",
+          "correct": false,
+          "feedback": "That is the final value of log. Line 8 has not run yet when seen is read.",
+          "misconception": "final-value-at-every-step"
+        },
+        {
+          "text": "undefined",
+          "correct": false,
+          "feedback": "super() runs the parent constructor, so log is already set. The subclass does not start with empty fields.",
+          "misconception": "subclass-skips-parent-constructor"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "seen",
+          "afterLine": 7,
+          "visit": 1
+        },
+        "expectedOutput": "bk"
+      },
+      "explanation": "super() runs the Base constructor on the new object, setting log to 'b'. Line 7 copies that value; only line 8 adds 'k'.",
+      "hints": [
+        "Line 6 runs before line 7.",
+        "super() runs the parent constructor on the same object.",
+        "Read log after Base set it and before Kid changes it."
+      ],
+      "reference": {
+        "title": "super",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.class-inheritance.fill-01",
+      "concept": "class-inheritance",
+      "prerequisites": [
+        "class-basics"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints eats.",
+      "code": [
+        "class Animal {",
+        "  eat() {",
+        "    return 'eats';",
+        "  }",
+        "}",
+        "class Cat ___ Animal {}",
+        "console.log(new Cat().eat());"
+      ],
+      "options": [
+        {
+          "text": "extends",
+          "correct": true,
+          "feedback": "Right. extends makes Cat a subclass of Animal, so it inherits eat."
+        },
+        {
+          "text": "inherits",
+          "correct": false,
+          "feedback": "inherits is not a JavaScript keyword, so this line is a syntax error."
+        },
+        {
+          "text": "implements",
+          "correct": false,
+          "feedback": "JavaScript has no implements keyword in class declarations. The subclass link is written with another word."
+        },
+        {
+          "text": "super",
+          "correct": false,
+          "feedback": "super is used inside a subclass to reach its parent. It cannot link two classes in this position."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "extends"
+          ]
+        ],
+        "expectedOutput": "eats"
+      },
+      "explanation": "class Cat extends Animal makes Cat a subclass. Instances of Cat inherit Animal's methods, so new Cat().eat() runs the Animal version.",
+      "hints": [
+        "Look at the class line on line 6.",
+        "One keyword sets the parent class of a class.",
+        "Pick the keyword that means Cat builds on Animal."
+      ],
+      "reference": {
+        "title": "extends",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 41,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:2"
+      ]
+    },
+    {
+      "id": "int.this-and-classes.class-inheritance.fix-01",
+      "concept": "class-inheritance",
+      "prerequisites": [
+        "class-basics"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "A Bike should have 2 wheels, but this program fails. Tap the buggy line, then choose its fix.",
+      "code": [
+        "class Vehicle {",
+        "  constructor(wheels) {",
+        "    this.wheels = wheels;",
+        "  }",
+        "}",
+        "class Bike extends Vehicle {",
+        "  constructor() {",
+        "    this.wheels = 2;",
+        "  }",
+        "}",
+        "console.log(new Bike().wheels);"
+      ],
+      "options": [
+        {
+          "text": "super(2);",
+          "correct": true,
+          "feedback": "Right. super(2) runs the Vehicle constructor, which sets this.wheels. Only then is this available."
+        },
+        {
+          "text": "super.wheels = 2;",
+          "correct": false,
+          "feedback": "super.wheels cannot be used before super() has been called. It still throws an error."
+        },
+        {
+          "text": "Vehicle(2);",
+          "correct": false,
+          "feedback": "A class cannot be called without new, so this throws an error and never initialises Bike.",
+          "misconception": "class-call-without-new"
+        }
+      ],
+      "solution": {
+        "bugLine": 8,
+        "expectedOutput": "2"
+      },
+      "explanation": "A subclass constructor must call super() before it uses this. Line 8 touches this first and throws. super(2) runs the parent constructor, which sets wheels.",
+      "hints": [
+        "Line 8 uses this inside the Bike constructor.",
+        "In a subclass constructor, this does not exist until super() has run.",
+        "Call the parent constructor with the number of wheels."
+      ],
+      "reference": {
+        "title": "super",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.this-and-classes.class-inheritance.write-01",
+      "concept": "class-inheritance",
+      "prerequisites": [
+        "class-basics"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of bedArea(side). Define a class with area(), a subclass that doubles it using super, and return the subclass area for side.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "bedArea",
+          "params": [
+            "side"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              3
+            ],
+            "expected": 18
+          },
+          {
+            "input": [
+              0
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              1
+            ],
+            "expected": 2
+          },
+          {
+            "input": [
+              5
+            ],
+            "expected": 50
+          }
+        ],
+        "reference": [
+          "class Square {",
+          "  constructor(n) { this.n = n; }",
+          "  area() { return this.n * this.n; }",
+          "}",
+          "class DoubleBed extends Square {",
+          "  area() {",
+          "    return super.area() * 2;",
+          "  }",
+          "}",
+          "return new DoubleBed(side).area();"
+        ],
+        "wrongSolutions": [
+          [
+            "return side * side;"
+          ],
+          [
+            "return side * 2;"
+          ],
+          [
+            "class Square {",
+            "  constructor(n) { this.n = n; }",
+            "  area() { return this.n * this.n; }",
+            "}",
+            "class DoubleBed extends Square {",
+            "  area() {",
+            "    return super.area() * 2;",
+            "  }",
+            "}",
+            "return new Square(side).area();"
+          ]
+        ]
+      },
+      "explanation": "DoubleBed inherits the constructor from Square. Its area calls super.area() for the square and doubles it, so new DoubleBed(side).area() gives twice the square.",
+      "hints": [
+        "Which class must you create with new at the end?",
+        "super.area() gives the parent's result inside the subclass method.",
+        "Subclass area returns the parent's area times two."
+      ],
+      "reference": {
+        "title": "extends",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

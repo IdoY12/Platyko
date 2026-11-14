@@ -1,0 +1,3486 @@
+{
+ "unit": "this-and-classes",
+ "items": {
+  "int.this-and-classes.this-in-methods.predict-01": {
+   "code": [
+    "const shop = {",
+    "  title: 'Fern Corner',",
+    "  info() {",
+    "    return this.title + ' open';",
+    "  }",
+    "};",
+    "console.log(shop.info());"
+   ],
+   "output": [
+    "Fern Corner open"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "shop",
+       "scope": "global",
+       "value": "{title: 'Fern Corner', info: [Function: info]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "shop",
+       "scope": "global",
+       "value": "{title: 'Fern Corner', info: [Function: info]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "info"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "shop",
+       "scope": "global",
+       "value": "{title: 'Fern Corner', info: [Function: info]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.this-in-methods.concept-01": {
+   "code": [
+    "const kai = {",
+    "  name: 'Kai',",
+    "  hi() { return this.name; }",
+    "};",
+    "const mia = { name: 'Mia' };",
+    "mia.hi = kai.hi;",
+    "console.log(kai.hi(), mia.hi());"
+   ],
+   "output": [
+    "Kai Mia"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "kai",
+       "scope": "global",
+       "value": "{name: 'Kai', hi: [Function: hi]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "kai",
+       "scope": "global",
+       "value": "{name: 'Kai', hi: [Function: hi]}"
+      },
+      {
+       "name": "mia",
+       "scope": "global",
+       "value": "{name: 'Mia'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "kai",
+       "scope": "global",
+       "value": "{name: 'Kai', hi: [Function: hi]}"
+      },
+      {
+       "name": "mia",
+       "scope": "global",
+       "value": "{name: 'Mia', hi: [Function: hi]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "kai",
+       "scope": "global",
+       "value": "{name: 'Kai', hi: [Function: hi]}"
+      },
+      {
+       "name": "mia",
+       "scope": "global",
+       "value": "{name: 'Mia', hi: [Function: hi]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "hi"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "kai",
+       "scope": "global",
+       "value": "{name: 'Kai', hi: [Function: hi]}"
+      },
+      {
+       "name": "mia",
+       "scope": "global",
+       "value": "{name: 'Mia', hi: [Function: hi]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.this-in-methods.trace-01": {
+   "code": [
+    "const till = {",
+    "  total: 0,",
+    "  add(price) {",
+    "    this.total = this.total + price;",
+    "    const now = this.total;",
+    "    return now;",
+    "  }",
+    "};",
+    "till.add(4);",
+    "till.add(6);",
+    "console.log(till.total);"
+   ],
+   "output": [
+    "10"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "till",
+       "scope": "global",
+       "value": "{total: 0, add: [Function: add]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "till",
+       "scope": "global",
+       "value": "{total: 0, add: [Function: add]}"
+      },
+      {
+       "name": "price",
+       "scope": "add",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "add"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "till",
+       "scope": "global",
+       "value": "{total: 4, add: [Function: add]}"
+      },
+      {
+       "name": "price",
+       "scope": "add",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "add"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "till",
+       "scope": "global",
+       "value": "{total: 4, add: [Function: add]}"
+      },
+      {
+       "name": "price",
+       "scope": "add",
+       "value": "4"
+      },
+      {
+       "name": "now",
+       "scope": "add",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "add"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "till",
+       "scope": "global",
+       "value": "{total: 4, add: [Function: add]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "till",
+       "scope": "global",
+       "value": "{total: 4, add: [Function: add]}"
+      },
+      {
+       "name": "price",
+       "scope": "add",
+       "value": "6"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "add"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "till",
+       "scope": "global",
+       "value": "{total: 10, add: [Function: add]}"
+      },
+      {
+       "name": "price",
+       "scope": "add",
+       "value": "6"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "add"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "till",
+       "scope": "global",
+       "value": "{total: 10, add: [Function: add]}"
+      },
+      {
+       "name": "price",
+       "scope": "add",
+       "value": "6"
+      },
+      {
+       "name": "now",
+       "scope": "add",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "add"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "till",
+       "scope": "global",
+       "value": "{total: 10, add: [Function: add]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "till",
+       "scope": "global",
+       "value": "{total: 10, add: [Function: add]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.this-in-methods.fill-01": {
+   "code": [
+    "function info() {",
+    "  return this.label + ' loaf';",
+    "}",
+    "const rye = { label: 'rye', info };",
+    "const oat = { label: 'oat', info };",
+    "console.log(oat.info());"
+   ],
+   "output": [
+    "oat loaf"
+   ],
+   "steps": [
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "rye",
+       "scope": "global",
+       "value": "{label: 'rye', info: [Function: info]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "rye",
+       "scope": "global",
+       "value": "{label: 'rye', info: [Function: info]}"
+      },
+      {
+       "name": "oat",
+       "scope": "global",
+       "value": "{label: 'oat', info: [Function: info]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "rye",
+       "scope": "global",
+       "value": "{label: 'rye', info: [Function: info]}"
+      },
+      {
+       "name": "oat",
+       "scope": "global",
+       "value": "{label: 'oat', info: [Function: info]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "info"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "rye",
+       "scope": "global",
+       "value": "{label: 'rye', info: [Function: info]}"
+      },
+      {
+       "name": "oat",
+       "scope": "global",
+       "value": "{label: 'oat', info: [Function: info]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.this-in-methods.fix-01": {
+   "code": [
+    "const seats = {",
+    "  free: 12,",
+    "  taken: 5,",
+    "  left() {",
+    "    return this.free - this.taken;",
+    "  },",
+    "};",
+    "console.log(seats.left());"
+   ],
+   "output": [
+    "7"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "{free: 12, taken: 5, left: [Function: left]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "{free: 12, taken: 5, left: [Function: left]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "left"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "{free: 12, taken: 5, left: [Function: left]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.this-in-methods.write-01": {
+   "code": [
+    "function totalCost(price, qty) {",
+    "const line = {",
+    "  price: price,",
+    "  qty: qty,",
+    "  total() {",
+    "    return this.price * this.qty;",
+    "  }",
+    "};",
+    "return line.total();",
+    "}",
+    "console.log(totalCost(4, 3));"
+   ],
+   "output": [
+    "12"
+   ],
+   "steps": [
+    {
+     "line": 11,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "price",
+       "scope": "totalCost",
+       "value": "4"
+      },
+      {
+       "name": "qty",
+       "scope": "totalCost",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "totalCost"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "price",
+       "scope": "totalCost",
+       "value": "4"
+      },
+      {
+       "name": "qty",
+       "scope": "totalCost",
+       "value": "3"
+      },
+      {
+       "name": "line",
+       "scope": "totalCost",
+       "value": "{price: 4, qty: 3, total: [Function: total]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "totalCost"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "price",
+       "scope": "totalCost",
+       "value": "4"
+      },
+      {
+       "name": "qty",
+       "scope": "totalCost",
+       "value": "3"
+      },
+      {
+       "name": "line",
+       "scope": "totalCost",
+       "value": "{price: 4, qty: 3, total: [Function: total]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "totalCost",
+      "total"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.this-lost-and-bound.predict-01": {
+   "code": [
+    "function times(factor, n) {",
+    "  return factor * n;",
+    "}",
+    "const triple = times.bind(null, 3);",
+    "console.log(triple(5), triple(10));"
+   ],
+   "output": [
+    "15 30"
+   ],
+   "steps": [
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "triple",
+       "scope": "global",
+       "value": "[Function: bound times]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "triple",
+       "scope": "global",
+       "value": "[Function: bound times]"
+      },
+      {
+       "name": "factor",
+       "scope": "times",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "times",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "times"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "triple",
+       "scope": "global",
+       "value": "[Function: bound times]"
+      },
+      {
+       "name": "factor",
+       "scope": "times",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "times",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "times"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "triple",
+       "scope": "global",
+       "value": "[Function: bound times]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.this-lost-and-bound.concept-01": {
+   "code": [
+    "const club = {",
+    "  name: 'Chess',",
+    "  members: ['Ana', 'Bo'],",
+    "  list() {",
+    "    return this.members.map(",
+    "      (m) => m + ' @ ' + this.name",
+    "    );",
+    "  }",
+    "};",
+    "console.log(club.list());"
+   ],
+   "output": [
+    "['Ana @ Chess', 'Bo @ Chess']"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "club",
+       "scope": "global",
+       "value": "{name: 'Chess', members: ['Ana', 'Bo'], list: [Function: list]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "club",
+       "scope": "global",
+       "value": "{name: 'Chess', members: ['Ana', 'Bo'], list: [Function: list]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "list"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "club",
+       "scope": "global",
+       "value": "{name: 'Chess', members: ['Ana', 'Bo'], list: [Function: list]}"
+      },
+      {
+       "name": "m",
+       "scope": "anonymous",
+       "value": "'Ana'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "list",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "club",
+       "scope": "global",
+       "value": "{name: 'Chess', members: ['Ana', 'Bo'], list: [Function: list]}"
+      },
+      {
+       "name": "m",
+       "scope": "anonymous",
+       "value": "'Bo'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "list",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "club",
+       "scope": "global",
+       "value": "{name: 'Chess', members: ['Ana', 'Bo'], list: [Function: list]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.this-lost-and-bound.trace-01": {
+   "code": [
+    "const jar = {",
+    "  coins: 3,",
+    "  add(n) {",
+    "    this.coins = this.coins + n;",
+    "    return this.coins;",
+    "  }",
+    "};",
+    "const drop = jar.add.bind(jar, 2);",
+    "const first = drop();",
+    "const second = drop();",
+    "console.log(first, second);"
+   ],
+   "output": [
+    "5 7"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{coins: 3, add: [Function: add]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{coins: 3, add: [Function: add]}"
+      },
+      {
+       "name": "drop",
+       "scope": "global",
+       "value": "[Function: bound add]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{coins: 3, add: [Function: add]}"
+      },
+      {
+       "name": "drop",
+       "scope": "global",
+       "value": "[Function: bound add]"
+      },
+      {
+       "name": "n",
+       "scope": "add",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "add"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{coins: 5, add: [Function: add]}"
+      },
+      {
+       "name": "drop",
+       "scope": "global",
+       "value": "[Function: bound add]"
+      },
+      {
+       "name": "n",
+       "scope": "add",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "add"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{coins: 5, add: [Function: add]}"
+      },
+      {
+       "name": "drop",
+       "scope": "global",
+       "value": "[Function: bound add]"
+      },
+      {
+       "name": "first",
+       "scope": "global",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{coins: 5, add: [Function: add]}"
+      },
+      {
+       "name": "drop",
+       "scope": "global",
+       "value": "[Function: bound add]"
+      },
+      {
+       "name": "first",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "n",
+       "scope": "add",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "add"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{coins: 7, add: [Function: add]}"
+      },
+      {
+       "name": "drop",
+       "scope": "global",
+       "value": "[Function: bound add]"
+      },
+      {
+       "name": "first",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "n",
+       "scope": "add",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "add"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{coins: 7, add: [Function: add]}"
+      },
+      {
+       "name": "drop",
+       "scope": "global",
+       "value": "[Function: bound add]"
+      },
+      {
+       "name": "first",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "second",
+       "scope": "global",
+       "value": "7"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "jar",
+       "scope": "global",
+       "value": "{coins: 7, add: [Function: add]}"
+      },
+      {
+       "name": "drop",
+       "scope": "global",
+       "value": "[Function: bound add]"
+      },
+      {
+       "name": "first",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "second",
+       "scope": "global",
+       "value": "7"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.this-lost-and-bound.parsons-01": {
+   "code": [
+    "const bus = { seats: 20 };",
+    "const count = function () {",
+    "  return this.seats;",
+    "};",
+    "const check = count.bind(bus);",
+    "console.log(check());"
+   ],
+   "output": [
+    "20"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "bus",
+       "scope": "global",
+       "value": "{seats: 20}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "bus",
+       "scope": "global",
+       "value": "{seats: 20}"
+      },
+      {
+       "name": "count",
+       "scope": "global",
+       "value": "[Function: count]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "bus",
+       "scope": "global",
+       "value": "{seats: 20}"
+      },
+      {
+       "name": "count",
+       "scope": "global",
+       "value": "[Function: count]"
+      },
+      {
+       "name": "check",
+       "scope": "global",
+       "value": "[Function: bound count]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "bus",
+       "scope": "global",
+       "value": "{seats: 20}"
+      },
+      {
+       "name": "count",
+       "scope": "global",
+       "value": "[Function: count]"
+      },
+      {
+       "name": "check",
+       "scope": "global",
+       "value": "[Function: bound count]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "count"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "bus",
+       "scope": "global",
+       "value": "{seats: 20}"
+      },
+      {
+       "name": "count",
+       "scope": "global",
+       "value": "[Function: count]"
+      },
+      {
+       "name": "check",
+       "scope": "global",
+       "value": "[Function: bound count]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.this-lost-and-bound.fix-01": {
+   "code": [
+    "const mug = {",
+    "  size: 300,",
+    "  fill() {",
+    "    return this.size + ' ml';",
+    "  }",
+    "};",
+    "const pour = mug.fill.bind(mug);",
+    "console.log(pour());"
+   ],
+   "output": [
+    "300 ml"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "mug",
+       "scope": "global",
+       "value": "{size: 300, fill: [Function: fill]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "mug",
+       "scope": "global",
+       "value": "{size: 300, fill: [Function: fill]}"
+      },
+      {
+       "name": "pour",
+       "scope": "global",
+       "value": "[Function: bound fill]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "mug",
+       "scope": "global",
+       "value": "{size: 300, fill: [Function: fill]}"
+      },
+      {
+       "name": "pour",
+       "scope": "global",
+       "value": "[Function: bound fill]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "fill"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "mug",
+       "scope": "global",
+       "value": "{size: 300, fill: [Function: fill]}"
+      },
+      {
+       "name": "pour",
+       "scope": "global",
+       "value": "[Function: bound fill]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.this-lost-and-bound.write-01": {
+   "code": [
+    "function totalKg(boxKg, packingKg) {",
+    "function weigh() {",
+    "  return this.kg + this.packing;",
+    "}",
+    "const parcel = {",
+    "  kg: boxKg,",
+    "  packing: packingKg",
+    "};",
+    "return weigh.call(parcel);",
+    "}",
+    "console.log(totalKg(10, 2));"
+   ],
+   "output": [
+    "12"
+   ],
+   "steps": [
+    {
+     "line": 11,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "boxKg",
+       "scope": "totalKg",
+       "value": "10"
+      },
+      {
+       "name": "packingKg",
+       "scope": "totalKg",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "totalKg"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "boxKg",
+       "scope": "totalKg",
+       "value": "10"
+      },
+      {
+       "name": "packingKg",
+       "scope": "totalKg",
+       "value": "2"
+      },
+      {
+       "name": "parcel",
+       "scope": "totalKg",
+       "value": "{kg: 10, packing: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "totalKg"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "boxKg",
+       "scope": "totalKg",
+       "value": "10"
+      },
+      {
+       "name": "packingKg",
+       "scope": "totalKg",
+       "value": "2"
+      },
+      {
+       "name": "parcel",
+       "scope": "totalKg",
+       "value": "{kg: 10, packing: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "totalKg",
+      "weigh"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.class-basics.predict-01": {
+   "code": [
+    "class Puppy {",
+    "  constructor(name) {",
+    "    this.name = name;",
+    "  }",
+    "  bark() {",
+    "    return this.name + ' barks';",
+    "  }",
+    "}",
+    "const a = new Puppy('Pip');",
+    "const b = new Puppy('Moss');",
+    "console.log(a.bark(), b.bark());"
+   ],
+   "output": [
+    "Pip barks Moss barks"
+   ],
+   "steps": [
+    {
+     "line": 9,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "name",
+       "scope": "constructor",
+       "value": "'Pip'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Puppy {name: 'Pip'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Puppy {name: 'Pip'}"
+      },
+      {
+       "name": "name",
+       "scope": "constructor",
+       "value": "'Moss'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Puppy {name: 'Pip'}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Puppy {name: 'Moss'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Puppy {name: 'Pip'}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Puppy {name: 'Moss'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bark"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Puppy {name: 'Pip'}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Puppy {name: 'Moss'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.class-basics.concept-01": {
+   "code": [
+    "class Plant {",
+    "  constructor(species) {",
+    "    this.species = species;",
+    "  }",
+    "}",
+    "const fern = new Plant('fern');",
+    "console.log(fern.species);",
+    "console.log(fern);"
+   ],
+   "output": [
+    "fern",
+    "Plant {species: 'fern'}"
+   ],
+   "steps": [
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "species",
+       "scope": "constructor",
+       "value": "'fern'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "fern",
+       "scope": "global",
+       "value": "Plant {species: 'fern'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "fern",
+       "scope": "global",
+       "value": "Plant {species: 'fern'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "fern",
+       "scope": "global",
+       "value": "Plant {species: 'fern'}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.class-basics.trace-01": {
+   "code": [
+    "class Meter {",
+    "  constructor() { this.sum = 10; }",
+    "  tick(step) {",
+    "    const next = this.sum + step;",
+    "    this.sum = next;",
+    "    return next;",
+    "  }",
+    "}",
+    "const m = new Meter();",
+    "m.tick(2);",
+    "console.log(m.tick(5));"
+   ],
+   "output": [
+    "17"
+   ],
+   "steps": [
+    {
+     "line": 9,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "m",
+       "scope": "global",
+       "value": "Meter {sum: 10}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "m",
+       "scope": "global",
+       "value": "Meter {sum: 10}"
+      },
+      {
+       "name": "step",
+       "scope": "tick",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "tick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "m",
+       "scope": "global",
+       "value": "Meter {sum: 10}"
+      },
+      {
+       "name": "step",
+       "scope": "tick",
+       "value": "2"
+      },
+      {
+       "name": "next",
+       "scope": "tick",
+       "value": "12"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "tick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "m",
+       "scope": "global",
+       "value": "Meter {sum: 12}"
+      },
+      {
+       "name": "step",
+       "scope": "tick",
+       "value": "2"
+      },
+      {
+       "name": "next",
+       "scope": "tick",
+       "value": "12"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "tick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "m",
+       "scope": "global",
+       "value": "Meter {sum: 12}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "m",
+       "scope": "global",
+       "value": "Meter {sum: 12}"
+      },
+      {
+       "name": "step",
+       "scope": "tick",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "tick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "m",
+       "scope": "global",
+       "value": "Meter {sum: 12}"
+      },
+      {
+       "name": "step",
+       "scope": "tick",
+       "value": "5"
+      },
+      {
+       "name": "next",
+       "scope": "tick",
+       "value": "17"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "tick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "m",
+       "scope": "global",
+       "value": "Meter {sum: 17}"
+      },
+      {
+       "name": "step",
+       "scope": "tick",
+       "value": "5"
+      },
+      {
+       "name": "next",
+       "scope": "tick",
+       "value": "17"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "tick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "m",
+       "scope": "global",
+       "value": "Meter {sum: 17}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.class-basics.fill-01": {
+   "code": [
+    "class Counter {",
+    "  constructor() {",
+    "    this.clicks = 0;",
+    "  }",
+    "  press() {",
+    "    this.clicks = this.clicks + 1;",
+    "  }",
+    "}",
+    "const c = new Counter();",
+    "c.press();",
+    "c.press();",
+    "console.log(c.clicks);"
+   ],
+   "output": [
+    "2"
+   ],
+   "steps": [
+    {
+     "line": 9,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "c",
+       "scope": "global",
+       "value": "Counter {clicks: 0}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "c",
+       "scope": "global",
+       "value": "Counter {clicks: 0}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "press"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "c",
+       "scope": "global",
+       "value": "Counter {clicks: 1}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "c",
+       "scope": "global",
+       "value": "Counter {clicks: 1}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "press"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 12,
+     "variables": [
+      {
+       "name": "c",
+       "scope": "global",
+       "value": "Counter {clicks: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "c",
+       "scope": "global",
+       "value": "Counter {clicks: 2}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.class-basics.fix-01": {
+   "code": [
+    "class Ticket {",
+    "  constructor(seat) {",
+    "    this.seat = seat;",
+    "  }",
+    "}",
+    "const t = new Ticket(14);",
+    "console.log(t.seat);"
+   ],
+   "output": [
+    "14"
+   ],
+   "steps": [
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "seat",
+       "scope": "constructor",
+       "value": "14"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "t",
+       "scope": "global",
+       "value": "Ticket {seat: 14}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "t",
+       "scope": "global",
+       "value": "Ticket {seat: 14}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.class-basics.write-01": {
+   "code": [
+    "function waterLevel(start, pours) {",
+    "class Tank {",
+    "  constructor(n) { this.level = n; }",
+    "  pour(n) {",
+    "    this.level = this.level + n;",
+    "  }",
+    "}",
+    "const tank = new Tank(start);",
+    "for (const p of pours) {",
+    "  tank.pour(p);",
+    "}",
+    "return tank.level;",
+    "}",
+    "console.log(waterLevel(5, [1,2]));"
+   ],
+   "output": [
+    "8"
+   ],
+   "steps": [
+    {
+     "line": 14,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "start",
+       "scope": "waterLevel",
+       "value": "5"
+      },
+      {
+       "name": "pours",
+       "scope": "waterLevel",
+       "value": "[1, 2]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "waterLevel"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "start",
+       "scope": "waterLevel",
+       "value": "5"
+      },
+      {
+       "name": "pours",
+       "scope": "waterLevel",
+       "value": "[1, 2]"
+      },
+      {
+       "name": "n",
+       "scope": "constructor",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "waterLevel",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "start",
+       "scope": "waterLevel",
+       "value": "5"
+      },
+      {
+       "name": "pours",
+       "scope": "waterLevel",
+       "value": "[1, 2]"
+      },
+      {
+       "name": "tank",
+       "scope": "waterLevel",
+       "value": "Tank {level: 5}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "waterLevel"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "start",
+       "scope": "waterLevel",
+       "value": "5"
+      },
+      {
+       "name": "pours",
+       "scope": "waterLevel",
+       "value": "[1, 2]"
+      },
+      {
+       "name": "tank",
+       "scope": "waterLevel",
+       "value": "Tank {level: 5}"
+      },
+      {
+       "name": "p",
+       "scope": "waterLevel",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "waterLevel"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "start",
+       "scope": "waterLevel",
+       "value": "5"
+      },
+      {
+       "name": "pours",
+       "scope": "waterLevel",
+       "value": "[1, 2]"
+      },
+      {
+       "name": "tank",
+       "scope": "waterLevel",
+       "value": "Tank {level: 5}"
+      },
+      {
+       "name": "p",
+       "scope": "waterLevel",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "waterLevel"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "start",
+       "scope": "waterLevel",
+       "value": "5"
+      },
+      {
+       "name": "pours",
+       "scope": "waterLevel",
+       "value": "[1, 2]"
+      },
+      {
+       "name": "tank",
+       "scope": "waterLevel",
+       "value": "Tank {level: 5}"
+      },
+      {
+       "name": "n",
+       "scope": "pour",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "waterLevel",
+      "pour"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "start",
+       "scope": "waterLevel",
+       "value": "5"
+      },
+      {
+       "name": "pours",
+       "scope": "waterLevel",
+       "value": "[1, 2]"
+      },
+      {
+       "name": "tank",
+       "scope": "waterLevel",
+       "value": "Tank {level: 6}"
+      },
+      {
+       "name": "p",
+       "scope": "waterLevel",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "waterLevel"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "start",
+       "scope": "waterLevel",
+       "value": "5"
+      },
+      {
+       "name": "pours",
+       "scope": "waterLevel",
+       "value": "[1, 2]"
+      },
+      {
+       "name": "tank",
+       "scope": "waterLevel",
+       "value": "Tank {level: 6}"
+      },
+      {
+       "name": "p",
+       "scope": "waterLevel",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "waterLevel"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "start",
+       "scope": "waterLevel",
+       "value": "5"
+      },
+      {
+       "name": "pours",
+       "scope": "waterLevel",
+       "value": "[1, 2]"
+      },
+      {
+       "name": "tank",
+       "scope": "waterLevel",
+       "value": "Tank {level: 6}"
+      },
+      {
+       "name": "n",
+       "scope": "pour",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "waterLevel",
+      "pour"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 12,
+     "variables": [
+      {
+       "name": "start",
+       "scope": "waterLevel",
+       "value": "5"
+      },
+      {
+       "name": "pours",
+       "scope": "waterLevel",
+       "value": "[1, 2]"
+      },
+      {
+       "name": "tank",
+       "scope": "waterLevel",
+       "value": "Tank {level: 8}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "waterLevel"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.class-inheritance.predict-01": {
+   "code": [
+    "class Boat {",
+    "  speed() {",
+    "    return 10;",
+    "  }",
+    "}",
+    "class Ferry extends Boat {",
+    "  speed() {",
+    "    return super.speed() + 5;",
+    "  }",
+    "}",
+    "console.log(new Ferry().speed());"
+   ],
+   "output": [
+    "15"
+   ],
+   "steps": [
+    {
+     "line": 11,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "speed"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "speed",
+      "speed"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.class-inheritance.concept-01": {
+   "code": [
+    "class Pair {",
+    "  constructor(a) { this.a = a; }",
+    "  static twin(a) {",
+    "    return new Pair(a);",
+    "  }",
+    "}",
+    "const p = Pair.twin(3);",
+    "console.log(p.a);",
+    "console.log(typeof p.twin);"
+   ],
+   "output": [
+    "3",
+    "undefined"
+   ],
+   "steps": [
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "twin",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "twin"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "constructor",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "twin",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "p",
+       "scope": "global",
+       "value": "Pair {a: 3}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "p",
+       "scope": "global",
+       "value": "Pair {a: 3}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "p",
+       "scope": "global",
+       "value": "Pair {a: 3}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.class-inheritance.trace-01": {
+   "code": [
+    "class Base {",
+    "  constructor() { this.log = 'b'; }",
+    "}",
+    "class Kid extends Base {",
+    "  constructor() {",
+    "    super();",
+    "    const seen = this.log;",
+    "    this.log = seen + 'k';",
+    "  }",
+    "}",
+    "const k = new Kid();",
+    "console.log(k.log);"
+   ],
+   "output": [
+    "bk"
+   ],
+   "steps": [
+    {
+     "line": 11,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "seen",
+       "scope": "constructor",
+       "value": "'b'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 12,
+     "variables": [
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "Kid {log: 'bk'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "Kid {log: 'bk'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.class-inheritance.fill-01": {
+   "code": [
+    "class Animal {",
+    "  eat() {",
+    "    return 'eats';",
+    "  }",
+    "}",
+    "class Cat extends Animal {}",
+    "console.log(new Cat().eat());"
+   ],
+   "output": [
+    "eats"
+   ],
+   "steps": [
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "eat"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.class-inheritance.fix-01": {
+   "code": [
+    "class Vehicle {",
+    "  constructor(wheels) {",
+    "    this.wheels = wheels;",
+    "  }",
+    "}",
+    "class Bike extends Vehicle {",
+    "  constructor() {",
+    "    super(2);",
+    "  }",
+    "}",
+    "console.log(new Bike().wheels);"
+   ],
+   "output": [
+    "2"
+   ],
+   "steps": [
+    {
+     "line": 11,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "wheels",
+       "scope": "constructor",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.this-and-classes.class-inheritance.write-01": {
+   "code": [
+    "function bedArea(side) {",
+    "class Square {",
+    "  constructor(n) { this.n = n; }",
+    "  area() { return this.n * this.n; }",
+    "}",
+    "class DoubleBed extends Square {",
+    "  area() {",
+    "    return super.area() * 2;",
+    "  }",
+    "}",
+    "return new DoubleBed(side).area();",
+    "}",
+    "console.log(bedArea(3));"
+   ],
+   "output": [
+    "18"
+   ],
+   "steps": [
+    {
+     "line": 13,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "side",
+       "scope": "bedArea",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bedArea"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "side",
+       "scope": "bedArea",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "constructor",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bedArea",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "side",
+       "scope": "bedArea",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bedArea",
+      "area"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "side",
+       "scope": "bedArea",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bedArea",
+      "area",
+      "area"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ },
+ "conceptCards": {
+  "this-and-classes.lesson-1": {
+   "code": [
+    "const cat = {",
+    "  name: 'Tia',",
+    "  hi() {",
+    "    return 'I am ' + this.name;",
+    "  }",
+    "};",
+    "console.log(cat.hi());"
+   ],
+   "output": [
+    "I am Tia"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "cat",
+       "scope": "global",
+       "value": "{name: 'Tia', hi: [Function: hi]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "cat",
+       "scope": "global",
+       "value": "{name: 'Tia', hi: [Function: hi]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "hi"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "cat",
+       "scope": "global",
+       "value": "{name: 'Tia', hi: [Function: hi]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "this-and-classes.lesson-2": {
+   "code": [
+    "function hi() {",
+    "  return 'hi ' + this.who;",
+    "}",
+    "const ann = { who: 'Ann' };",
+    "console.log(hi.call(ann));",
+    "const say = hi.bind(ann);",
+    "console.log(say());"
+   ],
+   "output": [
+    "hi Ann",
+    "hi Ann"
+   ],
+   "steps": [
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "ann",
+       "scope": "global",
+       "value": "{who: 'Ann'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "ann",
+       "scope": "global",
+       "value": "{who: 'Ann'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "hi"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "ann",
+       "scope": "global",
+       "value": "{who: 'Ann'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "ann",
+       "scope": "global",
+       "value": "{who: 'Ann'}"
+      },
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: bound hi]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "ann",
+       "scope": "global",
+       "value": "{who: 'Ann'}"
+      },
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: bound hi]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "hi"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "ann",
+       "scope": "global",
+       "value": "{who: 'Ann'}"
+      },
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: bound hi]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "this-and-classes.lesson-3": {
+   "code": [
+    "class Cup {",
+    "  constructor(ml) { this.ml = ml; }",
+    "  half() { return this.ml / 2; }",
+    "}",
+    "console.log(new Cup(300).half());"
+   ],
+   "output": [
+    "150"
+   ],
+   "steps": [
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "ml",
+       "scope": "constructor",
+       "value": "300"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "half"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "this-and-classes.lesson-4": {
+   "code": [
+    "class Bird {",
+    "  go() { return 4; }",
+    "}",
+    "class Duck extends Bird {",
+    "  go() { return super.go() + 1; }",
+    "}",
+    "console.log(new Duck().go());"
+   ],
+   "output": [
+    "5"
+   ],
+   "steps": [
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "go"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "go",
+      "go"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ }
+}
