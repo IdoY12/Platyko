@@ -1,5 +1,5 @@
 import type { GameRecordResponse, PlayMode, RecentGame } from "@project/api-contract";
-import { prisma, type MatchMode, type MatchVariant } from "@project/db";
+import { firstPlacesOf, prisma, type MatchMode, type MatchVariant } from "@project/db";
 import { PLACEMENT_GAMES, type GameVariant } from "@project/match-engine";
 
 const RECENT_GAMES = 10;
@@ -13,12 +13,10 @@ const VARIANT: Record<MatchVariant, GameVariant> = { CLASSIC: "classic", BUG_HUN
  * and the last games with their opponents.
  */
 export async function gameRecordOf(userId: string): Promise<GameRecordResponse> {
-  const [user, played, recent] = await Promise.all([
+  const [user, played, firstPlaces, recent] = await Promise.all([
     prisma.user.findUniqueOrThrow({ where: { id: userId }, select: { rating: true, ratedGamesPlayed: true } }),
-    prisma.matchParticipant.findMany({
-      where: { userId, isGhost: false, match: { cancelled: false, mode: { not: "GHOST" } } },
-      select: { placement: true, match: { select: { participants: { where: { placement: 1 }, select: { id: true } } } } },
-    }),
+    prisma.matchParticipant.count({ where: { userId, isGhost: false, match: { cancelled: false, mode: { not: "GHOST" } } } }),
+    firstPlacesOf(prisma, userId),
     prisma.matchParticipant.findMany({
       where: { userId, isGhost: false, match: { cancelled: false } },
       orderBy: { match: { endedAt: "desc" } },
@@ -30,15 +28,16 @@ export async function gameRecordOf(userId: string): Promise<GameRecordResponse> 
       },
     }),
   ]);
-  const wins = played.filter((game) => game.placement === 1 && game.match.participants.length === 1).length;
-  const draws = played.filter((game) => game.placement === 1 && game.match.participants.length > 1).length;
+  const counted = firstPlaces.filter((first) => first.mode !== "GHOST");
+  const wins = counted.filter((first) => !first.shared).length;
+  const draws = counted.length - wins;
   const placed = user.ratedGamesPlayed >= PLACEMENT_GAMES;
   return {
     rating: placed ? Math.round(user.rating) : null,
     placementGamesLeft: Math.max(PLACEMENT_GAMES - user.ratedGamesPlayed, 0),
     wins,
     draws,
-    losses: played.length - wins - draws,
+    losses: played - wins - draws,
     recent: recent.map((game): RecentGame => ({
       matchId: game.match.id,
       mode: MODE[game.match.mode],

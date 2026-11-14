@@ -11,6 +11,7 @@ import SocialService from "@/services/auth-aware/SocialService";
 import { playService } from "@/services/playSocket";
 import { palette, space } from "@/theme/tokens";
 import { logError } from "@/utils/logger";
+import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { playRequest } from "./playRequest";
 
 /** Friends who are online and not yet in the room, each with an invitation (PRD 11.7). */
@@ -19,7 +20,7 @@ export function LobbyInvites({ lobby }: { lobby: LobbyEvent }) {
   const [friends, setFriends] = useState<PublicUser[]>([]);
   const [invited, setInvited] = useState<string[]>([]);
   useEffect(() => {
-    new SocialService().getFriends().then((response) => setFriends(response.friends), (error: unknown) => logError("[PLAY]", error, { phase: "lobby-friends" }));
+    new SocialService().getFriends(getStreakCalendarDate()).then((response) => setFriends(response.friends), (error: unknown) => logError("[PLAY]", error, { phase: "lobby-friends" }));
   }, []);
   const inRoom = new Set(lobby.players.map((player) => player.userId));
   const available = friends.filter((friend) => presence[friend.id] === "online" && !inRoom.has(friend.id));

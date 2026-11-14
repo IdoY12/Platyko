@@ -8,6 +8,7 @@
  */
 
 export { deleteAccount } from "./deleteAccountHandler.js";
+export { getAchievements } from "./getAchievementsHandler.js";
 export { getGameRecord } from "./getGameRecordHandler.js";
 export { getPreferences } from "./getPreferencesHandler.js";
 export { getProfile } from "./getProfileHandler.js";

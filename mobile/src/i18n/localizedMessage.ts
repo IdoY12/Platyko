@@ -48,6 +48,8 @@ const EXACT_MESSAGES: Record<string, MessageKey> = {
   [SOCIAL_ERRORS.tooManyRequests]: "errors.tooManyRequests",
   [SOCIAL_ERRORS.friendLimit]: "errors.friendLimit",
   [SOCIAL_ERRORS.requestNotFound]: "errors.requestNotFound",
+  [SOCIAL_ERRORS.notFriends]: "errors.notFriends",
+  [SOCIAL_ERRORS.streakLimit]: "errors.streakLimit",
 };
 
 /** The shared length rules, each with the limit it names. */

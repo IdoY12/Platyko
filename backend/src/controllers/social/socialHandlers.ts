@@ -1,10 +1,11 @@
 import type { Response } from "express";
-import type { PrivacySettings, ReportRequest, SendFriendRequest } from "@project/api-contract";
+import type { FriendStreakRequest, PrivacySettings, ReportRequest, SendFriendRequest } from "@project/api-contract";
 import { SOCIAL_ERRORS } from "@project/api-contract";
 import { prisma } from "@project/db";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
 import { blockedUsers, blockUser, reportUser, unblockUser } from "../../services/social/blocksAndReports.js";
 import { acceptRequest, cancelRequest, declineRequest, removeFriend, sendFriendRequest, type SocialResult } from "../../services/social/friendRequests.js";
+import { setFriendStreak } from "../../services/social/friendStreaks.js";
 import { friendsOf, profileOf, recentOpponentsOf, searchUsers } from "../../services/social/socialQueries.js";
 
 const PRIVACY_SELECT = { profileVisibility: true, friendRequestPolicy: true, searchable: true, presenceVisibility: true, gameInvitePolicy: true } as const;
@@ -37,8 +38,14 @@ export async function getUserProfile(request: AuthenticatedRequest, response: Re
   else response.status(404).json({ error: SOCIAL_ERRORS.userNotFound });
 }
 
+/** `?localDate=` is the learner's calendar day, which a Friend Streak counts by; the server's UTC day otherwise. */
 export async function getFriends(request: AuthenticatedRequest, response: Response) {
-  response.json(await friendsOf(viewer(request)));
+  const today = (request.validatedQuery as { localDate?: string } | undefined)?.localDate ?? new Date().toISOString().slice(0, 10);
+  response.json(await friendsOf(viewer(request), today));
+}
+
+export async function patchFriendStreak(request: AuthenticatedRequest, response: Response) {
+  reply(response, await setFriendStreak(viewer(request), param(request, "userId"), (request.validatedBody as FriendStreakRequest).enabled));
 }
 
 export async function postFriendRequest(request: AuthenticatedRequest, response: Response) {

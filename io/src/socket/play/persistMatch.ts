@@ -3,6 +3,7 @@ import type { MatchEndEvent } from "@project/api-contract";
 import { standings, updateRating } from "@project/match-engine";
 import { levelForXp, UNRATED_MATCH_XP_GAMES_PER_DAY, XP_REWARDS } from "@project/xp-constants";
 import type { MatchResult } from "./liveMatch.js";
+import { recordGameAchievements } from "./gameAchievements.js";
 
 type Reward = Omit<MatchEndEvent, "matchId" | "standings">;
 
@@ -80,10 +81,12 @@ export async function persistMatch(result: MatchResult): Promise<Map<string, Rew
     for (const user of users) {
       const rating = ratingAfter.get(user.id);
       const xpTotal = user.xpTotal + (rewards.get(user.id)?.xpEarned ?? 0);
-      await tx.user.update({
+      const updated = await tx.user.update({
         where: { id: user.id },
         data: { xpTotal, level: levelForXp(xpTotal), ...(rating ? { rating: rating.rating, ratingDeviation: rating.deviation, ratingVolatility: rating.volatility, ratedGamesPlayed: { increment: 1 } } : {}) },
+        select: { rating: true, ratedGamesPlayed: true },
       });
+      await recordGameAchievements(tx, user.id, updated.rating, updated.ratedGamesPlayed);
     }
   });
   return rewards;

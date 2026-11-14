@@ -1,24 +1,21 @@
-import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ACHIEVEMENTS } from "@project/learning-logic";
 import { AppText } from "@/components/common/AppText/AppText";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { Surface } from "@/components/common/Surface/Surface";
-import { useAppSelector } from "@/redux/hooks";
-import { earnedAchievementCodes } from "@/redux/learning-selectors";
 import { t } from "@/i18n/translate";
 import { palette, space } from "@/theme/tokens";
 import type { RootNavigation } from "@/types/rootNavigation.types";
 import { BadgeEmblem } from "../achievements/BadgeEmblem";
+import { useEarnedAchievements } from "../achievements/useEarnedAchievements";
 
 const SHOWN = 5;
 
 /** The Profile's badge row: the latest badges first, then silhouettes, and the way to all of them. */
 export function ProfileAchievements() {
   const navigation = useNavigation<RootNavigation>();
-  const { map, progress } = useAppSelector((state) => state.learning);
-  const earned = useMemo(() => earnedAchievementCodes(progress, map), [map, progress]);
+  const earned = useEarnedAchievements();
   const shown = [...ACHIEVEMENTS].sort((left, right) => Number(earned.has(right.code)) - Number(earned.has(left.code))).slice(0, SHOWN);
   const count = t("profile.achievementsCount", { earned: earned.size, total: ACHIEVEMENTS.length });
   return (

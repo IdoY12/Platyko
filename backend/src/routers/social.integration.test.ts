@@ -74,6 +74,18 @@ describe.skipIf(!RUN)("social routes never expose a blocked or private user", ()
     expect(usernamesIn(result.json)).toEqual([users.codeonly.username]);
   });
 
+  it("a Friend Streak needs a friendship, counts shared practice days, and stops at five per user", async () => {
+    const keeper = await makeUser("keeper");
+    expect((await call(keeper, "PATCH", `/friends/${users.decliner.id}/streak`, { enabled: true })).status).toBe(404);
+    const friends = await Promise.all(["sa", "sb", "sc", "sd", "se", "sf"].map((name) => makeUser(name)));
+    await prisma.friendship.createMany({ data: friends.map((friend) => ({ requesterId: keeper.id, addresseeId: friend.id, status: "ACCEPTED" as const })) });
+    for (const friend of friends.slice(0, 5)) expect((await call(keeper, "PATCH", `/friends/${friend.id}/streak`, { enabled: true })).status).toBe(204);
+    expect((await call(keeper, "PATCH", `/friends/${friends[5].id}/streak`, { enabled: true })).json).toEqual({ error: "Friend Streak limit reached" });
+    await prisma.practiceDay.createMany({ data: [keeper.id, friends[0].id].flatMap((userId) => ["2026-11-14", "2026-11-15"].map((date) => ({ userId, date, itemsAnswered: 3 }))) });
+    const result = await call(keeper, "GET", "/friends?localDate=2026-11-15");
+    expect((result.json as { streaks: Record<string, number> }).streaks).toMatchObject({ [friends[0].id]: 2, [friends[1].id]: 0 });
+  });
+
   it("a profile behind a block or privacy reads as missing", async () => {
     for (const hiddenUser of [users.blocker, users.hidden, users.friendsonly]) {
       const result = await call(users.viewer, "GET", `/users/${hiddenUser.username}`);

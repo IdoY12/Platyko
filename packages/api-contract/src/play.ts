@@ -70,6 +70,9 @@ export type RecentGame = { matchId: string; mode: PlayMode; variant: GameVariant
  */
 export type GameRecordResponse = { rating: number | null; placementGamesLeft: number; wins: number; losses: number; draws: number; recent: RecentGame[] };
 
+/** `GET /api/user/achievements`: the badges the server recorded (games and Friend Streaks among them). */
+export type AchievementsResponse = { codes: string[] };
+
 /** Why a play request was refused; the app shows each in the UI language. */
 export const PLAY_ERRORS = ["room-not-found", "room-full", "room-started", "not-host", "not-enough-players", "in-another-game", "cooldown", "cannot-invite", "invite-gone", "friend-busy"] as const;
 export type PlayError = (typeof PLAY_ERRORS)[number];

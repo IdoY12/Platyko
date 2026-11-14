@@ -18,9 +18,14 @@ export default class SocialService extends AuthAware {
     return data;
   }
 
-  async getFriends(): Promise<FriendsResponse> {
-    const { data } = await this.axiosInstance.get<FriendsResponse>("/social/friends");
+  /** `localDate`: the learner's calendar day, which Friend Streaks count by. */
+  async getFriends(localDate: string): Promise<FriendsResponse> {
+    const { data } = await this.axiosInstance.get<FriendsResponse>("/social/friends", { params: { localDate } });
     return data;
+  }
+
+  async setFriendStreak(userId: string, enabled: boolean): Promise<void> {
+    await this.axiosInstance.patch(`/social/friends/${encodeURIComponent(userId)}/streak`, { enabled });
   }
 
   async sendRequest(target: SendFriendRequest): Promise<"sent" | "accepted"> {

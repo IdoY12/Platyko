@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { FRIEND_REQUEST_POLICIES, GAME_INVITE_POLICIES, PRESENCE_VISIBILITIES, PROFILE_VISIBILITIES, REPORT_TARGETS, SEARCH_MIN_LENGTH } from "@project/api-contract";
+import { CALENDAR_DATE_PATTERN } from "@project/streak-logic";
 import { USERNAME_MAX_LEN } from "@project/user-credentials";
 
 const userId = z.string().min(1).max(64).regex(/^[a-z0-9]+$/);
@@ -14,6 +15,8 @@ export const sendFriendRequestSchema = z
   .refine((body) => Boolean(body.username) !== Boolean(body.friendCode), { message: "Give a username or a friend code" });
 
 export const blockBodySchema = z.object({ userId });
+export const friendsQuerySchema = z.object({ localDate: z.string().regex(CALENDAR_DATE_PATTERN).optional() });
+export const friendStreakBodySchema = z.object({ enabled: z.boolean() });
 
 export const reportBodySchema = z.object({ userId, target: z.enum(REPORT_TARGETS), reason: z.string().trim().min(3).max(500) });
 

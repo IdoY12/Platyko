@@ -36,7 +36,10 @@ export const SEARCH_MAX_RESULTS = 20;
 
 /** `GET /friends` — friends, and the requests waiting on either side. */
 export type FriendRequest = { id: string; user: PublicUser; createdAt: string };
-export type FriendsResponse = { friends: PublicUser[]; incoming: FriendRequest[]; outgoing: FriendRequest[]; friendCode: string };
+/** `streaks`: friend id to the current Friend Streak in days, for each friend the streak is on with (PRD 11.1). */
+export type FriendsResponse = { friends: PublicUser[]; incoming: FriendRequest[]; outgoing: FriendRequest[]; friendCode: string; streaks: Record<string, number> };
+/** `PATCH /friends/:userId/streak` — start or stop a Friend Streak with a friend. */
+export type FriendStreakRequest = { enabled: boolean };
 export const MAX_OUTGOING_REQUESTS = 20;
 export const MAX_FRIENDS = 200;
 /** After a decline the sender waits this long before asking the same user again (PRD 11.1). */
@@ -69,4 +72,6 @@ export const SOCIAL_ERRORS = {
   tooManyRequests: "Too many pending friend requests",
   friendLimit: "Friend limit reached",
   requestNotFound: "Friend request not found",
+  notFriends: "You are not friends",
+  streakLimit: "Friend Streak limit reached",
 } as const;

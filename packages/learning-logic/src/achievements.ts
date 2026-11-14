@@ -1,14 +1,17 @@
 import { TRACKS, type Track } from "@project/content-model";
 import { isMastered } from "./mastery.js";
-import type { ProgressSnapshot } from "./progress.js";
+import { EMPTY_PROGRESS, type ProgressSnapshot } from "./progress.js";
 import type { MapUnit } from "./skillMap.js";
 
 /**
  * Badges for demonstrated skill, not for presence (PRD 14.2). Each badge is a rule over facts the
  * learner already has; the app shows earned badges in colour and the rest as silhouettes with
- * the rule. Competition and social badges read facts that arrive with multiplayer and friends
- * (phases 4–5); until then those facts are zero and the badges stay unearned.
+ * the rule. Competition and social badges read facts only the server holds (games, Friend
+ * Streaks): the server records those badges and the app shows them beside the ones it computes.
  */
+
+/** The index of the Rapids tier among the ranked tiers (stream, creek, river, rapids, delta, ocean). */
+const RAPIDS_TIER = 3;
 
 export const ACHIEVEMENT_GROUPS = ["mastery", "persistence", "competition", "social", "rare"] as const;
 export type AchievementGroup = (typeof ACHIEVEMENT_GROUPS)[number];
@@ -17,7 +20,7 @@ export type AchievementGroup = (typeof ACHIEVEMENT_GROUPS)[number];
 export type AchievementFacts = {
   snapshot: ProgressSnapshot;
   map: readonly MapUnit[];
-  /** Ranked wins, the best league tier reached (0 = none), rooms of four won, the longest friend streak. */
+  /** Ranked wins, the best ranked tier reached (its index, 0 = the first), rooms of four won, the longest friend streak. */
   rankedWins: number;
   bestTier: number;
   bigRoomWins: number;
@@ -72,7 +75,7 @@ export const ACHIEVEMENTS: readonly Achievement[] = [
   { code: "challenges-30", group: "persistence", icon: "calendar-check", earned: (facts) => facts.snapshot.dailyChallenges.length >= 30 },
   { code: "ranked-wins-10", group: "competition", icon: "sword-cross", earned: (facts) => facts.rankedWins >= 10 },
   { code: "ranked-wins-50", group: "competition", icon: "trophy", earned: (facts) => facts.rankedWins >= 50 },
-  { code: "tier-gold", group: "competition", icon: "medal", earned: (facts) => facts.bestTier >= 3 },
+  { code: "tier-rapids", group: "competition", icon: "medal", earned: (facts) => facts.bestTier >= RAPIDS_TIER },
   { code: "room-of-four", group: "competition", icon: "account-group", earned: (facts) => facts.bigRoomWins >= 1 },
   { code: "friend-streak-14", group: "social", icon: "account-heart", earned: (facts) => facts.bestFriendStreak >= 14 },
   { code: "jumped-ahead", group: "rare", icon: "debug-step-over", earned: (facts) => facts.snapshot.jumpedTracks.length > 0 },
@@ -85,6 +88,11 @@ export const ACHIEVEMENTS: readonly Achievement[] = [
 /** The codes of every badge the facts earn, in catalog order. */
 export function earnedAchievements(facts: AchievementFacts): string[] {
   return ACHIEVEMENTS.filter((achievement) => achievement.earned(facts)).map((achievement) => achievement.code);
+}
+
+/** Facts from games and friends alone, for the server to record competition and social badges. */
+export function playFacts(counts: Pick<AchievementFacts, "rankedWins" | "bestTier" | "bigRoomWins" | "bestFriendStreak">): AchievementFacts {
+  return { snapshot: EMPTY_PROGRESS, map: [], ...counts };
 }
 
 /** Facts for a learner with no multiplayer or friends yet: the learning badges only. */

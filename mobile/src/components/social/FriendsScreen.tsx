@@ -15,6 +15,8 @@ import SocialService from "@/services/auth-aware/SocialService";
 import { palette, space, typography } from "@/theme/tokens";
 import type { RootNavigation, RootStackParamList } from "@/types/rootNavigation.types";
 import { logError } from "@/utils/logger";
+import { getStreakCalendarDate } from "@/utils/streakCalendar";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { UserRow } from "./UserRow";
 import { friendLink } from "@/config/appLinks";
 import { useInviteToDuel } from "@/components/play/useInviteToDuel";
@@ -40,7 +42,7 @@ export function FriendsScreen() {
   const inviteToDuel = useInviteToDuel();
 
   const reload = useCallback(() => {
-    new SocialService().getFriends().then(setFriends, (error: unknown) => logError("[SOCIAL]", error, { phase: "load-friends" }));
+    new SocialService().getFriends(getStreakCalendarDate()).then(setFriends, (error: unknown) => logError("[SOCIAL]", error, { phase: "load-friends" }));
     new SocialService().getRecentOpponents().then(setRecent, (error: unknown) => logError("[SOCIAL]", error, { phase: "load-recent" }));
   }, []);
   useFocusEffect(reload);
@@ -127,6 +129,14 @@ export function FriendsScreen() {
           {byPresence(friends.friends, presence).map((user) => (
             <UserRow key={user.id} user={user} onOpen={() => open(user)} actions={
               <View style={styles.actions}>
+                {friends.streaks[user.id] !== undefined ? (
+                  <View style={styles.streak} accessible accessibilityLabel={t("friends.streakDays", { days: friends.streaks[user.id] })}>
+                    <MaterialCommunityIcons name="fire" size={16} color={palette.brand.primary} />
+                    <AppText variant="label" color={palette.brand.primary}>
+                      {friends.streaks[user.id]}
+                    </AppText>
+                  </View>
+                ) : null}
                 {presence[user.id] ? (
                   <AppText variant="label" color={presence[user.id] === "online" ? palette.state.success : palette.brand.glow}>
                     {t(`presence.${presence[user.id]}`)}
@@ -172,5 +182,6 @@ const styles = StyleSheet.create({
   code: { ...typography.code, fontSize: 28, lineHeight: 36, letterSpacing: 4, color: palette.brand.js },
   codeRow: { flexDirection: "row", gap: space.md, alignItems: "center" },
   codeField: { flex: 1, ...typography.code },
-  actions: { flexDirection: "row", gap: space.sm },
+  actions: { flexDirection: "row", alignItems: "center", gap: space.sm },
+  streak: { flexDirection: "row", alignItems: "center", gap: 2 },
 });

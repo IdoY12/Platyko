@@ -10,21 +10,27 @@ import { TextButton } from "@/components/common/LipButton/TextButton";
 import { Screen } from "@/components/common/Screen/Screen";
 import { ScreenHeader } from "@/components/common/Screen/ScreenHeader";
 import { Surface } from "@/components/common/Surface/Surface";
+import { useInviteToDuel } from "@/components/play/useInviteToDuel";
 import { ProfileAvatar } from "@/components/profile/profile-screen/ProfileAvatar";
 import { localizedError } from "@/i18n/localizedMessage";
 import { t } from "@/i18n/translate";
 import SocialService from "@/services/auth-aware/SocialService";
 import { palette, space } from "@/theme/tokens";
 import type { RootStackParamList } from "@/types/rootNavigation.types";
+import { FriendStreakCard } from "./FriendStreakCard";
 
 type Props = NativeStackScreenProps<RootStackParamList, "UserProfile">;
 
 const REPORT_LABEL = { USERNAME: "user.reportUsername", AVATAR: "user.reportAvatar", BIO: "user.reportBio", BEHAVIOUR: "user.reportBehaviour" } as const;
 
-/** Another learner (PRD 11.1, 11.2): what their privacy allows, the friendship action, block and report. */
+/**
+ * Another learner (PRD 11.1, 11.2, 14.1): what their privacy allows, the friendship action, and for
+ * a friend a duel invitation and the Friend Streak; block and report.
+ */
 export function UserProfileScreen({ route }: Props) {
   const navigation = useNavigation();
   const [user, setUser] = useState<PublicUser | null | "hidden">(null);
+  const inviteToDuel = useInviteToDuel();
   const load = useCallback(() => {
     new SocialService().getProfile(route.params.username).then(setUser, () => setUser("hidden"));
   }, [route.params.username]);
@@ -77,6 +83,8 @@ export function UserProfileScreen({ route }: Props) {
       {user.relationship === "none" ? <LipButton label={t("user.addFriend")} onPress={() => void run(() => service.sendRequest({ username: user.username }), t("friends.requestSent"))} /> : null}
       {user.relationship === "requestSent" ? <OutlineButton label={t("user.pending")} disabled onPress={() => undefined} /> : null}
       {user.relationship === "requestReceived" ? <AppText color={palette.brand.glow}>{t("user.respond")}</AppText> : null}
+      {user.relationship === "friend" ? <LipButton label={t("play.inviteToDuel")} onPress={() => inviteToDuel(user)} /> : null}
+      {user.relationship === "friend" ? <FriendStreakCard friendId={user.id} /> : null}
       {user.relationship === "friend" ? (
         <OutlineButton label={t("user.removeFriend")} onPress={() => confirm(t("user.removeFriendConfirm", { name: user.username }), t("user.removeFriend"), () => void run(() => service.removeFriend(user.id)))} />
       ) : null}

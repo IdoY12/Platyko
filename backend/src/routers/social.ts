@@ -4,7 +4,7 @@ import * as social from "../controllers/social/socialHandlers.js";
 import type { AuthenticatedRequest } from "../@types/auth.js";
 import { authMiddleware } from "../middlewares/auth.js";
 import { validateBody, validateParams, validateQuery } from "../middlewares/validateBody.js";
-import { blockBodySchema, privacyBodySchema, reportBodySchema, requestIdParamsSchema, searchQuerySchema, sendFriendRequestSchema, userIdParamsSchema, usernameParamsSchema } from "../validators/socialValidators.js";
+import { blockBodySchema, friendsQuerySchema, friendStreakBodySchema, privacyBodySchema, reportBodySchema, requestIdParamsSchema, searchQuerySchema, sendFriendRequestSchema, userIdParamsSchema, usernameParamsSchema } from "../validators/socialValidators.js";
 
 /** Social routes count per user, not per address (PRD 15.7): a shared network must not throttle its users together. */
 const perUser = (windowMinutes: number, max: number) =>
@@ -18,7 +18,8 @@ socialRouter.use(perUser(1, 120));
 socialRouter.get("/search", perUser(1, 30), validateQuery(searchQuerySchema), social.getSearch);
 socialRouter.get("/recent", social.getRecentOpponents);
 socialRouter.get("/users/:username", validateParams(usernameParamsSchema), social.getUserProfile);
-socialRouter.get("/friends", social.getFriends);
+socialRouter.get("/friends", validateQuery(friendsQuerySchema), social.getFriends);
+socialRouter.patch("/friends/:userId/streak", validateParams(userIdParamsSchema), validateBody(friendStreakBodySchema), social.patchFriendStreak);
 socialRouter.post("/friends/requests", perUser(60, 60), validateBody(sendFriendRequestSchema), social.postFriendRequest);
 socialRouter.post("/friends/requests/:requestId/accept", validateParams(requestIdParamsSchema), social.postAcceptRequest);
 socialRouter.post("/friends/requests/:requestId/decline", validateParams(requestIdParamsSchema), social.postDeclineRequest);

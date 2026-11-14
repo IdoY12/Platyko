@@ -10,3 +10,4 @@ export * from "./jumpTest.js";
 export * from "./dailyChallenge.js";
 export * from "./revision.js";
 export * from "./achievements.js";
+export * from "./friendStreak.js";

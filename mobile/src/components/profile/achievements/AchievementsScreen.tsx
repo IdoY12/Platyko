@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { ACHIEVEMENT_GROUPS, ACHIEVEMENTS } from "@project/learning-logic";
 import type { MessageKey } from "@project/locales";
@@ -6,16 +5,14 @@ import { AppText } from "@/components/common/AppText/AppText";
 import { Screen } from "@/components/common/Screen/Screen";
 import { ScreenHeader } from "@/components/common/Screen/ScreenHeader";
 import { Surface } from "@/components/common/Surface/Surface";
-import { useAppSelector } from "@/redux/hooks";
-import { earnedAchievementCodes } from "@/redux/learning-selectors";
 import { t } from "@/i18n/translate";
 import { palette, space } from "@/theme/tokens";
 import { BadgeEmblem } from "./BadgeEmblem";
+import { useEarnedAchievements } from "./useEarnedAchievements";
 
 /** Every badge by group: earned ones in colour, the rest as silhouettes with how to earn them (PRD 14.2). */
 export function AchievementsScreen() {
-  const { map, progress } = useAppSelector((state) => state.learning);
-  const earned = useMemo(() => earnedAchievementCodes(progress, map), [map, progress]);
+  const earned = useEarnedAchievements();
   return (
     <Screen scrollable contentStyle={styles.content}>
       <ScreenHeader title={t("achievements.title")} />
