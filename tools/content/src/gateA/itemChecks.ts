@@ -65,8 +65,11 @@ export function probedValue(item: Item, trace: ItemTrace): string | null {
     if (step.line !== probe.afterLine) continue;
     // Back on this line after a call made from it: the same visit continues.
     const depth = step.callStack.length;
-    const lastAtThisDepth = steps.slice(0, index).findLast((earlier) => earlier.callStack.length <= depth);
-    const returningFromCall = steps[index - 1]?.callStack.length > depth && lastAtThisDepth?.line === probe.afterLine;
+    const lastAtThisDepth = steps
+      .slice(0, index)
+      .reverse()
+      .find((earlier) => earlier.callStack.length <= depth);
+    const returningFromCall = index > 0 && steps[index - 1].callStack.length > depth && lastAtThisDepth?.line === probe.afterLine;
     if (returningFromCall) continue;
     visits += 1;
     if (visits < probe.visit) continue;
