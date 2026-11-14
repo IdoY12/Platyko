@@ -59,7 +59,7 @@ export function startRankedMatchmaking(play: Namespace): NodeJS.Timeout {
           queue.delete(second.userId);
           const seats = await seatsFor([first.userId, second.userId]);
           const items = await pickPlayItems(first.track, ROUNDS, [first.userId, second.userId]);
-          startMatch(play, "ranked", first.track, seats.map((seat) => ({ ...seat, pingMs: seat.userId === first.userId ? first.pingMs : second.pingMs })), items, null);
+          startMatch(play, { mode: "ranked", variant: "classic", track: first.track, roomCode: null }, seats.map((seat) => ({ ...seat, pingMs: seat.userId === first.userId ? first.pingMs : second.pingMs })), items);
           break;
         }
       }
@@ -93,9 +93,9 @@ export async function startGhostMatch(play: Namespace, userId: string): Promise<
   const items = await loadPlayItems(recording.match.itemIds);
   const ordered = recording.match.itemIds.flatMap((itemId) => items.filter((item) => item.id === itemId));
   const ghost: GhostScript = { participantId: recording.id, answers: recording.answers as GhostScript["answers"] };
-  startMatch(play, "ghost", waiting.track, [
+  startMatch(play, { mode: "ghost", variant: "classic", track: waiting.track, roomCode: null }, [
     { ...human, pingMs: waiting.pingMs },
     { ...recorded, userId: `ghost:${recording.id}`, isGhost: true, pingMs: 0, ghost },
-  ], ordered, null);
+  ], ordered);
   return true;
 }

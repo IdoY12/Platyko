@@ -1,4 +1,5 @@
 import type { ItemAnswer, PlayItem, Track } from "@project/content-model";
+import type { GameVariant } from "@project/match-engine";
 
 /**
  * The `/play` Socket.IO namespace (PRD 11.4–11.9), shared by the io server and the app. The server
@@ -14,7 +15,7 @@ export type PlaySeat = { userId: string; username: string; avatarUrl: string | n
 
 export type Standing = { userId: string; points: number; correct: number; place: number; left: boolean };
 
-export type MatchStartEvent = { matchId: string; mode: PlayMode; track: Track; seats: PlaySeat[]; rounds: number; startsAt: number; ghostOf?: string };
+export type MatchStartEvent = { matchId: string; mode: PlayMode; variant: GameVariant; track: Track; seats: PlaySeat[]; rounds: number; startsAt: number; ghostOf?: string };
 export type RoundStartEvent = { matchId: string; round: number; item: PlayItem; endsAt: number };
 /** Who has answered so far, never whether they were right (PRD 11.7). */
 export type RoundProgressEvent = { matchId: string; round: number; answeredUserIds: string[] };
@@ -31,6 +32,7 @@ export type LobbyEvent = {
   code: string;
   hostId: string;
   track: Track;
+  variant: GameVariant;
   rounds: number;
   maxPlayers: number;
   players: (PlaySeat & { ready: boolean })[];
@@ -49,7 +51,7 @@ export type InviteClosedEvent = { inviteId: string };
 /** Client to server. */
 export type JoinQueueRequest = { track: Track };
 export type SubmitPlayAnswer = { matchId: string; round: number; answer: ItemAnswer };
-export type CreateRoomRequest = { track: Track; rounds: number; maxPlayers: number };
+export type CreateRoomRequest = { track: Track; variant: GameVariant; rounds: number; maxPlayers: number };
 export type JoinRoomRequest = { code: string };
 export type InviteDuelRequest = { userId: string; track: Track };
 export type InviteToRoomRequest = { userId: string };

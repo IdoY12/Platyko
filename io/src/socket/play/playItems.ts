@@ -1,5 +1,5 @@
 import config from "config";
-import { prisma, type ItemStatus } from "@project/db";
+import { prisma, type ItemFormat, type ItemStatus } from "@project/db";
 import type { Item, Track } from "@project/content-model";
 
 /** Items a player saw in this many recent games are not picked again (PRD 11.9). */
@@ -20,10 +20,13 @@ async function recentItemIds(userIds: string[]): Promise<Set<string>> {
   return new Set(recent.flatMap((row) => row.match.itemIds));
 }
 
-/** `count` duel-eligible items of the track in a random order, avoiding what the players saw lately. */
-export async function pickPlayItems(track: Track, count: number, userIds: string[]): Promise<Item[]> {
+/**
+ * `count` duel-eligible items of the track in a random order, avoiding what the players saw lately;
+ * only items of `format` when a game variant asks for one (PRD 11.10).
+ */
+export async function pickPlayItems(track: Track, count: number, userIds: string[], format: ItemFormat | null = null): Promise<Item[]> {
   const [rows, seen] = await Promise.all([
-    prisma.item.findMany({ where: { track, duelEligible: true, status: { in: servedStatuses() } }, select: { id: true } }),
+    prisma.item.findMany({ where: { track, duelEligible: true, status: { in: servedStatuses() }, ...(format ? { format } : {}) }, select: { id: true } }),
     recentItemIds(userIds),
   ]);
   const fresh = rows.filter((row) => !seen.has(row.id));

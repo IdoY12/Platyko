@@ -18,7 +18,7 @@ type Props = {
   onChange: (line: number | null, optionIndex: number | null) => void;
 };
 
-/** `FIX_BUG`: tap the line with the bug, then choose its replacement (PRD 6.3). */
+/** `FIX_BUG`: tap the line with the bug, then choose its replacement (PRD 6.3). Without options (a Bug Hunt game) only the line is asked for. */
 export function FixBugAnswer({ item, line, optionIndex, disabled, lineVerdict, optionVerdicts, onChange }: Props) {
   const markedTone = lineVerdict === "correct" ? "correct" : lineVerdict === "wrong" ? "wrong" : "selected";
   return (
@@ -38,7 +38,7 @@ export function FixBugAnswer({ item, line, optionIndex, disabled, lineVerdict, o
               }
         }
       />
-      {line !== null ? (
+      {line !== null && (item.options ?? []).length > 0 ? (
         <View style={styles.fixes}>
           <AppText variant="label" color={palette.text.secondary}>
             {t("answer.pickFix", { line })}

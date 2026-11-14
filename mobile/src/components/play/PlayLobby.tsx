@@ -34,7 +34,7 @@ export function PlayLobby({ lobby }: { lobby: LobbyEvent }) {
       <ScreenHeader title={t("play.lobby")} />
       <Surface style={styles.card}>
         <AppText variant="label" color={palette.text.secondary}>
-          {t(`map.track.${lobby.track}`)} · {t("play.roundCount", { count: lobby.rounds })}
+          {t(`play.variant.${lobby.variant}`)} · {t(`map.track.${lobby.track}`)} · {t("play.roundCount", { count: lobby.rounds })}
         </AppText>
         {/* The code is read out letter by letter and always runs left to right. */}
         <AppText align="ltr" style={styles.code} accessibilityLabel={lobby.code.split("").join(" ")}>

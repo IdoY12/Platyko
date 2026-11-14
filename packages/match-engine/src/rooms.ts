@@ -21,3 +21,17 @@ export function roomCode(random: () => number): string {
 export function isRoomCode(text: string): boolean {
   return text.length === ROOM_CODE_LENGTH && [...text].every((character) => ROOM_CODE_ALPHABET.includes(character));
 }
+
+/**
+ * Extra game modes as configurations of the same engine (PRD 11.10): which item format a game
+ * draws, and a fixed round timer when the variant sets one. Bug Hunt is judged on the tapped
+ * line alone, so the first to find the bug scores the most.
+ */
+export const GAME_VARIANTS = {
+  classic: { format: null, timerSec: null },
+  "bug-hunt": { format: "FIX_BUG", timerSec: null },
+  "output-race": { format: "PREDICT_OUTPUT", timerSec: 15 },
+} as const;
+export type GameVariant = keyof typeof GAME_VARIANTS;
+
+export const isGameVariant = (value: unknown): value is GameVariant => typeof value === "string" && Object.hasOwn(GAME_VARIANTS, value);

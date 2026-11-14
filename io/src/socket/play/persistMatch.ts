@@ -1,4 +1,4 @@
-import { prisma, type MatchMode } from "@project/db";
+import { prisma, type MatchMode, type MatchVariant } from "@project/db";
 import type { MatchEndEvent } from "@project/api-contract";
 import { standings, updateRating } from "@project/match-engine";
 import { levelForXp, UNRATED_MATCH_XP_GAMES_PER_DAY, XP_REWARDS } from "@project/xp-constants";
@@ -11,6 +11,7 @@ const TOO_FAST_MS = 400;
 /** The same two players are rated at most this often a day (PRD 11.9). */
 const RATED_PAIR_GAMES_PER_DAY = 3;
 const MODE: Record<MatchResult["mode"], MatchMode> = { ranked: "RANKED", friend: "FRIEND", room: "ROOM", ghost: "GHOST" };
+const VARIANT: Record<MatchResult["variant"], MatchVariant> = { classic: "CLASSIC", "bug-hunt": "BUG_HUNT", "output-race": "OUTPUT_RACE" };
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 async function ratedTodayBetween(firstId: string, secondId: string): Promise<number> {
@@ -59,7 +60,7 @@ export async function persistMatch(result: MatchResult): Promise<Map<string, Rew
 
   await prisma.$transaction(async (tx) => {
     const match = await tx.match.create({
-      data: { mode: MODE[result.mode], track: result.track, rounds: result.items.length, itemIds: result.items.map((item) => item.id), roomCode: result.roomCode, startedAt: result.startedAt, endedAt: new Date() },
+      data: { mode: MODE[result.mode], variant: VARIANT[result.variant], track: result.track, rounds: result.items.length, itemIds: result.items.map((item) => item.id), roomCode: result.roomCode, startedAt: result.startedAt, endedAt: new Date() },
     });
     for (const [seatIndex, seat] of result.seats.entries()) {
       const own = placed.find((player) => player.playerId === seat.userId)!;

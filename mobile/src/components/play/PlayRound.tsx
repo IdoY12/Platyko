@@ -30,6 +30,8 @@ export function PlayRound({ match, round }: { match: MatchStartEvent; round: Rou
   const [draft, setDraft] = useState(blankDraft);
   const [waiting, setWaiting] = useState(false);
   const result = lastAnswer?.round === round.round ? lastAnswer : null;
+  const bugHunt = match.variant === "bug-hunt";
+  const ready = bugHunt && draft.kind === "bugFix" ? draft.line !== null : isDraftReady(item, draft);
   const remainingMs = usePlayClock(round.endsAt, round.item.timeLimitSec * 1000);
 
   // A first wrong answer clears the input for the second try.
@@ -42,7 +44,8 @@ export function PlayRound({ match, round }: { match: MatchStartEvent; round: Rou
   const checked: CheckedAnswer | null =
     finalOutcome === "correct" ? { ...NOT_CHECKED, outcome: "correct", correct: true } : finalOutcome || ended ? { ...NOT_CHECKED, outcome: ended ? "reveal" : "retry", correct: false } : null;
   const answer = () => {
-    const built = draftToAnswer(item, draft);
+    // Bug Hunt is judged on the tapped line alone (PRD 11.10).
+    const built = bugHunt && draft.kind === "bugFix" ? { kind: "bugFix" as const, line: draft.line ?? 0, optionIndex: null } : draftToAnswer(item, draft);
     if (!built) return;
     setWaiting(true);
     playService.answer({ matchId: match.matchId, round: round.round, answer: built });
@@ -71,7 +74,7 @@ export function PlayRound({ match, round }: { match: MatchStartEvent; round: Rou
       {finalOutcome === "correct" ? <AppText variant="cardTitle" color={palette.state.success}>{t("play.points", { points: result?.points ?? 0 })}
           {result?.responseMs != null ? ` · ${t("play.answerTime", { seconds: (result.responseMs / 1000).toFixed(1) })}` : ""}</AppText> : null}
       {finalOutcome === "wrong" ? <AppText color={palette.text.secondary}>{t("play.wrong")}</AppText> : null}
-      {!checked ? <LipButton label={t("lesson.check")} disabled={!isDraftReady(item, draft) || remainingMs === 0} loading={waiting} onPress={answer} /> : null}
+      {!checked ? <LipButton label={t("lesson.check")} disabled={!ready || remainingMs === 0} loading={waiting} onPress={answer} /> : null}
 
     </View>
   );

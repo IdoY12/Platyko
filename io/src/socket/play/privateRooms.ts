@@ -1,7 +1,7 @@
 import { randomInt } from "node:crypto";
 import type { Namespace } from "socket.io";
 import type { CreateRoomRequest, LobbyEvent, PlayError } from "@project/api-contract";
-import { roomCode } from "@project/match-engine";
+import { GAME_VARIANTS, roomCode } from "@project/match-engine";
 import { pickPlayItems } from "./playItems.js";
 import { seatsFor, startMatch } from "./playRegistry.js";
 
@@ -23,7 +23,7 @@ export function roomOf(userId: string): Room | undefined {
 export async function broadcastLobby(play: Namespace, room: Room): Promise<void> {
   room.lastActivity = Date.now();
   const seats = await seatsFor(room.members.map((member) => member.userId));
-  const lobby: LobbyEvent = { code: room.code, hostId: room.hostId, track: room.track, rounds: room.rounds, maxPlayers: room.maxPlayers, players: seats.map((seat) => ({ ...seat, ready: room.members.find((member) => member.userId === seat.userId)?.ready ?? false })) };
+  const lobby: LobbyEvent = { code: room.code, hostId: room.hostId, track: room.track, variant: room.variant, rounds: room.rounds, maxPlayers: room.maxPlayers, players: seats.map((seat) => ({ ...seat, ready: room.members.find((member) => member.userId === seat.userId)?.ready ?? false })) };
   for (const member of room.members) play.to(`user:${member.userId}`).emit("room:lobby", lobby);
 }
 
@@ -82,8 +82,9 @@ export async function startRoom(play: Namespace, hostId: string): Promise<PlayEr
   if (room.members.length < MIN_PLAYERS || room.members.some((member) => !member.ready)) return "not-enough-players";
   rooms.delete(room.code);
   const userIds = room.members.map((member) => member.userId);
-  const [seats, items] = await Promise.all([seatsFor(userIds), pickPlayItems(room.track, room.rounds, userIds)]);
-  startMatch(play, "room", room.track, seats.map((seat) => ({ ...seat, pingMs: room.members.find((member) => member.userId === seat.userId)?.pingMs ?? 0 })), items, room.code, (result) => reopenRoom(play, room, result.state.players));
+  const [seats, items] = await Promise.all([seatsFor(userIds), pickPlayItems(room.track, room.rounds, userIds, GAME_VARIANTS[room.variant].format)]);
+  const game = { mode: "room" as const, variant: room.variant, track: room.track, roomCode: room.code };
+  startMatch(play, game, seats.map((seat) => ({ ...seat, pingMs: room.members.find((member) => member.userId === seat.userId)?.pingMs ?? 0 })), items, (result) => reopenRoom(play, room, result.state.players));
   return null;
 }
 

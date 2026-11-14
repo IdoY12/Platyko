@@ -1,6 +1,6 @@
 import type { Server } from "socket.io";
 import type { PlaySyncEvent } from "@project/api-contract";
-import { GAME_MODES, isRoomCode } from "@project/match-engine";
+import { GAME_MODES, isGameVariant, isRoomCode } from "@project/match-engine";
 import { TRACKS, type ItemAnswer, type Track } from "@project/content-model";
 import { isThrottled } from "../../utils/socketThrottle.js";
 import { logInfo } from "../../utils/logger.js";
@@ -73,8 +73,10 @@ export function attachPlayNamespace(io: Server): void {
       const maxPlayers = Number(isRecord(payload) ? payload.maxPlayers : NaN);
       const { players, rounds: allowedRounds } = GAME_MODES.room;
       if (!isRecord(payload) || !isTrack(payload.track) || !(allowedRounds as readonly number[]).includes(rounds) || maxPlayers < players[0] || maxPlayers > players[1]) return;
+      const variant = payload.variant === undefined ? "classic" : payload.variant;
+      if (!isGameVariant(variant)) return;
       if (busy()) return reply({ error: "in-another-game" });
-      reply({ code: await createRoom(play, userId, { track: payload.track, rounds, maxPlayers }, pingMs()) });
+      reply({ code: await createRoom(play, userId, { track: payload.track, variant, rounds, maxPlayers }, pingMs()) });
     });
     on("room:join", async (payload, reply) => {
       if (!isRecord(payload) || typeof payload.code !== "string" || !isRoomCode(payload.code.toUpperCase())) return reply({ error: "room-not-found" });

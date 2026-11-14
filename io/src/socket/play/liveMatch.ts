@@ -1,13 +1,15 @@
 import type { Namespace } from "socket.io";
 import type { AnswerResultEvent, MatchEndEvent, MatchStartEvent, PlayMode, PlaySeat, Standing } from "@project/api-contract";
 import { answerFromPlay, checkItemAnswer, playItemOf, type Item, type ItemAnswer, type OptionOrder, type Track } from "@project/content-model";
-import { createMatch, isLastRound, isRoundOver, markLeft, playersRemaining, recordAnswer, roundEndsAt, standings, startNextRound, type MatchState } from "@project/match-engine";
+import { createMatch, GAME_VARIANTS, isLastRound, isRoundOver, markLeft, playersRemaining, recordAnswer, roundEndsAt, standings, startNextRound, type GameVariant, type MatchState } from "@project/match-engine";
 import { revealFor, shuffledOptionOrder, shuffledOutputLines } from "./revealAnswer.js";
 
 /** A recorded player's answers, replayed by a ghost seat (PRD 11.6). */
 export type GhostScript = { participantId: string; answers: ({ correct: boolean; responseMs: number } | null)[] };
 export type LiveSeat = PlaySeat & { pingMs: number; ghost?: GhostScript };
-export type MatchResult = { matchId: string; mode: PlayMode; track: Track; roomCode: string | null; items: Item[]; state: MatchState; seats: LiveSeat[]; startedAt: Date };
+/** What kind of game it is: the mode, the variant (PRD 11.10), the track and the room it came from. */
+export type GameSetup = { mode: PlayMode; variant: GameVariant; track: Track; roomCode: string | null };
+export type MatchResult = GameSetup & { matchId: string; items: Item[]; state: MatchState; seats: LiveSeat[]; startedAt: Date };
 
 const COUNTDOWN_MS = 3000;
 const BETWEEN_ROUNDS_MS = 3500;
@@ -29,16 +31,19 @@ export class LiveMatch {
 
   constructor(
     readonly id: string,
-    readonly mode: PlayMode,
-    private readonly track: Track,
+    readonly game: GameSetup,
     readonly seats: LiveSeat[],
     private readonly items: Item[],
     private readonly play: Namespace,
-    private readonly roomCode: string | null,
     private readonly onFinish: (result: MatchResult) => Promise<Map<string, Omit<MatchEndEvent, "matchId" | "standings">>>,
   ) {
-    this.state = createMatch(seats.map((seat) => ({ id: seat.userId, pingMs: seat.pingMs })), items.map((item) => ({ id: item.id, timeLimitMs: (item.timeLimitSec ?? 30) * 1000 })));
+    this.state = createMatch(seats.map((seat) => ({ id: seat.userId, pingMs: seat.pingMs })), items.map((item) => ({ id: item.id, timeLimitMs: this.timeLimitSecOf(item) * 1000 })));
     this.optionOrders = seats.map(() => items.map((item) => shuffledOptionOrder(item)));
+  }
+
+  /** A variant's fixed timer, or the item's own. */
+  private timeLimitSecOf(item: Item): number {
+    return GAME_VARIANTS[this.game.variant].timerSec ?? item.timeLimitSec ?? 30;
   }
 
   private toUser(userId: string, event: string, payload: unknown): void {
@@ -59,7 +64,8 @@ export class LiveMatch {
 
   private startEvent(startsAt: number): MatchStartEvent {
     const seats = this.seats.map(({ pingMs: _ping, ghost: _ghost, ...shown }) => shown);
-    return { matchId: this.id, mode: this.mode, track: this.track, seats, rounds: this.items.length, startsAt, ghostOf: this.seats.find((seat) => seat.isGhost)?.username };
+    const { mode, variant, track } = this.game;
+    return { matchId: this.id, mode, variant, track, seats, rounds: this.items.length, startsAt, ghostOf: this.seats.find((seat) => seat.isGhost)?.username };
   }
 
   /** Sends the start with a shared countdown timestamp, then the first round when it reaches zero. */
@@ -72,7 +78,9 @@ export class LiveMatch {
   private sendRound(seatIndex: number): void {
     const seat = this.seats[seatIndex];
     const item = this.items[this.state.round];
-    const view = playItemOf(item, this.optionOrders[seatIndex][this.state.round], shuffledOutputLines(item));
+    const shown = playItemOf(item, this.optionOrders[seatIndex][this.state.round], shuffledOutputLines(item));
+    // Bug Hunt asks only for the line, so the replacement lines are not sent.
+    const view = { ...shown, timeLimitSec: this.timeLimitSecOf(item), options: this.game.variant === "bug-hunt" ? undefined : shown.options };
     this.toUser(seat.userId, "round:start", { matchId: this.id, round: this.state.round, item: view, endsAt: roundEndsAt(this.state) });
   }
 
@@ -105,8 +113,13 @@ export class LiveMatch {
   answer(userId: string, round: number, answer: ItemAnswer): void {
     const seatIndex = this.seats.findIndex((seat) => seat.userId === userId && !seat.isGhost);
     if (seatIndex < 0 || round !== this.state.round) return;
+    const item = this.items[round];
+    if (this.game.variant === "bug-hunt") {
+      this.applyAnswer(userId, round, answer.kind === "bugFix" && answer.line === item.solution.bugLine);
+      return;
+    }
     const real = answerFromPlay(answer, this.optionOrders[seatIndex][round]);
-    this.applyAnswer(userId, round, real !== null && checkItemAnswer(this.items[round], real).correct);
+    this.applyAnswer(userId, round, real !== null && checkItemAnswer(item, real).correct);
   }
 
   private endRound(round: number): void {
@@ -150,7 +163,7 @@ export class LiveMatch {
     this.finished = true;
     for (const timer of [...this.timers, ...this.graceTimers.values()]) clearTimeout(timer);
     const final = this.standingsNow();
-    const rewards = await this.onFinish({ matchId: this.id, mode: this.mode, track: this.track, roomCode: this.roomCode, items: this.items, state: this.state, seats: this.seats, startedAt: this.startedAt });
+    const rewards = await this.onFinish({ ...this.game, matchId: this.id, items: this.items, state: this.state, seats: this.seats, startedAt: this.startedAt });
     for (const seat of this.seats) {
       if (seat.isGhost) continue;
       this.toUser(seat.userId, "match:end", { matchId: this.id, standings: final, ...(rewards.get(seat.userId) ?? { ratingChange: null, xpEarned: 0 }) });

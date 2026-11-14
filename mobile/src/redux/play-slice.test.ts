@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import type { LobbyEvent, MatchStartEvent } from "@project/api-contract";
 import reducer, { lobbyChanged, matchEnded, matchStarted, syncedWithServer } from "./play-slice";
 
-const match: MatchStartEvent = { matchId: "m1", mode: "ranked", track: "BEGINNER", seats: [], rounds: 5, startsAt: 0 };
-const lobby: LobbyEvent = { code: "ABCDEF", hostId: "u1", track: "BEGINNER", rounds: 5, maxPlayers: 4, players: [] };
+const match: MatchStartEvent = { matchId: "m1", mode: "ranked", variant: "classic", track: "BEGINNER", seats: [], rounds: 5, startsAt: 0 };
+const lobby: LobbyEvent = { code: "ABCDEF", hostId: "u1", track: "BEGINNER", variant: "classic", rounds: 5, maxPlayers: 4, players: [] };
 const initial = reducer(undefined, { type: "init" });
 
 describe("play slice after a reconnect", () => {

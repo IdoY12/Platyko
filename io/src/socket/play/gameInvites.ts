@@ -99,6 +99,6 @@ export async function answerInvite(play: Namespace, userId: string, inviteId: st
   await close("ACCEPTED");
   const userIds = [invite.fromUserId, userId];
   const [seats, items] = await Promise.all([seatsFor(userIds), pickPlayItems(invite.track, GAME_MODES.friends.rounds[0], userIds)]);
-  startMatch(play, "friend", invite.track, seats.map((seat) => ({ ...seat, pingMs: seat.userId === userId ? pingMs : 0 })), items, null);
+  startMatch(play, { mode: "friend", variant: "classic", track: invite.track, roomCode: null }, seats.map((seat) => ({ ...seat, pingMs: seat.userId === userId ? pingMs : 0 })), items);
   return null;
 }
