@@ -1,0 +1,1384 @@
+{
+  "track": "EXPERT",
+  "unit": "code-analysis",
+  "order": 4,
+  "title": "Code analysis",
+  "summary": "Reasoning about code without running it: counting steps, keeping behaviour through refactors, reading dense code and spotting hidden side effects.",
+  "concepts": [
+    {
+      "id": "complexity-analysis",
+      "title": "Time and space complexity of real code",
+      "prerequisites": [
+        "algorithmic-cost",
+        "array-reduce"
+      ]
+    },
+    {
+      "id": "refactoring-equivalence",
+      "title": "Refactoring without changing behaviour",
+      "prerequisites": [
+        "array-filter",
+        "destructuring",
+        "return-value"
+      ]
+    },
+    {
+      "id": "reading-unfamiliar-code",
+      "title": "Reading dense, unfamiliar code",
+      "prerequisites": [
+        "closure-factories",
+        "array-reduce",
+        "spread-and-rest"
+      ]
+    },
+    {
+      "id": "side-effects-and-purity",
+      "title": "Pure functions and hidden side effects",
+      "prerequisites": [
+        "mutation-bugs",
+        "reference-vs-value"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "inner-loop-break-ignored",
+      "description": "Believes break inside an inner loop is ignored when counting, so every inner pass still runs."
+    },
+    {
+      "id": "pairs-counted-once",
+      "description": "Believes a nested loop visits each pair only once, ignoring that the inner loop restarts every time."
+    },
+    {
+      "id": "set-lookup-scans",
+      "description": "Believes a Set lookup scans every earlier value like includes on an array."
+    },
+    {
+      "id": "cost-follows-output-size",
+      "description": "Believes the work of a loop depends on how many results it produces rather than how much input it reads."
+    },
+    {
+      "id": "override-ignored",
+      "description": "Believes code written for the parent class always runs the parent's setter, even on a subclass object."
+    },
+    {
+      "id": "override-changes-parent",
+      "description": "Believes overriding a setter in a subclass also changes the parent class for its own objects."
+    },
+    {
+      "id": "srp-one-method-per-class",
+      "description": "Believes the Single Responsibility Principle means one method per class."
+    },
+    {
+      "id": "srp-shared-data-is-one-job",
+      "description": "Believes methods that use the same data always form one responsibility."
+    },
+    {
+      "id": "spread-overwrite-misread",
+      "description": "Believes overwriting a key while spreading either moves it to the end or leaves its old value."
+    },
+    {
+      "id": "ocp-more-branches-is-open",
+      "description": "Believes adding one more branch to an if chain keeps code closed for modification."
+    },
+    {
+      "id": "same-output-same-design",
+      "description": "Believes two versions that print the same today are equally easy to extend."
+    },
+    {
+      "id": "sort-returns-copy",
+      "description": "Believes sort returns a sorted copy and leaves the original array in its old order."
+    },
+    {
+      "id": "sort-needs-assignment",
+      "description": "Believes sort has no visible effect unless its result is assigned to a variable."
+    },
+    {
+      "id": "soc-split-by-statement-kind",
+      "description": "Believes separating concerns means moving a kind of statement, such as a loop or a return, into its own function."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break",
+      "retrievedAt": "2026-11-14",
+      "sha256": "19ab797b925b1d7a42b590f866c68b61bba0b1a35623c73c7bcd3f24577f23f2"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/has",
+      "retrievedAt": "2026-11-14",
+      "sha256": "2819661fbd47a4335d05534ddb236b9778341f0bbd5f259a39dc7c9589fadd34"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing",
+      "retrievedAt": "2026-11-14",
+      "sha256": "ff55a45d086fead937a04282242e3a029c3f21bf7df86033b820a68e0bb7ffd4"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+      "retrievedAt": "2026-11-14",
+      "sha256": "2fd98bfc1984170f119a9b7224e3113395f519ab395da872a9984032c9fe78d2"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
+      "retrievedAt": "2026-11-14",
+      "sha256": "220fafc36d645e977ce9a387d234278bfbe70c8730fb99ba6f6a20651550c3ca"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
+      "retrievedAt": "2026-11-14",
+      "sha256": "de117a0890a33a86fafc6c86d8619639f834b7b70cd13585cfa86d8c476dec0b"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign",
+      "retrievedAt": "2026-11-14",
+      "sha256": "3044dcbf9d48e690a18f3c78ca080ffb08160b624a97003d0b267fce64a94a98"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
+      "retrievedAt": "2026-11-14",
+      "sha256": "d0bb1e15cd9bc4a284b58a621c9d981a4667f1f5180dc58b975b8e23957a28ce"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "code-analysis.lesson-1",
+      "title": "Time and space complexity of real code",
+      "conceptCard": {
+        "title": "Counting steps",
+        "body": "To judge cost, count how many times the busiest line runs. One loop over n items runs it n times. A loop inside a loop runs it n times n. Early exits and direct lookups can do less work than a scan.",
+        "code": [
+          "const rows = [1, 2, 3];",
+          "let steps = 0;",
+          "for (const a of rows) {",
+          "  for (const b of rows) steps++;",
+          "}",
+          "console.log(steps);"
+        ],
+        "expectedOutput": "9"
+      },
+      "itemIds": [
+        "exp.code-analysis.complexity-analysis.predict-01",
+        "exp.code-analysis.complexity-analysis.concept-01",
+        "exp.code-analysis.complexity-analysis.fix-01",
+        "exp.code-analysis.complexity-analysis.write-01"
+      ]
+    },
+    {
+      "id": "code-analysis.lesson-2",
+      "title": "Refactoring without changing behaviour",
+      "conceptCard": {
+        "title": "Same inputs, same outputs",
+        "body": "Refactoring changes the shape of code, not what it does. After a change, the same inputs must give the same outputs, including edge cases such as 0 and undefined. A shorter test is not always the same test.",
+        "code": [
+          "const hours = [2, 0, undefined];",
+          "const has = (h) => h !== undefined;",
+          "console.log(hours.filter((h) => h));",
+          "console.log(hours.filter(has));"
+        ],
+        "expectedOutput": "[2]\n[2, 0]"
+      },
+      "itemIds": [
+        "exp.code-analysis.refactoring-equivalence.predict-01",
+        "exp.code-analysis.refactoring-equivalence.concept-01",
+        "exp.code-analysis.refactoring-equivalence.fix-01",
+        "exp.code-analysis.refactoring-equivalence.fill-01"
+      ]
+    },
+    {
+      "id": "code-analysis.lesson-3",
+      "title": "Reading dense, unfamiliar code",
+      "conceptCard": {
+        "title": "Reading from the inside out",
+        "body": "Dense code is easier to read in small parts. Find what each function returns, then what each argument is on the first call. Evaluate the innermost call first and work outward. A factory returns a function that remembers its outer variables.",
+        "code": [
+          "const scale = (k) => (x) => x * k;",
+          "const double = scale(2);",
+          "console.log(double(4), scale(3)(4));"
+        ],
+        "expectedOutput": "8 12"
+      },
+      "itemIds": [
+        "exp.code-analysis.reading-unfamiliar-code.predict-01",
+        "exp.code-analysis.reading-unfamiliar-code.concept-01",
+        "exp.code-analysis.reading-unfamiliar-code.fix-01",
+        "exp.code-analysis.reading-unfamiliar-code.write-01"
+      ]
+    },
+    {
+      "id": "code-analysis.lesson-4",
+      "title": "Pure functions and hidden side effects",
+      "conceptCard": {
+        "title": "Pure and impure functions",
+        "body": "A pure function returns a value that depends only on its arguments and changes nothing else. Pushing to a list, sorting in place or assigning to a parameter's property are hidden side effects: the caller's data changes too.",
+        "code": [
+          "const tags = [\"a\"];",
+          "const add = (xs, t) => xs.push(t);",
+          "add(tags, \"b\");",
+          "console.log(tags);"
+        ],
+        "expectedOutput": "['a', 'b']"
+      },
+      "itemIds": [
+        "exp.code-analysis.side-effects-and-purity.predict-01",
+        "exp.code-analysis.side-effects-and-purity.concept-01",
+        "exp.code-analysis.side-effects-and-purity.fix-01",
+        "exp.code-analysis.side-effects-and-purity.fill-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "exp.code-analysis.complexity-analysis.predict-01",
+      "concept": "complexity-analysis",
+      "prerequisites": [
+        "algorithmic-cost",
+        "array-reduce"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A library clerk hunts for two books whose page counts add up to 20. What does this program print?",
+      "code": [
+        "const shelf = [4, 8, 15, 16];",
+        "let checks = 0;",
+        "for (const a of shelf) {",
+        "  for (const b of shelf) {",
+        "    checks++;",
+        "    if (a + b === 20) break;",
+        "  }",
+        "}",
+        "console.log(checks);"
+      ],
+      "options": [
+        {
+          "text": "13",
+          "correct": true,
+          "feedback": "Right. The inner loop ends early only for the 16, and the counter keeps every pass made before each break."
+        },
+        {
+          "text": "16",
+          "correct": false,
+          "feedback": "You counted four full passes of four. The break ends the inner loop early for one book, so fewer checks run.",
+          "misconception": "inner-loop-break-ignored"
+        },
+        {
+          "text": "10",
+          "correct": false,
+          "feedback": "That total fits a loop that visits each pair once. This inner loop starts from the first book every time.",
+          "misconception": "pairs-counted-once"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "13"
+      },
+      "explanation": "break ends only the inner loop. The first three books each scan all four items; the last book matches on its first pass. That is 4 + 4 + 4 + 1 checks.",
+      "hints": [
+        "Look at what break stops: the inner loop or the outer one.",
+        "Count the inner passes separately for each book in the outer loop.",
+        "Does the inner loop finish all four passes for every book?"
+      ],
+      "reference": {
+        "title": "break",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.code-analysis.complexity-analysis.concept-01",
+      "concept": "complexity-analysis",
+      "prerequisites": [
+        "algorithmic-cost",
+        "array-reduce"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "The loop lists repeated ids. Which statement about how its work grows with the number of ids is true?",
+      "code": [
+        "const ids = [3, 1, 3, 2, 1];",
+        "const seen = new Set();",
+        "const dupes = [];",
+        "for (const id of ids) {",
+        "  if (seen.has(id)) dupes.push(id);",
+        "  seen.add(id);",
+        "}",
+        "console.log(dupes);"
+      ],
+      "options": [
+        {
+          "text": "Each id costs a fixed amount of work, so doubling the ids roughly doubles the work.",
+          "correct": true,
+          "feedback": "Right. One pass, and each has and add takes roughly the same time however many ids came before."
+        },
+        {
+          "text": "has() looks at every earlier id, so doubling the ids roughly quadruples the work.",
+          "correct": false,
+          "feedback": "That describes searching an array with includes. A Set jumps straight to the value instead of scanning.",
+          "misconception": "set-lookup-scans"
+        },
+        {
+          "text": "The work depends on the duplicates found, so a list with none costs almost nothing.",
+          "correct": false,
+          "feedback": "Every id is still read and added, duplicates or not. The size of the output does not set the cost of the loop.",
+          "misconception": "cost-follows-output-size"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "[3, 1]"
+      },
+      "explanation": "Set lookups and inserts take roughly constant time, so each id costs a fixed amount of work and the total grows in step with the list. Cost follows the input read, not the output.",
+      "hints": [
+        "Think about what one has call has to do.",
+        "A Set finds a value by its hash, not by walking through the earlier values.",
+        "Compare the work per id when the list has 5 ids and when it has 500."
+      ],
+      "reference": {
+        "title": "Set.prototype.has()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/has",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.code-analysis.complexity-analysis.fix-01",
+      "concept": "complexity-analysis",
+      "prerequisites": [
+        "algorithmic-cost",
+        "array-reduce"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "A bus timetable search should find minute 41 in 3 probes, but steps counts more. Tap the buggy line and pick the fix.",
+      "code": [
+        "const mins = [8, 15, 22, 30, 41];",
+        "let lo = 0;",
+        "let hi = mins.length - 1;",
+        "let steps = 0;",
+        "while (lo <= hi) {",
+        "  steps++;",
+        "  const sum = lo + hi;",
+        "  const mid = Math.floor(sum / 2);",
+        "  if (mins[mid] === 41) break;",
+        "  lo = lo + 1;",
+        "}",
+        "console.log(steps);"
+      ],
+      "options": [
+        {
+          "text": "  lo = mid + 1;",
+          "correct": true,
+          "feedback": "Right. The middle was too early, so everything up to and including it is skipped."
+        },
+        {
+          "text": "  lo = hi;",
+          "correct": false,
+          "feedback": "That jumps to the last slot and skips the middle ones, so the search ends after too few probes."
+        },
+        {
+          "text": "  lo = mid + 2;",
+          "correct": false,
+          "feedback": "That skips one slot too many, which can step over the target and ends the search too soon."
+        }
+      ],
+      "solution": {
+        "bugLine": 10,
+        "expectedOutput": "3"
+      },
+      "explanation": "Binary search halves the range by moving the low bound just past the probed middle. Stepping it by one turns the search into a slow scan.",
+      "hints": [
+        "Compare how far low moves each pass with how far the middle is.",
+        "The probed middle is already known not to match.",
+        "Move low past the middle that was just checked."
+      ],
+      "reference": {
+        "title": "while",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.code-analysis.complexity-analysis.write-01",
+      "concept": "complexity-analysis",
+      "prerequisites": [
+        "algorithmic-cost",
+        "array-reduce"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 5,
+      "prompt": "Write the body of countChecks(list, want). Compare each pair once, second index after the first, stop at the first pair adding to want. Return the pairs compared.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "countChecks",
+          "params": [
+            "list",
+            "want"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                1,
+                2,
+                3,
+                4
+              ],
+              3
+            ],
+            "expected": 1
+          },
+          {
+            "input": [
+              [
+                1,
+                2,
+                3
+              ],
+              5
+            ],
+            "expected": 3
+          },
+          {
+            "input": [
+              [
+                4,
+                1,
+                2
+              ],
+              3
+            ],
+            "expected": 3
+          },
+          {
+            "input": [
+              [
+                1,
+                2,
+                3,
+                4
+              ],
+              9
+            ],
+            "expected": 6
+          },
+          {
+            "input": [
+              [],
+              4
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              [
+                7
+              ],
+              7
+            ],
+            "expected": 0
+          }
+        ],
+        "reference": [
+          "const n = list.length;",
+          "let steps = 0;",
+          "for (let a = 0; a < n; a++) {",
+          "  const x = list[a];",
+          "  for (let b = a + 1; b < n; b++) {",
+          "    steps++;",
+          "    if (x + list[b] === want) {",
+          "      return steps;",
+          "    }",
+          "  }",
+          "}",
+          "return steps;"
+        ],
+        "wrongSolutions": [
+          [
+            "const n = list.length;",
+            "let steps = 0;",
+            "for (let a = 0; a < n; a++) {",
+            "  for (let b = a + 1; b < n; b++) {",
+            "    steps++;",
+            "  }",
+            "}",
+            "return steps;"
+          ],
+          [
+            "const n = list.length;",
+            "let steps = 0;",
+            "for (let a = 0; a < n; a++) {",
+            "  const x = list[a];",
+            "  for (let b = 0; b < n; b++) {",
+            "    steps++;",
+            "    if (x + list[b] === want) {",
+            "      return steps;",
+            "    }",
+            "  }",
+            "}",
+            "return steps;"
+          ],
+          [
+            "const n = list.length;",
+            "let steps = 0;",
+            "for (let a = 0; a < n; a++) {",
+            "  const x = list[a];",
+            "  for (let b = a + 1; b < n; b++) {",
+            "    if (x + list[b] === want) {",
+            "      return steps;",
+            "    }",
+            "    steps++;",
+            "  }",
+            "}",
+            "return steps;"
+          ]
+        ]
+      },
+      "explanation": "Count one step per pair, with the inner index starting after the outer one. Return the running count the moment a pair matches, after counting it.",
+      "hints": [
+        "Each pair is one step of the inner loop.",
+        "Start the inner index after the outer index so no pair repeats.",
+        "Add 1 to the counter before testing the pair, and return from inside the loops."
+      ],
+      "reference": {
+        "title": "for",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.code-analysis.refactoring-equivalence.predict-01",
+      "concept": "refactoring-equivalence",
+      "prerequisites": [
+        "array-filter",
+        "destructuring",
+        "return-value"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "Code written for Box sets size to 20 on every container, then prints what each one stored. What does it print?",
+      "code": [
+        "class Box {",
+        "  set size(v) { this.v = v; }",
+        "}",
+        "class Bin extends Box {",
+        "  set size(v) {",
+        "    this.v = Math.min(v, 9);",
+        "  }",
+        "}",
+        "const all = [new Box(), new Bin()];",
+        "for (const c of all) c.size = 20;",
+        "console.log(all.map((c) => c.v));"
+      ],
+      "options": [
+        {
+          "text": "[20, 9]",
+          "correct": true,
+          "feedback": "Right. The Bin runs its own setter, so the stored value no longer matches what the Box stored."
+        },
+        {
+          "text": "[20, 20]",
+          "correct": false,
+          "feedback": "You ran the parent setter for both. A subclass setter takes over for its own objects.",
+          "misconception": "override-ignored"
+        },
+        {
+          "text": "[9, 9]",
+          "correct": false,
+          "feedback": "The override belongs to Bin only. Box objects still run the setter written in Box.",
+          "misconception": "override-changes-parent"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "[20, 9]"
+      },
+      "explanation": "A setter in a subclass replaces the parent's setter for that subclass only. The Box stores 20, but the Bin caps it at 9, so code written for Box gets a surprise.",
+      "hints": [
+        "Look at which class each object in the array comes from.",
+        "A subclass setter overrides the parent's only for its own objects.",
+        "Apply each object's own setter to 20, in array order."
+      ],
+      "reference": {
+        "title": "setter",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:7"
+      ]
+    },
+    {
+      "id": "exp.code-analysis.refactoring-equivalence.concept-01",
+      "concept": "refactoring-equivalence",
+      "prerequisites": [
+        "array-filter",
+        "destructuring",
+        "return-value"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "Receipt both calculates and builds display text. Which method belongs in a separate class so each class has one reason to change?",
+      "code": [
+        "const add = (a, b) => a + b;",
+        "class Receipt {",
+        "  total() {",
+        "    return this.prices.reduce(add);",
+        "  }",
+        "  label() {",
+        "    return \"Total: \" + this.total();",
+        "  }",
+        "}",
+        "const r = new Receipt();",
+        "r.prices = [3, 4];",
+        "console.log(r.label());"
+      ],
+      "options": [
+        {
+          "text": "label(): its wording changes for display reasons, while total() changes with the pricing rule.",
+          "correct": true,
+          "feedback": "Right. Two different reasons to change, so the text building moves out and calls the calculation."
+        },
+        {
+          "text": "Both: each class should hold only one method.",
+          "correct": false,
+          "feedback": "A responsibility is a reason to change, not a method count. A class may keep several methods for one job.",
+          "misconception": "srp-one-method-per-class"
+        },
+        {
+          "text": "Neither: both use this.prices, so they share one job.",
+          "correct": false,
+          "feedback": "Sharing data does not make one job. Pricing rules and display wording change for different reasons.",
+          "misconception": "srp-shared-data-is-one-job"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Total: 7"
+      },
+      "explanation": "The wording of the text changes for display reasons, while the total changes only when the pricing rule does. Moving label out keeps the output the same and separates the two reasons to change.",
+      "hints": [
+        "Ask what could make each method need an edit.",
+        "One responsibility means one reason to change, not one method.",
+        "Which method would change if the page layout changed?"
+      ],
+      "reference": {
+        "title": "Classes",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:2"
+      ]
+    },
+    {
+      "id": "exp.code-analysis.refactoring-equivalence.fix-01",
+      "concept": "refactoring-equivalence",
+      "prerequisites": [
+        "array-filter",
+        "destructuring",
+        "return-value"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "Before a refactor this printed [3, 0]: every log with a km value counts. Now it drops one log. Tap the line that changed the behaviour and pick the fix.",
+      "code": [
+        "const logs = [{ km: 3 }, { km: 0 }];",
+        "logs.push({});",
+        "const hikes = logs",
+        "  .filter(({ km }) => km)",
+        "  .map(({ km }) => km);",
+        "console.log(hikes);"
+      ],
+      "options": [
+        {
+          "text": "  .filter((log) => \"km\" in log)",
+          "correct": true,
+          "feedback": "Right. in asks whether the property exists, so a km of 0 stays and the empty log leaves."
+        },
+        {
+          "text": "  .filter(({ km }) => km > 0)",
+          "correct": false,
+          "feedback": "A km of 0 is still dropped, so the behaviour stays different from the original."
+        },
+        {
+          "text": "  .filter(({ km }) => km !== 0)",
+          "correct": false,
+          "feedback": "This keeps the empty log and drops the zero, which prints the opposite mix of logs."
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "[3, 0]"
+      },
+      "explanation": "A truthiness test drops a km of 0 as well as a missing km. The original rule was about presence, so the test must ask whether the property exists.",
+      "hints": [
+        "Run the filter on the log whose km is 0.",
+        "Truthiness and presence are different questions.",
+        "Pick the test that asks only whether km exists."
+      ],
+      "reference": {
+        "title": "in operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.code-analysis.refactoring-equivalence.fill-01",
+      "concept": "refactoring-equivalence",
+      "prerequisites": [
+        "array-filter",
+        "destructuring",
+        "return-value"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 5,
+      "prompt": "The old tip function used 10 when no percent was given and kept 0 as 0. Fill the blank so the refactor prints 5 0 10.",
+      "code": [
+        "const tip = (bill, pct) => {",
+        "  const rate = ___;",
+        "  return bill * rate / 100;",
+        "};",
+        "const row = (p) => tip(50, p);",
+        "console.log(row(), row(0), row(20));"
+      ],
+      "options": [
+        {
+          "text": "pct ?? 10",
+          "correct": true,
+          "feedback": "Right. Only an absent percent falls back to 10."
+        },
+        {
+          "text": "pct === undefined ? 10 : pct",
+          "correct": true,
+          "feedback": "Right. This tests for an absent value directly and keeps 0."
+        },
+        {
+          "text": "pct || 10",
+          "correct": false,
+          "feedback": "A percent of 0 is falsy, so it becomes 10 and the second tip is wrong."
+        },
+        {
+          "text": "pct && 10",
+          "correct": false,
+          "feedback": "This gives 10 only when pct is truthy and gives undefined when absent, so the output is wrong."
+        },
+        {
+          "text": "10",
+          "correct": false,
+          "feedback": "This ignores the argument, so 0 and 20 both become 10."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "pct ?? 10",
+            "pct === undefined ? 10 : pct"
+          ]
+        ],
+        "expectedOutput": "5 0 10"
+      },
+      "explanation": "?? falls back only for null or undefined, so an explicit 0 stays 0. || treats 0 as missing and would replace it.",
+      "hints": [
+        "Check what each chip does when pct is 0.",
+        "Only an absent value should get the default.",
+        "Two chips test for undefined directly or through the nullish operator."
+      ],
+      "reference": {
+        "title": "Nullish coalescing operator (??)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.code-analysis.reading-unfamiliar-code.predict-01",
+      "concept": "reading-unfamiliar-code",
+      "prerequisites": [
+        "closure-factories",
+        "array-reduce",
+        "spread-and-rest"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 5,
+      "prompt": "A garden shop labels its plant tags with a dense reducer. What does this program print?",
+      "code": [
+        "const lastAt = (...tags) =>",
+        "  tags.reduce(",
+        "    (m, t, i) => ({ ...m, [t]: i }),",
+        "    {}",
+        "  );",
+        "console.log(lastAt(\"b\", \"a\", \"b\"));"
+      ],
+      "options": [
+        {
+          "text": "{b: 2, a: 1}",
+          "correct": true,
+          "feedback": "Right. The second b updates its value but the key keeps its first position."
+        },
+        {
+          "text": "{a: 1, b: 2}",
+          "correct": false,
+          "feedback": "Keys keep their first position when overwritten. The second b does not move to the end.",
+          "misconception": "spread-overwrite-misread"
+        },
+        {
+          "text": "{b: 0, a: 1}",
+          "correct": false,
+          "feedback": "The later write wins: the second b replaces the 0 with its index.",
+          "misconception": "spread-overwrite-misread"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "{b: 2, a: 1}"
+      },
+      "explanation": "The spread copies b first, then [t]: i overwrites its value but keeps its place. The object ends with b at index 2 and a at index 1, with b still listed first.",
+      "hints": [
+        "Work out what the reducer holds after each tag.",
+        "Overwriting an existing key keeps the key's original position.",
+        "Follow b twice: where does it sit after the second time?"
+      ],
+      "reference": {
+        "title": "Spread syntax (...)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.code-analysis.reading-unfamiliar-code.concept-01",
+      "concept": "reading-unfamiliar-code",
+      "prerequisites": [
+        "closure-factories",
+        "array-reduce",
+        "spread-and-rest"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "Both functions price an order today. Which one can take a new kind, such as soup, without editing any line shown here?",
+      "code": [
+        "const price = (key) => {",
+        "  if (key === \"tea\") return 3;",
+        "  if (key === \"cake\") return 5;",
+        "};",
+        "const rates = { tea: 3, cake: 5 };",
+        "const priceOf = (key) => rates[key];",
+        "console.log(price(\"tea\"));",
+        "console.log(priceOf(\"tea\"));"
+      ],
+      "options": [
+        {
+          "text": "priceOf: assigning rates.soup = 4 afterwards adds soup and no shown line changes.",
+          "correct": true,
+          "feedback": "Right. Data is added to the table while the function stays untouched."
+        },
+        {
+          "text": "price: each kind has its own line, so soup is just one more line.",
+          "correct": false,
+          "feedback": "A new if line goes inside price, which means editing a function that already works.",
+          "misconception": "ocp-more-branches-is-open"
+        },
+        {
+          "text": "Both equally: they print the same result today, so they handle soup alike.",
+          "correct": false,
+          "feedback": "Equal output today says nothing about how each one grows. Only one needs its body edited.",
+          "misconception": "same-output-same-design"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "3\n3"
+      },
+      "explanation": "A lookup table grows by adding a key after the existing code, so nothing shown changes. An if chain needs a new branch inside its body, which means editing the function.",
+      "hints": [
+        "Imagine adding soup: where would the new code go?",
+        "Open for extension, closed for modification: extend without editing.",
+        "Which version needs a change inside its own body?"
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:6"
+      ]
+    },
+    {
+      "id": "exp.code-analysis.reading-unfamiliar-code.fix-01",
+      "concept": "reading-unfamiliar-code",
+      "prerequisites": [
+        "closure-factories",
+        "array-reduce",
+        "spread-and-rest"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "Two door counters should count separately and print 3 1. Tap the line that makes them share one count and pick the fix.",
+      "code": [
+        "const makeCounter = () => {",
+        "  let n = 0;",
+        "  return () => ++n;",
+        "};",
+        "const a = makeCounter();",
+        "const b = a;",
+        "a();",
+        "a();",
+        "console.log(a(), b());"
+      ],
+      "options": [
+        {
+          "text": "const b = makeCounter();",
+          "correct": true,
+          "feedback": "Right. A new call creates a new n, so b counts on its own."
+        },
+        {
+          "text": "const b = a.bind(null);",
+          "correct": false,
+          "feedback": "bind returns a wrapper around the same function, so both still share one n."
+        },
+        {
+          "text": "const b = makeCounter;",
+          "correct": false,
+          "feedback": "This stores the factory itself, so b() creates a counter instead of counting."
+        }
+      ],
+      "solution": {
+        "bugLine": 6,
+        "expectedOutput": "3 1"
+      },
+      "explanation": "Each call of the factory creates its own n. Assigning the existing function to a second name shares one closure. A second counter needs its own call of the factory.",
+      "hints": [
+        "Compare how many times makeCounter is called.",
+        "A closure keeps the variables of the call that created it.",
+        "The second counter needs a call of its own."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.code-analysis.reading-unfamiliar-code.write-01",
+      "concept": "reading-unfamiliar-code",
+      "prerequisites": [
+        "closure-factories",
+        "array-reduce",
+        "spread-and-rest"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 5,
+      "prompt": "Read the dense function f. Write the body of newRecords(scores) so it returns exactly what f returns for the same list.",
+      "code": [
+        "const f = (a) => a.reduce((r, x) =>",
+        "  x > Math.max(0, ...r)",
+        "    ? [...r, x]",
+        "    : r, []);"
+      ],
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "newRecords",
+          "params": [
+            "scores"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                3,
+                1,
+                2,
+                5
+              ]
+            ],
+            "expected": [
+              3,
+              5
+            ]
+          },
+          {
+            "input": [
+              [
+                0,
+                2,
+                2,
+                5
+              ]
+            ],
+            "expected": [
+              2,
+              5
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                4,
+                4,
+                4
+              ]
+            ],
+            "expected": [
+              4
+            ]
+          },
+          {
+            "input": [
+              [
+                2,
+                9,
+                3,
+                9,
+                10
+              ]
+            ],
+            "expected": [
+              2,
+              9,
+              10
+            ]
+          }
+        ],
+        "reference": [
+          "const out = [];",
+          "let top = 0;",
+          "for (const x of scores) {",
+          "  if (x > top) {",
+          "    out.push(x);",
+          "    top = x;",
+          "  }",
+          "}",
+          "return out;"
+        ],
+        "wrongSolutions": [
+          [
+            "const out = [];",
+            "let top = -1;",
+            "for (const x of scores) {",
+            "  if (x > top) {",
+            "    out.push(x);",
+            "    top = x;",
+            "  }",
+            "}",
+            "return out;"
+          ],
+          [
+            "const out = [];",
+            "let top = 0;",
+            "for (const x of scores) {",
+            "  if (x >= top) {",
+            "    out.push(x);",
+            "    top = x;",
+            "  }",
+            "}",
+            "return out;"
+          ],
+          [
+            "const out = [];",
+            "let prev = 0;",
+            "for (const x of scores) {",
+            "  if (x > prev) out.push(x);",
+            "  prev = x;",
+            "}",
+            "return out;"
+          ]
+        ]
+      },
+      "explanation": "f keeps a score only when it beats both zero and every score kept so far. A first 0 does not count, and a tie does not count. A running top starting at 0 does the same.",
+      "hints": [
+        "Work out f on a list that starts with 0.",
+        "f compares each score with the largest score kept, never below 0.",
+        "Keep a top that starts at 0 and update it when a score is above it."
+      ],
+      "reference": {
+        "title": "Array.prototype.reduce()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.code-analysis.side-effects-and-purity.predict-01",
+      "concept": "side-effects-and-purity",
+      "prerequisites": [
+        "mutation-bugs",
+        "reference-vs-value"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A canteen helper finds the cheapest price on a list. What does this program print?",
+      "code": [
+        "const menu = [30, 10, 20];",
+        "const lowest = (list) =>",
+        "  list.sort((a, b) => a - b)[0];",
+        "console.log(lowest(menu), menu[0]);"
+      ],
+      "options": [
+        {
+          "text": "10 10",
+          "correct": true,
+          "feedback": "Right. sort reordered menu itself, so its first item is now the cheapest one."
+        },
+        {
+          "text": "10 30",
+          "correct": false,
+          "feedback": "sort does not make a copy. It reorders the original array too.",
+          "misconception": "sort-returns-copy"
+        },
+        {
+          "text": "30 30",
+          "correct": false,
+          "feedback": "The sort really runs on the array, so the cheapest comes first in both reads.",
+          "misconception": "sort-needs-assignment"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "10 10"
+      },
+      "explanation": "sort reorders the array it is called on and returns that same array. The helper reads the first item and also leaves the caller's list sorted, which is a hidden side effect.",
+      "hints": [
+        "Ask whether sort works on a copy or on the array itself.",
+        "Methods that sort in place change the caller's data.",
+        "Print the second value after the helper has run, not before."
+      ],
+      "reference": {
+        "title": "Array.prototype.sort()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.code-analysis.side-effects-and-purity.concept-01",
+      "concept": "side-effects-and-purity",
+      "prerequisites": [
+        "mutation-bugs",
+        "reference-vs-value"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "report mixes calculating with printing. Which line should move to a separate function so the sum can be reused and tested alone?",
+      "code": [
+        "const report = (orders) => {",
+        "  let sum = 0;",
+        "  for (const o of orders) sum += o;",
+        "  console.log(\"Sum: \" + sum);",
+        "  return sum;",
+        "};",
+        "const total = report([5, 7]);",
+        "console.log(total);"
+      ],
+      "options": [
+        {
+          "text": "The console.log line: report would only calculate, and a separate function prints.",
+          "correct": true,
+          "feedback": "Right. Output is its own concern. The sum can then be used and checked without printing."
+        },
+        {
+          "text": "The for loop: loops always belong in their own function.",
+          "correct": false,
+          "feedback": "The loop is the calculation. Splitting by statement kind does not separate concerns.",
+          "misconception": "soc-split-by-statement-kind"
+        },
+        {
+          "text": "The return line: a function that prints should not also hand back a value.",
+          "correct": false,
+          "feedback": "Returning the value is what makes the calculation reusable. The printing is the part to move.",
+          "misconception": "soc-split-by-statement-kind"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Sum: 12\n12"
+      },
+      "explanation": "Printing is output, while the sum is calculation. Separating them lets other code reuse the calculation without printing, and print from another place. Calling the calculation then printing gives the same output.",
+      "hints": [
+        "Which line talks to the outside world instead of computing?",
+        "Separation of concerns divides by purpose, not by statement type.",
+        "Which line would a test of the sum have to avoid?"
+      ],
+      "reference": {
+        "title": "Functions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:5"
+      ]
+    },
+    {
+      "id": "exp.code-analysis.side-effects-and-purity.fix-01",
+      "concept": "side-effects-and-purity",
+      "prerequisites": [
+        "mutation-bugs",
+        "reference-vs-value"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "withSize should return a resized copy and leave base alone, so the program prints M XL. Tap the line that changes base and pick the fix.",
+      "code": [
+        "const base = { size: \"M\" };",
+        "const withSize = (s, size) =>",
+        "  Object.assign(s, { size });",
+        "const big = withSize(base, \"XL\");",
+        "console.log(base.size, big.size);"
+      ],
+      "options": [
+        {
+          "text": "  Object.assign({}, s, { size });",
+          "correct": true,
+          "feedback": "Right. The target is a new object, so base stays untouched."
+        },
+        {
+          "text": "  Object.assign(s, { size }, {});",
+          "correct": false,
+          "feedback": "The first argument is still s, so base still changes."
+        },
+        {
+          "text": "  Object.assign({}, { size }, s);",
+          "correct": false,
+          "feedback": "Later sources win, so s overwrites the new size and the copy keeps M."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "M XL"
+      },
+      "explanation": "Object.assign writes into its first argument. Passing the original object changes it. Passing a new empty object first builds a copy and keeps the later values.",
+      "hints": [
+        "Which object is the first argument of Object.assign?",
+        "Object.assign changes its first argument and returns it.",
+        "Start from a new empty object, then add the old values, then the new size."
+      ],
+      "reference": {
+        "title": "Object.assign()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.code-analysis.side-effects-and-purity.fill-01",
+      "concept": "side-effects-and-purity",
+      "prerequisites": [
+        "mutation-bugs",
+        "reference-vs-value"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 5,
+      "prompt": "restock must not change the bin object. Fill the blank so the program prints 3 7.",
+      "code": [
+        "const bin = { apples: 3 };",
+        "const restock = (s, n) => ({",
+        "  ...s,",
+        "  apples: ___,",
+        "});",
+        "const out = restock(bin, 4);",
+        "console.log(bin.apples, out.apples);"
+      ],
+      "options": [
+        {
+          "text": "s.apples + n",
+          "correct": true,
+          "feedback": "Right. It only reads the old count."
+        },
+        {
+          "text": "bin.apples + n",
+          "correct": true,
+          "feedback": "Right. It also only reads the old count."
+        },
+        {
+          "text": "n",
+          "correct": false,
+          "feedback": "This replaces the count with 4 instead of adding to it, so the program prints 3 4."
+        },
+        {
+          "text": "s.apples += n",
+          "correct": false,
+          "feedback": "This writes the new count back to the stock object, so both lines print 7."
+        },
+        {
+          "text": "s.apples++ + n",
+          "correct": false,
+          "feedback": "++ changes the original while computing, so the stock ends at 4."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "s.apples + n",
+            "bin.apples + n"
+          ]
+        ],
+        "expectedOutput": "3 7"
+      },
+      "explanation": "The new object gets its own apples value computed from the old one. Reading a value is safe, but writing back with += or ++ changes the original while computing the result.",
+      "hints": [
+        "Check which chips write to the original object.",
+        "A pure function only reads its inputs.",
+        "Two chips read the old count and add n without changing it."
+      ],
+      "reference": {
+        "title": "Spread syntax (...)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

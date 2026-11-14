@@ -1,0 +1,1318 @@
+{
+  "track": "EXPERT",
+  "unit": "patterns-and-architecture",
+  "order": 5,
+  "title": "Patterns and architecture",
+  "summary": "Observer, strategy and composition, factories and single instances, and dependency inversion, read and written as code.",
+  "concepts": [
+    {
+      "id": "observer-pattern",
+      "title": "Observer: publish and subscribe",
+      "prerequisites": [
+        "closure-private-state",
+        "map-collection",
+        "set-collection"
+      ]
+    },
+    {
+      "id": "strategy-and-composition",
+      "title": "Strategy and composition over inheritance",
+      "prerequisites": [
+        "function-expressions",
+        "class-inheritance",
+        "closure-factories"
+      ]
+    },
+    {
+      "id": "factory-and-singleton",
+      "title": "Factories and single instances",
+      "prerequisites": [
+        "closure-factories",
+        "module-singletons",
+        "class-basics"
+      ]
+    },
+    {
+      "id": "dependency-inversion",
+      "title": "Depending on abstractions in code",
+      "prerequisites": [
+        "strategy-and-composition",
+        "parameters-and-arguments"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "late-subscriber-replays",
+      "description": "Believes a listener that subscribes late also receives the messages sent before it subscribed."
+    },
+    {
+      "id": "only-one-function-runs",
+      "description": "Believes that when several functions are registered or passed in, only one of them (the first or the latest) is ever called."
+    },
+    {
+      "id": "unsubscribe-clears-all",
+      "description": "Believes removing one listener empties the whole list of listeners."
+    },
+    {
+      "id": "set-runs-callbacks-once",
+      "description": "Believes a Set limits how often its stored functions can be called."
+    },
+    {
+      "id": "strategy-replaces-body",
+      "description": "Believes a passed-in function replaces the whole body of the function that calls it, including the code around the call."
+    },
+    {
+      "id": "composition-needs-hierarchy",
+      "description": "Believes combining several abilities in one object needs a class hierarchy with extends."
+    },
+    {
+      "id": "reference-copied-not-shared",
+      "description": "Believes handing an object to another variable, function or class copies it, so writes are not seen by the original."
+    },
+    {
+      "id": "singleton-new-each-call",
+      "description": "Believes a function that hands out a single instance builds a new object on every call."
+    },
+    {
+      "id": "factory-returns-class",
+      "description": "Believes a factory returns the class itself rather than an instance of it."
+    },
+    {
+      "id": "factory-is-singleton",
+      "description": "Believes every factory call with the same argument returns the same object."
+    },
+    {
+      "id": "add-replaces-store",
+      "description": "Believes pushing onto an array replaces what the array already holds."
+    },
+    {
+      "id": "registration-order-is-call-order",
+      "description": "Believes registered callbacks always run in the order they were registered."
+    },
+    {
+      "id": "register-runs-callback",
+      "description": "Believes registering a callback calls it immediately."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/First-class_Function",
+      "retrievedAt": "2026-11-14",
+      "sha256": "a61120aee64583db1c58bdedacaa067e03390ed4d7c5a17b2d60df1c87c67328"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Callback_function",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7d713a4bbd56705747421ed65b77a7024d692f0e87489a8ecbbb98c52361ee9d"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7d71f9f6a40dc8df979db43f64c8f853b2651071338655ccf42e7e52feeaa580"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+      "retrievedAt": "2026-11-14",
+      "sha256": "c7f247484f4da7488313fa4901170cf5563351256861873dde533b3b1a0e4bf8"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing",
+      "retrievedAt": "2026-11-14",
+      "sha256": "ff55a45d086fead937a04282242e3a029c3f21bf7df86033b820a68e0bb7ffd4"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor",
+      "retrievedAt": "2026-11-14",
+      "sha256": "2f8895a066b7a58776de381a4d813a688fc95f1b4aa977c8d8dc8921bc24f93c"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
+      "retrievedAt": "2026-11-14",
+      "sha256": "d0bb1e15cd9bc4a284b58a621c9d981a4667f1f5180dc58b975b8e23957a28ce"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "patterns-and-architecture.lesson-1",
+      "title": "Observer: publish and subscribe",
+      "conceptCard": {
+        "title": "Observer: publish and subscribe",
+        "body": "A subject keeps a list of functions. Subscribing adds a function to the list, and publishing calls every function in it with the same value. The publisher does not know who listens. A function that subscribes later hears only later messages.",
+        "code": [
+          "const heard = [];",
+          "const add = (fn) => heard.push(fn);",
+          "add((m) => console.log('A ' + m));",
+          "add((m) => console.log('B ' + m));",
+          "heard.forEach((fn) => fn('hi'));"
+        ],
+        "expectedOutput": "A hi\nB hi"
+      },
+      "itemIds": [
+        "exp.patterns-and-architecture.observer-pattern.predict-01",
+        "exp.patterns-and-architecture.observer-pattern.concept-01",
+        "exp.patterns-and-architecture.observer-pattern.fix-01",
+        "exp.patterns-and-architecture.observer-pattern.write-01"
+      ]
+    },
+    {
+      "id": "patterns-and-architecture.lesson-2",
+      "title": "Strategy and composition",
+      "conceptCard": {
+        "title": "Pass the rule in, combine small pieces",
+        "body": "A strategy is a function you pass in to decide how one step is done. The surrounding code stays the same while the function changes. Composition builds bigger behaviour by combining small functions or objects instead of extending a class.",
+        "code": [
+          "const twice = (n) => n * 2;",
+          "const neg = (n) => -n;",
+          "const run = (n, how) => how(n) + 1;",
+          "console.log(run(4, twice));",
+          "console.log(run(4, neg));"
+        ],
+        "expectedOutput": "9\n-3"
+      },
+      "itemIds": [
+        "exp.patterns-and-architecture.strategy-and-composition.predict-01",
+        "exp.patterns-and-architecture.strategy-and-composition.concept-01",
+        "exp.patterns-and-architecture.strategy-and-composition.fix-01",
+        "exp.patterns-and-architecture.strategy-and-composition.fill-01"
+      ]
+    },
+    {
+      "id": "patterns-and-architecture.lesson-3",
+      "title": "Factories and single instances",
+      "conceptCard": {
+        "title": "Factories build, a single instance is reused",
+        "body": "A factory is a function that builds and returns objects, so callers do not choose the class themselves. A single instance is built once and reused: the first call creates it and every later call returns the same object.",
+        "code": [
+          "let single = null;",
+          "const get = () => {",
+          "  single = single ?? { n: 0 };",
+          "  return single;",
+          "};",
+          "get().n = 2;",
+          "console.log(get().n);"
+        ],
+        "expectedOutput": "2"
+      },
+      "itemIds": [
+        "exp.patterns-and-architecture.factory-and-singleton.predict-01",
+        "exp.patterns-and-architecture.factory-and-singleton.concept-01",
+        "exp.patterns-and-architecture.factory-and-singleton.fix-01",
+        "exp.patterns-and-architecture.factory-and-singleton.write-01"
+      ]
+    },
+    {
+      "id": "patterns-and-architecture.lesson-4",
+      "title": "Depending on abstractions",
+      "conceptCard": {
+        "title": "Receive what you need",
+        "body": "Code depends on an abstraction when it receives what it needs as a parameter instead of reaching for a fixed choice. You can then pass a real helper or a fake one. The caller decides, and the function itself does not change.",
+        "code": [
+          "const greet = (name, style) => {",
+          "  return style(name);",
+          "};",
+          "const bang = (s) => s + '!';",
+          "const ask = (s) => s + '?';",
+          "console.log(greet('ana', bang));",
+          "console.log(greet('ana', ask));"
+        ],
+        "expectedOutput": "ana!\nana?"
+      },
+      "itemIds": [
+        "exp.patterns-and-architecture.dependency-inversion.predict-01",
+        "exp.patterns-and-architecture.dependency-inversion.concept-01",
+        "exp.patterns-and-architecture.dependency-inversion.fix-01",
+        "exp.patterns-and-architecture.dependency-inversion.fill-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "exp.patterns-and-architecture.observer-pattern.predict-01",
+      "concept": "observer-pattern",
+      "prerequisites": [
+        "closure-private-state"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A hand-written emitter notifies its listeners. What does this program print?",
+      "code": [
+        "const subs = [];",
+        "const on = (fn) => subs.push(fn);",
+        "const emit = (v) => {",
+        "  for (const fn of subs) fn(v);",
+        "};",
+        "on((h) => console.log('pier', h));",
+        "emit(3);",
+        "on((h) => console.log('bay', -h));",
+        "emit(5);"
+      ],
+      "options": [
+        {
+          "text": "pier 3\nbay -3\npier 5\nbay -5",
+          "correct": false,
+          "feedback": "The bay listener did not exist during the first emit. Listeners hear only the emits that happen after they subscribe; earlier messages are not replayed.",
+          "misconception": "late-subscriber-replays"
+        },
+        {
+          "text": "pier 3\npier 5\nbay -5",
+          "correct": true,
+          "feedback": "Right. The first emit reaches only the pier listener. The second emit reaches both, and the bay listener negates 5."
+        },
+        {
+          "text": "bay -5",
+          "correct": false,
+          "feedback": "emit loops over every registered listener, not only the newest one. The pier listener is still in the list during the second emit.",
+          "misconception": "only-one-function-runs"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "pier 3\npier 5\nbay -5"
+      },
+      "explanation": "emit calls every function stored in subs at that moment. The first emit finds one listener. The second finds two, because the bay listener subscribed in between. Nothing replays old messages to a late subscriber.",
+      "hints": [
+        "Look at where line 8 sits compared with the two emit calls.",
+        "emit notifies only the listeners that are registered when it runs.",
+        "Count how many listeners exist at the first emit, then at the second."
+      ],
+      "reference": {
+        "title": "for...of statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:1"
+      ]
+    },
+    {
+      "id": "exp.patterns-and-architecture.observer-pattern.concept-01",
+      "concept": "observer-pattern",
+      "prerequisites": [
+        "set-collection"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "Which statement explains why this program prints only a?",
+      "code": [
+        "const subs = new Set();",
+        "const on = (fn) => {",
+        "  subs.add(fn);",
+        "  return () => subs.delete(fn);",
+        "};",
+        "const show = (t) => console.log(t);",
+        "const off = on(show);",
+        "subs.forEach((fn) => fn('a'));",
+        "off();",
+        "subs.forEach((fn) => fn('b'));"
+      ],
+      "options": [
+        {
+          "text": "off() empties the whole Set, so no listener is left for the second send.",
+          "correct": false,
+          "feedback": "delete removes only the function it is given. Any other listener in the Set would still be called on the second send.",
+          "misconception": "unsubscribe-clears-all"
+        },
+        {
+          "text": "A Set calls each stored function only once, so b is never sent to it.",
+          "correct": false,
+          "feedback": "A Set stores each function once, but it never limits how often you call it. forEach calls every stored function on every send.",
+          "misconception": "set-runs-callbacks-once"
+        },
+        {
+          "text": "on returns a function that deletes this listener from the Set, so later sends skip it.",
+          "correct": true,
+          "feedback": "Right. Calling the returned function removes show from subs, so the second forEach has nothing to call."
+        }
+      ],
+      "solution": {
+        "expectedOutput": "a"
+      },
+      "explanation": "Subscribing returns an unsubscribe function that closes over fn. Calling it deletes that one listener from the Set. The second forEach then finds no listeners, so only the first send prints.",
+      "hints": [
+        "Compare the two forEach lines and look at what happens between them.",
+        "An unsubscribe function undoes exactly one subscription.",
+        "Ask which function is removed by line 9, and what the Set holds afterwards."
+      ],
+      "reference": {
+        "title": "Set.prototype.delete()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/delete",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.patterns-and-architecture.observer-pattern.fix-01",
+      "concept": "observer-pattern",
+      "prerequisites": [],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "off(bell) should remove only the bell listener, so the program prints L. Tap the buggy line and pick the fix.",
+      "code": [
+        "let fns = [];",
+        "const on = (fn) => fns.push(fn);",
+        "const off = (fn) => {",
+        "  fns = fns.filter((x) => x === fn);",
+        "};",
+        "const bell = () => console.log('B');",
+        "const lamp = () => console.log('L');",
+        "on(bell);",
+        "on(lamp);",
+        "off(bell);",
+        "fns.forEach((fn) => fn());"
+      ],
+      "options": [
+        {
+          "text": "  fns = fns.filter((x) => x);",
+          "correct": false,
+          "feedback": "Every function is truthy, so filter keeps all of them and the bell is still notified.",
+          "misconception": "unsubscribe-clears-all"
+        },
+        {
+          "text": "  fns = [];",
+          "correct": false,
+          "feedback": "This removes the lamp listener too, so nothing prints.",
+          "misconception": "unsubscribe-clears-all"
+        },
+        {
+          "text": "  fns = fns.filter((x) => x !== fn);",
+          "correct": true,
+          "feedback": "Right. filter keeps every function except the one being removed."
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "L"
+      },
+      "explanation": "filter keeps the elements for which the test is true. The test x === fn keeps only the function to remove and drops everyone else. To unsubscribe one listener, keep every function that is different from it.",
+      "hints": [
+        "Read the test inside filter on line 4 and ask what it keeps.",
+        "filter keeps the elements whose test is true.",
+        "The test should be true for every function except the one passed to off."
+      ],
+      "reference": {
+        "title": "Array.prototype.filter()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.patterns-and-architecture.observer-pattern.write-01",
+      "concept": "observer-pattern",
+      "prerequisites": [
+        "map-collection"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 5,
+      "prompt": "Write the body of replay. Commands are 'on:name', 'off:name' and 'pub:message'. Return one text per pub: the message followed by the current subscribers, all comma-separated, in subscription order.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "replay",
+          "params": [
+            "commands"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                "on:ann",
+                "pub:rain",
+                "on:bo",
+                "pub:sun",
+                "off:ann",
+                "pub:fog"
+              ]
+            ],
+            "expected": [
+              "rain,ann",
+              "sun,ann,bo",
+              "fog,bo"
+            ]
+          },
+          {
+            "input": [
+              [
+                "pub:hail"
+              ]
+            ],
+            "expected": [
+              "hail"
+            ]
+          },
+          {
+            "input": [
+              [
+                "on:ann",
+                "on:ann",
+                "pub:x"
+              ]
+            ],
+            "expected": [
+              "x,ann"
+            ]
+          },
+          {
+            "input": [
+              [
+                "on:cy",
+                "off:cy",
+                "pub:z"
+              ]
+            ],
+            "expected": [
+              "z"
+            ]
+          }
+        ],
+        "reference": [
+          "const who = new Set();",
+          "const out = [];",
+          "for (const cmd of commands) {",
+          "  const [op, arg] = cmd.split(':');",
+          "  if (op === 'on') who.add(arg);",
+          "  if (op === 'off') who.delete(arg);",
+          "  if (op === 'pub') {",
+          "    out.push([arg, ...who].join());",
+          "  }",
+          "}",
+          "return out;"
+        ],
+        "wrongSolutions": [
+          [
+            "const who = new Set();",
+            "const out = [];",
+            "for (const cmd of commands) {",
+            "  const [op, arg] = cmd.split(':');",
+            "  if (op === 'on') who.add(arg);",
+            "  if (op === 'pub') {",
+            "    out.push([arg, ...who].join());",
+            "  }",
+            "}",
+            "return out;"
+          ],
+          [
+            "const who = new Set();",
+            "const out = [];",
+            "for (const cmd of commands) {",
+            "  const [op, arg] = cmd.split(':');",
+            "  if (op === 'on') who.add(arg);",
+            "  if (op === 'off') who.clear();",
+            "  if (op === 'pub') {",
+            "    out.push([arg, ...who].join());",
+            "  }",
+            "}",
+            "return out;"
+          ],
+          [
+            "let last = '';",
+            "const out = [];",
+            "for (const cmd of commands) {",
+            "  const [op, arg] = cmd.split(':');",
+            "  if (op === 'on') last = arg;",
+            "  if (op === 'off') last = '';",
+            "  if (op === 'pub') {",
+            "    out.push([arg, last].join());",
+            "  }",
+            "}",
+            "return out;"
+          ]
+        ]
+      },
+      "explanation": "Keep a Set of subscribers. An on adds a name, an off deletes only that name, and a pub records the message with every name in the Set at that moment. The Set also ignores a second subscription by the same name.",
+      "hints": [
+        "You need a collection of the names that are listening right now.",
+        "Subscribing and unsubscribing change the collection; publishing only reads it.",
+        "Split each command at the colon, then add, delete, or loop over the collection depending on the first part."
+      ],
+      "reference": {
+        "title": "Set",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.patterns-and-architecture.strategy-and-composition.predict-01",
+      "concept": "strategy-and-composition",
+      "prerequisites": [
+        "function-expressions"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "The ferry fare is computed by a rule passed to total. What does this program print?",
+      "code": [
+        "const half = (n) => n / 2;",
+        "const minus = (n) => n - 5;",
+        "const total = (price, rule) => {",
+        "  return rule(price) + 3;",
+        "};",
+        "console.log(total(50, half));",
+        "console.log(total(50, minus));"
+      ],
+      "options": [
+        {
+          "text": "28\n48",
+          "correct": true,
+          "feedback": "Right. Each call applies the rule it receives, then adds the fixed 3 that total always adds."
+        },
+        {
+          "text": "28\n28",
+          "correct": false,
+          "feedback": "The second call passes a different rule. total applies whichever rule it receives, so the calls do not repeat each other.",
+          "misconception": "only-one-function-runs"
+        },
+        {
+          "text": "25\n45",
+          "correct": false,
+          "feedback": "The + 3 on line 4 still runs. A passed-in rule replaces only the step it is called for, not the code around the call.",
+          "misconception": "strategy-replaces-body"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "28\n48"
+      },
+      "explanation": "total applies the given rule to the price and then adds 3. With half the result is 25 + 3 = 28. With minus it is 45 + 3 = 48. Only the rule changes between calls; the surrounding code stays the same.",
+      "hints": [
+        "Work out each call separately, starting with the rule it passes.",
+        "The strategy changes one step; the code around it still runs.",
+        "Apply the rule to 50, then add the fixed amount from line 4."
+      ],
+      "reference": {
+        "title": "First-class function",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/First-class_Function",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.patterns-and-architecture.strategy-and-composition.concept-01",
+      "concept": "strategy-and-composition",
+      "prerequisites": [
+        "class-inheritance"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "Which statement explains how duck gets both of its moves?",
+      "code": [
+        "const swim = () => 'paddle';",
+        "const fly = () => 'flap';",
+        "const make = (moves) => ({",
+        "  go: () => moves.map((m) => m()),",
+        "});",
+        "const duck = make([swim, fly]);",
+        "console.log(duck.go());"
+      ],
+      "options": [
+        {
+          "text": "duck extends a parent class that defines swim and fly, so each new mix of moves needs a new subclass.",
+          "correct": false,
+          "feedback": "Nothing here uses extends. make only receives functions as data and keeps them, so no parent class is involved.",
+          "misconception": "composition-needs-hierarchy"
+        },
+        {
+          "text": "make copies the moves array, so pushing another function into it later would not change duck.go().",
+          "correct": false,
+          "feedback": "make stores the same array it was given, not a copy. go reads it every time it runs, so a later push would show up.",
+          "misconception": "reference-copied-not-shared"
+        },
+        {
+          "text": "make builds duck from the move functions it is given, so any mix of moves works without a class hierarchy.",
+          "correct": true,
+          "feedback": "Right. Behaviour comes from the functions passed in, and a different list gives a different object."
+        }
+      ],
+      "solution": {
+        "expectedOutput": "['paddle', 'flap']"
+      },
+      "explanation": "Composition builds an object by combining behaviours it is handed. make stores the list of move functions, and go runs each of them. A different array gives a different duck, and no parent class is needed.",
+      "hints": [
+        "Look at what make receives on line 6 and what it does with it.",
+        "Composition combines small pieces instead of extending a parent.",
+        "Ask where swim and fly come from, and whether any class defines them."
+      ],
+      "reference": {
+        "title": "Spread syntax (...)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.patterns-and-architecture.strategy-and-composition.fix-01",
+      "concept": "strategy-and-composition",
+      "prerequisites": [
+        "parameters-and-arguments"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "cost('taxi', 3) should print 27 by looking up the rule for the mode. Tap the buggy line and pick the fix.",
+      "code": [
+        "const fare = {",
+        "  bus: (km) => km * 2,",
+        "  taxi: (km) => km * 9,",
+        "};",
+        "const cost = (m, km) => fare.m(km);",
+        "console.log(cost('taxi', 3));"
+      ],
+      "options": [
+        {
+          "text": "const cost = (m, km) => fare(m)(km);",
+          "correct": false,
+          "feedback": "fare is an object, not a function, so calling it fails before any rule is found."
+        },
+        {
+          "text": "const cost = (m, km) => fare[m];",
+          "correct": false,
+          "feedback": "This returns the rule itself instead of calling it, so the program prints a function rather than a number."
+        },
+        {
+          "text": "const cost = (m, km) => fare[m](km);",
+          "correct": true,
+          "feedback": "Right. The brackets read the key from the variable m, and the parentheses call the rule that was found."
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "27"
+      },
+      "explanation": "fare.m looks for a property literally named m, finds nothing, and calling undefined throws. Square brackets use the value of the variable m as the key, so fare[m] finds the taxi rule, which is then called with km.",
+      "hints": [
+        "Look at how line 5 finds the rule inside fare.",
+        "A dot reads a fixed name; square brackets read a name stored in a variable.",
+        "The key must come from the parameter m, and the rule must then be called."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.patterns-and-architecture.strategy-and-composition.fill-01",
+      "concept": "strategy-and-composition",
+      "prerequisites": [
+        "closure-factories"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 5,
+      "prompt": "compose(f, g) should run g first and then f. Complete line 2 so the program prints 7.",
+      "code": [
+        "const compose = (f, g) => (x) => {",
+        "  return ___(___(x));",
+        "};",
+        "const fee = (n) => n + 2;",
+        "const half = (n) => n / 2;",
+        "console.log(compose(fee, half)(10));"
+      ],
+      "options": [
+        {
+          "text": "f",
+          "correct": true,
+          "feedback": "Right. The outer call is the second step, which is f here."
+        },
+        {
+          "text": "g",
+          "correct": true,
+          "feedback": "Right. The inner call is the first step, which is g here."
+        },
+        {
+          "text": "x",
+          "correct": false,
+          "feedback": "x holds a number, and a number cannot be called, so the program fails.",
+          "misconception": "composition-needs-hierarchy"
+        },
+        {
+          "text": "n",
+          "correct": false,
+          "feedback": "n exists only inside the small helper functions, so using it here fails."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "f"
+          ],
+          [
+            "g"
+          ]
+        ],
+        "expectedOutput": "7"
+      },
+      "explanation": "compose returns a function that applies g to x and then f to that result. With half as g, 10 becomes 5, and fee as f makes it 7. Swapping the two would add the fee first and give 6.",
+      "hints": [
+        "Check which function should run first for compose(fee, half).",
+        "In f(g(x)) the inner call runs first.",
+        "The inner blank is the first step; the outer blank is the step that follows."
+      ],
+      "reference": {
+        "title": "Arrow functions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.patterns-and-architecture.factory-and-singleton.predict-01",
+      "concept": "factory-and-singleton",
+      "prerequisites": [
+        "closure-factories"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "get hands out a shared desk object. What does this program print?",
+      "code": [
+        "let desk = null;",
+        "const get = () => {",
+        "  desk = desk ?? { visits: 0 };",
+        "  return desk;",
+        "};",
+        "const a = get();",
+        "a.visits = 4;",
+        "const b = get();",
+        "console.log(b.visits, b === a);"
+      ],
+      "options": [
+        {
+          "text": "0 false",
+          "correct": false,
+          "feedback": "The nullish check keeps the existing object, so get creates the object only on its first call. The second call returns that same object.",
+          "misconception": "singleton-new-each-call"
+        },
+        {
+          "text": "0 true",
+          "correct": false,
+          "feedback": "The two names point at one object, so the write through a is visible through b. Nothing copies the object.",
+          "misconception": "reference-copied-not-shared"
+        },
+        {
+          "text": "4 true",
+          "correct": true,
+          "feedback": "Right. Both calls return the same object, so the change made through a shows through b."
+        }
+      ],
+      "solution": {
+        "expectedOutput": "4 true"
+      },
+      "explanation": "The first call to get creates the object and stores it in desk. The second call finds desk already set and returns the same object. So a and b are one object, and the 4 written through a is read through b.",
+      "hints": [
+        "Follow what desk holds at each of the two calls to get.",
+        "?? keeps the left side unless it is null or undefined.",
+        "Ask whether the second call builds a new object or returns the stored one."
+      ],
+      "reference": {
+        "title": "Nullish coalescing operator (??)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:0"
+      ]
+    },
+    {
+      "id": "exp.patterns-and-architecture.factory-and-singleton.concept-01",
+      "concept": "factory-and-singleton",
+      "prerequisites": [
+        "class-basics"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "Which statement about make is correct for this program?",
+      "code": [
+        "class Bike {",
+        "  go() { return 'pedal'; }",
+        "}",
+        "class Van {",
+        "  go() { return 'drive'; }",
+        "}",
+        "const kinds = { Bike, Van };",
+        "const make = (k) => new kinds[k]();",
+        "console.log(make('Van').go());",
+        "console.log(make('Bike').go());"
+      ],
+      "options": [
+        {
+          "text": "make returns the class itself, and go() is then called on that class.",
+          "correct": false,
+          "feedback": "The new on line 8 already builds an instance. go belongs to the instances, so it is called on an object, not on a class.",
+          "misconception": "factory-returns-class"
+        },
+        {
+          "text": "make keeps one instance per kind, so calls with the same name return the same object.",
+          "correct": false,
+          "feedback": "Every call runs new again, so each call builds a fresh instance. Nothing here stores or reuses an earlier one.",
+          "misconception": "factory-is-singleton"
+        },
+        {
+          "text": "make turns a name into an instance, so callers never write new themselves.",
+          "correct": true,
+          "feedback": "Right. The choice of class lives in one place, and callers ask for a kind by name."
+        }
+      ],
+      "solution": {
+        "expectedOutput": "drive\npedal"
+      },
+      "explanation": "A factory centralises which class gets built. make looks the class up by name and calls new itself, so its callers only handle the finished objects. Each call returns a new instance of the chosen class.",
+      "hints": [
+        "Look at who writes new in this program.",
+        "A factory function builds and returns instances on behalf of its caller.",
+        "Check whether lines 9 and 10 mention Bike or Van at all."
+      ],
+      "reference": {
+        "title": "new operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:4"
+      ]
+    },
+    {
+      "id": "exp.patterns-and-architecture.factory-and-singleton.fix-01",
+      "concept": "factory-and-singleton",
+      "prerequisites": [
+        "closure-private-state"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "getJar should create the jar once and then reuse it, so the program prints 2. Tap the buggy line and pick the fix.",
+      "code": [
+        "let jar = null;",
+        "const getJar = () => {",
+        "  jar = { cookies: 0 };",
+        "  return jar;",
+        "};",
+        "getJar().cookies += 1;",
+        "getJar().cookies += 1;",
+        "console.log(getJar().cookies);"
+      ],
+      "options": [
+        {
+          "text": "  jar = { cookies: 0 } ?? jar;",
+          "correct": false,
+          "feedback": "The left side is never null, so ?? always keeps it and a new jar is built on every call."
+        },
+        {
+          "text": "  jar = jar && { cookies: 0 };",
+          "correct": false,
+          "feedback": "jar starts as null, and && then stays null. The first call returns null and reading cookies from it fails."
+        },
+        {
+          "text": "  jar = jar ?? { cookies: 0 };",
+          "correct": true,
+          "feedback": "Right. The jar is built only while jar is still null; later calls return the stored one."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "2"
+      },
+      "explanation": "Line 3 builds a new object on every call, so each increment lands on a jar that is thrown away and the last call sees a fresh 0. Building the object only while jar is null makes all calls share one jar.",
+      "hints": [
+        "Check what line 3 does on the second and third call.",
+        "A single instance is created once and then returned every time.",
+        "Keep the stored jar when it exists, and build a new one only when jar is null."
+      ],
+      "reference": {
+        "title": "Nullish coalescing operator (??)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.patterns-and-architecture.factory-and-singleton.write-01",
+      "concept": "factory-and-singleton",
+      "prerequisites": [
+        "map-collection"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 5,
+      "prompt": "Write the body of firstOrRepeat. A key's instance is built once. Return 'new' for the first request of each key and 'same' for every later request of that key.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "firstOrRepeat",
+          "params": [
+            "keys"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                "oak",
+                "pine",
+                "oak",
+                "oak",
+                "pine"
+              ]
+            ],
+            "expected": [
+              "new",
+              "new",
+              "same",
+              "same",
+              "same"
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                "fir"
+              ]
+            ],
+            "expected": [
+              "new"
+            ]
+          },
+          {
+            "input": [
+              [
+                "oak",
+                "oak",
+                "pine",
+                "oak"
+              ]
+            ],
+            "expected": [
+              "new",
+              "same",
+              "new",
+              "same"
+            ]
+          }
+        ],
+        "reference": [
+          "const made = new Map();",
+          "const answers = [];",
+          "for (const key of keys) {",
+          "  if (made.has(key)) {",
+          "    answers.push('same');",
+          "  } else {",
+          "    made.set(key, { key });",
+          "    answers.push('new');",
+          "  }",
+          "}",
+          "return answers;"
+        ],
+        "wrongSolutions": [
+          [
+            "return keys.map(() => 'new');"
+          ],
+          [
+            "return keys.map((k, i) => {",
+            "  return i === 0 ? 'new' : 'same';",
+            "});"
+          ],
+          [
+            "const out = [];",
+            "let prev = null;",
+            "for (const k of keys) {",
+            "  const r = k === prev;",
+            "  out.push(r ? 'same' : 'new');",
+            "  prev = k;",
+            "}",
+            "return out;"
+          ]
+        ]
+      },
+      "explanation": "Remember every key you have already built in a Map or Set. If the key is stored, the instance exists and the answer is same; otherwise store it and answer new. Comparing only with the previous key forgets older ones.",
+      "hints": [
+        "You need a memory of every key that has been requested so far.",
+        "A cached factory builds on a miss and reuses on a hit.",
+        "Check the memory for each key; add the key on a miss."
+      ],
+      "reference": {
+        "title": "Map.prototype.has()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/has",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.patterns-and-architecture.dependency-inversion.predict-01",
+      "concept": "dependency-inversion",
+      "prerequisites": [
+        "class-basics"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "Notes receives its store from outside. What does this program print?",
+      "code": [
+        "class Notes {",
+        "  constructor(store) {",
+        "    this.store = store;",
+        "  }",
+        "  add(text) {",
+        "    this.store.push(text);",
+        "  }",
+        "}",
+        "const fake = ['a'];",
+        "new Notes(fake).add('b');",
+        "console.log(fake);"
+      ],
+      "options": [
+        {
+          "text": "['a']",
+          "correct": false,
+          "feedback": "The constructor keeps the very array it receives, not a copy. add therefore writes into the array that fake names.",
+          "misconception": "reference-copied-not-shared"
+        },
+        {
+          "text": "['b']",
+          "correct": false,
+          "feedback": "push adds to the end of the array and does not replace what is already there.",
+          "misconception": "add-replaces-store"
+        },
+        {
+          "text": "['a', 'b']",
+          "correct": true,
+          "feedback": "Right. Notes uses the fake store it was given, so the new note lands in the array that fake names."
+        }
+      ],
+      "solution": {
+        "expectedOutput": "['a', 'b']"
+      },
+      "explanation": "The constructor stores a reference to the array passed in. add pushes onto that same array. Because fake and this.store are one object, the caller sees the new note. The class never creates a store of its own.",
+      "hints": [
+        "Follow the array passed on line 10 into the constructor.",
+        "A dependency passed in is the same object the caller holds.",
+        "Ask what push does to an array that is shared by two names."
+      ],
+      "reference": {
+        "title": "constructor",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:3"
+      ]
+    },
+    {
+      "id": "exp.patterns-and-architecture.dependency-inversion.concept-01",
+      "concept": "dependency-inversion",
+      "prerequisites": [
+        "strategy-and-composition"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 5,
+      "prompt": "Which statement about run and the handlers is correct for this program?",
+      "code": [
+        "const on = {};",
+        "const register = (name, fn) => {",
+        "  on[name] = fn;",
+        "};",
+        "const say = (t) => console.log(t);",
+        "const run = (events) => {",
+        "  events.forEach((e) => on[e]());",
+        "};",
+        "register('open', () => say('hi'));",
+        "register('close', () => say('bye'));",
+        "run(['close', 'open']);"
+      ],
+      "options": [
+        {
+          "text": "Handlers run in the order they were registered, because register keeps them in order.",
+          "correct": false,
+          "feedback": "register stores a handler under its name. The order of the events array decides what runs first, not the order of registering.",
+          "misconception": "registration-order-is-call-order"
+        },
+        {
+          "text": "register calls each function at once, so both messages print while registering.",
+          "correct": false,
+          "feedback": "register only stores the function. Nothing prints until run calls a handler by name.",
+          "misconception": "register-runs-callback"
+        },
+        {
+          "text": "run decides when each handler is called and in what order; your code only registers the functions.",
+          "correct": true,
+          "feedback": "Right. Control sits in run, which calls your code when an event arrives."
+        }
+      ],
+      "solution": {
+        "expectedOutput": "bye\nhi"
+      },
+      "explanation": "This is inversion of control: your code hands functions to a runner and the runner calls them when it chooses. Here run follows its events list, so the close handler runs before the open handler.",
+      "hints": [
+        "Compare the order of the register lines with the order printed.",
+        "With inversion of control the framework calls your function, not the other way round.",
+        "Ask which line actually calls a handler, and what decides the order."
+      ],
+      "reference": {
+        "title": "Callback function",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Callback_function",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:8"
+      ]
+    },
+    {
+      "id": "exp.patterns-and-architecture.dependency-inversion.fix-01",
+      "concept": "dependency-inversion",
+      "prerequisites": [
+        "parameters-and-arguments"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "notify should use the send function it receives, so the program prints fake ann. Tap the buggy line and pick the fix.",
+      "code": [
+        "const mail = (to) => 'mail ' + to;",
+        "const fake = (to) => 'fake ' + to;",
+        "const notify = (user, send) => {",
+        "  return mail(user);",
+        "};",
+        "console.log(notify('ann', fake));"
+      ],
+      "options": [
+        {
+          "text": "  return send(mail(user));",
+          "correct": false,
+          "feedback": "mail still runs first and its text is passed on, so the output starts with fake mail rather than fake ann."
+        },
+        {
+          "text": "  return mail(send(user));",
+          "correct": false,
+          "feedback": "mail still runs last and wraps the result, so the output starts with mail rather than fake."
+        },
+        {
+          "text": "  return send(user);",
+          "correct": true,
+          "feedback": "Right. notify now calls the function it was given instead of a fixed one."
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "fake ann"
+      },
+      "explanation": "Line 4 calls mail directly, so the send parameter is never used and the caller cannot swap the behaviour. A function that depends on an abstraction must call what it receives; then fake takes effect.",
+      "hints": [
+        "Compare the name called on line 4 with the parameter names on line 3.",
+        "A dependency passed in is useless unless the function calls it.",
+        "The function should call the parameter and nothing else."
+      ],
+      "reference": {
+        "title": "Functions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.patterns-and-architecture.dependency-inversion.fill-01",
+      "concept": "dependency-inversion",
+      "prerequisites": [
+        "function-expressions"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 5,
+      "prompt": "report receives a clock and a mark function. Fill both blanks so the program prints *9.",
+      "code": [
+        "const report = (clock, mark) => {",
+        "  return mark(clock());",
+        "};",
+        "const fixedClock = () => 9;",
+        "const star = (n) => '*' + n;",
+        "console.log(report(___, ___));"
+      ],
+      "options": [
+        {
+          "text": "fixedClock",
+          "correct": true,
+          "feedback": "Right. The first parameter is called with no arguments and gives 9."
+        },
+        {
+          "text": "star",
+          "correct": true,
+          "feedback": "Right. The second parameter receives the clock's result and adds the star."
+        },
+        {
+          "text": "fixedClock()",
+          "correct": false,
+          "feedback": "This passes the number 9, and report then tries to call a number, which fails."
+        },
+        {
+          "text": "9",
+          "correct": false,
+          "feedback": "A number cannot be called, so report fails when it runs clock()."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "fixedClock"
+          ],
+          [
+            "star"
+          ]
+        ],
+        "expectedOutput": "*9"
+      },
+      "explanation": "report calls its first argument to get a value and passes that value to its second argument. Passing fixedClock and star, the functions themselves, lets report print *9 without knowing either by name.",
+      "hints": [
+        "Look at which parameter is called with no arguments on line 2.",
+        "Pass the functions themselves, not the results of calling them.",
+        "The first blank gives a value; the second blank changes that value."
+      ],
+      "reference": {
+        "title": "First-class function",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/First-class_Function",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}
