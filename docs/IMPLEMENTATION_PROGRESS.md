@@ -195,6 +195,10 @@ Tooling notes for the next session:
 | A22 | Gate B compares three mechanical things beyond the answer: the printed output, the source line that printed each output line, and the final value of every global binding, all against the Gate A trace. | PRD 8.3 asks for the solver's trace to be compared mechanically; a full step-by-step comparison would raise false findings from step-granularity differences, while these three are well-defined. |
 | A23 | The exact prompts given to the author, the solver and the two reviewers are stored in `content/verification/prompts/`. | Provenance: PRD 8.6 records the agents per gate; keeping the prompts makes each pass reproducible after a context reset. |
 | A14 | Gates B, C and D run as fresh sub-agents that receive only exported, redacted item files; their findings are written to files and compared mechanically by `tools/content`. | PRD 8.3/8.4 require blind derivation and independent review with fresh contexts on every pass. |
+| A24 | Each gate agent takes a batch of units (about 100 items for B and C, about 200 for D) instead of one unit; each unit keeps its own input and output file and every per-unit rule. | 15 agents per pass instead of 84 keeps usage within the owner's limits; blindness and independence are unchanged because every agent is fresh and sees only its exported inputs. |
+| A25 | Daily challenge: 5 items a day from finished lessons (a newcomer gets the first lessons), one attempt, 30 XP once a day; no timer. | PRD gives only "L8 daily challenge, 30 XP"; items the learner has met keep it a retention tool, and a timer is optional in PRD 6.x. |
+| A26 | Progress reset is guest-only; a registered account keeps its history and can be deleted instead. | A server-side reset would erase data other features (leagues, badges) rely on; deletion already covers "start over". |
+| A27 | The smart reminder is local (a week of dated notifications, none today once the goal is met) until server push credentials exist. | Satisfies "a reminder is not sent to someone who met the goal" for guests and accounts without APNs. |
 
 ## Dependencies added (reason, license)
 
@@ -238,6 +242,8 @@ Tooling notes for the next session:
 | H7 | GitHub OAuth app (client id and secret). Feature ships behind a flag. | GitHub sign-in |
 | H8 | Confirmation of `platyko.com` ownership and the `apple-app-site-association` deployment (PRD Q14). | Universal invite links |
 | H9 | Human spot-check of a 5% item sample per track and a learner pilot (PRD Q11). | Recommended before launch |
+| H11 | The Hebrew banned-word list for usernames and bios, and where such a list may live under the language rule (PRD Q13). The English list ships in `packages/user-credentials`. | Hebrew username filtering |
+| H12 | Sign in with Apple key (team id, key id, .p8) and a token encryption key in the backend environment, so account deletion revokes the Apple grant (see `.env.example`). Part of H6. | App Store guideline 5.1.1(v) |
 
 ## Acceptance criteria evidence (PRD section 20)
 
