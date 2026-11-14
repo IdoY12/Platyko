@@ -1,0 +1,4077 @@
+{
+ "unit": "event-loop",
+ "items": {
+  "adv.event-loop.call-stack.predict-01": {
+   "code": [
+    "function lampOn() {",
+    "  console.log('lamp');",
+    "}",
+    "function checkLens() {",
+    "  console.log('lens in');",
+    "  lampOn();",
+    "  console.log('lens out');",
+    "}",
+    "checkLens();",
+    "console.log('done');"
+   ],
+   "output": [
+    "lens in",
+    "lamp",
+    "lens out",
+    "done"
+   ],
+   "steps": [
+    {
+     "line": 9,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "checkLens"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "checkLens"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "checkLens",
+      "lampOn"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "checkLens"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 4,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.event-loop.call-stack.concept-01": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "setTimeout(() => say('ding'), 0);",
+    "let n = 0;",
+    "while (n < 3) {",
+    "  n = n + 1;",
+    "}",
+    "say('n is ' + n);"
+   ],
+   "output": [
+    "n is 3",
+    "ding"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'n is 3'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'ding'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "adv.event-loop.call-stack.fill-01": {
+   "code": [
+    "function pour() {",
+    "  console.log('pour');",
+    "}",
+    "function serve() {",
+    "  console.log('plate');",
+    "  pour();",
+    "  console.log('bell');",
+    "}",
+    "serve();",
+    "console.log('closed');"
+   ],
+   "output": [
+    "plate",
+    "pour",
+    "bell",
+    "closed"
+   ],
+   "steps": [
+    {
+     "line": 9,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "serve"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "serve"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "serve",
+      "pour"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "serve"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 4,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.event-loop.call-stack.fix-01": {
+   "code": [
+    "let seats = 10;",
+    "function book() {",
+    "  seats = seats - 4;",
+    "}",
+    "book();",
+    "console.log('seats ' + seats);"
+   ],
+   "output": [
+    "seats 6"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "book"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "6"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "seats",
+       "scope": "global",
+       "value": "6"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.event-loop.call-stack.write-01": {
+   "code": [
+    "function maxDepth(events) {",
+    "let depth = 0;",
+    "let peak = 0;",
+    "for (const event of events) {",
+    "  if (event === 'call') depth += 1;",
+    "  else depth -= 1;",
+    "  peak = Math.max(peak, depth);",
+    "}",
+    "return peak;",
+    "}",
+    "console.log(maxDepth([]));"
+   ],
+   "output": [
+    "0"
+   ],
+   "steps": [
+    {
+     "line": 11,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "events",
+       "scope": "maxDepth",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "maxDepth"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "events",
+       "scope": "maxDepth",
+       "value": "[]"
+      },
+      {
+       "name": "depth",
+       "scope": "maxDepth",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "maxDepth"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "events",
+       "scope": "maxDepth",
+       "value": "[]"
+      },
+      {
+       "name": "depth",
+       "scope": "maxDepth",
+       "value": "0"
+      },
+      {
+       "name": "peak",
+       "scope": "maxDepth",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "maxDepth"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "events",
+       "scope": "maxDepth",
+       "value": "[]"
+      },
+      {
+       "name": "depth",
+       "scope": "maxDepth",
+       "value": "0"
+      },
+      {
+       "name": "peak",
+       "scope": "maxDepth",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "maxDepth"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.event-loop.macrotask-queue.predict-01": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "say('doors open');",
+    "setTimeout(() => say('curtain'), 0);",
+    "say('seats filled');"
+   ],
+   "output": [
+    "doors open",
+    "seats filled",
+    "curtain"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'doors open'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 3)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'seats filled'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 3)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'curtain'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "adv.event-loop.macrotask-queue.concept-01": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "setTimeout(() => say('tea'), 300);",
+    "setTimeout(() => say('toast'), 100);",
+    "setTimeout(() => say('eggs'), 100);"
+   ],
+   "output": [
+    "toast",
+    "eggs",
+    "tea"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 3)",
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [
+      "callback (line 4)",
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'toast'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 4)",
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'eggs'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'tea'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "adv.event-loop.macrotask-queue.fill-01": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "setTimeout(() => say('wash'), 200);",
+    "setTimeout(() => say('dry'), 300);",
+    "setTimeout(() => say('fold'), 500);"
+   ],
+   "output": [
+    "wash",
+    "dry",
+    "fold"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)",
+      "callback (line 3)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [
+      "callback (line 3)",
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'wash'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 3)",
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'dry'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'fold'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "adv.event-loop.macrotask-queue.fix-01": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "setTimeout(() => say('sand'), 100);",
+    "setTimeout(() => say('glue'), 400);",
+    "setTimeout(() => say('coat'), 700);"
+   ],
+   "output": [
+    "sand",
+    "glue",
+    "coat"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)",
+      "callback (line 3)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [
+      "callback (line 3)",
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'sand'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 3)",
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'glue'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 4)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'coat'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "adv.event-loop.macrotask-queue.write-01": {
+   "code": [
+    "function firingOrder(timers) {",
+    "const sorted = [...timers].sort(",
+    "  (a, b) => a.delay - b.delay",
+    ");",
+    "return sorted.map((t) => t.name);",
+    "}",
+    "console.log(firingOrder([]));"
+   ],
+   "output": [
+    "[]"
+   ],
+   "steps": [
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "timers",
+       "scope": "firingOrder",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firingOrder"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "timers",
+       "scope": "firingOrder",
+       "value": "[]"
+      },
+      {
+       "name": "sorted",
+       "scope": "firingOrder",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "firingOrder"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.event-loop.microtask-queue.predict-01": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "say('paper in');",
+    "setTimeout(() => say('dried'), 0);",
+    "queueMicrotask(() => say('cut'));",
+    "say('paper out');"
+   ],
+   "output": [
+    "paper in",
+    "paper out",
+    "cut",
+    "dried"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'paper in'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 3)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 3)"
+     ],
+     "microtasks": [
+      "callback (line 4)"
+     ]
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'paper out'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 3)"
+     ],
+     "microtasks": [
+      "callback (line 4)"
+     ]
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [
+      "callback (line 3)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'cut'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 3)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'dried'"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 4,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "adv.event-loop.microtask-queue.concept-01": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "setTimeout(() => say('horn'), 0);",
+    "const ready = Promise.resolve();",
+    "ready.then(() => {",
+    "  say('scan');",
+    "  ready.then(() => say('stamp'));",
+    "});"
+   ],
+   "output": [
+    "scan",
+    "stamp",
+    "horn"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'scan'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'stamp'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'horn'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "adv.event-loop.microtask-queue.parsons-01": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "say('kettle on');",
+    "setTimeout(() => say('steeped'), 0);",
+    "Promise.resolve().then(() => {",
+    "  say('poured');",
+    "});",
+    "say('cups out');"
+   ],
+   "output": [
+    "kettle on",
+    "cups out",
+    "poured",
+    "steeped"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'kettle on'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 3)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 3)"
+     ],
+     "microtasks": [
+      "callback (line 4)"
+     ]
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'cups out'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 3)"
+     ],
+     "microtasks": [
+      "callback (line 4)"
+     ]
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [
+      "callback (line 3)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'poured'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 3)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'steeped'"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 4,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "adv.event-loop.microtask-queue.fix-01": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "const ready = Promise.resolve();",
+    "ready.then(() => say('job 1'));",
+    "queueMicrotask(() => say('clean'));",
+    "ready.then(() => say('job 2'));"
+   ],
+   "output": [
+    "job 1",
+    "clean",
+    "job 2"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "callback (line 3)"
+     ]
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "callback (line 3)",
+      "callback (line 4)"
+     ]
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "callback (line 4)",
+      "callback (line 5)"
+     ]
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'job 1'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "callback (line 4)",
+      "callback (line 5)"
+     ]
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "callback (line 5)"
+     ]
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'clean'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "callback (line 5)"
+     ]
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'job 2'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "ready",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: undefined}"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "adv.event-loop.microtask-queue.write-01": {
+   "code": [
+    "function loopOrder(tasks) {",
+    "const names = (kind) => tasks",
+    "  .filter((t) => t.kind === kind)",
+    "  .map((t) => t.name);",
+    "return [",
+    "  ...names('sync'),",
+    "  ...names('micro'),",
+    "  ...names('macro'),",
+    "];",
+    "}",
+    "console.log(loopOrder([]));"
+   ],
+   "output": [
+    "[]"
+   ],
+   "steps": [
+    {
+     "line": 11,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "tasks",
+       "scope": "loopOrder",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "loopOrder"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "tasks",
+       "scope": "loopOrder",
+       "value": "[]"
+      },
+      {
+       "name": "names",
+       "scope": "loopOrder",
+       "value": "[Function: names]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "loopOrder"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "tasks",
+       "scope": "loopOrder",
+       "value": "[]"
+      },
+      {
+       "name": "names",
+       "scope": "loopOrder",
+       "value": "[Function: names]"
+      },
+      {
+       "name": "kind",
+       "scope": "names",
+       "value": "'sync'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "loopOrder",
+      "names"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "tasks",
+       "scope": "loopOrder",
+       "value": "[]"
+      },
+      {
+       "name": "names",
+       "scope": "loopOrder",
+       "value": "[Function: names]"
+      },
+      {
+       "name": "kind",
+       "scope": "names",
+       "value": "'micro'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "loopOrder",
+      "names"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "tasks",
+       "scope": "loopOrder",
+       "value": "[]"
+      },
+      {
+       "name": "names",
+       "scope": "loopOrder",
+       "value": "[Function: names]"
+      },
+      {
+       "name": "kind",
+       "scope": "names",
+       "value": "'macro'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "loopOrder",
+      "names"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.event-loop.await-scheduling.predict-01": {
+   "code": [
+    "async function fireKiln() {",
+    "  console.log('heat');",
+    "  await null;",
+    "  console.log('cool');",
+    "}",
+    "fireKiln();",
+    "console.log('unload');"
+   ],
+   "output": [
+    "heat",
+    "unload",
+    "cool"
+   ],
+   "steps": [
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "fireKiln"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "fireKiln"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "resume fireKiln"
+     ]
+    },
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [
+      "fireKiln"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "adv.event-loop.await-scheduling.concept-01": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "async function hang() {",
+    "  await null;",
+    "  say('hung');",
+    "}",
+    "setTimeout(() => say('bell'), 0);",
+    "hang();"
+   ],
+   "output": [
+    "hung",
+    "bell"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 6)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "hang"
+     ],
+     "macrotasks": [
+      "callback (line 6)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "hang"
+     ],
+     "macrotasks": [
+      "callback (line 6)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'hung'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "hang",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 6)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'bell'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "adv.event-loop.await-scheduling.parsons-01": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "async function scanBook() {",
+    "  say('open');",
+    "  await Promise.resolve();",
+    "  say('scan');",
+    "}",
+    "scanBook();",
+    "say('close');"
+   ],
+   "output": [
+    "open",
+    "close",
+    "scan"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "scanBook"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'open'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "scanBook",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "scanBook"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "resume scanBook"
+     ]
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'close'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "resume scanBook"
+     ]
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "scanBook"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'scan'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "scanBook",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "adv.event-loop.await-scheduling.fix-01": {
+   "code": [
+    "async function stamp() {",
+    "  await null;",
+    "  console.log('stamped');",
+    "}",
+    "async function post() {",
+    "  await stamp();",
+    "  console.log('mailed');",
+    "}",
+    "post();"
+   ],
+   "output": [
+    "stamped",
+    "mailed"
+   ],
+   "steps": [
+    {
+     "line": 9,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "post"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "post",
+      "stamp"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "stamp"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "post"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.event-loop.await-scheduling.write-01": {
+   "code": [
+    "function beforeFirstAwait(steps) {",
+    "const cut = steps.indexOf('await');",
+    "if (cut === -1) return steps;",
+    "return steps.slice(0, cut);",
+    "}",
+    "console.log(beforeFirstAwait([\"a\",\"await\",\"b\"]));"
+   ],
+   "output": [
+    "['a']"
+   ],
+   "steps": [
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "steps",
+       "scope": "beforeFirstAwait",
+       "value": "['a', 'await', 'b']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "beforeFirstAwait"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "steps",
+       "scope": "beforeFirstAwait",
+       "value": "['a', 'await', 'b']"
+      },
+      {
+       "name": "cut",
+       "scope": "beforeFirstAwait",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "beforeFirstAwait"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "steps",
+       "scope": "beforeFirstAwait",
+       "value": "['a', 'await', 'b']"
+      },
+      {
+       "name": "cut",
+       "scope": "beforeFirstAwait",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "beforeFirstAwait"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ },
+ "conceptCards": {
+  "event-loop.lesson-1": {
+   "code": [
+    "function inner() {",
+    "  console.log('inner');",
+    "}",
+    "function outer() {",
+    "  inner();",
+    "  console.log('outer');",
+    "}",
+    "outer();"
+   ],
+   "output": [
+    "inner",
+    "outer"
+   ],
+   "steps": [
+    {
+     "line": 8,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outer"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outer",
+      "inner"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "outer"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "event-loop.lesson-2": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "setTimeout(() => say('later'), 0);",
+    "say('now');"
+   ],
+   "output": [
+    "now",
+    "later"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'now'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'later'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "event-loop.lesson-3": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "setTimeout(() => say('timer'), 0);",
+    "queueMicrotask(() => say('micro'));",
+    "say('plain');"
+   ],
+   "output": [
+    "plain",
+    "micro",
+    "timer"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": [
+      "callback (line 3)"
+     ]
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'plain'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": [
+      "callback (line 3)"
+     ]
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'micro'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [
+      "callback (line 2)"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'timer'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  },
+  "event-loop.lesson-4": {
+   "code": [
+    "const say = (t) => console.log(t);",
+    "async function bake() {",
+    "  say('mix');",
+    "  await null;",
+    "  say('done');",
+    "}",
+    "bake();",
+    "say('next');"
+   ],
+   "output": [
+    "mix",
+    "next",
+    "done"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bake"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'mix'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bake",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "bake"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "resume bake"
+     ]
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'next'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "resume bake"
+     ]
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "bake"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      },
+      {
+       "name": "t",
+       "scope": "say",
+       "value": "'done'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "bake",
+      "say"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "say",
+       "scope": "global",
+       "value": "[Function: say]"
+      }
+     ],
+     "outputCount": 3,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": true
+  }
+ }
+}

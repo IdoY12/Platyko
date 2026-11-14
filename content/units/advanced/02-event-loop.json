@@ -1,0 +1,1650 @@
+{
+  "track": "ADVANCED",
+  "unit": "event-loop",
+  "order": 2,
+  "title": "Event loop",
+  "summary": "Follow the call stack, the timer queue, microtasks and await to predict the exact order in which asynchronous code runs.",
+  "concepts": [
+    {
+      "id": "call-stack",
+      "title": "The call stack and run to completion",
+      "prerequisites": [
+        "function-declaration",
+        "callbacks-and-timers"
+      ]
+    },
+    {
+      "id": "macrotask-queue",
+      "title": "Timers and the task queue",
+      "prerequisites": [
+        "call-stack"
+      ]
+    },
+    {
+      "id": "microtask-queue",
+      "title": "Microtasks run before the next task",
+      "prerequisites": [
+        "macrotask-queue",
+        "promise-chaining"
+      ]
+    },
+    {
+      "id": "await-scheduling",
+      "title": "Where await splits a function",
+      "prerequisites": [
+        "microtask-queue",
+        "async-await"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "call-waits-for-caller",
+      "description": "Believes a function called inside another function waits until its caller has finished before it runs."
+    },
+    {
+      "id": "callback-interrupts-code",
+      "description": "Believes a due timer callback can interrupt code that is still running."
+    },
+    {
+      "id": "deferred-code-runs-now",
+      "description": "Believes a zero-delay timer callback, a queued microtask, or the code after an await runs at once, before the plain code that follows."
+    },
+    {
+      "id": "timer-callbacks-run-first",
+      "description": "Believes a timer callback jumps ahead of plain code or promise handlers when its delay is small or missing."
+    },
+    {
+      "id": "timer-order-by-code",
+      "description": "Believes timers fire in the order of their lines, whatever their delays."
+    },
+    {
+      "id": "timeout-blocks-program",
+      "description": "Believes setTimeout pauses the program for its delay before the next line runs."
+    },
+    {
+      "id": "delay-compared-wrongly",
+      "description": "Believes a delay counts from the previous timer, that a smaller number fires later, or that a delay number can place a timer between promise handlers."
+    },
+    {
+      "id": "micro-after-macro",
+      "description": "Believes promise handlers and microtasks run after a timer callback that was set earlier."
+    },
+    {
+      "id": "new-microtask-waits-for-next-task",
+      "description": "Believes a microtask queued by another microtask waits for the next task instead of running in the same drain."
+    },
+    {
+      "id": "await-blocks-program",
+      "description": "Believes await blocks the whole program until the awaited value is ready."
+    },
+    {
+      "id": "async-body-deferred",
+      "description": "Believes an async function body starts later, not at the call."
+    },
+    {
+      "id": "await-after-timer",
+      "description": "Believes the code after an await resumes as a timer task behind earlier timers."
+    },
+    {
+      "id": "async-call-blocks-caller",
+      "description": "Believes calling an async function makes the caller wait until the async function has finished."
+    },
+    {
+      "id": "name-without-call",
+      "description": "Believes writing a function name without parentheses calls it."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop",
+      "retrievedAt": "2026-11-14",
+      "sha256": "e0a3ab6b1575fa94f8c316192304b9aced42b02837b06ad9c4ae392277cbe4db"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Call_stack",
+      "retrievedAt": "2026-11-14",
+      "sha256": "ef9a1541f0f9e4a1545aa06bf2676d255d4c407ef6a6e1e252953f76f3350a1b"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
+      "retrievedAt": "2026-11-14",
+      "sha256": "a69265c8b8343ea02df4b2d6e8cdea42898100c6ffd478da0a69ac7eaa58caab"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide",
+      "retrievedAt": "2026-11-14",
+      "sha256": "8ba3f089ee2c97da0d4f496aa35a5b2433015142dd85562c4d8a8b3bc6aac036"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/queueMicrotask",
+      "retrievedAt": "2026-11-14",
+      "sha256": "3d4426c2405b3e4c00ac8dee8333f44f1b3b554d01ed726859a296ae7797c109"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+      "retrievedAt": "2026-11-14",
+      "sha256": "1e1d0c5980a7e42979a5a0d85b2a86715439dfc79f730e1403a5ece019bf3a7f"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
+      "retrievedAt": "2026-11-14",
+      "sha256": "8301d690cae99ff27609d11321c93bf71a3eb72de816d555209deb4e5504a971"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "event-loop.lesson-1",
+      "title": "The call stack and run to completion",
+      "conceptCard": {
+        "title": "A called function runs to completion",
+        "body": "The call stack holds the running functions, newest on top. A function that is called runs until it returns before its caller continues. Nothing else, not even a timer that is due, can start until the stack is empty.",
+        "code": [
+          "function inner() {",
+          "  console.log('inner');",
+          "}",
+          "function outer() {",
+          "  inner();",
+          "  console.log('outer');",
+          "}",
+          "outer();"
+        ],
+        "expectedOutput": "inner\nouter"
+      },
+      "itemIds": [
+        "adv.event-loop.call-stack.predict-01",
+        "adv.event-loop.call-stack.concept-01",
+        "adv.event-loop.call-stack.fill-01",
+        "adv.event-loop.call-stack.fix-01",
+        "adv.event-loop.call-stack.write-01"
+      ]
+    },
+    {
+      "id": "event-loop.lesson-2",
+      "title": "Timers and the task queue",
+      "conceptCard": {
+        "title": "Timers wait in the task queue",
+        "body": "setTimeout does not pause the program. It hands the callback to the queue and the code carries on. When the delay is over, the event loop runs the callback, but only once the call stack is empty. Smaller delays leave the queue first.",
+        "code": [
+          "const say = (t) => console.log(t);",
+          "setTimeout(() => say('later'), 0);",
+          "say('now');"
+        ],
+        "expectedOutput": "now\nlater"
+      },
+      "itemIds": [
+        "adv.event-loop.macrotask-queue.predict-01",
+        "adv.event-loop.macrotask-queue.concept-01",
+        "adv.event-loop.macrotask-queue.fill-01",
+        "adv.event-loop.macrotask-queue.fix-01",
+        "adv.event-loop.macrotask-queue.write-01"
+      ]
+    },
+    {
+      "id": "event-loop.lesson-3",
+      "title": "Microtasks run before the next task",
+      "conceptCard": {
+        "title": "Microtasks run before the next task",
+        "body": "Promise handlers and queueMicrotask callbacks go into the microtask queue. When the stack is empty, the loop empties that whole queue, including microtasks added meanwhile. Only then does it take the next timer task.",
+        "code": [
+          "const say = (t) => console.log(t);",
+          "setTimeout(() => say('timer'), 0);",
+          "queueMicrotask(() => say('micro'));",
+          "say('plain');"
+        ],
+        "expectedOutput": "plain\nmicro\ntimer"
+      },
+      "itemIds": [
+        "adv.event-loop.microtask-queue.predict-01",
+        "adv.event-loop.microtask-queue.concept-01",
+        "adv.event-loop.microtask-queue.parsons-01",
+        "adv.event-loop.microtask-queue.fix-01",
+        "adv.event-loop.microtask-queue.write-01"
+      ]
+    },
+    {
+      "id": "event-loop.lesson-4",
+      "title": "Where await splits a function",
+      "conceptCard": {
+        "title": "await splits a function in two",
+        "body": "await pauses only its own function. The code before the first await runs at once. The code after it resumes later as a microtask, and the caller carries on in the meantime.",
+        "code": [
+          "const say = (t) => console.log(t);",
+          "async function bake() {",
+          "  say('mix');",
+          "  await null;",
+          "  say('done');",
+          "}",
+          "bake();",
+          "say('next');"
+        ],
+        "expectedOutput": "mix\nnext\ndone"
+      },
+      "itemIds": [
+        "adv.event-loop.await-scheduling.predict-01",
+        "adv.event-loop.await-scheduling.concept-01",
+        "adv.event-loop.await-scheduling.parsons-01",
+        "adv.event-loop.await-scheduling.fix-01",
+        "adv.event-loop.await-scheduling.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "adv.event-loop.call-stack.predict-01",
+      "concept": "call-stack",
+      "prerequisites": [
+        "function-declaration",
+        "callbacks-and-timers"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A lighthouse routine calls a helper in the middle. What does this code print?",
+      "code": [
+        "function lampOn() {",
+        "  console.log('lamp');",
+        "}",
+        "function checkLens() {",
+        "  console.log('lens in');",
+        "  lampOn();",
+        "  console.log('lens out');",
+        "}",
+        "checkLens();",
+        "console.log('done');"
+      ],
+      "options": [
+        {
+          "text": "lens in\nlamp\nlens out\ndone",
+          "correct": true,
+          "feedback": "Right. lampOn runs to completion inside checkLens, then checkLens continues."
+        },
+        {
+          "text": "lens in\nlens out\nlamp\ndone",
+          "correct": false,
+          "feedback": "A called function does not wait for its caller to finish. It runs at once, at the line of the call.",
+          "misconception": "call-waits-for-caller"
+        },
+        {
+          "text": "lens in\nlens out\ndone\nlamp",
+          "correct": false,
+          "feedback": "Nothing here is delayed. Every call runs immediately and finishes before the next line of its caller.",
+          "misconception": "call-waits-for-caller"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "lens in\nlamp\nlens out\ndone"
+      },
+      "explanation": "A call puts the function on top of the call stack and it runs to completion before the caller moves on. So lamp prints in the middle of checkLens, between lens in and lens out.",
+      "hints": [
+        "Find the line inside checkLens that calls another function.",
+        "The caller pauses while the called function runs, and resumes only when it returns.",
+        "lampOn finishes completely before the line after its call runs."
+      ],
+      "reference": {
+        "title": "Call stack",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Call_stack",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.call-stack.concept-01",
+      "concept": "call-stack",
+      "prerequisites": [
+        "function-declaration",
+        "callbacks-and-timers"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "A timer is set, then a loop runs for a while. Which statement about the timer callback is true?",
+      "code": [
+        "const say = (t) => console.log(t);",
+        "setTimeout(() => say('ding'), 0);",
+        "let n = 0;",
+        "while (n < 3) {",
+        "  n = n + 1;",
+        "}",
+        "say('n is ' + n);"
+      ],
+      "options": [
+        {
+          "text": "The callback waits until the running code has finished, so n is 3 prints first.",
+          "correct": true,
+          "feedback": "Right. Running code is never interrupted. The callback starts only when the stack is empty."
+        },
+        {
+          "text": "The callback interrupts the loop once the timer is due, so ding can print before n is 3.",
+          "correct": false,
+          "feedback": "JavaScript never stops running code to start a callback. The loop and the lines after it finish first.",
+          "misconception": "callback-interrupts-code"
+        },
+        {
+          "text": "A delay of 0 puts the callback ahead of the loop, so ding prints first.",
+          "correct": false,
+          "feedback": "A zero delay does not run the callback at once. It only asks for it to run as soon as the stack is free.",
+          "misconception": "deferred-code-runs-now"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "n is 3\nding"
+      },
+      "explanation": "The program runs to completion before any queued callback starts. The loop and the last say call finish first, so n is 3 prints. Only then does the timer callback run.",
+      "hints": [
+        "Look at what is still running when the timer becomes due.",
+        "A running piece of code is never interrupted by a callback.",
+        "The callback needs an empty call stack before it can start."
+      ],
+      "reference": {
+        "title": "Event loop",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.call-stack.fill-01",
+      "concept": "call-stack",
+      "prerequisites": [
+        "function-declaration",
+        "callbacks-and-timers"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blank so the program prints plate, pour, bell, closed in that order.",
+      "code": [
+        "function pour() {",
+        "  console.log('pour');",
+        "}",
+        "function serve() {",
+        "  console.log('plate');",
+        "  ___;",
+        "  console.log('bell');",
+        "}",
+        "serve();",
+        "console.log('closed');"
+      ],
+      "options": [
+        {
+          "text": "pour()",
+          "correct": true,
+          "feedback": "Right. The call runs pour to completion, then serve continues."
+        },
+        {
+          "text": "pour",
+          "correct": false,
+          "feedback": "The bare name is only the function itself. Without parentheses nothing is called, so pour never prints.",
+          "misconception": "name-without-call"
+        },
+        {
+          "text": "setTimeout(pour, 0)",
+          "correct": false,
+          "feedback": "A timer callback waits until serve and everything after it have finished, so pour prints last.",
+          "misconception": "deferred-code-runs-now"
+        },
+        {
+          "text": "return pour()",
+          "correct": false,
+          "feedback": "This prints pour, but return then leaves serve, so bell never prints."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "pour()"
+          ]
+        ],
+        "expectedOutput": "plate\npour\nbell\nclosed"
+      },
+      "explanation": "A direct call puts pour on the stack and it finishes before serve continues. A bare name calls nothing. A timer defers pour until the stack is empty. return ends serve early.",
+      "hints": [
+        "Compare what each chip does at line 6 inside serve.",
+        "A function runs when it is called with parentheses, and then the caller continues.",
+        "One chip calls pour right there and lets serve carry on."
+      ],
+      "reference": {
+        "title": "Call stack",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Call_stack",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.call-stack.fix-01",
+      "concept": "call-stack",
+      "prerequisites": [
+        "function-declaration",
+        "callbacks-and-timers"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The ferry program should print seats 6, but it prints seats 10. Tap the buggy line and pick the fix.",
+      "code": [
+        "let seats = 10;",
+        "function book() {",
+        "  seats = seats - 4;",
+        "}",
+        "setTimeout(book, 0);",
+        "console.log('seats ' + seats);"
+      ],
+      "options": [
+        {
+          "text": "book();",
+          "correct": true,
+          "feedback": "Right. A direct call finishes book before the next line reads seats."
+        },
+        {
+          "text": "setTimeout(book, 10);",
+          "correct": false,
+          "feedback": "A timer of any delay still runs after the code below it, so seats is read before book changes it.",
+          "misconception": "deferred-code-runs-now"
+        },
+        {
+          "text": "book;",
+          "correct": false,
+          "feedback": "This only names the function and never calls it, so seats stays at 10.",
+          "misconception": "name-without-call"
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "seats 6"
+      },
+      "explanation": "A timer callback runs only after the current code has finished, so the last line reads seats while it is still 10. Calling book directly runs it to completion first.",
+      "hints": [
+        "Compare when line 5 runs book with when line 6 reads seats.",
+        "Timer callbacks wait for the running code to finish.",
+        "Run book right there, before the line that reads seats."
+      ],
+      "reference": {
+        "title": "Call stack",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Call_stack",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.call-stack.write-01",
+      "concept": "call-stack",
+      "prerequisites": [
+        "function-declaration",
+        "callbacks-and-timers"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of maxDepth(events). Each 'call' puts a frame on the call stack and each 'return' removes one. Return the peak the stack ever got.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "maxDepth",
+          "params": [
+            "events"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              []
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              [
+                "call",
+                "return"
+              ]
+            ],
+            "expected": 1
+          },
+          {
+            "input": [
+              [
+                "call",
+                "call",
+                "return",
+                "return"
+              ]
+            ],
+            "expected": 2
+          },
+          {
+            "input": [
+              [
+                "call",
+                "return",
+                "call",
+                "return"
+              ]
+            ],
+            "expected": 1
+          },
+          {
+            "input": [
+              [
+                "call",
+                "call",
+                "return",
+                "call",
+                "call",
+                "return",
+                "return",
+                "return"
+              ]
+            ],
+            "expected": 3
+          },
+          {
+            "input": [
+              [
+                "call",
+                "call"
+              ]
+            ],
+            "expected": 2
+          }
+        ],
+        "reference": [
+          "let depth = 0;",
+          "let peak = 0;",
+          "for (const event of events) {",
+          "  if (event === 'call') depth += 1;",
+          "  else depth -= 1;",
+          "  peak = Math.max(peak, depth);",
+          "}",
+          "return peak;"
+        ],
+        "wrongSolutions": [
+          [
+            "let depth = 0;",
+            "for (const event of events) {",
+            "  if (event === 'call') depth += 1;",
+            "  else depth -= 1;",
+            "}",
+            "return depth;"
+          ],
+          [
+            "return events.filter((event) => {",
+            "  return event === 'call';",
+            "}).length;"
+          ],
+          [
+            "let depth = 0;",
+            "let peak = 0;",
+            "for (const event of events) {",
+            "  peak = Math.max(peak, depth);",
+            "  if (event === 'call') depth += 1;",
+            "  else depth -= 1;",
+            "}",
+            "return peak;"
+          ]
+        ]
+      },
+      "explanation": "The depth rises on each call and falls on each return. Track the largest value seen after every change, not the final depth or the number of calls.",
+      "hints": [
+        "Keep a running depth and update it for every event.",
+        "The answer is the highest value the running depth reaches.",
+        "Update the highest value right after the depth changes, inside the loop."
+      ],
+      "reference": {
+        "title": "Math.max()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.macrotask-queue.predict-01",
+      "concept": "macrotask-queue",
+      "prerequisites": [
+        "call-stack"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A theatre program sets a timer with delay 0 between two plain lines. What does this code print?",
+      "code": [
+        "const say = (t) => console.log(t);",
+        "say('doors open');",
+        "setTimeout(() => say('curtain'), 0);",
+        "say('seats filled');"
+      ],
+      "options": [
+        {
+          "text": "doors open\nseats filled\ncurtain",
+          "correct": true,
+          "feedback": "Right. The callback waits in the queue until the plain code has finished."
+        },
+        {
+          "text": "doors open\ncurtain\nseats filled",
+          "correct": false,
+          "feedback": "A delay of 0 does not run the callback at the call. It goes to the queue and waits for the stack to empty.",
+          "misconception": "deferred-code-runs-now"
+        },
+        {
+          "text": "curtain\ndoors open\nseats filled",
+          "correct": false,
+          "feedback": "Timers do not jump ahead of plain code. The callback runs only after every plain line has finished.",
+          "misconception": "timer-callbacks-run-first"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "doors open\nseats filled\ncurtain"
+      },
+      "explanation": "setTimeout only schedules the callback. It enters the task queue, and the event loop runs it when the call stack is empty. Both plain say calls run first, then curtain prints.",
+      "hints": [
+        "Which lines run while the program is still on the stack?",
+        "Even with a delay of 0, a timer callback is queued, not called.",
+        "The callback is the last thing to run."
+      ],
+      "reference": {
+        "title": "setTimeout()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:25"
+      ]
+    },
+    {
+      "id": "adv.event-loop.macrotask-queue.concept-01",
+      "concept": "macrotask-queue",
+      "prerequisites": [
+        "call-stack"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Three breakfast timers are set in one go. Which statement explains the order this program prints?",
+      "code": [
+        "const say = (t) => console.log(t);",
+        "setTimeout(() => say('tea'), 300);",
+        "setTimeout(() => say('toast'), 100);",
+        "setTimeout(() => say('eggs'), 100);"
+      ],
+      "options": [
+        {
+          "text": "Timers fire lowest delay first, and equal delays fire in the order they were set.",
+          "correct": true,
+          "feedback": "Right. The queue is ordered by delay, then by the order of the calls."
+        },
+        {
+          "text": "Timers fire in the order of their lines, so tea prints first.",
+          "correct": false,
+          "feedback": "Line order matters only between equal delays. A shorter delay leaves the queue earlier.",
+          "misconception": "timer-order-by-code"
+        },
+        {
+          "text": "Each setTimeout call pauses the program for its delay before the next line runs.",
+          "correct": false,
+          "feedback": "setTimeout never pauses. All three timers are set at once and then count down together.",
+          "misconception": "timeout-blocks-program"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "toast\neggs\ntea"
+      },
+      "explanation": "All three timers start counting together. The queue orders them by delay, so the two 100 ms timers come before 300 ms. Between those two, the one set first, toast, runs first.",
+      "hints": [
+        "Compare the delays on the three lines.",
+        "Timers do not wait for each other. The queue sorts them by delay, then by when they were set.",
+        "Two timers share a delay. Which of them was set first?"
+      ],
+      "reference": {
+        "title": "Event loop",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.macrotask-queue.fill-01",
+      "concept": "macrotask-queue",
+      "prerequisites": [
+        "call-stack"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blank so the laundromat program prints wash, dry, fold in that order.",
+      "code": [
+        "const say = (t) => console.log(t);",
+        "setTimeout(() => say('wash'), 200);",
+        "setTimeout(() => say('dry'), ___);",
+        "setTimeout(() => say('fold'), 500);"
+      ],
+      "options": [
+        {
+          "text": "300",
+          "correct": true,
+          "feedback": "Right. 300 sits between 200 and 500, so dry prints in the middle."
+        },
+        {
+          "text": "400",
+          "correct": true,
+          "feedback": "Right. 400 sits between 200 and 500, so dry prints in the middle."
+        },
+        {
+          "text": "100",
+          "correct": false,
+          "feedback": "All delays count from the same moment. 100 expires before wash at 200, so dry prints first.",
+          "misconception": "delay-compared-wrongly"
+        },
+        {
+          "text": "700",
+          "correct": false,
+          "feedback": "700 expires after fold at 500. The line position does not matter, only the delay.",
+          "misconception": "timer-order-by-code"
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "300",
+            "400"
+          ]
+        ],
+        "expectedOutput": "wash\ndry\nfold"
+      },
+      "explanation": "Timers are ordered by delay, not by line. For dry to come between wash and fold, its delay must lie between 200 and 500. A smaller or larger delay puts it first or last.",
+      "hints": [
+        "Compare the delay in the blank with the two delays around it.",
+        "Timers count from the same start, and the smallest delay fires first.",
+        "Two chips lie between wash and fold."
+      ],
+      "reference": {
+        "title": "setTimeout()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.macrotask-queue.fix-01",
+      "concept": "macrotask-queue",
+      "prerequisites": [
+        "call-stack"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The woodshop timers should print sand, glue, coat, but coat prints too early. Tap the buggy line and pick the fix.",
+      "code": [
+        "const say = (t) => console.log(t);",
+        "setTimeout(() => say('sand'), 100);",
+        "setTimeout(() => say('glue'), 400);",
+        "setTimeout(() => say('coat'), 200);"
+      ],
+      "options": [
+        {
+          "text": "setTimeout(() => say('coat'), 700);",
+          "correct": true,
+          "feedback": "Right. All delays count from the same start, so coat needs the largest delay."
+        },
+        {
+          "text": "setTimeout(() => say('coat'), 300);",
+          "correct": false,
+          "feedback": "The delays do not add up one after another. 300 is still smaller than the glue delay of 400.",
+          "misconception": "delay-compared-wrongly"
+        },
+        {
+          "text": "setTimeout(() => say('coat'), 0);",
+          "correct": false,
+          "feedback": "A smaller number fires sooner, not later. Zero would put coat before everything else.",
+          "misconception": "delay-compared-wrongly"
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "sand\nglue\ncoat"
+      },
+      "explanation": "Every timer starts counting at the same moment, so the queue is ordered by delay. Coat has 200, which is less than glue at 400. Giving it a delay above 400 moves it to the end.",
+      "hints": [
+        "Compare the delay on line 4 with the delay on line 3.",
+        "Delays all start at the same moment. They do not wait for the timer above.",
+        "Coat must have a delay larger than every other delay."
+      ],
+      "reference": {
+        "title": "setTimeout()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.macrotask-queue.write-01",
+      "concept": "macrotask-queue",
+      "prerequisites": [
+        "call-stack"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of firingOrder(timers). Each timer is {name, delay}. Return the names in firing order: lowest delay first, equal delays in the order given.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "firingOrder",
+          "params": [
+            "timers"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                {
+                  "name": "tea",
+                  "delay": 300
+                },
+                {
+                  "name": "toast",
+                  "delay": 100
+                }
+              ]
+            ],
+            "expected": [
+              "toast",
+              "tea"
+            ]
+          },
+          {
+            "input": [
+              [
+                {
+                  "name": "a",
+                  "delay": 100
+                },
+                {
+                  "name": "b",
+                  "delay": 100
+                }
+              ]
+            ],
+            "expected": [
+              "a",
+              "b"
+            ]
+          },
+          {
+            "input": [
+              [
+                {
+                  "name": "x",
+                  "delay": 0
+                },
+                {
+                  "name": "y",
+                  "delay": 0
+                },
+                {
+                  "name": "z",
+                  "delay": 500
+                },
+                {
+                  "name": "w",
+                  "delay": 200
+                }
+              ]
+            ],
+            "expected": [
+              "x",
+              "y",
+              "w",
+              "z"
+            ]
+          }
+        ],
+        "reference": [
+          "const sorted = [...timers].sort(",
+          "  (a, b) => a.delay - b.delay",
+          ");",
+          "return sorted.map((t) => t.name);"
+        ],
+        "wrongSolutions": [
+          [
+            "return timers.map((t) => t.name);"
+          ],
+          [
+            "const sorted = [...timers].sort(",
+            "  (a, b) => b.delay - a.delay",
+            ");",
+            "return sorted.map((t) => t.name);"
+          ],
+          [
+            "const sorted = [...timers].sort(",
+            "  (a, b) => a.delay - b.delay",
+            ");",
+            "return sorted.map((t) => t.delay);"
+          ]
+        ]
+      },
+      "explanation": "The queue orders timers by delay, and the sort is stable, so equal delays keep the order given. Copy the list, sort by delay ascending, then map to the names.",
+      "hints": [
+        "Think about which value decides who goes first.",
+        "Sort a copy by delay from smallest to largest, then keep only the names.",
+        "The comparison subtracts one delay from the other. Which way round gives smallest first?"
+      ],
+      "reference": {
+        "title": "Array.prototype.sort()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.microtask-queue.predict-01",
+      "concept": "microtask-queue",
+      "prerequisites": [
+        "macrotask-queue",
+        "promise-chaining"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A printing press queues a timer and a microtask between plain lines. What does this code print?",
+      "code": [
+        "const say = (t) => console.log(t);",
+        "say('paper in');",
+        "setTimeout(() => say('dried'), 0);",
+        "queueMicrotask(() => say('cut'));",
+        "say('paper out');"
+      ],
+      "options": [
+        {
+          "text": "paper in\npaper out\ncut\ndried",
+          "correct": true,
+          "feedback": "Right. The microtask runs as soon as the plain code ends, before the timer."
+        },
+        {
+          "text": "paper in\npaper out\ndried\ncut",
+          "correct": false,
+          "feedback": "The loop empties the microtask queue before it takes the next timer, even when the timer was set first.",
+          "misconception": "micro-after-macro"
+        },
+        {
+          "text": "paper in\ncut\npaper out\ndried",
+          "correct": false,
+          "feedback": "queueMicrotask does not call the function at once. The callback waits until the plain code has finished.",
+          "misconception": "deferred-code-runs-now"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "paper in\npaper out\ncut\ndried"
+      },
+      "explanation": "The plain lines run first. Then the loop empties the microtask queue, so cut prints. Only after that does it take the next task, the timer, which prints dried.",
+      "hints": [
+        "Which lines run before the stack is empty?",
+        "Microtasks run right after the current code, before any timer task.",
+        "The microtask comes before the timer, although the timer line is above it."
+      ],
+      "reference": {
+        "title": "queueMicrotask()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/queueMicrotask",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:11"
+      ]
+    },
+    {
+      "id": "adv.event-loop.microtask-queue.concept-01",
+      "concept": "microtask-queue",
+      "prerequisites": [
+        "macrotask-queue",
+        "promise-chaining"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "A promise handler queues another handler while a timer is waiting. Which statement about the order is true?",
+      "code": [
+        "const say = (t) => console.log(t);",
+        "setTimeout(() => say('horn'), 0);",
+        "const ready = Promise.resolve();",
+        "ready.then(() => {",
+        "  say('scan');",
+        "  ready.then(() => say('stamp'));",
+        "});"
+      ],
+      "options": [
+        {
+          "text": "The microtask queue is emptied, including handlers added meanwhile, before the timer runs.",
+          "correct": true,
+          "feedback": "Right. The loop does not take a timer until the microtask queue is empty."
+        },
+        {
+          "text": "The new handler waits for the next task, so horn prints between scan and stamp.",
+          "correct": false,
+          "feedback": "A handler queued by a handler joins the same microtask queue. It runs before any timer task.",
+          "misconception": "new-microtask-waits-for-next-task"
+        },
+        {
+          "text": "Timers always run first, because their line comes first in the program.",
+          "correct": false,
+          "feedback": "Line order does not decide this. Promise handlers are microtasks and run before timer tasks.",
+          "misconception": "micro-after-macro"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "scan\nstamp\nhorn"
+      },
+      "explanation": "After the plain code ends, the loop runs microtasks until the queue is empty. scan runs, and it queues stamp, which joins the same queue and runs next. The timer task waits until then.",
+      "hints": [
+        "Follow which handler queues which.",
+        "The event loop empties the whole microtask queue before it takes a timer task.",
+        "A handler queued during the drain still counts as part of the drain."
+      ],
+      "reference": {
+        "title": "Using microtasks",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.microtask-queue.parsons-01",
+      "concept": "microtask-queue",
+      "prerequisites": [
+        "macrotask-queue",
+        "promise-chaining"
+      ],
+      "format": "PARSONS",
+      "variant": "ORDER_OUTPUT",
+      "difficulty": 4,
+      "prompt": "Order the four lines that the tea house program prints, from first to last.",
+      "code": [
+        "const say = (t) => console.log(t);",
+        "say('kettle on');",
+        "setTimeout(() => say('steeped'), 0);",
+        "Promise.resolve().then(() => {",
+        "  say('poured');",
+        "});",
+        "say('cups out');"
+      ],
+      "solution": {
+        "expectedOutput": "kettle on\ncups out\npoured\nsteeped"
+      },
+      "explanation": "Plain code runs first: kettle on and cups out. The promise handler is a microtask, so poured runs next. The timer callback is a later task, so steeped is last.",
+      "hints": [
+        "Sort the lines into plain code, a promise handler and a timer.",
+        "The loop runs plain code, then all microtasks, then the next timer task.",
+        "The promise handler runs before the timer, and both run after cups out."
+      ],
+      "reference": {
+        "title": "Event loop",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:10"
+      ]
+    },
+    {
+      "id": "adv.event-loop.microtask-queue.fix-01",
+      "concept": "microtask-queue",
+      "prerequisites": [
+        "macrotask-queue",
+        "promise-chaining"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The print shop should log job 1, clean, job 2, but clean prints last. Tap the buggy line and pick the fix.",
+      "code": [
+        "const say = (t) => console.log(t);",
+        "const ready = Promise.resolve();",
+        "ready.then(() => say('job 1'));",
+        "setTimeout(() => say('clean'), 0);",
+        "ready.then(() => say('job 2'));"
+      ],
+      "options": [
+        {
+          "text": "queueMicrotask(() => say('clean'));",
+          "correct": true,
+          "feedback": "Right. The microtask queue is first in, first out, so clean runs between the two jobs."
+        },
+        {
+          "text": "setTimeout(() => say('clean'));",
+          "correct": false,
+          "feedback": "A timer without a delay is still a timer task. It waits for the whole microtask queue to empty.",
+          "misconception": "timer-callbacks-run-first"
+        },
+        {
+          "text": "setTimeout(() => say('clean'), 5);",
+          "correct": false,
+          "feedback": "Changing the delay does not move a timer between promise handlers. Every microtask runs before it.",
+          "misconception": "delay-compared-wrongly"
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "job 1\nclean\njob 2"
+      },
+      "explanation": "A timer callback is a task, and all microtasks run before the next task. So clean comes after both jobs. A microtask joins the queue in call order, which puts clean between job 1 and job 2.",
+      "hints": [
+        "Compare the kind of task on line 4 with the kind on lines 3 and 5.",
+        "Promise handlers and timer callbacks are queued in different queues.",
+        "Use something that adds to the same queue as the promise handlers."
+      ],
+      "reference": {
+        "title": "queueMicrotask()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/queueMicrotask",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.microtask-queue.write-01",
+      "concept": "microtask-queue",
+      "prerequisites": [
+        "macrotask-queue",
+        "promise-chaining"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write loopOrder(tasks) as a function body. Each task is {name, kind}: 'sync', 'micro' or 'macro'. Return names in run order, each group in the order given.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "loopOrder",
+          "params": [
+            "tasks"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                {
+                  "name": "timer",
+                  "kind": "macro"
+                },
+                {
+                  "name": "log",
+                  "kind": "sync"
+                },
+                {
+                  "name": "then",
+                  "kind": "micro"
+                }
+              ]
+            ],
+            "expected": [
+              "log",
+              "then",
+              "timer"
+            ]
+          },
+          {
+            "input": [
+              [
+                {
+                  "name": "a",
+                  "kind": "micro"
+                },
+                {
+                  "name": "b",
+                  "kind": "micro"
+                },
+                {
+                  "name": "c",
+                  "kind": "sync"
+                }
+              ]
+            ],
+            "expected": [
+              "c",
+              "a",
+              "b"
+            ]
+          },
+          {
+            "input": [
+              [
+                {
+                  "name": "t1",
+                  "kind": "macro"
+                },
+                {
+                  "name": "t2",
+                  "kind": "macro"
+                },
+                {
+                  "name": "p",
+                  "kind": "micro"
+                },
+                {
+                  "name": "s",
+                  "kind": "sync"
+                }
+              ]
+            ],
+            "expected": [
+              "s",
+              "p",
+              "t1",
+              "t2"
+            ]
+          }
+        ],
+        "reference": [
+          "const names = (kind) => tasks",
+          "  .filter((t) => t.kind === kind)",
+          "  .map((t) => t.name);",
+          "return [",
+          "  ...names('sync'),",
+          "  ...names('micro'),",
+          "  ...names('macro'),",
+          "];"
+        ],
+        "wrongSolutions": [
+          [
+            "return tasks.map((t) => t.name);"
+          ],
+          [
+            "const names = (kind) => tasks",
+            "  .filter((t) => t.kind === kind)",
+            "  .map((t) => t.name);",
+            "return [",
+            "  ...names('micro'),",
+            "  ...names('sync'),",
+            "  ...names('macro'),",
+            "];"
+          ],
+          [
+            "const names = (kind) => tasks",
+            "  .filter((t) => t.kind === kind)",
+            "  .map((t) => t.name);",
+            "return [",
+            "  ...names('sync'),",
+            "  ...names('macro'),",
+            "  ...names('micro'),",
+            "];"
+          ]
+        ]
+      },
+      "explanation": "Plain code runs first, then the whole microtask queue, then timer tasks. Filter the tasks by kind in that order and keep each group in the order given.",
+      "hints": [
+        "Group the tasks by kind before joining them.",
+        "Run order is sync, then micro, then macro.",
+        "Filter once per kind, map to names, and join the three lists in run order."
+      ],
+      "reference": {
+        "title": "Array.prototype.filter()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.await-scheduling.predict-01",
+      "concept": "await-scheduling",
+      "prerequisites": [
+        "microtask-queue",
+        "async-await"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A kiln routine pauses at await, and a plain line follows its call. What does this code print?",
+      "code": [
+        "async function fireKiln() {",
+        "  console.log('heat');",
+        "  await null;",
+        "  console.log('cool');",
+        "}",
+        "fireKiln();",
+        "console.log('unload');"
+      ],
+      "options": [
+        {
+          "text": "heat\nunload\ncool",
+          "correct": true,
+          "feedback": "Right. await splits the function: the part before it runs now, the rest later."
+        },
+        {
+          "text": "heat\ncool\nunload",
+          "correct": false,
+          "feedback": "await always pauses its function, even when the awaited value is ready. The caller continues first.",
+          "misconception": "deferred-code-runs-now"
+        },
+        {
+          "text": "unload\nheat\ncool",
+          "correct": false,
+          "feedback": "The body of an async function starts running at once, up to its first await.",
+          "misconception": "async-body-deferred"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "heat\nunload\ncool"
+      },
+      "explanation": "An async function runs synchronously up to its first await, so heat prints. The rest becomes a microtask, and the caller continues with unload. After the plain code ends, cool prints.",
+      "hints": [
+        "Find the line where the function pauses.",
+        "Code before the first await runs at once. Code after it resumes later.",
+        "The caller moves on to its next line while the function waits."
+      ],
+      "reference": {
+        "title": "await",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.await-scheduling.concept-01",
+      "concept": "await-scheduling",
+      "prerequisites": [
+        "microtask-queue",
+        "async-await"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "A function awaits while a timer is waiting. Which statement about the code after await is true?",
+      "code": [
+        "const say = (t) => console.log(t);",
+        "async function hang() {",
+        "  await null;",
+        "  say('hung');",
+        "}",
+        "setTimeout(() => say('bell'), 0);",
+        "hang();"
+      ],
+      "options": [
+        {
+          "text": "It resumes as a microtask, so hung prints before the timer callback.",
+          "correct": true,
+          "feedback": "Right. The code after await resumes as soon as the plain code ends, before any timer."
+        },
+        {
+          "text": "await blocks the whole program until it resumes, so nothing else can run in between.",
+          "correct": false,
+          "feedback": "await pauses only its own function. The rest of the program keeps running.",
+          "misconception": "await-blocks-program"
+        },
+        {
+          "text": "It resumes as a timer task, so bell prints first because its timer was set first.",
+          "correct": false,
+          "feedback": "Code after await resumes as a microtask, not as a timer task. Microtasks run before the next timer.",
+          "misconception": "await-after-timer"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "hung\nbell"
+      },
+      "explanation": "The rest of an async function after await is queued as a microtask. After the plain code ends, microtasks run before the next timer task, so hung prints first and then bell.",
+      "hints": [
+        "Think about which queue the continuation after await joins.",
+        "await pauses one function and queues its continuation as a microtask.",
+        "Microtasks run before timer tasks."
+      ],
+      "reference": {
+        "title": "async function",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.await-scheduling.parsons-01",
+      "concept": "await-scheduling",
+      "prerequisites": [
+        "microtask-queue",
+        "async-await"
+      ],
+      "format": "PARSONS",
+      "variant": "ORDER_OUTPUT",
+      "difficulty": 3,
+      "prompt": "Order the three lines that the library desk program prints, from first to last.",
+      "code": [
+        "const say = (t) => console.log(t);",
+        "async function scanBook() {",
+        "  say('open');",
+        "  await Promise.resolve();",
+        "  say('scan');",
+        "}",
+        "scanBook();",
+        "say('close');"
+      ],
+      "solution": {
+        "expectedOutput": "open\nclose\nscan"
+      },
+      "explanation": "scanBook runs up to its await, so open prints. The rest of the function becomes a microtask. The plain line prints close, and after the stack empties, scan prints.",
+      "hints": [
+        "Find which lines run before the function pauses.",
+        "The code after await resumes only after the plain code has finished.",
+        "close comes before scan, and open is the first thing printed."
+      ],
+      "reference": {
+        "title": "await",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.await-scheduling.fix-01",
+      "concept": "await-scheduling",
+      "prerequisites": [
+        "microtask-queue",
+        "async-await"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The program should print stamped, then mailed, but it prints them the other way round. Tap the buggy line and pick the fix.",
+      "code": [
+        "async function stamp() {",
+        "  await null;",
+        "  console.log('stamped');",
+        "}",
+        "async function post() {",
+        "  stamp();",
+        "  console.log('mailed');",
+        "}",
+        "post();"
+      ],
+      "options": [
+        {
+          "text": "await stamp();",
+          "correct": true,
+          "feedback": "Right. await pauses post until stamp has finished, so mailed prints afterwards."
+        },
+        {
+          "text": "stamp().then();",
+          "correct": false,
+          "feedback": "A then without a handler waits for nothing, and the next line does not wait for it either.",
+          "misconception": "async-call-blocks-caller"
+        },
+        {
+          "text": "await stamp;",
+          "correct": false,
+          "feedback": "Without parentheses stamp is never called, so stamped never prints at all.",
+          "misconception": "name-without-call"
+        }
+      ],
+      "solution": {
+        "bugLine": 6,
+        "expectedOutput": "stamped\nmailed"
+      },
+      "explanation": "Calling an async function returns at its first await, and the caller carries on at once. To make post wait for stamp to finish, line 6 must await the promise that the call returns.",
+      "hints": [
+        "Compare when stamp finishes with when line 7 runs.",
+        "Calling an async function does not make the caller wait for it.",
+        "Make post wait for the call to finish before its next line."
+      ],
+      "reference": {
+        "title": "await",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.event-loop.await-scheduling.write-01",
+      "concept": "await-scheduling",
+      "prerequisites": [
+        "microtask-queue",
+        "async-await"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of beforeFirstAwait(steps). steps lists an async function's lines; 'await' marks the pause. Return the steps before the first pause, or all steps if none.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "beforeFirstAwait",
+          "params": [
+            "steps"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                "a",
+                "await",
+                "b"
+              ]
+            ],
+            "expected": [
+              "a"
+            ]
+          },
+          {
+            "input": [
+              [
+                "a",
+                "b"
+              ]
+            ],
+            "expected": [
+              "a",
+              "b"
+            ]
+          },
+          {
+            "input": [
+              [
+                "await",
+                "a"
+              ]
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                "x",
+                "await",
+                "y",
+                "await",
+                "z"
+              ]
+            ],
+            "expected": [
+              "x"
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          }
+        ],
+        "reference": [
+          "const cut = steps.indexOf('await');",
+          "if (cut === -1) return steps;",
+          "return steps.slice(0, cut);"
+        ],
+        "wrongSolutions": [
+          [
+            "const cut = steps.indexOf('await');",
+            "return steps.slice(0, cut);"
+          ],
+          [
+            "const cut = steps.indexOf('await');",
+            "if (cut === -1) return steps;",
+            "return steps.slice(cut + 1);"
+          ],
+          [
+            "const cut = steps.indexOf('await');",
+            "if (cut === -1) return steps;",
+            "return steps.slice(0, cut + 1);"
+          ]
+        ]
+      },
+      "explanation": "Code before the first await runs at once. Find the first pause with indexOf, return all steps when there is none, and otherwise slice up to that position.",
+      "hints": [
+        "Find where the first await is.",
+        "indexOf returns -1 when the value is missing, and slice with -1 would drop the last step.",
+        "Handle the no-await case first, then slice from 0 to the pause position."
+      ],
+      "reference": {
+        "title": "Array.prototype.slice()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}
