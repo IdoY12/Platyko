@@ -1,8 +1,8 @@
 import type { AppDispatch } from "@/redux/store";
-import { setBootstrapError, updateTokens } from "@/redux/session-slice";
+import { setBootstrapProblem, updateTokens } from "@/redux/session-slice";
 import { logError } from "@/utils/logger";
 import * as SecureStore from "expo-secure-store";
-import { EXPIRED_ACCESS_TOKEN, KEYCHAIN_UNREADABLE_MESSAGE, SECURE_STORAGE_ACCESS_TOKEN_KEY, SECURE_STORAGE_REFRESH_TOKEN_KEY } from "@/constants/secureStorageKeyConstants";
+import { EXPIRED_ACCESS_TOKEN, SECURE_STORAGE_ACCESS_TOKEN_KEY, SECURE_STORAGE_REFRESH_TOKEN_KEY } from "@/constants/secureStorageKeyConstants";
 
 /** Readable after the first unlock since boot, so a refresh while the phone is locked can still persist. */
 const KEYCHAIN_OPTIONS = { keychainAccessible: SecureStore.AFTER_FIRST_UNLOCK };
@@ -43,7 +43,7 @@ export async function readTokensAgain(dispatch: AppDispatch): Promise<string | n
     return refreshToken;
   } catch (error) {
     logError("[AUTH]", error, { phase: "bootstrap-keychain" });
-    dispatch(setBootstrapError(KEYCHAIN_UNREADABLE_MESSAGE));
+    dispatch(setBootstrapProblem("keychain"));
     return undefined;
   }
 }

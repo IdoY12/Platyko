@@ -43,7 +43,7 @@ export function subscribeStoreToHybridStorage(appStore: typeof store): () => voi
       persistTokens(state.session.accessToken, state.session.refreshToken);
     }
     const snapshot = JSON.stringify({
-      session: { ...state.session, accessToken: null, refreshToken: null, hasHydrated: false, authChecked: false, bootstrapError: null },
+      session: { ...state.session, accessToken: null, refreshToken: null, hasHydrated: false, authChecked: false, bootstrapProblem: null },
       profile: state.profile,
       xp: state.xp,
       streak: state.streak,

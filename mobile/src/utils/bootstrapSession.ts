@@ -5,7 +5,7 @@ import UserService from "@/services/auth-aware/UserService";
 import { isAuthFailure } from "@/services/auth";
 import { adoptAccountLanguage } from "@/i18n/languagePreference";
 import { logError } from "@/utils/logger";
-import { setAuthChecked, setBootstrapError } from "@/redux/session-slice";
+import { setAuthChecked, setBootstrapProblem } from "@/redux/session-slice";
 import { readTokensAgain } from "@/utils/secureSessionTokens";
 import { identityOf, setNotificationsEnabled, setUserIdentity, updatePreferences, type Commitment } from "@/redux/profile-slice";
 import { hydrateXp } from "@/redux/xp-slice";
@@ -40,7 +40,7 @@ async function _run(dispatch: AppDispatch): Promise<void> {
   const userService = new UserService();
 
   try {
-    dispatch(setBootstrapError(null));
+    dispatch(setBootstrapProblem(null));
     const me = await userService.getMe();
     dispatch(setUserIdentity(identityOf(me)));
     // The account's language wins over this device's: it follows the learner (PRD 12.10).
@@ -59,10 +59,10 @@ async function _run(dispatch: AppDispatch): Promise<void> {
   } catch (error) {
     logError("[AUTH]", error, { phase: "bootstrap" });
     if (isBootstrapServerError(error)) {
-      dispatch(setBootstrapError("We could not load your account data because the server had a problem. You are still signed in. Tap Retry to try again."));
+      dispatch(setBootstrapProblem("server"));
     } else if (isAuthFailure(error)) await discardLocalAccount(dispatch);
     else {
-      dispatch(setBootstrapError("Could not reach the server. Check your connection and tap Retry."));
+      dispatch(setBootstrapProblem("offline"));
     }
   } finally {
     dispatch(setAuthChecked(true));

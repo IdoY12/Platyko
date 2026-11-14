@@ -1,6 +1,9 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
 
+/** Why the signed-in account could not be loaded at launch; the banner shows it in the UI language. */
+export type BootstrapProblem = "server" | "offline" | "keychain";
+
 interface SessionState {
   hasHydrated: boolean;
   authChecked: boolean;
@@ -11,7 +14,7 @@ interface SessionState {
   userId: string | null;
   studyDateKey: string;
   studySecondsToday: number;
-  bootstrapError: string | null;
+  bootstrapProblem: BootstrapProblem | null;
 }
 
 const initialState: SessionState = {
@@ -24,7 +27,7 @@ const initialState: SessionState = {
   userId: null,
   studyDateKey: getStreakCalendarDate(),
   studySecondsToday: 0,
-  bootstrapError: null,
+  bootstrapProblem: null,
 };
 
 type SignInPayload = { userId: string; accessToken: string; refreshToken: string };
@@ -51,9 +54,9 @@ const sessionSlice = createSlice({
     },
     signIn: (state, a: PayloadAction<SignInPayload>) => {
       const { userId, accessToken, refreshToken } = a.payload;
-      Object.assign(state, { isAuthenticated: true, isGuest: false, userId, accessToken, refreshToken, bootstrapError: null });
+      Object.assign(state, { isAuthenticated: true, isGuest: false, userId, accessToken, refreshToken, bootstrapProblem: null });
     },
-    setBootstrapError: (state, a: PayloadAction<string | null>) => void (state.bootstrapError = a.payload),
+    setBootstrapProblem: (state, a: PayloadAction<BootstrapProblem | null>) => void (state.bootstrapProblem = a.payload),
     signOut: (state) => ({ ...initialState, hasHydrated: state.hasHydrated, authChecked: true }),
     updateTokens: (state, a: PayloadAction<{ accessToken: string; refreshToken: string }>) => {
       state.accessToken = a.payload.accessToken;
@@ -71,7 +74,7 @@ export const {
   signIn,
   signOut,
   updateTokens,
-  setBootstrapError,
+  setBootstrapProblem,
 } = sessionSlice.actions;
 
 export default sessionSlice.reducer;

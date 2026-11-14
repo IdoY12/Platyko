@@ -1,59 +1,67 @@
 import { StatusBar } from "expo-status-bar";
-import { Text, View } from "react-native";
-import { PressableScale } from "@/components/common/PressableScale/PressableScale";
+import { StyleSheet, View } from "react-native";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
+import { AppText } from "@/components/common/AppText/AppText";
+import { LipButton } from "@/components/common/LipButton/LipButton";
+import { OutlineButton } from "@/components/common/LipButton/OutlineButton";
+import { Surface } from "@/components/common/Surface/Surface";
 import { AppNavigator } from "@/components/layout/AppNavigator/AppNavigator";
 import { GuestMergePrompt } from "@/components/auth/guest-merge/GuestMergePrompt";
-import { spacing } from "@/theme/theme";
-import { styles } from "./AppShell.styles";
 import { useAppShell } from "@/hooks/useAppShell";
+import { t } from "@/i18n/translate";
+import type { BootstrapProblem } from "@/redux/session-slice";
+import { palette, SCREEN_MARGIN, space } from "@/theme/tokens";
 
-/** Estimated offline banner height, used to stack the bootstrap banner below it. */
-const OFFLINE_BANNER_STACK_OFFSET = 68;
+const PROBLEM_TEXT = { server: "shell.problem.server", offline: "shell.problem.offline", keychain: "shell.problem.keychain" } as const;
 
-type BannerProps = { isConnected: boolean; bootstrapError: string | null; retryBootstrap: () => void; dismissBootstrapError: () => void };
+type BannerProps = { isConnected: boolean; bootstrapProblem: BootstrapProblem | null; retryBootstrap: () => void; dismissBootstrapProblem: () => void };
 
-function AppShellBanners({ isConnected, bootstrapError, retryBootstrap, dismissBootstrapError }: BannerProps) {
+/** The offline note and the "account did not load" notice, floating above every screen. */
+function AppShellBanners({ isConnected, bootstrapProblem, retryBootstrap, dismissBootstrapProblem }: BannerProps) {
   const insets = useSafeAreaInsets();
-  const bannerTop = insets.top + spacing.sm;
+  if (isConnected && !bootstrapProblem) return null;
   return (
-    <>
-      {!isConnected && (
-        <View style={[styles.offlineBanner, { top: bannerTop }]}>
-          <Text style={styles.offlineText}>You are offline. Your progress is saved on this device.</Text>
-        </View>
-      )}
-      {bootstrapError ? (
-        <View style={[styles.bootstrapBanner, { top: bannerTop + (!isConnected ? OFFLINE_BANNER_STACK_OFFSET : 0) }]}>
-          <Text style={styles.bootstrapText}>{bootstrapError}</Text>
-          <View style={styles.bootstrapActions}>
-            <PressableScale onPress={retryBootstrap} style={styles.bootstrapRetry} haptic="light" accessibilityLabel="Retry loading account">
-              <Text style={styles.bootstrapRetryLabel}>Retry</Text>
-            </PressableScale>
-            {/* The banner floats over screen headers; dismissing it frees the back arrow underneath. */}
-            <PressableScale onPress={dismissBootstrapError} style={styles.bootstrapDismiss} haptic="light" accessibilityLabel="Dismiss server message">
-              <Text style={styles.bootstrapDismissLabel}>Dismiss</Text>
-            </PressableScale>
-          </View>
-        </View>
+    <View style={[styles.banners, { top: insets.top + space.sm }]} pointerEvents="box-none">
+      {!isConnected ? (
+        <Surface level="raised" style={[styles.banner, styles.offline]} accessibilityLiveRegion="polite">
+          <AppText variant="label">{t("shell.offline")}</AppText>
+        </Surface>
       ) : null}
-    </>
+      {bootstrapProblem ? (
+        <Surface level="raised" style={[styles.banner, styles.problem]} accessibilityLiveRegion="polite">
+          <AppText variant="label">{t(PROBLEM_TEXT[bootstrapProblem])}</AppText>
+          <View style={styles.actions}>
+            <LipButton label={t("common.retry")} onPress={retryBootstrap} style={styles.action} />
+            {/* The banner floats over screen headers; closing it frees the back arrow underneath. */}
+            <OutlineButton label={t("common.close")} onPress={dismissBootstrapProblem} style={styles.action} />
+          </View>
+        </Surface>
+      ) : null}
+    </View>
   );
 }
 
 export function AppShell() {
   // Boots error handling, notifications and the stored session, and tracks connectivity for the offline banner.
-  const { isConnected, bootstrapError, retryBootstrap, dismissBootstrapError } = useAppShell();
-
+  const { isConnected, bootstrapProblem, retryBootstrap, dismissBootstrapProblem } = useAppShell();
   return (
-    // react-native-safe-area-context: exposes notch / status bar / home-indicator insets to descendants (e.g. useSafeAreaInsets). Must wrap the app near the root.
     <SafeAreaProvider>
       <View style={styles.container}>
-        <AppShellBanners isConnected={isConnected} bootstrapError={bootstrapError} retryBootstrap={retryBootstrap} dismissBootstrapError={dismissBootstrapError} />
         <AppNavigator />
+        <AppShellBanners isConnected={isConnected} bootstrapProblem={bootstrapProblem} retryBootstrap={retryBootstrap} dismissBootstrapProblem={dismissBootstrapProblem} />
         <GuestMergePrompt />
         <StatusBar style="light" />
       </View>
     </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: palette.bg.base },
+  banners: { position: "absolute", left: SCREEN_MARGIN, right: SCREEN_MARGIN, gap: space.sm, zIndex: 50 },
+  banner: { gap: space.md, padding: space.lg, borderWidth: 1 },
+  offline: { borderColor: palette.brand.js },
+  problem: { borderColor: palette.state.danger },
+  actions: { flexDirection: "row", gap: space.md },
+  action: { flex: 1 },
+});

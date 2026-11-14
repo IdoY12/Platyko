@@ -11,11 +11,11 @@ import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { logAuth } from "@/utils/logger";
 import { subscribeStoreToHybridStorage } from "@/utils/appShellPersistence";
 import { syncDailyPracticeReminder } from "@/utils/dailyGoalNotificationCheck";
-import { setBootstrapError } from "@/redux/session-slice";
+import { setBootstrapProblem } from "@/redux/session-slice";
 
 export function useAppShell() {
   const dispatch = useAppDispatch();
-  const bootstrapError = useAppSelector((s) => s.session.bootstrapError);
+  const bootstrapProblem = useAppSelector((s) => s.session.bootstrapProblem);
   const [isConnected, setIsConnected] = useState(true);
   const hasHydrated = useAppSelector((s) => s.session.hasHydrated);
   const isAuthenticated = useAppSelector((s) => s.session.isAuthenticated);
@@ -25,10 +25,10 @@ export function useAppShell() {
   const appStateRef = useRef<AppStateStatus>(AppState.currentState);
 
   const retryBootstrap = useCallback(() => {
-    dispatch(setBootstrapError(null));
+    dispatch(setBootstrapProblem(null));
     void bootstrapSession(dispatch);
   }, [dispatch]);
-  const dismissBootstrapError = useCallback(() => dispatch(setBootstrapError(null)), [dispatch]);
+  const dismissBootstrapProblem = useCallback(() => dispatch(setBootstrapProblem(null)), [dispatch]);
 
   useEffect(() => attachAppShellForegroundInfrastructure(setIsConnected), []);
 
@@ -60,5 +60,5 @@ export function useAppShell() {
     return attachAppShellSessionForegroundSync(appStateRef, dispatch);
   }, [hasHydrated, dispatch]);
 
-  return { isConnected, bootstrapError, retryBootstrap, dismissBootstrapError };
+  return { isConnected, bootstrapProblem, retryBootstrap, dismissBootstrapProblem };
 }

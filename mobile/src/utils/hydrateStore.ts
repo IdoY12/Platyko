@@ -1,13 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { AppDispatch } from "@/redux/store";
-import { hydrateSession, reconcileStudyCalendarDay, setBootstrapError, setHasHydrated } from "@/redux/session-slice";
+import { hydrateSession, reconcileStudyCalendarDay, setBootstrapProblem, setHasHydrated } from "@/redux/session-slice";
 import { hydrateProfile } from "@/redux/profile-slice";
 import { hydrateXp } from "@/redux/xp-slice";
 import { hydrateStreak } from "@/redux/streak-slice";
 import { hydrateStats } from "@/redux/duel-slice";
 import { hydrateLearning, type LearningState } from "@/redux/learning-slice";
 import { logAuth, logError } from "@/utils/logger";
-import { EXPIRED_ACCESS_TOKEN, KEYCHAIN_UNREADABLE_MESSAGE } from "@/constants/secureStorageKeyConstants";
+import { EXPIRED_ACCESS_TOKEN } from "@/constants/secureStorageKeyConstants";
 import { readSecureSessionTokens } from "@/utils/secureSessionTokens";
 
 export const REDUX_PERSIST_KEY = "platyko-redux-store";
@@ -42,7 +42,7 @@ export async function hydrateStoreFromStorage(dispatch: AppDispatch): Promise<vo
       secure = await readSecureSessionTokens();
     } catch (error) {
       logError("[APP]", error, { phase: "hydrate-secure-tokens" });
-      if (parsed.session.isAuthenticated) dispatch(setBootstrapError(KEYCHAIN_UNREADABLE_MESSAGE));
+      if (parsed.session.isAuthenticated) dispatch(setBootstrapProblem("keychain"));
     }
     const accessToken = secure.accessToken ?? (parsed.session.isAuthenticated ? EXPIRED_ACCESS_TOKEN : null);
     dispatch(hydrateSession({ ...parsed.session, ...secure, accessToken }));

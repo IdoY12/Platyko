@@ -1,14 +1,16 @@
-import { SafeAreaView } from "react-native-safe-area-context";
-import { MatrixRain } from "@/components/common/MatrixRain/MatrixRain";
-import { TypewriterText } from "@/components/common/TypewriterText/TypewriterText";
-import { styles } from "./HydrationLoadingScreen.styles";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { t } from "@/i18n/translate";
+import { palette } from "@/theme/tokens";
 
-/** Shown while persisted Redux state is rehydrating or auth bootstrap is in flight. */
+/** The quiet moment between the splash and the first screen while stored state is read. */
 export function HydrationLoadingScreen() {
   return (
-    <SafeAreaView style={styles.root} edges={["top", "bottom"]}>
-      <MatrixRain opacity={0.55} />
-      <TypewriterText text="> BOOTING PLATYKO..." style={styles.text} accessibilityLabel="Loading" />
-    </SafeAreaView>
+    <View style={styles.root} accessibilityLabel={t("shell.loading")}>
+      <ActivityIndicator color={palette.brand.primary} />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: palette.bg.base },
+});
