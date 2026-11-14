@@ -6,10 +6,19 @@ import type { AppDispatch } from "@/redux/store";
 import UserService from "@/services/auth-aware/UserService";
 import { identityOf, setUserIdentity } from "@/redux/profile-slice";
 import { REDUX_PERSIST_KEY } from "@/utils/hydrateStore";
-import { persistTokens } from "@/utils/secureSessionTokens";
+import { persistTokens, waitForTokenWrites } from "@/utils/secureSessionTokens";
 import { logError } from "@/utils/logger";
 import { discardLocalAccount } from "@/utils/resetStoresAfterLogout";
-import { isAuthFailure } from "@/utils/bootstrapSession";
+import { isAuthFailure } from "@/services/auth";
+
+/** Writes the debounced snapshot at once; set while the store is mirrored to disk. */
+let writePendingSnapshot: (() => Promise<void>) | null = null;
+
+/** Puts the newest state and tokens on disk now, before something that restarts the app. */
+export async function flushPersistedState(): Promise<void> {
+  await writePendingSnapshot?.();
+  await waitForTokenWrites();
+}
 
 /**
  * Mirrors Redux to disk: tokens go to SecureStore the moment they change (every sign-in, refresh
@@ -22,9 +31,10 @@ export function subscribeStoreToHybridStorage(appStore: typeof store): () => voi
   // Seeded with what hydration produced: subscribing must never "write back" an unread (null) pair over the keychain.
   let previousTokens = `${appStore.getState().session.accessToken ?? ""}|${appStore.getState().session.refreshToken ?? ""}`;
   let writeTimer: ReturnType<typeof setTimeout> | null = null;
-  const writeNow = () => { if (writeTimer) clearTimeout(writeTimer); writeTimer = null; void AsyncStorage.setItem(REDUX_PERSIST_KEY, previousSnapshot); };
+  const writeNow = () => { if (writeTimer) clearTimeout(writeTimer); writeTimer = null; return AsyncStorage.setItem(REDUX_PERSIST_KEY, previousSnapshot); };
+  writePendingSnapshot = async () => { if (writeTimer) await writeNow(); };
   // A guest's last answer lives only on this device: never lose it to a kill inside the debounce window.
-  const background = AppState.addEventListener("change", (next) => { if (next !== "active" && writeTimer) writeNow(); });
+  const background = AppState.addEventListener("change", (next) => { if (next !== "active" && writeTimer) void writeNow(); });
   const unsubscribe = appStore.subscribe(() => {
     const state = appStore.getState();
     const tokens = `${state.session.accessToken ?? ""}|${state.session.refreshToken ?? ""}`;
@@ -44,9 +54,9 @@ export function subscribeStoreToHybridStorage(appStore: typeof store): () => voi
     if (snapshot === previousSnapshot) return;
     previousSnapshot = snapshot;
     if (writeTimer) clearTimeout(writeTimer);
-    writeTimer = setTimeout(writeNow, 500);
+    writeTimer = setTimeout(() => void writeNow(), 500);
   });
-  return () => { if (writeTimer) { clearTimeout(writeTimer); writeTimer = null; } background.remove(); unsubscribe(); };
+  return () => { if (writeTimer) { clearTimeout(writeTimer); writeTimer = null; } writePendingSnapshot = null; background.remove(); unsubscribe(); };
 }
 
 /**

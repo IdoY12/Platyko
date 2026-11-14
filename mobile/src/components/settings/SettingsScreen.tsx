@@ -38,7 +38,7 @@ export function SettingsScreen() {
       </View>
       <SettingsSection title={t("settings.language")}>
         <View style={styles.language}>
-          <LanguageSwitch />
+          <LanguageSwitch confirmRestart />
           <AppText variant="label" color={palette.text.muted}>
             {t("settings.languageRestart")}
           </AppText>

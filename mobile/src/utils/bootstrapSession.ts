@@ -2,6 +2,8 @@ import axios from "axios";
 import type { AppDispatch } from "@/redux/store";
 import store from "@/redux/store";
 import UserService from "@/services/auth-aware/UserService";
+import { isAuthFailure } from "@/services/auth";
+import { adoptAccountLanguage } from "@/i18n/languagePreference";
 import { logError } from "@/utils/logger";
 import { setAuthChecked, setBootstrapError } from "@/redux/session-slice";
 import { readTokensAgain } from "@/utils/secureSessionTokens";
@@ -15,10 +17,6 @@ import { discardLocalAccount, resetStoresAfterLogout } from "@/utils/resetStores
 function isBootstrapServerError(error: unknown): boolean {
   const status = axios.isAxiosError(error) ? error.response?.status ?? 0 : 0;
   return status >= 500 && status < 600;
-}
-
-export function isAuthFailure(error: unknown): boolean {
-  return axios.isAxiosError(error) && error.response?.status === 401;
 }
 
 let _inflight: Promise<void> | null = null;
@@ -45,6 +43,8 @@ async function _run(dispatch: AppDispatch): Promise<void> {
     dispatch(setBootstrapError(null));
     const me = await userService.getMe();
     dispatch(setUserIdentity(identityOf(me)));
+    // The account's language wins over this device's: it follows the learner (PRD 12.10).
+    void adoptAccountLanguage(me.language);
     const userPreferences = await userService.getPreferencesGet();
     // Notification preference lives on the User model, so it applies even before goal/level are set.
     dispatch(setNotificationsEnabled(userPreferences.notificationsEnabled));

@@ -3,7 +3,8 @@ import { reloadAppAsync } from "expo";
 import { getLocales } from "expo-localization";
 import { I18nManager } from "react-native";
 import { isLanguage, isRightToLeft, languageFromLocaleTag, type Language } from "@project/locales";
-import { setActiveLanguage } from "./translate";
+import { flushPersistedState } from "@/utils/appShellPersistence";
+import { getActiveLanguage, setActiveLanguage } from "./translate";
 
 const LANGUAGE_STORAGE_KEY = "platyko-language";
 
@@ -37,9 +38,18 @@ export async function applyLanguageAtStartup(): Promise<void> {
   if (!alignLayoutDirection(language)) await reloadAppAsync();
 }
 
-/** Stores the new language and restarts the app so strings and direction change together (PRD 16.8). */
+/**
+ * Stores the new language and restarts the app so strings and direction change together
+ * (PRD 16.8). The newest state is written to disk first, so the restart loses nothing.
+ */
 export async function changeLanguage(language: Language): Promise<void> {
   await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, language);
   alignLayoutDirection(language);
+  await flushPersistedState();
   await reloadAppAsync();
+}
+
+/** A registered learner's language lives on the account; a device that differs switches to it. */
+export async function adoptAccountLanguage(language: string | undefined): Promise<void> {
+  if (isLanguage(language) && language !== getActiveLanguage()) await changeLanguage(language);
 }

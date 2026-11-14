@@ -1,7 +1,7 @@
 /**
- * PATCH /api/user/preferences — updates goals, level band, reminders, and active track.
+ * PATCH /api/user/preferences — updates goals, level band, reminders, language and active track.
  *
- * Responsibility: write notificationsEnabled on User; upsert UserProgress when a level is sent.
+ * Responsibility: write notificationsEnabled and language on User; upsert UserProgress when a level is sent.
  * Layer: backend user HTTP handlers
  * Consumers: user router
  */
@@ -23,6 +23,7 @@ export async function patchPreferences(req: AuthenticatedRequest, res: Response)
     where: { id: userId },
     data: {
       ...(data.notificationsEnabled !== undefined ? { notificationsEnabled: data.notificationsEnabled } : {}),
+      ...(data.language ? { language: data.language } : {}),
       ...(level ? { activeExperienceLevel: level } : {}),
     },
   });
@@ -48,5 +49,6 @@ export async function patchPreferences(req: AuthenticatedRequest, res: Response)
     experienceLevel: resolveExperienceLevel(progress?.experienceLevel ?? user.activeExperienceLevel),
     dailyCommitmentMinutes: progress?.dailyCommitmentMinutes ?? 15,
     notificationsEnabled: user.notificationsEnabled,
+    language: user.language,
   });
 }

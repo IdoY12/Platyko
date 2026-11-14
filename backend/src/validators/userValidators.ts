@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { CALENDAR_DATE_PATTERN } from "@project/streak-logic";
 import { passwordField, usernameField } from "./credentialFields.js";
+import { LANGUAGES } from "@project/locales";
 
 export const patchProfileBodySchema = z.object({
   username: usernameField.optional(),
@@ -17,6 +18,7 @@ export const patchPreferencesBodySchema = z
     experienceLevel: z.enum(["JUNIOR", "MID", "SENIOR"]),
     dailyCommitmentMinutes: z.number().int().refine((value) => value === 10 || value === 15 || value === 25),
     notificationsEnabled: z.boolean(),
+    language: z.enum(LANGUAGES),
   })
   .partial()
   .refine((body) => Object.keys(body).length > 0, { message: "At least one preference field is required" })

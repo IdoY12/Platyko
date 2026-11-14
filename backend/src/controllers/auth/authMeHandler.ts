@@ -3,14 +3,14 @@ import type { Response } from "express";
 import { prisma } from "@project/db";
 import { logError } from "../../utils/logger.js";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
-import { authAccountFields } from "../../utils/authAccountFields.js";
+import { AUTH_ACCOUNT_SELECT, authAccountFields } from "../../utils/authAccountFields.js";
 
 export async function authMeHandler(request: AuthenticatedRequest, response: Response): Promise<void> {
   try {
     const userId = request.user!.userId;
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true, email: true, username: true, avatarUrl: true, hashedPassword: true, googleId: true, appleSub: true },
+      select: { id: true, email: true, username: true, avatarUrl: true, ...AUTH_ACCOUNT_SELECT },
     });
 
     if (!user) {

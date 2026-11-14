@@ -3,6 +3,7 @@ import { parsePuzzleXpSolveCounts, prisma, type User } from "@project/db";
 import { USERNAME_MAX_LEN, USERNAME_MIN_LEN } from "@project/user-credentials";
 import { isUsernameTakenError } from "../../utils/dbErrors.js";
 import { createProgressRowsFromSnapshot, type GuestSnapshot } from "./guestSnapshotMigration.js";
+import { DEFAULT_LANGUAGE } from "@project/locales";
 
 const USERNAME_SUFFIX_RETRIES = 12;
 const USERNAME_RANDOM_RETRIES = 8;
@@ -44,6 +45,7 @@ export async function createSocialUserWithProgress(
             hashedPassword: null,
             activeExperienceLevel: snapshot.experienceLevel ?? "JUNIOR",
             notificationsEnabled: snapshot.notificationsEnabled ?? true,
+            language: snapshot.language ?? DEFAULT_LANGUAGE,
             puzzleXpSolveCounts: parsePuzzleXpSolveCounts(snapshot.puzzleXpSolveCounts ?? null),
           },
         });

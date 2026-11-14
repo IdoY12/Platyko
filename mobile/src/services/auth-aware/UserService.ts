@@ -1,3 +1,4 @@
+import type { Language } from "@project/locales";
 import AuthAware from "./AuthAware";
 import { API_BASE_URL, UPLOAD_TIMEOUT_MS } from "@/config/network";
 import type AvatarPatchResponse from "@/models/AvatarPatchResponse";
@@ -25,7 +26,7 @@ export default class UserService extends AuthAware {
   }
 
   async patchPreferences(body: Partial<{
-    goal: string; experienceLevel: string; dailyCommitmentMinutes: number; notificationsEnabled: boolean;
+    goal: string; experienceLevel: string; dailyCommitmentMinutes: number; notificationsEnabled: boolean; language: Language;
   }>): Promise<UserPreferences> {
     const { data } = await this.axiosInstance.patch<UserPreferences>("/user/preferences", body);
     return data;

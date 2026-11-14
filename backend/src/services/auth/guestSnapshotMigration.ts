@@ -8,6 +8,8 @@ export type GuestSnapshot = {
   goal?: string;
   dailyCommitmentMinutes?: number;
   notificationsEnabled?: boolean;
+  /** The UI language the guest chose, kept as the new account's language. */
+  language?: string;
   xpTotal?: number;
   streakCurrent?: number;
   streakLastActivityDate?: string;

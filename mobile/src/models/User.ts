@@ -1,3 +1,5 @@
+import type { Language } from "@project/locales";
+
 export default interface User {
     id: string
     email: string
@@ -9,5 +11,7 @@ export default interface User {
     notificationsEnabled: boolean
     hasPassword: boolean
     authProvider: "google" | "apple" | null
+    /** The UI language stored on the account. */
+    language: Language
     blockProgress?: Record<string, number>
 }

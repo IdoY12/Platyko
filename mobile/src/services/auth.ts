@@ -15,6 +15,11 @@ export function serverErrorMessage(error: unknown): string | null {
 /** Unauthenticated API client (login, register, OTP, password reset): base URL + timeout, no token. */
 export const publicApi = axios.create({ baseURL: API_BASE_URL, timeout: REQUEST_TIMEOUT_MS });
 
+/** True when the server rejected the session itself (the refresh token is gone or revoked). */
+export function isAuthFailure(error: unknown): boolean {
+  return axios.isAxiosError(error) && error.response?.status === 401;
+}
+
 export function apiErrorMessage(error: unknown): string {
   // Raw axios/internal messages ("Request failed with status code 401") must never reach the UI.
   return serverErrorMessage(error) ?? "Something went wrong. Please try again.";

@@ -10,7 +10,7 @@ import type { Response } from "express";
 import { prisma } from "@project/db";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
 import { getProgressForActiveUser, resolveExperienceLevel } from "@project/db";
-import { authAccountFields } from "../../utils/authAccountFields.js";
+import { AUTH_ACCOUNT_SELECT, authAccountFields } from "../../utils/authAccountFields.js";
 
 export async function getProfile(req: AuthenticatedRequest, res: Response) {
   const user = await prisma.user.findUnique({
@@ -23,9 +23,7 @@ export async function getProfile(req: AuthenticatedRequest, res: Response) {
       createdAt: true,
       activeExperienceLevel: true,
       notificationsEnabled: true,
-      hashedPassword: true,
-      googleId: true,
-      appleSub: true,
+      ...AUTH_ACCOUNT_SELECT,
     },
   });
 

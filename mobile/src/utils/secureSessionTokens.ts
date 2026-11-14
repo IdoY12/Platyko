@@ -74,3 +74,6 @@ export function persistTokens(accessToken: string | null, refreshToken: string |
 }
 
 export const retryUnsavedTokens = (): void => flushPendingTokens(1);
+
+/** Resolves once every queued keychain write has finished. */
+export const waitForTokenWrites = (): Promise<void> => writeChain;

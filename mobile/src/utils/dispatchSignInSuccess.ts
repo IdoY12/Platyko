@@ -7,6 +7,7 @@ import { resetStreak } from "@/redux/streak-slice";
 import { resetStats } from "@/redux/duel-slice";
 import { startAccountSession } from "@/redux/learning-slice";
 import { logAuth } from "@/utils/logger";
+import { adoptAccountLanguage } from "@/i18n/languagePreference";
 import type User from "@/models/User";
 
 export function dispatchSignInSuccess(
@@ -42,4 +43,5 @@ export function dispatchSignInSuccess(
   dispatch(resetStreak());
   dispatch(resetStats());
   dispatch(startAccountSession());
+  void adoptAccountLanguage(user.language);
 }

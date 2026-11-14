@@ -5,6 +5,7 @@ import { isUniqueConstraintError, isUsernameTakenError } from "../../utils/dbErr
 import { hashPassword } from "../../utils/passwordHashing.js";
 import { createProgressRowsFromSnapshot, type GuestSnapshot } from "./guestSnapshotMigration.js";
 import { checkOtpCode, freshOtpFields, otpResendCooldownSecondsLeft, type OtpOutcome } from "./otpCodes.js";
+import { DEFAULT_LANGUAGE } from "@project/locales";
 
 /** A pending row nobody re-sent a code for within this window is purged (opportunistically, on register). */
 const PENDING_REGISTRATION_TTL_HOURS = 24;
@@ -62,6 +63,7 @@ export async function consumePendingRegistration(pending: PendingRegistration, c
         hashedPassword: pending.passwordHash,
         activeExperienceLevel: snapshot.experienceLevel ?? "JUNIOR",
         notificationsEnabled: snapshot.notificationsEnabled ?? true,
+        language: snapshot.language ?? DEFAULT_LANGUAGE,
         puzzleXpSolveCounts: parsePuzzleXpSolveCounts(snapshot.puzzleXpSolveCounts ?? null),
       },
     });
