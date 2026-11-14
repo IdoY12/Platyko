@@ -73,3 +73,57 @@ export function applyStreakOnQualifyingXp(state: DailyXpStreakPersisted, today: 
     lastCheckedDate: today,
   };
 }
+
+/**
+ * Streak with freezes (PRD 6.8): one qualifying action a day extends the streak; a freeze is
+ * earned at every seventh consecutive day, at most two are held, and a held freeze covers a
+ * missed day automatically. The best streak is never rewritten by a freeze or a reset.
+ */
+export type StreakState = {
+  current: number;
+  best: number;
+  freezes: number;
+  lastActivityDate: string | null;
+  lastCheckedDate: string | null;
+};
+
+export const EMPTY_STREAK: StreakState = { current: 0, best: 0, freezes: 0, lastActivityDate: null, lastCheckedDate: null };
+
+export const STREAK_DAYS_PER_FREEZE = 7;
+export const MAX_STREAK_FREEZES = 2;
+
+/** Days with no activity between the last active day and `today` (0 when active yesterday). */
+function missedDays(lastActivityDate: string, today: string): number {
+  return Math.max(0, calendarDaysBetweenEarlierAndLater(lastActivityDate, today) - 1);
+}
+
+/** Opening the app: a gap the held freezes cannot cover ends the streak; a covered gap keeps it. */
+export function streakOnAppOpen(state: StreakState, today: string): StreakState {
+  if (state.lastActivityDate === null) return { ...state, lastCheckedDate: today };
+  const missed = missedDays(state.lastActivityDate, today);
+  const current = missed > state.freezes ? 0 : state.current;
+  return { ...state, current, lastCheckedDate: today };
+}
+
+/** A qualifying action: extends the streak once per day, spending freezes for the days missed. */
+export function streakOnActivity(state: StreakState, today: string): StreakState {
+  if (state.lastActivityDate === today) return state;
+  if (state.lastActivityDate !== null && today < state.lastActivityDate) return state;
+  const missed = state.lastActivityDate === null ? 0 : missedDays(state.lastActivityDate, today);
+  const covered = state.lastActivityDate !== null && state.current > 0 && missed <= state.freezes;
+  const current = covered ? state.current + 1 : 1;
+  const freezesLeft = covered ? state.freezes - missed : state.freezes;
+  const earned = current % STREAK_DAYS_PER_FREEZE === 0 ? 1 : 0;
+  return {
+    current,
+    best: Math.max(state.best, current),
+    freezes: Math.min(MAX_STREAK_FREEZES, freezesLeft + earned),
+    lastActivityDate: today,
+    lastCheckedDate: today,
+  };
+}
+
+/** True when the streak ends tonight unless the learner practises: no activity today and no freeze to cover it. */
+export function isStreakAtRisk(state: StreakState, today: string): boolean {
+  return state.current > 0 && state.lastActivityDate !== today && state.freezes === 0;
+}

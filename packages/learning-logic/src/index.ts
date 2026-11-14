@@ -5,3 +5,4 @@ export * from "./spacedReview.js";
 export * from "./skillMap.js";
 export * from "./lessonPlan.js";
 export * from "./lessonSession.js";
+export * from "./progress.js";
