@@ -126,7 +126,7 @@
       "title": "Destructuring",
       "conceptCard": {
         "title": "Taking values out of arrays and objects",
-        "body": "Destructuring reads several values in one line. An array pattern with square brackets matches by position. An object pattern with braces matches by property name. A default after = fills in a missing property, and { key: name } stores it under another name.",
+        "body": "Destructuring reads several values in one line. An array pattern with square brackets matches by position. An object pattern with braces matches by property name. A default after = is used when the value is undefined, such as a missing property, and { key: name } stores it under another name.",
         "code": [
           "const trip = { days: 3, stops: 2 };",
           "const { days, stops: count } = trip;",
@@ -242,7 +242,7 @@
         {
           "text": "Ana 3 none",
           "correct": false,
-          "feedback": "A default applies only when the property is missing. tip is present, so it keeps its own value.",
+          "feedback": "A default applies only when the value is undefined. tip holds 0, which is not undefined, so it keeps its own value.",
           "misconception": "default-always-applies"
         },
         {
@@ -258,7 +258,7 @@
       "explanation": "Destructuring matches properties by name. who and tip exist in bill, so they keep their values and the default 3 is unused. note is missing, so its default \"none\" is used.",
       "hints": [
         "Look at lines 2 and 3: tip and note both have a default.",
-        "A default applies only when the property is missing from the object.",
+        "A default applies only when the value is undefined, for example a property the object lacks.",
         "Check which of who, tip and note exist in bill."
       ],
       "reference": {
@@ -269,7 +269,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "duel:7"
       ]

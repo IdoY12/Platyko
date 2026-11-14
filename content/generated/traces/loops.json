@@ -4626,7 +4626,9 @@
    "code": [
     "let total = 0;",
     "for (let n = 1; n <= 6; n++) {",
-    "  if (n === 4) break;",
+    "  if (n === 4) {",
+    "    break;",
+    "  }",
     "  total = total + n;",
     "}",
     "console.log(total);"
@@ -4704,7 +4706,7 @@
      "microtasks": []
     },
     {
-     "line": 4,
+     "line": 6,
      "variables": [
       {
        "name": "total",
@@ -4767,7 +4769,7 @@
      "microtasks": []
     },
     {
-     "line": 4,
+     "line": 6,
      "variables": [
       {
        "name": "total",
@@ -4830,7 +4832,7 @@
      "microtasks": []
     },
     {
-     "line": 4,
+     "line": 6,
      "variables": [
       {
        "name": "total",
@@ -4893,7 +4895,28 @@
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 4,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "6"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
      "variables": [
       {
        "name": "total",
@@ -4927,13 +4950,14 @@
   },
   "beg.loops.break-and-continue.write-01": {
    "code": [
-    "let skip = 1;",
+    "let n = 2;",
+    "let skip = 2;",
     "console.log(",
-    "10 - skip",
+    "n === skip",
     ");"
    ],
    "output": [
-    "9"
+    "true"
    ],
    "steps": [
     {
@@ -4950,9 +4974,30 @@
      "line": 2,
      "variables": [
       {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      },
+      {
        "name": "skip",
        "scope": "global",
-       "value": "1"
+       "value": "2"
       }
      ],
      "outputCount": 0,
@@ -4966,9 +5011,14 @@
      "line": 0,
      "variables": [
       {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      },
+      {
        "name": "skip",
        "scope": "global",
-       "value": "1"
+       "value": "2"
       }
      ],
      "outputCount": 1,

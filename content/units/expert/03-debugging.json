@@ -147,7 +147,7 @@
       "title": "Boundaries and off-by-one errors",
       "conceptCard": {
         "title": "Boundaries and off-by-one errors",
-        "body": "An array with n items has indexes 0 to n - 1. A loop that stops at n reads one slot too many, and one that stops at n - 1 skips the last item. slice(start, end) includes start and excludes end.",
+        "body": "An array with n items has indexes 0 to n - 1. A loop that keeps going while i <= n reads one slot too many, and one that stops early at i < n - 1 skips the last item. slice(start, end) includes start and excludes end.",
         "code": [
           "const days = [\"Mon\", \"Tue\", \"Wed\"];",
           "console.log(days[days.length]);",
@@ -389,14 +389,14 @@
         "The start index is the number of pages before this one, times size."
       ],
       "reference": {
-        "title": "for statement",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "title": "Array.prototype.slice()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.off-by-one-and-boundaries.write-01",
@@ -716,7 +716,7 @@
         "shallow-copy"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "The bakery needs a sorted copy while the bin keeps its order. Fill the blank so the program prints 3 4.",
       "code": [
         "const bin = [\"rye\", \"oat\", \"corn\"];",
@@ -773,7 +773,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.async-ordering-bugs.predict-01",
@@ -958,7 +958,7 @@
         "closure-in-loops"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "Write the body of lateReadings(count). Build count functions in a loop, the one for index i returning i * 10. Call them after the loop and return the results.",
       "solution": {
         "entry": {
@@ -1052,7 +1052,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.predict-01",
@@ -1104,7 +1104,7 @@
       "hints": [
         "Follow the error out of bake, one caller at a time.",
         "A throw skips the rest of its block, but finally still runs.",
-        "Order the pushes: bake, then the cleanup, then the catch."
+        "Decide which pushes still run after the throw, and which block always runs on the way out."
       ],
       "reference": {
         "title": "try...catch",
@@ -1113,7 +1113,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.concept-01",

@@ -669,7 +669,7 @@
         {
           "text": "A Set keeps every value you give it, repeats included.",
           "correct": false,
-          "feedback": "Then the size would be 3 for any list. A Set drops repeated values, and NaN counts as a repeat of itself.",
+          "feedback": "Then the size would equal the length of the list. A Set does not keep repeated values.",
           "misconception": "set-keeps-duplicates"
         }
       ],
@@ -690,7 +690,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.map-set-weakmap-symbol.set-collection.fill-01",
@@ -1092,7 +1092,7 @@
       "hints": [
         "Find the two lines that create values the others use.",
         "add must run before the has check that should print true.",
-        "Create things, add the room, then check the room before the fresh object."
+        "Each has check needs the value it asks about to exist, and the add must come before the check that prints true."
       ],
       "reference": {
         "title": "WeakSet",
@@ -1102,7 +1102,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.map-set-weakmap-symbol.weak-collections.fix-01",
@@ -1405,7 +1405,7 @@
       },
       "explanation": "Symbol.for returns the same symbol for the same text, so a and b are equal. Symbol.keyFor gives back that registry text.",
       "hints": [
-        "Line 2 already shows how to share a symbol.",
+        "Compare line 1 with line 2: what must make a and b the same symbol?",
         "A registry returns the same symbol for the same text.",
         "The first blank creates or finds a shared symbol; the second reads its text."
       ],
@@ -1417,7 +1417,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.map-set-weakmap-symbol.symbol-keys.fix-01",

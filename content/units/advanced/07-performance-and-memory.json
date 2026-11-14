@@ -1242,7 +1242,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of stillRunning(events). Each event is 'start name' or 'stop name' for a timer. Return the names never stopped, in the order they started.",
+      "prompt": "Write the body of stillRunning(events). Each event is 'start name' or 'stop name'. Return the names running at the end, in order of latest start. Ignore stops of idle names.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1361,7 +1361,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.performance-and-memory.algorithmic-cost.predict-01",

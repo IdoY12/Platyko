@@ -66,14 +66,6 @@
       "description": "Believes overriding a setter in a subclass also changes the parent class for its own objects."
     },
     {
-      "id": "srp-one-method-per-class",
-      "description": "Believes the Single Responsibility Principle means one method per class."
-    },
-    {
-      "id": "srp-shared-data-is-one-job",
-      "description": "Believes methods that use the same data always form one responsibility."
-    },
-    {
       "id": "spread-overwrite-misread",
       "description": "Believes overwriting a key while spreading either moves it to the end or leaves its old value."
     },
@@ -90,12 +82,20 @@
       "description": "Believes sort has no visible effect unless its result is assigned to a variable."
     },
     {
-      "id": "soc-split-by-statement-kind",
-      "description": "Believes separating concerns means moving a kind of statement, such as a loop or a return, into its own function."
-    },
-    {
       "id": "missing-key-throws",
       "description": "Believes reading a key that is missing from an object throws an error instead of giving undefined."
+    },
+    {
+      "id": "falsy-equals-undefined",
+      "description": "Believes 0 and undefined are interchangeable because both are falsy, so a truthiness test equals a test for undefined."
+    },
+    {
+      "id": "filter-changes-source",
+      "description": "Believes filter removes items from the array it is called on."
+    },
+    {
+      "id": "arguments-are-copied",
+      "description": "Believes an array passed to a function is copied, so the function cannot change the caller's array."
     }
   ],
   "sources": [
@@ -353,57 +353,53 @@
         "array-reduce"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
-      "prompt": "A bus timetable search should find minute 41 in 3 probes, but steps counts more. Tap the buggy line and pick the fix.",
+      "difficulty": 4,
+      "prompt": "Looking for id 9 should take 2 steps, but steps counts every item. Tap the buggy line and pick the fix.",
       "code": [
-        "const mins = [8, 15, 22, 30, 41];",
-        "let lo = 0;",
-        "let hi = mins.length - 1;",
+        "const ids = [4, 9, 4, 7, 2];",
         "let steps = 0;",
-        "while (lo <= hi) {",
+        "let ok = false;",
+        "for (const x of ids) {",
         "  steps++;",
-        "  const sum = lo + hi;",
-        "  const mid = Math.floor(sum / 2);",
-        "  if (mins[mid] === 41) break;",
-        "  lo = lo + 1;",
+        "  if (x === 9) ok = true;",
         "}",
-        "console.log(steps);"
+        "console.log(ok, steps);"
       ],
       "options": [
         {
-          "text": "  lo = mid + 1;",
+          "text": "  if (x === 9) { ok = true; break; }",
           "correct": true,
-          "feedback": "Right. The middle was too early, so everything up to and including it is skipped."
+          "feedback": "Right. Leaving the loop at the match visits only the items up to it."
         },
         {
-          "text": "  lo = hi;",
+          "text": "  if (x !== 9) { ok = true; break; }",
           "correct": false,
-          "feedback": "That jumps to the last slot and skips the middle ones, so the search ends after too few probes."
+          "feedback": "That reacts to the first id that is not 9, so the loop ends on the first pass with the wrong answer."
         },
         {
-          "text": "  lo = mid + 2;",
+          "text": "  if (x === 9) ok = true; break;",
           "correct": false,
-          "feedback": "That skips one slot too many, which can step over the target and ends the search too soon."
+          "feedback": "The break is not part of the if, so the loop always ends on the first pass, before 9 is reached."
         }
       ],
       "solution": {
-        "bugLine": 10,
-        "expectedOutput": "3"
+        "bugLine": 6,
+        "expectedOutput": "true 2"
       },
-      "explanation": "Binary search halves the range by moving the low bound just past the probed middle. Stepping it by one turns the search into a slow scan.",
+      "explanation": "The cost of a scan is the number of items visited. Once the match is found, break ends the loop; without it, every remaining item is still visited and counted.",
       "hints": [
-        "Compare how far low moves each pass with how far the middle is.",
-        "The probed middle is already known not to match.",
-        "Move low past the middle that was just checked."
+        "Compare the steps printed with the position of 9 in the list.",
+        "The cost of a scan is the number of items it visits, and a loop can end early.",
+        "Make the pass that finds 9 leave the loop."
       ],
       "reference": {
-        "title": "while",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while",
+        "title": "break",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.code-analysis.complexity-analysis.write-01",
@@ -632,57 +628,50 @@
       ],
       "format": "CONCEPT_MCQ",
       "difficulty": 4,
-      "prompt": "A refactor splits Receipt so each class has one reason to change, and the program must still print Total: 7. Which split does that?",
+      "prompt": "ok replaces old in a tidy-up meant to keep behaviour. Which statement explains why the two numbers differ?",
       "code": [
-        "const add = (a, b) => a + b;",
-        "class Receipt {",
-        "  total() {",
-        "    return this.prices.reduce(add);",
-        "  }",
-        "  label() {",
-        "    return \"Total: \" + this.total();",
-        "  }",
-        "}",
-        "const r = new Receipt();",
-        "r.prices = [3, 4];",
-        "console.log(r.label());"
+        "const ps = [4, 0, 6];",
+        "const old = (p) => p;",
+        "const ok = (p) => p !== undefined;",
+        "console.log(ps.filter(old).length);",
+        "console.log(ps.filter(ok).length);"
       ],
       "options": [
         {
-          "text": "Move label() into a new class that calls total(): its wording changes for display reasons, total() with the pricing rule.",
+          "text": "The tests disagree on the value 0, so the tidy-up changed behaviour for that input.",
           "correct": true,
-          "feedback": "Right. The new class calls the same total() on the same prices, so the output stays and the two reasons to change are apart."
+          "feedback": "Right. old drops 0 as falsy, ok keeps it, so the same input gives different results."
         },
         {
-          "text": "Both: each class should hold only one method.",
+          "text": "Both tests reject 0 and undefined alike, so old and ok are equivalent.",
           "correct": false,
-          "feedback": "A responsibility is a reason to change, not a method count. A class may keep several methods for one job.",
-          "misconception": "srp-one-method-per-class"
+          "feedback": "Only undefined is rejected by ok. 0 is falsy but is not undefined, so it passes that test.",
+          "misconception": "falsy-equals-undefined"
         },
         {
-          "text": "Neither: both use this.prices, so they share one job.",
+          "text": "filter removes items from ps, so the second call sees a shorter list.",
           "correct": false,
-          "feedback": "Sharing data does not make one job. Pricing rules and display wording change for different reasons.",
-          "misconception": "srp-shared-data-is-one-job"
+          "feedback": "filter builds a new array and leaves ps unchanged, so both calls see the same three values.",
+          "misconception": "filter-changes-source"
         }
       ],
       "solution": {
-        "expectedOutput": "Total: 7"
+        "expectedOutput": "2\n3"
       },
-      "explanation": "Wording changes for display reasons and the total changes with the pricing rule. Moving label out into a class that calls total() separates them and keeps the printed text the same.",
+      "explanation": "A refactor must give the same output for every input, including 0 and undefined. old keeps only truthy values, so 0 is dropped and it counts 2. ok rejects only undefined, so it counts 3. The two are not equivalent.",
       "hints": [
-        "Ask what could make each method need an edit, and what must stay the same.",
-        "One responsibility means one reason to change, not one method.",
-        "Which method would change if the page layout changed, while still calling the other?"
+        "Run both tests by hand on each value of ps, one at a time.",
+        "A refactor must give the same output for the same input, edge cases included.",
+        "Compare what each test does with the value 0."
       ],
       "reference": {
-        "title": "Classes",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+        "title": "Array.prototype.filter()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:2"
       ]
@@ -903,7 +892,7 @@
           "misconception": "ocp-more-branches-is-open"
         },
         {
-          "text": "The program throws for pie, because rates has no pie key.",
+          "text": "The program throws for pie, because cost has no pie key.",
           "correct": false,
           "feedback": "Reading a missing key does not throw. It gives undefined, which the ?? operator replaces.",
           "misconception": "missing-key-throws"
@@ -912,7 +901,7 @@
       "solution": {
         "expectedOutput": "8"
       },
-      "explanation": "Work from the inside out: cost[k] gives a price or undefined, ?? 0 turns a missing one into 0, map prices every key and reduce adds them. Soup is missing, so it adds 0; adding pie to cost would price it.",
+      "explanation": "Work from the inside out: cost[k] gives a price or undefined, ?? 0 turns a missing one into 0, map prices every key and reduce adds them. Pie is missing, so it adds 0; adding pie to cost would price it.",
       "hints": [
         "Start with line 2: what does priceOf return for a key that is not in cost?",
         "Evaluate the innermost call first: priceOf, then map, then reduce.",
@@ -925,7 +914,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:6"
       ]
@@ -1200,54 +1189,53 @@
       ],
       "format": "CONCEPT_MCQ",
       "difficulty": 4,
-      "prompt": "report mixes calculating with printing. Which line should move to a separate function so the sum can be reused and tested alone?",
+      "prompt": "sum should only read orders, yet the second line printed is not the original order. Which statement explains it?",
       "code": [
-        "const report = (orders) => {",
-        "  let sum = 0;",
-        "  for (const o of orders) sum += o;",
-        "  console.log(\"Sum: \" + sum);",
-        "  return sum;",
+        "const orders = [5, 7];",
+        "const sum = (list) => {",
+        "  list.sort((a, b) => b - a);",
+        "  return list[0] + list[1];",
         "};",
-        "const total = report([5, 7]);",
-        "console.log(total);"
+        "console.log(sum(orders));",
+        "console.log(orders);"
       ],
       "options": [
         {
-          "text": "The console.log line: report would only calculate, and a separate function prints.",
+          "text": "sum sorts the array it receives in place, a hidden side effect that changes the data of its caller.",
           "correct": true,
-          "feedback": "Right. Output is its own concern. The sum can then be used and checked without printing."
+          "feedback": "Right. list is the same array as orders, so sorting it changes what the caller sees."
         },
         {
-          "text": "The for loop: loops always belong in their own function.",
+          "text": "sort returns a sorted copy, so orders is replaced by that copy.",
           "correct": false,
-          "feedback": "The loop is the calculation. Splitting by statement kind does not separate concerns.",
-          "misconception": "soc-split-by-statement-kind"
+          "feedback": "sort changes the array it runs on and returns that same array. Nothing is copied or replaced.",
+          "misconception": "sort-returns-copy"
         },
         {
-          "text": "The return line: a function that prints should not also hand back a value.",
+          "text": "Passing an array to a function copies it, so orders only changes if sum returns the list.",
           "correct": false,
-          "feedback": "Returning the value is what makes the calculation reusable. The printing is the part to move.",
-          "misconception": "soc-split-by-statement-kind"
+          "feedback": "The parameter refers to the same array, not a copy, so changes made inside are visible outside.",
+          "misconception": "arguments-are-copied"
         }
       ],
       "solution": {
-        "expectedOutput": "Sum: 12\n12"
+        "expectedOutput": "12\n[7, 5]"
       },
-      "explanation": "Printing is output, while the sum is calculation. Separating them lets other code reuse the calculation without printing, and print from another place. Calling the calculation then printing gives the same output.",
+      "explanation": "list and orders are the same array, and sort reorders an array in place. That is a hidden side effect: the caller sees different data after the call. A pure sum would sort a copy or just add the two numbers.",
       "hints": [
-        "Which line talks to the outside world instead of computing?",
-        "Separation of concerns divides by purpose, not by statement type.",
-        "Which line would a test of the sum have to avoid?"
+        "Compare the array printed on the last line with the one on line 1.",
+        "A pure function changes nothing outside itself, and an argument that is an array is shared with the caller.",
+        "Which line inside sum changes the array it was given?"
       ],
       "reference": {
-        "title": "Functions",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
+        "title": "Array.prototype.sort()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:5"
       ]
@@ -1314,7 +1302,7 @@
         "reference-vs-value"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "restock must not change the bin object. Fill the blank so the program prints 3 7.",
       "code": [
         "const bin = { apples: 3 };",
@@ -1374,7 +1362,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

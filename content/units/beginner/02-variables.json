@@ -251,7 +251,7 @@
       },
       "explanation": "A variable name stands for the value stored under it. So trail gives the text Pine Ridge and km gives 8. The + joins them with a space between.",
       "hints": [
-        "Look at the three names inside the last line.",
+        "Look at the two variable names in the last line, and at what sits between them.",
         "A name without quotes is replaced by the value it holds.",
         "Replace trail and km by their values, then join them."
       ],
@@ -263,7 +263,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.let-declaration.predict-02",
@@ -908,13 +908,13 @@
         {
           "text": "40",
           "correct": false,
-          "feedback": "The old value is not kept quietly. JavaScript does not ignore line 2, it stops with an error.",
+          "feedback": "You expected line 2 to be skipped so that the first value stays. Check what the keyword on line 1 allows.",
           "misconception": "const-reassign-allowed"
         },
         {
           "text": "50",
           "correct": false,
-          "feedback": "A const name cannot be given a new value. Line 2 throws an error instead of changing it.",
+          "feedback": "You expected line 2 to give the name a new value. Check what the keyword on line 1 allows.",
           "misconception": "const-reassign-allowed"
         }
       ],
@@ -935,7 +935,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:4"
       ]

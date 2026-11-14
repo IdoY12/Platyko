@@ -543,13 +543,17 @@
     "  return () => subs.delete(fn);",
     "};",
     "const show = (t) => console.log(t);",
+    "const twice = (t) => show(t + t);",
     "const off = on(show);",
+    "on(twice);",
     "subs.forEach((fn) => fn('a'));",
     "off();",
     "subs.forEach((fn) => fn('b'));"
    ],
    "output": [
-    "a"
+    "a",
+    "aa",
+    "bb"
    ],
    "steps": [
     {
@@ -626,6 +630,37 @@
      "microtasks": []
     },
     {
+     "line": 8,
+     "variables": [
+      {
+       "name": "subs",
+       "scope": "global",
+       "value": "Set(0) {}"
+      },
+      {
+       "name": "on",
+       "scope": "global",
+       "value": "[Function: on]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 3,
      "variables": [
       {
@@ -642,6 +677,11 @@
        "name": "show",
        "scope": "global",
        "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
       },
       {
        "name": "fn",
@@ -676,6 +716,11 @@
        "value": "[Function: show]"
       },
       {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
        "name": "fn",
        "scope": "on",
        "value": "[Function: show]"
@@ -690,7 +735,7 @@
      "microtasks": []
     },
     {
-     "line": 8,
+     "line": 9,
      "variables": [
       {
        "name": "subs",
@@ -706,6 +751,11 @@
        "name": "show",
        "scope": "global",
        "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
       },
       {
        "name": "off",
@@ -721,7 +771,7 @@
      "microtasks": []
     },
     {
-     "line": 8,
+     "line": 3,
      "variables": [
       {
        "name": "subs",
@@ -737,6 +787,131 @@
        "name": "show",
        "scope": "global",
        "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
+       "name": "off",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "fn",
+       "scope": "on",
+       "value": "[Function: twice]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "on"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "subs",
+       "scope": "global",
+       "value": "Set(2) {[Function: show], [Function: twice]}"
+      },
+      {
+       "name": "on",
+       "scope": "global",
+       "value": "[Function: on]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
+       "name": "off",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "fn",
+       "scope": "on",
+       "value": "[Function: twice]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "on"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "subs",
+       "scope": "global",
+       "value": "Set(2) {[Function: show], [Function: twice]}"
+      },
+      {
+       "name": "on",
+       "scope": "global",
+       "value": "[Function: on]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
+       "name": "off",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "subs",
+       "scope": "global",
+       "value": "Set(2) {[Function: show], [Function: twice]}"
+      },
+      {
+       "name": "on",
+       "scope": "global",
+       "value": "[Function: on]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
       },
       {
        "name": "off",
@@ -763,7 +938,7 @@
       {
        "name": "subs",
        "scope": "global",
-       "value": "Set(1) {[Function: show]}"
+       "value": "Set(2) {[Function: show], [Function: twice]}"
       },
       {
        "name": "on",
@@ -774,6 +949,11 @@
        "name": "show",
        "scope": "global",
        "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
       },
       {
        "name": "off",
@@ -796,12 +976,12 @@
      "microtasks": []
     },
     {
-     "line": 9,
+     "line": 10,
      "variables": [
       {
        "name": "subs",
        "scope": "global",
-       "value": "Set(1) {[Function: show]}"
+       "value": "Set(2) {[Function: show], [Function: twice]}"
       },
       {
        "name": "on",
@@ -814,12 +994,146 @@
        "value": "[Function: show]"
       },
       {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
+       "name": "off",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "fn",
+       "scope": "anonymous",
+       "value": "[Function: twice]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "subs",
+       "scope": "global",
+       "value": "Set(2) {[Function: show], [Function: twice]}"
+      },
+      {
+       "name": "on",
+       "scope": "global",
+       "value": "[Function: on]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
+       "name": "off",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "t",
+       "scope": "twice",
+       "value": "'a'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "anonymous",
+      "twice"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "subs",
+       "scope": "global",
+       "value": "Set(2) {[Function: show], [Function: twice]}"
+      },
+      {
+       "name": "on",
+       "scope": "global",
+       "value": "[Function: on]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
+       "name": "off",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "t",
+       "scope": "show",
+       "value": "'aa'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "anonymous",
+      "twice",
+      "show"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "subs",
+       "scope": "global",
+       "value": "Set(2) {[Function: show], [Function: twice]}"
+      },
+      {
+       "name": "on",
+       "scope": "global",
+       "value": "[Function: on]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
        "name": "off",
        "scope": "global",
        "value": "[Function (anonymous)]"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 2,
      "callStack": [
       "global"
      ],
@@ -832,7 +1146,7 @@
       {
        "name": "subs",
        "scope": "global",
-       "value": "Set(1) {[Function: show]}"
+       "value": "Set(2) {[Function: show], [Function: twice]}"
       },
       {
        "name": "on",
@@ -843,6 +1157,11 @@
        "name": "show",
        "scope": "global",
        "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
       },
       {
        "name": "off",
@@ -855,7 +1174,7 @@
        "value": "[Function: show]"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 2,
      "callStack": [
       "global",
       "anonymous"
@@ -864,12 +1183,12 @@
      "microtasks": []
     },
     {
-     "line": 10,
+     "line": 12,
      "variables": [
       {
        "name": "subs",
        "scope": "global",
-       "value": "Set(0) {}"
+       "value": "Set(1) {[Function: twice]}"
       },
       {
        "name": "on",
@@ -882,14 +1201,148 @@
        "value": "[Function: show]"
       },
       {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
        "name": "off",
        "scope": "global",
        "value": "[Function (anonymous)]"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 2,
      "callStack": [
       "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 12,
+     "variables": [
+      {
+       "name": "subs",
+       "scope": "global",
+       "value": "Set(1) {[Function: twice]}"
+      },
+      {
+       "name": "on",
+       "scope": "global",
+       "value": "[Function: on]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
+       "name": "off",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "fn",
+       "scope": "anonymous",
+       "value": "[Function: twice]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "subs",
+       "scope": "global",
+       "value": "Set(1) {[Function: twice]}"
+      },
+      {
+       "name": "on",
+       "scope": "global",
+       "value": "[Function: on]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
+       "name": "off",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "t",
+       "scope": "twice",
+       "value": "'b'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "anonymous",
+      "twice"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "subs",
+       "scope": "global",
+       "value": "Set(1) {[Function: twice]}"
+      },
+      {
+       "name": "on",
+       "scope": "global",
+       "value": "[Function: on]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
+       "name": "off",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "t",
+       "scope": "show",
+       "value": "'bb'"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "anonymous",
+      "twice",
+      "show"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -900,7 +1353,7 @@
       {
        "name": "subs",
        "scope": "global",
-       "value": "Set(0) {}"
+       "value": "Set(1) {[Function: twice]}"
       },
       {
        "name": "on",
@@ -913,12 +1366,17 @@
        "value": "[Function: show]"
       },
       {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
        "name": "off",
        "scope": "global",
        "value": "[Function (anonymous)]"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 3,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

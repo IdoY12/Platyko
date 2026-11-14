@@ -64,10 +64,6 @@
       "description": "Believes a string method has no visible effect unless its result is stored, so ignores the new text it returns."
     },
     {
-      "id": "falsy-by-meaning",
-      "description": "Judges true or false by what a value looks like or means, not by the rules: thinks 0 is true or that the text \"0\" or \"false\" is false."
-    },
-    {
       "id": "boolean-joins-wrong",
       "description": "Believes a boolean joins text as a number or disappears, instead of becoming the word true or false."
     },
@@ -161,13 +157,14 @@
       "title": "Booleans: true and false",
       "conceptCard": {
         "title": "Booleans: true and false",
-        "body": "A boolean is either true or false, written without quotation marks. Boolean turns any value into one of the two. Only a few values give false, such as 0 and empty text. Joined to text, a boolean becomes a word.",
+        "body": "A boolean is either true or false, written without quotation marks. It is a value, not text, but it prints as the word true or false. Joined to text, a boolean becomes that word. A variable can hold one.",
         "code": [
           "console.log(true);",
           "console.log(\"open: \" + false);",
-          "console.log(Boolean(\"\"));"
+          "let isOpen = true;",
+          "console.log(isOpen);"
         ],
-        "expectedOutput": "true\nopen: false\nfalse"
+        "expectedOutput": "true\nopen: false\ntrue"
       },
       "itemIds": [
         "beg.values-and-types.boolean-values.predict-01",
@@ -818,7 +815,7 @@
       "explanation": "Every text has a length property that counts all its characters, spaces included. Reading title.length gives that count without changing the text.",
       "hints": [
         "You need a property of the text, not a method call.",
-        "The length property counts every character.",
+        "A text keeps its character count in a built-in property.",
         "Write the variable name, a dot, then the property name."
       ],
       "reference": {
@@ -828,7 +825,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:2"
       ]
@@ -836,43 +833,42 @@
     {
       "id": "beg.values-and-types.boolean-values.predict-01",
       "concept": "boolean-values",
-      "prerequisites": [
-        "string-values"
-      ],
+      "prerequisites": [],
       "format": "PREDICT_OUTPUT",
       "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
-        "console.log(Boolean(0));",
-        "console.log(Boolean(\"0\"));"
+        "let isOn = true;",
+        "console.log(\"lamp-\" + isOn);",
+        "console.log(isOn);"
       ],
       "options": [
         {
-          "text": "false\ntrue",
+          "text": "lamp-true\ntrue",
           "correct": true,
-          "feedback": "Right. The number 0 is false, but the text \"0\" has a character in it, so it is true."
+          "feedback": "Right. Joined to text the boolean becomes the word, and printed alone it shows the same word."
         },
         {
-          "text": "false\nfalse",
+          "text": "lamp-1\ntrue",
           "correct": false,
-          "feedback": "You judged \"0\" by its meaning. Boolean looks at the kind of value: any non-empty text is true.",
-          "misconception": "falsy-by-meaning"
+          "feedback": "A boolean does not turn into a number when it is joined to text. It becomes a word.",
+          "misconception": "boolean-joins-wrong"
         },
         {
-          "text": "true\ntrue",
+          "text": "lamp-\ntrue",
           "correct": false,
-          "feedback": "The number 0 is one of the few values that count as false, however much it looks like a value.",
-          "misconception": "falsy-by-meaning"
+          "feedback": "The boolean does not vanish when it is joined. Its word is added after the dash.",
+          "misconception": "boolean-joins-wrong"
         }
       ],
       "solution": {
-        "expectedOutput": "false\ntrue"
+        "expectedOutput": "lamp-true\ntrue"
       },
-      "explanation": "Boolean tells you whether a value counts as true or false. The number 0 is false. The text \"0\" is not empty, so it is true.",
+      "explanation": "The variable isOn holds the boolean true. Joined to text with +, it becomes the word true, so line 2 prints lamp-true. Line 3 prints the value itself, which shows as true.",
       "hints": [
-        "Look at the difference between 0 and \"0\".",
-        "Only a few values count as false: 0 and empty text are two of them.",
-        "Any text with at least one character counts as true."
+        "Look at the two lines that print isOn.",
+        "A variable can hold a boolean, and a boolean prints as a word.",
+        "Line 2 joins the word to a label, and line 3 prints it alone."
       ],
       "reference": {
         "title": "Boolean",
@@ -882,7 +878,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.values-and-types.boolean-values.predict-02",
@@ -920,7 +916,7 @@
       "hints": [
         "Look at what is between the + signs.",
         "A boolean joined to text turns into a word.",
-        "The word is false, with no number in it."
+        "The text between the brackets is a word, not a number."
       ],
       "reference": {
         "title": "Addition (+)",
@@ -930,7 +926,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.values-and-types.boolean-values.trace-01",
@@ -993,55 +989,55 @@
       "prerequisites": [],
       "format": "FILL_BLANK",
       "difficulty": 2,
-      "prompt": "Fill the blank so the program prints false.",
+      "prompt": "Fill the blank so the program prints door: true.",
       "code": [
-        "console.log(Boolean(___));"
+        "console.log(\"door: \" + ___);"
       ],
       "options": [
         {
-          "text": "0",
+          "text": "true",
           "correct": true,
-          "feedback": "Right. The number 0 counts as false."
+          "feedback": "Right. The boolean true joins the text as the word true."
         },
         {
-          "text": "\" \"",
+          "text": "false",
           "correct": false,
-          "feedback": "A space is a character, so this text is not empty and counts as true. The program prints true."
+          "feedback": "This joins the word false, so the program prints door: false."
         },
         {
-          "text": "\"false\"",
+          "text": "1",
           "correct": false,
-          "feedback": "This text has five characters, so it counts as true and the program prints true."
+          "feedback": "A number joins as its digits, so the program prints door: 1."
         },
         {
-          "text": "7",
+          "text": "\"yes\"",
           "correct": false,
-          "feedback": "Every number except 0 counts as true, so the program prints true."
+          "feedback": "This text joins as it is, so the program prints door: yes."
         }
       ],
       "solution": {
         "blanks": [
           [
-            "0"
+            "true"
           ]
         ],
-        "expectedOutput": "false"
+        "expectedOutput": "door: true"
       },
-      "explanation": "Boolean gives false for the number 0. A number such as 7 and any text with at least one character, such as \"false\" or a single space, give true.",
+      "explanation": "Joining the boolean true to text adds the word true. The chip false adds a different word, the number 1 adds a digit and the text yes adds that text.",
       "hints": [
-        "Look at what Boolean receives on line 1.",
-        "Only a few values give the opposite of true.",
-        "The chip you need is a number, not a text."
+        "Look at what comes after the + on line 1.",
+        "A boolean joined to text becomes a word.",
+        "The chip you need is a boolean written without quotation marks."
       ],
       "reference": {
-        "title": "Falsy",
-        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Falsy",
+        "title": "Boolean",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.values-and-types.boolean-values.parsons-01",
@@ -1049,11 +1045,11 @@
       "prerequisites": [],
       "format": "PARSONS",
       "difficulty": 2,
-      "prompt": "Put the lines in order so the program prints the one line, then the zero line, then the nil line.",
+      "prompt": "Put the lines in order so the program prints the lamp line, then the door line, then the gate line.",
       "code": [
-        "console.log(\"nil: \" + Boolean(\"\"));",
-        "console.log(\"one: \" + Boolean(1));",
-        "console.log(\"zero: \" + Boolean(0));"
+        "console.log(\"gate: \" + true);",
+        "console.log(\"lamp: \" + true);",
+        "console.log(\"door: \" + false);"
       ],
       "solution": {
         "lineOrder": [
@@ -1061,13 +1057,13 @@
           2,
           0
         ],
-        "expectedOutput": "one: true\nzero: false\nnil: false"
+        "expectedOutput": "lamp: true\ndoor: false\ngate: true"
       },
-      "explanation": "Each line prints a label and a boolean, and the output follows the line order. The labels tell you which line is which, so the order is one, zero, nil.",
+      "explanation": "Each line prints a label and a boolean joined to it, and the output follows the line order. The labels tell you which line is which, so the order is lamp, door, gate.",
       "hints": [
         "Each line starts with a label; find the three labels.",
-        "Boolean turns each value into true or false.",
-        "The line with the label one goes first."
+        "A boolean joined to text becomes the word true or false.",
+        "The line with the label lamp goes first."
       ],
       "reference": {
         "title": "Boolean",
@@ -1077,7 +1073,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.values-and-types.boolean-values.concept-01",
@@ -1087,36 +1083,36 @@
       "difficulty": 2,
       "prompt": "Which statement explains the two lines this program prints?",
       "code": [
-        "console.log(Boolean(\"false\"));",
-        "console.log(Boolean(\"\"));"
+        "console.log(true);",
+        "console.log(\"true\");"
       ],
       "options": [
         {
-          "text": "Text with any character is true, even \"false\"; only empty text is false.",
+          "text": "Without quotes, true is a boolean value; with quotes it is text. Both print the word true.",
           "correct": true,
-          "feedback": "Right. Boolean checks whether the text has characters, not what it says."
+          "feedback": "Right. They are different kinds of value that happen to print the same word."
         },
         {
-          "text": "The text \"false\" is false because it spells false; empty text is false too.",
+          "text": "Without quotes, true is the number 1, so the first line prints 1.",
           "correct": false,
-          "feedback": "Boolean does not read the meaning of text. The text \"false\" has five characters, so it is true.",
-          "misconception": "falsy-by-meaning"
+          "feedback": "A boolean is not a number. It prints as the word true, just like the text does.",
+          "misconception": "boolean-joins-wrong"
         },
         {
-          "text": "All text is true, so both lines print true.",
+          "text": "Only the quoted line prints a word, because a boolean prints nothing on its own.",
           "correct": false,
-          "feedback": "Empty text is the one text value that counts as false, so the second line prints false.",
-          "misconception": "falsy-by-meaning"
+          "feedback": "A boolean prints on its own. It shows as the word true or false.",
+          "misconception": "boolean-joins-wrong"
         }
       ],
       "solution": {
-        "expectedOutput": "true\nfalse"
+        "expectedOutput": "true\ntrue"
       },
-      "explanation": "Boolean treats text by its content, not its meaning. Text with at least one character is true, even the text false. Only empty text counts as false.",
+      "explanation": "Written without quotation marks, true is a boolean value. In quotation marks it is ordinary text. They are different kinds of value, but both print as the word true.",
       "hints": [
-        "Compare the two texts inside the quotation marks.",
-        "Text is checked for characters, not for meaning.",
-        "One text has characters in it; the other has none."
+        "Compare the two lines, one with quotation marks and one without.",
+        "Quotation marks make text; a boolean is written bare.",
+        "Both lines print the same word, but they are not the same kind of value."
       ],
       "reference": {
         "title": "Falsy",
@@ -1126,7 +1122,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.values-and-types.typeof-operator.predict-01",
@@ -1164,7 +1160,7 @@
       "hints": [
         "Look at the word after typeof.",
         "typeof gives the name of a value's type as text.",
-        "The type has the same name as the value itself."
+        "Ask whether undefined belongs to a type that other values share."
       ],
       "reference": {
         "title": "undefined",
@@ -1174,7 +1170,7 @@
       "duelEligible": true,
       "timeLimitSec": 15,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:5"
       ]

@@ -926,7 +926,7 @@
       "hints": [
         "The key is held in a variable, not written out.",
         "A dot reads a fixed name. Brackets can use a variable.",
-        "The brackets go right after prices. What goes inside them is the variable that holds the key."
+        "The prompt says which variable holds the key. Brackets can read a key from it."
       ],
       "reference": {
         "title": "Property accessors",
@@ -935,7 +935,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.objects.update.predict-01",
@@ -1004,34 +1004,34 @@
         "const kit = { pc: 1 };",
         "kit.tv = 2;",
         "delete kit.pc;",
-        "console.log(\"pc\" in kit, kit.tv);"
+        "console.log(kit.pc, kit.tv);"
       ],
       "options": [
         {
-          "text": "false 2",
+          "text": "undefined 2",
           "correct": true,
-          "feedback": "Right. delete removes the key pc, and the assignment added the key tv, which holds 2."
+          "feedback": "Right. delete removes the key pc, so reading it gives undefined, and the assignment added the key tv, which holds 2."
         },
         {
-          "text": "true 2",
+          "text": "1 2",
           "correct": false,
-          "feedback": "delete removes the whole key, not just its value. After it, the key is no longer in the object.",
+          "feedback": "delete removes the whole key with its value. After it, reading pc gives nothing.",
           "misconception": "delete-keeps-key"
         },
         {
-          "text": "false undefined",
+          "text": "undefined undefined",
           "correct": false,
           "feedback": "Assigning to a key that is not there adds it. After line 2 the object has a tv key.",
           "misconception": "new-key-ignored"
         }
       ],
       "solution": {
-        "expectedOutput": "false 2"
+        "expectedOutput": "undefined 2"
       },
-      "explanation": "Assigning to a new name adds a key, so tv is added. delete removes a key completely, so pc is gone. The in operator tells whether a key is in the object.",
+      "explanation": "Assigning to a new name adds a key, so tv is added. delete removes a key completely, so reading pc gives undefined.",
       "hints": [
         "Follow the object line by line: line 2, then line 3.",
-        "Assignment can add a key. delete removes one. in checks for a key.",
+        "Assignment can add a key. delete removes one. Reading a missing key gives undefined.",
         "After both lines, check which of the two keys the object still has."
       ],
       "reference": {
@@ -1042,7 +1042,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.update.trace-01",
@@ -1138,12 +1138,12 @@
         {
           "text": "remove",
           "correct": false,
-          "feedback": "remove is not a JavaScript word for this. The code is not valid and fails."
+          "feedback": "remove is not a JavaScript word for deleting a key. As the first blank it adds a key named remove, and as the second it makes the code fail."
         },
         {
           "text": "null",
           "correct": false,
-          "feedback": "null is a value, not an operator. The code is not valid and fails."
+          "feedback": "null is a value, not an operator. As the first blank it adds a key named null, and as the second it makes the code fail."
         }
       ],
       "solution": {
@@ -1171,7 +1171,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.update.parsons-01",
@@ -1583,85 +1583,100 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "Write an expression that gives the keys of obj as an array.",
+      "prompt": "Write an expression that gives the beds of the second cabin in cabins, an array of objects that each have a beds property.",
       "solution": {
         "entry": {
           "kind": "expression",
           "variables": [
-            "obj"
+            "cabins"
           ]
         },
         "tests": [
           {
             "input": {
-              "obj": {
-                "a": 1,
-                "b": 2
-              }
+              "cabins": [
+                {
+                  "beds": 2
+                },
+                {
+                  "beds": 4
+                }
+              ]
             },
-            "expected": [
-              "a",
-              "b"
-            ]
+            "expected": 4
           },
           {
             "input": {
-              "obj": {
-                "x": 1
-              }
+              "cabins": [
+                {
+                  "beds": 6
+                },
+                {
+                  "beds": 1
+                },
+                {
+                  "beds": 3
+                }
+              ]
             },
-            "expected": [
-              "x"
-            ]
+            "expected": 1
           },
           {
             "input": {
-              "obj": {}
+              "cabins": [
+                {
+                  "beds": 5
+                },
+                {
+                  "beds": 0
+                }
+              ]
             },
-            "expected": []
+            "expected": 0
           },
           {
             "input": {
-              "obj": {
-                "z": 9,
-                "y": 8
-              }
+              "cabins": [
+                {
+                  "beds": 7
+                },
+                {
+                  "beds": 9
+                }
+              ]
             },
-            "expected": [
-              "z",
-              "y"
-            ]
+            "expected": 9
           }
         ],
         "reference": [
-          "Object.keys(obj)"
+          "cabins[1].beds"
         ],
         "wrongSolutions": [
           [
-            "Object.values(obj)"
+            "cabins[1]"
           ],
           [
-            "obj.keys"
+            "cabins[0].beds"
           ],
           [
-            "Object.keys(obj).length"
+            "cabins.beds"
           ]
         ]
       },
-      "explanation": "Object.keys takes an object and returns an array of its keys. Object.values returns the values, and obj.keys looks for a key named keys.",
+      "explanation": "cabins[1] is the second object, because indexes start at 0, and .beds reads its beds property. cabins[0].beds reads the first cabin, and cabins.beds looks for a property on the array itself.",
       "hints": [
-        "The answer is a call, not a property read.",
-        "A built-in on Object lists the keys of an object.",
-        "Call it with obj in parentheses."
+        "First pick the object from the array, then read its property.",
+        "Indexes start at 0, so the second cabin is not at index 2.",
+        "Put the index in brackets after cabins, then a dot and the property name."
       ],
       "reference": {
-        "title": "Object.keys()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys",
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:19"
       ]

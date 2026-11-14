@@ -2390,20 +2390,20 @@
   },
   "adv.prototypes-and-inheritance.class-as-prototype-sugar.fill-01": {
    "code": [
-    "function Vehicle(wheels) {",
-    "  this.wheels = wheels;",
+    "class Bike {",
+    "  go() {",
+    "    return 'ok';",
+    "  }",
     "}",
-    "function Bike(wheels) {",
-    "  Vehicle.call(this, wheels);",
-    "}",
-    "console.log(new Bike(2).wheels);"
+    "const b = new Bike();",
+    "console.log(b.go === Bike.prototype.go);"
    ],
    "output": [
-    "2"
+    "true"
    ],
    "steps": [
     {
-     "line": 7,
+     "line": 6,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -2413,43 +2413,30 @@
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 7,
      "variables": [
       {
-       "name": "wheels",
-       "scope": "Bike",
-       "value": "2"
+       "name": "b",
+       "scope": "global",
+       "value": "Bike {}"
       }
      ],
      "outputCount": 0,
      "callStack": [
-      "global",
-      "Bike"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "wheels",
-       "scope": "Vehicle",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "Bike",
-      "Vehicle"
+      "global"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
      "line": 0,
-     "variables": [],
+     "variables": [
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Bike {}"
+      }
+     ],
      "outputCount": 1,
      "callStack": [],
      "microtasks": [],

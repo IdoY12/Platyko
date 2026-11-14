@@ -295,7 +295,7 @@
       ],
       "format": "CONCEPT_MCQ",
       "difficulty": 4,
-      "prompt": "Which statement explains why this program prints only a?",
+      "prompt": "Which statement explains why the second send prints bb and no plain b?",
       "code": [
         "const subs = new Set();",
         "const on = (fn) => {",
@@ -303,7 +303,9 @@
         "  return () => subs.delete(fn);",
         "};",
         "const show = (t) => console.log(t);",
+        "const twice = (t) => show(t + t);",
         "const off = on(show);",
+        "on(twice);",
         "subs.forEach((fn) => fn('a'));",
         "off();",
         "subs.forEach((fn) => fn('b'));"
@@ -312,29 +314,29 @@
         {
           "text": "off() empties the whole Set, so no listener is left for the second send.",
           "correct": false,
-          "feedback": "delete removes only the function it is given. Any other listener in the Set would still be called on the second send.",
+          "feedback": "The second send still prints bb, so the Set was not emptied. delete removes only the function it is given.",
           "misconception": "unsubscribe-clears-all"
         },
         {
-          "text": "A Set calls each stored function only once, so b is never sent to it.",
+          "text": "A Set calls each stored function only once, so the second send reaches only one listener.",
           "correct": false,
-          "feedback": "A Set stores each function once, but it never limits how often you call it. forEach calls every stored function on every send.",
+          "feedback": "twice runs on both sends, so a Set does not limit calls. forEach calls every stored function on every send.",
           "misconception": "set-runs-callbacks-once"
         },
         {
-          "text": "on returns a function that deletes this listener from the Set, so later sends skip it.",
+          "text": "on returns a function that deletes only this listener from the Set, so later sends skip show but still reach twice.",
           "correct": true,
-          "feedback": "Right. Calling the returned function removes show from subs, so the second forEach has nothing to call."
+          "feedback": "Right. Calling the returned function removes show from subs, while twice stays in the Set."
         }
       ],
       "solution": {
-        "expectedOutput": "a"
+        "expectedOutput": "a\naa\nbb"
       },
-      "explanation": "Subscribing returns an unsubscribe function that closes over fn. Calling it deletes that one listener from the Set. The second forEach then finds no listeners, so only the first send prints.",
+      "explanation": "Subscribing returns an unsubscribe function that closes over fn. Calling it deletes that one listener from the Set. The second forEach finds only twice, so it prints bb and no plain b.",
       "hints": [
         "Compare the two forEach lines and look at what happens between them.",
         "An unsubscribe function undoes exactly one subscription.",
-        "Ask which function is removed by line 9, and what the Set holds afterwards."
+        "Ask which function is removed by line 11, and what the Set holds afterwards."
       ],
       "reference": {
         "title": "Set.prototype.delete()",
@@ -343,7 +345,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.patterns-and-architecture.observer-pattern.fix-01",
@@ -645,14 +647,14 @@
         "Ask where swim and fly come from, and whether any class defines them."
       ],
       "reference": {
-        "title": "Spread syntax (...)",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+        "title": "First-class function",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/First-class_Function",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.fix-01",
@@ -960,7 +962,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 5,
-      "prompt": "Write the body of firstOrRepeat. A key's instance is built once. Return 'new' for the first request of each key and 'same' for every later request of that key.",
+      "prompt": "Write the body of firstOrRepeat(keys). A key's instance is built once. Return an array with one answer per key, in order: 'new' for its first request, 'same' for later ones.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1068,7 +1070,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.patterns-and-architecture.dependency-inversion.predict-01",
@@ -1255,7 +1257,7 @@
         "function-expressions"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "report receives a clock and a mark function. Fill both blanks so the program prints *9.",
       "code": [
         "const report = (clock, mark) => {",
@@ -1312,7 +1314,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

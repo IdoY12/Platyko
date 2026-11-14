@@ -574,11 +574,12 @@
   },
   "beg.values-and-types.boolean-values.predict-01": {
    "code": [
-    "console.log(Boolean(0));",
-    "console.log(Boolean(\"0\"));"
+    "let isOn = true;",
+    "console.log(\"lamp-\" + isOn);",
+    "console.log(isOn);"
    ],
    "output": [
-    "false",
+    "lamp-true",
     "true"
    ],
    "steps": [
@@ -594,7 +595,29 @@
     },
     {
      "line": 2,
-     "variables": [],
+     "variables": [
+      {
+       "name": "isOn",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "isOn",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
      "outputCount": 1,
      "callStack": [
       "global"
@@ -604,7 +627,13 @@
     },
     {
      "line": 0,
-     "variables": [],
+     "variables": [
+      {
+       "name": "isOn",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
      "outputCount": 2,
      "callStack": [],
      "microtasks": [],
@@ -745,10 +774,10 @@
   },
   "beg.values-and-types.boolean-values.fill-01": {
    "code": [
-    "console.log(Boolean(0));"
+    "console.log(\"door: \" + true);"
    ],
    "output": [
-    "false"
+    "door: true"
    ],
    "steps": [
     {
@@ -774,14 +803,14 @@
   },
   "beg.values-and-types.boolean-values.parsons-01": {
    "code": [
-    "console.log(\"one: \" + Boolean(1));",
-    "console.log(\"zero: \" + Boolean(0));",
-    "console.log(\"nil: \" + Boolean(\"\"));"
+    "console.log(\"lamp: \" + true);",
+    "console.log(\"door: \" + false);",
+    "console.log(\"gate: \" + true);"
    ],
    "output": [
-    "one: true",
-    "zero: false",
-    "nil: false"
+    "lamp: true",
+    "door: false",
+    "gate: true"
    ],
    "steps": [
     {
@@ -827,12 +856,12 @@
   },
   "beg.values-and-types.boolean-values.concept-01": {
    "code": [
-    "console.log(Boolean(\"false\"));",
-    "console.log(Boolean(\"\"));"
+    "console.log(true);",
+    "console.log(\"true\");"
    ],
    "output": [
     "true",
-    "false"
+    "true"
    ],
    "steps": [
     {
@@ -1343,12 +1372,13 @@
    "code": [
     "console.log(true);",
     "console.log(\"open: \" + false);",
-    "console.log(Boolean(\"\"));"
+    "let isOpen = true;",
+    "console.log(isOpen);"
    ],
    "output": [
     "true",
     "open: false",
-    "false"
+    "true"
    ],
    "steps": [
     {
@@ -1382,8 +1412,30 @@
      "microtasks": []
     },
     {
+     "line": 4,
+     "variables": [
+      {
+       "name": "isOpen",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 0,
-     "variables": [],
+     "variables": [
+      {
+       "name": "isOpen",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
      "outputCount": 3,
      "callStack": [],
      "microtasks": [],

@@ -169,7 +169,7 @@
       "title": "Property descriptors",
       "conceptCard": {
         "title": "Flags behind every property",
-        "body": "Every property has flags: writable, enumerable and configurable. Plain assignment makes all three true. Object.defineProperty sets any flag you leave out to false, so the property is read-only, hidden from Object.keys and cannot be redefined.",
+        "body": "Every property has flags: writable, enumerable and configurable. Plain assignment makes all three true. When Object.defineProperty creates a new property, it sets any flag you leave out to false, so the property is read-only, hidden from Object.keys and cannot be redefined.",
         "code": [
           "const cup = { ml: 250 };",
           "Object.defineProperty(cup, \"tag\", {",

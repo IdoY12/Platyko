@@ -447,9 +447,9 @@
           "feedback": "Right. This passes the function itself, so setTimeout can call it after 100 ms."
         },
         {
-          "text": "() => water()",
-          "correct": true,
-          "feedback": "Right. The arrow function is the callback, and it calls water when the timer fires."
+          "text": "'water'",
+          "correct": false,
+          "feedback": "A string is not a function, so setTimeout throws an error instead of calling water."
         },
         {
           "text": "water()",
@@ -466,17 +466,16 @@
       "solution": {
         "blanks": [
           [
-            "water",
-            "() => water()"
+            "water"
           ]
         ],
         "expectedOutput": "list written\nwatered"
       },
-      "explanation": "setTimeout needs a function to call later. water by itself is that function. The arrow function that calls water works too. Writing water() would call it immediately.",
+      "explanation": "setTimeout needs a function to call later. water by itself is that function. Writing water() would call it immediately, and () => water would return the function without calling it.",
       "hints": [
         "Look at what setTimeout expects as its first argument.",
         "A callback is a function that is handed over, not a function that has already been called.",
-        "Two of the four chips hand over something that can be called later."
+        "Only one of the four chips hands over a function that does the printing when called."
       ],
       "reference": {
         "title": "setTimeout()",
@@ -486,7 +485,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.async-basics.callbacks-and-timers.fix-01",
@@ -644,7 +643,7 @@
           ]
         ]
       },
-      "explanation": "forEach calls the callback once per element, so the callback adds the matching delays to a list that lives outside it. Pass remember without parentheses, and use a strict comparison with 5.",
+      "explanation": "forEach calls the callback once per element, so the callback adds the matching delays to a list that lives outside it. Pass remember without parentheses, and compare with > 5, not >= 5.",
       "hints": [
         "The list must exist outside the callback so every call can reach it.",
         "forEach takes a function and calls it for each element.",
@@ -657,7 +656,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.async-basics.promise-basics.predict-01",

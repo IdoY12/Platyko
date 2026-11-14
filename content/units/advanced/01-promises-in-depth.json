@@ -701,25 +701,21 @@
       "difficulty": 4,
       "prompt": "Order the three lines that this race program prints, from first to last.",
       "code": [
-        "const slow = new Promise((ok) => {",
-        "  setTimeout(() => ok('pie'), 300);",
-        "});",
-        "const fast = new Promise((ok) => {",
-        "  setTimeout(() => ok('roll'), 100);",
-        "});",
-        "slow.then((v) => console.log(v));",
-        "fast.then((v) => console.log(v));",
-        "Promise.race([slow, fast])",
+        "const a = Promise.resolve('pie');",
+        "const b = Promise.resolve('roll');",
+        "a.then((v) => console.log(v));",
+        "b.then((v) => console.log(v));",
+        "Promise.race([a, b])",
         "  .then(() => console.log('won'));"
       ],
       "solution": {
-        "expectedOutput": "roll\nwon\npie"
+        "expectedOutput": "pie\nroll\nwon"
       },
-      "explanation": "The 100 ms timer fires first and roll prints. race then settles, so won prints. race does not stop the slower promise, so pie still prints when its 300 ms timer fires.",
+      "explanation": "Both promises are already fulfilled, so each handler is queued in the order it was attached: pie, then roll. race attached its own handler to a before b, so it settles with pie and its handler prints won last. race does not cancel b, whose own handler still prints roll.",
       "hints": [
-        "Sort the two timers by their delays.",
+        "Both promises are already fulfilled, so handlers run in the order they were attached.",
         "race settles with the first promise to settle, but the others keep running.",
-        "The race handler runs right after the first timer, before the 300 ms timer fires."
+        "The race handler is attached after the two direct handlers."
       ],
       "reference": {
         "title": "Promise.race()",
@@ -728,7 +724,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:21"
       ]
@@ -1053,7 +1049,7 @@
         {
           "text": "finally",
           "correct": false,
-          "feedback": "finally runs after the catch but receives no value, so the last line would print undefined.",
+          "feedback": "finally does not handle a rejection and receives no value. In the first blank the rejection stays unhandled and nothing prints. In the second blank it runs after the catch and the last line prints undefined.",
           "misconception": "catch-ends-chain"
         },
         {
@@ -1087,7 +1083,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.promises-in-depth.promise-rejection-flow.fix-01",
@@ -1158,7 +1154,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of recover(failure), a catch handler. failure is {item, code}. Return 'item: retry' when code is 'busy', otherwise 'item: skip'.",
+      "prompt": "Write the body of recover(failure), a catch handler: failure is {item, code}. If code is 'busy', return the item plus ': retry' ('bread: retry'); otherwise the item plus ': skip'.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1241,7 +1237,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.promises-in-depth.promise-construction.predict-01",

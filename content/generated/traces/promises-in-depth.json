@@ -504,21 +504,17 @@
   },
   "adv.promises-in-depth.promise-combinators.parsons-01": {
    "code": [
-    "const slow = new Promise((ok) => {",
-    "  setTimeout(() => ok('pie'), 300);",
-    "});",
-    "const fast = new Promise((ok) => {",
-    "  setTimeout(() => ok('roll'), 100);",
-    "});",
-    "slow.then((v) => console.log(v));",
-    "fast.then((v) => console.log(v));",
-    "Promise.race([slow, fast])",
+    "const a = Promise.resolve('pie');",
+    "const b = Promise.resolve('roll');",
+    "a.then((v) => console.log(v));",
+    "b.then((v) => console.log(v));",
+    "Promise.race([a, b])",
     "  .then(() => console.log('won'));"
    ],
    "output": [
+    "pie",
     "roll",
-    "won",
-    "pie"
+    "won"
    ],
    "steps": [
     {
@@ -535,15 +531,35 @@
      "line": 2,
      "variables": [
       {
-       "name": "ok",
-       "scope": "anonymous",
-       "value": "[Function (anonymous)]"
+       "name": "a",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'pie'}"
       }
      ],
      "outputCount": 0,
      "callStack": [
-      "global",
-      "anonymous"
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'pie'}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'roll'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -552,233 +568,59 @@
      "line": 4,
      "variables": [
       {
-       "name": "slow",
-       "scope": "global",
-       "value": "Promise {<pending>}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [
-      "callback (line 2)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "slow",
-       "scope": "global",
-       "value": "Promise {<pending>}"
-      },
-      {
-       "name": "ok",
-       "scope": "anonymous",
-       "value": "[Function (anonymous)]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "anonymous"
-     ],
-     "macrotasks": [
-      "callback (line 2)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 7,
-     "variables": [
-      {
-       "name": "slow",
-       "scope": "global",
-       "value": "Promise {<pending>}"
-      },
-      {
-       "name": "fast",
-       "scope": "global",
-       "value": "Promise {<pending>}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [
-      "callback (line 5)",
-      "callback (line 2)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 8,
-     "variables": [
-      {
-       "name": "slow",
-       "scope": "global",
-       "value": "Promise {<pending>}"
-      },
-      {
-       "name": "fast",
-       "scope": "global",
-       "value": "Promise {<pending>}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [
-      "callback (line 5)",
-      "callback (line 2)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 9,
-     "variables": [
-      {
-       "name": "slow",
-       "scope": "global",
-       "value": "Promise {<pending>}"
-      },
-      {
-       "name": "fast",
-       "scope": "global",
-       "value": "Promise {<pending>}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [
-      "callback (line 5)",
-      "callback (line 2)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "slow",
-       "scope": "global",
-       "value": "Promise {<pending>}"
-      },
-      {
-       "name": "fast",
-       "scope": "global",
-       "value": "Promise {<pending>}"
-      },
-      {
-       "name": "ok",
-       "scope": "anonymous",
-       "value": "[Function (anonymous)]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "anonymous"
-     ],
-     "macrotasks": [
-      "callback (line 2)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 8,
-     "variables": [
-      {
-       "name": "slow",
-       "scope": "global",
-       "value": "Promise {<pending>}"
-      },
-      {
-       "name": "fast",
-       "scope": "global",
-       "value": "Promise {<fulfilled>: 'roll'}"
-      },
-      {
-       "name": "v",
-       "scope": "anonymous",
-       "value": "'roll'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "anonymous"
-     ],
-     "macrotasks": [
-      "callback (line 2)"
-     ],
-     "microtasks": [
-      "settle promise"
-     ]
-    },
-    {
-     "line": 10,
-     "variables": [
-      {
-       "name": "slow",
-       "scope": "global",
-       "value": "Promise {<pending>}"
-      },
-      {
-       "name": "fast",
-       "scope": "global",
-       "value": "Promise {<fulfilled>: 'roll'}"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "anonymous"
-     ],
-     "macrotasks": [
-      "callback (line 2)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "slow",
-       "scope": "global",
-       "value": "Promise {<pending>}"
-      },
-      {
-       "name": "fast",
-       "scope": "global",
-       "value": "Promise {<fulfilled>: 'roll'}"
-      },
-      {
-       "name": "ok",
-       "scope": "anonymous",
-       "value": "[Function (anonymous)]"
-      }
-     ],
-     "outputCount": 2,
-     "callStack": [
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 7,
-     "variables": [
-      {
-       "name": "slow",
+       "name": "a",
        "scope": "global",
        "value": "Promise {<fulfilled>: 'pie'}"
       },
       {
-       "name": "fast",
+       "name": "b",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'roll'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "callback (line 3)"
+     ]
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'pie'}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'roll'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "callback (line 3)",
+      "callback (line 4)"
+     ]
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'pie'}"
+      },
+      {
+       "name": "b",
        "scope": "global",
        "value": "Promise {<fulfilled>: 'roll'}"
       },
@@ -788,25 +630,77 @@
        "value": "'pie'"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 0,
      "callStack": [
       "anonymous"
      ],
      "macrotasks": [],
      "microtasks": [
+      "callback (line 4)",
+      "settle promise",
       "settle promise"
      ]
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'pie'}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'roll'}"
+      },
+      {
+       "name": "v",
+       "scope": "anonymous",
+       "value": "'roll'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "settle promise",
+      "settle promise"
+     ]
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'pie'}"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Promise {<fulfilled>: 'roll'}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
     },
     {
      "line": 0,
      "variables": [
       {
-       "name": "slow",
+       "name": "a",
        "scope": "global",
        "value": "Promise {<fulfilled>: 'pie'}"
       },
       {
-       "name": "fast",
+       "name": "b",
        "scope": "global",
        "value": "Promise {<fulfilled>: 'roll'}"
       }

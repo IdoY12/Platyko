@@ -169,8 +169,8 @@
         "int.dom-and-events.dom-tree-and-selection.concept-01",
         "int.dom-and-events.dom-tree-and-selection.trace-01",
         "int.dom-and-events.dom-tree-and-selection.fill-01",
-        "int.dom-and-events.dom-tree-and-selection.parsons-01",
-        "int.dom-and-events.dom-tree-and-selection.fix-01"
+        "int.dom-and-events.dom-tree-and-selection.fix-01",
+        "int.dom-and-events.dom-tree-and-selection.parsons-01"
       ]
     },
     {
@@ -195,9 +195,9 @@
         "int.dom-and-events.dom-updates.predict-01",
         "int.dom-and-events.dom-updates.concept-01",
         "int.dom-and-events.dom-updates.trace-01",
-        "int.dom-and-events.dom-updates.fill-01",
         "int.dom-and-events.dom-updates.parsons-01",
-        "int.dom-and-events.dom-updates.fix-01"
+        "int.dom-and-events.dom-updates.fix-01",
+        "int.dom-and-events.dom-updates.fill-01"
       ]
     },
     {
@@ -221,8 +221,8 @@
         "int.dom-and-events.event-listeners.concept-01",
         "int.dom-and-events.event-listeners.trace-01",
         "int.dom-and-events.event-listeners.fill-01",
-        "int.dom-and-events.event-listeners.parsons-01",
-        "int.dom-and-events.event-listeners.fix-01"
+        "int.dom-and-events.event-listeners.fix-01",
+        "int.dom-and-events.event-listeners.parsons-01"
       ]
     },
     {
@@ -243,9 +243,9 @@
         "int.dom-and-events.event-propagation.predict-01",
         "int.dom-and-events.event-propagation.concept-01",
         "int.dom-and-events.event-propagation.trace-01",
-        "int.dom-and-events.event-propagation.fill-01",
         "int.dom-and-events.event-propagation.parsons-01",
-        "int.dom-and-events.event-propagation.fix-01"
+        "int.dom-and-events.event-propagation.fix-01",
+        "int.dom-and-events.event-propagation.fill-01"
       ]
     }
   ],
@@ -630,9 +630,9 @@
           "feedback": "Right. It is the last element inside trains."
         },
         {
-          "text": "children[2]",
-          "correct": true,
-          "feedback": "Right. The list has three children, so index 2 is the last."
+          "text": "children[1]",
+          "correct": false,
+          "feedback": "Index 1 is the second train, Bergen, so the program prints the wrong name."
         },
         {
           "text": "firstElementChild",
@@ -653,17 +653,16 @@
       "solution": {
         "blanks": [
           [
-            "lastElementChild",
-            "children[2]"
+            "lastElementChild"
           ]
         ],
         "expectedOutput": "Narvik"
       },
-      "explanation": "lastElementChild gives the final element inside trains. children[2] reaches the same element by index. children alone is a collection, and index 3 does not exist.",
+      "explanation": "lastElementChild gives the final element inside trains. children alone is a collection, children[1] is the second train, and index 3 does not exist.",
       "hints": [
         "Look at line 3: it must produce one element.",
         "An element's children are reached by property, by position or by first and last.",
-        "Two chips reach the last element. The others give the first train, a whole collection or a missing index."
+        "Only one chip reaches the last element. The others give a different train, a whole collection or a missing index."
       ],
       "reference": {
         "title": "Element: lastElementChild property",
@@ -673,7 +672,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.dom-tree-and-selection.parsons-01",
@@ -1212,9 +1211,9 @@
           "feedback": "Right. It puts row at the end of the list."
         },
         {
-          "text": "append",
-          "correct": true,
-          "feedback": "Right. It also adds row to the end of the list."
+          "text": "after",
+          "correct": false,
+          "feedback": "after places row beside steps, outside the list, so the count stays at 2."
         },
         {
           "text": "createNode",
@@ -1233,13 +1232,12 @@
             "createElement"
           ],
           [
-            "appendChild",
-            "append"
+            "appendChild"
           ]
         ],
         "expectedOutput": "3"
       },
-      "explanation": "createElement makes a detached element. It shows up on the page only after appendChild or append places it inside the list, which then has three children.",
+      "explanation": "createElement makes a detached element. It shows up on the page only after appendChild places it inside the list, which then has three children. after would put it outside the list.",
       "hints": [
         "The first blank creates an element, the second puts it in the list.",
         "A created element does not exist in the page until you add it to a parent.",
@@ -1252,7 +1250,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.dom-updates.parsons-01",
@@ -1440,7 +1438,7 @@
         "const btn = document",
         "  .getElementById('book');",
         "function show() {",
-        "  console.log('btned');",
+        "  console.log('booked');",
         "}",
         "btn.addEventListener('click', show);",
         "console.log('ready');",
@@ -1469,27 +1467,27 @@
       },
       "options": [
         {
-          "text": "ready\nbtned\nbtned",
+          "text": "ready\nbooked\nbooked",
           "correct": true,
           "feedback": "Right. The handler waits for clicks, and each click runs it once."
         },
         {
-          "text": "btned\nready\nbtned\nbtned",
+          "text": "booked\nready\nbooked\nbooked",
           "correct": false,
-          "feedback": "Adding a handler does not run it. The first btned comes only from the first click.",
+          "feedback": "Adding a handler does not run it. The first booked comes only from the first click.",
           "misconception": "handler-called-at-registration"
         },
         {
-          "text": "ready\nbtned",
+          "text": "ready\nbooked",
           "correct": false,
           "feedback": "A handler is not removed after it runs. Both clicks trigger it.",
           "misconception": "listener-fires-once"
         }
       ],
       "solution": {
-        "expectedOutput": "ready\nbtned\nbtned"
+        "expectedOutput": "ready\nbooked\nbooked"
       },
-      "explanation": "addEventListener only stores the handler. It runs once per click, so btned prints twice, after ready because the clicks come later in the file.",
+      "explanation": "addEventListener only stores the handler. It runs once per click, so booked prints twice, after ready because the clicks come later in the file.",
       "hints": [
         "Which lines run when the page code is read, and which when a click happens?",
         "Registering a handler does not run it. Every click runs it again.",
@@ -1502,7 +1500,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.dom-and-events.event-listeners.concept-01",
@@ -1925,7 +1923,7 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 3,
-      "prompt": "One handler is added to three nested elements, then the button is clicked. What does this code print?",
+      "prompt": "The button is clicked. The handler prints e.currentTarget.id, the id of the element whose listener is running. What does this code print?",
       "code": [
         "const ul = document",
         "  .getElementById('bikes');",
@@ -2034,7 +2032,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.event-propagation.concept-01",
@@ -2366,9 +2364,9 @@
           "feedback": "Right. It is true only when the target itself has the class rent."
         },
         {
-          "text": "closest",
-          "correct": true,
-          "feedback": "Right. For the button it finds the button itself, and for an item it finds nothing."
+          "text": "getAttribute",
+          "correct": false,
+          "feedback": "It reads an attribute literally named '.rent', which no element has, so the condition is never true and nothing prints."
         },
         {
           "text": "querySelector",
@@ -2389,17 +2387,16 @@
       "solution": {
         "blanks": [
           [
-            "matches",
-            "closest"
+            "matches"
           ]
         ],
         "expectedOutput": "rented"
       },
-      "explanation": "matches checks the target itself against the selector. closest also works: it finds the target when it matches and returns null for an item. querySelector looks inside the target, so an item would pass.",
+      "explanation": "matches checks the target itself against the selector, so only the rent button passes. querySelector looks inside the target, so an item would pass too.",
       "hints": [
         "The condition must be true only when the clicked element is the rent button.",
         "The method asks about the clicked element itself, not about its contents.",
-        "One chip tests the element itself. Another climbs from it. The others search inside it or do not exist."
+        "One chip tests the element itself. The others search inside it, read an attribute or do not exist."
       ],
       "reference": {
         "title": "Element: matches() method",
@@ -2408,7 +2405,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.event-propagation.parsons-01",

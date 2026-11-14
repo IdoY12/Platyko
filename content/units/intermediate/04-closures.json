@@ -1803,11 +1803,11 @@
           ]
         ]
       },
-      "explanation": "up(markup) returns a function that remembers the markup and takes one cost. Passing that returned function to map applies it to every cost. Passing up itself would make functions instead of numbers.",
+      "explanation": "The factory call returns a function that remembers the markup and takes one cost. Passing that returned function to map applies it to every cost. Passing the factory itself would make functions instead of numbers.",
       "hints": [
         "Which function should map receive: the factory or what it returns?",
         "Call the factory once with markup, then give the result to map.",
-        "Return costs.map applied to the function made by up(markup)."
+        "Return costs.map applied to the function that the factory call gives back."
       ],
       "reference": {
         "title": "Array.prototype.map()",
@@ -1816,7 +1816,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

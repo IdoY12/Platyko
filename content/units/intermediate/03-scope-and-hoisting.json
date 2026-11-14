@@ -654,11 +654,11 @@
           ]
         ]
       },
-      "explanation": "Declare found before the loop so it outlives each pass, and assign to it inside the if. Declared inside the loop body, it would not exist at the return line.",
+      "explanation": "Declare the result variable before the loop so it outlives each pass, and assign to it inside the if. Declared inside the loop body, it would not exist at the return statement.",
       "hints": [
-        "Where must found be declared so line 'return' can still see it?",
+        "Where must the variable that holds the answer be declared so the return statement can still see it?",
         "A let inside the loop body ends at the closing brace of that body.",
-        "Declare found with the no-match value before the loop, then overwrite it for each price above the limit."
+        "Declare that variable with the no-match value before the loop, then overwrite it for each price above the limit."
       ],
       "reference": {
         "title": "let",
@@ -667,7 +667,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.predict-01",
@@ -1075,7 +1075,7 @@
       "explanation": "A function declaration is hoisted with its body, so line 1 works. closing is a var, so it exists from the start but holds undefined until line 6 runs, and calling undefined on line 2 throws a TypeError.",
       "hints": [
         "Compare line 1 and line 2: each calls a function defined further down.",
-        "A function declaration is ready before any line runs; a const is not usable until its line.",
+        "A function declaration is ready before any line runs; a var name exists early but holds undefined until its line runs.",
         "Compare what closing holds when line 2 runs with what opening holds on line 1."
       ],
       "reference": {
@@ -1086,7 +1086,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:20"
       ]

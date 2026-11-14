@@ -733,18 +733,22 @@
   },
   "int.this-and-classes.this-lost-and-bound.predict-01": {
    "code": [
-    "function times(factor, n) {",
-    "  return factor * n;",
-    "}",
-    "const triple = times.bind(null, 3);",
-    "console.log(triple(5), triple(10));"
+    "const lamp = {",
+    "  bulb: 'LED',",
+    "  name() {",
+    "    return this.bulb;",
+    "  }",
+    "};",
+    "const show = lamp.name.bind(lamp);",
+    "const other = { bulb: 'gas', show };",
+    "console.log(other.show());"
    ],
    "output": [
-    "15 30"
+    "LED"
    ],
    "steps": [
     {
-     "line": 4,
+     "line": 1,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -754,12 +758,12 @@
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 7,
      "variables": [
       {
-       "name": "triple",
+       "name": "lamp",
        "scope": "global",
-       "value": "[Function: bound times]"
+       "value": "{bulb: 'LED', name: [Function: name]}"
       }
      ],
      "outputCount": 0,
@@ -770,55 +774,75 @@
      "microtasks": []
     },
     {
-     "line": 2,
+     "line": 8,
      "variables": [
       {
-       "name": "triple",
+       "name": "lamp",
        "scope": "global",
-       "value": "[Function: bound times]"
+       "value": "{bulb: 'LED', name: [Function: name]}"
       },
       {
-       "name": "factor",
-       "scope": "times",
-       "value": "3"
-      },
-      {
-       "name": "n",
-       "scope": "times",
-       "value": "5"
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: bound name]"
       }
      ],
      "outputCount": 0,
      "callStack": [
-      "global",
-      "times"
+      "global"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 2,
+     "line": 9,
      "variables": [
       {
-       "name": "triple",
+       "name": "lamp",
        "scope": "global",
-       "value": "[Function: bound times]"
+       "value": "{bulb: 'LED', name: [Function: name]}"
       },
       {
-       "name": "factor",
-       "scope": "times",
-       "value": "3"
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: bound name]"
       },
       {
-       "name": "n",
-       "scope": "times",
-       "value": "10"
+       "name": "other",
+       "scope": "global",
+       "value": "{bulb: 'gas', show: [Function: bound name]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "lamp",
+       "scope": "global",
+       "value": "{bulb: 'LED', name: [Function: name]}"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: bound name]"
+      },
+      {
+       "name": "other",
+       "scope": "global",
+       "value": "{bulb: 'gas', show: [Function: bound name]}"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "times"
+      "name"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -827,9 +851,19 @@
      "line": 0,
      "variables": [
       {
-       "name": "triple",
+       "name": "lamp",
        "scope": "global",
-       "value": "[Function: bound times]"
+       "value": "{bulb: 'LED', name: [Function: name]}"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: bound name]"
+      },
+      {
+       "name": "other",
+       "scope": "global",
+       "value": "{bulb: 'gas', show: [Function: bound name]}"
       }
      ],
      "outputCount": 1,

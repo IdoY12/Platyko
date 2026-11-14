@@ -2132,21 +2132,17 @@
   },
   "exp.code-analysis.complexity-analysis.fix-01": {
    "code": [
-    "const mins = [8, 15, 22, 30, 41];",
-    "let lo = 0;",
-    "let hi = mins.length - 1;",
+    "const ids = [4, 9, 4, 7, 2];",
     "let steps = 0;",
-    "while (lo <= hi) {",
+    "let ok = false;",
+    "for (const x of ids) {",
     "  steps++;",
-    "  const sum = lo + hi;",
-    "  const mid = Math.floor(sum / 2);",
-    "  if (mins[mid] === 41) break;",
-    "  lo = mid + 1;",
+    "  if (x === 9) { ok = true; break; }",
     "}",
-    "console.log(steps);"
+    "console.log(ok, steps);"
    ],
    "output": [
-    "3"
+    "true 2"
    ],
    "steps": [
     {
@@ -2163,9 +2159,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "mins",
+       "name": "ids",
        "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
+       "value": "[4, 9, 4, 7, 2]"
       }
      ],
      "outputCount": 0,
@@ -2179,12 +2175,12 @@
      "line": 3,
      "variables": [
       {
-       "name": "mins",
+       "name": "ids",
        "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
+       "value": "[4, 9, 4, 7, 2]"
       },
       {
-       "name": "lo",
+       "name": "steps",
        "scope": "global",
        "value": "0"
       }
@@ -2200,17 +2196,48 @@
      "line": 4,
      "variables": [
       {
-       "name": "mins",
+       "name": "ids",
        "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
+       "value": "[4, 9, 4, 7, 2]"
       },
       {
-       "name": "lo",
+       "name": "steps",
        "scope": "global",
        "value": "0"
       },
       {
-       "name": "hi",
+       "name": "ok",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "ids",
+       "scope": "global",
+       "value": "[4, 9, 4, 7, 2]"
+      },
+      {
+       "name": "steps",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "false"
+      },
+      {
+       "name": "x",
        "scope": "global",
        "value": "4"
       }
@@ -2226,24 +2253,24 @@
      "line": 5,
      "variables": [
       {
-       "name": "mins",
+       "name": "ids",
        "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "0"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
+       "value": "[4, 9, 4, 7, 2]"
       },
       {
        "name": "steps",
        "scope": "global",
        "value": "0"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "false"
+      },
+      {
+       "name": "x",
+       "scope": "global",
+       "value": "4"
       }
      ],
      "outputCount": 0,
@@ -2257,81 +2284,9 @@
      "line": 6,
      "variables": [
       {
-       "name": "mins",
+       "name": "ids",
        "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "0"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "steps",
-       "scope": "global",
-       "value": "0"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 7,
-     "variables": [
-      {
-       "name": "mins",
-       "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "0"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "steps",
-       "scope": "global",
-       "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 8,
-     "variables": [
-      {
-       "name": "mins",
-       "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "0"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
+       "value": "[4, 9, 4, 7, 2]"
       },
       {
        "name": "steps",
@@ -2339,7 +2294,12 @@
        "value": "1"
       },
       {
-       "name": "sum",
+       "name": "ok",
+       "scope": "global",
+       "value": "false"
+      },
+      {
+       "name": "x",
        "scope": "global",
        "value": "4"
       }
@@ -2352,22 +2312,12 @@
      "microtasks": []
     },
     {
-     "line": 9,
+     "line": 4,
      "variables": [
       {
-       "name": "mins",
+       "name": "ids",
        "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "0"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
+       "value": "[4, 9, 4, 7, 2]"
       },
       {
        "name": "steps",
@@ -2375,55 +2325,14 @@
        "value": "1"
       },
       {
-       "name": "sum",
+       "name": "ok",
        "scope": "global",
-       "value": "4"
+       "value": "false"
       },
       {
-       "name": "mid",
+       "name": "x",
        "scope": "global",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 10,
-     "variables": [
-      {
-       "name": "mins",
-       "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "0"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "steps",
-       "scope": "global",
-       "value": "1"
-      },
-      {
-       "name": "sum",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "mid",
-       "scope": "global",
-       "value": "2"
+       "value": "9"
       }
      ],
      "outputCount": 0,
@@ -2437,24 +2346,24 @@
      "line": 5,
      "variables": [
       {
-       "name": "mins",
+       "name": "ids",
        "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
+       "value": "[4, 9, 4, 7, 2]"
       },
       {
        "name": "steps",
        "scope": "global",
        "value": "1"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "false"
+      },
+      {
+       "name": "x",
+       "scope": "global",
+       "value": "9"
       }
      ],
      "outputCount": 0,
@@ -2468,81 +2377,9 @@
      "line": 6,
      "variables": [
       {
-       "name": "mins",
+       "name": "ids",
        "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "steps",
-       "scope": "global",
-       "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 7,
-     "variables": [
-      {
-       "name": "mins",
-       "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "steps",
-       "scope": "global",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 8,
-     "variables": [
-      {
-       "name": "mins",
-       "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
+       "value": "[4, 9, 4, 7, 2]"
       },
       {
        "name": "steps",
@@ -2550,122 +2387,14 @@
        "value": "2"
       },
       {
-       "name": "sum",
+       "name": "ok",
        "scope": "global",
-       "value": "7"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 9,
-     "variables": [
-      {
-       "name": "mins",
-       "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
+       "value": "false"
       },
       {
-       "name": "lo",
+       "name": "x",
        "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "steps",
-       "scope": "global",
-       "value": "2"
-      },
-      {
-       "name": "sum",
-       "scope": "global",
-       "value": "7"
-      },
-      {
-       "name": "mid",
-       "scope": "global",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 10,
-     "variables": [
-      {
-       "name": "mins",
-       "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "steps",
-       "scope": "global",
-       "value": "2"
-      },
-      {
-       "name": "sum",
-       "scope": "global",
-       "value": "7"
-      },
-      {
-       "name": "mid",
-       "scope": "global",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "mins",
-       "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "steps",
-       "scope": "global",
-       "value": "2"
+       "value": "9"
       }
      ],
      "outputCount": 0,
@@ -2679,55 +2408,24 @@
      "line": 6,
      "variables": [
       {
-       "name": "mins",
+       "name": "ids",
        "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
+       "value": "[4, 9, 4, 7, 2]"
       },
       {
        "name": "steps",
        "scope": "global",
        "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 7,
-     "variables": [
-      {
-       "name": "mins",
-       "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
       },
       {
-       "name": "lo",
+       "name": "ok",
        "scope": "global",
-       "value": "4"
+       "value": "true"
       },
       {
-       "name": "hi",
+       "name": "x",
        "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "steps",
-       "scope": "global",
-       "value": "3"
+       "value": "9"
       }
      ],
      "outputCount": 0,
@@ -2741,101 +2439,19 @@
      "line": 8,
      "variables": [
       {
-       "name": "mins",
+       "name": "ids",
        "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
+       "value": "[4, 9, 4, 7, 2]"
       },
       {
        "name": "steps",
        "scope": "global",
-       "value": "3"
+       "value": "2"
       },
       {
-       "name": "sum",
+       "name": "ok",
        "scope": "global",
-       "value": "8"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 9,
-     "variables": [
-      {
-       "name": "mins",
-       "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "steps",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "sum",
-       "scope": "global",
-       "value": "8"
-      },
-      {
-       "name": "mid",
-       "scope": "global",
-       "value": "4"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 12,
-     "variables": [
-      {
-       "name": "mins",
-       "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "steps",
-       "scope": "global",
-       "value": "3"
+       "value": "true"
       }
      ],
      "outputCount": 0,
@@ -2849,24 +2465,19 @@
      "line": 0,
      "variables": [
       {
-       "name": "mins",
+       "name": "ids",
        "scope": "global",
-       "value": "[8, 15, 22, 30, 41]"
-      },
-      {
-       "name": "lo",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "4"
+       "value": "[4, 9, 4, 7, 2]"
       },
       {
        "name": "steps",
        "scope": "global",
-       "value": "3"
+       "value": "2"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "true"
       }
      ],
      "outputCount": 1,
@@ -3514,21 +3125,15 @@
   },
   "exp.code-analysis.refactoring-equivalence.concept-01": {
    "code": [
-    "const add = (a, b) => a + b;",
-    "class Receipt {",
-    "  total() {",
-    "    return this.prices.reduce(add);",
-    "  }",
-    "  label() {",
-    "    return \"Total: \" + this.total();",
-    "  }",
-    "}",
-    "const r = new Receipt();",
-    "r.prices = [3, 4];",
-    "console.log(r.label());"
+    "const ps = [4, 0, 6];",
+    "const old = (p) => p;",
+    "const ok = (p) => p !== undefined;",
+    "console.log(ps.filter(old).length);",
+    "console.log(ps.filter(ok).length);"
    ],
    "output": [
-    "Total: 7"
+    "2",
+    "3"
    ],
    "steps": [
     {
@@ -3542,12 +3147,12 @@
      "microtasks": []
     },
     {
-     "line": 10,
+     "line": 2,
      "variables": [
       {
-       "name": "add",
+       "name": "ps",
        "scope": "global",
-       "value": "[Function: add]"
+       "value": "[4, 0, 6]"
       }
      ],
      "outputCount": 0,
@@ -3558,65 +3163,22 @@
      "microtasks": []
     },
     {
-     "line": 11,
+     "line": 3,
      "variables": [
       {
-       "name": "add",
+       "name": "ps",
        "scope": "global",
-       "value": "[Function: add]"
+       "value": "[4, 0, 6]"
       },
       {
-       "name": "r",
+       "name": "old",
        "scope": "global",
-       "value": "Receipt {}"
+       "value": "[Function: old]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 12,
-     "variables": [
-      {
-       "name": "add",
-       "scope": "global",
-       "value": "[Function: add]"
-      },
-      {
-       "name": "r",
-       "scope": "global",
-       "value": "Receipt {prices: [3, 4]}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 7,
-     "variables": [
-      {
-       "name": "add",
-       "scope": "global",
-       "value": "[Function: add]"
-      },
-      {
-       "name": "r",
-       "scope": "global",
-       "value": "Receipt {prices: [3, 4]}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "label"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3625,55 +3187,242 @@
      "line": 4,
      "variables": [
       {
-       "name": "add",
+       "name": "ps",
        "scope": "global",
-       "value": "[Function: add]"
+       "value": "[4, 0, 6]"
       },
       {
-       "name": "r",
+       "name": "old",
        "scope": "global",
-       "value": "Receipt {prices: [3, 4]}"
+       "value": "[Function: old]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function: ok]"
       }
      ],
      "outputCount": 0,
      "callStack": [
-      "global",
-      "label",
-      "total"
+      "global"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 1,
+     "line": 2,
      "variables": [
       {
-       "name": "add",
+       "name": "ps",
        "scope": "global",
-       "value": "[Function: add]"
+       "value": "[4, 0, 6]"
       },
       {
-       "name": "r",
+       "name": "old",
        "scope": "global",
-       "value": "Receipt {prices: [3, 4]}"
+       "value": "[Function: old]"
       },
       {
-       "name": "a",
-       "scope": "add",
-       "value": "3"
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function: ok]"
       },
       {
-       "name": "b",
-       "scope": "add",
+       "name": "p",
+       "scope": "old",
        "value": "4"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "label",
-      "total",
-      "add"
+      "old"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "ps",
+       "scope": "global",
+       "value": "[4, 0, 6]"
+      },
+      {
+       "name": "old",
+       "scope": "global",
+       "value": "[Function: old]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function: ok]"
+      },
+      {
+       "name": "p",
+       "scope": "old",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "old"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "ps",
+       "scope": "global",
+       "value": "[4, 0, 6]"
+      },
+      {
+       "name": "old",
+       "scope": "global",
+       "value": "[Function: old]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function: ok]"
+      },
+      {
+       "name": "p",
+       "scope": "old",
+       "value": "6"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "old"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "ps",
+       "scope": "global",
+       "value": "[4, 0, 6]"
+      },
+      {
+       "name": "old",
+       "scope": "global",
+       "value": "[Function: old]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function: ok]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "ps",
+       "scope": "global",
+       "value": "[4, 0, 6]"
+      },
+      {
+       "name": "old",
+       "scope": "global",
+       "value": "[Function: old]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function: ok]"
+      },
+      {
+       "name": "p",
+       "scope": "ok",
+       "value": "4"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "ok"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "ps",
+       "scope": "global",
+       "value": "[4, 0, 6]"
+      },
+      {
+       "name": "old",
+       "scope": "global",
+       "value": "[Function: old]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function: ok]"
+      },
+      {
+       "name": "p",
+       "scope": "ok",
+       "value": "0"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "ok"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "ps",
+       "scope": "global",
+       "value": "[4, 0, 6]"
+      },
+      {
+       "name": "old",
+       "scope": "global",
+       "value": "[Function: old]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function: ok]"
+      },
+      {
+       "name": "p",
+       "scope": "ok",
+       "value": "6"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "ok"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3682,17 +3431,22 @@
      "line": 0,
      "variables": [
       {
-       "name": "add",
+       "name": "ps",
        "scope": "global",
-       "value": "[Function: add]"
+       "value": "[4, 0, 6]"
       },
       {
-       "name": "r",
+       "name": "old",
        "scope": "global",
-       "value": "Receipt {prices: [3, 4]}"
+       "value": "[Function: old]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function: ok]"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 2,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -6104,18 +5858,17 @@
   },
   "exp.code-analysis.side-effects-and-purity.concept-01": {
    "code": [
-    "const report = (orders) => {",
-    "  let sum = 0;",
-    "  for (const o of orders) sum += o;",
-    "  console.log(\"Sum: \" + sum);",
-    "  return sum;",
+    "const orders = [5, 7];",
+    "const sum = (list) => {",
+    "  list.sort((a, b) => b - a);",
+    "  return list[0] + list[1];",
     "};",
-    "const total = report([5, 7]);",
-    "console.log(total);"
+    "console.log(sum(orders));",
+    "console.log(orders);"
    ],
    "output": [
-    "Sum: 12",
-    "12"
+    "12",
+    "[7, 5]"
    ],
    "steps": [
     {
@@ -6129,12 +5882,12 @@
      "microtasks": []
     },
     {
-     "line": 7,
+     "line": 2,
      "variables": [
       {
-       "name": "report",
+       "name": "orders",
        "scope": "global",
-       "value": "[Function: report]"
+       "value": "[5, 7]"
       }
      ],
      "outputCount": 0,
@@ -6145,23 +5898,22 @@
      "microtasks": []
     },
     {
-     "line": 2,
+     "line": 6,
      "variables": [
       {
-       "name": "report",
+       "name": "orders",
        "scope": "global",
-       "value": "[Function: report]"
+       "value": "[5, 7]"
       },
       {
-       "name": "orders",
-       "scope": "report",
-       "value": "[5, 7]"
+       "name": "sum",
+       "scope": "global",
+       "value": "[Function: sum]"
       }
      ],
      "outputCount": 0,
      "callStack": [
-      "global",
-      "report"
+      "global"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -6170,25 +5922,25 @@
      "line": 3,
      "variables": [
       {
-       "name": "report",
-       "scope": "global",
-       "value": "[Function: report]"
-      },
-      {
        "name": "orders",
-       "scope": "report",
+       "scope": "global",
        "value": "[5, 7]"
       },
       {
        "name": "sum",
-       "scope": "report",
-       "value": "0"
+       "scope": "global",
+       "value": "[Function: sum]"
+      },
+      {
+       "name": "list",
+       "scope": "sum",
+       "value": "[5, 7]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "report"
+      "sum"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -6197,62 +5949,36 @@
      "line": 3,
      "variables": [
       {
-       "name": "report",
-       "scope": "global",
-       "value": "[Function: report]"
-      },
-      {
        "name": "orders",
-       "scope": "report",
+       "scope": "global",
        "value": "[5, 7]"
       },
       {
        "name": "sum",
-       "scope": "report",
-       "value": "0"
-      },
-      {
-       "name": "o",
-       "scope": "report",
-       "value": "5"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "report"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "report",
        "scope": "global",
-       "value": "[Function: report]"
+       "value": "[Function: sum]"
       },
       {
-       "name": "orders",
-       "scope": "report",
+       "name": "list",
+       "scope": "sum",
        "value": "[5, 7]"
       },
       {
-       "name": "sum",
-       "scope": "report",
-       "value": "5"
-      },
-      {
-       "name": "o",
-       "scope": "report",
+       "name": "a",
+       "scope": "anonymous",
        "value": "7"
+      },
+      {
+       "name": "b",
+       "scope": "anonymous",
+       "value": "5"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "report"
+      "sum",
+      "anonymous"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -6261,68 +5987,41 @@
      "line": 4,
      "variables": [
       {
-       "name": "report",
-       "scope": "global",
-       "value": "[Function: report]"
-      },
-      {
        "name": "orders",
-       "scope": "report",
-       "value": "[5, 7]"
+       "scope": "global",
+       "value": "[7, 5]"
       },
       {
        "name": "sum",
-       "scope": "report",
-       "value": "12"
+       "scope": "global",
+       "value": "[Function: sum]"
+      },
+      {
+       "name": "list",
+       "scope": "sum",
+       "value": "[7, 5]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "report"
+      "sum"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 7,
      "variables": [
       {
-       "name": "report",
-       "scope": "global",
-       "value": "[Function: report]"
-      },
-      {
        "name": "orders",
-       "scope": "report",
-       "value": "[5, 7]"
+       "scope": "global",
+       "value": "[7, 5]"
       },
       {
        "name": "sum",
-       "scope": "report",
-       "value": "12"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global",
-      "report"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 8,
-     "variables": [
-      {
-       "name": "report",
        "scope": "global",
-       "value": "[Function: report]"
-      },
-      {
-       "name": "total",
-       "scope": "global",
-       "value": "12"
+       "value": "[Function: sum]"
       }
      ],
      "outputCount": 1,
@@ -6336,14 +6035,14 @@
      "line": 0,
      "variables": [
       {
-       "name": "report",
+       "name": "orders",
        "scope": "global",
-       "value": "[Function: report]"
+       "value": "[7, 5]"
       },
       {
-       "name": "total",
+       "name": "sum",
        "scope": "global",
-       "value": "12"
+       "value": "[Function: sum]"
       }
      ],
      "outputCount": 2,

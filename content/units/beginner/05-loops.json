@@ -1505,28 +1505,63 @@
       "code": [
         "  total = total + n;",
         "console.log(total);",
-        "  if (n === 4) break;",
+        "  if (n === 4) {",
+        "    break;",
+        "  }",
         "let total = 0;",
         "}",
         "for (let n = 1; n <= 6; n++) {"
       ],
       "solution": {
         "lineOrder": [
-          3,
           5,
+          7,
           2,
-          0,
+          3,
           4,
+          0,
+          6,
           1
         ],
-        "acceptedOrders": [],
+        "acceptedOrders": [
+          [
+            5,
+            7,
+            2,
+            1,
+            3,
+            4,
+            0,
+            6
+          ],
+          [
+            5,
+            7,
+            2,
+            1,
+            3,
+            6,
+            0,
+            4
+          ],
+          [
+            5,
+            7,
+            2,
+            3,
+            6,
+            0,
+            4,
+            1
+          ]
+        ],
         "expectedOutput": "6"
       },
-      "explanation": "total must exist before the loop. In each pass the break check comes before the adding line, so the loop ends at n equal to 4 and total holds 1 + 2 + 3. The print comes after the closing brace.",
+      "explanation": "total must exist before the loop. In each pass the if block with break comes before the adding line, so the loop ends at n equal to 4 and total holds 1 + 2 + 3. The print comes after the loop's closing brace.",
       "hints": [
         "Look at the line that declares total: the loop and the print both use it.",
         "break leaves the loop at once, so lines after it in the same pass do not run.",
-        "The break check comes before the line that adds, and the print comes after the closing brace."
+        "Ask which line must run before the adding line so that 4 is never added."
       ],
       "reference": {
         "title": "break statement",
@@ -1536,7 +1571,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.loops.break-and-continue.write-01",
@@ -1548,60 +1583,65 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "A loop adds each n from 1 to 4 to total but runs continue when n equals skip (1 to 4). Write an expression for the final total.",
+      "prompt": "A loop adds every n from 1 to 4 to total, but runs continue on a condition so that n equal to skip is left out. Write that condition.",
       "solution": {
         "entry": {
           "kind": "expression",
           "variables": [
+            "n",
             "skip"
           ]
         },
         "tests": [
           {
             "input": {
-              "skip": 1
-            },
-            "expected": 9
-          },
-          {
-            "input": {
+              "n": 2,
               "skip": 2
             },
-            "expected": 8
+            "expected": true
           },
           {
             "input": {
-              "skip": 3
+              "n": 3,
+              "skip": 2
             },
-            "expected": 7
+            "expected": false
           },
           {
             "input": {
+              "n": 1,
               "skip": 4
             },
-            "expected": 6
+            "expected": false
+          },
+          {
+            "input": {
+              "n": 4,
+              "skip": 4
+            },
+            "expected": true
           }
         ],
         "reference": [
-          "10 - skip"
+          "n === skip"
         ],
         "wrongSolutions": [
           [
-            "10"
+            "n !== skip"
+          ],
+          [
+            "n < skip"
           ],
           [
             "skip"
-          ],
-          [
-            "10 + skip"
           ]
         ]
       },
-      "explanation": "continue skips the adding line for the pass where n equals skip, so that n never reaches total. Without a skip the total is 1 + 2 + 3 + 4 = 10, so the result is 10 - skip.",
+      "explanation": "continue skips the rest of the pass when its condition is true. The pass to skip is the one where n equals skip, so the condition is n === skip. n !== skip would skip every other pass.",
       "hints": [
-        "Write out which n are added when skip is 2.",
-        "continue skips the rest of the pass, so the skipped n is never added.",
-        "Start from the total when nothing is skipped, then take something away."
+        "Which pass must not add its n?",
+        "continue runs when the condition after if is true.",
+        "Compare the loop value n with skip."
       ],
       "reference": {
         "title": "continue statement",
@@ -1610,7 +1650,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

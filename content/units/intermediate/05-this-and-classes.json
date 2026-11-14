@@ -58,8 +58,12 @@
       "description": "Believes bind calls the function immediately instead of returning a new function."
     },
     {
-      "id": "bind-locks-every-argument",
-      "description": "Believes bind fixes every argument, so later calls cannot supply new values."
+      "id": "bound-this-follows-caller",
+      "description": "Believes a bound function takes this from the object it is called on."
+    },
+    {
+      "id": "bind-does-not-fix-this",
+      "description": "Believes bind does not change which object this refers to."
     },
     {
       "id": "arrow-gets-own-this",
@@ -658,39 +662,43 @@
       "difficulty": 3,
       "prompt": "What does this code print?",
       "code": [
-        "function times(factor, n) {",
-        "  return factor * n;",
-        "}",
-        "const triple = times.bind(null, 3);",
-        "console.log(triple(5), triple(10));"
+        "const lamp = {",
+        "  bulb: 'LED',",
+        "  name() {",
+        "    return this.bulb;",
+        "  }",
+        "};",
+        "const show = lamp.name.bind(lamp);",
+        "const other = { bulb: 'gas', show };",
+        "console.log(other.show());"
       ],
       "options": [
         {
-          "text": "15 30",
+          "text": "LED",
           "correct": true,
-          "feedback": "Right. bind fixed the first argument at 3, and each call supplies the second."
+          "feedback": "Right. bind fixed this to lamp, so show reads lamp.bulb whoever calls it."
         },
         {
-          "text": "15 15",
+          "text": "gas",
           "correct": false,
-          "feedback": "bind fixes only the arguments it was given. The second argument is still taken from each call.",
-          "misconception": "bind-locks-every-argument"
+          "feedback": "A bound function ignores the object it is called on. Its this was fixed when bind ran.",
+          "misconception": "bound-this-follows-caller"
         },
         {
-          "text": "Uncaught TypeError",
+          "text": "undefined",
           "correct": false,
-          "feedback": "bind does not call times. It returns a new function, so triple can be called.",
-          "misconception": "bind-calls-now"
+          "feedback": "bind does not drop this. The new function keeps the object it was given.",
+          "misconception": "bind-does-not-fix-this"
         }
       ],
       "solution": {
-        "expectedOutput": "15 30"
+        "expectedOutput": "LED"
       },
-      "explanation": "bind returns a new function with the given arguments filled in first. triple(5) runs times(3, 5) and triple(10) runs times(3, 10).",
+      "explanation": "bind returns a new function whose this is fixed to lamp. Calling it as other.show() does not change that, so it returns lamp.bulb.",
       "hints": [
-        "Look at line 4: is times called there?",
-        "bind makes a new function with some arguments already set.",
-        "triple gets its first argument from bind and its second from each call."
+        "Look at line 7: which object is given to bind?",
+        "A bound function keeps the this it was given, wherever it is called.",
+        "Compare the object passed to bind with the object before the dot on line 9."
       ],
       "reference": {
         "title": "Function.prototype.bind()",
@@ -700,7 +708,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:27"
       ]
@@ -802,7 +810,7 @@
         {
           "text": "3",
           "correct": false,
-          "feedback": "That treats the bound function as working on a copy, so jar would stay at 3. bind keeps the same jar, and its changes persist.",
+          "feedback": "That is the value jar.coins started with. The bound function changes jar itself, so each call builds on the previous result.",
           "misconception": "state-resets-each-call"
         }
       ],
@@ -827,7 +835,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.this-lost-and-bound.parsons-01",

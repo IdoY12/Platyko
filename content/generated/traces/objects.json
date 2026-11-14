@@ -1080,10 +1080,10 @@
     "const kit = { pc: 1 };",
     "kit.tv = 2;",
     "delete kit.pc;",
-    "console.log(\"pc\" in kit, kit.tv);"
+    "console.log(kit.pc, kit.tv);"
    ],
    "output": [
-    "false 2"
+    "undefined 2"
    ],
    "steps": [
     {
@@ -2832,13 +2832,13 @@
   },
   "beg.objects.iteration.write-01": {
    "code": [
-    "let obj = {\"a\":1,\"b\":2};",
+    "let cabins = [{\"beds\":2},{\"beds\":4}];",
     "console.log(",
-    "Object.keys(obj)",
+    "cabins[1].beds",
     ");"
    ],
    "output": [
-    "['a', 'b']"
+    "4"
    ],
    "steps": [
     {
@@ -2855,9 +2855,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "obj",
+       "name": "cabins",
        "scope": "global",
-       "value": "{a: 1, b: 2}"
+       "value": "[{beds: 2}, {beds: 4}]"
       }
      ],
      "outputCount": 0,
@@ -2871,9 +2871,9 @@
      "line": 0,
      "variables": [
       {
-       "name": "obj",
+       "name": "cabins",
        "scope": "global",
-       "value": "{a: 1, b: 2}"
+       "value": "[{beds: 2}, {beds: 4}]"
       }
      ],
      "outputCount": 1,

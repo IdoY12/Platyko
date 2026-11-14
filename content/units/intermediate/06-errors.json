@@ -1089,13 +1089,13 @@
         {
           "text": "B",
           "correct": false,
-          "feedback": "finally still runs when try returns. Its console.log happens first, so C prints too.",
+          "feedback": "A return inside try does not skip finally. The console.log inside finally still runs.",
           "misconception": "finally-skipped-on-exit"
         },
         {
           "text": "B\nC",
           "correct": false,
-          "feedback": "C prints while the function is leaving, before the returned value reaches the outer console.log.",
+          "feedback": "The outer console.log needs the value of open(), which only exists once the call has finished, including its finally.",
           "misconception": "finally-skipped-on-exit"
         }
       ],
@@ -1116,7 +1116,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.errors.finally-block.concept-01",

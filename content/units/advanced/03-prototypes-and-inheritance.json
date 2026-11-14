@@ -299,7 +299,7 @@
       "solution": {
         "expectedOutput": "true\nfalse\nA4"
       },
-      "explanation": "hasOwnProperty tests only the object it is called on, so it is false for id, which s inherits. A normal read follows the chain from s to shelf and finds A4.",
+      "explanation": "hasOwnProperty tests only the object it is called on, so it is false for id, which s inherits. A normal read follows the chain from s to Shelf.prototype and finds A4.",
       "hints": [
         "Compare line 5 and line 6: which property was assigned on s?",
         "hasOwnProperty ignores the prototype, but a property read does not.",
@@ -313,7 +313,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:7"
       ]
@@ -427,7 +427,7 @@
       "hints": [
         "Look at which object holds each property.",
         "A read starts at the object and climbs the chain until it finds the name.",
-        "The text saw is stored under a property name on kit. Which name?"
+        "The text saw is stored under a property name on Kit.prototype. Which name?"
       ],
       "reference": {
         "title": "Inheritance and the prototype chain",
@@ -437,7 +437,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.prototypes-and-inheritance.prototype-chain.fix-01",
@@ -1299,7 +1299,7 @@
           ]
         ]
       },
-      "explanation": "pet delegates to animal and holds its own name and legs. Calling pet.move() runs the shared method with this set to critter, so it reads those two fields.",
+      "explanation": "pet delegates to animal and holds its own name and legs. Calling pet.move() runs the shared method with this set to pet, so it reads those two fields.",
       "hints": [
         "The method must run with your own object as this.",
         "Create the object with Object.create(animal), then give it the two fields.",
@@ -1312,7 +1312,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.predict-01",
@@ -1438,61 +1438,61 @@
       ],
       "format": "FILL_BLANK",
       "difficulty": 4,
-      "prompt": "Fill the blank so Bike runs the Vehicle constructor on the new object and the program prints 2.",
+      "prompt": "A class is syntax over prototypes. Fill the blank so the program prints true.",
       "code": [
-        "function Vehicle(wheels) {",
-        "  this.wheels = wheels;",
+        "class Bike {",
+        "  go() {",
+        "    return 'ok';",
+        "  }",
         "}",
-        "function Bike(wheels) {",
-        "  Vehicle.___(this, wheels);",
-        "}",
-        "console.log(new Bike(2).wheels);"
+        "const b = new Bike();",
+        "console.log(b.go === Bike.___.go);"
       ],
       "options": [
         {
-          "text": "call",
-          "correct": true,
-          "feedback": "Right. call runs the function now, with the given this and arguments. A class does the same with super(...)."
-        },
-        {
-          "text": "bind",
-          "correct": false,
-          "feedback": "bind returns a new function and does not run it, so wheels is never set."
-        },
-        {
-          "text": "apply",
-          "correct": false,
-          "feedback": "apply wants its arguments as an array. A single number is not one, so this throws."
-        },
-        {
           "text": "prototype",
+          "correct": true,
+          "feedback": "Right. A class method is stored on Bike.prototype, and bike finds the same function there through the chain."
+        },
+        {
+          "text": "constructor",
           "correct": false,
-          "feedback": "prototype is an object, not a function, so calling it throws."
+          "feedback": "Bike.constructor is the Function constructor, which has no go, so the program prints false."
+        },
+        {
+          "text": "name",
+          "correct": false,
+          "feedback": "Bike.name is the text Bike, which has no go, so the program prints false."
+        },
+        {
+          "text": "length",
+          "correct": false,
+          "feedback": "Bike.length is a number, which has no go, so the program prints false."
         }
       ],
       "solution": {
         "blanks": [
           [
-            "call"
+            "prototype"
           ]
         ],
-        "expectedOutput": "2"
+        "expectedOutput": "true"
       },
-      "explanation": "call runs Vehicle at once with this set to the new Bike object, so wheels is stored on it. This is what super(wheels) does inside a class constructor.",
+      "explanation": "A class is syntax over prototypes: the method go is stored on Bike.prototype. bike has no own go, so its lookup finds the same function there, and both reads give the same function.",
       "hints": [
-        "Line 5 must run Vehicle, not only prepare it.",
-        "Some function methods run the function immediately with a chosen this.",
-        "The method takes this first and then the arguments one by one."
+        "Line 7 compares the method found through bike with the one on the class function.",
+        "Where does a class keep the methods its instances share?",
+        "The class function has a property that holds that shared object; its name says what it is for."
       ],
       "reference": {
-        "title": "Function.prototype.call()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call",
+        "title": "Classes",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.fix-01",
