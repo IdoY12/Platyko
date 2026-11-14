@@ -71,6 +71,15 @@
 
 ---
 
+## 9. Language — English Only
+
+- **No Hebrew anywhere in the repository:** code, comments, docs, commit messages, branch names, PR text.
+- **Only exception:** the Hebrew UI locale resource file(s) under a `locales` folder (`locales/he.*` or `locales/he/`), holding user-facing front-end strings only.
+- Enforced by `.githooks/pre-commit`, which blocks a commit that stages Hebrew characters outside those files or is made on a Hebrew branch name.
+- After cloning, activate the hook once: `git config core.hooksPath .githooks`.
+
+---
+
 ## Project Overview
 
 **Platyko** — a React Native mobile app for deliberate daily JavaScript practice.
@@ -137,3 +146,4 @@ Target users: JS developers at Junior / Mid / Senior levels. Core loop: learn �
 | Readability | Self-explanatory everything |
 | Restricted folders | Avoid hooks/utils — notify if exception made |
 | Post-change check | Verify no regressions |
+| Language | English only — Hebrew only in the UI locale file |

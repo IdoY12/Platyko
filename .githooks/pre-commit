@@ -1,0 +1,41 @@
+#!/usr/bin/env node
+// Language rule (CLAUDE.md rule 9): no Hebrew characters anywhere in the
+// repository except the Hebrew UI locale file(s) under a `locales` folder.
+const { execFileSync } = require("node:child_process");
+
+const HEBREW_CHARACTERS = /\p{Script=Hebrew}/u;
+const HEBREW_LOCALE_PATH = /(^|\/)locales\/he(\.[^/]+|\/.+)$/;
+
+const runGit = (gitArguments) =>
+  execFileSync("git", gitArguments, { maxBuffer: 64 * 1024 * 1024 });
+
+const stagedPaths = runGit([
+  "diff", "--cached", "--name-only", "--diff-filter=ACMR", "-z",
+]).toString("utf8").split("\0").filter(Boolean);
+
+const isBinary = (content) => content.subarray(0, 8000).includes(0);
+
+const violations = [];
+
+for (const stagedPath of stagedPaths) {
+  if (HEBREW_LOCALE_PATH.test(stagedPath)) continue;
+  if (HEBREW_CHARACTERS.test(stagedPath)) {
+    violations.push(`${stagedPath} (file name)`);
+    continue;
+  }
+  const stagedContent = runGit(["show", `:${stagedPath}`]);
+  if (isBinary(stagedContent)) continue;
+  const lines = stagedContent.toString("utf8").split("\n");
+  const lineIndex = lines.findIndex((line) => HEBREW_CHARACTERS.test(line));
+  if (lineIndex !== -1) violations.push(`${stagedPath}:${lineIndex + 1}`);
+}
+
+const branchName = runGit(["branch", "--show-current"]).toString("utf8").trim();
+if (HEBREW_CHARACTERS.test(branchName)) violations.push("branch name");
+
+if (violations.length > 0) {
+  console.error("Commit blocked: Hebrew characters are allowed only in the");
+  console.error("Hebrew UI locale file (locales/he). Found in:");
+  for (const violation of violations) console.error(`  ${violation}`);
+  process.exit(1);
+}
