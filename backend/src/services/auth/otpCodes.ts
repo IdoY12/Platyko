@@ -3,7 +3,7 @@ import { comparePassword, hashPassword } from "../../utils/passwordHashing.js";
 
 export const OTP_CODE_TTL_MINUTES = 10;
 const OTP_MAX_ATTEMPTS = 5;
-const OTP_RESEND_COOLDOWN_SECONDS = 60;
+export const OTP_RESEND_COOLDOWN_SECONDS = 60;
 
 export type OtpFields = { codeHash: string; expiresAt: Date; attempts: number; lastSentAt: Date };
 
