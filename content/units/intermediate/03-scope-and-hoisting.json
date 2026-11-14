@@ -1,0 +1,1777 @@
+{
+  "track": "INTERMEDIATE",
+  "unit": "scope-and-hoisting",
+  "order": 3,
+  "title": "Scope and hoisting",
+  "summary": "Where a variable lives and when it exists: block scope, var, hoisting and the temporal dead zone.",
+  "concepts": [
+    {
+      "id": "block-scope",
+      "title": "Block scope with let and const",
+      "prerequisites": [
+        "let-declaration",
+        "if-statement",
+        "for-loop"
+      ]
+    },
+    {
+      "id": "function-scope-and-var",
+      "title": "Function scope and var",
+      "prerequisites": [
+        "block-scope",
+        "function-declaration"
+      ]
+    },
+    {
+      "id": "hoisting",
+      "title": "Hoisting of declarations",
+      "prerequisites": [
+        "function-scope-and-var",
+        "function-expressions"
+      ]
+    },
+    {
+      "id": "temporal-dead-zone",
+      "title": "The temporal dead zone",
+      "prerequisites": [
+        "hoisting",
+        "block-scope"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "let-leaks-block",
+      "description": "Believes a let or const declared inside braces is still visible after the closing brace."
+    },
+    {
+      "id": "var-block-scoped",
+      "description": "Believes var stays inside the braces of an if or loop, like let."
+    },
+    {
+      "id": "var-leaks-function",
+      "description": "Believes a var declared inside a function becomes a global variable."
+    },
+    {
+      "id": "var-persists-across-calls",
+      "description": "Believes a var keeps its value from one call of a function to the next."
+    },
+    {
+      "id": "inner-shadow-overwrites-outer",
+      "description": "Believes a variable declared inside a block with the same name replaces the outer variable."
+    },
+    {
+      "id": "inner-declaration-ignored",
+      "description": "Believes a redeclared name inside a block is ignored and the outer variable is used."
+    },
+    {
+      "id": "undefined-means-declared",
+      "description": "Believes a variable that is out of scope still exists and reads as undefined."
+    },
+    {
+      "id": "value-before-line-runs",
+      "description": "Reads the value a variable had before the traced line ran instead of after it."
+    },
+    {
+      "id": "declaration-not-hoisted",
+      "description": "Believes a declaration does not exist until the line that writes it has run."
+    },
+    {
+      "id": "var-hoisted-with-value",
+      "description": "Believes hoisting moves the assigned value of a var, not only its name."
+    },
+    {
+      "id": "function-expression-hoisted-like-declaration",
+      "description": "Believes a function stored in a const can be called before its line, like a function declaration."
+    },
+    {
+      "id": "tdz-gives-undefined",
+      "description": "Believes reading a let or const before its line gives undefined, like var."
+    },
+    {
+      "id": "tdz-depends-on-position",
+      "description": "Believes code written above a let declaration can never read it, even if it runs later."
+    },
+    {
+      "id": "value-copied-at-definition",
+      "description": "Believes a function remembers the values its variables had when the function was written."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+      "retrievedAt": "2026-11-14",
+      "sha256": "297164f1691eadf5f0fa540c894a61797a86a7b13014162d7a3fc0ca43574fd9"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const",
+      "retrievedAt": "2026-11-14",
+      "sha256": "8703a6b25c295aef649b482d6837f92f67a8b0cf14ba2393179b23b969ca4c07"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
+      "retrievedAt": "2026-11-14",
+      "sha256": "e2eee42d821d3a8aa2c87be70b2d1c823804d414f9a2443a0dfb06cbbf489b24"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block",
+      "retrievedAt": "2026-11-14",
+      "sha256": "fb4a1f9df75a158980f8fab1d8e0b95e39b98507c9dafcd1360e28caf058250d"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function",
+      "retrievedAt": "2026-11-14",
+      "sha256": "a8cbb5e801744d585f5ffa16c3994b4a5a31ac78b5c450b8443f9a5643f8e6b9"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
+      "retrievedAt": "2026-11-14",
+      "sha256": "b1ec3e186f13ce472d9c128c9062abbca121b42f4e32f1124fef6009e9ff6447"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Hoisting",
+      "retrievedAt": "2026-11-14",
+      "sha256": "aea49b20974efa81b05d6da749a92c87fd0d87d912a9b3fe4ef98c358a61c172"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Scope",
+      "retrievedAt": "2026-11-14",
+      "sha256": "c0c0e7bcec58284a055a77d19359f10987b33db1b8a5c03c5608284aa60b563f"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Cant_access_lexical_declaration_before_init",
+      "retrievedAt": "2026-11-14",
+      "sha256": "f0f7fcfd5cc9f4a106ac178b7742b4c7156a3ede594864799d122c06d910b235"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "scope-and-hoisting.lesson-1",
+      "title": "Block scope with let and const",
+      "conceptCard": {
+        "title": "let and const stay in their braces",
+        "body": "A variable declared with let or const exists only inside the braces where it is written. Code outside the block cannot see it. A block may reuse a name from outside; inside, the new variable hides the outer one.",
+        "code": [
+          "let mood = \"calm\";",
+          "{",
+          "  let mood = \"busy\";",
+          "  console.log(mood);",
+          "}",
+          "console.log(mood);"
+        ],
+        "expectedOutput": "busy\ncalm"
+      },
+      "itemIds": [
+        "int.scope-and-hoisting.block-scope.predict-01",
+        "int.scope-and-hoisting.block-scope.concept-01",
+        "int.scope-and-hoisting.block-scope.trace-01",
+        "int.scope-and-hoisting.block-scope.fill-01",
+        "int.scope-and-hoisting.block-scope.fix-01",
+        "int.scope-and-hoisting.block-scope.write-01"
+      ]
+    },
+    {
+      "id": "scope-and-hoisting.lesson-2",
+      "title": "Function scope and var",
+      "conceptCard": {
+        "title": "var belongs to the whole function",
+        "body": "var ignores braces. A var declared inside an if or a loop is visible in the whole function around it, and nowhere outside. Older code uses var a lot, so you need to read it, even if let is the better choice.",
+        "code": [
+          "function check(n) {",
+          "  if (n > 0) {",
+          "    var sign = \"plus\";",
+          "  }",
+          "  return sign;",
+          "}",
+          "console.log(check(2));",
+          "console.log(check(-2));"
+        ],
+        "expectedOutput": "plus\nundefined"
+      },
+      "itemIds": [
+        "int.scope-and-hoisting.function-scope-and-var.predict-01",
+        "int.scope-and-hoisting.function-scope-and-var.concept-01",
+        "int.scope-and-hoisting.function-scope-and-var.trace-01",
+        "int.scope-and-hoisting.function-scope-and-var.parsons-01",
+        "int.scope-and-hoisting.function-scope-and-var.fix-01",
+        "int.scope-and-hoisting.function-scope-and-var.write-01"
+      ]
+    },
+    {
+      "id": "scope-and-hoisting.lesson-3",
+      "title": "Hoisting of declarations",
+      "conceptCard": {
+        "title": "Declarations are set up first",
+        "body": "Before a scope runs, JavaScript sets up its declarations. A function declaration is ready to call from the first line. A var exists too, but holds undefined until its own line runs.",
+        "code": [
+          "console.log(twice(4));",
+          "console.log(tag);",
+          "function twice(n) { return n * 2; }",
+          "var tag = \"x\";"
+        ],
+        "expectedOutput": "8\nundefined"
+      },
+      "itemIds": [
+        "int.scope-and-hoisting.hoisting.predict-01",
+        "int.scope-and-hoisting.hoisting.concept-01",
+        "int.scope-and-hoisting.hoisting.trace-01",
+        "int.scope-and-hoisting.hoisting.fill-01",
+        "int.scope-and-hoisting.hoisting.fix-01",
+        "int.scope-and-hoisting.hoisting.write-01"
+      ]
+    },
+    {
+      "id": "scope-and-hoisting.lesson-4",
+      "title": "The temporal dead zone",
+      "conceptCard": {
+        "title": "Touching let too early throws",
+        "body": "let and const are set up early as well, but cannot be used until their declaration line has run. The gap is the temporal dead zone, and reading in it throws a ReferenceError. It depends on when code runs, not where it is written.",
+        "code": [
+          "console.log(\"open\");",
+          "console.log(tip + 1);",
+          "const tip = 3;"
+        ],
+        "expectedOutput": "open\nUncaught ReferenceError"
+      },
+      "itemIds": [
+        "int.scope-and-hoisting.temporal-dead-zone.predict-01",
+        "int.scope-and-hoisting.temporal-dead-zone.concept-01",
+        "int.scope-and-hoisting.temporal-dead-zone.trace-01",
+        "int.scope-and-hoisting.temporal-dead-zone.parsons-01",
+        "int.scope-and-hoisting.temporal-dead-zone.fix-01",
+        "int.scope-and-hoisting.temporal-dead-zone.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "int.scope-and-hoisting.block-scope.predict-01",
+      "concept": "block-scope",
+      "prerequisites": [
+        "let-declaration",
+        "if-statement",
+        "for-loop"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "let buses = 3;",
+        "if (buses > 2) {",
+        "  let buses = 10;",
+        "  console.log(buses);",
+        "}",
+        "console.log(buses);"
+      ],
+      "options": [
+        {
+          "text": "10\n3",
+          "correct": true,
+          "feedback": "Right. The let inside the braces is a new variable. The outer buses keeps 3."
+        },
+        {
+          "text": "10\n10",
+          "correct": false,
+          "feedback": "You treated the inner let as a change to the outer variable. A let inside braces makes a separate variable that hides the outer one only inside the braces.",
+          "misconception": "inner-shadow-overwrites-outer"
+        },
+        {
+          "text": "3\n3",
+          "correct": false,
+          "feedback": "You ignored the inner declaration. Inside the braces, the name buses refers to the new variable, not the outer one.",
+          "misconception": "inner-declaration-ignored"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "10\n3"
+      },
+      "explanation": "let creates a new variable for the block. Inside the braces buses is 10. After the closing brace that variable is gone, so the outer buses, still 3, is printed.",
+      "hints": [
+        "Count the two variables named buses and note where each one lives.",
+        "A let inside braces is a separate variable that exists only in that block.",
+        "The first print is inside the braces, the second is outside them."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.block-scope.concept-01",
+      "concept": "block-scope",
+      "prerequisites": [
+        "let-declaration",
+        "if-statement",
+        "for-loop"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "const plants = [\"fern\", \"aloe\"];",
+        "for (const p of plants) {",
+        "  const label = \"tag-\" + p;",
+        "}",
+        "console.log(label);"
+      ],
+      "options": [
+        {
+          "text": "label exists only inside the loop body braces.",
+          "correct": true,
+          "feedback": "Right. Reading label after the loop throws a ReferenceError because the variable ended with the block."
+        },
+        {
+          "text": "label stays available after the loop and holds the last tag.",
+          "correct": false,
+          "feedback": "If that were true, the program would print a tag. A const declared in braces is gone once the closing brace is reached.",
+          "misconception": "let-leaks-block"
+        },
+        {
+          "text": "label is available after the loop, but only as undefined.",
+          "correct": false,
+          "feedback": "A variable that is out of scope does not exist at all, so reading it fails instead of giving undefined.",
+          "misconception": "undefined-means-declared"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Uncaught ReferenceError"
+      },
+      "explanation": "let and const are block scoped. label belongs to the loop body, so line 5 asks for a name that does not exist in that scope and throws a ReferenceError.",
+      "hints": [
+        "Compare where label is declared with where it is read.",
+        "let and const variables end at the closing brace of their block.",
+        "Ask whether line 5 is inside or outside the braces of the loop."
+      ],
+      "reference": {
+        "title": "Block statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.block-scope.trace-01",
+      "concept": "block-scope",
+      "prerequisites": [
+        "let-declaration",
+        "if-statement",
+        "for-loop"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What is the value of shown right after line 6 runs?",
+      "code": [
+        "let paid = 5;",
+        "{",
+        "  let paid = 8;",
+        "  paid = paid + 1;",
+        "}",
+        "const shown = paid;",
+        "console.log(shown);"
+      ],
+      "options": [
+        {
+          "text": "5",
+          "correct": true,
+          "feedback": "Right. The let inside the braces is another variable, so the outer paid is never changed."
+        },
+        {
+          "text": "9",
+          "correct": false,
+          "feedback": "That is the inner paid. It ended at the closing brace, so line 6 reads the outer one.",
+          "misconception": "inner-shadow-overwrites-outer"
+        },
+        {
+          "text": "6",
+          "correct": false,
+          "feedback": "That adds 1 to the outer paid. Line 4 changes the inner variable, because the name paid inside the braces means the new one.",
+          "misconception": "inner-declaration-ignored"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "shown",
+          "afterLine": 6,
+          "visit": 1
+        },
+        "expectedOutput": "5"
+      },
+      "explanation": "Line 3 declares a new paid inside the braces. Line 4 changes that inner variable to 9, which disappears at line 5. Line 6 copies the outer paid, still 5.",
+      "hints": [
+        "Two variables are called paid. Find the one that line 6 reads.",
+        "The inner paid exists only between the braces.",
+        "Line 6 is outside the braces."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.block-scope.fill-01",
+      "concept": "block-scope",
+      "prerequisites": [
+        "let-declaration",
+        "if-statement",
+        "for-loop"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints 9.",
+      "code": [
+        "let shown = \"none\";",
+        "for (let n = 1; n <= 3; n++) {",
+        "  const sq = n * n;",
+        "  if (sq > 3) {",
+        "    ___ = sq;",
+        "  }",
+        "}",
+        "console.log(shown);"
+      ],
+      "options": [
+        {
+          "text": "shown",
+          "correct": true,
+          "feedback": "Right. This assigns to the outer variable, so the value survives the loop."
+        },
+        {
+          "text": "let shown",
+          "correct": false,
+          "feedback": "This declares a new shown inside the if block. It disappears at the closing brace and the outer shown stays \"none\"."
+        },
+        {
+          "text": "const shown",
+          "correct": false,
+          "feedback": "This also creates a new variable inside the block, so the outer shown is never changed."
+        },
+        {
+          "text": "sq",
+          "correct": false,
+          "feedback": "sq is a const, so assigning to it throws an error on the first pass that reaches the line."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "shown"
+          ]
+        ],
+        "expectedOutput": "9"
+      },
+      "explanation": "Plain assignment updates the outer shown. A declaration keyword would create a new variable that ends with the block. Passes with n = 2 and n = 3 set shown to 4, then 9.",
+      "hints": [
+        "Look at the blank on line 5 and at what line 8 prints.",
+        "Writing let or const creates a new variable; leaving it out reuses an existing one.",
+        "The value must reach the variable declared on line 1."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.block-scope.fix-01",
+      "concept": "block-scope",
+      "prerequisites": [
+        "let-declaration",
+        "if-statement",
+        "for-loop"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print ready. Tap the buggy line, then choose its fix.",
+      "code": [
+        "const cart = [3, 1];",
+        "let note = \"empty\";",
+        "if (cart.length > 0) {",
+        "  let note = \"ready\";",
+        "}",
+        "console.log(note);"
+      ],
+      "options": [
+        {
+          "text": "  note = \"ready\";",
+          "correct": true,
+          "feedback": "Right. Without let, the assignment changes the outer note."
+        },
+        {
+          "text": "  const note = \"ready\";",
+          "correct": false,
+          "feedback": "const also creates a new variable inside the braces, so line 6 still prints the outer note."
+        },
+        {
+          "text": "  note += \"ready\";",
+          "correct": false,
+          "feedback": "This does change the outer note, but it appends to the old text instead of replacing it."
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "ready"
+      },
+      "explanation": "The let on line 4 declares a new note that ends at the closing brace. Line 6 reads the outer note, still \"empty\". Removing let makes line 4 assign to the outer variable.",
+      "hints": [
+        "Line 6 prints the note declared on line 2. Does line 4 change that one?",
+        "A declaration keyword inside braces creates a new variable.",
+        "Keep the assignment, but drop the keyword before note."
+      ],
+      "reference": {
+        "title": "Block statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.block-scope.write-01",
+      "concept": "block-scope",
+      "prerequisites": [
+        "let-declaration",
+        "if-statement",
+        "for-loop"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of lastOver(prices, limit). Return the last price above limit, or -1 if none is above it.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "lastOver",
+          "params": [
+            "prices",
+            "limit"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                3,
+                9,
+                5,
+                12,
+                4
+              ],
+              8
+            ],
+            "expected": 12
+          },
+          {
+            "input": [
+              [
+                3,
+                9,
+                5,
+                12,
+                4
+              ],
+              20
+            ],
+            "expected": -1
+          },
+          {
+            "input": [
+              [],
+              5
+            ],
+            "expected": -1
+          },
+          {
+            "input": [
+              [
+                10
+              ],
+              5
+            ],
+            "expected": 10
+          },
+          {
+            "input": [
+              [
+                9,
+                2
+              ],
+              5
+            ],
+            "expected": 9
+          }
+        ],
+        "reference": [
+          "let found = -1;",
+          "for (const p of prices) {",
+          "  if (p > limit) {",
+          "    found = p;",
+          "  }",
+          "}",
+          "return found;"
+        ],
+        "wrongSolutions": [
+          [
+            "for (const p of prices) {",
+            "  let found = -1;",
+            "  if (p > limit) {",
+            "    found = p;",
+            "  }",
+            "}",
+            "return found;"
+          ],
+          [
+            "for (const p of prices) {",
+            "  if (p > limit) {",
+            "    return p;",
+            "  }",
+            "}",
+            "return -1;"
+          ],
+          [
+            "let found = 0;",
+            "for (const p of prices) {",
+            "  if (p > limit) {",
+            "    found = p;",
+            "  }",
+            "}",
+            "return found;"
+          ]
+        ]
+      },
+      "explanation": "Declare found before the loop so it outlives each pass, and assign to it inside the if. Declared inside the loop body, it would not exist at the return line.",
+      "hints": [
+        "Where must found be declared so line 'return' can still see it?",
+        "A let inside the loop body ends at the closing brace of that body.",
+        "Declare found with the no-match value before the loop, then overwrite it for each price above the limit."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.function-scope-and-var.predict-01",
+      "concept": "function-scope-and-var",
+      "prerequisites": [
+        "block-scope",
+        "function-declaration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "function pick(n) {",
+        "  if (n > 5) {",
+        "    var label = \"big\";",
+        "  }",
+        "  return label;",
+        "}",
+        "console.log(pick(9), pick(1));"
+      ],
+      "options": [
+        {
+          "text": "big undefined",
+          "correct": true,
+          "feedback": "Right. var ignores the braces of the if, so label exists for the whole call. For 1 it was never assigned."
+        },
+        {
+          "text": "Uncaught ReferenceError",
+          "correct": false,
+          "feedback": "You treated var like let. A var declared in an if block belongs to the whole function, so line 5 can read it.",
+          "misconception": "var-block-scoped"
+        },
+        {
+          "text": "big big",
+          "correct": false,
+          "feedback": "Each call of pick has its own label. The second call never assigns it, so it does not keep the value from the first.",
+          "misconception": "var-persists-across-calls"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "big undefined"
+      },
+      "explanation": "A var belongs to the whole function, not to the if block. Calling pick(9) assigns label. Calling pick(1) makes a new call where label exists but was never assigned, so it is undefined.",
+      "hints": [
+        "Check where label is declared and where it is read, for each call.",
+        "var is scoped to the function. Each call gets its own copy.",
+        "The first call assigns label; the second call skips the if."
+      ],
+      "reference": {
+        "title": "var",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.function-scope-and-var.concept-01",
+      "concept": "function-scope-and-var",
+      "prerequisites": [
+        "block-scope",
+        "function-declaration"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "function wrap() {",
+        "  var ribbon = \"red\";",
+        "}",
+        "wrap();",
+        "console.log(ribbon);"
+      ],
+      "options": [
+        {
+          "text": "var is scoped to its function, so ribbon does not exist outside wrap.",
+          "correct": true,
+          "feedback": "Right. Reading a name that is not in scope throws a ReferenceError."
+        },
+        {
+          "text": "var inside a function creates a global variable once wrap runs.",
+          "correct": false,
+          "feedback": "If that were true, line 5 would print red. A var declared in a function stays in that function.",
+          "misconception": "var-leaks-function"
+        },
+        {
+          "text": "ribbon exists after wrap runs, but holds undefined.",
+          "correct": false,
+          "feedback": "A variable outside its scope does not exist, so reading it throws instead of giving undefined.",
+          "misconception": "undefined-means-declared"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Uncaught ReferenceError"
+      },
+      "explanation": "var is function scoped. ribbon lives only while wrap runs, and code outside the function cannot see it, so line 5 throws a ReferenceError.",
+      "hints": [
+        "Compare where ribbon is declared with where line 5 reads it.",
+        "A var belongs to the function that contains it.",
+        "Ask whether line 5 is inside wrap."
+      ],
+      "reference": {
+        "title": "var",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.function-scope-and-var.trace-01",
+      "concept": "function-scope-and-var",
+      "prerequisites": [
+        "block-scope",
+        "function-declaration"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What is the value of cups right after line 6 runs?",
+      "code": [
+        "var cups = 2;",
+        "function brew() {",
+        "  var cups = 5;",
+        "  cups = cups + 1;",
+        "}",
+        "brew();",
+        "console.log(cups);"
+      ],
+      "options": [
+        {
+          "text": "2",
+          "correct": true,
+          "feedback": "Right. The var inside brew is its own variable, so the outer cups never changes."
+        },
+        {
+          "text": "6",
+          "correct": false,
+          "feedback": "That is the value inside brew. The var on line 3 makes a separate variable that ends with the call.",
+          "misconception": "inner-shadow-overwrites-outer"
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "That adds 1 to the outer cups. Inside brew the name cups is the new variable, so the outer value is not used.",
+          "misconception": "inner-declaration-ignored"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "cups",
+          "afterLine": 6,
+          "visit": 1
+        },
+        "expectedOutput": "2"
+      },
+      "explanation": "The var on line 3 declares a new cups that exists only during the call. Line 4 changes that copy to 6. After brew returns, the outer cups is still 2.",
+      "hints": [
+        "Find which cups line 4 changes.",
+        "A var inside a function is a separate variable from an outer one with the same name.",
+        "The question asks about the cups outside the function."
+      ],
+      "reference": {
+        "title": "var",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.function-scope-and-var.parsons-01",
+      "concept": "function-scope-and-var",
+      "prerequisites": [
+        "block-scope",
+        "function-declaration"
+      ],
+      "format": "PARSONS",
+      "difficulty": 3,
+      "prompt": "Put the lines in order so the program prints big.",
+      "code": [
+        "  return label;",
+        "console.log(pickLabel(8));",
+        "function pickLabel(n) {",
+        "}",
+        "  if (n > 5) { var label = \"big\"; }"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          4,
+          0,
+          3,
+          1
+        ],
+        "acceptedOrders": [
+          [
+            1,
+            2,
+            4,
+            0,
+            3
+          ]
+        ],
+        "expectedOutput": "big"
+      },
+      "explanation": "The function header opens the body, the if assigns label, the return reads it, and the closing brace ends the function. The call follows the function. Because var is function scoped, return can read label.",
+      "hints": [
+        "The function body sits between the header and the closing brace.",
+        "Inside pickLabel, assign label before you return it.",
+        "The call that prints the result comes after the function is closed."
+      ],
+      "reference": {
+        "title": "var",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.function-scope-and-var.fix-01",
+      "concept": "function-scope-and-var",
+      "prerequisites": [
+        "block-scope",
+        "function-declaration"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print 16. Tap the buggy line, then choose its fix.",
+      "code": [
+        "function measure() {",
+        "  var width = 8;",
+        "  return width * 2;",
+        "}",
+        "const area = measure();",
+        "console.log(width);"
+      ],
+      "options": [
+        {
+          "text": "console.log(area);",
+          "correct": true,
+          "feedback": "Right. area holds what measure returned, so the program prints 16."
+        },
+        {
+          "text": "console.log(width * 2);",
+          "correct": false,
+          "feedback": "width is a var inside measure. Outside the function the name does not exist, so this fails as well."
+        },
+        {
+          "text": "console.log(measure.width);",
+          "correct": false,
+          "feedback": "A var is not stored on the function, so this reads a property that is not there."
+        }
+      ],
+      "solution": {
+        "bugLine": 6,
+        "expectedOutput": "16"
+      },
+      "explanation": "width is a var local to measure, so line 6 cannot read it. The function returns the result instead, and line 5 stores it in area. Print area to get 16.",
+      "hints": [
+        "Line 6 reads width. Where is width visible?",
+        "A var inside a function cannot be read outside it. The function can return a value instead.",
+        "Print the variable that already holds the returned value."
+      ],
+      "reference": {
+        "title": "var",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.function-scope-and-var.write-01",
+      "concept": "function-scope-and-var",
+      "prerequisites": [
+        "block-scope",
+        "function-declaration"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of labelDistance(km). Return \"far\" when km is above 10, otherwise \"near\". Declare one variable before the if and return it.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "labelDistance",
+          "params": [
+            "km"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              25
+            ],
+            "expected": "far"
+          },
+          {
+            "input": [
+              10
+            ],
+            "expected": "near"
+          },
+          {
+            "input": [
+              0
+            ],
+            "expected": "near"
+          },
+          {
+            "input": [
+              10.5
+            ],
+            "expected": "far"
+          }
+        ],
+        "reference": [
+          "var label = \"near\";",
+          "if (km > 10) {",
+          "  label = \"far\";",
+          "}",
+          "return label;"
+        ],
+        "wrongSolutions": [
+          [
+            "if (km > 10) {",
+            "  let label = \"far\";",
+            "} else {",
+            "  let label = \"near\";",
+            "}",
+            "return label;"
+          ],
+          [
+            "var label = \"near\";",
+            "if (km >= 10) {",
+            "  label = \"far\";",
+            "}",
+            "return label;"
+          ],
+          [
+            "var label;",
+            "if (km > 10) {",
+            "  label = \"far\";",
+            "}",
+            "return label;"
+          ]
+        ]
+      },
+      "explanation": "Declare label before the if so that it is in scope at the return, give it the default \"near\", and replace it when km is above 10. Declaring with let inside the branches would hide it from the return.",
+      "hints": [
+        "Where must the variable be declared to be visible at the return line?",
+        "Give the variable its default value first, then change it in the if.",
+        "Declare label as \"near\" before the if; set it to \"far\" when km is above 10."
+      ],
+      "reference": {
+        "title": "var",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.hoisting.predict-01",
+      "concept": "hoisting",
+      "prerequisites": [
+        "function-scope-and-var",
+        "function-expressions"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "What does this code print?",
+      "code": [
+        "console.log(opening(\"bakery\"));",
+        "console.log(closing(\"bakery\"));",
+        "function opening(s) {",
+        "  return s + \" open\";",
+        "}",
+        "const closing = (s) => s + \" shut\";"
+      ],
+      "options": [
+        {
+          "text": "bakery open\nUncaught ReferenceError",
+          "correct": true,
+          "feedback": "Right. The declaration is ready from the first line, but the const is not usable until its line has run."
+        },
+        {
+          "text": "Uncaught ReferenceError",
+          "correct": false,
+          "feedback": "You thought the function declaration was not ready yet. A function declaration is set up before any line runs, so line 1 works.",
+          "misconception": "declaration-not-hoisted"
+        },
+        {
+          "text": "bakery open\nbakery shut",
+          "correct": false,
+          "feedback": "You treated the const function expression like a declaration. The const cannot be used before line 6 has run.",
+          "misconception": "function-expression-hoisted-like-declaration"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "bakery open\nUncaught ReferenceError"
+      },
+      "explanation": "A function declaration is hoisted with its body, so line 1 works. closing is a const, so reading it on line 2 is too early and throws a ReferenceError.",
+      "hints": [
+        "Compare line 1 and line 2: each calls a function defined further down.",
+        "A function declaration is ready before any line runs; a const is not usable until its line.",
+        "The first call prints, the second one stops the program."
+      ],
+      "reference": {
+        "title": "Hoisting",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Hoisting",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:JUNIOR:20"
+      ]
+    },
+    {
+      "id": "int.scope-and-hoisting.hoisting.concept-01",
+      "concept": "hoisting",
+      "prerequisites": [
+        "function-scope-and-var",
+        "function-expressions"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "console.log(riders);",
+        "var riders = 5;",
+        "console.log(riders);"
+      ],
+      "options": [
+        {
+          "text": "The declaration is hoisted, but the value 5 is assigned only when line 2 runs.",
+          "correct": true,
+          "feedback": "Right. Line 1 finds a variable that exists but has no value yet."
+        },
+        {
+          "text": "The declaration is not created until line 2, so line 1 can only throw.",
+          "correct": false,
+          "feedback": "The var name exists from the start of the scope, so line 1 does not throw.",
+          "misconception": "declaration-not-hoisted"
+        },
+        {
+          "text": "The assignment is hoisted with the declaration, so line 1 reads 5.",
+          "correct": false,
+          "feedback": "Only the name is hoisted. If the value moved too, line 1 would print 5 instead of undefined.",
+          "misconception": "var-hoisted-with-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "undefined\n5"
+      },
+      "explanation": "Hoisting sets up the var name at the top of its scope with the value undefined. The assignment stays on its own line, so line 1 prints undefined and line 3 prints 5.",
+      "hints": [
+        "Compare the two printed values.",
+        "Hoisting moves the declaration, not the assignment.",
+        "Ask what value riders has before line 2 has run."
+      ],
+      "reference": {
+        "title": "Hoisting",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Hoisting",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.hoisting.trace-01",
+      "concept": "hoisting",
+      "prerequisites": [
+        "function-scope-and-var",
+        "function-expressions"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What is the value of result right after line 7 runs?",
+      "code": [
+        "var taken = 4;",
+        "function book() {",
+        "  var held = taken + 1;",
+        "  var taken = 20;",
+        "  return held;",
+        "}",
+        "const result = book();",
+        "console.log(result);"
+      ],
+      "options": [
+        {
+          "text": "NaN",
+          "correct": true,
+          "feedback": "Right. Inside book, taken is hoisted and still undefined on line 3, and undefined + 1 is NaN."
+        },
+        {
+          "text": "5",
+          "correct": false,
+          "feedback": "That uses the outer taken. The var on line 4 is hoisted to the top of book, so line 3 already uses the inner variable.",
+          "misconception": "declaration-not-hoisted"
+        },
+        {
+          "text": "21",
+          "correct": false,
+          "feedback": "That reads the 20 from line 4. The assignment is not hoisted, so it has not run when line 3 runs.",
+          "misconception": "var-hoisted-with-value"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "result",
+          "afterLine": 7,
+          "visit": 1
+        },
+        "expectedOutput": "NaN"
+      },
+      "explanation": "The var on line 4 is hoisted to the top of book with the value undefined. Line 3 therefore uses the inner taken: undefined + 1 gives NaN, which book returns.",
+      "hints": [
+        "Which variable called taken does line 3 use?",
+        "Hoisting makes a var exist from the start of its function, holding undefined.",
+        "Add 1 to undefined and read the result."
+      ],
+      "reference": {
+        "title": "Hoisting",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Hoisting",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.hoisting.fill-01",
+      "concept": "hoisting",
+      "prerequisites": [
+        "function-scope-and-var",
+        "function-expressions"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "Fill the blank so the program prints undefined and then 12.",
+      "code": [
+        "console.log(boxes);",
+        "___ boxes = 12;",
+        "console.log(boxes);"
+      ],
+      "options": [
+        {
+          "text": "var",
+          "correct": true,
+          "feedback": "Right. A var exists from the start of its scope, so line 1 reads undefined."
+        },
+        {
+          "text": "let",
+          "correct": false,
+          "feedback": "A let cannot be read before its line has run, so line 1 throws a ReferenceError."
+        },
+        {
+          "text": "const",
+          "correct": false,
+          "feedback": "A const cannot be read before its line has run, so line 1 throws a ReferenceError."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "var"
+          ]
+        ],
+        "expectedOutput": "undefined\n12"
+      },
+      "explanation": "Only var gives its name a value, undefined, before the declaration line. let and const exist but cannot be read until their line has run.",
+      "hints": [
+        "Line 1 reads boxes before line 2 runs.",
+        "Only one kind of declaration can be read early without an error.",
+        "The early read must give undefined, not an error."
+      ],
+      "reference": {
+        "title": "var",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.hoisting.fix-01",
+      "concept": "hoisting",
+      "prerequisites": [
+        "function-scope-and-var",
+        "function-expressions"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print 10. Tap the buggy line, then choose its fix.",
+      "code": [
+        "const rides = 5;",
+        "console.log(fare(rides));",
+        "const fare = (km) => km * 2;"
+      ],
+      "options": [
+        {
+          "text": "function fare(km) { return km * 2; }",
+          "correct": true,
+          "feedback": "Right. A function declaration is hoisted with its body, so the call on line 2 works."
+        },
+        {
+          "text": "var fare = (km) => km * 2;",
+          "correct": false,
+          "feedback": "var is hoisted as undefined, so line 2 tries to call undefined and fails with a TypeError."
+        },
+        {
+          "text": "let fare = (km) => km * 2;",
+          "correct": false,
+          "feedback": "let is also not usable before its line has run, so line 2 still throws a ReferenceError."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "10"
+      },
+      "explanation": "Line 2 calls fare before the const on line 3 has run. A function declaration is hoisted with its body, so declaring fare with function makes the early call work.",
+      "hints": [
+        "Line 2 uses fare before line 3 creates it.",
+        "Some declarations can be used before their line, others cannot.",
+        "Declare fare in the form whose body is hoisted."
+      ],
+      "reference": {
+        "title": "function declaration",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.hoisting.write-01",
+      "concept": "hoisting",
+      "prerequisites": [
+        "function-scope-and-var",
+        "function-expressions"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of shout(word). Return word in capital letters plus \"!\". Declare the helper decorate(w) after the return line and call it.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "shout",
+          "params": [
+            "word"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              "hey"
+            ],
+            "expected": "HEY!"
+          },
+          {
+            "input": [
+              ""
+            ],
+            "expected": "!"
+          },
+          {
+            "input": [
+              "Go"
+            ],
+            "expected": "GO!"
+          }
+        ],
+        "reference": [
+          "return decorate(word);",
+          "function decorate(w) {",
+          "  return w.toUpperCase() + \"!\";",
+          "}"
+        ],
+        "wrongSolutions": [
+          [
+            "return decorate(word);",
+            "const decorate = (w) => {",
+            "  return w.toUpperCase() + \"!\";",
+            "};"
+          ],
+          [
+            "return decorate(word);",
+            "var decorate = (w) => {",
+            "  return w.toUpperCase() + \"!\";",
+            "};"
+          ],
+          [
+            "return decorate(word);",
+            "function decorate(w) {",
+            "  return w + \"!\";",
+            "}"
+          ]
+        ]
+      },
+      "explanation": "A function declaration is hoisted, so decorate can be called from the line above it. A const or var arrow function placed after the return would not be ready, and the helper must also change the case.",
+      "hints": [
+        "The return line runs before the helper line. Which declaration form is ready that early?",
+        "Function declarations are hoisted with their bodies.",
+        "Declare decorate with the function keyword and make it use toUpperCase."
+      ],
+      "reference": {
+        "title": "function declaration",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.temporal-dead-zone.predict-01",
+      "concept": "temporal-dead-zone",
+      "prerequisites": [
+        "hoisting",
+        "block-scope"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "What does this code print?",
+      "code": [
+        "const rooms = 3;",
+        "{",
+        "  console.log(typeof rooms);",
+        "  let rooms = 5;",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "Uncaught ReferenceError",
+          "correct": true,
+          "feedback": "Right. Inside the braces rooms is the inner let, which cannot be touched before line 4. typeof does not protect it."
+        },
+        {
+          "text": "number",
+          "correct": false,
+          "feedback": "You used the outer rooms. The inner let belongs to the whole block, so line 3 already refers to it, not to the outer variable.",
+          "misconception": "inner-declaration-ignored"
+        },
+        {
+          "text": "undefined",
+          "correct": false,
+          "feedback": "A let is not undefined before its line. Reading it in that gap throws an error instead.",
+          "misconception": "tdz-gives-undefined"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Uncaught ReferenceError"
+      },
+      "explanation": "The let on line 4 belongs to the whole block, so rooms on line 3 means the inner variable. It sits in the temporal dead zone until line 4 runs, and reading it throws a ReferenceError.",
+      "hints": [
+        "Which rooms does line 3 refer to?",
+        "A let covers its whole block, but cannot be read until its declaration line has run.",
+        "Neither a number nor undefined can be read from that variable on line 3."
+      ],
+      "reference": {
+        "title": "ReferenceError: cannot access before initialization",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Cant_access_lexical_declaration_before_init",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "duel:8"
+      ]
+    },
+    {
+      "id": "int.scope-and-hoisting.temporal-dead-zone.concept-01",
+      "concept": "temporal-dead-zone",
+      "prerequisites": [
+        "hoisting",
+        "block-scope"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "const peek = () => cap * 2;",
+        "let cap = 7;",
+        "console.log(peek());"
+      ],
+      "options": [
+        {
+          "text": "peek can read cap because it runs after line 2 has run.",
+          "correct": true,
+          "feedback": "Right. What counts is when the code runs, not where it is written."
+        },
+        {
+          "text": "Code written above a let declaration can never read it.",
+          "correct": false,
+          "feedback": "peek sits above the declaration, yet it works because it runs later.",
+          "misconception": "tdz-depends-on-position"
+        },
+        {
+          "text": "peek gives NaN, because let is hoisted without a value.",
+          "correct": false,
+          "feedback": "cap is initialised on line 2 before peek runs on line 3, so it already holds 7.",
+          "misconception": "tdz-gives-undefined"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "14"
+      },
+      "explanation": "The temporal dead zone lasts in time until the declaration line runs. peek is written above the let, but it is called after it, so cap is already 7.",
+      "hints": [
+        "Compare the order lines are written with the order they run.",
+        "The dead zone is a period of execution, not a position in the file.",
+        "Ask whether line 2 has run when peek runs."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.temporal-dead-zone.trace-01",
+      "concept": "temporal-dead-zone",
+      "prerequisites": [
+        "hoisting",
+        "block-scope"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What is the value of revenue right after line 5 runs?",
+      "code": [
+        "let sold = 2;",
+        "const report = () => sold * price;",
+        "sold = sold + 3;",
+        "const price = 4;",
+        "const revenue = report();",
+        "console.log(revenue);"
+      ],
+      "options": [
+        {
+          "text": "20",
+          "correct": true,
+          "feedback": "Right. report runs after both sold and price are ready, and it reads the current values: 5 times 4."
+        },
+        {
+          "text": "8",
+          "correct": false,
+          "feedback": "That uses sold = 2. report reads sold when it runs, not when it was written, and sold is 5 by then.",
+          "misconception": "value-copied-at-definition"
+        },
+        {
+          "text": "NaN",
+          "correct": false,
+          "feedback": "That treats price as undefined. By line 5 the const on line 4 has run, so price is 4.",
+          "misconception": "tdz-gives-undefined"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "revenue",
+          "afterLine": 5,
+          "visit": 1
+        },
+        "expectedOutput": "20"
+      },
+      "explanation": "report runs on line 5, after price is initialised on line 4. It reads the current sold, 5, and price, 4, so revenue is 20.",
+      "hints": [
+        "Find the line where report actually runs.",
+        "A function reads variables when it runs, not when it is defined.",
+        "Use the value sold has on line 5, and the value of price."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.temporal-dead-zone.parsons-01",
+      "concept": "temporal-dead-zone",
+      "prerequisites": [
+        "hoisting",
+        "block-scope"
+      ],
+      "format": "PARSONS",
+      "difficulty": 3,
+      "prompt": "Put the lines in order so the program prints days: 6.",
+      "code": [
+        "const label = \"days: \" + days;",
+        "const pages = 12;",
+        "console.log(label);",
+        "const days = perDay * 2;",
+        "const perDay = pages / 4;"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          4,
+          3,
+          0,
+          2
+        ],
+        "expectedOutput": "days: 6"
+      },
+      "explanation": "Each const may only be read after its own line has run. pages comes first, then perDay uses it, days uses perDay, label uses days, and the print uses label.",
+      "hints": [
+        "Every line except one reads a name from another line.",
+        "A const must be set before a later line reads it.",
+        "Start with the line that needs no other name."
+      ],
+      "reference": {
+        "title": "ReferenceError: cannot access before initialization",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Cant_access_lexical_declaration_before_init",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.temporal-dead-zone.fix-01",
+      "concept": "temporal-dead-zone",
+      "prerequisites": [
+        "hoisting",
+        "block-scope"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print 13. Tap the buggy line, then choose its fix.",
+      "code": [
+        "let score = 10;",
+        "for (let r = 1; r <= 2; r++) {",
+        "  let score = score + r;",
+        "}",
+        "console.log(score);"
+      ],
+      "options": [
+        {
+          "text": "  score = score + r;",
+          "correct": true,
+          "feedback": "Right. The assignment changes the outer score and reads its current value."
+        },
+        {
+          "text": "  const score = score + r;",
+          "correct": false,
+          "feedback": "const still creates a new variable that reads itself before it exists, so this throws a ReferenceError."
+        },
+        {
+          "text": "  let score = r;",
+          "correct": false,
+          "feedback": "This avoids the error, but it creates a new variable that disappears with the loop body, so the outer score stays 10."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "13"
+      },
+      "explanation": "The let on line 3 declares a new score whose own value is read before it is set, which hits the temporal dead zone. Dropping let updates the outer score: 10 plus 1 plus 2.",
+      "hints": [
+        "Line 3 declares a score while also reading score.",
+        "The new variable cannot be read until its declaration has finished.",
+        "Update the existing score instead of declaring another."
+      ],
+      "reference": {
+        "title": "ReferenceError: cannot access before initialization",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Cant_access_lexical_declaration_before_init",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.scope-and-hoisting.temporal-dead-zone.write-01",
+      "concept": "temporal-dead-zone",
+      "prerequisites": [
+        "hoisting",
+        "block-scope"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of average(values). Return the mean of the numbers, or 0 for an empty array.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "average",
+          "params": [
+            "values"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                2,
+                4,
+                6
+              ]
+            ],
+            "expected": 4
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              [
+                5
+              ]
+            ],
+            "expected": 5
+          },
+          {
+            "input": [
+              [
+                1,
+                2
+              ]
+            ],
+            "expected": 1.5
+          }
+        ],
+        "reference": [
+          "if (values.length === 0) {",
+          "  return 0;",
+          "}",
+          "let sum = 0;",
+          "for (const v of values) {",
+          "  sum += v;",
+          "}",
+          "return sum / values.length;"
+        ],
+        "wrongSolutions": [
+          [
+            "const mean = sum / values.length;",
+            "let sum = 0;",
+            "for (const v of values) {",
+            "  sum += v;",
+            "}",
+            "return mean;"
+          ],
+          [
+            "let sum = 0;",
+            "for (const v of values) {",
+            "  sum += v;",
+            "}",
+            "return sum / values.length;"
+          ],
+          [
+            "for (const v of values) {",
+            "  let sum = 0;",
+            "  sum += v;",
+            "}",
+            "return sum / values.length;"
+          ]
+        ]
+      },
+      "explanation": "Check the empty case first, then declare and fill sum before you divide. Reading sum before its let line, or declaring it inside the loop body, fails.",
+      "hints": [
+        "Which values must exist before the division runs?",
+        "A let variable must be declared and set before you read it, in a scope the return can see.",
+        "Declare sum before the loop, add each value, then divide by the length."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

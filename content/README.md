@@ -94,6 +94,8 @@ Difficulty rises inside a lesson and across a unit: 1 to 2 in Beginner, 2 to 3 i
   program; prefer `const name = (…) => …` or programs where order is forced by data.
 - **TRACE probes** may sit on a line that calls a function: a call returning to the line is not a
   new visit.
+- **TRACE probes read a variable by name.** Give the probed variable a name that no inner
+  scope shadows.
 - **MDN links.** Glossary pages live under `https://developer.mozilla.org/en-US/docs/Glossary/`,
   not under `/Web/JavaScript/`.
 
