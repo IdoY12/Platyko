@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { lobbyChanged } from "@/redux/play-slice";
 import { playService } from "@/services/playSocket";
 import { palette, space, typography } from "@/theme/tokens";
+import { roomLink } from "@/config/appLinks";
 import { LobbyInvites } from "./LobbyInvites";
 import { playRequest } from "./playRequest";
 
@@ -39,7 +40,7 @@ export function PlayLobby({ lobby }: { lobby: LobbyEvent }) {
         <AppText align="ltr" style={styles.code} accessibilityLabel={lobby.code.split("").join(" ")}>
           {lobby.code}
         </AppText>
-        <OutlineButton label={t("play.shareCode")} onPress={() => void Share.share({ message: t("play.shareMessage", { code: lobby.code }) })} />
+        <OutlineButton label={t("play.shareCode")} onPress={() => void Share.share({ message: t("play.shareMessage", { code: lobby.code, link: roomLink(lobby.code) }) })} />
       </Surface>
 
       <Surface style={styles.card}>

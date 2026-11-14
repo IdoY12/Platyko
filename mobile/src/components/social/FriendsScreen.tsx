@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Alert, Share, StyleSheet, View } from "react-native";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation, useRoute, type RouteProp } from "@react-navigation/native";
 import { SEARCH_MIN_LENGTH, type FriendsResponse, type PublicUser } from "@project/api-contract";
 import { AppText } from "@/components/common/AppText/AppText";
 import { OutlineButton } from "@/components/common/LipButton/OutlineButton";
@@ -13,9 +13,10 @@ import { localizedError } from "@/i18n/localizedMessage";
 import { t } from "@/i18n/translate";
 import SocialService from "@/services/auth-aware/SocialService";
 import { palette, space, typography } from "@/theme/tokens";
-import type { RootNavigation } from "@/types/rootNavigation.types";
+import type { RootNavigation, RootStackParamList } from "@/types/rootNavigation.types";
 import { logError } from "@/utils/logger";
 import { UserRow } from "./UserRow";
+import { friendLink } from "@/config/appLinks";
 import { useInviteToDuel } from "@/components/play/useInviteToDuel";
 import { useAppSelector } from "@/redux/hooks";
 import type { PresenceStatus } from "@project/api-contract";
@@ -32,7 +33,8 @@ export function FriendsScreen() {
   const [recent, setRecent] = useState<PublicUser[]>([]);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<PublicUser[] | null>(null);
-  const [code, setCode] = useState("");
+  const route = useRoute<RouteProp<RootStackParamList, "Friends">>();
+  const [code, setCode] = useState(route.params?.friendCode ?? "");
   const open = (user: PublicUser) => navigation.navigate("UserProfile", { username: user.username });
   const presence = useAppSelector((state) => state.play.presence);
   const inviteToDuel = useInviteToDuel();
@@ -75,7 +77,7 @@ export function FriendsScreen() {
           <AppText align="center" style={styles.code} accessibilityLabel={friends.friendCode.split("").join(" ")}>
             {friends.friendCode}
           </AppText>
-          <OutlineButton label={t("friends.shareCode")} onPress={() => void Share.share({ message: t("friends.shareMessage", { code: friends.friendCode }) })} />
+          <OutlineButton label={t("friends.shareCode")} onPress={() => void Share.share({ message: t("friends.shareMessage", { code: friends.friendCode, link: friendLink(friends.friendCode) }) })} />
         </Surface>
       ) : null}
 

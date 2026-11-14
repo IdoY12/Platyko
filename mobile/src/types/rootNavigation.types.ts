@@ -27,7 +27,8 @@ export type RootStackParamList = {
   Settings: undefined;
   RevisionSetup: undefined;
   Achievements: undefined;
-  Friends: undefined;
+  /** `friendCode`: opened from a friend link, filled in ready to send. */
+  Friends: { friendCode?: string } | undefined;
   UserProfile: { username: string };
   /** `jumpPassed` follows a jump test (`lessonId` "jump:<TRACK>"), `challengeGrid` a daily challenge ("daily:<DATE>"). */
   LessonSummary: { lessonId: string; accuracy: number; xpEarned: number; flawless: boolean; concepts: string[]; jumpPassed?: boolean; challengeGrid?: boolean[] };

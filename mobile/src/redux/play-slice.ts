@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { AppLink } from "@/config/appLinks";
 import type {
   AnswerResultEvent,
   InviteEvent,
@@ -39,6 +40,8 @@ type PlayState = {
   outgoingInvite: OutgoingInvite | null;
   /** Friends who share their status and are not offline. */
   presence: Record<string, PresenceStatus>;
+  /** A room or friend link opened before it could be acted on (a guest signs in first). */
+  pendingLink: AppLink | null;
 };
 
 const initialState: PlayState = {
@@ -56,10 +59,11 @@ const initialState: PlayState = {
   invites: [],
   outgoingInvite: null,
   presence: {},
+  pendingLink: null,
 };
 
 /** Leaving a game keeps what belongs to the connection, not to the game, and a room reopened after it. */
-const afterGame = (state: PlayState): PlayState => ({ ...initialState, connected: state.connected, invites: state.invites, presence: state.presence, lobby: state.lobby });
+const afterGame = (state: PlayState): PlayState => ({ ...initialState, connected: state.connected, invites: state.invites, presence: state.presence, lobby: state.lobby, pendingLink: state.pendingLink });
 
 const playSlice = createSlice({
   name: "play",
@@ -108,6 +112,9 @@ const playSlice = createSlice({
     leavePlay: (state) => afterGame(state),
     /** Sign-out: nothing of the previous account stays. */
     playSignedOut: () => initialState,
+    linkOpened: (state, action: PayloadAction<AppLink | null>) => {
+      state.pendingLink = action.payload;
+    },
     invitesListed: (state, action: PayloadAction<InviteEvent[]>) => {
       state.invites = action.payload;
     },
@@ -133,6 +140,7 @@ const playSlice = createSlice({
 });
 
 export const {
+  linkOpened,
   invitesListed,
   inviteReceived,
   inviteClosed,

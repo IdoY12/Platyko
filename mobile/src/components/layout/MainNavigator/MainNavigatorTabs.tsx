@@ -4,6 +4,7 @@ import { createBottomTabNavigator, type BottomTabBarProps } from "@react-navigat
 import { HomeScreen } from "@/components/home/HomeScreen/HomeScreen";
 import { SkillMapScreen } from "@/components/learn/SkillMapScreen/SkillMapScreen";
 import { InviteBanner } from "@/components/play/InviteBanner";
+import { useOpenedLinks } from "@/components/play/useOpenedLinks";
 import { PlayTab } from "@/components/play/PlayTab";
 import { ProfileScreen } from "@/components/profile/ProfileScreen";
 import { t } from "@/i18n/translate";
@@ -25,6 +26,7 @@ export function MainTabs() {
   const navigation = useNavigation<RootNavigation>();
   const focusedTab = getFocusedRouteNameFromRoute(useRoute()) ?? "Home";
   const matchId = useAppSelector((state) => state.play.match?.matchId);
+  useOpenedLinks();
   // A game that starts, or resumes after the app was closed, opens the Play tab (PRD 11.8).
   useEffect(() => {
     const front = navigation.getState()?.routes.at(-1)?.name ?? "";
