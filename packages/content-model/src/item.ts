@@ -125,6 +125,11 @@ export type AuthoredItem = {
   version: number;
   /** A retired item stays in the file for history and is never loaded as `LIVE`. */
   retired?: boolean;
+  /**
+   * Legacy content this item replaces: `exercise:<JUNIOR|MID|SENIOR>:<orderIndex>`,
+   * `puzzle:<orderIndex>` or `duel:<index>`. Progress on the legacy item carries over to this one.
+   */
+  legacyKeys?: string[];
 };
 
 export type OriginalityRecord = { result: "PASS" | "FAIL"; maxSimilarity: number; checkedAt: string };

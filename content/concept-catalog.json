@@ -1,0 +1,1065 @@
+{
+  "units": [
+    {
+      "track": "BEGINNER",
+      "unit": "values-and-types",
+      "concepts": [
+        {
+          "id": "number-values",
+          "title": "Numbers and arithmetic",
+          "prerequisites": []
+        },
+        {
+          "id": "string-values",
+          "title": "Strings and joining text",
+          "prerequisites": [
+            "number-values"
+          ]
+        },
+        {
+          "id": "boolean-values",
+          "title": "Booleans: true and false",
+          "prerequisites": [
+            "number-values"
+          ]
+        },
+        {
+          "id": "typeof-operator",
+          "title": "Finding a value's type with typeof",
+          "prerequisites": [
+            "number-values",
+            "string-values",
+            "boolean-values"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "BEGINNER",
+      "unit": "variables",
+      "concepts": [
+        {
+          "id": "let-declaration",
+          "title": "Naming a value with let",
+          "prerequisites": [
+            "number-values",
+            "string-values"
+          ]
+        },
+        {
+          "id": "reassignment",
+          "title": "Changing what a variable holds",
+          "prerequisites": [
+            "let-declaration"
+          ]
+        },
+        {
+          "id": "const-declaration",
+          "title": "Fixed names with const",
+          "prerequisites": [
+            "let-declaration",
+            "reassignment"
+          ]
+        },
+        {
+          "id": "undefined-and-null",
+          "title": "undefined and null",
+          "prerequisites": [
+            "let-declaration",
+            "typeof-operator"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "BEGINNER",
+      "unit": "operators-and-comparisons",
+      "concepts": [
+        {
+          "id": "strict-equality",
+          "title": "Comparing with === and !==",
+          "prerequisites": [
+            "boolean-values",
+            "let-declaration"
+          ]
+        },
+        {
+          "id": "loose-equality",
+          "title": "Why == surprises: type conversion",
+          "prerequisites": [
+            "strict-equality",
+            "string-values"
+          ]
+        },
+        {
+          "id": "relational-operators",
+          "title": "Greater, less and their limits",
+          "prerequisites": [
+            "strict-equality"
+          ]
+        },
+        {
+          "id": "truthy-and-falsy",
+          "title": "Truthy, falsy and the logical operators",
+          "prerequisites": [
+            "strict-equality",
+            "undefined-and-null"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "BEGINNER",
+      "unit": "conditionals",
+      "concepts": [
+        {
+          "id": "if-statement",
+          "title": "Choosing with if",
+          "prerequisites": [
+            "strict-equality",
+            "relational-operators"
+          ]
+        },
+        {
+          "id": "else-branches",
+          "title": "else and else if chains",
+          "prerequisites": [
+            "if-statement"
+          ]
+        },
+        {
+          "id": "ternary-operator",
+          "title": "The ternary operator",
+          "prerequisites": [
+            "else-branches"
+          ]
+        },
+        {
+          "id": "condition-truthiness",
+          "title": "Conditions that are not booleans",
+          "prerequisites": [
+            "if-statement",
+            "truthy-and-falsy"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "BEGINNER",
+      "unit": "loops",
+      "concepts": [
+        {
+          "id": "for-loop",
+          "title": "Counting with for",
+          "prerequisites": [
+            "reassignment",
+            "relational-operators"
+          ]
+        },
+        {
+          "id": "while-loop",
+          "title": "Repeating with while",
+          "prerequisites": [
+            "for-loop"
+          ]
+        },
+        {
+          "id": "loop-accumulator",
+          "title": "Building a result inside a loop",
+          "prerequisites": [
+            "for-loop",
+            "if-statement"
+          ]
+        },
+        {
+          "id": "break-and-continue",
+          "title": "Leaving early: break and continue",
+          "prerequisites": [
+            "for-loop",
+            "while-loop",
+            "if-statement"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "BEGINNER",
+      "unit": "functions",
+      "concepts": [
+        {
+          "id": "function-declaration",
+          "title": "Defining and calling a function",
+          "prerequisites": [
+            "let-declaration",
+            "for-loop"
+          ]
+        },
+        {
+          "id": "parameters-and-arguments",
+          "title": "Parameters and arguments",
+          "prerequisites": [
+            "function-declaration"
+          ]
+        },
+        {
+          "id": "return-value",
+          "title": "Returning a value",
+          "prerequisites": [
+            "parameters-and-arguments",
+            "if-statement"
+          ]
+        },
+        {
+          "id": "function-expressions",
+          "title": "Functions as values and arrow functions",
+          "prerequisites": [
+            "return-value",
+            "const-declaration"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "BEGINNER",
+      "unit": "arrays",
+      "concepts": [
+        {
+          "id": "array-index",
+          "title": "Arrays and reading by index",
+          "prerequisites": [
+            "const-declaration",
+            "number-values"
+          ]
+        },
+        {
+          "id": "array-length",
+          "title": "length and the last element",
+          "prerequisites": [
+            "array-index"
+          ]
+        },
+        {
+          "id": "array-push-pop",
+          "title": "Adding and removing: push and pop",
+          "prerequisites": [
+            "array-length",
+            "const-declaration"
+          ]
+        },
+        {
+          "id": "array-iteration",
+          "title": "Visiting every element",
+          "prerequisites": [
+            "array-length",
+            "for-loop",
+            "loop-accumulator"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "BEGINNER",
+      "unit": "objects",
+      "concepts": [
+        {
+          "id": "object-properties",
+          "title": "Objects and their properties",
+          "prerequisites": [
+            "const-declaration",
+            "string-values"
+          ]
+        },
+        {
+          "id": "property-access",
+          "title": "Dot and bracket access",
+          "prerequisites": [
+            "object-properties",
+            "array-index"
+          ]
+        },
+        {
+          "id": "property-update",
+          "title": "Updating, adding and deleting properties",
+          "prerequisites": [
+            "property-access",
+            "const-declaration"
+          ]
+        },
+        {
+          "id": "object-iteration",
+          "title": "Objects inside loops and arrays of objects",
+          "prerequisites": [
+            "property-access",
+            "array-iteration"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "INTERMEDIATE",
+      "unit": "array-methods",
+      "concepts": [
+        {
+          "id": "array-map",
+          "title": "Transforming with map",
+          "prerequisites": [
+            "array-iteration",
+            "function-expressions"
+          ]
+        },
+        {
+          "id": "array-filter",
+          "title": "Selecting with filter",
+          "prerequisites": [
+            "array-map",
+            "truthy-and-falsy"
+          ]
+        },
+        {
+          "id": "array-reduce",
+          "title": "Folding with reduce",
+          "prerequisites": [
+            "array-map",
+            "loop-accumulator"
+          ]
+        },
+        {
+          "id": "array-find-and-search",
+          "title": "find, some, every and includes",
+          "prerequisites": [
+            "array-filter"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "INTERMEDIATE",
+      "unit": "objects-in-depth",
+      "concepts": [
+        {
+          "id": "destructuring",
+          "title": "Destructuring objects and arrays",
+          "prerequisites": [
+            "property-access",
+            "array-index"
+          ]
+        },
+        {
+          "id": "spread-and-rest",
+          "title": "Spread and rest",
+          "prerequisites": [
+            "destructuring",
+            "parameters-and-arguments"
+          ]
+        },
+        {
+          "id": "reference-vs-value",
+          "title": "References: two names, one object",
+          "prerequisites": [
+            "property-update",
+            "array-push-pop"
+          ]
+        },
+        {
+          "id": "shallow-copy",
+          "title": "Copying: shallow versus deep",
+          "prerequisites": [
+            "reference-vs-value",
+            "spread-and-rest"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "INTERMEDIATE",
+      "unit": "scope-and-hoisting",
+      "concepts": [
+        {
+          "id": "block-scope",
+          "title": "Block scope with let and const",
+          "prerequisites": [
+            "let-declaration",
+            "if-statement",
+            "for-loop"
+          ]
+        },
+        {
+          "id": "function-scope-and-var",
+          "title": "Function scope and var",
+          "prerequisites": [
+            "block-scope",
+            "function-declaration"
+          ]
+        },
+        {
+          "id": "hoisting",
+          "title": "Hoisting of declarations",
+          "prerequisites": [
+            "function-scope-and-var",
+            "function-expressions"
+          ]
+        },
+        {
+          "id": "temporal-dead-zone",
+          "title": "The temporal dead zone",
+          "prerequisites": [
+            "hoisting",
+            "block-scope"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "INTERMEDIATE",
+      "unit": "closures",
+      "concepts": [
+        {
+          "id": "closure-captures-variable",
+          "title": "A function remembers its surroundings",
+          "prerequisites": [
+            "function-expressions",
+            "block-scope"
+          ]
+        },
+        {
+          "id": "closure-private-state",
+          "title": "Private state with closures",
+          "prerequisites": [
+            "closure-captures-variable",
+            "return-value"
+          ]
+        },
+        {
+          "id": "closure-in-loops",
+          "title": "Closures created in loops",
+          "prerequisites": [
+            "closure-captures-variable",
+            "function-scope-and-var",
+            "for-loop"
+          ]
+        },
+        {
+          "id": "closure-factories",
+          "title": "Function factories and currying",
+          "prerequisites": [
+            "closure-private-state",
+            "array-map"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "INTERMEDIATE",
+      "unit": "this-and-classes",
+      "concepts": [
+        {
+          "id": "this-in-methods",
+          "title": "this in a method call",
+          "prerequisites": [
+            "object-properties",
+            "function-expressions"
+          ]
+        },
+        {
+          "id": "this-lost-and-bound",
+          "title": "Losing this: arrows, bind and call",
+          "prerequisites": [
+            "this-in-methods",
+            "closure-captures-variable"
+          ]
+        },
+        {
+          "id": "class-basics",
+          "title": "Classes, constructors and methods",
+          "prerequisites": [
+            "this-in-methods"
+          ]
+        },
+        {
+          "id": "class-inheritance",
+          "title": "extends, super and static",
+          "prerequisites": [
+            "class-basics"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "INTERMEDIATE",
+      "unit": "errors",
+      "concepts": [
+        {
+          "id": "throw-and-try-catch",
+          "title": "throw, try and catch",
+          "prerequisites": [
+            "function-declaration",
+            "if-statement"
+          ]
+        },
+        {
+          "id": "error-types",
+          "title": "Built-in error types",
+          "prerequisites": [
+            "throw-and-try-catch",
+            "undefined-and-null",
+            "temporal-dead-zone"
+          ]
+        },
+        {
+          "id": "finally-block",
+          "title": "finally and the order of execution",
+          "prerequisites": [
+            "throw-and-try-catch",
+            "return-value"
+          ]
+        },
+        {
+          "id": "custom-errors",
+          "title": "Custom error classes and rethrowing",
+          "prerequisites": [
+            "error-types",
+            "class-inheritance"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "INTERMEDIATE",
+      "unit": "async-basics",
+      "concepts": [
+        {
+          "id": "callbacks-and-timers",
+          "title": "Callbacks and setTimeout",
+          "prerequisites": [
+            "function-expressions",
+            "closure-captures-variable"
+          ]
+        },
+        {
+          "id": "promise-basics",
+          "title": "Promises: then and catch",
+          "prerequisites": [
+            "callbacks-and-timers",
+            "throw-and-try-catch"
+          ]
+        },
+        {
+          "id": "async-await",
+          "title": "async functions and await",
+          "prerequisites": [
+            "promise-basics"
+          ]
+        },
+        {
+          "id": "async-error-handling",
+          "title": "Errors in asynchronous code",
+          "prerequisites": [
+            "async-await",
+            "finally-block"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "INTERMEDIATE",
+      "unit": "dom-and-events",
+      "concepts": [
+        {
+          "id": "dom-tree-and-selection",
+          "title": "The DOM tree and selecting elements",
+          "prerequisites": [
+            "object-properties",
+            "property-access"
+          ]
+        },
+        {
+          "id": "dom-updates",
+          "title": "Changing content and classes",
+          "prerequisites": [
+            "dom-tree-and-selection",
+            "property-update"
+          ]
+        },
+        {
+          "id": "event-listeners",
+          "title": "Listening for events",
+          "prerequisites": [
+            "dom-tree-and-selection",
+            "callbacks-and-timers"
+          ]
+        },
+        {
+          "id": "event-propagation",
+          "title": "Bubbling, capturing and delegation",
+          "prerequisites": [
+            "event-listeners"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "ADVANCED",
+      "unit": "promises-in-depth",
+      "concepts": [
+        {
+          "id": "promise-chaining",
+          "title": "Chaining and returned values",
+          "prerequisites": [
+            "promise-basics"
+          ]
+        },
+        {
+          "id": "promise-combinators",
+          "title": "all, allSettled, race and any",
+          "prerequisites": [
+            "promise-chaining",
+            "array-map"
+          ]
+        },
+        {
+          "id": "promise-rejection-flow",
+          "title": "How rejections travel a chain",
+          "prerequisites": [
+            "promise-chaining",
+            "async-error-handling"
+          ]
+        },
+        {
+          "id": "promise-construction",
+          "title": "Creating promises and wrapping callbacks",
+          "prerequisites": [
+            "promise-chaining",
+            "callbacks-and-timers"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "ADVANCED",
+      "unit": "event-loop",
+      "concepts": [
+        {
+          "id": "call-stack",
+          "title": "The call stack and run to completion",
+          "prerequisites": [
+            "function-declaration",
+            "callbacks-and-timers"
+          ]
+        },
+        {
+          "id": "macrotask-queue",
+          "title": "Timers and the task queue",
+          "prerequisites": [
+            "call-stack"
+          ]
+        },
+        {
+          "id": "microtask-queue",
+          "title": "Microtasks run before the next task",
+          "prerequisites": [
+            "macrotask-queue",
+            "promise-chaining"
+          ]
+        },
+        {
+          "id": "await-scheduling",
+          "title": "Where await splits a function",
+          "prerequisites": [
+            "microtask-queue",
+            "async-await"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "ADVANCED",
+      "unit": "prototypes-and-inheritance",
+      "concepts": [
+        {
+          "id": "prototype-chain",
+          "title": "The prototype chain and property lookup",
+          "prerequisites": [
+            "object-properties",
+            "class-basics"
+          ]
+        },
+        {
+          "id": "constructor-functions",
+          "title": "Constructor functions and new",
+          "prerequisites": [
+            "prototype-chain",
+            "this-in-methods"
+          ]
+        },
+        {
+          "id": "object-create-and-delegation",
+          "title": "Object.create and delegation",
+          "prerequisites": [
+            "prototype-chain"
+          ]
+        },
+        {
+          "id": "class-as-prototype-sugar",
+          "title": "Classes as syntax over prototypes",
+          "prerequisites": [
+            "constructor-functions",
+            "class-inheritance"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "ADVANCED",
+      "unit": "iterators-and-generators",
+      "concepts": [
+        {
+          "id": "iteration-protocol",
+          "title": "The iterator protocol",
+          "prerequisites": [
+            "array-iteration",
+            "object-properties",
+            "closure-private-state"
+          ]
+        },
+        {
+          "id": "custom-iterables",
+          "title": "Making an object iterable",
+          "prerequisites": [
+            "iteration-protocol",
+            "class-basics"
+          ]
+        },
+        {
+          "id": "generator-functions",
+          "title": "Generator functions and yield",
+          "prerequisites": [
+            "iteration-protocol"
+          ]
+        },
+        {
+          "id": "lazy-sequences",
+          "title": "Lazy and infinite sequences",
+          "prerequisites": [
+            "generator-functions",
+            "spread-and-rest"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "ADVANCED",
+      "unit": "modules",
+      "concepts": [
+        {
+          "id": "module-scope",
+          "title": "Module scope and encapsulation",
+          "prerequisites": [
+            "closure-private-state",
+            "block-scope"
+          ]
+        },
+        {
+          "id": "exports-and-imports",
+          "title": "Named and default exports",
+          "prerequisites": [
+            "module-scope",
+            "destructuring"
+          ]
+        },
+        {
+          "id": "module-singletons",
+          "title": "A module is evaluated once",
+          "prerequisites": [
+            "module-scope",
+            "reference-vs-value"
+          ]
+        },
+        {
+          "id": "dependency-direction",
+          "title": "Dependencies and circular imports",
+          "prerequisites": [
+            "exports-and-imports",
+            "hoisting"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "ADVANCED",
+      "unit": "map-set-weakmap-symbol",
+      "concepts": [
+        {
+          "id": "map-collection",
+          "title": "Map: keys of any type",
+          "prerequisites": [
+            "object-properties",
+            "reference-vs-value"
+          ]
+        },
+        {
+          "id": "set-collection",
+          "title": "Set: unique values",
+          "prerequisites": [
+            "map-collection",
+            "array-filter"
+          ]
+        },
+        {
+          "id": "weak-collections",
+          "title": "WeakMap and WeakSet",
+          "prerequisites": [
+            "map-collection",
+            "reference-vs-value"
+          ]
+        },
+        {
+          "id": "symbol-keys",
+          "title": "Symbols as unique keys",
+          "prerequisites": [
+            "object-properties",
+            "iteration-protocol"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "ADVANCED",
+      "unit": "performance-and-memory",
+      "concepts": [
+        {
+          "id": "memoization",
+          "title": "Memoization",
+          "prerequisites": [
+            "closure-private-state",
+            "map-collection"
+          ]
+        },
+        {
+          "id": "debounce-and-throttle",
+          "title": "Debounce and throttle",
+          "prerequisites": [
+            "callbacks-and-timers",
+            "closure-private-state"
+          ]
+        },
+        {
+          "id": "memory-leaks",
+          "title": "Leaks: timers, listeners and closures",
+          "prerequisites": [
+            "weak-collections",
+            "event-listeners",
+            "closure-captures-variable"
+          ]
+        },
+        {
+          "id": "algorithmic-cost",
+          "title": "Counting the work a loop does",
+          "prerequisites": [
+            "array-reduce",
+            "array-find-and-search",
+            "set-collection"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "EXPERT",
+      "unit": "type-coercion-and-edge-cases",
+      "concepts": [
+        {
+          "id": "to-primitive-conversion",
+          "title": "How objects become primitives",
+          "prerequisites": [
+            "loose-equality",
+            "symbol-keys",
+            "class-basics"
+          ]
+        },
+        {
+          "id": "abstract-equality-algorithm",
+          "title": "The steps of ==",
+          "prerequisites": [
+            "to-primitive-conversion",
+            "loose-equality"
+          ]
+        },
+        {
+          "id": "numeric-edge-cases",
+          "title": "NaN, -0, Infinity and floating point",
+          "prerequisites": [
+            "number-values",
+            "strict-equality"
+          ]
+        },
+        {
+          "id": "operator-coercion",
+          "title": "Coercion in +, comparisons and sorting",
+          "prerequisites": [
+            "to-primitive-conversion",
+            "relational-operators"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "EXPERT",
+      "unit": "proxy-reflect-metaprogramming",
+      "concepts": [
+        {
+          "id": "proxy-traps",
+          "title": "Proxy and its traps",
+          "prerequisites": [
+            "object-properties",
+            "prototype-chain"
+          ]
+        },
+        {
+          "id": "reflect-api",
+          "title": "Reflect as the default behaviour",
+          "prerequisites": [
+            "proxy-traps"
+          ]
+        },
+        {
+          "id": "property-descriptors",
+          "title": "Property descriptors and defineProperty",
+          "prerequisites": [
+            "object-properties",
+            "prototype-chain"
+          ]
+        },
+        {
+          "id": "well-known-symbols",
+          "title": "Well-known symbols",
+          "prerequisites": [
+            "symbol-keys",
+            "to-primitive-conversion",
+            "iteration-protocol"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "EXPERT",
+      "unit": "debugging",
+      "concepts": [
+        {
+          "id": "off-by-one-and-boundaries",
+          "title": "Boundaries and off-by-one errors",
+          "prerequisites": [
+            "array-iteration",
+            "loop-accumulator"
+          ]
+        },
+        {
+          "id": "mutation-bugs",
+          "title": "Bugs from shared and mutated state",
+          "prerequisites": [
+            "reference-vs-value",
+            "shallow-copy",
+            "array-map"
+          ]
+        },
+        {
+          "id": "async-ordering-bugs",
+          "title": "Bugs from asynchronous ordering",
+          "prerequisites": [
+            "microtask-queue",
+            "await-scheduling",
+            "closure-in-loops"
+          ]
+        },
+        {
+          "id": "reading-a-stack-of-calls",
+          "title": "Following a failure through several functions",
+          "prerequisites": [
+            "call-stack",
+            "error-types",
+            "promise-rejection-flow"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "EXPERT",
+      "unit": "code-analysis",
+      "concepts": [
+        {
+          "id": "complexity-analysis",
+          "title": "Time and space complexity of real code",
+          "prerequisites": [
+            "algorithmic-cost",
+            "array-reduce"
+          ]
+        },
+        {
+          "id": "refactoring-equivalence",
+          "title": "Refactoring without changing behaviour",
+          "prerequisites": [
+            "array-filter",
+            "destructuring",
+            "return-value"
+          ]
+        },
+        {
+          "id": "reading-unfamiliar-code",
+          "title": "Reading dense, unfamiliar code",
+          "prerequisites": [
+            "closure-factories",
+            "array-reduce",
+            "spread-and-rest"
+          ]
+        },
+        {
+          "id": "side-effects-and-purity",
+          "title": "Pure functions and hidden side effects",
+          "prerequisites": [
+            "mutation-bugs",
+            "reference-vs-value"
+          ]
+        }
+      ]
+    },
+    {
+      "track": "EXPERT",
+      "unit": "patterns-and-architecture",
+      "concepts": [
+        {
+          "id": "observer-pattern",
+          "title": "Observer: publish and subscribe",
+          "prerequisites": [
+            "closure-private-state",
+            "map-collection",
+            "set-collection"
+          ]
+        },
+        {
+          "id": "strategy-and-composition",
+          "title": "Strategy and composition over inheritance",
+          "prerequisites": [
+            "function-expressions",
+            "class-inheritance",
+            "closure-factories"
+          ]
+        },
+        {
+          "id": "factory-and-singleton",
+          "title": "Factories and single instances",
+          "prerequisites": [
+            "closure-factories",
+            "module-singletons",
+            "class-basics"
+          ]
+        },
+        {
+          "id": "dependency-inversion",
+          "title": "Depending on abstractions in code",
+          "prerequisites": [
+            "strategy-and-composition",
+            "parameters-and-arguments"
+          ]
+        }
+      ]
+    }
+  ]
+}

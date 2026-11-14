@@ -10,10 +10,11 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "cli": "tsx src/cli.ts",
-    "verify": "tsx src/cli.ts verify"
+    "cli": "NODE_OPTIONS=--no-node-snapshot tsx src/cli.ts",
+    "verify": "NODE_OPTIONS=--no-node-snapshot tsx src/cli.ts verify"
   },
   "dependencies": {
+    "@project/code-sandbox": "file:../../packages/code-sandbox",
     "@project/content-model": "file:../../packages/content-model",
     "acorn": "^8.15.0",
     "acorn-walk": "^8.3.4",

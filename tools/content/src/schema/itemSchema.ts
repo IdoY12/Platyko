@@ -78,5 +78,6 @@ export const itemSchema = matchingModel<AuthoredItem>()(
     author: z.string(),
     version: z.number(),
     retired: z.boolean().optional(),
+    legacyKeys: z.array(z.string().regex(/^(exercise:(JUNIOR|MID|SENIOR):\d+|puzzle:\d+|duel:\d+)$/)).optional(),
   }),
 );
