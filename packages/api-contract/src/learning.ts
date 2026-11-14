@@ -77,7 +77,7 @@ export type SaveResumeRequest = LessonResume;
 export type GuestProgressUpload = { clientLocalDate: string; attempts: AttemptRecord[]; completedLessons: CompletedLessonReport[] };
 export const MAX_GUEST_ATTEMPTS = 3000;
 
-/** `POST /items/:itemId/feedback` — a vote after the explanation, or a report (PRD 7.6). */
+/** `POST /content/items/:itemId/feedback` — a vote after the explanation, or a report (PRD 7.6). Registered users. */
 export const ITEM_REPORT_REASONS = ["WRONG_ANSWER", "UNCLEAR", "TYPO", "OTHER"] as const;
 export type ItemReportReason = (typeof ITEM_REPORT_REASONS)[number];
 export type ItemFeedbackRequest = { vote?: 1 | -1; reportReason?: ItemReportReason };

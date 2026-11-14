@@ -44,6 +44,8 @@ model ContentUnit {
   concepts     Json
   /// Lesson ids, titles, concept cards and item ids.
   lessons      Json
+  /// Execution trace of each lesson's worked example, by lesson id.
+  conceptCardTraces Json @default("{}")
 
   items Item[]
 }
@@ -76,4 +78,14 @@ model ItemAnalysis {
   computedAt          DateTime
 
   item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+}
+
+// Which bank is loaded: one row, written by the seed. The app drops cached lessons when the
+// hash changes, and the hash ties the served items to a verification run (PRD 8.6).
+model ContentBank {
+  id                Int      @id @default(1)
+  bankHash          String
+  /// The clean run that released this bank; null while the bank is served unverified in development.
+  verificationRunId String?
+  loadedAt          DateTime @default(now())
 }

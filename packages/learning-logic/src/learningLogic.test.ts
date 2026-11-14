@@ -140,8 +140,8 @@ const makeUnit = (track: MapUnit["track"], order: number, unit: string): MapUnit
   title: unit,
   summary: "",
   lessons: [
-    ...[1, 2, 3, 4].map((lesson) => ({ id: `${unit}.lesson-${lesson}`, concept: `${unit}-concept-${lesson}`, itemIds: [`${unit}-item-${lesson}a`, `${unit}-item-${lesson}b`] })),
-    { id: summaryLessonId(unit), concept: null, itemIds: [] },
+    ...[1, 2, 3, 4].map((lesson) => ({ id: `${unit}.lesson-${lesson}`, title: `Lesson ${lesson}`, concept: `${unit}-concept-${lesson}`, itemIds: [`${unit}-item-${lesson}a`, `${unit}-item-${lesson}b`] })),
+    { id: summaryLessonId(unit), title: null, concept: null, itemIds: [] },
   ],
 });
 const map = [makeUnit("BEGINNER", 1, "values"), makeUnit("BEGINNER", 2, "variables"), makeUnit("INTERMEDIATE", 1, "methods")];
@@ -211,7 +211,7 @@ const candidate = (itemId: string, concept: string, overrides: Partial<ReviewCan
 });
 
 describe("lesson plans", () => {
-  const lesson = { id: "variables.lesson-1", concept: "let", itemIds: ["a", "b", "c", "d", "e", "f"] };
+  const lesson = { id: "variables.lesson-1", title: "Naming a value", concept: "let", itemIds: ["a", "b", "c", "d", "e", "f"] };
 
   it("is a concept card, the new items in order, then review up to eight slots", () => {
     const plan = buildLessonPlan(lesson, [candidate("r1", "numbers"), candidate("r2", "strings")]);

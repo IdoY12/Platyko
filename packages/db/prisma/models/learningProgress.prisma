@@ -61,6 +61,8 @@ model ConceptMastery {
   ease           Float     @default(2.5)
   dueAt          DateTime
   lastReviewedAt DateTime?
+  /// First attempts at the concept's last ten items (`FirstAttempt[]`), the evidence behind `score`.
+  recentFirstAttempts Json @default("[]")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

@@ -30,6 +30,10 @@ declare global {
         forcePathStyle: boolean;
       };
     };
+    content: {
+      /** Serve items that have not been released by a clean verification run. Never true in production. */
+      serveDrafts: boolean;
+    };
     resend: {
       apiKey: string;
       webhookSecret: string;

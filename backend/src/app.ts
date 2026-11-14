@@ -14,7 +14,9 @@ import helmet from "helmet";
 import { resolveExpressCorsOrigin } from "@project/server-kit/cors";
 import { authRouter } from "./routers/auth.js";
 import { codePuzzlesRouter } from "./routers/codePuzzles.js";
+import { contentRouter } from "./routers/content.js";
 import { learningRouter } from "./routers/learning.js";
+import { progressRouter } from "./routers/progress.js";
 import { userRouter } from "./routers/user.js";
 import { webhooksRouter } from "./routers/webhooks.js";
 import { errorHandler, notFoundHandler } from "./middlewares/errorHandler.js";
@@ -50,6 +52,8 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/learning", learningRouter);
 app.use("/api/code-puzzles", codePuzzlesRouter);
+app.use("/api/content", contentRouter);
+app.use("/api/progress", progressRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

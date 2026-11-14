@@ -9,6 +9,8 @@ import { isMastered } from "./mastery.js";
 
 export type MapLesson = {
   id: string;
+  /** The lesson's own title; null for the summary lesson, whose title is interface text. */
+  title: string | null;
   /** The concept the lesson teaches; null for the unit's summary lesson. */
   concept: string | null;
   /** The lesson's new items. The summary lesson has none: its items are drawn when it starts. */

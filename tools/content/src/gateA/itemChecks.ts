@@ -56,7 +56,8 @@ export function probedValue(item: Item, trace: ItemTrace): string | null {
   if (!probe) return null;
   const visits = trace.steps.flatMap((step, index) => (step.line === probe.afterLine ? [index] : []));
   const after = trace.steps[visits[probe.visit - 1] + 1];
-  const variable = after?.variables.findLast((candidate) => candidate.name === probe.variable);
+  // The innermost binding of that name is the last one listed (outer scopes come first).
+  const variable = after?.variables.filter((candidate) => candidate.name === probe.variable).at(-1);
   return variable?.value ?? null;
 }
 

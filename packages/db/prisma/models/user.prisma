@@ -39,6 +39,8 @@ model User {
   weeklyGoalDays         Int               @default(5)
   dailyGoalLessons       Int               @default(1)
   startingTrack          Track?
+  /// Tracks opened by a passed jump test (PRD 6.2).
+  jumpedTracks           Track[]           @default([])
 
   // Privacy (PRD 11.2).
   profileVisibility      ProfileVisibility   @default(EVERYONE)
