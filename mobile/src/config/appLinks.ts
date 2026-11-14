@@ -5,7 +5,7 @@ import { isRoomCode, ROOM_CODE_ALPHABET } from "@project/match-engine";
  * `https://platyko.com/f/<friend code>` a friend request. The app's own scheme carries the same
  * paths (`com.idoyahav.platyko://r/<code>`), for when the website is not involved.
  */
-const LINK_ORIGIN = "https://platyko.com";
+export const LINK_ORIGIN = "https://platyko.com";
 const FRIEND_CODE_LENGTH = 8;
 
 export type AppLink = { kind: "room" | "friend"; code: string };

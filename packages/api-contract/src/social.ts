@@ -55,6 +55,8 @@ export type PrivacySettings = {
   searchable: boolean;
   presenceVisibility: (typeof PRESENCE_VISIBILITIES)[number];
   gameInvitePolicy: (typeof GAME_INVITE_POLICIES)[number];
+  /** A public README badge at `/api/badge/<username>.svg` (PRD 14.3); off by default. */
+  readmeBadgeEnabled: boolean;
 };
 
 /** `POST /reports` — goes to the manual review queue (PRD 11.2). */

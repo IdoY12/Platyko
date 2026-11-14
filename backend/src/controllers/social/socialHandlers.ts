@@ -8,7 +8,7 @@ import { acceptRequest, cancelRequest, declineRequest, removeFriend, sendFriendR
 import { setFriendStreak } from "../../services/social/friendStreaks.js";
 import { friendsOf, profileOf, recentOpponentsOf, searchUsers } from "../../services/social/socialQueries.js";
 
-const PRIVACY_SELECT = { profileVisibility: true, friendRequestPolicy: true, searchable: true, presenceVisibility: true, gameInvitePolicy: true } as const;
+const PRIVACY_SELECT = { profileVisibility: true, friendRequestPolicy: true, searchable: true, presenceVisibility: true, gameInvitePolicy: true, readmeBadgeEnabled: true } as const;
 
 const viewer = (request: AuthenticatedRequest) => request.user!.userId;
 const param = (request: AuthenticatedRequest, name: string) => (request.validatedParams as Record<string, string>)[name];

@@ -27,6 +27,7 @@ export const privacyBodySchema = z
     searchable: z.boolean(),
     presenceVisibility: z.enum(PRESENCE_VISIBILITIES),
     gameInvitePolicy: z.enum(GAME_INVITE_POLICIES),
+    readmeBadgeEnabled: z.boolean(),
   })
   .partial()
   .refine((body) => Object.keys(body).length > 0, { message: "At least one setting is required" });
