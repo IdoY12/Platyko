@@ -1,5 +1,6 @@
 import { z } from "zod";
 import {
+  containsBannedWord,
   EMAIL_INVALID,
   EMAIL_MAX_LEN,
   EMAIL_MIN_LEN,
@@ -12,6 +13,7 @@ import {
   PASSWORD_TOO_SHORT,
   USERNAME_MAX_LEN,
   USERNAME_MIN_LEN,
+  USERNAME_NOT_ALLOWED,
   USERNAME_TOO_LONG,
   USERNAME_TOO_SHORT,
 } from "@project/user-credentials";
@@ -30,6 +32,7 @@ export const passwordField = z
 export const usernameField = z
   .string()
   .min(USERNAME_MIN_LEN, { message: USERNAME_TOO_SHORT })
-  .max(USERNAME_MAX_LEN, { message: USERNAME_TOO_LONG });
+  .max(USERNAME_MAX_LEN, { message: USERNAME_TOO_LONG })
+  .refine((username) => !containsBannedWord(username), { message: USERNAME_NOT_ALLOWED });
 
 export const otpCodeField = z.string().regex(/^\d{6}$/, { message: "Code must be 6 digits" });

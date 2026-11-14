@@ -1,3 +1,6 @@
+import { containsBannedWord } from "./bannedWords.js";
+
+export { containsBannedWord } from "./bannedWords.js";
 export const USERNAME_MIN_LEN = 2;
 export const USERNAME_MAX_LEN = 25;
 export const EMAIL_MIN_LEN = 5;
@@ -14,6 +17,7 @@ export const PASSWORD_TOO_LONG = `Password must be at most ${PASSWORD_MAX_LEN} c
 export const EMAIL_INVALID = "Enter a valid email address.";
 export const USERNAME_TAKEN_MESSAGE = "Username already taken. Please choose another.";
 export const EMAIL_TAKEN_MESSAGE = "Email already exists";
+export const USERNAME_NOT_ALLOWED = "This username is not allowed.";
 
 /** What the server stores and compares: trimmed, lower-cased. */
 export function normalizeEmail(email: string): string {
@@ -31,15 +35,12 @@ export function registerValidationError(email: string, username: string, passwor
   const el = email.length;
   if (el < EMAIL_MIN_LEN) return EMAIL_TOO_SHORT;
   if (el > EMAIL_MAX_LEN) return EMAIL_TOO_LONG;
-  const ul = username.length;
-  if (ul < USERNAME_MIN_LEN) return USERNAME_TOO_SHORT;
-  if (ul > USERNAME_MAX_LEN) return USERNAME_TOO_LONG;
-  return passwordPolicyError(password);
+  return usernameValidationError(username) ?? passwordPolicyError(password);
 }
 
 export function usernameValidationError(username: string): string | null {
   const n = username.length;
   if (n < USERNAME_MIN_LEN) return USERNAME_TOO_SHORT;
   if (n > USERNAME_MAX_LEN) return USERNAME_TOO_LONG;
-  return null;
+  return containsBannedWord(username) ? USERNAME_NOT_ALLOWED : null;
 }

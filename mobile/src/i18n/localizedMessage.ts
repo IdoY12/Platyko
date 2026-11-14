@@ -3,7 +3,7 @@ import type { MessageKey } from "@project/locales";
 import {
   EMAIL_INVALID, EMAIL_MAX_LEN, EMAIL_MIN_LEN, EMAIL_TAKEN_MESSAGE, EMAIL_TOO_LONG, EMAIL_TOO_SHORT,
   PASSWORD_MAX_LEN, PASSWORD_MIN_LEN, PASSWORD_TOO_LONG, PASSWORD_TOO_SHORT,
-  USERNAME_MAX_LEN, USERNAME_MIN_LEN, USERNAME_TAKEN_MESSAGE, USERNAME_TOO_LONG, USERNAME_TOO_SHORT,
+  USERNAME_MAX_LEN, USERNAME_MIN_LEN, USERNAME_NOT_ALLOWED, USERNAME_TAKEN_MESSAGE, USERNAME_TOO_LONG, USERNAME_TOO_SHORT,
 } from "@project/user-credentials";
 import { serverErrorMessage } from "@/services/auth";
 import { t } from "./translate";
@@ -40,6 +40,7 @@ const EXACT_MESSAGES: Record<string, MessageKey> = {
   "This email is linked to a Google account. Sign in with Google.": "errors.emailLinkedGoogle",
   "This email is linked to an Apple ID. Sign in with Apple.": "errors.emailLinkedApple",
   [EMAIL_INVALID]: "errors.emailInvalid",
+  [USERNAME_NOT_ALLOWED]: "errors.usernameNotAllowed",
   [SOCIAL_ERRORS.userNotFound]: "errors.userNotFound",
   [SOCIAL_ERRORS.cannotAddSelf]: "errors.cannotAddSelf",
   [SOCIAL_ERRORS.codeOnly]: "errors.codeOnly",

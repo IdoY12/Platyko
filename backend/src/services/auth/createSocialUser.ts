@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { parsePuzzleXpSolveCounts, prisma, type User } from "@project/db";
-import { USERNAME_MAX_LEN, USERNAME_MIN_LEN } from "@project/user-credentials";
+import { containsBannedWord, USERNAME_MAX_LEN, USERNAME_MIN_LEN } from "@project/user-credentials";
 import { isUsernameTakenError } from "../../utils/dbErrors.js";
 import { createProgressRowsFromSnapshot, type GuestSnapshot } from "./guestSnapshotMigration.js";
 import { DEFAULT_LANGUAGE } from "@project/locales";
@@ -16,7 +16,8 @@ function deriveUsername(email: string, displayName?: string): string {
   const local = (email.split("@")[0] || "user").slice(0, USERNAME_MAX_LEN);
   let u = named && named.length >= USERNAME_MIN_LEN ? named : local;
   if (u.length < USERNAME_MIN_LEN) u = `${local}_gq`.slice(0, USERNAME_MAX_LEN).padEnd(USERNAME_MIN_LEN, "_");
-  return u.slice(0, USERNAME_MAX_LEN);
+  // A name or address with a banned word never becomes a public username (PRD 11.2).
+  return containsBannedWord(u) ? randomUsername() : u.slice(0, USERNAME_MAX_LEN);
 }
 
 function usernameWithCollisionSuffix(base: string): string {
