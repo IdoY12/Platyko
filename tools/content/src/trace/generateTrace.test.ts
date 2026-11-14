@@ -27,6 +27,22 @@ function failureOf(code: string[]): string {
 }
 
 describe("generateTrace on synchronous code", () => {
+  it("shows a proxy by name without running its traps as steps", () => {
+    const code = [
+      "const log = [];",
+      "const bag = new Proxy({}, {",
+      "  get(target, key) {",
+      "    log.push(key);",
+      "    return 1;",
+      "  },",
+      "});",
+      "console.log(bag.size);",
+    ];
+    const trace = traceOf(code);
+    expect(trace.output).toEqual(["1"]);
+    expect(trace.steps.at(-1)?.variables.find((variable) => variable.name === "bag")?.value).toBe("Proxy");
+  });
+
   it("steps through a for loop that accumulates a sum", () => {
     const trace = traceOf(["let sum = 0;", "for (let i = 1; i <= 3; i++) {", "  sum += i;", "}", "console.log(sum);"]);
     // Line 2 first runs the `for` statement, then its test before every iteration and once to leave.

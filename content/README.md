@@ -110,6 +110,11 @@ Difficulty rises inside a lesson and across a unit: 1 to 2 in Beginner, 2 to 3 i
   the synchronous core (a `then` handler's body, the logic after an `await`, `try`/`catch`).
 - **The 36-character line limit** applies to every code line an item shows, including FIX_BUG
   replacement lines and CODE_WRITE solutions, indentation included.
+- **A proxy appears in the execution player as `Proxy`**: its traps are not run to show it. Printing
+  a proxy with `console.log` still runs them, so print the values read through it instead.
+- **CODE_WRITE tests are JSON**: `NaN`, `Infinity` and `undefined` cannot be inputs or expected
+  values; build numeric edge cases from finite inputs.
+- **Each FILL_BLANK blank is checked on its own**: give every blank exactly one right chip.
 - **Prompts are compared across all units** for near-duplicates: write a prompt specific to the
   snippet rather than a stock one ("The program should print 2. Tap the buggy line…").
 

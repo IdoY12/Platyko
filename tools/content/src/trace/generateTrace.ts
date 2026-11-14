@@ -1,3 +1,4 @@
+import { types } from "node:util";
 import { TRACE_MAX_STEPS } from "@project/content-model";
 import type { ItemTrace, TraceStep, TraceVariable } from "@project/content-model";
 import { formatValue } from "../execute/formatValue.js";
@@ -21,10 +22,14 @@ const ENTER_CALL = new RegExp(`${TRACE_GLOBAL}\\.enter\\((\\d+)\\)`);
 type VariableReader = () => unknown;
 type RecordedStep = Omit<TraceStep, "microtasks"> & { queuedJobs: MicrotaskJob[] };
 
+/** How a proxy shows in the execution player: formatting it would run its traps as program steps. */
+const PROXY_LABEL = "Proxy";
+
 function readVariables(variables: TracedVariable[], readers: VariableReader[]): TraceVariable[] {
   return variables.flatMap((variable, index) => {
     try {
-      return [{ ...variable, value: formatValue(readers[index]()) }];
+      const value = readers[index]();
+      return [{ ...variable, value: types.isProxy(value) ? PROXY_LABEL : formatValue(value) }];
     } catch {
       // A `let` or `const` in its temporal dead zone cannot be read: it is not a variable yet.
       return [];
