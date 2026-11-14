@@ -1,35 +1,33 @@
+import { useState } from "react";
 import { Pressable, type PressableProps, type StyleProp, type ViewStyle } from "react-native";
-import * as Haptics from "expo-haptics";
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
-import { motion } from "@/theme/theme";
+import Animated from "react-native-reanimated";
+import { haptic as haptics } from "@/theme/haptics";
+import { PRESS_SCALE, space, transitions } from "@/theme/tokens";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type Props = Omit<PressableProps, "style"> & {
   style?: StyleProp<ViewStyle>;
-  /** Impact haptic on press-in: "medium" for the screen's hero action, "light" for the rest. */
+  /** Haptic on press-in: "medium" for the screen's main action, "light" for the rest. */
   haptic?: "light" | "medium";
 };
 
-/** Drop-in Pressable with a physical spring press-scale and optional haptic tick. */
+/** A pressable that answers the finger at once: it shrinks slightly on press-in and springs back on release. */
 export function PressableScale({ style, haptic, onPressIn, onPressOut, ...pressableProps }: Props) {
-  const scale = useSharedValue(1);
-  const pressStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
-
+  const [pressed, setPressed] = useState(false);
   return (
     <AnimatedPressable
+      pressRetentionOffset={space.lg}
       {...pressableProps}
-      style={[style, pressStyle]}
+      style={[style, transitions.press, { transform: [{ scale: pressed ? PRESS_SCALE : 1 }] }]}
       onPressIn={(event) => {
-        scale.value = withSpring(motion.pressScale, motion.spring);
-        if (haptic)
-          void Haptics.impactAsync(
-            haptic === "medium" ? Haptics.ImpactFeedbackStyle.Medium : Haptics.ImpactFeedbackStyle.Light,
-          );
+        setPressed(true);
+        if (haptic === "medium") haptics.commit();
+        else if (haptic === "light") haptics.press();
         onPressIn?.(event);
       }}
       onPressOut={(event) => {
-        scale.value = withSpring(1, motion.spring);
+        setPressed(false);
         onPressOut?.(event);
       }}
     />

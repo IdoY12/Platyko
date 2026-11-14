@@ -118,3 +118,12 @@ export const springs = {
 } as const;
 
 export const PRESS_SCALE = 0.97;
+
+/**
+ * State-driven transitions (Reanimated CSS transitions). They are applied inline on animated
+ * views; a press or a colour change needs no shared value.
+ */
+export const transitions = {
+  press: { transitionProperty: "transform", transitionDuration: duration.micro, transitionTimingFunction: "ease-out" },
+  colour: { transitionProperty: "backgroundColor", transitionDuration: duration.transition, transitionTimingFunction: "ease-out" },
+} as const;
