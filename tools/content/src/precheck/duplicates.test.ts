@@ -130,6 +130,7 @@ describe("checkDuplicates: speed", () => {
     );
     const startedAt = performance.now();
     checkDuplicates(bank);
-    expect(performance.now() - startedAt).toBeLessThan(3000);
+    // Ten seconds, as the test's name says: a loaded machine must not turn a speed check red.
+    expect(performance.now() - startedAt).toBeLessThan(10_000);
   });
 });

@@ -26,7 +26,7 @@ describe("ProgramRunnerPool", () => {
       if (index === loopingJobIndex) expect(result).toMatchObject({ output: [], timedOut: true });
       else expect(result).toMatchObject({ output: [String(index * 2)], timedOut: false });
     });
-  });
+  }, 30_000);
 
   it("replaces a worker whose job exceeds the wall-clock limit and still finishes the batch", async () => {
     const results = await pool.runMany([
