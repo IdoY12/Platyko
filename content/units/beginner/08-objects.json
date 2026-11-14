@@ -1,0 +1,1650 @@
+{
+  "track": "BEGINNER",
+  "unit": "objects",
+  "order": 8,
+  "title": "Objects",
+  "summary": "Objects store values under keys: how to read, change and loop over their properties.",
+  "concepts": [
+    {
+      "id": "object-properties",
+      "title": "Objects and their properties",
+      "prerequisites": [
+        "const-declaration",
+        "string-values"
+      ]
+    },
+    {
+      "id": "property-access",
+      "title": "Dot and bracket access",
+      "prerequisites": [
+        "object-properties",
+        "array-index"
+      ]
+    },
+    {
+      "id": "property-update",
+      "title": "Updating, adding and deleting properties",
+      "prerequisites": [
+        "property-access",
+        "const-declaration"
+      ]
+    },
+    {
+      "id": "object-iteration",
+      "title": "Objects inside loops and arrays of objects",
+      "prerequisites": [
+        "property-access",
+        "array-iteration"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "dot-uses-variable-value",
+      "description": "Believes obj.key uses the value of a variable named key, instead of reading a key literally named key."
+    },
+    {
+      "id": "bracket-name-is-literal",
+      "description": "Believes obj[name] without quotes reads a key called name, instead of using the value held in the variable name."
+    },
+    {
+      "id": "missing-key-is-error",
+      "description": "Believes reading a key the object lacks stops the program or gives null, instead of giving undefined."
+    },
+    {
+      "id": "object-has-position",
+      "description": "Believes object values are read by position like array items, so reads follow the order the pairs were written."
+    },
+    {
+      "id": "read-gives-key",
+      "description": "Believes a read gives back the key name, or that a variable holds the key instead of the value stored under it."
+    },
+    {
+      "id": "const-blocks-changes",
+      "description": "Believes a const object cannot be changed, so assigning to its properties has no effect."
+    },
+    {
+      "id": "assignment-adds-to-value",
+      "description": "Believes assigning to an existing property combines the new value with the old one."
+    },
+    {
+      "id": "new-key-ignored",
+      "description": "Believes assigning to a key the object does not have does nothing, because keys can only be set in the literal."
+    },
+    {
+      "id": "delete-keeps-key",
+      "description": "Believes delete only empties a value, so the key stays in the object."
+    },
+    {
+      "id": "wrong-moment-value",
+      "description": "Reads the value a variable has at a different moment than the one asked about, such as the end of the program."
+    },
+    {
+      "id": "copy-stays-linked",
+      "description": "Believes a variable copied from a property follows later changes of that property."
+    },
+    {
+      "id": "keys-return-values",
+      "description": "Believes Object.keys returns the values of the object instead of its keys."
+    },
+    {
+      "id": "object-has-length",
+      "description": "Believes an object has a length, or that Object.keys gives a count instead of an array."
+    },
+    {
+      "id": "item-is-index",
+      "description": "Believes the loop variable of for...of is an index number, so reading a property of it gives undefined."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects",
+      "retrievedAt": "2026-11-14",
+      "sha256": "08140557e1ee1c0464fe6165f3308f2804a501dad07d6b8e514326f695dc42c2"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer",
+      "retrievedAt": "2026-11-14",
+      "sha256": "5ad5f8672bcffc2eeda0ccce3c014eaea75ebc09d4bd9d7a4b2850b196488395"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+      "retrievedAt": "2026-11-14",
+      "sha256": "0aa75a29bfe2024854659b8e390fdd1e7c590782a389a023ea3124d923103066"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete",
+      "retrievedAt": "2026-11-14",
+      "sha256": "cc84d41db2795cf4bf2f8aa3e655cf58f41a68c875cb8e112a3b65e9c672a0b8"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in",
+      "retrievedAt": "2026-11-14",
+      "sha256": "8dbea0e3df0d9f524b09b828302298d1dc5a5fe57981dcd186fd854769934d3a"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in",
+      "retrievedAt": "2026-11-14",
+      "sha256": "789e4e8e7ff6e732c3292d10ed859a858b9bdcb87264a02acc213254b5d20857"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys",
+      "retrievedAt": "2026-11-14",
+      "sha256": "de3ab15359f06c36da05c6f063e22fdb6ee09e37d94b020b585464a203b951a9"
+    },
+    {
+      "url": "https://tc39.es/ecma262/#sec-object-type",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7c67049076faafb9f473c7e888e8f84cb6144e1187210f9c08e581155355ccc6"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "objects.lesson-1",
+      "title": "Objects and their properties",
+      "conceptCard": {
+        "title": "Objects and their properties",
+        "body": "An object groups related values. Write it between curly braces as key: value pairs, separated by commas. Read a value with a dot and its key. A key that the object does not have gives undefined.",
+        "code": [
+          "const cup = { hue: \"red\", size: 3 };",
+          "console.log(cup.hue);",
+          "console.log(cup.size);",
+          "console.log(cup.lid);"
+        ],
+        "expectedOutput": "red\n3\nundefined"
+      },
+      "itemIds": [
+        "beg.objects.properties.predict-01",
+        "beg.objects.properties.predict-02",
+        "beg.objects.properties.trace-01",
+        "beg.objects.properties.fill-01",
+        "beg.objects.properties.parsons-01",
+        "beg.objects.properties.concept-01"
+      ]
+    },
+    {
+      "id": "objects.lesson-2",
+      "title": "Dot and bracket access",
+      "conceptCard": {
+        "title": "Dot and bracket access",
+        "body": "Use a dot when you know the key. Use square brackets with a quoted text when the key has a space. Put a variable in the brackets to use the text it holds as the key. A dot never uses a variable.",
+        "code": [
+          "const trip = { \"day n\": 4, id: 7 };",
+          "const field = \"id\";",
+          "console.log(trip.id);",
+          "console.log(trip[\"day n\"]);",
+          "console.log(trip[field]);"
+        ],
+        "expectedOutput": "7\n4\n7"
+      },
+      "itemIds": [
+        "beg.objects.access.predict-01",
+        "beg.objects.access.predict-02",
+        "beg.objects.access.trace-01",
+        "beg.objects.access.fill-01",
+        "beg.objects.access.parsons-01",
+        "beg.objects.access.write-01"
+      ]
+    },
+    {
+      "id": "objects.lesson-3",
+      "title": "Updating, adding and deleting properties",
+      "conceptCard": {
+        "title": "Updating, adding and deleting properties",
+        "body": "Assigning with = replaces a property or adds a new one. delete removes a property. The in operator checks whether a key exists. A const object can still change, because const only fixes the name.",
+        "code": [
+          "const bag = { apples: 2 };",
+          "bag.apples = 5;",
+          "bag.pears = 1;",
+          "delete bag.apples;",
+          "console.log(bag);",
+          "console.log(\"pears\" in bag);"
+        ],
+        "expectedOutput": "{pears: 1}\ntrue"
+      },
+      "itemIds": [
+        "beg.objects.update.predict-01",
+        "beg.objects.update.predict-02",
+        "beg.objects.update.trace-01",
+        "beg.objects.update.fill-01",
+        "beg.objects.update.parsons-01",
+        "beg.objects.update.concept-01"
+      ]
+    },
+    {
+      "id": "objects.lesson-4",
+      "title": "Objects inside loops and arrays of objects",
+      "conceptCard": {
+        "title": "Objects inside loops and arrays of objects",
+        "body": "Object.keys gives an array of an object's keys. A for...in loop visits each key in turn, and obj[key] gets its value. An array can hold objects, and for...of visits each one.",
+        "code": [
+          "const pot = { herb: \"mint\", n: 3 };",
+          "console.log(Object.keys(pot));",
+          "for (const key in pot) {",
+          "  console.log(key, pot[key]);",
+          "}"
+        ],
+        "expectedOutput": "['herb', 'n']\nherb mint\nn 3"
+      },
+      "itemIds": [
+        "beg.objects.iteration.predict-01",
+        "beg.objects.iteration.predict-02",
+        "beg.objects.iteration.trace-01",
+        "beg.objects.iteration.fill-01",
+        "beg.objects.iteration.parsons-01",
+        "beg.objects.iteration.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "beg.objects.properties.predict-01",
+      "concept": "object-properties",
+      "prerequisites": [
+        "const-declaration",
+        "string-values"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "const rose = { stems: 3, cost: 12 };",
+        "console.log(rose.cost, rose.stems);"
+      ],
+      "options": [
+        {
+          "text": "12 3",
+          "correct": true,
+          "feedback": "Right. rose.cost reads the value stored under cost, and rose.stems the value under stems."
+        },
+        {
+          "text": "cost stems",
+          "correct": false,
+          "feedback": "You printed the keys. A dot and a key read the value stored under that key, not the key itself.",
+          "misconception": "read-gives-key"
+        },
+        {
+          "text": "3 12",
+          "correct": false,
+          "feedback": "You followed the order the pairs were written in. A read goes by key, so the order of the reads decides the output.",
+          "misconception": "object-has-position"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "12 3"
+      },
+      "explanation": "An object stores values under keys. rose.cost reads the value under cost, which is 12, and rose.stems reads 3. The reads run in the order of the call, not the order of the pairs.",
+      "hints": [
+        "Look at the order of the two reads in console.log.",
+        "A dot and a key give the value stored under that key.",
+        "Match each key to its value, then print them in the order they are read."
+      ],
+      "reference": {
+        "title": "Working with objects",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.properties.predict-02",
+      "concept": "object-properties",
+      "prerequisites": [
+        "const-declaration",
+        "string-values"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "const book = { pages: 410, id: 7 };",
+        "console.log(book.pages, book.isbn);"
+      ],
+      "options": [
+        {
+          "text": "410 undefined",
+          "correct": true,
+          "feedback": "Right. The object has no isbn key, so that read gives undefined."
+        },
+        {
+          "text": "410 null",
+          "correct": false,
+          "feedback": "A missing key does not give null. JavaScript uses undefined for a read of a key that is not there.",
+          "misconception": "missing-key-is-error"
+        },
+        {
+          "text": "Uncaught ReferenceError",
+          "correct": false,
+          "feedback": "Reading a key that is not there does not stop the program. The read gives a value, and the program carries on.",
+          "misconception": "missing-key-is-error"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "410 undefined"
+      },
+      "explanation": "book.pages reads 410. The object has no isbn key, and reading a missing key gives undefined without any error, so console.log prints both values.",
+      "hints": [
+        "Check which keys the object has.",
+        "A key that the object does not have gives a special value, not an error.",
+        "The second read asks for a key that was never written."
+      ],
+      "reference": {
+        "title": "Working with objects",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:5"
+      ]
+    },
+    {
+      "id": "beg.objects.properties.trace-01",
+      "concept": "object-properties",
+      "prerequisites": [
+        "const-declaration",
+        "string-values"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does total hold right after line 2 has run?",
+      "code": [
+        "const crate = { figs: 4, pears: 9 };",
+        "let total = crate.figs;",
+        "total = total + crate.pears;",
+        "console.log(total);"
+      ],
+      "options": [
+        {
+          "text": "4",
+          "correct": true,
+          "feedback": "Right. Line 2 copies the value under figs into total."
+        },
+        {
+          "text": "13",
+          "correct": false,
+          "feedback": "That is the value after line 3. The question stops after line 2, before pears is added.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "'figs'",
+          "correct": false,
+          "feedback": "You stored the key. crate.figs reads the value under that key, which is a number.",
+          "misconception": "read-gives-key"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "total",
+          "afterLine": 2,
+          "visit": 1
+        },
+        "expectedOutput": "13"
+      },
+      "explanation": "Line 2 reads the value under figs, 4, and stores it in total. Line 3 then adds the value under pears, so the program prints 13. Right after line 2 the value is 4.",
+      "hints": [
+        "Stop after line 2 and ignore line 3.",
+        "crate.figs gives the value stored under the key figs.",
+        "Find the number written next to figs on line 1."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.properties.fill-01",
+      "concept": "object-properties",
+      "prerequisites": [
+        "const-declaration",
+        "string-values"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blanks to build the object and print 14.",
+      "code": [
+        "const club = ___ size: 14 ___;",
+        "console.log(club.___);"
+      ],
+      "options": [
+        {
+          "text": "{",
+          "correct": true,
+          "feedback": "Right. An object literal opens with a curly brace."
+        },
+        {
+          "text": "}",
+          "correct": true,
+          "feedback": "Right. The literal closes with a curly brace."
+        },
+        {
+          "text": "size",
+          "correct": true,
+          "feedback": "Right. The key size holds 14."
+        },
+        {
+          "text": "[",
+          "correct": false,
+          "feedback": "Square brackets make an array, and an array cannot hold name: value pairs. The program fails."
+        },
+        {
+          "text": "club",
+          "correct": false,
+          "feedback": "club.club looks for a key named club, which the object does not have. It prints undefined."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "{"
+          ],
+          [
+            "}"
+          ],
+          [
+            "size"
+          ]
+        ],
+        "expectedOutput": "14"
+      },
+      "explanation": "An object literal is a list of key: value pairs between curly braces. The number 14 is stored under size, so club.size prints it.",
+      "hints": [
+        "Look at the first and the last blank on line 1.",
+        "Objects are written between curly braces, with key: value pairs inside.",
+        "The last blank is the key that sits next to 14."
+      ],
+      "reference": {
+        "title": "Object initializer",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:9"
+      ]
+    },
+    {
+      "id": "beg.objects.properties.parsons-01",
+      "concept": "object-properties",
+      "prerequisites": [
+        "const-declaration",
+        "string-values"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Order the lines to print teal-3!.",
+      "code": [
+        "const shout = tag + \"!\";",
+        "const mug = { hue: \"teal\", n: 3 };",
+        "console.log(shout);",
+        "const tag = mug.hue + \"-\" + mug.n;"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "expectedOutput": "teal-3!"
+      },
+      "explanation": "Each line uses the name made by the line before it. mug must exist before its properties are read, tag before it gets the exclamation mark, and shout before it is printed.",
+      "hints": [
+        "Which line creates a name that no other line creates?",
+        "A name must exist before another line uses it.",
+        "Order the lines by what each one needs: mug, tag, shout, then the print."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.properties.concept-01",
+      "concept": "object-properties",
+      "prerequisites": [
+        "const-declaration",
+        "string-values"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement about this code is true?",
+      "code": [
+        "const room = { floor: 3, beds: 2 };",
+        "console.log(room.floor);",
+        "console.log(room.window);"
+      ],
+      "options": [
+        {
+          "text": "Each value is stored under a key, and a key the object lacks reads as undefined.",
+          "correct": true,
+          "feedback": "Right. room.floor prints 3, and room.window prints undefined because there is no window key."
+        },
+        {
+          "text": "A key the object lacks stops the program, because it was never written.",
+          "correct": false,
+          "feedback": "The program prints undefined for room.window and carries on. A missing key is not an error.",
+          "misconception": "missing-key-is-error"
+        },
+        {
+          "text": "Values are kept by position, so room.floor reads the first value.",
+          "correct": false,
+          "feedback": "An object finds a value by its key, not by its position. Here the key floor happens to be written first.",
+          "misconception": "object-has-position"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "3\nundefined"
+      },
+      "explanation": "An object stores each value under a key. room.floor finds the value under floor, which is 3. There is no window key, so room.window gives undefined.",
+      "hints": [
+        "Look at what each console.log line prints.",
+        "A value is found by its key. A key that is not there gives undefined.",
+        "Compare how each claim says a read finds its value."
+      ],
+      "reference": {
+        "title": "Working with objects",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.access.predict-01",
+      "concept": "property-access",
+      "prerequisites": [
+        "object-properties",
+        "array-index"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "const prices = { tea: 3, cake: 5 };",
+        "const item = \"cake\";",
+        "console.log(prices[item]);"
+      ],
+      "options": [
+        {
+          "text": "5",
+          "correct": true,
+          "feedback": "Right. Square brackets use the text inside item as the key, so prices[item] reads the value under cake."
+        },
+        {
+          "text": "undefined",
+          "correct": false,
+          "feedback": "You read a key named item. Without quotes, the brackets use the value of the variable, which is the text cake.",
+          "misconception": "bracket-name-is-literal"
+        },
+        {
+          "text": "cake",
+          "correct": false,
+          "feedback": "You printed the key. The brackets read the value stored under that key.",
+          "misconception": "read-gives-key"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "5"
+      },
+      "explanation": "In square brackets without quotes, JavaScript uses the value of the variable as the key. item holds the text cake, so prices[item] reads the value under cake, which is 5.",
+      "hints": [
+        "Look at what is inside the square brackets on line 3.",
+        "Inside brackets, a name without quotes is replaced by its value.",
+        "item holds a text. Use that text as the key."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.access.predict-02",
+      "concept": "property-access",
+      "prerequisites": [
+        "object-properties",
+        "array-index"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const bin = { pens: 8, ink: 2 };",
+        "const part = \"ink\";",
+        "console.log(bin.part, bin[part]);"
+      ],
+      "options": [
+        {
+          "text": "undefined 2",
+          "correct": true,
+          "feedback": "Right. A dot reads a key named part, which does not exist. The brackets use the text in part, which is ink."
+        },
+        {
+          "text": "2 2",
+          "correct": false,
+          "feedback": "A dot never uses a variable. bin.part reads a key that is literally named part.",
+          "misconception": "dot-uses-variable-value"
+        },
+        {
+          "text": "undefined undefined",
+          "correct": false,
+          "feedback": "Brackets without quotes do use the variable. bin[part] reads the key ink.",
+          "misconception": "bracket-name-is-literal"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "undefined 2"
+      },
+      "explanation": "After a dot, the name is the key itself, so bin.part looks for a key called part and finds none. Brackets with a variable use its value, so bin[part] reads the key ink.",
+      "hints": [
+        "Compare the two reads on line 3.",
+        "A dot uses the name as written. Brackets use the value of a variable.",
+        "One read looks for part, the other looks for ink."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.access.trace-01",
+      "concept": "property-access",
+      "prerequisites": [
+        "object-properties",
+        "array-index"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does eta hold right after line 3 has run?",
+      "code": [
+        "const mins = { A: 12, B: 8, C: 35 };",
+        "let line = \"A\";",
+        "let eta = mins[line];",
+        "line = \"C\";",
+        "eta = mins[line];",
+        "console.log(eta);"
+      ],
+      "options": [
+        {
+          "text": "12",
+          "correct": true,
+          "feedback": "Right. At line 3, line holds A, so the read gives the value under A."
+        },
+        {
+          "text": "35",
+          "correct": false,
+          "feedback": "That is the value after line 5. The question stops after line 3, when line still holds A.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "undefined",
+          "correct": false,
+          "feedback": "You read a key named line. The brackets use the text inside the variable instead.",
+          "misconception": "bracket-name-is-literal"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "eta",
+          "afterLine": 3,
+          "visit": 1
+        },
+        "expectedOutput": "35"
+      },
+      "explanation": "At line 3 the variable line holds A, so mins[line] reads 12. Line 4 changes line to C, and line 5 reads again, so the program prints 35. Right after line 3 the value is 12.",
+      "hints": [
+        "Check what line holds when line 3 runs.",
+        "Brackets use the value the variable has at that moment.",
+        "Ignore lines 4 and 5 and read the key that line holds."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.access.fill-01",
+      "concept": "property-access",
+      "prerequisites": [
+        "object-properties",
+        "array-index"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blanks with bracket notation so the program prints 4 and then 7.",
+      "code": [
+        "const pet = { age: 4, \"pet id\": 7 };",
+        "console.log(pet___, pet___);"
+      ],
+      "options": [
+        {
+          "text": "[\"age\"]",
+          "correct": true,
+          "feedback": "Right. A quoted key in brackets reads the value under age."
+        },
+        {
+          "text": "[\"pet id\"]",
+          "correct": true,
+          "feedback": "Right. A key with a space needs quotes inside brackets."
+        },
+        {
+          "text": "[age]",
+          "correct": false,
+          "feedback": "Without quotes, the brackets look for a variable called age. There is none, so the program fails.",
+          "misconception": "bracket-name-is-literal"
+        },
+        {
+          "text": ".pet id",
+          "correct": false,
+          "feedback": "A dot cannot read a key that has a space. The code is not valid and fails."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "[\"age\"]"
+          ],
+          [
+            "[\"pet id\"]"
+          ]
+        ],
+        "expectedOutput": "4 7"
+      },
+      "explanation": "A quoted key in square brackets reads the value stored under that key. This works even when the key has a space, which a dot cannot read.",
+      "hints": [
+        "Both blanks sit right after pet.",
+        "Brackets with a quoted text read the key with that text.",
+        "The first blank reads age and the second reads the key with a space."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:0"
+      ]
+    },
+    {
+      "id": "beg.objects.access.parsons-01",
+      "concept": "property-access",
+      "prerequisites": [
+        "object-properties",
+        "array-index"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Order the lines to print 9.",
+      "code": [
+        "console.log(result);",
+        "const info = { pick: \"w\", w: 9 };",
+        "const result = info[key];",
+        "const key = info.pick;"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          3,
+          2,
+          0
+        ],
+        "expectedOutput": "9"
+      },
+      "explanation": "key gets its text from info.pick, so info comes first. result then uses key inside brackets, and the last line prints result.",
+      "hints": [
+        "Which line creates a name that no other line creates?",
+        "A name must exist before another line uses it.",
+        "info comes first, then key, then result, then the print."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.access.write-01",
+      "concept": "property-access",
+      "prerequisites": [
+        "object-properties",
+        "array-index"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "Write an expression that gives the price in prices stored under the key held in item.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "prices",
+            "item"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "prices": {
+                "tea": 3,
+                "cake": 5
+              },
+              "item": "cake"
+            },
+            "expected": 5
+          },
+          {
+            "input": {
+              "prices": {
+                "tea": 3,
+                "cake": 5
+              },
+              "item": "tea"
+            },
+            "expected": 3
+          },
+          {
+            "input": {
+              "prices": {
+                "iced tea": 4,
+                "cake": 5
+              },
+              "item": "iced tea"
+            },
+            "expected": 4
+          },
+          {
+            "input": {
+              "prices": {
+                "a": 0
+              },
+              "item": "a"
+            },
+            "expected": 0
+          }
+        ],
+        "reference": [
+          "prices[item]"
+        ],
+        "wrongSolutions": [
+          [
+            "prices.item"
+          ],
+          [
+            "prices[\"item\"]"
+          ],
+          [
+            "item"
+          ]
+        ]
+      },
+      "explanation": "Square brackets with a variable use the variable's value as the key, so prices[item] works for any key. prices.item and prices[\"item\"] look for a key named item.",
+      "hints": [
+        "The key is held in a variable, not written out.",
+        "A dot reads a fixed name. Brackets can use a variable.",
+        "Write prices, then item inside square brackets."
+      ],
+      "reference": {
+        "title": "Property accessors",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.update.predict-01",
+      "concept": "property-update",
+      "prerequisites": [
+        "property-access",
+        "const-declaration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "const tank = { fish: 3, plants: 5 };",
+        "tank.fish = 8;",
+        "console.log(tank.fish, tank.plants);"
+      ],
+      "options": [
+        {
+          "text": "8 5",
+          "correct": true,
+          "feedback": "Right. The assignment replaces the value under fish. Nothing touches plants."
+        },
+        {
+          "text": "3 5",
+          "correct": false,
+          "feedback": "A const object can still change. const only stops the name tank from pointing to another object.",
+          "misconception": "const-blocks-changes"
+        },
+        {
+          "text": "11 5",
+          "correct": false,
+          "feedback": "Assignment replaces the old value, it does not add to it. 8 is stored, not 3 + 8.",
+          "misconception": "assignment-adds-to-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "8 5"
+      },
+      "explanation": "Assigning to tank.fish replaces the value stored under fish. The object is not frozen by const, and the key plants is not touched, so the output is 8 5.",
+      "hints": [
+        "Look at line 2.",
+        "An assignment to an existing key replaces its value.",
+        "Only fish changes. Plants keeps its value."
+      ],
+      "reference": {
+        "title": "Assignment (=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.update.predict-02",
+      "concept": "property-update",
+      "prerequisites": [
+        "property-access",
+        "const-declaration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const kit = { pc: 1 };",
+        "kit.tv = 2;",
+        "delete kit.pc;",
+        "console.log(\"pc\" in kit, kit.tv);"
+      ],
+      "options": [
+        {
+          "text": "false 2",
+          "correct": true,
+          "feedback": "Right. delete removes the key pc, and the assignment added the key tv, which holds 2."
+        },
+        {
+          "text": "true 2",
+          "correct": false,
+          "feedback": "delete removes the whole key, not just its value. After it, the key is no longer in the object.",
+          "misconception": "delete-keeps-key"
+        },
+        {
+          "text": "false undefined",
+          "correct": false,
+          "feedback": "Assigning to a key that is not there adds it. After line 2 the object has a tv key.",
+          "misconception": "new-key-ignored"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "false 2"
+      },
+      "explanation": "Assigning to a new name adds a key, so tv is added. delete removes a key completely, so pc is gone. The in operator tells whether a key is in the object.",
+      "hints": [
+        "Follow the object line by line: line 2, then line 3.",
+        "Assignment can add a key. delete removes one. in checks for a key.",
+        "After both lines, check which of the two keys the object still has."
+      ],
+      "reference": {
+        "title": "delete operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.update.trace-01",
+      "concept": "property-update",
+      "prerequisites": [
+        "property-access",
+        "const-declaration"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does before hold right after line 4 has run?",
+      "code": [
+        "const score = { home: 2, away: 1 };",
+        "const before = score.home;",
+        "score.home = score.home + 3;",
+        "const after = score.home;",
+        "console.log(before, after);"
+      ],
+      "options": [
+        {
+          "text": "2",
+          "correct": true,
+          "feedback": "Right. before stored the number 2. Changing the property later does not change that copy."
+        },
+        {
+          "text": "5",
+          "correct": false,
+          "feedback": "before is a separate value. It does not follow later changes of score.home.",
+          "misconception": "copy-stays-linked"
+        },
+        {
+          "text": "'home'",
+          "correct": false,
+          "feedback": "You stored the key. Line 2 stores the value under the key home, which is a number.",
+          "misconception": "read-gives-key"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "before",
+          "afterLine": 4,
+          "visit": 1
+        },
+        "expectedOutput": "2 5"
+      },
+      "explanation": "Line 2 copies the number 2 into before. Line 3 changes the property to 5, but before keeps the 2 it was given. The program prints 2 5.",
+      "hints": [
+        "Check what line 2 stored in before.",
+        "A number copied into a variable stays as it was.",
+        "before was set once, on line 2."
+      ],
+      "reference": {
+        "title": "Assignment (=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.update.fill-01",
+      "concept": "property-update",
+      "prerequisites": [
+        "property-access",
+        "const-declaration"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blanks to add honey with the value 5 and remove jam, so the program prints {honey: 5}.",
+      "code": [
+        "const jar = { jam: 2 };",
+        "jar.___ = 5;",
+        "___ jar.jam;",
+        "console.log(jar);"
+      ],
+      "options": [
+        {
+          "text": "honey",
+          "correct": true,
+          "feedback": "Right. Assigning to a new key adds it."
+        },
+        {
+          "text": "delete",
+          "correct": true,
+          "feedback": "Right. delete removes the key and its value."
+        },
+        {
+          "text": "jam",
+          "correct": false,
+          "feedback": "This replaces the old value instead of adding honey, and the object ends up empty."
+        },
+        {
+          "text": "remove",
+          "correct": false,
+          "feedback": "remove is not a JavaScript word for this. The code is not valid and fails."
+        },
+        {
+          "text": "null",
+          "correct": false,
+          "feedback": "null is a value, not an operator. The code is not valid and fails."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "honey"
+          ],
+          [
+            "delete"
+          ]
+        ],
+        "expectedOutput": "{honey: 5}"
+      },
+      "explanation": "Assigning to a name the object lacks adds a new key. The delete operator removes a key together with its value. Together they leave only honey.",
+      "hints": [
+        "The first blank is a key name. The second blank is an operator.",
+        "One word in JavaScript removes a key from an object.",
+        "The new key is not jam, because jam is being removed."
+      ],
+      "reference": {
+        "title": "delete operator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.update.parsons-01",
+      "concept": "property-update",
+      "prerequisites": [
+        "property-access",
+        "const-declaration"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Order the lines to print 8.",
+      "code": [
+        "car.wheels = car.doors * 2;",
+        "const car = { doors: 2 };",
+        "console.log(car.wheels);",
+        "car.doors = car.doors + 2;"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "expectedOutput": "8"
+      },
+      "explanation": "doors becomes 4 on line 2, then wheels becomes 4 * 2. If the order changed, wheels would use the old doors, and the output would differ.",
+      "hints": [
+        "Which line must come first so the others have an object?",
+        "Each line uses the result of the line before it.",
+        "doors is changed first, then wheels is built from it."
+      ],
+      "reference": {
+        "title": "Assignment (=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.update.concept-01",
+      "concept": "property-update",
+      "prerequisites": [
+        "property-access",
+        "const-declaration"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement about this code is true?",
+      "code": [
+        "const order = { item: \"tea\" };",
+        "order.item = \"cake\";",
+        "order.size = \"L\";",
+        "console.log(order);"
+      ],
+      "options": [
+        {
+          "text": "const fixes the name to one object, but the properties of that object can change.",
+          "correct": true,
+          "feedback": "Right. The output is {item: 'cake', size: 'L'}. const stops order = {...}, not order.item = ...."
+        },
+        {
+          "text": "const makes the object read-only, so the new values are ignored.",
+          "correct": false,
+          "feedback": "The output shows both changes. const does not lock the properties inside the object.",
+          "misconception": "const-blocks-changes"
+        },
+        {
+          "text": "Assigning to order.item joins the new text to the old text.",
+          "correct": false,
+          "feedback": "Assignment replaces the old value, it does not join the two.",
+          "misconception": "assignment-adds-to-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "{item: 'cake', size: 'L'}"
+      },
+      "explanation": "const stops the name from being assigned a new object, but it does not freeze the object. Assigning to a key replaces its value, and a new name adds a key.",
+      "hints": [
+        "Look at what the program prints.",
+        "const protects the name, not the properties inside the object.",
+        "Compare the output with the starting object."
+      ],
+      "reference": {
+        "title": "const",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.iteration.predict-01",
+      "concept": "object-iteration",
+      "prerequisites": [
+        "property-access",
+        "array-iteration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 1,
+      "prompt": "What does this code print?",
+      "code": [
+        "const band = { sax: 3, bass: 2 };",
+        "console.log(Object.keys(band));"
+      ],
+      "options": [
+        {
+          "text": "['sax', 'bass']",
+          "correct": true,
+          "feedback": "Right. Object.keys gives the keys as an array, in the order they were written."
+        },
+        {
+          "text": "[3, 2]",
+          "correct": false,
+          "feedback": "That is Object.values. Object.keys gives the keys, not the values.",
+          "misconception": "keys-return-values"
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "Object.keys gives an array of the keys, not a count. The count is the length of that array.",
+          "misconception": "object-has-length"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "['sax', 'bass']"
+      },
+      "explanation": "Object.keys returns an array holding the object's keys, as text, in the order they were written. It does not return the values or a count.",
+      "hints": [
+        "Look at the name of the function.",
+        "Object.keys gives an array of the keys.",
+        "The answer is an array of two texts."
+      ],
+      "reference": {
+        "title": "Object.keys()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:6"
+      ]
+    },
+    {
+      "id": "beg.objects.iteration.predict-02",
+      "concept": "object-iteration",
+      "prerequisites": [
+        "property-access",
+        "array-iteration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const cabins = [",
+        "  { id: 1, beds: 2 },",
+        "  { id: 2, beds: 4 },",
+        "];",
+        "let beds = 0;",
+        "for (const cabin of cabins) {",
+        "  beds = beds + cabin.beds;",
+        "}",
+        "console.log(beds);"
+      ],
+      "options": [
+        {
+          "text": "6",
+          "correct": true,
+          "feedback": "Right. Each pass reads the beds value of one object and adds it to the total."
+        },
+        {
+          "text": "NaN",
+          "correct": false,
+          "feedback": "for...of gives each object in the array, not an index number. cabin.beds reads a key of that object.",
+          "misconception": "item-is-index"
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "You added the ids. The loop adds cabin.beds, the number stored under beds.",
+          "misconception": "object-has-position"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "6"
+      },
+      "explanation": "for...of gives each object of the array in turn. cabin.beds reads the number under beds, so the loop adds 2 and then 4. The total is 6.",
+      "hints": [
+        "Look at what is added on line 7.",
+        "The loop variable holds one whole object each pass.",
+        "Add the two numbers stored under beds."
+      ],
+      "reference": {
+        "title": "for...of",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.iteration.trace-01",
+      "concept": "object-iteration",
+      "prerequisites": [
+        "property-access",
+        "array-iteration"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What does most hold right after line 6 has run for the second time?",
+      "code": [
+        "const hits = { a: 3, b: 5, c: 7 };",
+        "let best = \"\";",
+        "let most = 0;",
+        "for (const page in hits) {",
+        "  if (hits[page] > most) {",
+        "    most = hits[page];",
+        "    best = page;",
+        "  }",
+        "}",
+        "console.log(best);"
+      ],
+      "options": [
+        {
+          "text": "5",
+          "correct": true,
+          "feedback": "Right. On the second pass page is b, and 5 beats the 3 stored in most."
+        },
+        {
+          "text": "7",
+          "correct": false,
+          "feedback": "That is the value after the third pass. The question stops at the second one.",
+          "misconception": "wrong-moment-value"
+        },
+        {
+          "text": "'b'",
+          "correct": false,
+          "feedback": "most stores hits[page], the number under the key. The key text goes into best.",
+          "misconception": "read-gives-key"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "most",
+          "afterLine": 6,
+          "visit": 2
+        },
+        "expectedOutput": "c"
+      },
+      "explanation": "for...in gives one key per pass. On the first pass most becomes 3, on the second 5, and on the third 7. After the second time through line 6 the value is 5.",
+      "hints": [
+        "Find which key page holds on the second pass.",
+        "On each pass, most takes the value under the current key.",
+        "The keys are visited in order: a, b, then c."
+      ],
+      "reference": {
+        "title": "for...in",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.iteration.fill-01",
+      "concept": "object-iteration",
+      "prerequisites": [
+        "property-access",
+        "array-iteration"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blanks so the program prints the sum of all the values.",
+      "code": [
+        "const zoo = { owl: 2, fox: 3 };",
+        "let total = 0;",
+        "for (const animal ___ zoo) {",
+        "  total = total + ___;",
+        "}",
+        "console.log(total);"
+      ],
+      "options": [
+        {
+          "text": "in",
+          "correct": true,
+          "feedback": "Right. for...in visits the keys of an object."
+        },
+        {
+          "text": "zoo[animal]",
+          "correct": true,
+          "feedback": "Right. Brackets with the loop variable read the value under each key."
+        },
+        {
+          "text": "of",
+          "correct": false,
+          "feedback": "for...of needs an array or a similar list. An object is not one, so the program fails."
+        },
+        {
+          "text": "zoo.animal",
+          "correct": false,
+          "feedback": "A dot looks for a key named animal. The sum becomes NaN."
+        },
+        {
+          "text": "animal",
+          "correct": false,
+          "feedback": "That adds the key text, not the number stored under it."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "in"
+          ],
+          [
+            "zoo[animal]"
+          ]
+        ],
+        "expectedOutput": "5"
+      },
+      "explanation": "for...in gives one key per pass, as text. To get the value, put that key in square brackets after the object: zoo[animal].",
+      "hints": [
+        "The first blank is a word on the for line. The second is a read of one value.",
+        "for...in visits keys. A variable key needs brackets.",
+        "The second blank reads the value of the current key from zoo."
+      ],
+      "reference": {
+        "title": "for...in",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.iteration.parsons-01",
+      "concept": "object-iteration",
+      "prerequisites": [
+        "property-access",
+        "array-iteration"
+      ],
+      "format": "PARSONS",
+      "difficulty": 2,
+      "prompt": "Order the lines to print how many properties cart has.",
+      "code": [
+        "const count = names.length;",
+        "const cart = { pen: 2, ink: 5 };",
+        "console.log(\"Items: \" + count);",
+        "const names = Object.keys(cart);"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "expectedOutput": "Items: 2"
+      },
+      "explanation": "Object.keys needs the object, so cart comes first. names holds the array of keys, count measures that array, and the last line prints count.",
+      "hints": [
+        "Which line creates a name that no other line creates?",
+        "A name must exist before another line uses it.",
+        "cart, then names, then count, then the print."
+      ],
+      "reference": {
+        "title": "Object.keys()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "beg.objects.iteration.write-01",
+      "concept": "object-iteration",
+      "prerequisites": [
+        "property-access",
+        "array-iteration"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 2,
+      "prompt": "Write an expression that gives the keys of obj as an array.",
+      "solution": {
+        "entry": {
+          "kind": "expression",
+          "variables": [
+            "obj"
+          ]
+        },
+        "tests": [
+          {
+            "input": {
+              "obj": {
+                "a": 1,
+                "b": 2
+              }
+            },
+            "expected": [
+              "a",
+              "b"
+            ]
+          },
+          {
+            "input": {
+              "obj": {
+                "x": 1
+              }
+            },
+            "expected": [
+              "x"
+            ]
+          },
+          {
+            "input": {
+              "obj": {}
+            },
+            "expected": []
+          },
+          {
+            "input": {
+              "obj": {
+                "z": 9,
+                "y": 8
+              }
+            },
+            "expected": [
+              "z",
+              "y"
+            ]
+          }
+        ],
+        "reference": [
+          "Object.keys(obj)"
+        ],
+        "wrongSolutions": [
+          [
+            "Object.values(obj)"
+          ],
+          [
+            "obj.keys"
+          ],
+          [
+            "Object.keys(obj).length"
+          ]
+        ]
+      },
+      "explanation": "Object.keys takes an object and returns an array of its keys. Object.values returns the values, and obj.keys looks for a key named keys.",
+      "hints": [
+        "The answer is a call, not a property read.",
+        "A built-in on Object lists the keys of an object.",
+        "Call it with obj in parentheses."
+      ],
+      "reference": {
+        "title": "Object.keys()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:19"
+      ]
+    }
+  ]
+}
