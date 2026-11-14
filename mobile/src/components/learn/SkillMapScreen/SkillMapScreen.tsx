@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { RefreshControl, StyleSheet, useWindowDimensions, View } from "react-native";
+import { I18nManager, RefreshControl, StyleSheet, useWindowDimensions, View } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Animated, { useAnimatedScrollHandler, useAnimatedStyle, useReducedMotion, useSharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,8 +17,12 @@ import { palette, SCREEN_MARGIN, space } from "@/theme/tokens";
 import type { RootNavigation } from "@/types/rootNavigation.types";
 import { LessonNode } from "./LessonNode";
 
-/** Each node sits left, centre or right of the river in turn, so the path winds down the unit. */
-const NODE_OFFSETS = [0, 0.32, 0, -0.32, 0];
+/**
+ * Each node sits centre, then towards the end side, centre, the start side, in turn, so the path
+ * winds down the unit. In Hebrew the path flows from the right (PRD 12.10).
+ */
+const FLOW = I18nManager.isRTL ? -1 : 1;
+const NODE_OFFSETS = [0, 0.32, 0, -0.32, 0].map((offset) => offset * FLOW);
 const ROW_HEIGHT = 150;
 /** The far layer moves slowest; together the three layers give depth without 3D rendering (PRD 12.8). */
 const FAR_LAYER_SPEED = 0.25;
