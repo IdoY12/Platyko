@@ -5,7 +5,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { useSingleFlight } from "@/hooks/useSingleFlight";
 import LearningService from "@/services/auth-aware/LearningService";
 import type UserService from "@/services/auth-aware/UserService";
-import { resetLesson } from "@/redux/lesson-slice";
+import { resetLearning } from "@/redux/learning-slice";
 import { changePasswordRequest, deleteAccountRequest, updateUsername } from "@/utils/profileAccountMutations";
 import { patchLearningSettings } from "@/utils/profileUiAndPreferences";
 import { confirmLogout } from "@/utils/confirmLogout";
@@ -66,7 +66,7 @@ export function useProfileAccountHandlers(r: ProfileReduxState, d: ProfileDraftS
     const resetRemoteThenLocal = async () => {
       if (d.busyAction) return;
       d.setBusyAction("reset");
-      try { await new LearningService().resetProgress(); dispatch(resetLesson()); }
+      try { await new LearningService().resetProgress(); dispatch(resetLearning()); }
       catch (error) { logError("[PROFILE]", error, { phase: "reset-progress" }); Alert.alert("Reset failed", "We could not reset your progress. Check your connection and try again."); }
       finally { d.setBusyAction(null); }
     };

@@ -1,7 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import {
   applyStreakOnAppOpen,
-  applyStreakOnQualifyingXp,
   type DailyXpStreakPersisted,
 } from "@/utils/dailyXpStreakCore";
 
@@ -52,13 +51,9 @@ const streakSlice = createSlice({
       const next = applyStreakOnAppOpen(toPersisted(state), action.payload.today);
       assignFromPersisted(state, next);
     },
-    runStreakQualifyingExercise: (state, action: PayloadAction<{ today: string }>) => {
-      const next = applyStreakOnQualifyingXp(toPersisted(state), action.payload.today);
-      assignFromPersisted(state, next);
-    },
   },
 });
 
-export const { hydrateStreak, syncStreakFromServer, resetStreak, runStreakAppOpen, runStreakQualifyingExercise } = streakSlice.actions;
+export const { hydrateStreak, syncStreakFromServer, resetStreak, runStreakAppOpen } = streakSlice.actions;
 
 export default streakSlice.reducer;

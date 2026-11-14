@@ -14,7 +14,7 @@ import { isAuthFailure } from "@/utils/bootstrapSession";
 /**
  * Mirrors Redux to disk: tokens go to SecureStore the moment they change (every sign-in, refresh
  * and re-login), everything else to AsyncStorage with the tokens zeroed out, debounced 500 ms.
- * Boot flags and the curriculum/puzzle session caches are left out so every launch re-checks
+ * Boot flags and the legacy curriculum cache are left out so every launch re-checks
  * the session and re-fetches content (server-side content fixes reach installed apps).
  */
 export function subscribeStoreToHybridStorage(appStore: typeof store): () => void {
@@ -37,9 +37,9 @@ export function subscribeStoreToHybridStorage(appStore: typeof store): () => voi
       profile: state.profile,
       xp: state.xp,
       streak: state.streak,
-      lesson: { ...state.lesson, exercisesByExperienceLevel: {} },
       duel: state.duel,
-      puzzle: { ...state.puzzle, allPuzzles: null },
+      // The map and opened lessons stay on disk so lessons keep working offline (PRD 16.10).
+      learning: state.learning,
     });
     if (snapshot === previousSnapshot) return;
     previousSnapshot = snapshot;

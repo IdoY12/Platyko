@@ -12,8 +12,11 @@ export const DEFAULT_LANGUAGE: Language = "en";
 
 const RIGHT_TO_LEFT_LANGUAGES: readonly Language[] = ["he"];
 
-export type MessageKey = keyof typeof english;
-export type Dictionary = Record<MessageKey, string>;
+type DictionaryKey = keyof typeof english;
+/** A counted message is looked up by its base key: `summary.days` finds `summary.days_one` or `_other`. */
+type CountedMessageKey = DictionaryKey extends infer Key ? (Key extends `${infer Base}_other` ? Base : never) : never;
+export type MessageKey = DictionaryKey | CountedMessageKey;
+export type Dictionary = Record<DictionaryKey, string>;
 export type MessageParameters = Record<string, string | number>;
 
 /** Suffixes a counted message key may carry; a key that lacks a form falls back to `other`. */

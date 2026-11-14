@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { commitmentOptions, levels } from "@/constants/learningSettings";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { updatePreferences } from "@/redux/profile-slice";
-import { resetLesson } from "@/redux/lesson-slice";
+import { resetLearning } from "@/redux/learning-slice";
 import { logNav } from "@/utils/logger";
 import { EntranceRise } from "@/components/common/EntranceRise/EntranceRise";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
@@ -36,7 +36,7 @@ export function GuestProfileBody() {
   const onResetPress = () => Alert.alert(
     "Reset Learn Progress",
     "This will permanently delete all your learning progress and cannot be undone.",
-    [{ text: "Cancel", style: "cancel" }, { text: "Reset", style: "destructive", onPress: () => dispatch(resetLesson()) }],
+    [{ text: "Cancel", style: "cancel" }, { text: "Reset", style: "destructive", onPress: () => dispatch(resetLearning()) }],
   );
   return (
     <SafeAreaView style={styles.guestContainer} edges={["top"]}>

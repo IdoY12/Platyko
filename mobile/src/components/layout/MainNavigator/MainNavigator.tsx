@@ -3,6 +3,8 @@ import { AuthScreen } from "@/components/auth/auth-screen/AuthScreen";
 import { ForgotPasswordScreen } from "@/components/auth/forgot-password/ForgotPasswordScreen";
 import { ResetPasswordScreen } from "@/components/auth/reset-password/ResetPasswordScreen";
 import { VerifyEmailScreen } from "@/components/auth/verify-email/VerifyEmailScreen";
+import { LessonPlayerScreen } from "@/components/lesson/LessonPlayerScreen";
+import { LessonSummaryScreen } from "@/components/lesson/LessonSummaryScreen";
 import { useAppSelector } from "@/redux/hooks";
 import { colors } from "@/theme/theme";
 import type { RootStackParamList } from "@/types/rootNavigation.types";
@@ -11,6 +13,8 @@ import { MainTabs } from "./MainNavigatorTabs";
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const ROOT_STACK_OPTIONS = { headerShown: false };
+// A lesson takes the whole screen: no tab bar, and a swipe cannot dismiss it half-way by accident.
+const LESSON_OPTIONS = { presentation: "fullScreenModal" as const, gestureEnabled: false };
 const AUTH_SCREEN_OPTIONS = {
   presentation: "modal" as const,
   headerShown: true,
@@ -37,6 +41,8 @@ export function MainNavigator() {
   return (
     <RootStack.Navigator screenOptions={ROOT_STACK_OPTIONS}>
       <RootStack.Screen name="MainTabs" component={MainTabs} />
+      <RootStack.Screen name="LessonPlayer" component={LessonPlayerScreen} options={LESSON_OPTIONS} />
+      <RootStack.Screen name="LessonSummary" component={LessonSummaryScreen} options={LESSON_OPTIONS} />
       {!isAuthenticated && (
         <>
           <RootStack.Screen name="Auth" component={AuthScreen} options={AUTH_SCREEN_OPTIONS} />

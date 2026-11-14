@@ -3,7 +3,6 @@ import hebrew from "@project/locales/he.json";
 import {
   createTranslator,
   DEFAULT_LANGUAGE,
-  isRightToLeft,
   type Language,
   type MessageKey,
   type MessageParameters,
@@ -27,10 +26,6 @@ export function setActiveLanguage(language: Language): void {
 
 export function getActiveLanguage(): Language {
   return activeLanguage;
-}
-
-export function isActiveLanguageRightToLeft(): boolean {
-  return isRightToLeft(activeLanguage);
 }
 
 /** Looks up a UI string in the active language. No string is written directly in a component. */

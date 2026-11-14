@@ -63,7 +63,7 @@ export const syntax = {
   lineNumber: "#8F92C4",
 } as const;
 
-export const fontFamily = {
+const fontFamily = {
   ui: { medium: "Rubik_500Medium", semiBold: "Rubik_600SemiBold", bold: "Rubik_700Bold", extraBold: "Rubik_800ExtraBold" },
   code: { medium: "JetBrainsMono_500Medium", bold: "JetBrainsMono_700Bold" },
 } as const;

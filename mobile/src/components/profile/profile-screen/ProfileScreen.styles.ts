@@ -3,6 +3,7 @@ import { colors, font, fontSize, glow, radius, spacing } from "@/theme/theme";
 
 export const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
+  languageRow: { paddingTop: 64, paddingHorizontal: spacing.xl },
   guestContainer: { flex: 1, backgroundColor: colors.background },
   guestScroll: { flex: 1 },
   guestMain: { flexGrow: 1, justifyContent: "center", padding: spacing.xxl, gap: spacing.lg },

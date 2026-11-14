@@ -4,9 +4,8 @@ import { hydrateSession, reconcileStudyCalendarDay, setBootstrapError, setHasHyd
 import { hydrateProfile } from "@/redux/profile-slice";
 import { hydrateXp } from "@/redux/xp-slice";
 import { hydrateStreak } from "@/redux/streak-slice";
-import { hydrateLesson } from "@/redux/lesson-slice";
 import { hydrateStats } from "@/redux/duel-slice";
-import { hydratePuzzle } from "@/redux/puzzle-slice";
+import { hydrateLearning, type LearningState } from "@/redux/learning-slice";
 import { logAuth, logError } from "@/utils/logger";
 import { EXPIRED_ACCESS_TOKEN, KEYCHAIN_UNREADABLE_MESSAGE } from "@/constants/secureStorageKeyConstants";
 import { readSecureSessionTokens } from "@/utils/secureSessionTokens";
@@ -18,9 +17,8 @@ type PersistedReduxSnapshot = {
   profile?: Record<string, unknown>;
   xp?: Record<string, unknown>;
   streak?: Record<string, unknown>;
-  lesson?: Record<string, unknown>;
   duel?: Record<string, unknown>;
-  puzzle?: Record<string, unknown>;
+  learning?: Partial<LearningState>;
 };
 
 export async function hydrateStoreFromStorage(dispatch: AppDispatch): Promise<void> {
@@ -37,9 +35,8 @@ export async function hydrateStoreFromStorage(dispatch: AppDispatch): Promise<vo
     dispatch(hydrateProfile(parsed.profile as never));
     if (parsed.xp) dispatch(hydrateXp(parsed.xp as never));
     if (parsed.streak) dispatch(hydrateStreak(parsed.streak as never));
-    if (parsed.lesson) dispatch(hydrateLesson(parsed.lesson as never));
     if (parsed.duel) dispatch(hydrateStats(parsed.duel as never));
-    if (parsed.puzzle) dispatch(hydratePuzzle(parsed.puzzle as never));
+    if (parsed.learning) dispatch(hydrateLearning(parsed.learning));
     let secure = { accessToken: null as string | null, refreshToken: null as string | null };
     try {
       secure = await readSecureSessionTokens();

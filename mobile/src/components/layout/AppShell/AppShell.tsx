@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { AppNavigator } from "@/components/layout/AppNavigator/AppNavigator";
+import { GuestMergePrompt } from "@/components/auth/guest-merge/GuestMergePrompt";
 import { spacing } from "@/theme/theme";
 import { styles } from "./AppShell.styles";
 import { useAppShell } from "@/hooks/useAppShell";
@@ -50,6 +51,7 @@ export function AppShell() {
       <View style={styles.container}>
         <AppShellBanners isConnected={isConnected} bootstrapError={bootstrapError} retryBootstrap={retryBootstrap} dismissBootstrapError={dismissBootstrapError} />
         <AppNavigator />
+        <GuestMergePrompt />
         <StatusBar style="light" />
       </View>
     </SafeAreaProvider>

@@ -70,7 +70,7 @@ export const MAX_ATTEMPTS_PER_BATCH = 200;
 export type SaveResumeRequest = LessonResume;
 
 /**
- * What a guest's device sends when the guest registers or logs in by any method (PRD 10.2):
+ * `POST /progress/guest-merge` — what a guest's device sends after the guest registers or logs in by any method (PRD 10.2):
  * the attempts and finished lessons, never an XP number. The server recomputes everything and
  * merges it into the account.
  */

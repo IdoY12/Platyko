@@ -1,11 +1,4 @@
-import type { MutableRefObject } from "react";
 import { Alert } from "react-native";
-
-export function drainRefInt(ref: MutableRefObject<number>): number {
-  const value = ref.current;
-  ref.current = 0;
-  return value;
-}
 
 export function duelQueueRejectMessage(reason: string): string {
   if (reason === "already_in_duel") {

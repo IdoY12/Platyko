@@ -3,7 +3,7 @@
  * Dot-row presentation helpers stay mobile-local.
  */
 
-export { applyStreakOnAppOpen, applyStreakOnQualifyingXp, type DailyXpStreakPersisted } from "@project/streak-logic";
+export { applyStreakOnAppOpen, type DailyXpStreakPersisted } from "@project/streak-logic";
 
 /** Streak lengths above this hide the seven-dot row (see home streak card). */
 export const streakDotRowMaxInclusive = 7;

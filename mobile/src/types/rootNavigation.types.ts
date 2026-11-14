@@ -22,10 +22,14 @@ export type RootStackParamList = {
   VerifyEmail: { email: string; registrationToken: string };
   ForgotPassword: { email?: string };
   ResetPassword: { email: string };
+  /** A lesson, a unit's summary lesson, or a review session (`lessonId` "review"). */
+  LessonPlayer: { lessonId: string };
+  LessonSummary: { lessonId: string; accuracy: number; xpEarned: number; flawless: boolean; concepts: string[] };
 };
 
 export type ForgotPasswordNavigation = NativeStackNavigationProp<RootStackParamList, "ForgotPassword">;
 export type ResetPasswordNavigation = NativeStackNavigationProp<RootStackParamList, "ResetPassword">;
+export type RootNavigation = NativeStackNavigationProp<RootStackParamList>;
 
 declare global {
   namespace ReactNavigation {

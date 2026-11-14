@@ -56,5 +56,6 @@ export const saveResumeBodySchema = z.object({
 });
 
 export type SubmitProgressBody = z.infer<typeof submitProgressBodySchema>;
+export type GuestProgressBody = z.infer<typeof guestProgressSchema>;
 export type ProgressQuery = z.infer<typeof progressQuerySchema>;
 export type SaveResumeBody = z.infer<typeof saveResumeBodySchema>;

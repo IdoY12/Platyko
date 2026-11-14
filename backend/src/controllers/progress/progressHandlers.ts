@@ -2,8 +2,9 @@ import type { Response } from "express";
 import { prisma } from "@project/db";
 import type { AttemptRecord } from "@project/learning-logic";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
+import { mergeGuestProgress } from "../../services/progress/mergeGuestProgress.js";
 import { readProgress, submitProgress } from "../../services/progress/submitProgress.js";
-import type { ProgressQuery, SaveResumeBody, SubmitProgressBody } from "../../validators/progressValidators.js";
+import type { GuestProgressBody, ProgressQuery, SaveResumeBody, SubmitProgressBody } from "../../validators/progressValidators.js";
 
 const USER_NOT_FOUND = { error: "User not found" };
 
@@ -31,4 +32,11 @@ export async function putLessonResume(request: AuthenticatedRequest, response: R
 export async function deleteLessonResume(request: AuthenticatedRequest, response: Response): Promise<void> {
   await prisma.lessonResume.deleteMany({ where: { userId: request.user!.userId } });
   response.status(204).send();
+}
+
+export async function postGuestMerge(request: AuthenticatedRequest, response: Response): Promise<void> {
+  const body = request.validatedBody as GuestProgressBody;
+  const result = await mergeGuestProgress(request.user!.userId, { ...body, attempts: body.attempts as AttemptRecord[] });
+  if (!result) response.status(404).json(USER_NOT_FOUND);
+  else response.json(result);
 }

@@ -5,7 +5,7 @@ function channelToLinear(channel: number): number {
   return unit <= 0.03928 ? unit / 12.92 : ((unit + 0.055) / 1.055) ** 2.4;
 }
 
-export function relativeLuminance(hexColor: string): number {
+function relativeLuminance(hexColor: string): number {
   const hex = hexColor.replace("#", "");
   const [red, green, blue] = [0, 2, 4].map((offset) => parseInt(hex.slice(offset, offset + 2), 16));
   return 0.2126 * channelToLinear(red) + 0.7152 * channelToLinear(green) + 0.0722 * channelToLinear(blue);
