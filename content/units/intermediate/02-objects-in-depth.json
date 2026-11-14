@@ -1,0 +1,1765 @@
+{
+  "track": "INTERMEDIATE",
+  "unit": "objects-in-depth",
+  "order": 2,
+  "title": "Objects in depth",
+  "summary": "Unpack, spread and copy objects and arrays, and understand which names share one object.",
+  "concepts": [
+    {
+      "id": "destructuring",
+      "title": "Destructuring objects and arrays",
+      "prerequisites": [
+        "property-access",
+        "array-index"
+      ]
+    },
+    {
+      "id": "spread-and-rest",
+      "title": "Spread and rest",
+      "prerequisites": [
+        "destructuring",
+        "parameters-and-arguments"
+      ]
+    },
+    {
+      "id": "reference-vs-value",
+      "title": "References: two names, one object",
+      "prerequisites": [
+        "property-update",
+        "array-push-pop"
+      ]
+    },
+    {
+      "id": "shallow-copy",
+      "title": "Copying: shallow versus deep",
+      "prerequisites": [
+        "reference-vs-value",
+        "spread-and-rest"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "optional-chain-throws",
+      "description": "Believes ?. still throws when the value before it is null or undefined."
+    },
+    {
+      "id": "default-skipped-when-missing",
+      "description": "Believes a destructuring default is ignored when the property is missing."
+    },
+    {
+      "id": "nullish-assign-always-assigns",
+      "description": "Believes ??= assigns its value every time, even when the variable already has one."
+    },
+    {
+      "id": "null-not-nullish",
+      "description": "Believes null does not count as a missing value for ?? and ??=."
+    },
+    {
+      "id": "array-pattern-by-name",
+      "description": "Believes array destructuring matches names to properties or values instead of positions."
+    },
+    {
+      "id": "spread-array-not-needed",
+      "description": "Believes Math.max accepts a whole array and finds its largest element."
+    },
+    {
+      "id": "rest-takes-one-argument",
+      "description": "Believes a rest parameter holds a single argument instead of collecting all the remaining ones."
+    },
+    {
+      "id": "spread-nests-array",
+      "description": "Believes spreading an array inside a call or literal still leaves it as one array."
+    },
+    {
+      "id": "later-spread-loses",
+      "description": "Believes the first of two spread objects wins when they share a key."
+    },
+    {
+      "id": "copy-by-assignment",
+      "description": "Believes assigning an object to another variable, or spreading it, copies the nested data or shares nothing."
+    },
+    {
+      "id": "argument-copy",
+      "description": "Believes a function receives a copy of an object argument."
+    },
+    {
+      "id": "equal-content-equal-identity",
+      "description": "Believes === on objects is true whenever their contents match."
+    },
+    {
+      "id": "shallow-is-deep",
+      "description": "Believes a spread copy also duplicates nested arrays and objects."
+    },
+    {
+      "id": "final-value-at-every-step",
+      "description": "Reads the value a variable has at the end of the program for every earlier step."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment",
+      "retrievedAt": "2026-11-14",
+      "sha256": "d9a8a3488f5f825fda11d685f645aa22ce2bcb3213e60695311f6b3ded139d44"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+      "retrievedAt": "2026-11-14",
+      "sha256": "2fd98bfc1984170f119a9b7224e3113395f519ab395da872a9984032c9fe78d2"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Rest_parameters",
+      "retrievedAt": "2026-11-14",
+      "sha256": "ec302e8ccbd56323a75da1f5a3792941cf0c8f4c37d095b02d3ac46b52a315ef"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining",
+      "retrievedAt": "2026-11-14",
+      "sha256": "cb4c64b4906572733ee171dab71967c36ac21a7ed1124b13dac58386f33ba953"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_assignment",
+      "retrievedAt": "2026-11-14",
+      "sha256": "db41975eaa3e351f334fc8484fd9f34201baf7b1064119bf77f8640fffb0b4d4"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Shallow_copy",
+      "retrievedAt": "2026-11-14",
+      "sha256": "19ab835824e1bfad62d83de8e25ab399681f4ef5a2d3b215d23243b9a3252e68"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "objects-in-depth.lesson-1",
+      "title": "Destructuring",
+      "conceptCard": {
+        "title": "Taking values out of arrays and objects",
+        "body": "Destructuring reads several values in one line. An array pattern with square brackets matches by position. An object pattern with braces matches by property name. A default after = fills in a missing property, and { key: name } stores it under another name.",
+        "code": [
+          "const trip = { days: 3, stops: 2 };",
+          "const { days, stops: count } = trip;",
+          "const [first, second] = [\"x\", \"y\"];",
+          "console.log(days, count, second);"
+        ],
+        "expectedOutput": "3 2 y"
+      },
+      "itemIds": [
+        "int.objects-in-depth.destructuring.predict-01",
+        "int.objects-in-depth.destructuring.concept-01",
+        "int.objects-in-depth.destructuring.trace-01",
+        "int.objects-in-depth.destructuring.fill-01",
+        "int.objects-in-depth.destructuring.fix-01",
+        "int.objects-in-depth.destructuring.write-01"
+      ]
+    },
+    {
+      "id": "objects-in-depth.lesson-2",
+      "title": "Spread and rest",
+      "conceptCard": {
+        "title": "Spread out, rest in",
+        "body": "The three dots mean two things. In a call or a literal, spread expands an array or object into separate pieces. In a parameter list or a pattern, rest collects the remaining pieces into an array. With two spread objects, the later one wins.",
+        "code": [
+          "const base = { a: 1, b: 2 };",
+          "const next = { ...base, b: 9 };",
+          "function count(...all) {",
+          "  return all.length;",
+          "}",
+          "console.log(next.b, count(4, 5, 6));"
+        ],
+        "expectedOutput": "9 3"
+      },
+      "itemIds": [
+        "int.objects-in-depth.spread-and-rest.predict-01",
+        "int.objects-in-depth.spread-and-rest.concept-01",
+        "int.objects-in-depth.spread-and-rest.trace-01",
+        "int.objects-in-depth.spread-and-rest.parsons-01",
+        "int.objects-in-depth.spread-and-rest.fix-01",
+        "int.objects-in-depth.spread-and-rest.write-01"
+      ]
+    },
+    {
+      "id": "objects-in-depth.lesson-3",
+      "title": "References",
+      "conceptCard": {
+        "title": "Two names, one object",
+        "body": "Objects and arrays are stored once, and a variable holds a reference to them. Assigning it to another name shares the object. Changing it through either name is seen by both. Strict equality asks whether two names reach the same object.",
+        "code": [
+          "const a = { n: 1 };",
+          "const b = a;",
+          "b.n = 2;",
+          "console.log(a.n, a === b);"
+        ],
+        "expectedOutput": "2 true"
+      },
+      "itemIds": [
+        "int.objects-in-depth.reference-vs-value.predict-01",
+        "int.objects-in-depth.reference-vs-value.concept-01",
+        "int.objects-in-depth.reference-vs-value.trace-01",
+        "int.objects-in-depth.reference-vs-value.fill-01",
+        "int.objects-in-depth.reference-vs-value.fix-01",
+        "int.objects-in-depth.reference-vs-value.write-01"
+      ]
+    },
+    {
+      "id": "objects-in-depth.lesson-4",
+      "title": "Shallow and deep copies",
+      "conceptCard": {
+        "title": "Copies one level deep",
+        "body": "Spread makes a new object or array, but only for the top level. Plain values are copied. Nested objects and arrays are still shared between the copy and the original. To change a nested value safely, copy that level too.",
+        "code": [
+          "const a = { n: 1, ids: [1] };",
+          "const b = { ...a, ids: [...a.ids] };",
+          "b.ids.push(2);",
+          "console.log(a.ids.length);"
+        ],
+        "expectedOutput": "1"
+      },
+      "itemIds": [
+        "int.objects-in-depth.shallow-copy.predict-01",
+        "int.objects-in-depth.shallow-copy.concept-01",
+        "int.objects-in-depth.shallow-copy.trace-01",
+        "int.objects-in-depth.shallow-copy.parsons-01",
+        "int.objects-in-depth.shallow-copy.fix-01",
+        "int.objects-in-depth.shallow-copy.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "int.objects-in-depth.destructuring.predict-01",
+      "concept": "destructuring",
+      "prerequisites": [
+        "property-access",
+        "array-index"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const order = { buyer: null };",
+        "const { buyer, tip = 0 } = order;",
+        "const who = buyer?.name ?? \"guest\";",
+        "console.log(who, tip);"
+      ],
+      "options": [
+        {
+          "text": "guest 0",
+          "correct": true,
+          "feedback": "Right. ?. turns the null buyer into undefined, ?? supplies \"guest\", and the missing tip takes its default."
+        },
+        {
+          "text": "Uncaught TypeError",
+          "correct": false,
+          "feedback": "?. exists to avoid this. When the value before it is null or undefined, the whole chain gives undefined and nothing is thrown.",
+          "misconception": "optional-chain-throws"
+        },
+        {
+          "text": "guest undefined",
+          "correct": false,
+          "feedback": "tip is missing from order, and that is exactly when a destructuring default is used. It does not stay undefined.",
+          "misconception": "default-skipped-when-missing"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "guest 0"
+      },
+      "explanation": "buyer is null, so buyer?.name stops and gives undefined instead of throwing, and ?? then uses \"guest\". The order object has no tip property, so the default 0 is used for tip.",
+      "hints": [
+        "Look at line 2: tip has a default and buyer does not.",
+        "A default applies only when the property is missing. ?. gives undefined when the left side is null.",
+        "buyer is null, so ?. has no name to read; then ?? picks its right side."
+      ],
+      "reference": {
+        "title": "Optional chaining (?.)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "duel:7"
+      ]
+    },
+    {
+      "id": "int.objects-in-depth.destructuring.concept-01",
+      "concept": "destructuring",
+      "prerequisites": [
+        "array-index"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Line 2 destructures an array. Which statement explains what the program prints?",
+      "code": [
+        "const board = [\"Kim\", \"Lee\", \"Moe\"];",
+        "const [gold, silver] = board;",
+        "console.log(silver);"
+      ],
+      "options": [
+        {
+          "text": "Names are filled from the array in order, so silver gets the element at index 1.",
+          "correct": true,
+          "feedback": "Right. The second name in the pattern receives the second element, so the program prints Lee."
+        },
+        {
+          "text": "Each name is looked up as a property of the array, so silver is undefined.",
+          "correct": false,
+          "feedback": "That is how an object pattern works. An array pattern ignores the spelling of the names and uses positions.",
+          "misconception": "array-pattern-by-name"
+        },
+        {
+          "text": "The names are matched against the element values, so silver is undefined.",
+          "correct": false,
+          "feedback": "Values are never compared with names. The pattern only decides which position each name reads.",
+          "misconception": "array-pattern-by-name"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "Lee"
+      },
+      "explanation": "An array pattern gives each name the element at the same position, starting from index 0. silver is the second name, so it receives board[1]. The names themselves play no role in the match.",
+      "hints": [
+        "Compare the names on line 2 with the elements of board.",
+        "An array pattern has no property names to match. Think about what else can decide the match.",
+        "Count how many names come before silver in the pattern."
+      ],
+      "reference": {
+        "title": "Destructuring assignment",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:13"
+      ]
+    },
+    {
+      "id": "int.objects-in-depth.destructuring.trace-01",
+      "concept": "destructuring",
+      "prerequisites": [
+        "undefined-and-null"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What value does sun hold right after line 5 has run?",
+      "code": [
+        "const bed = { water: 3, sun: null };",
+        "let { water, sun } = bed;",
+        "sun ??= \"part\";",
+        "water ??= 8;",
+        "sun ??= \"full\";",
+        "console.log(water, sun);"
+      ],
+      "options": [
+        {
+          "text": "'part'",
+          "correct": true,
+          "feedback": "Right. Line 3 filled the null, and line 5 leaves a value that is not nullish alone."
+        },
+        {
+          "text": "'full'",
+          "correct": false,
+          "feedback": "That would need ??= to overwrite every time. It assigns only while the variable is null or undefined.",
+          "misconception": "nullish-assign-always-assigns"
+        },
+        {
+          "text": "null",
+          "correct": false,
+          "feedback": "null is exactly what ??= replaces, so line 3 does change sun.",
+          "misconception": "null-not-nullish"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "sun",
+          "afterLine": 5,
+          "visit": 1
+        },
+        "expectedOutput": "3 part"
+      },
+      "explanation": "Destructuring copies sun: null. Line 3 sees null and assigns \"part\". On line 5 sun holds a string, so ??= does nothing and the earlier value stays. The unused line 4 shows the same for water.",
+      "hints": [
+        "Follow sun through lines 3 and 5.",
+        "??= assigns only when the variable is null or undefined at that moment.",
+        "After line 3 sun already holds a value. Ask whether line 5 may replace it."
+      ],
+      "reference": {
+        "title": "Nullish coalescing assignment (??=)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_assignment",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "duel:9"
+      ]
+    },
+    {
+      "id": "int.objects-in-depth.destructuring.fill-01",
+      "concept": "destructuring",
+      "prerequisites": [
+        "property-access"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Complete line 2 so that the program prints the distance in kilometres.",
+      "code": [
+        "const hike = { path: \"Elm\", km: 9 };",
+        "const { ___: distance } = hike;",
+        "console.log(distance);"
+      ],
+      "options": [
+        {
+          "text": "km",
+          "correct": true,
+          "feedback": "Right. The property km holds 9 and is stored in distance."
+        },
+        {
+          "text": "path",
+          "correct": false,
+          "feedback": "That reads the path property, so the program prints Elm."
+        },
+        {
+          "text": "distance",
+          "correct": false,
+          "feedback": "hike has no property called distance, so the variable is undefined."
+        },
+        {
+          "text": "hike",
+          "correct": false,
+          "feedback": "hike is the object, not one of its properties, so the variable is undefined."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "km"
+          ]
+        ],
+        "expectedOutput": "9"
+      },
+      "explanation": "The pattern { km: distance } reads the km property and stores it in a variable called distance. The text before the colon must be a property of hike, so km is the only chip that gives 9.",
+      "hints": [
+        "Look at the property names on line 1.",
+        "In { name: variable } the left side is the property to read and the right side is the new variable.",
+        "Pick the property that holds the number 9."
+      ],
+      "reference": {
+        "title": "Destructuring assignment",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:18"
+      ]
+    },
+    {
+      "id": "int.objects-in-depth.destructuring.fix-01",
+      "concept": "destructuring",
+      "prerequisites": [
+        "array-index"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print north and then south. Tap the buggy line, then choose its fix.",
+      "code": [
+        "const lanes = [\"north\", \"south\"];",
+        "const { first, second } = lanes;",
+        "console.log(first, second);"
+      ],
+      "options": [
+        {
+          "text": "const [first, second] = lanes;",
+          "correct": true,
+          "feedback": "Right. Square brackets read the elements by position."
+        },
+        {
+          "text": "const [second, first] = lanes;",
+          "correct": false,
+          "feedback": "The brackets are right, but the names are swapped. first now gets \"south\", so the output is reversed.",
+          "misconception": "array-pattern-by-name"
+        },
+        {
+          "text": "const [first, second] = lanes[0];",
+          "correct": false,
+          "feedback": "lanes[0] is the text \"north\". Destructuring a string reads its letters, so first is \"n\" and second is \"o\"."
+        }
+      ],
+      "solution": {
+        "bugLine": 2,
+        "expectedOutput": "north south"
+      },
+      "explanation": "Line 2 uses an object pattern on an array. The array has no properties called first or second, so both are undefined. An array pattern with square brackets reads positions 0 and 1 and prints the lane names.",
+      "hints": [
+        "Compare the brackets on line 2 with the value on its right.",
+        "Curly braces read properties by name; square brackets read positions.",
+        "The value is an array, so the pattern needs the matching kind of brackets."
+      ],
+      "reference": {
+        "title": "Destructuring assignment",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.destructuring.write-01",
+      "concept": "destructuring",
+      "prerequisites": [
+        "property-access"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of receiptLine(item). item has name, price and qty. Return the name, a colon and a space, then price times qty, as one text.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "receiptLine",
+          "params": [
+            "item"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              {
+                "name": "tea",
+                "price": 3,
+                "qty": 2
+              }
+            ],
+            "expected": "tea: 6"
+          },
+          {
+            "input": [
+              {
+                "name": "scone",
+                "price": 2.5,
+                "qty": 4
+              }
+            ],
+            "expected": "scone: 10"
+          },
+          {
+            "input": [
+              {
+                "name": "cup",
+                "price": 5,
+                "qty": 1
+              }
+            ],
+            "expected": "cup: 5"
+          },
+          {
+            "input": [
+              {
+                "name": "jam",
+                "price": 4,
+                "qty": 0
+              }
+            ],
+            "expected": "jam: 0"
+          }
+        ],
+        "reference": [
+          "const { name, price, qty } = item;",
+          "return `${name}: ${price * qty}`;"
+        ],
+        "wrongSolutions": [
+          [
+            "const { name, price } = item;",
+            "return `${name}: ${price}`;"
+          ],
+          [
+            "const [name, price, qty] = item;",
+            "return `${name}: ${price * qty}`;"
+          ],
+          [
+            "const { name, price, qty } = item;",
+            "return `${name}: ${price + qty}`;"
+          ]
+        ]
+      },
+      "explanation": "Destructuring item gives name, price and qty as variables. The line total is price * qty, and a template literal joins it to the name. Using price alone forgets the quantity.",
+      "hints": [
+        "Pull the three properties out of item first.",
+        "An object pattern lists the property names between curly braces.",
+        "Build the text with a template literal: the name, a colon and space, then the line total."
+      ],
+      "reference": {
+        "title": "Destructuring assignment",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.spread-and-rest.predict-01",
+      "concept": "spread-and-rest",
+      "prerequisites": [
+        "destructuring",
+        "parameters-and-arguments"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const laps = [52, 47, 49];",
+        "const best = Math.max(...laps);",
+        "const other = Math.max(laps);",
+        "console.log(best, other);"
+      ],
+      "options": [
+        {
+          "text": "52 NaN",
+          "correct": true,
+          "feedback": "Right. Only the spread call passes the numbers one by one."
+        },
+        {
+          "text": "52 52",
+          "correct": false,
+          "feedback": "Math.max works on separate numbers. A whole array as one argument is not converted into its largest element.",
+          "misconception": "spread-array-not-needed"
+        },
+        {
+          "text": "NaN NaN",
+          "correct": false,
+          "feedback": "The spread call is the one that works: ... expands the array into three separate arguments.",
+          "misconception": "spread-nests-array"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "52 NaN"
+      },
+      "explanation": "Math.max(...laps) spreads three numbers into three arguments, so it gives 52. Math.max(laps) receives one array, which is turned into text and then into NaN, so that call prints NaN.",
+      "hints": [
+        "Compare the two Math.max calls on lines 2 and 3.",
+        "Spread turns an array into separate arguments; without it the array is one argument.",
+        "One of the two calls hands Math.max a single array that cannot be read as a number."
+      ],
+      "reference": {
+        "title": "Math.max()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:12"
+      ]
+    },
+    {
+      "id": "int.objects-in-depth.spread-and-rest.concept-01",
+      "concept": "spread-and-rest",
+      "prerequisites": [
+        "parameters-and-arguments"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement explains how tally treats its arguments?",
+      "code": [
+        "function tally(label, ...scores) {",
+        "  return label + scores.length;",
+        "}",
+        "console.log(tally(\"quiz\", 4, 7));"
+      ],
+      "options": [
+        {
+          "text": "scores collects every argument after label into one array.",
+          "correct": true,
+          "feedback": "Right. The rest parameter holds [4, 7], so its length is 2."
+        },
+        {
+          "text": "scores holds only the next argument after label.",
+          "correct": false,
+          "feedback": "A rest parameter does not stop after one value. It takes all remaining arguments and puts them in an array.",
+          "misconception": "rest-takes-one-argument"
+        },
+        {
+          "text": "scores holds only the last argument that is passed.",
+          "correct": false,
+          "feedback": "A rest parameter collects every remaining argument, not just the final one, and always as an array.",
+          "misconception": "rest-takes-one-argument"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "quiz2"
+      },
+      "explanation": "A rest parameter written with ... gathers every argument that has no name of its own into one array. label takes \"quiz\", and scores becomes [4, 7], so its length is 2 and the function returns \"quiz2\".",
+      "hints": [
+        "Look at the parameter list of tally.",
+        "The ... in a parameter list collects arguments into an array.",
+        "The call passes three arguments; the first goes to label. Where do the others go?"
+      ],
+      "reference": {
+        "title": "Rest parameters",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Rest_parameters",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:15"
+      ]
+    },
+    {
+      "id": "int.objects-in-depth.spread-and-rest.trace-01",
+      "concept": "spread-and-rest",
+      "prerequisites": [
+        "array-iteration"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What value does route hold right after line 4 has run for the first time?",
+      "code": [
+        "let route = [\"Bonn\"];",
+        "const legs = [[\"Ayr\"], [\"Rye\"]];",
+        "for (const leg of legs) {",
+        "  route = [...route, ...leg];",
+        "}",
+        "console.log(route);"
+      ],
+      "options": [
+        {
+          "text": "['Bonn', 'Ayr']",
+          "correct": true,
+          "feedback": "Right. After the first pass only the first leg has been added."
+        },
+        {
+          "text": "['Bonn', ['Ayr']]",
+          "correct": false,
+          "feedback": "That would happen without the ... before leg. Spread puts the elements of leg into route, not leg itself.",
+          "misconception": "spread-nests-array"
+        },
+        {
+          "text": "['Bonn', 'Ayr', 'Rye']",
+          "correct": false,
+          "feedback": "That is the value after the last pass. The question asks about the first visit to line 4.",
+          "misconception": "final-value-at-every-step"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "route",
+          "afterLine": 4,
+          "visit": 1
+        },
+        "expectedOutput": "['Bonn', 'Ayr', 'Rye']"
+      },
+      "explanation": "On the first pass leg is [\"Ayr\"]. Line 4 builds a new array from the elements of route and the elements of leg, so route becomes [\"Bonn\", \"Ayr\"]. The second leg is added only on the next pass.",
+      "hints": [
+        "Follow route through the first pass of the loop only.",
+        "Spreading an array inside [ ] puts its elements, not the array, into the new array.",
+        "On the first pass leg is [\"Ayr\"]. Build the new array from route and leg."
+      ],
+      "reference": {
+        "title": "Spread syntax (...)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.spread-and-rest.parsons-01",
+      "concept": "spread-and-rest",
+      "prerequisites": [
+        "property-access"
+      ],
+      "format": "PARSONS",
+      "difficulty": 3,
+      "prompt": "Order the lines so that the merged drink prints L, then 1.",
+      "code": [
+        "console.log(drink.size);",
+        "const base = { size: \"M\", oat: 1 };",
+        "console.log(drink.oat);",
+        "const drink = { ...base, ...order };",
+        "const order = { size: \"L\" };"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          4,
+          3,
+          0,
+          2
+        ],
+        "acceptedOrders": [
+          [
+            4,
+            1,
+            3,
+            0,
+            2
+          ]
+        ],
+        "expectedOutput": "L\n1"
+      },
+      "explanation": "The merged object needs both source objects, so it comes after them. The two declarations may swap. In the merge the later spread, order, overrides size with \"L\" while oat stays 1.",
+      "hints": [
+        "Find the line that uses both small objects and put it after them.",
+        "When two spreads share a key, the later one wins.",
+        "The two small objects come first, the merged one next, and the prints last."
+      ],
+      "reference": {
+        "title": "Spread syntax (...)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.spread-and-rest.fix-01",
+      "concept": "spread-and-rest",
+      "prerequisites": [
+        "property-update"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The saved volume 8 should win over the default. Tap the buggy line, then choose its fix.",
+      "code": [
+        "const base = { volume: 5 };",
+        "const saved = { volume: 8 };",
+        "const opts = { ...saved, ...base };",
+        "console.log(opts.volume);"
+      ],
+      "options": [
+        {
+          "text": "const opts = { ...base, ...saved };",
+          "correct": true,
+          "feedback": "Right. saved is spread last, so its volume replaces the default."
+        },
+        {
+          "text": "const opts = { ...base, saved };",
+          "correct": false,
+          "feedback": "This adds one new property named saved that holds the whole object. opts.volume stays 5.",
+          "misconception": "later-spread-loses"
+        },
+        {
+          "text": "const opts = [...base, ...saved];",
+          "correct": false,
+          "feedback": "Spreading plain objects into an array literal is an error, because objects cannot be spread there."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "8"
+      },
+      "explanation": "Spread copies properties in order, so a key that appears in both objects takes its value from the later spread. Line 3 spreads saved first and base last, so the default 5 overwrites the saved 8.",
+      "hints": [
+        "Look at the order of the two spreads on line 3.",
+        "When two spread objects share a key, the one written later wins.",
+        "The object with the values you want to keep must be spread last."
+      ],
+      "reference": {
+        "title": "Spread syntax (...)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.spread-and-rest.write-01",
+      "concept": "spread-and-rest",
+      "prerequisites": [
+        "array-iteration"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of tallestPlant(heights). Return the largest number in the array heights.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "tallestPlant",
+          "params": [
+            "heights"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                12,
+                30,
+                18
+              ]
+            ],
+            "expected": 30
+          },
+          {
+            "input": [
+              [
+                -4,
+                -9,
+                -2
+              ]
+            ],
+            "expected": -2
+          },
+          {
+            "input": [
+              [
+                7
+              ]
+            ],
+            "expected": 7
+          },
+          {
+            "input": [
+              [
+                5,
+                5,
+                2
+              ]
+            ],
+            "expected": 5
+          }
+        ],
+        "reference": [
+          "return Math.max(...heights);"
+        ],
+        "wrongSolutions": [
+          [
+            "return Math.max(heights);"
+          ],
+          [
+            "return heights[0];"
+          ],
+          [
+            "return Math.min(...heights);"
+          ]
+        ]
+      },
+      "explanation": "Math.max takes separate numbers, so the array must be spread into its call. Passing the array itself gives NaN, and reading an element by index only finds the largest number by luck.",
+      "hints": [
+        "Math.max needs the numbers as separate arguments.",
+        "The ... operator expands an array into separate arguments.",
+        "Return Math.max with heights expanded inside its parentheses."
+      ],
+      "reference": {
+        "title": "Math.max()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:8"
+      ]
+    },
+    {
+      "id": "int.objects-in-depth.reference-vs-value.predict-01",
+      "concept": "reference-vs-value",
+      "prerequisites": [
+        "property-update",
+        "array-push-pop"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "const mug = { color: \"red\" };",
+        "const gift = mug;",
+        "gift.color = \"blue\";",
+        "console.log(mug.color, gift.color);"
+      ],
+      "options": [
+        {
+          "text": "blue blue",
+          "correct": true,
+          "feedback": "Right. There is only one object, and both names lead to it."
+        },
+        {
+          "text": "red blue",
+          "correct": false,
+          "feedback": "That needs two separate objects. Line 2 does not copy the object; it gives it a second name.",
+          "misconception": "copy-by-assignment"
+        },
+        {
+          "text": "red red",
+          "correct": false,
+          "feedback": "Line 3 does run, and it changes the object that both names share, so neither name still sees red.",
+          "misconception": "copy-by-assignment"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "blue blue"
+      },
+      "explanation": "Line 2 copies the reference, not the object. mug and gift point to the same object, so the change made through gift is visible through mug as well. Both names read \"blue\".",
+      "hints": [
+        "Count how many objects are created in the first two lines.",
+        "An assignment of an object to another variable shares the object.",
+        "gift and mug are two names for one object, so both show the change."
+      ],
+      "reference": {
+        "title": "Working with objects",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.reference-vs-value.concept-01",
+      "concept": "reference-vs-value",
+      "prerequisites": [
+        "strict-equality"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement explains what the program prints?",
+      "code": [
+        "const cardA = { id: 1 };",
+        "const cardB = { id: 1 };",
+        "const cardC = cardA;",
+        "console.log(cardA === cardB);",
+        "console.log(cardA === cardC);"
+      ],
+      "options": [
+        {
+          "text": "=== is true only for the very same object, not for equal contents.",
+          "correct": true,
+          "feedback": "Right. cardA and cardC share one object; cardB is a separate one."
+        },
+        {
+          "text": "=== compares properties, so both comparisons are true.",
+          "correct": false,
+          "feedback": "For objects, === does not look inside. Two separate objects with equal contents are still different.",
+          "misconception": "equal-content-equal-identity"
+        },
+        {
+          "text": "cardC is a copy of cardA, so both comparisons are false.",
+          "correct": false,
+          "feedback": "Line 3 gives the existing object a second name. It does not create a copy, so that comparison is true.",
+          "misconception": "copy-by-assignment"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "false\ntrue"
+      },
+      "explanation": "=== on two objects is true only when both names refer to the very same object. cardA and cardB were created separately, so the result is false even though their contents match. cardC is a second name for cardA, so that comparison is true.",
+      "hints": [
+        "Notice which two objects were created with braces and which was not.",
+        "=== on objects compares where they live, not what they hold.",
+        "cardC was never given braces of its own."
+      ],
+      "reference": {
+        "title": "Strict equality (===)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.reference-vs-value.trace-01",
+      "concept": "reference-vs-value",
+      "prerequisites": [
+        "function-declaration"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What value does box hold right after line 8 has run?",
+      "code": [
+        "let visits = 5;",
+        "const box = { n: 5 };",
+        "function bump(num, obj) {",
+        "  num = num + 1;",
+        "  obj.n = obj.n + 1;",
+        "}",
+        "bump(visits, box);",
+        "bump(visits, box);",
+        "console.log(box);"
+      ],
+      "options": [
+        {
+          "text": "{n: 7}",
+          "correct": true,
+          "feedback": "Right. Each call changes the one shared object, so two calls add 2."
+        },
+        {
+          "text": "{n: 5}",
+          "correct": false,
+          "feedback": "The function does not get a copy of the object. Changing obj.n changes box itself.",
+          "misconception": "argument-copy"
+        },
+        {
+          "text": "{n: 6}",
+          "correct": false,
+          "feedback": "The second call works on the same object as the first, and does not start from 5 again.",
+          "misconception": "argument-copy"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "box",
+          "afterLine": 8,
+          "visit": 1
+        },
+        "expectedOutput": "{n: 7}"
+      },
+      "explanation": "box is an object, so both calls to bump change the very same object: n goes 5, then 6, then 7. The number visits is copied into num, so changing num never affects visits. After line 8 box is {n: 7}.",
+      "hints": [
+        "Check what each call to bump can change.",
+        "A function receives the same object, but a plain number is copied.",
+        "Both calls change the same object; count how many have happened at line 8."
+      ],
+      "reference": {
+        "title": "Working with objects",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.reference-vs-value.fill-01",
+      "concept": "reference-vs-value",
+      "prerequisites": [
+        "array-push-pop"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Complete line 2 so that the program prints 2.",
+      "code": [
+        "const tray = [\"scone\"];",
+        "const spare = ___;",
+        "spare.push(\"bun\");",
+        "console.log(tray.length);"
+      ],
+      "options": [
+        {
+          "text": "tray",
+          "correct": true,
+          "feedback": "Right. spare becomes a second name for the same array, so the push grows tray."
+        },
+        {
+          "text": "[...tray]",
+          "correct": false,
+          "feedback": "This builds a new array. The push grows that copy and tray keeps its length 1."
+        },
+        {
+          "text": "[]",
+          "correct": false,
+          "feedback": "A new empty array is separate from tray, so tray still has length 1."
+        },
+        {
+          "text": "tray.length",
+          "correct": false,
+          "feedback": "That is the number 1, and numbers have no push method, so the program fails."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "tray"
+          ]
+        ],
+        "expectedOutput": "2"
+      },
+      "explanation": "The program prints the length of tray, but line 3 pushes onto spare. The length is 2 only when spare is the same array as tray, which assigning tray itself achieves. A copy or a new array leaves tray at 1.",
+      "hints": [
+        "Look at which array line 4 measures.",
+        "push changes the array it is called on.",
+        "The array on line 4 only grows if spare is another name for it."
+      ],
+      "reference": {
+        "title": "Array.prototype.push()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.reference-vs-value.fix-01",
+      "concept": "reference-vs-value",
+      "prerequisites": [
+        "property-update"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The preview may change seats, but hall must keep 4. Tap the buggy line, then choose its fix.",
+      "code": [
+        "const hall = { seats: 4 };",
+        "const preview = hall;",
+        "preview.seats = 6;",
+        "console.log(hall.seats);"
+      ],
+      "options": [
+        {
+          "text": "const preview = { ...hall };",
+          "correct": true,
+          "feedback": "Right. preview is a new object, so seats changes only there."
+        },
+        {
+          "text": "let preview = hall;",
+          "correct": false,
+          "feedback": "let changes whether the name can be reassigned, not how the object is shared. preview and hall still lead to one object.",
+          "misconception": "copy-by-assignment"
+        },
+        {
+          "text": "const preview = hall ?? {};",
+          "correct": false,
+          "feedback": "hall is not null, so ?? keeps hall itself. preview is still the same object as hall.",
+          "misconception": "copy-by-assignment"
+        }
+      ],
+      "solution": {
+        "bugLine": 2,
+        "expectedOutput": "4"
+      },
+      "explanation": "Line 2 makes preview a second name for hall, so changing seats through preview changes hall too and the program prints 6. Spreading hall into a new object gives preview its own copy.",
+      "hints": [
+        "Ask how many objects exist after line 2.",
+        "Assigning an object to another const shares it instead of copying it.",
+        "The new variable needs its own object that starts with the same properties."
+      ],
+      "reference": {
+        "title": "Working with objects",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.reference-vs-value.write-01",
+      "concept": "reference-vs-value",
+      "prerequisites": [
+        "array-push-pop"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of reversedPlaylist(songs). Return an object with copy, a reversed copy of songs, and original, songs itself, unchanged.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "reversedPlaylist",
+          "params": [
+            "songs"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                "a",
+                "b",
+                "c"
+              ]
+            ],
+            "expected": {
+              "copy": [
+                "c",
+                "b",
+                "a"
+              ],
+              "original": [
+                "a",
+                "b",
+                "c"
+              ]
+            }
+          },
+          {
+            "input": [
+              [
+                "solo"
+              ]
+            ],
+            "expected": {
+              "copy": [
+                "solo"
+              ],
+              "original": [
+                "solo"
+              ]
+            }
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": {
+              "copy": [],
+              "original": []
+            }
+          },
+          {
+            "input": [
+              [
+                "x",
+                "y"
+              ]
+            ],
+            "expected": {
+              "copy": [
+                "y",
+                "x"
+              ],
+              "original": [
+                "x",
+                "y"
+              ]
+            }
+          }
+        ],
+        "reference": [
+          "const copy = [...songs].reverse();",
+          "return { copy, original: songs };"
+        ],
+        "wrongSolutions": [
+          [
+            "const copy = songs.reverse();",
+            "return { copy, original: songs };"
+          ],
+          [
+            "const copy = [...songs];",
+            "return { copy, original: songs };"
+          ],
+          [
+            "const copy = songs;",
+            "copy.reverse();",
+            "return { copy, original: songs };"
+          ]
+        ]
+      },
+      "explanation": "reverse reverses an array in place and returns that same array. Calling it on songs would also reverse original. Copying first with [...songs] leaves songs untouched, and the object holds both arrays.",
+      "hints": [
+        "reverse changes the array it is called on.",
+        "Make a copy of songs before you reverse it.",
+        "Spread songs into a new array, reverse that array, and return both in one object."
+      ],
+      "reference": {
+        "title": "Array.prototype.reverse()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:7"
+      ]
+    },
+    {
+      "id": "int.objects-in-depth.shallow-copy.predict-01",
+      "concept": "shallow-copy",
+      "prerequisites": [
+        "reference-vs-value",
+        "spread-and-rest"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "What does this code print?",
+      "code": [
+        "const tags = [\"sale\"];",
+        "const shop = { id: 1, tags };",
+        "const copy = { ...shop };",
+        "copy.id = 2;",
+        "copy.tags.push(\"new\");",
+        "console.log(shop.id, tags.length);"
+      ],
+      "options": [
+        {
+          "text": "1 2",
+          "correct": true,
+          "feedback": "Right. The id was copied, but both objects still hold the same tags array."
+        },
+        {
+          "text": "2 2",
+          "correct": false,
+          "feedback": "Spread does create a new object, so assigning copy.id does not reach shop.",
+          "misconception": "copy-by-assignment"
+        },
+        {
+          "text": "1 1",
+          "correct": false,
+          "feedback": "Spread copies only the top level. The tags array inside is still shared, so the push is visible in shop.",
+          "misconception": "shallow-is-deep"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "1 2"
+      },
+      "explanation": "The spread makes a new top-level object, so assigning copy.id leaves shop.id at 1. The tags array is not copied, only its reference, so the push through copy.tags also grows the shared array to 2.",
+      "hints": [
+        "Compare what line 4 changes with what line 5 changes.",
+        "Spread copies the top level: plain values are copied, nested objects are shared.",
+        "id is a number, tags is an array. Only one of them is copied by value."
+      ],
+      "reference": {
+        "title": "Spread syntax (...)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.shallow-copy.concept-01",
+      "concept": "shallow-copy",
+      "prerequisites": [
+        "reference-vs-value"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement explains what the program prints?",
+      "code": [
+        "const sides = [\"bread\"];",
+        "const menu = { dish: \"pie\", sides };",
+        "const draft = { ...menu };",
+        "draft.sides.push(\"salad\");",
+        "console.log(menu.sides.length);"
+      ],
+      "options": [
+        {
+          "text": "Spread copies only the top level, so both objects share one sides array.",
+          "correct": true,
+          "feedback": "Right. The array was not duplicated, so the push is visible through both names."
+        },
+        {
+          "text": "Spread copies nested arrays too, so menu.sides still has length 1.",
+          "correct": false,
+          "feedback": "A spread is a shallow copy. Nested arrays and objects are shared, so the length is not 1.",
+          "misconception": "shallow-is-deep"
+        },
+        {
+          "text": "Spread makes draft the same object as menu, so every change is shared.",
+          "correct": false,
+          "feedback": "draft is a new object. A new top-level property or a changed dish would stay in draft; only nested values are shared.",
+          "misconception": "copy-by-assignment"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "2"
+      },
+      "explanation": "Spread copies each top-level property. For sides that value is a reference to an array, so draft.sides and menu.sides lead to one array. The push on line 3 therefore changes both, and menu.sides has length 2.",
+      "hints": [
+        "Look at what sides holds in menu and in draft.",
+        "A spread copies each property value; for an array, the value is a reference.",
+        "Ask whether line 2 made a second array or only a second reference to one array."
+      ],
+      "reference": {
+        "title": "Shallow copy",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Shallow_copy",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.shallow-copy.trace-01",
+      "concept": "shallow-copy",
+      "prerequisites": [
+        "array-push-pop"
+      ],
+      "format": "TRACE",
+      "difficulty": 4,
+      "prompt": "What value does plan hold right after line 7 has run?",
+      "code": [
+        "const stops = [\"Rome\"];",
+        "const plan = { days: 3, stops };",
+        "const copyA = { ...plan };",
+        "const copyB = { ...plan };",
+        "copyB.stops = [...plan.stops];",
+        "copyA.stops.push(\"Pisa\");",
+        "copyB.stops.push(\"Bari\");",
+        "console.log(plan);"
+      ],
+      "options": [
+        {
+          "text": "{days: 3, stops: ['Rome', 'Pisa']}",
+          "correct": true,
+          "feedback": "Right. Only copyA shares the array with plan."
+        },
+        {
+          "text": "{days: 3, stops: ['Rome']}",
+          "correct": false,
+          "feedback": "copyA is a shallow copy, so its stops is the same array as plan.stops, and \"Pisa\" is added to it.",
+          "misconception": "shallow-is-deep"
+        },
+        {
+          "text": "{days: 3, stops: ['Rome', 'Pisa', 'Bari']}",
+          "correct": false,
+          "feedback": "copyB gets its own stops array on line 5, so \"Bari\" never reaches plan.",
+          "misconception": "copy-by-assignment"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "plan",
+          "afterLine": 7,
+          "visit": 1
+        },
+        "expectedOutput": "{days: 3, stops: ['Rome', 'Pisa']}"
+      },
+      "explanation": "copyA spreads plan, so its stops is the same array as plan.stops, and the push of \"Pisa\" shows in plan. Line 5 gives copyB a new stops array, so the push of \"Bari\" stays out of plan.",
+      "hints": [
+        "Check which copy shares stops with plan and which has its own array.",
+        "Spreading plan.stops inside [ ] builds a new array.",
+        "Only one push reaches plan. Decide which one."
+      ],
+      "reference": {
+        "title": "Shallow copy",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Shallow_copy",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.shallow-copy.parsons-01",
+      "concept": "shallow-copy",
+      "prerequisites": [
+        "array-push-pop"
+      ],
+      "format": "PARSONS",
+      "difficulty": 3,
+      "prompt": "Order the lines so that the shared array grows and the program prints 2, then drill.",
+      "code": [
+        "console.log(copy.tools[1]);",
+        "const kit = { tools: [\"saw\"] };",
+        "copy.tools.push(\"drill\");",
+        "console.log(kit.tools.length);",
+        "const copy = { ...kit };"
+      ],
+      "solution": {
+        "lineOrder": [
+          1,
+          4,
+          2,
+          3,
+          0
+        ],
+        "expectedOutput": "2\ndrill"
+      },
+      "explanation": "The copy is made from kit, so kit comes first. The push goes through copy.tools, which is the same array as kit.tools, so the original grows to 2 tools and index 1 holds \"drill\". Both prints must follow the push.",
+      "hints": [
+        "The copy needs the original to exist, and the push needs the copy.",
+        "A shallow copy shares the tools array with the original.",
+        "Both prints read the pushed array, so they come last."
+      ],
+      "reference": {
+        "title": "Shallow copy",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Shallow_copy",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.shallow-copy.fix-01",
+      "concept": "shallow-copy",
+      "prerequisites": [
+        "array-push-pop"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The program should print 1 because bag must keep its food. Tap the buggy line, then choose its fix.",
+      "code": [
+        "const bag = { food: [\"pear\"] };",
+        "const copy = { ...bag };",
+        "copy.food.push(\"nut\");",
+        "console.log(bag.food.length);"
+      ],
+      "options": [
+        {
+          "text": "copy.food = [...copy.food, \"nut\"];",
+          "correct": true,
+          "feedback": "Right. This gives copy a new array, so bag.food is untouched."
+        },
+        {
+          "text": "bag.food = [...bag.food, \"nut\"];",
+          "correct": false,
+          "feedback": "This adds the new item to bag itself, so bag.food has length 2.",
+          "misconception": "shallow-is-deep"
+        },
+        {
+          "text": "copy.food.unshift(\"nut\");",
+          "correct": false,
+          "feedback": "unshift also changes the array in place. That array is shared with bag, so its length becomes 2.",
+          "misconception": "shallow-is-deep"
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "1"
+      },
+      "explanation": "copy is a shallow copy, so copy.food is the array inside bag, and push grows both. Assigning a new array to copy.food replaces only copy's reference, so bag.food keeps its single element.",
+      "hints": [
+        "Look at which array line 3 changes.",
+        "A shallow copy shares nested arrays, so push reaches the original.",
+        "Give copy its own food array instead of changing the shared one."
+      ],
+      "reference": {
+        "title": "Shallow copy",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Shallow_copy",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.objects-in-depth.shallow-copy.write-01",
+      "concept": "shallow-copy",
+      "prerequisites": [
+        "array-index"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of dropFirstStop(stops). Return an array of two items: a new array without the first stop, and stops itself, unchanged.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "dropFirstStop",
+          "params": [
+            "stops"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                "Mill",
+                "Park",
+                "Dock"
+              ]
+            ],
+            "expected": [
+              [
+                "Park",
+                "Dock"
+              ],
+              [
+                "Mill",
+                "Park",
+                "Dock"
+              ]
+            ]
+          },
+          {
+            "input": [
+              [
+                "Solo"
+              ]
+            ],
+            "expected": [
+              [],
+              [
+                "Solo"
+              ]
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": [
+              [],
+              []
+            ]
+          },
+          {
+            "input": [
+              [
+                "A",
+                "B"
+              ]
+            ],
+            "expected": [
+              [
+                "B"
+              ],
+              [
+                "A",
+                "B"
+              ]
+            ]
+          }
+        ],
+        "reference": [
+          "const [, ...rest] = stops;",
+          "return [rest, stops];"
+        ],
+        "wrongSolutions": [
+          [
+            "stops.shift();",
+            "return [stops, stops];"
+          ],
+          [
+            "const rest = stops;",
+            "rest.shift();",
+            "return [rest, stops];"
+          ],
+          [
+            "const rest = stops.slice(1);",
+            "return [rest, rest];"
+          ]
+        ]
+      },
+      "explanation": "slice(1) returns a new array that starts at index 1 and leaves stops untouched. Methods like shift remove the first element in place, which would also change the second item of the result.",
+      "hints": [
+        "shift removes the first element but changes the array it is called on.",
+        "Leave stops alone and build a new array from it.",
+        "slice(1) copies everything after index 0; rest destructuring does the same."
+      ],
+      "reference": {
+        "title": "Array.prototype.slice()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "puzzle:17"
+      ]
+    }
+  ]
+}
