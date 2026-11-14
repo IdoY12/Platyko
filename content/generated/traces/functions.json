@@ -1685,14 +1685,14 @@
   },
   "beg.functions.return-value.concept-01": {
    "code": [
-    "function first(a, b) {",
-    "  return a;",
-    "  return b;",
+    "function pickSeat(window, aisle) {",
+    "  return window;",
+    "  return aisle;",
     "}",
-    "console.log(first(1, 2));"
+    "console.log(pickSeat(\"12A\", \"12C\"));"
    ],
    "output": [
-    "1"
+    "12A"
    ],
    "steps": [
     {
@@ -1709,20 +1709,20 @@
      "line": 2,
      "variables": [
       {
-       "name": "a",
-       "scope": "first",
-       "value": "1"
+       "name": "window",
+       "scope": "pickSeat",
+       "value": "'12A'"
       },
       {
-       "name": "b",
-       "scope": "first",
-       "value": "2"
+       "name": "aisle",
+       "scope": "pickSeat",
+       "value": "'12C'"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "first"
+      "pickSeat"
      ],
      "macrotasks": [],
      "microtasks": []

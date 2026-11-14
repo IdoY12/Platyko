@@ -1259,15 +1259,15 @@
       "difficulty": 2,
       "prompt": "Which statement about this code is true?",
       "code": [
-        "function first(a, b) {",
-        "  return a;",
-        "  return b;",
+        "function pickSeat(window, aisle) {",
+        "  return window;",
+        "  return aisle;",
         "}",
-        "console.log(first(1, 2));"
+        "console.log(pickSeat(\"12A\", \"12C\"));"
       ],
       "options": [
         {
-          "text": "The function stops at the first return, so only a comes back.",
+          "text": "The function stops at the first return, so only window comes back.",
           "correct": true,
           "feedback": "Right. The first return ends the function."
         },
@@ -1278,16 +1278,16 @@
           "misconception": "code-after-return-runs"
         },
         {
-          "text": "The last return wins, so b comes back.",
+          "text": "The last return wins, so aisle comes back.",
           "correct": false,
           "feedback": "The function leaves at the first return it meets. A later return cannot replace that value.",
           "misconception": "no-return-last-value"
         }
       ],
       "solution": {
-        "expectedOutput": "1"
+        "expectedOutput": "12A"
       },
-      "explanation": "return ends the function at once and gives back one value. Line 2 returns a, so line 3 is never reached and the call gives 1.",
+      "explanation": "return ends the function at once and gives back one value. Line 2 returns window, so line 3 is never reached and the call gives 12A.",
       "hints": [
         "Look at the two return lines.",
         "A function leaves at the first return it runs.",

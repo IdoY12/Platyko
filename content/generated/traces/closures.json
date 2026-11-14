@@ -1,0 +1,7088 @@
+{
+ "unit": "closures",
+ "items": {
+  "int.closures.closure-captures-variable.predict-01": {
+   "code": [
+    "let stock = 4;",
+    "const report = () => {",
+    "  return \"stock \" + stock;",
+    "};",
+    "stock = 9;",
+    "console.log(report());"
+   ],
+   "output": [
+    "stock 9"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "stock",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "stock",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "report",
+       "scope": "global",
+       "value": "[Function: report]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "stock",
+       "scope": "global",
+       "value": "9"
+      },
+      {
+       "name": "report",
+       "scope": "global",
+       "value": "[Function: report]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "stock",
+       "scope": "global",
+       "value": "9"
+      },
+      {
+       "name": "report",
+       "scope": "global",
+       "value": "[Function: report]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "report"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "stock",
+       "scope": "global",
+       "value": "9"
+      },
+      {
+       "name": "report",
+       "scope": "global",
+       "value": "[Function: report]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-captures-variable.concept-01": {
+   "code": [
+    "function marker(name) {",
+    "  const sign = \"to \" + name;",
+    "  return () => sign;",
+    "}",
+    "const back = marker(\"Elm\");",
+    "console.log(back());"
+   ],
+   "output": [
+    "to Elm"
+   ],
+   "steps": [
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "name",
+       "scope": "marker",
+       "value": "'Elm'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "marker"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "name",
+       "scope": "marker",
+       "value": "'Elm'"
+      },
+      {
+       "name": "sign",
+       "scope": "marker",
+       "value": "'to Elm'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "marker"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "back",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "back",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "name",
+       "scope": "marker",
+       "value": "'Elm'"
+      },
+      {
+       "name": "sign",
+       "scope": "marker",
+       "value": "'to Elm'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "back",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-captures-variable.trace-01": {
+   "code": [
+    "let loaves = 0;",
+    "const bake = (n) => {",
+    "  loaves = loaves + n;",
+    "  return loaves;",
+    "};",
+    "const a = bake(2);",
+    "const b = bake(3);",
+    "console.log(a, b);"
+   ],
+   "output": [
+    "2 5"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "loaves",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "loaves",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "bake",
+       "scope": "global",
+       "value": "[Function: bake]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "loaves",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "bake",
+       "scope": "global",
+       "value": "[Function: bake]"
+      },
+      {
+       "name": "n",
+       "scope": "bake",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bake"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "loaves",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "bake",
+       "scope": "global",
+       "value": "[Function: bake]"
+      },
+      {
+       "name": "n",
+       "scope": "bake",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bake"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "loaves",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "bake",
+       "scope": "global",
+       "value": "[Function: bake]"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "loaves",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "bake",
+       "scope": "global",
+       "value": "[Function: bake]"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "n",
+       "scope": "bake",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bake"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "loaves",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "bake",
+       "scope": "global",
+       "value": "[Function: bake]"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "n",
+       "scope": "bake",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bake"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "loaves",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "bake",
+       "scope": "global",
+       "value": "[Function: bake]"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "loaves",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "bake",
+       "scope": "global",
+       "value": "[Function: bake]"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "5"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-captures-variable.fill-01": {
+   "code": [
+    "function stamp(prefix) {",
+    "  return (word) => prefix + word;",
+    "}",
+    "const book = stamp(\"id-\");",
+    "console.log(book(\"42\"));"
+   ],
+   "output": [
+    "id-42"
+   ],
+   "steps": [
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "prefix",
+       "scope": "stamp",
+       "value": "'id-'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "stamp"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "book",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "book",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "prefix",
+       "scope": "stamp",
+       "value": "'id-'"
+      },
+      {
+       "name": "word",
+       "scope": "anonymous",
+       "value": "'42'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "book",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-captures-variable.fix-01": {
+   "code": [
+    "let deal = 5;",
+    "const old = deal;",
+    "const fare = (p) => p - deal;",
+    "deal = 8;",
+    "console.log(fare(20));"
+   ],
+   "output": [
+    "12"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "deal",
+       "scope": "global",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "deal",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "old",
+       "scope": "global",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "deal",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "old",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "[Function: fare]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "deal",
+       "scope": "global",
+       "value": "8"
+      },
+      {
+       "name": "old",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "[Function: fare]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "deal",
+       "scope": "global",
+       "value": "8"
+      },
+      {
+       "name": "old",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "[Function: fare]"
+      },
+      {
+       "name": "p",
+       "scope": "fare",
+       "value": "20"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "fare"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "deal",
+       "scope": "global",
+       "value": "8"
+      },
+      {
+       "name": "old",
+       "scope": "global",
+       "value": "5"
+      },
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "[Function: fare]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-captures-variable.write-01": {
+   "code": [
+    "function dropRepeats(words) {",
+    "let previous;",
+    "return words.filter((w) => {",
+    "  const keep = w !== previous;",
+    "  previous = w;",
+    "  return keep;",
+    "});",
+    "}",
+    "console.log(dropRepeats([\"a\",\"a\",\"b\",\"a\"]));"
+   ],
+   "output": [
+    "['a', 'b', 'a']"
+   ],
+   "steps": [
+    {
+     "line": 9,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      },
+      {
+       "name": "previous",
+       "scope": "dropRepeats",
+       "value": "undefined"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      },
+      {
+       "name": "previous",
+       "scope": "dropRepeats",
+       "value": "undefined"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'a'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      },
+      {
+       "name": "previous",
+       "scope": "dropRepeats",
+       "value": "undefined"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'a'"
+      },
+      {
+       "name": "keep",
+       "scope": "anonymous",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      },
+      {
+       "name": "previous",
+       "scope": "dropRepeats",
+       "value": "'a'"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'a'"
+      },
+      {
+       "name": "keep",
+       "scope": "anonymous",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      },
+      {
+       "name": "previous",
+       "scope": "dropRepeats",
+       "value": "'a'"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'a'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      },
+      {
+       "name": "previous",
+       "scope": "dropRepeats",
+       "value": "'a'"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'a'"
+      },
+      {
+       "name": "keep",
+       "scope": "anonymous",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      },
+      {
+       "name": "previous",
+       "scope": "dropRepeats",
+       "value": "'a'"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'a'"
+      },
+      {
+       "name": "keep",
+       "scope": "anonymous",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      },
+      {
+       "name": "previous",
+       "scope": "dropRepeats",
+       "value": "'a'"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'b'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      },
+      {
+       "name": "previous",
+       "scope": "dropRepeats",
+       "value": "'a'"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'b'"
+      },
+      {
+       "name": "keep",
+       "scope": "anonymous",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      },
+      {
+       "name": "previous",
+       "scope": "dropRepeats",
+       "value": "'b'"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'b'"
+      },
+      {
+       "name": "keep",
+       "scope": "anonymous",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      },
+      {
+       "name": "previous",
+       "scope": "dropRepeats",
+       "value": "'b'"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'a'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      },
+      {
+       "name": "previous",
+       "scope": "dropRepeats",
+       "value": "'b'"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'a'"
+      },
+      {
+       "name": "keep",
+       "scope": "anonymous",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "words",
+       "scope": "dropRepeats",
+       "value": "['a', 'a', 'b', 'a']"
+      },
+      {
+       "name": "previous",
+       "scope": "dropRepeats",
+       "value": "'a'"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'a'"
+      },
+      {
+       "name": "keep",
+       "scope": "anonymous",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "dropRepeats",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-private-state.predict-01": {
+   "code": [
+    "function makeGate() {",
+    "  let count = 0;",
+    "  return {",
+    "    pass: () => (count = count + 1),",
+    "    get: () => count,",
+    "  };",
+    "}",
+    "const gate = makeGate();",
+    "gate.pass();",
+    "gate.pass();",
+    "console.log(gate.get(), gate.count);"
+   ],
+   "output": [
+    "2 undefined"
+   ],
+   "steps": [
+    {
+     "line": 8,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeGate"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "count",
+       "scope": "makeGate",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeGate"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "gate",
+       "scope": "global",
+       "value": "{pass: [Function: pass], get: [Function: get]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "gate",
+       "scope": "global",
+       "value": "{pass: [Function: pass], get: [Function: get]}"
+      },
+      {
+       "name": "count",
+       "scope": "makeGate",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "pass"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "gate",
+       "scope": "global",
+       "value": "{pass: [Function: pass], get: [Function: get]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "gate",
+       "scope": "global",
+       "value": "{pass: [Function: pass], get: [Function: get]}"
+      },
+      {
+       "name": "count",
+       "scope": "makeGate",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "pass"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "gate",
+       "scope": "global",
+       "value": "{pass: [Function: pass], get: [Function: get]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "gate",
+       "scope": "global",
+       "value": "{pass: [Function: pass], get: [Function: get]}"
+      },
+      {
+       "name": "count",
+       "scope": "makeGate",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "get"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "gate",
+       "scope": "global",
+       "value": "{pass: [Function: pass], get: [Function: get]}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-private-state.concept-01": {
+   "code": [
+    "function makeJar() {",
+    "  let coins = 0;",
+    "  return () => {",
+    "    coins = coins + 1;",
+    "    return coins;",
+    "  };",
+    "}",
+    "const a = makeJar();",
+    "const b = makeJar();",
+    "a();",
+    "a();",
+    "console.log(a(), b());"
+   ],
+   "output": [
+    "3 1"
+   ],
+   "steps": [
+    {
+     "line": 8,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeJar"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "coins",
+       "scope": "makeJar",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeJar"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeJar"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "coins",
+       "scope": "makeJar",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeJar"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "coins",
+       "scope": "makeJar",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "coins",
+       "scope": "makeJar",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "coins",
+       "scope": "makeJar",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "coins",
+       "scope": "makeJar",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 12,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "coins",
+       "scope": "makeJar",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "coins",
+       "scope": "makeJar",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "coins",
+       "scope": "makeJar",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "coins",
+       "scope": "makeJar",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-private-state.trace-01": {
+   "code": [
+    "function makeWallet(start) {",
+    "  let cash = start;",
+    "  return (change) => {",
+    "    cash = cash + change;",
+    "    return cash;",
+    "  };",
+    "}",
+    "const wallet = makeWallet(10);",
+    "wallet(5);",
+    "wallet(-3);",
+    "console.log(wallet(0));"
+   ],
+   "output": [
+    "12"
+   ],
+   "steps": [
+    {
+     "line": 8,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "start",
+       "scope": "makeWallet",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeWallet"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "start",
+       "scope": "makeWallet",
+       "value": "10"
+      },
+      {
+       "name": "cash",
+       "scope": "makeWallet",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeWallet"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "wallet",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "wallet",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "start",
+       "scope": "makeWallet",
+       "value": "10"
+      },
+      {
+       "name": "cash",
+       "scope": "makeWallet",
+       "value": "10"
+      },
+      {
+       "name": "change",
+       "scope": "anonymous",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "wallet",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "start",
+       "scope": "makeWallet",
+       "value": "10"
+      },
+      {
+       "name": "cash",
+       "scope": "makeWallet",
+       "value": "15"
+      },
+      {
+       "name": "change",
+       "scope": "anonymous",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "wallet",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "wallet",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "start",
+       "scope": "makeWallet",
+       "value": "10"
+      },
+      {
+       "name": "cash",
+       "scope": "makeWallet",
+       "value": "15"
+      },
+      {
+       "name": "change",
+       "scope": "anonymous",
+       "value": "-3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "wallet",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "start",
+       "scope": "makeWallet",
+       "value": "10"
+      },
+      {
+       "name": "cash",
+       "scope": "makeWallet",
+       "value": "12"
+      },
+      {
+       "name": "change",
+       "scope": "anonymous",
+       "value": "-3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "wallet",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "wallet",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "start",
+       "scope": "makeWallet",
+       "value": "10"
+      },
+      {
+       "name": "cash",
+       "scope": "makeWallet",
+       "value": "12"
+      },
+      {
+       "name": "change",
+       "scope": "anonymous",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "wallet",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "start",
+       "scope": "makeWallet",
+       "value": "10"
+      },
+      {
+       "name": "cash",
+       "scope": "makeWallet",
+       "value": "12"
+      },
+      {
+       "name": "change",
+       "scope": "anonymous",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "wallet",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-private-state.parsons-01": {
+   "code": [
+    "const makeShelf = (n) => {",
+    "  let left = n;",
+    "  return () => (left = left - 1);",
+    "};",
+    "const take = makeShelf(3);",
+    "take();",
+    "console.log(take());"
+   ],
+   "output": [
+    "1"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "makeShelf",
+       "scope": "global",
+       "value": "[Function: makeShelf]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "makeShelf",
+       "scope": "global",
+       "value": "[Function: makeShelf]"
+      },
+      {
+       "name": "n",
+       "scope": "makeShelf",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeShelf"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "makeShelf",
+       "scope": "global",
+       "value": "[Function: makeShelf]"
+      },
+      {
+       "name": "n",
+       "scope": "makeShelf",
+       "value": "3"
+      },
+      {
+       "name": "left",
+       "scope": "makeShelf",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeShelf"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "makeShelf",
+       "scope": "global",
+       "value": "[Function: makeShelf]"
+      },
+      {
+       "name": "take",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "makeShelf",
+       "scope": "global",
+       "value": "[Function: makeShelf]"
+      },
+      {
+       "name": "take",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "n",
+       "scope": "makeShelf",
+       "value": "3"
+      },
+      {
+       "name": "left",
+       "scope": "makeShelf",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "makeShelf",
+       "scope": "global",
+       "value": "[Function: makeShelf]"
+      },
+      {
+       "name": "take",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "makeShelf",
+       "scope": "global",
+       "value": "[Function: makeShelf]"
+      },
+      {
+       "name": "take",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "n",
+       "scope": "makeShelf",
+       "value": "3"
+      },
+      {
+       "name": "left",
+       "scope": "makeShelf",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "makeShelf",
+       "scope": "global",
+       "value": "[Function: makeShelf]"
+      },
+      {
+       "name": "take",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-private-state.fix-01": {
+   "code": [
+    "function makeHits() {",
+    "  let hits = 0;",
+    "  return () => (hits = hits + 1);",
+    "}",
+    "const visit = makeHits();",
+    "visit();",
+    "console.log(visit());"
+   ],
+   "output": [
+    "2"
+   ],
+   "steps": [
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeHits"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "hits",
+       "scope": "makeHits",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeHits"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "visit",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "visit",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "hits",
+       "scope": "makeHits",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "visit",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "visit",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "hits",
+       "scope": "makeHits",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "visit",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-private-state.write-01": {
+   "code": [
+    "function numberBoxes(prefix, names) {",
+    "let count = 0;",
+    "const nextId = () => {",
+    "  count = count + 1;",
+    "  return prefix + \"-\" + count;",
+    "};",
+    "return names.map(() => nextId());",
+    "}",
+    "console.log(numberBoxes(\"box\", [\"a\",\"b\"]));"
+   ],
+   "output": [
+    "['box-1', 'box-2']"
+   ],
+   "steps": [
+    {
+     "line": 9,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "prefix",
+       "scope": "numberBoxes",
+       "value": "'box'"
+      },
+      {
+       "name": "names",
+       "scope": "numberBoxes",
+       "value": "['a', 'b']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "numberBoxes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "prefix",
+       "scope": "numberBoxes",
+       "value": "'box'"
+      },
+      {
+       "name": "names",
+       "scope": "numberBoxes",
+       "value": "['a', 'b']"
+      },
+      {
+       "name": "count",
+       "scope": "numberBoxes",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "numberBoxes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "prefix",
+       "scope": "numberBoxes",
+       "value": "'box'"
+      },
+      {
+       "name": "names",
+       "scope": "numberBoxes",
+       "value": "['a', 'b']"
+      },
+      {
+       "name": "count",
+       "scope": "numberBoxes",
+       "value": "0"
+      },
+      {
+       "name": "nextId",
+       "scope": "numberBoxes",
+       "value": "[Function: nextId]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "numberBoxes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "prefix",
+       "scope": "numberBoxes",
+       "value": "'box'"
+      },
+      {
+       "name": "names",
+       "scope": "numberBoxes",
+       "value": "['a', 'b']"
+      },
+      {
+       "name": "count",
+       "scope": "numberBoxes",
+       "value": "0"
+      },
+      {
+       "name": "nextId",
+       "scope": "numberBoxes",
+       "value": "[Function: nextId]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "numberBoxes",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "prefix",
+       "scope": "numberBoxes",
+       "value": "'box'"
+      },
+      {
+       "name": "names",
+       "scope": "numberBoxes",
+       "value": "['a', 'b']"
+      },
+      {
+       "name": "count",
+       "scope": "numberBoxes",
+       "value": "0"
+      },
+      {
+       "name": "nextId",
+       "scope": "numberBoxes",
+       "value": "[Function: nextId]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "numberBoxes",
+      "anonymous",
+      "nextId"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "prefix",
+       "scope": "numberBoxes",
+       "value": "'box'"
+      },
+      {
+       "name": "names",
+       "scope": "numberBoxes",
+       "value": "['a', 'b']"
+      },
+      {
+       "name": "count",
+       "scope": "numberBoxes",
+       "value": "1"
+      },
+      {
+       "name": "nextId",
+       "scope": "numberBoxes",
+       "value": "[Function: nextId]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "numberBoxes",
+      "anonymous",
+      "nextId"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "prefix",
+       "scope": "numberBoxes",
+       "value": "'box'"
+      },
+      {
+       "name": "names",
+       "scope": "numberBoxes",
+       "value": "['a', 'b']"
+      },
+      {
+       "name": "count",
+       "scope": "numberBoxes",
+       "value": "1"
+      },
+      {
+       "name": "nextId",
+       "scope": "numberBoxes",
+       "value": "[Function: nextId]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "numberBoxes",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "prefix",
+       "scope": "numberBoxes",
+       "value": "'box'"
+      },
+      {
+       "name": "names",
+       "scope": "numberBoxes",
+       "value": "['a', 'b']"
+      },
+      {
+       "name": "count",
+       "scope": "numberBoxes",
+       "value": "1"
+      },
+      {
+       "name": "nextId",
+       "scope": "numberBoxes",
+       "value": "[Function: nextId]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "numberBoxes",
+      "anonymous",
+      "nextId"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "prefix",
+       "scope": "numberBoxes",
+       "value": "'box'"
+      },
+      {
+       "name": "names",
+       "scope": "numberBoxes",
+       "value": "['a', 'b']"
+      },
+      {
+       "name": "count",
+       "scope": "numberBoxes",
+       "value": "2"
+      },
+      {
+       "name": "nextId",
+       "scope": "numberBoxes",
+       "value": "[Function: nextId]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "numberBoxes",
+      "anonymous",
+      "nextId"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-in-loops.predict-01": {
+   "code": [
+    "const hooks = [];",
+    "for (var day = 1; day <= 3; day++) {",
+    "  hooks.push(() => day * 10);",
+    "}",
+    "console.log(hooks[0](), hooks[2]());"
+   ],
+   "output": [
+    "40 40"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "day",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "hooks",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "day",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "hooks",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "day",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "hooks",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "day",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "hooks",
+       "scope": "global",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "day",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "hooks",
+       "scope": "global",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "day",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "hooks",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "day",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "hooks",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "day",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "hooks",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "day",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "hooks",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "day",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "hooks",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "day",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "hooks",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "day",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-in-loops.concept-01": {
+   "code": [
+    "const jobs = [];",
+    "for (let n = 1; n <= 3; n++) {",
+    "  jobs.push(() => n);",
+    "}",
+    "console.log(jobs[0](), jobs[2]());"
+   ],
+   "output": [
+    "1 3"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "global",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "global",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "global",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-in-loops.trace-01": {
+   "code": [
+    "const sizes = [];",
+    "for (var k = 1; k <= 3; k++) {",
+    "  sizes.push(() => k * 2);",
+    "}",
+    "const early = sizes[0]();",
+    "k = 1;",
+    "const late = sizes[0]();",
+    "console.log(early, late);"
+   ],
+   "output": [
+    "8 2"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "early",
+       "scope": "global",
+       "value": "8"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "early",
+       "scope": "global",
+       "value": "8"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "early",
+       "scope": "global",
+       "value": "8"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "early",
+       "scope": "global",
+       "value": "8"
+      },
+      {
+       "name": "late",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "sizes",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "k",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "early",
+       "scope": "global",
+       "value": "8"
+      },
+      {
+       "name": "late",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-in-loops.fill-01": {
+   "code": [
+    "const show = (v) => () => v;",
+    "const shelf = [];",
+    "for (var n = 1; n <= 3; n++) {",
+    "  shelf.push(show(n));",
+    "}",
+    "console.log(shelf[0](), shelf[2]());"
+   ],
+   "output": [
+    "1 3"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "v",
+       "scope": "show",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "show"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "v",
+       "scope": "show",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "show"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "v",
+       "scope": "show",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "show"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "v",
+       "scope": "show",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "v",
+       "scope": "show",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-in-loops.fix-01": {
+   "code": [
+    "const labels = [];",
+    "for (let n = 1; n <= 3; n++) {",
+    "  labels.push(() => \"No. \" + n);",
+    "}",
+    "console.log(labels.map((f) => f()));"
+   ],
+   "output": [
+    "['No. 1', 'No. 2', 'No. 3']"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "f",
+       "scope": "anonymous",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "f",
+       "scope": "anonymous",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "f",
+       "scope": "anonymous",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-in-loops.write-01": {
+   "code": [
+    "function multiples(n, count) {",
+    "const fns = [];",
+    "for (let i = 1; i <= count; i++) {",
+    "  fns.push(() => n * i);",
+    "}",
+    "return fns.map((f) => f());",
+    "}",
+    "console.log(multiples(3, 3));"
+   ],
+   "output": [
+    "[3, 6, 9]"
+   ],
+   "steps": [
+    {
+     "line": 8,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "f",
+       "scope": "anonymous",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples",
+      "anonymous",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "f",
+       "scope": "anonymous",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples",
+      "anonymous",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "f",
+       "scope": "anonymous",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "count",
+       "scope": "multiples",
+       "value": "3"
+      },
+      {
+       "name": "fns",
+       "scope": "multiples",
+       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "i",
+       "scope": "multiples",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "multiples",
+      "anonymous",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-factories.predict-01": {
+   "code": [
+    "const mix = (a) => (b) => a * b;",
+    "const double = mix(2);",
+    "console.log(double(7), mix(3)(4));"
+   ],
+   "output": [
+    "14 12"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "mix",
+       "scope": "global",
+       "value": "[Function: mix]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "mix",
+       "scope": "global",
+       "value": "[Function: mix]"
+      },
+      {
+       "name": "a",
+       "scope": "mix",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "mix"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "mix",
+       "scope": "global",
+       "value": "[Function: mix]"
+      },
+      {
+       "name": "double",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "mix",
+       "scope": "global",
+       "value": "[Function: mix]"
+      },
+      {
+       "name": "double",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "a",
+       "scope": "mix",
+       "value": "2"
+      },
+      {
+       "name": "b",
+       "scope": "anonymous",
+       "value": "7"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "mix",
+       "scope": "global",
+       "value": "[Function: mix]"
+      },
+      {
+       "name": "double",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "a",
+       "scope": "mix",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "mix"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "mix",
+       "scope": "global",
+       "value": "[Function: mix]"
+      },
+      {
+       "name": "double",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "a",
+       "scope": "mix",
+       "value": "3"
+      },
+      {
+       "name": "b",
+       "scope": "anonymous",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "mix",
+       "scope": "global",
+       "value": "[Function: mix]"
+      },
+      {
+       "name": "double",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-factories.concept-01": {
+   "code": [
+    "const tag = (m) => (w) => m + w;",
+    "const loud = tag(\"!\");",
+    "const soft = tag(\"~\");",
+    "console.log(loud(\"hi\"), soft(\"hi\"));"
+   ],
+   "output": [
+    "!hi ~hi"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "tag",
+       "scope": "global",
+       "value": "[Function: tag]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "tag",
+       "scope": "global",
+       "value": "[Function: tag]"
+      },
+      {
+       "name": "m",
+       "scope": "tag",
+       "value": "'!'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "tag"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "tag",
+       "scope": "global",
+       "value": "[Function: tag]"
+      },
+      {
+       "name": "loud",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "tag",
+       "scope": "global",
+       "value": "[Function: tag]"
+      },
+      {
+       "name": "loud",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "m",
+       "scope": "tag",
+       "value": "'~'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "tag"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "tag",
+       "scope": "global",
+       "value": "[Function: tag]"
+      },
+      {
+       "name": "loud",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "soft",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "tag",
+       "scope": "global",
+       "value": "[Function: tag]"
+      },
+      {
+       "name": "loud",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "soft",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "m",
+       "scope": "tag",
+       "value": "'!'"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'hi'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "tag",
+       "scope": "global",
+       "value": "[Function: tag]"
+      },
+      {
+       "name": "loud",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "soft",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "m",
+       "scope": "tag",
+       "value": "'~'"
+      },
+      {
+       "name": "w",
+       "scope": "anonymous",
+       "value": "'hi'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "tag",
+       "scope": "global",
+       "value": "[Function: tag]"
+      },
+      {
+       "name": "loud",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "soft",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-factories.trace-01": {
+   "code": [
+    "const limiter = (max) => {",
+    "  let used = 0;",
+    "  return (n) => {",
+    "    used = used + n;",
+    "    return used <= max;",
+    "  };",
+    "};",
+    "const ok = limiter(5);",
+    "const a = ok(3);",
+    "const b = ok(4);",
+    "console.log(a, b);"
+   ],
+   "output": [
+    "true false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "limiter",
+       "scope": "global",
+       "value": "[Function: limiter]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "limiter",
+       "scope": "global",
+       "value": "[Function: limiter]"
+      },
+      {
+       "name": "max",
+       "scope": "limiter",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "limiter"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "limiter",
+       "scope": "global",
+       "value": "[Function: limiter]"
+      },
+      {
+       "name": "max",
+       "scope": "limiter",
+       "value": "5"
+      },
+      {
+       "name": "used",
+       "scope": "limiter",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "limiter"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "limiter",
+       "scope": "global",
+       "value": "[Function: limiter]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "limiter",
+       "scope": "global",
+       "value": "[Function: limiter]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "max",
+       "scope": "limiter",
+       "value": "5"
+      },
+      {
+       "name": "used",
+       "scope": "limiter",
+       "value": "0"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "limiter",
+       "scope": "global",
+       "value": "[Function: limiter]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "max",
+       "scope": "limiter",
+       "value": "5"
+      },
+      {
+       "name": "used",
+       "scope": "limiter",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "limiter",
+       "scope": "global",
+       "value": "[Function: limiter]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "true"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "limiter",
+       "scope": "global",
+       "value": "[Function: limiter]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "true"
+      },
+      {
+       "name": "max",
+       "scope": "limiter",
+       "value": "5"
+      },
+      {
+       "name": "used",
+       "scope": "limiter",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "limiter",
+       "scope": "global",
+       "value": "[Function: limiter]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "true"
+      },
+      {
+       "name": "max",
+       "scope": "limiter",
+       "value": "5"
+      },
+      {
+       "name": "used",
+       "scope": "limiter",
+       "value": "7"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 11,
+     "variables": [
+      {
+       "name": "limiter",
+       "scope": "global",
+       "value": "[Function: limiter]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "true"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "limiter",
+       "scope": "global",
+       "value": "[Function: limiter]"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "true"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "false"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-factories.parsons-01": {
+   "code": [
+    "const scale = (k) => (n) => n * k;",
+    "const triple = scale(3);",
+    "const base = triple(4);",
+    "const next = triple(base);",
+    "console.log(next);"
+   ],
+   "output": [
+    "36"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "scale",
+       "scope": "global",
+       "value": "[Function: scale]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "scale",
+       "scope": "global",
+       "value": "[Function: scale]"
+      },
+      {
+       "name": "k",
+       "scope": "scale",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "scale"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "scale",
+       "scope": "global",
+       "value": "[Function: scale]"
+      },
+      {
+       "name": "triple",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "scale",
+       "scope": "global",
+       "value": "[Function: scale]"
+      },
+      {
+       "name": "triple",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "k",
+       "scope": "scale",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "scale",
+       "scope": "global",
+       "value": "[Function: scale]"
+      },
+      {
+       "name": "triple",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "base",
+       "scope": "global",
+       "value": "12"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "scale",
+       "scope": "global",
+       "value": "[Function: scale]"
+      },
+      {
+       "name": "triple",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "base",
+       "scope": "global",
+       "value": "12"
+      },
+      {
+       "name": "k",
+       "scope": "scale",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "12"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "scale",
+       "scope": "global",
+       "value": "[Function: scale]"
+      },
+      {
+       "name": "triple",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "base",
+       "scope": "global",
+       "value": "12"
+      },
+      {
+       "name": "next",
+       "scope": "global",
+       "value": "36"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "scale",
+       "scope": "global",
+       "value": "[Function: scale]"
+      },
+      {
+       "name": "triple",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "base",
+       "scope": "global",
+       "value": "12"
+      },
+      {
+       "name": "next",
+       "scope": "global",
+       "value": "36"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-factories.fix-01": {
+   "code": [
+    "const addTax = (rate) => {",
+    "  return (p) => p + p * rate;",
+    "};",
+    "const withTax = addTax(0.5);",
+    "console.log(withTax(40));"
+   ],
+   "output": [
+    "60"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "addTax",
+       "scope": "global",
+       "value": "[Function: addTax]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "addTax",
+       "scope": "global",
+       "value": "[Function: addTax]"
+      },
+      {
+       "name": "rate",
+       "scope": "addTax",
+       "value": "0.5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "addTax"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "addTax",
+       "scope": "global",
+       "value": "[Function: addTax]"
+      },
+      {
+       "name": "withTax",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "addTax",
+       "scope": "global",
+       "value": "[Function: addTax]"
+      },
+      {
+       "name": "withTax",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "rate",
+       "scope": "addTax",
+       "value": "0.5"
+      },
+      {
+       "name": "p",
+       "scope": "anonymous",
+       "value": "40"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "addTax",
+       "scope": "global",
+       "value": "[Function: addTax]"
+      },
+      {
+       "name": "withTax",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "int.closures.closure-factories.write-01": {
+   "code": [
+    "function priceList(markup, costs) {",
+    "const up = (m) => {",
+    "  return (c) => c + c * m / 100;",
+    "};",
+    "return costs.map(up(markup));",
+    "}",
+    "console.log(priceList(50, [10,20]));"
+   ],
+   "output": [
+    "[15, 30]"
+   ],
+   "steps": [
+    {
+     "line": 7,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "markup",
+       "scope": "priceList",
+       "value": "50"
+      },
+      {
+       "name": "costs",
+       "scope": "priceList",
+       "value": "[10, 20]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "priceList"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "markup",
+       "scope": "priceList",
+       "value": "50"
+      },
+      {
+       "name": "costs",
+       "scope": "priceList",
+       "value": "[10, 20]"
+      },
+      {
+       "name": "up",
+       "scope": "priceList",
+       "value": "[Function: up]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "priceList"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "markup",
+       "scope": "priceList",
+       "value": "50"
+      },
+      {
+       "name": "costs",
+       "scope": "priceList",
+       "value": "[10, 20]"
+      },
+      {
+       "name": "up",
+       "scope": "priceList",
+       "value": "[Function: up]"
+      },
+      {
+       "name": "m",
+       "scope": "up",
+       "value": "50"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "priceList",
+      "up"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "markup",
+       "scope": "priceList",
+       "value": "50"
+      },
+      {
+       "name": "costs",
+       "scope": "priceList",
+       "value": "[10, 20]"
+      },
+      {
+       "name": "up",
+       "scope": "priceList",
+       "value": "[Function: up]"
+      },
+      {
+       "name": "m",
+       "scope": "up",
+       "value": "50"
+      },
+      {
+       "name": "c",
+       "scope": "anonymous",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "priceList",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "markup",
+       "scope": "priceList",
+       "value": "50"
+      },
+      {
+       "name": "costs",
+       "scope": "priceList",
+       "value": "[10, 20]"
+      },
+      {
+       "name": "up",
+       "scope": "priceList",
+       "value": "[Function: up]"
+      },
+      {
+       "name": "m",
+       "scope": "up",
+       "value": "50"
+      },
+      {
+       "name": "c",
+       "scope": "anonymous",
+       "value": "20"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "priceList",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ },
+ "conceptCards": {
+  "closures.lesson-1": {
+   "code": [
+    "function makeNote(text) {",
+    "  return () => text;",
+    "}",
+    "const note = makeNote(\"milk\");",
+    "console.log(note());"
+   ],
+   "output": [
+    "milk"
+   ],
+   "steps": [
+    {
+     "line": 4,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "text",
+       "scope": "makeNote",
+       "value": "'milk'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeNote"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "note",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "note",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "text",
+       "scope": "makeNote",
+       "value": "'milk'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "note",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "closures.lesson-2": {
+   "code": [
+    "function makeBell() {",
+    "  let rings = 0;",
+    "  return () => (rings = rings + 1);",
+    "}",
+    "const bell = makeBell();",
+    "bell();",
+    "console.log(bell(), bell());"
+   ],
+   "output": [
+    "2 3"
+   ],
+   "steps": [
+    {
+     "line": 5,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeBell"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "rings",
+       "scope": "makeBell",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "makeBell"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "rings",
+       "scope": "makeBell",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "rings",
+       "scope": "makeBell",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "rings",
+       "scope": "makeBell",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "bell",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "closures.lesson-3": {
+   "code": [
+    "const funcs = [];",
+    "for (let i = 0; i < 2; i++) {",
+    "  funcs.push(() => i);",
+    "}",
+    "console.log(funcs[0](), funcs[1]());"
+   ],
+   "output": [
+    "0 1"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "funcs",
+       "scope": "global",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "funcs",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "i",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "funcs",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "i",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "funcs",
+       "scope": "global",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "i",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "funcs",
+       "scope": "global",
+       "value": "[[Function (anonymous)]]"
+      },
+      {
+       "name": "i",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "funcs",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "i",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "funcs",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "funcs",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "i",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "funcs",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      },
+      {
+       "name": "i",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "funcs",
+       "scope": "global",
+       "value": "[[Function (anonymous)], [Function (anonymous)]]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "closures.lesson-4": {
+   "code": [
+    "const greeter = (word) => {",
+    "  return (name) => word + name;",
+    "};",
+    "const hello = greeter(\"Hi \");",
+    "console.log(hello(\"Ana\"));"
+   ],
+   "output": [
+    "Hi Ana"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "greeter",
+       "scope": "global",
+       "value": "[Function: greeter]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "greeter",
+       "scope": "global",
+       "value": "[Function: greeter]"
+      },
+      {
+       "name": "word",
+       "scope": "greeter",
+       "value": "'Hi '"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "greeter"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "greeter",
+       "scope": "global",
+       "value": "[Function: greeter]"
+      },
+      {
+       "name": "hello",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "greeter",
+       "scope": "global",
+       "value": "[Function: greeter]"
+      },
+      {
+       "name": "hello",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "word",
+       "scope": "greeter",
+       "value": "'Hi '"
+      },
+      {
+       "name": "name",
+       "scope": "anonymous",
+       "value": "'Ana'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "greeter",
+       "scope": "global",
+       "value": "[Function: greeter]"
+      },
+      {
+       "name": "hello",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ }
+}

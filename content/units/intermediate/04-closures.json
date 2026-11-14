@@ -1,0 +1,1822 @@
+{
+  "track": "INTERMEDIATE",
+  "unit": "closures",
+  "order": 4,
+  "title": "Closures",
+  "summary": "How functions remember the variables around them: private state, loops and function factories.",
+  "concepts": [
+    {
+      "id": "closure-captures-variable",
+      "title": "A function remembers its surroundings",
+      "prerequisites": [
+        "function-expressions",
+        "block-scope"
+      ]
+    },
+    {
+      "id": "closure-private-state",
+      "title": "Private state with closures",
+      "prerequisites": [
+        "closure-captures-variable",
+        "return-value"
+      ]
+    },
+    {
+      "id": "closure-in-loops",
+      "title": "Closures created in loops",
+      "prerequisites": [
+        "closure-captures-variable",
+        "function-scope-and-var",
+        "for-loop"
+      ]
+    },
+    {
+      "id": "closure-factories",
+      "title": "Function factories and currying",
+      "prerequisites": [
+        "closure-private-state",
+        "array-map"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "closure-copies-value",
+      "description": "Believes a function keeps a copy of the value a variable had when the function was written, so later changes are not seen."
+    },
+    {
+      "id": "outer-variable-invisible",
+      "description": "Believes a function can use only its own parameters and variables, not those declared outside it."
+    },
+    {
+      "id": "variables-die-on-return",
+      "description": "Believes the variables of a function are deleted when it returns, so a function created inside can no longer read them."
+    },
+    {
+      "id": "calls-share-one-scope",
+      "description": "Believes every call of a factory function shares one set of variables."
+    },
+    {
+      "id": "state-resets-each-call",
+      "description": "Believes a captured variable starts again from its first value each time the inner function is called."
+    },
+    {
+      "id": "private-looks-like-property",
+      "description": "Believes a variable kept in a closure can be read as a property of the returned object."
+    },
+    {
+      "id": "trace-wrong-pass",
+      "description": "Takes the wrong run of a line that executes many times, counting one run too few or too many."
+    },
+    {
+      "id": "loop-var-one-per-iteration",
+      "description": "Believes a var in a for loop gets a fresh variable for each pass, so each function keeps its own value."
+    },
+    {
+      "id": "loop-stops-at-last-pass",
+      "description": "Believes the loop variable keeps the last value the loop body saw, not the value that ended the loop."
+    },
+    {
+      "id": "let-loop-shared",
+      "description": "Believes a let in a for loop is shared by all passes, as var is."
+    },
+    {
+      "id": "var-and-let-same-in-loops",
+      "description": "Believes var and let give the same result when functions are created in a loop."
+    },
+    {
+      "id": "inner-ignores-outer-argument",
+      "description": "Believes the function returned by a factory uses only its own argument and not the one given to the outer call."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+      "retrievedAt": "2026-11-14",
+      "sha256": "d0bb1e15cd9bc4a284b58a621c9d981a4667f1f5180dc58b975b8e23957a28ce"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Closure",
+      "retrievedAt": "2026-11-14",
+      "sha256": "2606e2ab5c4219e2774399051ec79adbaef957ccfedc9adc1ff11680564cf20f"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Scope",
+      "retrievedAt": "2026-11-14",
+      "sha256": "c0c0e7bcec58284a055a77d19359f10987b33db1b8a5c03c5608284aa60b563f"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+      "retrievedAt": "2026-11-14",
+      "sha256": "297164f1691eadf5f0fa540c894a61797a86a7b13014162d7a3fc0ca43574fd9"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
+      "retrievedAt": "2026-11-14",
+      "sha256": "e2eee42d821d3a8aa2c87be70b2d1c823804d414f9a2443a0dfb06cbbf489b24"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+      "retrievedAt": "2026-11-14",
+      "sha256": "bd446ea1461039b4dfb2b0221afa60cdcdcf84b660a25c5291dce899588ddf92"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
+      "retrievedAt": "2026-11-14",
+      "sha256": "0a4e757bbf254098f5625184589f5c142c39ad4667be10525fbc338aa9d2c28a"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+      "retrievedAt": "2026-11-14",
+      "sha256": "3ea3c76dbe2e79a4168ca42aa0b24b15d34b480eafbbb7cc8bdb85ba7f990853"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "closures.lesson-1",
+      "title": "A function remembers its surroundings",
+      "conceptCard": {
+        "title": "Functions keep their surroundings",
+        "body": "A function can use variables from the place where it was written, even after that place has finished running. It keeps a link to the variable itself, not a copy of its value. If the variable changes later, the function sees the new value.",
+        "code": [
+          "function makeNote(text) {",
+          "  return () => text;",
+          "}",
+          "const note = makeNote(\"milk\");",
+          "console.log(note());"
+        ],
+        "expectedOutput": "milk"
+      },
+      "itemIds": [
+        "int.closures.closure-captures-variable.predict-01",
+        "int.closures.closure-captures-variable.concept-01",
+        "int.closures.closure-captures-variable.trace-01",
+        "int.closures.closure-captures-variable.fill-01",
+        "int.closures.closure-captures-variable.fix-01",
+        "int.closures.closure-captures-variable.write-01"
+      ]
+    },
+    {
+      "id": "closures.lesson-2",
+      "title": "Private state with closures",
+      "conceptCard": {
+        "title": "State that nobody else can reach",
+        "body": "A variable inside a function cannot be reached from outside. If the function returns other functions that use it, only those functions can read or change it. Each call of the outer function makes a new, separate variable.",
+        "code": [
+          "function makeBell() {",
+          "  let rings = 0;",
+          "  return () => (rings = rings + 1);",
+          "}",
+          "const bell = makeBell();",
+          "bell();",
+          "console.log(bell(), bell());"
+        ],
+        "expectedOutput": "2 3"
+      },
+      "itemIds": [
+        "int.closures.closure-private-state.predict-01",
+        "int.closures.closure-private-state.concept-01",
+        "int.closures.closure-private-state.trace-01",
+        "int.closures.closure-private-state.parsons-01",
+        "int.closures.closure-private-state.fix-01",
+        "int.closures.closure-private-state.write-01"
+      ]
+    },
+    {
+      "id": "closures.lesson-3",
+      "title": "Closures created in loops",
+      "conceptCard": {
+        "title": "One variable or one per pass",
+        "body": "A closure keeps the variable, not one value. A var loop has a single variable for the whole loop, so every function made in it sees its final value. A let loop makes a new variable for each pass, so each function keeps its own.",
+        "code": [
+          "const funcs = [];",
+          "for (let i = 0; i < 2; i++) {",
+          "  funcs.push(() => i);",
+          "}",
+          "console.log(funcs[0](), funcs[1]());"
+        ],
+        "expectedOutput": "0 1"
+      },
+      "itemIds": [
+        "int.closures.closure-in-loops.predict-01",
+        "int.closures.closure-in-loops.concept-01",
+        "int.closures.closure-in-loops.trace-01",
+        "int.closures.closure-in-loops.fill-01",
+        "int.closures.closure-in-loops.fix-01",
+        "int.closures.closure-in-loops.write-01"
+      ]
+    },
+    {
+      "id": "closures.lesson-4",
+      "title": "Function factories and currying",
+      "conceptCard": {
+        "title": "Functions that make functions",
+        "body": "A function that returns a function is a factory: it remembers the argument it received. Calling f(a)(b) means calling f with a, then calling the result with b. Splitting arguments this way is called currying.",
+        "code": [
+          "const greeter = (word) => {",
+          "  return (name) => word + name;",
+          "};",
+          "const hello = greeter(\"Hi \");",
+          "console.log(hello(\"Ana\"));"
+        ],
+        "expectedOutput": "Hi Ana"
+      },
+      "itemIds": [
+        "int.closures.closure-factories.predict-01",
+        "int.closures.closure-factories.concept-01",
+        "int.closures.closure-factories.trace-01",
+        "int.closures.closure-factories.parsons-01",
+        "int.closures.closure-factories.fix-01",
+        "int.closures.closure-factories.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "int.closures.closure-captures-variable.predict-01",
+      "concept": "closure-captures-variable",
+      "prerequisites": [
+        "function-expressions",
+        "block-scope"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "let stock = 4;",
+        "const report = () => {",
+        "  return \"stock \" + stock;",
+        "};",
+        "stock = 9;",
+        "console.log(report());"
+      ],
+      "options": [
+        {
+          "text": "stock 9",
+          "correct": true,
+          "feedback": "Right. report reads stock when it runs, and by then stock holds 9."
+        },
+        {
+          "text": "stock 4",
+          "correct": false,
+          "feedback": "You used the value stock had when report was written. A function keeps the variable itself, so it sees later changes.",
+          "misconception": "closure-copies-value"
+        },
+        {
+          "text": "stock undefined",
+          "correct": false,
+          "feedback": "report can read stock because stock is declared outside it. A function may use variables from the code around it.",
+          "misconception": "outer-variable-invisible"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "stock 9"
+      },
+      "explanation": "report does not copy stock. It keeps a link to the variable and reads it on each call. The assignment on line 5 runs before the call, so report sees 9.",
+      "hints": [
+        "Look at the order of lines 5 and 6.",
+        "A function reads outer variables when it runs, not when it is written.",
+        "Ask which value stock holds at the moment report is called."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-captures-variable.concept-01",
+      "concept": "closure-captures-variable",
+      "prerequisites": [
+        "function-expressions",
+        "block-scope"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 2,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "function marker(name) {",
+        "  const sign = \"to \" + name;",
+        "  return () => sign;",
+        "}",
+        "const back = marker(\"Elm\");",
+        "console.log(back());"
+      ],
+      "options": [
+        {
+          "text": "back can still read sign after marker has finished.",
+          "correct": true,
+          "feedback": "Right. The returned function keeps access to sign, so back() prints \"to Elm\"."
+        },
+        {
+          "text": "sign is removed when marker returns, so back() prints undefined.",
+          "correct": false,
+          "feedback": "A variable stays alive as long as a function that uses it exists. back keeps sign available.",
+          "misconception": "variables-die-on-return"
+        },
+        {
+          "text": "Every call of marker shares one sign, so back would show the latest call's sign.",
+          "correct": false,
+          "feedback": "Each call of marker creates its own sign. Here marker runs once, and a later call would not change back.",
+          "misconception": "calls-share-one-scope"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "to Elm"
+      },
+      "explanation": "A function remembers the variables around the place where it was written. back was written inside marker, so it keeps sign even though marker has already returned.",
+      "hints": [
+        "Compare when marker runs with when back runs.",
+        "A function written inside another keeps the outer variables it uses.",
+        "Ask whether sign is still reachable by back after line 5."
+      ],
+      "reference": {
+        "title": "Closure (glossary)",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Closure",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-captures-variable.trace-01",
+      "concept": "closure-captures-variable",
+      "prerequisites": [
+        "function-expressions",
+        "block-scope"
+      ],
+      "format": "TRACE",
+      "difficulty": 2,
+      "prompt": "What is the value of loaves right after line 3 runs for the second time?",
+      "code": [
+        "let loaves = 0;",
+        "const bake = (n) => {",
+        "  loaves = loaves + n;",
+        "  return loaves;",
+        "};",
+        "const a = bake(2);",
+        "const b = bake(3);",
+        "console.log(a, b);"
+      ],
+      "options": [
+        {
+          "text": "5",
+          "correct": true,
+          "feedback": "Right. loaves is 2 after the first call, and the second call adds 3."
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "That would start again from 0. loaves is a variable outside bake, so it keeps its value between calls.",
+          "misconception": "state-resets-each-call"
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "That is the value after the first run of line 3. The question asks about the second run.",
+          "misconception": "trace-wrong-pass"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "loaves",
+          "afterLine": 3,
+          "visit": 2
+        },
+        "expectedOutput": "2 5"
+      },
+      "explanation": "bake changes the outer variable loaves, which is not reset between calls. The first call makes it 2, and the second call adds 3 to that 2.",
+      "hints": [
+        "Line 3 runs once for each call of bake.",
+        "The variable loaves lives outside bake and keeps its value.",
+        "Add the first two amounts only."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-captures-variable.fill-01",
+      "concept": "closure-captures-variable",
+      "prerequisites": [
+        "function-expressions",
+        "block-scope"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 2,
+      "prompt": "Fill the blank so the program prints id-42.",
+      "code": [
+        "function stamp(prefix) {",
+        "  return (word) => ___ + word;",
+        "}",
+        "const book = stamp(\"id-\");",
+        "console.log(book(\"42\"));"
+      ],
+      "options": [
+        {
+          "text": "prefix",
+          "correct": true,
+          "feedback": "Right. The returned function reads prefix from stamp, so it adds \"id-\" in front."
+        },
+        {
+          "text": "word",
+          "correct": false,
+          "feedback": "word is the argument of book, so this prints 4242. The text \"id-\" is stored in prefix."
+        },
+        {
+          "text": "\"prefix\"",
+          "correct": false,
+          "feedback": "This is the text prefix in quotes, not the variable. It prints prefix42."
+        },
+        {
+          "text": "id",
+          "correct": false,
+          "feedback": "No variable named id exists, so this stops with an error instead of printing."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "prefix"
+          ]
+        ],
+        "expectedOutput": "id-42"
+      },
+      "explanation": "The returned function can read prefix because it was written inside stamp. Using the variable name, without quotes, adds the remembered \"id-\" to the word.",
+      "hints": [
+        "Look at what the inner function needs to add in front.",
+        "A function can use the parameters of the function that created it.",
+        "The remembered text came in as the argument of stamp."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-captures-variable.fix-01",
+      "concept": "closure-captures-variable",
+      "prerequisites": [
+        "function-expressions",
+        "block-scope"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should subtract the current deal, so it prints 12. Tap the buggy line, then choose its fix.",
+      "code": [
+        "let deal = 5;",
+        "const old = deal;",
+        "const fare = (p) => p - old;",
+        "deal = 8;",
+        "console.log(fare(20));"
+      ],
+      "options": [
+        {
+          "text": "const fare = (p) => p - deal;",
+          "correct": true,
+          "feedback": "Right. fare reads deal itself, so it sees the 8 set on line 4."
+        },
+        {
+          "text": "const fare = (p, deal) => p - deal;",
+          "correct": false,
+          "feedback": "The new parameter hides the outer deal. fare(20) gets no second argument, so the result is NaN."
+        },
+        {
+          "text": "const fare = (p) => p - old - deal;",
+          "correct": false,
+          "feedback": "old still holds the old 5, so this subtracts both and prints 7."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "12"
+      },
+      "explanation": "old is a copy made on line 2, so it never changes. A function that reads the variable deal sees its latest value, 8, when it runs.",
+      "hints": [
+        "Look at which variable line 3 subtracts.",
+        "A copy made earlier does not follow later changes.",
+        "Read the original variable inside the function."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-captures-variable.write-01",
+      "concept": "closure-captures-variable",
+      "prerequisites": [
+        "function-expressions",
+        "block-scope"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of dropRepeats(words). Return a new array without any word equal to the word just before it.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "dropRepeats",
+          "params": [
+            "words"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                "a",
+                "a",
+                "b",
+                "a"
+              ]
+            ],
+            "expected": [
+              "a",
+              "b",
+              "a"
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                "x"
+              ]
+            ],
+            "expected": [
+              "x"
+            ]
+          },
+          {
+            "input": [
+              [
+                "z",
+                "z",
+                "z"
+              ]
+            ],
+            "expected": [
+              "z"
+            ]
+          }
+        ],
+        "reference": [
+          "let previous;",
+          "return words.filter((w) => {",
+          "  const keep = w !== previous;",
+          "  previous = w;",
+          "  return keep;",
+          "});"
+        ],
+        "wrongSolutions": [
+          [
+            "return words.filter((w) => {",
+            "  let previous;",
+            "  const keep = w !== previous;",
+            "  previous = w;",
+            "  return keep;",
+            "});"
+          ],
+          [
+            "return words.filter((w, i) => {",
+            "  return words.indexOf(w) === i;",
+            "});"
+          ],
+          [
+            "let previous = words[0];",
+            "return words.filter((w) => {",
+            "  const keep = w !== previous;",
+            "  previous = w;",
+            "  return keep;",
+            "});"
+          ]
+        ]
+      },
+      "explanation": "The variable previous must live outside the callback so it survives from one call to the next. The callback compares each word with it, then stores the current word for the next call.",
+      "hints": [
+        "The callback needs to remember something between calls.",
+        "A variable declared outside the callback keeps its value from call to call.",
+        "Declare previous before filter, compare, then update it inside the callback."
+      ],
+      "reference": {
+        "title": "Array.prototype.filter()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-private-state.predict-01",
+      "concept": "closure-private-state",
+      "prerequisites": [
+        "closure-captures-variable",
+        "return-value"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "What does this code print?",
+      "code": [
+        "function makeGate() {",
+        "  let count = 0;",
+        "  return {",
+        "    pass: () => (count = count + 1),",
+        "    get: () => count,",
+        "  };",
+        "}",
+        "const gate = makeGate();",
+        "gate.pass();",
+        "gate.pass();",
+        "console.log(gate.get(), gate.count);"
+      ],
+      "options": [
+        {
+          "text": "2 undefined",
+          "correct": true,
+          "feedback": "Right. get reads the private count, which is 2. The object has no property named count."
+        },
+        {
+          "text": "2 2",
+          "correct": false,
+          "feedback": "gate.count looks for a property on the object. count is a variable inside makeGate, so the property does not exist.",
+          "misconception": "private-looks-like-property"
+        },
+        {
+          "text": "0 undefined",
+          "correct": false,
+          "feedback": "get reads count when it is called, not when makeGate ran. Both pass calls changed it first.",
+          "misconception": "closure-copies-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "2 undefined"
+      },
+      "explanation": "count lives inside makeGate and only pass and get can reach it. Two passes make it 2, and get reads that. Outside code has no property named count, so it gets undefined.",
+      "hints": [
+        "Look at the two values printed on line 11.",
+        "Only the functions written inside makeGate can see count.",
+        "One value reads count through get; the other looks for a property."
+      ],
+      "reference": {
+        "title": "Closure (glossary)",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Closure",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:9"
+      ]
+    },
+    {
+      "id": "int.closures.closure-private-state.concept-01",
+      "concept": "closure-private-state",
+      "prerequisites": [
+        "closure-captures-variable",
+        "return-value"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "function makeJar() {",
+        "  let coins = 0;",
+        "  return () => {",
+        "    coins = coins + 1;",
+        "    return coins;",
+        "  };",
+        "}",
+        "const a = makeJar();",
+        "const b = makeJar();",
+        "a();",
+        "a();",
+        "console.log(a(), b());"
+      ],
+      "options": [
+        {
+          "text": "Each makeJar call creates its own coins, so a and b count separately.",
+          "correct": true,
+          "feedback": "Right. a was called three times and b once, so it prints 3 1."
+        },
+        {
+          "text": "a and b share one coins, so b() prints 4.",
+          "correct": false,
+          "feedback": "Each call of makeJar runs again and makes a new coins. The two jars do not touch each other.",
+          "misconception": "calls-share-one-scope"
+        },
+        {
+          "text": "coins starts from 0 at every call of a, so a() prints 1.",
+          "correct": false,
+          "feedback": "coins is created when makeJar runs, not when a runs. a keeps adding to the same variable.",
+          "misconception": "state-resets-each-call"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "3 1"
+      },
+      "explanation": "Every call of makeJar creates a new coins variable, and the returned function keeps its own one. Calling a never changes the coins that b uses.",
+      "hints": [
+        "Count how many times makeJar runs and how many times each jar is called.",
+        "A new call of the outer function creates new variables.",
+        "Compare the number of calls of a with the number of calls of b."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 45,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-private-state.trace-01",
+      "concept": "closure-private-state",
+      "prerequisites": [
+        "closure-captures-variable",
+        "return-value"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What is the value of cash right after line 4 runs for the second time?",
+      "code": [
+        "function makeWallet(start) {",
+        "  let cash = start;",
+        "  return (change) => {",
+        "    cash = cash + change;",
+        "    return cash;",
+        "  };",
+        "}",
+        "const wallet = makeWallet(10);",
+        "wallet(5);",
+        "wallet(-3);",
+        "console.log(wallet(0));"
+      ],
+      "options": [
+        {
+          "text": "12",
+          "correct": true,
+          "feedback": "Right. cash is 10, then 15 after the first call, then 12 after adding -3."
+        },
+        {
+          "text": "15",
+          "correct": false,
+          "feedback": "That is the value after the first run of line 4. The question asks about the second run.",
+          "misconception": "trace-wrong-pass"
+        },
+        {
+          "text": "7",
+          "correct": false,
+          "feedback": "That starts again from 10. cash is set once by makeWallet and keeps its value between calls.",
+          "misconception": "state-resets-each-call"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "cash",
+          "afterLine": 4,
+          "visit": 2
+        },
+        "expectedOutput": "12"
+      },
+      "explanation": "makeWallet sets cash to 10 once. The first call adds 5 and the second adds -3, so cash is 12 after the second run of line 4.",
+      "hints": [
+        "Line 4 runs once for each call of wallet.",
+        "cash keeps its value between calls.",
+        "Start from 10 and apply the first two changes only."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-private-state.parsons-01",
+      "concept": "closure-private-state",
+      "prerequisites": [
+        "closure-captures-variable",
+        "return-value"
+      ],
+      "format": "PARSONS",
+      "difficulty": 3,
+      "prompt": "Put the lines in order so the program prints 1.",
+      "code": [
+        "  let left = n;",
+        "take();",
+        "};",
+        "const makeShelf = (n) => {",
+        "console.log(take());",
+        "const take = makeShelf(3);",
+        "  return () => (left = left - 1);"
+      ],
+      "solution": {
+        "lineOrder": [
+          3,
+          0,
+          6,
+          2,
+          5,
+          1,
+          4
+        ],
+        "expectedOutput": "1"
+      },
+      "explanation": "makeShelf must be defined, with left set before the function that uses it is returned. take comes from calling makeShelf(3). It is called once silently, then once more inside console.log.",
+      "hints": [
+        "Start with the line that opens makeShelf.",
+        "The state must be created inside makeShelf, then the inner function is returned.",
+        "Call take once on its own before the printed call."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-private-state.fix-01",
+      "concept": "closure-private-state",
+      "prerequisites": [
+        "closure-captures-variable",
+        "return-value"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "A hit counter returns 1 on its second call instead of 2. Tap the line that stops it counting, then pick the fix.",
+      "code": [
+        "function makeHits() {",
+        "  let hits = 0;",
+        "  return () => hits + 1;",
+        "}",
+        "const visit = makeHits();",
+        "visit();",
+        "console.log(visit());"
+      ],
+      "options": [
+        {
+          "text": "  return () => (hits = hits + 1);",
+          "correct": true,
+          "feedback": "Right. The result is stored back in hits, so the second call sees 1 and returns 2."
+        },
+        {
+          "text": "  return (hits) => hits + 1;",
+          "correct": false,
+          "feedback": "The parameter hides the private hits. visit() passes nothing, so hits is undefined and the result is NaN."
+        },
+        {
+          "text": "  return () => { hits + 1; };",
+          "correct": false,
+          "feedback": "The braces make a body with no return, so the call gives undefined, and hits is still never changed."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "2"
+      },
+      "explanation": "hits + 1 only calculates a number; it never stores it. Assigning the result back to hits updates the private variable, so the next call starts from the new value.",
+      "hints": [
+        "Look at what line 3 does with the result of hits + 1.",
+        "Private state changes only when the inner function assigns to it.",
+        "Store the new number in hits and return it."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-private-state.write-01",
+      "concept": "closure-private-state",
+      "prerequisites": [
+        "closure-captures-variable",
+        "return-value"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 3,
+      "prompt": "Write the body of numberBoxes(prefix, names). Return one label per name, like \"crate-1\" and \"crate-2\", counting up from 1 with a private counter.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "numberBoxes",
+          "params": [
+            "prefix",
+            "names"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              "box",
+              [
+                "a",
+                "b"
+              ]
+            ],
+            "expected": [
+              "box-1",
+              "box-2"
+            ]
+          },
+          {
+            "input": [
+              "x",
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              "tag",
+              [
+                "q"
+              ]
+            ],
+            "expected": [
+              "tag-1"
+            ]
+          },
+          {
+            "input": [
+              "n",
+              [
+                "a",
+                "b",
+                "c"
+              ]
+            ],
+            "expected": [
+              "n-1",
+              "n-2",
+              "n-3"
+            ]
+          }
+        ],
+        "reference": [
+          "let count = 0;",
+          "const nextId = () => {",
+          "  count = count + 1;",
+          "  return prefix + \"-\" + count;",
+          "};",
+          "return names.map(() => nextId());"
+        ],
+        "wrongSolutions": [
+          [
+            "const nextId = () => {",
+            "  let count = 0;",
+            "  count = count + 1;",
+            "  return prefix + \"-\" + count;",
+            "};",
+            "return names.map(() => nextId());"
+          ],
+          [
+            "let count = 0;",
+            "const nextId = () => {",
+            "  return prefix + \"-\" + count;",
+            "};",
+            "return names.map(() => nextId());"
+          ],
+          [
+            "return names.map((n, i) => {",
+            "  return prefix + \"-\" + i;",
+            "});"
+          ]
+        ]
+      },
+      "explanation": "count must be declared outside nextId so that every call continues from the previous one. nextId raises it first, then builds the label, so the first label ends in 1.",
+      "hints": [
+        "Where should the counter live so each call continues from the last?",
+        "Declare it outside the inner function and add 1 inside it.",
+        "Raise count before building the label, then call nextId once per name."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-in-loops.predict-01",
+      "concept": "closure-in-loops",
+      "prerequisites": [
+        "closure-captures-variable",
+        "function-scope-and-var",
+        "for-loop"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "What does this code print?",
+      "code": [
+        "const hooks = [];",
+        "for (var day = 1; day <= 3; day++) {",
+        "  hooks.push(() => day * 10);",
+        "}",
+        "console.log(hooks[0](), hooks[2]());"
+      ],
+      "options": [
+        {
+          "text": "40 40",
+          "correct": true,
+          "feedback": "Right. One shared day ends the loop at 4, and both functions read it then."
+        },
+        {
+          "text": "10 30",
+          "correct": false,
+          "feedback": "That gives each function its own day. A var loop has a single day for every pass.",
+          "misconception": "loop-var-one-per-iteration"
+        },
+        {
+          "text": "30 30",
+          "correct": false,
+          "feedback": "The last pass used 3, but the loop adds 1 once more and stops when day is 4. The functions read that 4.",
+          "misconception": "loop-stops-at-last-pass"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "40 40"
+      },
+      "explanation": "var makes one day for the whole loop. The functions are called after the loop, when day is 4, because the loop stops only after day++ makes it 4.",
+      "hints": [
+        "The functions run after the loop has finished.",
+        "var gives the whole loop one shared variable.",
+        "Find the value day has when the loop stops."
+      ],
+      "reference": {
+        "title": "var",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "duel:5"
+      ]
+    },
+    {
+      "id": "int.closures.closure-in-loops.concept-01",
+      "concept": "closure-in-loops",
+      "prerequisites": [
+        "closure-captures-variable",
+        "function-scope-and-var",
+        "for-loop"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "const jobs = [];",
+        "for (let n = 1; n <= 3; n++) {",
+        "  jobs.push(() => n);",
+        "}",
+        "console.log(jobs[0](), jobs[2]());"
+      ],
+      "options": [
+        {
+          "text": "Each pass gets its own n, so each function keeps its own value.",
+          "correct": true,
+          "feedback": "Right. The calls print 1 and 3."
+        },
+        {
+          "text": "All three functions share one n, so both calls print the same number.",
+          "correct": false,
+          "feedback": "let creates a new n for each pass of the loop, so the functions do not share one.",
+          "misconception": "let-loop-shared"
+        },
+        {
+          "text": "Using var instead of let would print the same numbers.",
+          "correct": false,
+          "feedback": "var makes one n for the whole loop, so every function would read the final value.",
+          "misconception": "var-and-let-same-in-loops"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "1 3"
+      },
+      "explanation": "A let in a for loop header makes a fresh variable for every pass. Each function closes over the n of its own pass, so later passes do not change it.",
+      "hints": [
+        "Compare the two printed numbers.",
+        "let and var differ in how many variables a loop makes.",
+        "Ask whether the first function can see the n of the third pass."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-in-loops.trace-01",
+      "concept": "closure-in-loops",
+      "prerequisites": [
+        "closure-captures-variable",
+        "function-scope-and-var",
+        "for-loop"
+      ],
+      "format": "TRACE",
+      "difficulty": 4,
+      "prompt": "What is the value of early right after line 5 runs?",
+      "code": [
+        "const sizes = [];",
+        "for (var k = 1; k <= 3; k++) {",
+        "  sizes.push(() => k * 2);",
+        "}",
+        "const early = sizes[0]();",
+        "k = 1;",
+        "const late = sizes[0]();",
+        "console.log(early, late);"
+      ],
+      "options": [
+        {
+          "text": "8",
+          "correct": true,
+          "feedback": "Right. The loop ends with k at 4, and the first function reads that shared k."
+        },
+        {
+          "text": "6",
+          "correct": false,
+          "feedback": "That uses 3, the last value the body saw. The loop stops only after k becomes 4.",
+          "misconception": "loop-stops-at-last-pass"
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "That would be the first function keeping k as 1. All functions share one k, which is 4 by now.",
+          "misconception": "loop-var-one-per-iteration"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "early",
+          "afterLine": 5,
+          "visit": 1
+        },
+        "expectedOutput": "8 2"
+      },
+      "explanation": "There is one k for the whole var loop. When line 5 runs, the loop is over and k is 4, so the first function returns 4 * 2.",
+      "hints": [
+        "Line 5 runs after the loop has ended.",
+        "All three functions read the same k.",
+        "Find k when the loop stops, then double it."
+      ],
+      "reference": {
+        "title": "var",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-in-loops.fill-01",
+      "concept": "closure-in-loops",
+      "prerequisites": [
+        "closure-captures-variable",
+        "function-scope-and-var",
+        "for-loop"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 4,
+      "prompt": "Fill the blank so the program prints 1 3.",
+      "code": [
+        "const show = (v) => () => v;",
+        "const shelf = [];",
+        "for (var n = 1; n <= 3; n++) {",
+        "  shelf.push(show(___));",
+        "}",
+        "console.log(shelf[0](), shelf[2]());"
+      ],
+      "options": [
+        {
+          "text": "n",
+          "correct": true,
+          "feedback": "Right. show receives the current n as v, so each function keeps its own copy."
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "This passes 3 on every pass, so both calls print 3 3."
+        },
+        {
+          "text": "n + 1",
+          "correct": false,
+          "feedback": "This keeps a value one too high on every pass. It prints 2 4."
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "This passes 0 on every pass, so both calls print 0 0."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "n"
+          ]
+        ],
+        "expectedOutput": "1 3"
+      },
+      "explanation": "Passing n to show copies its current value into the parameter v. Each call of show has its own v, so the functions no longer share the loop variable.",
+      "hints": [
+        "Look at what show needs to receive on each pass.",
+        "A function parameter is a new variable for each call.",
+        "Pass the loop variable itself."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-in-loops.fix-01",
+      "concept": "closure-in-loops",
+      "prerequisites": [
+        "closure-captures-variable",
+        "function-scope-and-var",
+        "for-loop"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print No. 1, No. 2 and No. 3. Tap the buggy line, then choose its fix.",
+      "code": [
+        "const labels = [];",
+        "for (var n = 1; n <= 3; n++) {",
+        "  labels.push(() => \"No. \" + n);",
+        "}",
+        "console.log(labels.map((f) => f()));"
+      ],
+      "options": [
+        {
+          "text": "for (let n = 1; n <= 3; n++) {",
+          "correct": true,
+          "feedback": "Right. let gives every pass its own n, so each label keeps its own number."
+        },
+        {
+          "text": "for (const n = 1; n <= 3; n++) {",
+          "correct": false,
+          "feedback": "A const cannot be changed, and n++ tries to change it. The loop stops with an error."
+        },
+        {
+          "text": "for (var n = 0; n < 3; n++) {",
+          "correct": false,
+          "feedback": "The functions still share one var n. It ends at 3, so every label reads No. 3."
+        }
+      ],
+      "solution": {
+        "bugLine": 2,
+        "expectedOutput": "['No. 1', 'No. 2', 'No. 3']"
+      },
+      "explanation": "var makes one n for the whole loop, so every function reads its final value. let makes a new n for each pass, and each function keeps the number of its own pass.",
+      "hints": [
+        "Look at the keyword in the loop header on line 2.",
+        "The functions all share one variable when the loop uses var.",
+        "Choose the keyword that makes a new variable for every pass."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-in-loops.write-01",
+      "concept": "closure-in-loops",
+      "prerequisites": [
+        "closure-captures-variable",
+        "function-scope-and-var",
+        "for-loop"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of multiples(n, count). Create count functions in a loop, the i-th returning n times i, then return the results of calling each.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "multiples",
+          "params": [
+            "n",
+            "count"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              3,
+              3
+            ],
+            "expected": [
+              3,
+              6,
+              9
+            ]
+          },
+          {
+            "input": [
+              5,
+              0
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              2,
+              1
+            ],
+            "expected": [
+              2
+            ]
+          },
+          {
+            "input": [
+              -1,
+              2
+            ],
+            "expected": [
+              -1,
+              -2
+            ]
+          }
+        ],
+        "reference": [
+          "const fns = [];",
+          "for (let i = 1; i <= count; i++) {",
+          "  fns.push(() => n * i);",
+          "}",
+          "return fns.map((f) => f());"
+        ],
+        "wrongSolutions": [
+          [
+            "const fns = [];",
+            "for (var i = 1; i <= count; i++) {",
+            "  fns.push(() => n * i);",
+            "}",
+            "return fns.map((f) => f());"
+          ],
+          [
+            "const fns = [];",
+            "for (let i = 1; i < count; i++) {",
+            "  fns.push(() => n * i);",
+            "}",
+            "return fns.map((f) => f());"
+          ],
+          [
+            "const fns = [];",
+            "for (let i = 1; i <= count; i++) {",
+            "  fns.push(() => n * count);",
+            "}",
+            "return fns.map((f) => f());"
+          ]
+        ]
+      },
+      "explanation": "let in the loop header gives every function its own i. With var all functions would read one shared i after the loop. The loop must include i equal to count.",
+      "hints": [
+        "Which loop keyword gives each pass its own variable?",
+        "Push a function that uses the loop variable, then call them after the loop.",
+        "Loop from 1 up to and including count with let."
+      ],
+      "reference": {
+        "title": "let",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-factories.predict-01",
+      "concept": "closure-factories",
+      "prerequisites": [
+        "closure-private-state",
+        "array-map"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "What does this code print?",
+      "code": [
+        "const mix = (a) => (b) => a * b;",
+        "const double = mix(2);",
+        "console.log(double(7), mix(3)(4));"
+      ],
+      "options": [
+        {
+          "text": "14 12",
+          "correct": true,
+          "feedback": "Right. double remembers 2, and mix(3)(4) calls the result of mix(3) with 4."
+        },
+        {
+          "text": "7 4",
+          "correct": false,
+          "feedback": "The returned function uses a as well as b. It multiplies, so a is not dropped.",
+          "misconception": "inner-ignores-outer-argument"
+        },
+        {
+          "text": "NaN NaN",
+          "correct": false,
+          "feedback": "a is not lost when mix returns. The inner function keeps it, so there is a number to multiply.",
+          "misconception": "variables-die-on-return"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "14 12"
+      },
+      "explanation": "mix(2) returns a function that remembers a as 2, so double(7) is 2 * 7. mix(3)(4) calls mix with 3, then calls the function it returns with 4.",
+      "hints": [
+        "Read mix(3)(4) as two calls, left to right.",
+        "The inner function can use both a and b.",
+        "Multiply the remembered number by the new one."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:26"
+      ]
+    },
+    {
+      "id": "int.closures.closure-factories.concept-01",
+      "concept": "closure-factories",
+      "prerequisites": [
+        "closure-private-state",
+        "array-map"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "Which statement is true about this code?",
+      "code": [
+        "const tag = (m) => (w) => m + w;",
+        "const loud = tag(\"!\");",
+        "const soft = tag(\"~\");",
+        "console.log(loud(\"hi\"), soft(\"hi\"));"
+      ],
+      "options": [
+        {
+          "text": "loud and soft each remember the mark they were made with.",
+          "correct": true,
+          "feedback": "Right. The output is !hi ~hi."
+        },
+        {
+          "text": "soft replaced the mark of loud, so both calls print ~hi.",
+          "correct": false,
+          "feedback": "Each call of tag creates a separate m. The second call does not change the function from the first.",
+          "misconception": "calls-share-one-scope"
+        },
+        {
+          "text": "m is gone after tag returns, so both calls print only hi.",
+          "correct": false,
+          "feedback": "The returned functions keep m alive. It is not removed when tag returns.",
+          "misconception": "variables-die-on-return"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "!hi ~hi"
+      },
+      "explanation": "Every call of tag creates its own m and returns a function that keeps it. loud keeps \"!\" and soft keeps \"~\", so the two results differ.",
+      "hints": [
+        "Compare the two strings printed on line 4.",
+        "Each call of the factory makes new variables.",
+        "Ask which mark each returned function was created with."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-factories.trace-01",
+      "concept": "closure-factories",
+      "prerequisites": [
+        "closure-private-state",
+        "array-map"
+      ],
+      "format": "TRACE",
+      "difficulty": 3,
+      "prompt": "What is the value of used right after line 4 runs for the second time?",
+      "code": [
+        "const limiter = (max) => {",
+        "  let used = 0;",
+        "  return (n) => {",
+        "    used = used + n;",
+        "    return used <= max;",
+        "  };",
+        "};",
+        "const ok = limiter(5);",
+        "const a = ok(3);",
+        "const b = ok(4);",
+        "console.log(a, b);"
+      ],
+      "options": [
+        {
+          "text": "7",
+          "correct": true,
+          "feedback": "Right. used is 3 after the first call, and the second call adds 4."
+        },
+        {
+          "text": "4",
+          "correct": false,
+          "feedback": "That starts again from 0. used is created once by limiter and keeps its value between calls.",
+          "misconception": "state-resets-each-call"
+        },
+        {
+          "text": "3",
+          "correct": false,
+          "feedback": "That is the value after the first run of line 4. The question asks about the second run.",
+          "misconception": "trace-wrong-pass"
+        }
+      ],
+      "solution": {
+        "probe": {
+          "variable": "used",
+          "afterLine": 4,
+          "visit": 2
+        },
+        "expectedOutput": "true false"
+      },
+      "explanation": "limiter creates used once and returns a function that adds to it. The first call makes it 3, and the second call adds 4 to that.",
+      "hints": [
+        "Line 4 runs once for each call of ok.",
+        "used belongs to limiter and survives between calls.",
+        "Add the two amounts passed to ok."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-factories.parsons-01",
+      "concept": "closure-factories",
+      "prerequisites": [
+        "closure-private-state",
+        "array-map"
+      ],
+      "format": "PARSONS",
+      "difficulty": 3,
+      "prompt": "Put the lines in order so the program prints 36.",
+      "code": [
+        "const next = triple(base);",
+        "console.log(next);",
+        "const scale = (k) => (n) => n * k;",
+        "const base = triple(4);",
+        "const triple = scale(3);"
+      ],
+      "solution": {
+        "lineOrder": [
+          2,
+          4,
+          3,
+          0,
+          1
+        ],
+        "expectedOutput": "36"
+      },
+      "explanation": "scale must exist before triple is made from it, and triple must exist before base and next use it. base is needed to build next, and the result is printed last.",
+      "hints": [
+        "Find the line that uses no other name.",
+        "Each line needs a name that an earlier line creates.",
+        "The line with console.log goes last."
+      ],
+      "reference": {
+        "title": "Arrow function expressions",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-factories.fix-01",
+      "concept": "closure-factories",
+      "prerequisites": [
+        "closure-private-state",
+        "array-map"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The program should print 60. Tap the buggy line, then choose its fix.",
+      "code": [
+        "const addTax = (rate) => {",
+        "  return (p) => p + p * rate;",
+        "};",
+        "const withTax = addTax(0.5)(100);",
+        "console.log(withTax(40));"
+      ],
+      "options": [
+        {
+          "text": "const withTax = addTax(0.5);",
+          "correct": true,
+          "feedback": "Right. withTax is now the function that remembers the rate, so withTax(40) is 60."
+        },
+        {
+          "text": "const withTax = addTax(100)(0.5);",
+          "correct": false,
+          "feedback": "This still calls both functions at once, so withTax is a number and calling it fails."
+        },
+        {
+          "text": "const withTax = addTax;",
+          "correct": false,
+          "feedback": "addTax needs the rate first. withTax(40) would use 40 as the rate and return a function."
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "60"
+      },
+      "explanation": "addTax(0.5)(100) calls both functions at once, so withTax is a number. Calling addTax(0.5) alone gives the inner function, which can then be called with any price.",
+      "hints": [
+        "Look at what withTax holds after line 4.",
+        "The first call returns a function; the second call returns a number.",
+        "Call addTax only once and keep the function it returns."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "int.closures.closure-factories.write-01",
+      "concept": "closure-factories",
+      "prerequisites": [
+        "closure-private-state",
+        "array-map"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of priceList(markup, costs). Return each cost raised by markup percent, using a function factory that remembers the markup.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "priceList",
+          "params": [
+            "markup",
+            "costs"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              50,
+              [
+                10,
+                20
+              ]
+            ],
+            "expected": [
+              15,
+              30
+            ]
+          },
+          {
+            "input": [
+              0,
+              [
+                7
+              ]
+            ],
+            "expected": [
+              7
+            ]
+          },
+          {
+            "input": [
+              100,
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              10,
+              [
+                50,
+                100
+              ]
+            ],
+            "expected": [
+              55,
+              110
+            ]
+          }
+        ],
+        "reference": [
+          "const up = (m) => {",
+          "  return (c) => c + c * m / 100;",
+          "};",
+          "return costs.map(up(markup));"
+        ],
+        "wrongSolutions": [
+          [
+            "const up = (m) => {",
+            "  return (c) => c + c * m / 100;",
+            "};",
+            "return costs.map(up);"
+          ],
+          [
+            "return costs.map((c) => c + markup);"
+          ],
+          [
+            "return costs.map((c) => {",
+            "  return c + c * markup;",
+            "});"
+          ]
+        ]
+      },
+      "explanation": "up(markup) returns a function that remembers the markup and takes one cost. Passing that returned function to map applies it to every cost. Passing up itself would make functions instead of numbers.",
+      "hints": [
+        "Which function should map receive: the factory or what it returns?",
+        "Call the factory once with markup, then give the result to map.",
+        "Return costs.map applied to the function made by up(markup)."
+      ],
+      "reference": {
+        "title": "Array.prototype.map()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}
