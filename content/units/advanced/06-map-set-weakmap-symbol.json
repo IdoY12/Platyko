@@ -1,0 +1,1579 @@
+{
+  "track": "ADVANCED",
+  "unit": "map-set-weakmap-symbol",
+  "order": 6,
+  "title": "`Map`, `Set`, `WeakMap`, `Symbol`",
+  "summary": "Collections that keep keys and values by identity, and symbols as property keys that never collide.",
+  "concepts": [
+    {
+      "id": "map-collection",
+      "title": "Map: keys of any type",
+      "prerequisites": [
+        "object-properties",
+        "reference-vs-value"
+      ]
+    },
+    {
+      "id": "set-collection",
+      "title": "Set: unique values",
+      "prerequisites": [
+        "map-collection",
+        "array-filter"
+      ]
+    },
+    {
+      "id": "weak-collections",
+      "title": "WeakMap and WeakSet",
+      "prerequisites": [
+        "map-collection",
+        "reference-vs-value"
+      ]
+    },
+    {
+      "id": "symbol-keys",
+      "title": "Symbols as unique keys",
+      "prerequisites": [
+        "object-properties",
+        "iteration-protocol"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "map-keys-become-strings",
+      "description": "Believes a Map turns its keys into text, so 7 and \"7\", or any two objects, become the same key."
+    },
+    {
+      "id": "map-lookup-loose-equality",
+      "description": "Believes Map lookups match keys loosely, so get(7) can find the entry stored under \"7\"."
+    },
+    {
+      "id": "map-object-keys-by-content",
+      "description": "Believes a Map compares object keys by their contents instead of by identity."
+    },
+    {
+      "id": "map-bracket-assignment",
+      "description": "Believes map[key] = value stores a Map entry the way it stores an object property."
+    },
+    {
+      "id": "set-keeps-duplicates",
+      "description": "Believes a Set holds every value added to it, repeats included."
+    },
+    {
+      "id": "set-removes-all-copies",
+      "description": "Believes a value added twice is removed from a Set entirely instead of kept once."
+    },
+    {
+      "id": "set-uses-strict-equality",
+      "description": "Believes a Set compares values with ===, so NaN is never a repeat."
+    },
+    {
+      "id": "weakmap-accepts-any-key",
+      "description": "Believes a WeakMap accepts keys of any type, like a Map."
+    },
+    {
+      "id": "weakmap-entries-vanish",
+      "description": "Believes WeakMap entries disappear as soon as they are set, or are already gone when observed."
+    },
+    {
+      "id": "weak-size-is-a-method",
+      "description": "Believes a WeakMap can be sized or counted, for example through a size method."
+    },
+    {
+      "id": "symbol-description-makes-equal",
+      "description": "Believes two symbols with the same description are the same symbol."
+    },
+    {
+      "id": "symbol-prints-as-description",
+      "description": "Believes a symbol prints as its bare description text."
+    },
+    {
+      "id": "symbol-keys-are-private",
+      "description": "Believes a symbol-keyed property cannot be read by code that holds the symbol."
+    },
+    {
+      "id": "keys-list-symbols",
+      "description": "Believes Object.keys includes symbol-keyed properties."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+      "retrievedAt": "2026-11-14",
+      "sha256": "c7f247484f4da7488313fa4901170cf5563351256861873dde533b3b1a0e4bf8"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+      "retrievedAt": "2026-11-14",
+      "sha256": "7d71f9f6a40dc8df979db43f64c8f853b2651071338655ccf42e7e52feeaa580"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+      "retrievedAt": "2026-11-14",
+      "sha256": "23dd7e8cd8f63749730c39d32da8aa2450ab2bb24a81fcd7eab63163838a8557"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+      "retrievedAt": "2026-11-14",
+      "sha256": "c8702b4253d16595fde21ef02f3227ed85052908a40fc2b3f16bfa9851221937"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+      "retrievedAt": "2026-11-14",
+      "sha256": "1cbe1a02544d5337123d8a0291f85a96bd9d3369b8e947caeafcd1bad909e17b"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections",
+      "retrievedAt": "2026-11-14",
+      "sha256": "09520f8b0bd9fa38db64c0b54d04992a40378ac44a52b2dd5d5008c78270edc5"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "map-set-weakmap-symbol.lesson-1",
+      "title": "Map keeps keys as they are",
+      "conceptCard": {
+        "title": "A Map keeps every key as it is",
+        "body": "A Map stores key and value pairs. A key can be any value, and it keeps its type: 1 and \"1\" are different keys. Objects are compared by identity. Set adds an entry, get reads one, size counts them, and a loop gives entries in insertion order.",
+        "code": [
+          "const dates = new Map();",
+          "dates.set(1, \"one\");",
+          "dates.set(\"1\", \"text\");",
+          "console.log(dates.size);",
+          "console.log(dates.get(1));"
+        ],
+        "expectedOutput": "2\none"
+      },
+      "itemIds": [
+        "adv.map-set-weakmap-symbol.map-collection.predict-01",
+        "adv.map-set-weakmap-symbol.map-collection.concept-01",
+        "adv.map-set-weakmap-symbol.map-collection.fill-01",
+        "adv.map-set-weakmap-symbol.map-collection.fix-01",
+        "adv.map-set-weakmap-symbol.map-collection.write-01"
+      ]
+    },
+    {
+      "id": "map-set-weakmap-symbol.lesson-2",
+      "title": "Set keeps values once",
+      "conceptCard": {
+        "title": "A Set keeps each value once",
+        "body": "A Set is a collection with no repeated values. add ignores a value that is already inside, has tests for it, and size counts the values. A Set is iterable in insertion order, so spreading it gives an array without repeats.",
+        "code": [
+          "const tags = [\"cat\", \"dog\", \"cat\"];",
+          "const pets = new Set(tags);",
+          "console.log(pets.size);",
+          "console.log([...pets]);"
+        ],
+        "expectedOutput": "2\n['cat', 'dog']"
+      },
+      "itemIds": [
+        "adv.map-set-weakmap-symbol.set-collection.predict-01",
+        "adv.map-set-weakmap-symbol.set-collection.concept-01",
+        "adv.map-set-weakmap-symbol.set-collection.fill-01",
+        "adv.map-set-weakmap-symbol.set-collection.fix-01",
+        "adv.map-set-weakmap-symbol.set-collection.write-01"
+      ]
+    },
+    {
+      "id": "map-set-weakmap-symbol.lesson-3",
+      "title": "Weak collections hold objects",
+      "conceptCard": {
+        "title": "Weak collections need object keys",
+        "body": "WeakMap keys and WeakSet values must be objects. They cannot be counted or looped over, and have no size. You use them only with an object you already hold: get, set, has, delete and add. Their entries do not keep an object alive.",
+        "code": [
+          "const owners = new WeakMap();",
+          "const bike = {};",
+          "owners.set(bike, \"Mia\");",
+          "console.log(owners.get(bike));",
+          "console.log(owners.has({}));"
+        ],
+        "expectedOutput": "Mia\nfalse"
+      },
+      "itemIds": [
+        "adv.map-set-weakmap-symbol.weak-collections.predict-01",
+        "adv.map-set-weakmap-symbol.weak-collections.concept-01",
+        "adv.map-set-weakmap-symbol.weak-collections.parsons-01",
+        "adv.map-set-weakmap-symbol.weak-collections.fix-01",
+        "adv.map-set-weakmap-symbol.weak-collections.write-01"
+      ]
+    },
+    {
+      "id": "map-set-weakmap-symbol.lesson-4",
+      "title": "Symbols are unique keys",
+      "conceptCard": {
+        "title": "Every symbol is unique",
+        "body": "Symbol(text) returns a new unique value; the text is only a description. Symbols can be property keys, written as [sym], and are skipped by Object.keys and for...in. Symbol.for(text) returns one shared symbol per text.",
+        "code": [
+          "const id = Symbol(\"id\");",
+          "const user = { [id]: 7, n: \"Lu\" };",
+          "console.log(Object.keys(user));",
+          "console.log(user[id]);"
+        ],
+        "expectedOutput": "['n']\n7"
+      },
+      "itemIds": [
+        "adv.map-set-weakmap-symbol.symbol-keys.predict-01",
+        "adv.map-set-weakmap-symbol.symbol-keys.concept-01",
+        "adv.map-set-weakmap-symbol.symbol-keys.fill-01",
+        "adv.map-set-weakmap-symbol.symbol-keys.fix-01",
+        "adv.map-set-weakmap-symbol.symbol-keys.write-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "adv.map-set-weakmap-symbol.map-collection.predict-01",
+      "concept": "map-collection",
+      "prerequisites": [
+        "object-properties"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A bus station labels platforms in a Map. What does this program print?",
+      "code": [
+        "const platforms = new Map();",
+        "platforms.set(7, \"Harbor\");",
+        "platforms.set(\"7\", \"Airport\");",
+        "console.log(platforms.size);",
+        "console.log(platforms.get(7));"
+      ],
+      "options": [
+        {
+          "text": "2\nHarbor",
+          "correct": true,
+          "feedback": "Right. The number 7 and the text \"7\" are different keys, so the Map holds two entries and get(7) finds the first."
+        },
+        {
+          "text": "1\nAirport",
+          "correct": false,
+          "feedback": "You treated both keys as the same text, as an object would. A Map keeps the type of every key, so 7 and \"7\" stay apart.",
+          "misconception": "map-keys-become-strings"
+        },
+        {
+          "text": "2\nAirport",
+          "correct": false,
+          "feedback": "The size is right, but get(7) does not match \"7\". A Map compares keys exactly, with no type conversion.",
+          "misconception": "map-lookup-loose-equality"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "2\nHarbor"
+      },
+      "explanation": "A Map compares keys by value and type, so 7 and \"7\" are two keys. The size is 2, and get(7) returns the entry stored under the number.",
+      "hints": [
+        "Compare the two keys on lines 2 and 3.",
+        "A Map does not convert keys to text the way an object does.",
+        "Count how many different keys were stored, then ask which one get asks for."
+      ],
+      "reference": {
+        "title": "Map",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:10"
+      ]
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.map-collection.concept-01",
+      "concept": "map-collection",
+      "prerequisites": [
+        "reference-vs-value"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "A library tracks loans in a Map keyed by member card objects. Which statement explains the second line printed?",
+      "code": [
+        "const card = { id: 4 };",
+        "const loans = new Map([[card, 2]]);",
+        "console.log(loans.get(card));",
+        "console.log(loans.get({ id: 4 }));"
+      ],
+      "options": [
+        {
+          "text": "Object keys are compared by reference, so a new object with equal contents is a different key.",
+          "correct": true,
+          "feedback": "Right. get finds an entry only for the very same object that was stored."
+        },
+        {
+          "text": "Object keys are compared by contents, so both lookups find the entry.",
+          "correct": false,
+          "feedback": "Then the last line would print 2 as well. A Map never looks inside a key object, only at whether it is the same object.",
+          "misconception": "map-object-keys-by-content"
+        },
+        {
+          "text": "A Map turns object keys into text, so every object becomes the same key.",
+          "correct": false,
+          "feedback": "Then both lookups would give 2. A Map keeps the object itself as the key and does not convert it.",
+          "misconception": "map-keys-become-strings"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "2\nundefined"
+      },
+      "explanation": "A Map compares object keys by identity. The literal on the last line is a new object, so no entry matches it, and get returns undefined.",
+      "hints": [
+        "Look at what is passed to get on lines 3 and 4.",
+        "Two objects are equal only when they are the same object.",
+        "Ask whether line 4 passes the stored object or a fresh one."
+      ],
+      "reference": {
+        "title": "Keyed collections",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.map-collection.fill-01",
+      "concept": "map-collection",
+      "prerequisites": [
+        "object-properties"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "A fruit stall restocks plums, then lists the Map. Fill the blanks so it prints plum 6 and then fig 9.",
+      "code": [
+        "const shop = new Map([[\"plum\", 4]]);",
+        "shop.set(\"fig\", 9);",
+        "shop.___(\"plum\", 6);",
+        "for (const [name, n] of ___) {",
+        "  console.log(name, n);",
+        "}"
+      ],
+      "options": [
+        {
+          "text": "set",
+          "correct": true,
+          "feedback": "Right. Setting an existing key replaces its value and keeps its place in the order."
+        },
+        {
+          "text": "add",
+          "correct": false,
+          "feedback": "A Map has no add method; calling it throws a TypeError. That method belongs to Set."
+        },
+        {
+          "text": "shop",
+          "correct": true,
+          "feedback": "Right. Looping over a Map directly gives [key, value] pairs, which the brackets unpack."
+        },
+        {
+          "text": "shop.keys()",
+          "correct": false,
+          "feedback": "This gives only the names, so each name is unpacked into letters and the program prints p l and f i."
+        },
+        {
+          "text": "Object.entries(shop)",
+          "correct": false,
+          "feedback": "Object.entries reads own properties, and a Map keeps its entries elsewhere, so the loop never runs."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "set"
+          ],
+          [
+            "shop"
+          ]
+        ],
+        "expectedOutput": "plum 6\nfig 9"
+      },
+      "explanation": "set on an existing key updates it in place, so plum stays first. A for...of loop over the Map itself yields [key, value] pairs in insertion order.",
+      "hints": [
+        "Line 3 changes an existing entry; line 4 chooses what to loop over.",
+        "Maps are iterable and produce [key, value] pairs.",
+        "Use the method that stores a value under a key, and loop over the Map itself."
+      ],
+      "reference": {
+        "title": "Map.prototype.set()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/set",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.map-collection.fix-01",
+      "concept": "map-collection",
+      "prerequisites": [
+        "object-properties"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The plant shop should print 8, the cactus price, but prints undefined. Tap the buggy line and pick the fix.",
+      "code": [
+        "const shelf = new Map();",
+        "shelf.set(\"fern\", 12);",
+        "shelf[\"cactus\"] = 8;",
+        "console.log(shelf.get(\"cactus\"));"
+      ],
+      "options": [
+        {
+          "text": "shelf.set(\"cactus\", 8);",
+          "correct": true,
+          "feedback": "Right. set stores an entry that get can find later."
+        },
+        {
+          "text": "shelf.add(\"cactus\", 8);",
+          "correct": false,
+          "feedback": "A Map has no add method, so this line throws a TypeError. The method for a Map takes a key and a value but has another name.",
+          "misconception": "map-bracket-assignment"
+        },
+        {
+          "text": "shelf.get(\"cactus\", 8);",
+          "correct": false,
+          "feedback": "get only reads. It ignores the second argument and stores nothing, so the program still prints undefined.",
+          "misconception": "map-bracket-assignment"
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "8"
+      },
+      "explanation": "Square brackets on a Map add an ordinary property to the object, not an entry. Entries are written with set and read with get.",
+      "hints": [
+        "Compare line 3 with the way line 2 stores a value.",
+        "A Map keeps entries with its own methods, not with property syntax.",
+        "Use the same method as line 2, with the cactus name and price."
+      ],
+      "reference": {
+        "title": "Map.prototype.get()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/get",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.map-collection.write-01",
+      "concept": "map-collection",
+      "prerequisites": [
+        "object-properties",
+        "reference-vs-value"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of countKinds(items). Use a Map to count each value and return the counts as an array of [value, count] pairs in first-seen order.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "countKinds",
+          "params": [
+            "items"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                "a",
+                "b",
+                "a"
+              ]
+            ],
+            "expected": [
+              [
+                "a",
+                2
+              ],
+              [
+                "b",
+                1
+              ]
+            ]
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                1,
+                "1",
+                1
+              ]
+            ],
+            "expected": [
+              [
+                1,
+                2
+              ],
+              [
+                "1",
+                1
+              ]
+            ]
+          },
+          {
+            "input": [
+              [
+                "x"
+              ]
+            ],
+            "expected": [
+              [
+                "x",
+                1
+              ]
+            ]
+          }
+        ],
+        "reference": [
+          "const counts = new Map();",
+          "for (const item of items) {",
+          "  const n = counts.get(item) || 0;",
+          "  counts.set(item, n + 1);",
+          "}",
+          "return [...counts];"
+        ],
+        "wrongSolutions": [
+          [
+            "const counts = {};",
+            "for (const item of items) {",
+            "  const n = counts[item] || 0;",
+            "  counts[item] = n + 1;",
+            "}",
+            "return Object.entries(counts);"
+          ],
+          [
+            "const counts = new Map();",
+            "for (const item of items) {",
+            "  const n = counts.get(item);",
+            "  counts.set(item, n + 1);",
+            "}",
+            "return [...counts];"
+          ],
+          [
+            "const counts = new Map();",
+            "for (const item of items) {",
+            "  counts.set(item, 1);",
+            "}",
+            "return [...counts];"
+          ]
+        ]
+      },
+      "explanation": "Read the current count with get, fall back to 0 for a new key, and write back one more with set. Spreading the Map gives its entries in insertion order. A Map keeps 1 and \"1\" apart.",
+      "hints": [
+        "Keep one Map and update it inside a loop over items.",
+        "get returns undefined for a key that is not stored yet, so give it a starting number.",
+        "Store the old count plus one under the item, then spread the Map into an array."
+      ],
+      "reference": {
+        "title": "Map",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.set-collection.predict-01",
+      "concept": "set-collection",
+      "prerequisites": [
+        "map-collection"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "A hiking log records each viewpoint it passes. How many viewpoints does this program print?",
+      "code": [
+        "const visited = new Set();",
+        "visited.add(\"lake\");",
+        "visited.add(\"ridge\");",
+        "visited.add(\"lake\");",
+        "visited.add(\"pass\");",
+        "console.log(visited.size);"
+      ],
+      "options": [
+        {
+          "text": "3",
+          "correct": true,
+          "feedback": "Right. The second add of lake does nothing, so the Set holds lake, ridge and pass."
+        },
+        {
+          "text": "4",
+          "correct": false,
+          "feedback": "You counted every add call. A Set stores a value only once, so repeating lake does not grow it.",
+          "misconception": "set-keeps-duplicates"
+        },
+        {
+          "text": "2",
+          "correct": false,
+          "feedback": "You removed both copies of lake. A Set keeps one copy of a repeated value; it does not remove it.",
+          "misconception": "set-removes-all-copies"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "3"
+      },
+      "explanation": "A Set keeps each value once. Adding \"lake\" a second time changes nothing, so the three different names give a size of 3.",
+      "hints": [
+        "Look at which names appear more than once.",
+        "Adding a value that is already in a Set has no effect.",
+        "Count the different names, not the add calls."
+      ],
+      "reference": {
+        "title": "Set: size",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/size",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:11"
+      ]
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.set-collection.concept-01",
+      "concept": "set-collection",
+      "prerequisites": [
+        "map-collection"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 3,
+      "prompt": "A sensor sends NaN twice. Which statement explains the two lines this program prints?",
+      "code": [
+        "const r = [NaN, 5, NaN];",
+        "console.log(r[0] === r[2]);",
+        "console.log(new Set(r).size);"
+      ],
+      "options": [
+        {
+          "text": "A Set treats NaN as equal to itself, even though === does not.",
+          "correct": true,
+          "feedback": "Right. A Set uses its own sameness test, in which NaN matches NaN."
+        },
+        {
+          "text": "A Set compares values with ===, so both NaN entries are kept.",
+          "correct": false,
+          "feedback": "Then the size would be 3. A Set does not use ===; it counts NaN as one repeated value.",
+          "misconception": "set-uses-strict-equality"
+        },
+        {
+          "text": "A Set keeps every value you give it, repeats included.",
+          "correct": false,
+          "feedback": "Then the size would be 3 for any list. A Set drops repeated values, and NaN counts as a repeat of itself.",
+          "misconception": "set-keeps-duplicates"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "false\n2"
+      },
+      "explanation": "=== says NaN is not equal to NaN, but a Set uses a sameness test where NaN equals NaN. The two NaN entries collapse into one, leaving NaN and 5.",
+      "hints": [
+        "Compare the result of line 2 with the size on line 3.",
+        "A Set does not decide sameness with ===.",
+        "Ask how many different values remain if NaN matches NaN."
+      ],
+      "reference": {
+        "title": "Set",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.set-collection.fill-01",
+      "concept": "set-collection",
+      "prerequisites": [
+        "array-filter"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 3,
+      "prompt": "A box office wants each ticket id once. Fill the blanks so the program prints [4, 9, 2] and then 3.",
+      "code": [
+        "const ids = [4, 9, 4, 2, 9];",
+        "const unique = [...new ___(ids)];",
+        "console.log(unique);",
+        "console.log(unique.___);"
+      ],
+      "options": [
+        {
+          "text": "Set",
+          "correct": true,
+          "feedback": "Right. The Set drops repeats, and spreading it gives back an array in first-seen order."
+        },
+        {
+          "text": "Map",
+          "correct": false,
+          "feedback": "A Map expects pairs, and a plain number is not a pair, so this throws a TypeError before anything prints."
+        },
+        {
+          "text": "Array",
+          "correct": false,
+          "feedback": "new Array(ids) wraps the whole list as one element, so nothing is removed and the spread array has a single entry."
+        },
+        {
+          "text": "length",
+          "correct": true,
+          "feedback": "Right. The spread result is an ordinary array, and an array reports its size with length."
+        },
+        {
+          "text": "size",
+          "correct": false,
+          "feedback": "size belongs to a Set or a Map. The spread result is an array, so size is undefined."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "Set"
+          ],
+          [
+            "length"
+          ]
+        ],
+        "expectedOutput": "[4, 9, 2]\n3"
+      },
+      "explanation": "new Set(ids) keeps each id once, in the order first seen. Spreading it into square brackets builds a normal array, which reports its size through length.",
+      "hints": [
+        "Line 2 builds an array from a collection.",
+        "Only one built-in collection removes repeated values.",
+        "The spread turns the collection back into an array, so use an array's size property."
+      ],
+      "reference": {
+        "title": "Spread syntax (...)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:16"
+      ]
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.set-collection.fix-01",
+      "concept": "set-collection",
+      "prerequisites": [
+        "map-collection"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 3,
+      "prompt": "The party list should print 3, the number of VIP guests, but prints undefined. Tap the buggy line and pick the fix.",
+      "code": [
+        "const vips = new Set([\"Ana\", \"Bo\"]);",
+        "vips.add(\"Cy\");",
+        "vips.add(\"Ana\");",
+        "console.log(vips.length);"
+      ],
+      "options": [
+        {
+          "text": "console.log(vips.size);",
+          "correct": true,
+          "feedback": "Right. A Set reports how many values it holds through size."
+        },
+        {
+          "text": "console.log(vips.count);",
+          "correct": false,
+          "feedback": "A Set has no count property, so this still prints undefined."
+        },
+        {
+          "text": "console.log([vips].length);",
+          "correct": false,
+          "feedback": "This wraps the whole Set in an array of one element, so it prints 1 whatever the Set holds."
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "3"
+      },
+      "explanation": "A Set has no length. Its number of values is the size property. The second add of Ana is ignored, so the three different names give 3.",
+      "hints": [
+        "Look at the property read on line 4.",
+        "Arrays use length; Sets use another name.",
+        "Ask the Set itself for its size; no wrapping is needed."
+      ],
+      "reference": {
+        "title": "Set",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.set-collection.write-01",
+      "concept": "set-collection",
+      "prerequisites": [
+        "map-collection",
+        "array-filter"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of shared(a, b). Return the values that appear in both arrays, each once, in the order of a. Use a Set.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "shared",
+          "params": [
+            "a",
+            "b"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                1,
+                2,
+                3,
+                2
+              ],
+              [
+                2,
+                3,
+                4
+              ]
+            ],
+            "expected": [
+              2,
+              3
+            ]
+          },
+          {
+            "input": [
+              [
+                1
+              ],
+              [
+                2
+              ]
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [],
+              [
+                1
+              ]
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                "x",
+                "x"
+              ],
+              [
+                "x"
+              ]
+            ],
+            "expected": [
+              "x"
+            ]
+          },
+          {
+            "input": [
+              [
+                3,
+                1
+              ],
+              [
+                1,
+                3
+              ]
+            ],
+            "expected": [
+              3,
+              1
+            ]
+          }
+        ],
+        "reference": [
+          "const inB = new Set(b);",
+          "const once = [...new Set(a)];",
+          "return once.filter(n => inB.has(n));"
+        ],
+        "wrongSolutions": [
+          [
+            "const inB = new Set(b);",
+            "return a.filter((x) => inB.has(x));"
+          ],
+          [
+            "const inA = new Set(a);",
+            "return b.filter((x) => inA.has(x));"
+          ],
+          [
+            "return [...new Set(a)];"
+          ]
+        ]
+      },
+      "explanation": "Put b in a Set so has answers fast, then drop repeats from a with a second Set and keep the items found in the first. Spreading keeps the order of a.",
+      "hints": [
+        "Build a Set from one array and loop over the other.",
+        "has tells you whether a value is in a Set, and add ignores repeats.",
+        "Spread a Set of a into an array, then filter it with has."
+      ],
+      "reference": {
+        "title": "Set.prototype.add()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/add",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.weak-collections.predict-01",
+      "concept": "weak-collections",
+      "prerequisites": [
+        "map-collection"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 3,
+      "prompt": "An office keeps notes in a WeakMap. What does this program print?",
+      "code": [
+        "const notes = new WeakMap();",
+        "const desk = { id: 1 };",
+        "notes.set(desk, \"tidy\");",
+        "console.log(notes.get(desk));",
+        "notes.set(\"desk\", \"messy\");",
+        "console.log(\"done\");"
+      ],
+      "options": [
+        {
+          "text": "tidy\nUncaught TypeError",
+          "correct": true,
+          "feedback": "Right. An object key works, but a string is not allowed as a WeakMap key. The error ends the program before done."
+        },
+        {
+          "text": "tidy\ndone",
+          "correct": false,
+          "feedback": "You treated the WeakMap like a Map that takes any key. A WeakMap only accepts objects, so line 5 throws.",
+          "misconception": "weakmap-accepts-any-key"
+        },
+        {
+          "text": "undefined\nUncaught TypeError",
+          "correct": false,
+          "feedback": "The entry for desk is still there, because desk is in use. A WeakMap does not drop entries right after they are set.",
+          "misconception": "weakmap-entries-vanish"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "tidy\nUncaught TypeError"
+      },
+      "explanation": "Line 3 stores a note under an object, and get returns it. A string is not an object, so line 5 throws a TypeError and done never prints.",
+      "hints": [
+        "Check what kind of value is the key on line 5.",
+        "A WeakMap needs objects as keys.",
+        "The first log works; look at what happens at line 5, and whether line 6 is reached."
+      ],
+      "reference": {
+        "title": "WeakMap",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:MID:19"
+      ]
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.weak-collections.concept-01",
+      "concept": "weak-collections",
+      "prerequisites": [
+        "map-collection"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "A booking cache uses a WeakMap. Which statement explains why the last line prints undefined?",
+      "code": [
+        "const cache = new WeakMap();",
+        "const ticket = {};",
+        "cache.set(ticket, 1);",
+        "console.log(cache.has(ticket));",
+        "console.log(cache.size);"
+      ],
+      "options": [
+        {
+          "text": "A WeakMap has no size property: it can only be asked about keys you already hold.",
+          "correct": true,
+          "feedback": "Right. A WeakMap cannot be counted or looped over, because its entries may disappear at any time."
+        },
+        {
+          "text": "size is undefined because the entry was already removed from the cache.",
+          "correct": false,
+          "feedback": "The line before prints true, so the entry is still there. size is undefined for another reason.",
+          "misconception": "weakmap-entries-vanish"
+        },
+        {
+          "text": "size is a method on a WeakMap, so it must be called as cache.size().",
+          "correct": false,
+          "feedback": "A WeakMap has no such method either. Calling it would throw a TypeError instead of printing.",
+          "misconception": "weak-size-is-a-method"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\nundefined"
+      },
+      "explanation": "A WeakMap does not expose its entries: no size, no keys, no loop. You can only call get, set, has and delete with a key you already hold.",
+      "hints": [
+        "Compare the two lines printed.",
+        "A WeakMap hides its contents so that entries can be cleaned up.",
+        "Ask which operations a WeakMap offers without a key in hand."
+      ],
+      "reference": {
+        "title": "WeakMap",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.weak-collections.parsons-01",
+      "concept": "weak-collections",
+      "prerequisites": [
+        "map-collection",
+        "reference-vs-value"
+      ],
+      "format": "PARSONS",
+      "difficulty": 4,
+      "prompt": "Order the lines so the attic is marked as visited, checked, and then a fresh empty object is checked. It should print true, then false.",
+      "code": [
+        "console.log(seen.has(room));",
+        "const room = { name: \"attic\" };",
+        "seen.add(room);",
+        "console.log(seen.has({}));",
+        "const seen = new WeakSet();"
+      ],
+      "solution": {
+        "lineOrder": [
+          4,
+          1,
+          2,
+          0,
+          3
+        ],
+        "acceptedOrders": [
+          [
+            1,
+            4,
+            2,
+            0,
+            3
+          ]
+        ],
+        "expectedOutput": "true\nfalse"
+      },
+      "explanation": "The WeakSet and the object must exist before add runs. The check of room comes after add, so it prints true. A new empty object was never added, so its check prints false.",
+      "hints": [
+        "Find the two lines that create values the others use.",
+        "add must run before the has check that should print true.",
+        "Create things, add the room, then check the room before the fresh object."
+      ],
+      "reference": {
+        "title": "WeakSet",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.weak-collections.fix-01",
+      "concept": "weak-collections",
+      "prerequisites": [
+        "map-collection"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The warehouse should print fragile, but line 3 throws. Tap the buggy line and pick the fix.",
+      "code": [
+        "const labels = new WeakMap();",
+        "const crate = { id: \"c9\" };",
+        "labels.set(crate.id, \"fragile\");",
+        "console.log(labels.get(crate));"
+      ],
+      "options": [
+        {
+          "text": "labels.set(crate, \"fragile\");",
+          "correct": true,
+          "feedback": "Right. The crate object itself is a valid key, and get(crate) finds it."
+        },
+        {
+          "text": "labels.set([crate.id], \"fragile\");",
+          "correct": false,
+          "feedback": "An array is an object, so this no longer throws. But get(crate) asks for another key, so it prints undefined."
+        },
+        {
+          "text": "labels.set({ crate }, \"fragile\");",
+          "correct": false,
+          "feedback": "This stores the note under a brand new object. get(crate) looks up a different key, so it prints undefined."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "fragile"
+      },
+      "explanation": "crate.id is a string, and a WeakMap rejects strings as keys. Use the crate object itself as the key, then the same object finds the note.",
+      "hints": [
+        "Look at the type of the first argument on line 3.",
+        "WeakMap keys must be objects, and lookups need the same object.",
+        "Pass the object that line 4 passes to get."
+      ],
+      "reference": {
+        "title": "WeakMap.prototype.set()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap/set",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.weak-collections.write-01",
+      "concept": "weak-collections",
+      "prerequisites": [
+        "map-collection"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of canBeKey(value). Return true when value can be used as a WeakMap key and false when setting it throws. Use try and catch.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "canBeKey",
+          "params": [
+            "value"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              {
+                "a": 1
+              }
+            ],
+            "expected": true
+          },
+          {
+            "input": [
+              "text"
+            ],
+            "expected": false
+          },
+          {
+            "input": [
+              5
+            ],
+            "expected": false
+          },
+          {
+            "input": [
+              null
+            ],
+            "expected": false
+          },
+          {
+            "input": [
+              [
+                1,
+                2
+              ]
+            ],
+            "expected": true
+          }
+        ],
+        "reference": [
+          "try {",
+          "  new WeakMap().set(value, 1);",
+          "  return true;",
+          "} catch (error) {",
+          "  return false;",
+          "}"
+        ],
+        "wrongSolutions": [
+          [
+            "return typeof value === \"object\";"
+          ],
+          [
+            "return Boolean(value);"
+          ],
+          [
+            "return typeof value !== \"string\";"
+          ]
+        ]
+      },
+      "explanation": "Try to store the value in a fresh WeakMap. If set throws, the value is not an object, so return false. null looks like an object under typeof but is rejected.",
+      "hints": [
+        "Let the WeakMap decide: try to use the value as a key.",
+        "set throws a TypeError for a value that is not an object.",
+        "Return true after a successful set inside try, and false inside catch."
+      ],
+      "reference": {
+        "title": "WeakMap.prototype.set()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap/set",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.symbol-keys.predict-01",
+      "concept": "symbol-keys",
+      "prerequisites": [
+        "object-properties"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A gym creates two lockers with the same label. What does this program print?",
+      "code": [
+        "const front = Symbol(\"locker\");",
+        "const back = Symbol(\"locker\");",
+        "console.log(front === back);",
+        "console.log(front);"
+      ],
+      "options": [
+        {
+          "text": "false\nSymbol(locker)",
+          "correct": true,
+          "feedback": "Right. Every Symbol call makes a new unique value, and a symbol prints with its description inside Symbol()."
+        },
+        {
+          "text": "true\nSymbol(locker)",
+          "correct": false,
+          "feedback": "The label is only a description for people. Two symbols made by separate calls are never equal.",
+          "misconception": "symbol-description-makes-equal"
+        },
+        {
+          "text": "false\nlocker",
+          "correct": false,
+          "feedback": "The comparison is right, but a symbol prints as Symbol(locker), not as its bare description.",
+          "misconception": "symbol-prints-as-description"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "false\nSymbol(locker)"
+      },
+      "explanation": "Each call to Symbol returns a new, unique value, whatever the description. The description only appears when the symbol is shown, as Symbol(locker).",
+      "hints": [
+        "Compare how the two symbols on lines 1 and 2 are created.",
+        "The text given to Symbol is a description, not an identity.",
+        "Two separate calls give two different values; check how console.log shows one."
+      ],
+      "reference": {
+        "title": "Symbol",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:24"
+      ]
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.symbol-keys.concept-01",
+      "concept": "symbol-keys",
+      "prerequisites": [
+        "object-properties"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "A card object uses a Symbol key for its PIN. Which statement explains the two lines printed?",
+      "code": [
+        "const secret = Symbol(\"pin\");",
+        "const card = { owner: \"Dee\" };",
+        "card[secret] = 4821;",
+        "console.log(Object.keys(card));",
+        "console.log(card[secret]);"
+      ],
+      "options": [
+        {
+          "text": "Object.keys skips Symbol keys, but the symbol still reads the value.",
+          "correct": true,
+          "feedback": "Right. Symbol keys are left out of the usual key listings, yet anyone who holds the symbol can read the property."
+        },
+        {
+          "text": "A Symbol key is private, so no code can read it, not even with the symbol.",
+          "correct": false,
+          "feedback": "The last line prints 4821, so it was read. Symbol keys are hidden from listings, but they are not locked.",
+          "misconception": "symbol-keys-are-private"
+        },
+        {
+          "text": "Object.keys lists Symbol keys too, as the text pin.",
+          "correct": false,
+          "feedback": "Object.keys returns only string keys. The symbol never shows up there, and it would not appear as plain text.",
+          "misconception": "keys-list-symbols"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "['owner']\n4821"
+      },
+      "explanation": "Object.keys returns only string-named keys, so the symbol key is missing from the list. Reading card[secret] works for any code that has the symbol.",
+      "hints": [
+        "Compare what line 3 lists with what line 4 reads.",
+        "Symbol keys are skipped by listing functions, not by property access.",
+        "The list lacks the symbol key, but the symbol itself still opens the property."
+      ],
+      "reference": {
+        "title": "Object.getOwnPropertySymbols()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.symbol-keys.fill-01",
+      "concept": "symbol-keys",
+      "prerequisites": [
+        "iteration-protocol"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 4,
+      "prompt": "A bakery shares one symbol per product code. Fill the blanks so the program prints true and then sku.",
+      "code": [
+        "const a = Symbol.___(\"sku\");",
+        "const b = Symbol.for(\"sku\");",
+        "console.log(a === b);",
+        "console.log(Symbol.___(a));"
+      ],
+      "options": [
+        {
+          "text": "for",
+          "correct": true,
+          "feedback": "Right. Symbol.for looks up a shared symbol in the global registry, or creates it, so equal text gives the same symbol."
+        },
+        {
+          "text": "keyFor",
+          "correct": true,
+          "feedback": "Right. keyFor returns the registry text of a symbol that came from Symbol.for."
+        },
+        {
+          "text": "description",
+          "correct": false,
+          "feedback": "description is a property of a symbol, not a method of Symbol. Calling it throws a TypeError."
+        },
+        {
+          "text": "iterator",
+          "correct": false,
+          "feedback": "Symbol.iterator is a symbol value, not a function. Calling it throws a TypeError."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "for"
+          ],
+          [
+            "keyFor"
+          ]
+        ],
+        "expectedOutput": "true\nsku"
+      },
+      "explanation": "Symbol.for returns the same symbol for the same text, so a and b are equal. Symbol.keyFor gives back that registry text.",
+      "hints": [
+        "Line 2 already shows how to share a symbol.",
+        "A registry returns the same symbol for the same text.",
+        "The first blank creates or finds a shared symbol; the second reads its text."
+      ],
+      "reference": {
+        "title": "Symbol.for()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/for",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.symbol-keys.fix-01",
+      "concept": "symbol-keys",
+      "prerequisites": [
+        "object-properties"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The greenhouse should print weekly, but prints undefined. Tap the buggy line and pick the fix.",
+      "code": [
+        "const water = Symbol(\"water\");",
+        "const fern = { [water]: \"weekly\" };",
+        "console.log(fern.water);"
+      ],
+      "options": [
+        {
+          "text": "console.log(fern[water]);",
+          "correct": true,
+          "feedback": "Right. A property stored under a symbol is read with that symbol in square brackets."
+        },
+        {
+          "text": "console.log(fern[\"water\"]);",
+          "correct": false,
+          "feedback": "This looks up the text water, which is a different key from the symbol, so it still prints undefined."
+        },
+        {
+          "text": "console.log(fern[Symbol(\"water\")]);",
+          "correct": false,
+          "feedback": "Symbol(\"water\") makes a new symbol, which is not the stored one, so it prints undefined."
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "weekly"
+      },
+      "explanation": "fern.water reads a string key named water, and no such key exists. The property lives under the symbol value, so it must be read with fern[water].",
+      "hints": [
+        "Compare how line 2 stores the value with how line 3 reads it.",
+        "Dot syntax and quoted names always mean string keys.",
+        "Read it with square brackets around the variable that holds the symbol."
+      ],
+      "reference": {
+        "title": "Symbol",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "adv.map-set-weakmap-symbol.symbol-keys.write-01",
+      "concept": "symbol-keys",
+      "prerequisites": [
+        "object-properties",
+        "iteration-protocol"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 4,
+      "prompt": "Write the body of countNotes(texts). Store each text in one object under its own new Symbol(\"note\") key. Return how many symbol keys it holds, read with Object.getOwnPropertySymbols.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "countNotes",
+          "params": [
+            "texts"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                "a",
+                "b",
+                "c"
+              ]
+            ],
+            "expected": 3
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              [
+                "a",
+                "a"
+              ]
+            ],
+            "expected": 2
+          },
+          {
+            "input": [
+              [
+                "only"
+              ]
+            ],
+            "expected": 1
+          }
+        ],
+        "reference": [
+          "const box = {};",
+          "for (const text of texts) {",
+          "  box[Symbol(\"note\")] = text;",
+          "}",
+          "const syms =",
+          "  Object.getOwnPropertySymbols(box);",
+          "return syms.length;"
+        ],
+        "wrongSolutions": [
+          [
+            "const box = {};",
+            "for (const text of texts) {",
+            "  box[Symbol.for(\"note\")] = text;",
+            "}",
+            "const syms =",
+            "  Object.getOwnPropertySymbols(box);",
+            "return syms.length;"
+          ],
+          [
+            "const box = {};",
+            "for (const text of texts) {",
+            "  box[Symbol(\"note\")] = text;",
+            "}",
+            "return Object.keys(box).length;"
+          ],
+          [
+            "const box = {};",
+            "for (const text of texts) {",
+            "  box.note = text;",
+            "}",
+            "const syms =",
+            "  Object.getOwnPropertySymbols(box);",
+            "return syms.length;"
+          ]
+        ]
+      },
+      "explanation": "Every Symbol(\"note\") call is a new key, so each text gets its own property, even equal texts. Object.keys ignores symbol keys, so the symbols are read with getOwnPropertySymbols.",
+      "hints": [
+        "Create a fresh symbol inside the loop, once per text.",
+        "Separate Symbol calls give separate keys, so nothing is overwritten.",
+        "Assign box[Symbol(\"note\")] in the loop and count the result of getOwnPropertySymbols."
+      ],
+      "reference": {
+        "title": "Object.getOwnPropertySymbols()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

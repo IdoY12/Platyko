@@ -1,0 +1,3144 @@
+{
+ "unit": "map-set-weakmap-symbol",
+ "items": {
+  "adv.map-set-weakmap-symbol.map-collection.predict-01": {
+   "code": [
+    "const platforms = new Map();",
+    "platforms.set(7, \"Harbor\");",
+    "platforms.set(\"7\", \"Airport\");",
+    "console.log(platforms.size);",
+    "console.log(platforms.get(7));"
+   ],
+   "output": [
+    "2",
+    "Harbor"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "platforms",
+       "scope": "global",
+       "value": "Map(0) {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "platforms",
+       "scope": "global",
+       "value": "Map(1) {7 => 'Harbor'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "platforms",
+       "scope": "global",
+       "value": "Map(2) {7 => 'Harbor', '7' => 'Airport'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "platforms",
+       "scope": "global",
+       "value": "Map(2) {7 => 'Harbor', '7' => 'Airport'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "platforms",
+       "scope": "global",
+       "value": "Map(2) {7 => 'Harbor', '7' => 'Airport'}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.map-collection.concept-01": {
+   "code": [
+    "const card = { id: 4 };",
+    "const loans = new Map([[card, 2]]);",
+    "console.log(loans.get(card));",
+    "console.log(loans.get({ id: 4 }));"
+   ],
+   "output": [
+    "2",
+    "undefined"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "card",
+       "scope": "global",
+       "value": "{id: 4}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "card",
+       "scope": "global",
+       "value": "{id: 4}"
+      },
+      {
+       "name": "loans",
+       "scope": "global",
+       "value": "Map(1) {{id: 4} => 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "card",
+       "scope": "global",
+       "value": "{id: 4}"
+      },
+      {
+       "name": "loans",
+       "scope": "global",
+       "value": "Map(1) {{id: 4} => 2}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "card",
+       "scope": "global",
+       "value": "{id: 4}"
+      },
+      {
+       "name": "loans",
+       "scope": "global",
+       "value": "Map(1) {{id: 4} => 2}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.map-collection.fill-01": {
+   "code": [
+    "const shop = new Map([[\"plum\", 4]]);",
+    "shop.set(\"fig\", 9);",
+    "shop.set(\"plum\", 6);",
+    "for (const [name, n] of shop) {",
+    "  console.log(name, n);",
+    "}"
+   ],
+   "output": [
+    "plum 6",
+    "fig 9"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "shop",
+       "scope": "global",
+       "value": "Map(1) {'plum' => 4}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "shop",
+       "scope": "global",
+       "value": "Map(2) {'plum' => 4, 'fig' => 9}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "shop",
+       "scope": "global",
+       "value": "Map(2) {'plum' => 6, 'fig' => 9}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "shop",
+       "scope": "global",
+       "value": "Map(2) {'plum' => 6, 'fig' => 9}"
+      },
+      {
+       "name": "name",
+       "scope": "global",
+       "value": "'plum'"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "6"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "shop",
+       "scope": "global",
+       "value": "Map(2) {'plum' => 6, 'fig' => 9}"
+      },
+      {
+       "name": "name",
+       "scope": "global",
+       "value": "'plum'"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "6"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "shop",
+       "scope": "global",
+       "value": "Map(2) {'plum' => 6, 'fig' => 9}"
+      },
+      {
+       "name": "name",
+       "scope": "global",
+       "value": "'fig'"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "9"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "shop",
+       "scope": "global",
+       "value": "Map(2) {'plum' => 6, 'fig' => 9}"
+      },
+      {
+       "name": "name",
+       "scope": "global",
+       "value": "'fig'"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "9"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "shop",
+       "scope": "global",
+       "value": "Map(2) {'plum' => 6, 'fig' => 9}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.map-collection.fix-01": {
+   "code": [
+    "const shelf = new Map();",
+    "shelf.set(\"fern\", 12);",
+    "shelf.set(\"cactus\", 8);",
+    "console.log(shelf.get(\"cactus\"));"
+   ],
+   "output": [
+    "8"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "Map(0) {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "Map(1) {'fern' => 12}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "Map(2) {'fern' => 12, 'cactus' => 8}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "shelf",
+       "scope": "global",
+       "value": "Map(2) {'fern' => 12, 'cactus' => 8}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.map-collection.write-01": {
+   "code": [
+    "function countKinds(items) {",
+    "const counts = new Map();",
+    "for (const item of items) {",
+    "  const n = counts.get(item) || 0;",
+    "  counts.set(item, n + 1);",
+    "}",
+    "return [...counts];",
+    "}",
+    "console.log(countKinds([\"a\",\"b\",\"a\"]));"
+   ],
+   "output": [
+    "[['a', 2], ['b', 1]]"
+   ],
+   "steps": [
+    {
+     "line": 9,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "countKinds",
+       "value": "['a', 'b', 'a']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countKinds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "countKinds",
+       "value": "['a', 'b', 'a']"
+      },
+      {
+       "name": "counts",
+       "scope": "countKinds",
+       "value": "Map(0) {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countKinds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "countKinds",
+       "value": "['a', 'b', 'a']"
+      },
+      {
+       "name": "counts",
+       "scope": "countKinds",
+       "value": "Map(0) {}"
+      },
+      {
+       "name": "item",
+       "scope": "countKinds",
+       "value": "'a'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countKinds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "countKinds",
+       "value": "['a', 'b', 'a']"
+      },
+      {
+       "name": "counts",
+       "scope": "countKinds",
+       "value": "Map(0) {}"
+      },
+      {
+       "name": "item",
+       "scope": "countKinds",
+       "value": "'a'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countKinds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "countKinds",
+       "value": "['a', 'b', 'a']"
+      },
+      {
+       "name": "counts",
+       "scope": "countKinds",
+       "value": "Map(0) {}"
+      },
+      {
+       "name": "item",
+       "scope": "countKinds",
+       "value": "'a'"
+      },
+      {
+       "name": "n",
+       "scope": "countKinds",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countKinds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "countKinds",
+       "value": "['a', 'b', 'a']"
+      },
+      {
+       "name": "counts",
+       "scope": "countKinds",
+       "value": "Map(1) {'a' => 1}"
+      },
+      {
+       "name": "item",
+       "scope": "countKinds",
+       "value": "'b'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countKinds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "countKinds",
+       "value": "['a', 'b', 'a']"
+      },
+      {
+       "name": "counts",
+       "scope": "countKinds",
+       "value": "Map(1) {'a' => 1}"
+      },
+      {
+       "name": "item",
+       "scope": "countKinds",
+       "value": "'b'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countKinds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "countKinds",
+       "value": "['a', 'b', 'a']"
+      },
+      {
+       "name": "counts",
+       "scope": "countKinds",
+       "value": "Map(1) {'a' => 1}"
+      },
+      {
+       "name": "item",
+       "scope": "countKinds",
+       "value": "'b'"
+      },
+      {
+       "name": "n",
+       "scope": "countKinds",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countKinds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "countKinds",
+       "value": "['a', 'b', 'a']"
+      },
+      {
+       "name": "counts",
+       "scope": "countKinds",
+       "value": "Map(2) {'a' => 1, 'b' => 1}"
+      },
+      {
+       "name": "item",
+       "scope": "countKinds",
+       "value": "'a'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countKinds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "countKinds",
+       "value": "['a', 'b', 'a']"
+      },
+      {
+       "name": "counts",
+       "scope": "countKinds",
+       "value": "Map(2) {'a' => 1, 'b' => 1}"
+      },
+      {
+       "name": "item",
+       "scope": "countKinds",
+       "value": "'a'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countKinds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "countKinds",
+       "value": "['a', 'b', 'a']"
+      },
+      {
+       "name": "counts",
+       "scope": "countKinds",
+       "value": "Map(2) {'a' => 1, 'b' => 1}"
+      },
+      {
+       "name": "item",
+       "scope": "countKinds",
+       "value": "'a'"
+      },
+      {
+       "name": "n",
+       "scope": "countKinds",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countKinds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "countKinds",
+       "value": "['a', 'b', 'a']"
+      },
+      {
+       "name": "counts",
+       "scope": "countKinds",
+       "value": "Map(2) {'a' => 2, 'b' => 1}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countKinds"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.set-collection.predict-01": {
+   "code": [
+    "const visited = new Set();",
+    "visited.add(\"lake\");",
+    "visited.add(\"ridge\");",
+    "visited.add(\"lake\");",
+    "visited.add(\"pass\");",
+    "console.log(visited.size);"
+   ],
+   "output": [
+    "3"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "visited",
+       "scope": "global",
+       "value": "Set(0) {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "visited",
+       "scope": "global",
+       "value": "Set(1) {'lake'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "visited",
+       "scope": "global",
+       "value": "Set(2) {'lake', 'ridge'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "visited",
+       "scope": "global",
+       "value": "Set(2) {'lake', 'ridge'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "visited",
+       "scope": "global",
+       "value": "Set(3) {'lake', 'ridge', 'pass'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "visited",
+       "scope": "global",
+       "value": "Set(3) {'lake', 'ridge', 'pass'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.set-collection.concept-01": {
+   "code": [
+    "const r = [NaN, 5, NaN];",
+    "console.log(r[0] === r[2]);",
+    "console.log(new Set(r).size);"
+   ],
+   "output": [
+    "false",
+    "2"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "r",
+       "scope": "global",
+       "value": "[NaN, 5, NaN]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "r",
+       "scope": "global",
+       "value": "[NaN, 5, NaN]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "r",
+       "scope": "global",
+       "value": "[NaN, 5, NaN]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.set-collection.fill-01": {
+   "code": [
+    "const ids = [4, 9, 4, 2, 9];",
+    "const unique = [...new Set(ids)];",
+    "console.log(unique);",
+    "console.log(unique.length);"
+   ],
+   "output": [
+    "[4, 9, 2]",
+    "3"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "ids",
+       "scope": "global",
+       "value": "[4, 9, 4, 2, 9]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "ids",
+       "scope": "global",
+       "value": "[4, 9, 4, 2, 9]"
+      },
+      {
+       "name": "unique",
+       "scope": "global",
+       "value": "[4, 9, 2]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "ids",
+       "scope": "global",
+       "value": "[4, 9, 4, 2, 9]"
+      },
+      {
+       "name": "unique",
+       "scope": "global",
+       "value": "[4, 9, 2]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "ids",
+       "scope": "global",
+       "value": "[4, 9, 4, 2, 9]"
+      },
+      {
+       "name": "unique",
+       "scope": "global",
+       "value": "[4, 9, 2]"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.set-collection.fix-01": {
+   "code": [
+    "const vips = new Set([\"Ana\", \"Bo\"]);",
+    "vips.add(\"Cy\");",
+    "vips.add(\"Ana\");",
+    "console.log(vips.size);"
+   ],
+   "output": [
+    "3"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "vips",
+       "scope": "global",
+       "value": "Set(2) {'Ana', 'Bo'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "vips",
+       "scope": "global",
+       "value": "Set(3) {'Ana', 'Bo', 'Cy'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "vips",
+       "scope": "global",
+       "value": "Set(3) {'Ana', 'Bo', 'Cy'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "vips",
+       "scope": "global",
+       "value": "Set(3) {'Ana', 'Bo', 'Cy'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.set-collection.write-01": {
+   "code": [
+    "function shared(a, b) {",
+    "const inB = new Set(b);",
+    "const once = [...new Set(a)];",
+    "return once.filter(n => inB.has(n));",
+    "}",
+    "console.log(shared([1,2,3,2], [2,3,4]));"
+   ],
+   "output": [
+    "[2, 3]"
+   ],
+   "steps": [
+    {
+     "line": 6,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "shared",
+       "value": "[1, 2, 3, 2]"
+      },
+      {
+       "name": "b",
+       "scope": "shared",
+       "value": "[2, 3, 4]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "shared"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "shared",
+       "value": "[1, 2, 3, 2]"
+      },
+      {
+       "name": "b",
+       "scope": "shared",
+       "value": "[2, 3, 4]"
+      },
+      {
+       "name": "inB",
+       "scope": "shared",
+       "value": "Set(3) {2, 3, 4}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "shared"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "shared",
+       "value": "[1, 2, 3, 2]"
+      },
+      {
+       "name": "b",
+       "scope": "shared",
+       "value": "[2, 3, 4]"
+      },
+      {
+       "name": "inB",
+       "scope": "shared",
+       "value": "Set(3) {2, 3, 4}"
+      },
+      {
+       "name": "once",
+       "scope": "shared",
+       "value": "[1, 2, 3]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "shared"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "shared",
+       "value": "[1, 2, 3, 2]"
+      },
+      {
+       "name": "b",
+       "scope": "shared",
+       "value": "[2, 3, 4]"
+      },
+      {
+       "name": "inB",
+       "scope": "shared",
+       "value": "Set(3) {2, 3, 4}"
+      },
+      {
+       "name": "once",
+       "scope": "shared",
+       "value": "[1, 2, 3]"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "shared",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "shared",
+       "value": "[1, 2, 3, 2]"
+      },
+      {
+       "name": "b",
+       "scope": "shared",
+       "value": "[2, 3, 4]"
+      },
+      {
+       "name": "inB",
+       "scope": "shared",
+       "value": "Set(3) {2, 3, 4}"
+      },
+      {
+       "name": "once",
+       "scope": "shared",
+       "value": "[1, 2, 3]"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "shared",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "shared",
+       "value": "[1, 2, 3, 2]"
+      },
+      {
+       "name": "b",
+       "scope": "shared",
+       "value": "[2, 3, 4]"
+      },
+      {
+       "name": "inB",
+       "scope": "shared",
+       "value": "Set(3) {2, 3, 4}"
+      },
+      {
+       "name": "once",
+       "scope": "shared",
+       "value": "[1, 2, 3]"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "shared",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.weak-collections.predict-01": {
+   "code": [
+    "const notes = new WeakMap();",
+    "const desk = { id: 1 };",
+    "notes.set(desk, \"tidy\");",
+    "console.log(notes.get(desk));",
+    "notes.set(\"desk\", \"messy\");",
+    "console.log(\"done\");"
+   ],
+   "output": [
+    "tidy",
+    "Uncaught TypeError"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "notes",
+       "scope": "global",
+       "value": "WeakMap {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "notes",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "desk",
+       "scope": "global",
+       "value": "{id: 1}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "notes",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "desk",
+       "scope": "global",
+       "value": "{id: 1}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "notes",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "desk",
+       "scope": "global",
+       "value": "{id: 1}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "notes",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "desk",
+       "scope": "global",
+       "value": "{id: 1}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.weak-collections.concept-01": {
+   "code": [
+    "const cache = new WeakMap();",
+    "const ticket = {};",
+    "cache.set(ticket, 1);",
+    "console.log(cache.has(ticket));",
+    "console.log(cache.size);"
+   ],
+   "output": [
+    "true",
+    "undefined"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "cache",
+       "scope": "global",
+       "value": "WeakMap {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "cache",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "ticket",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "cache",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "ticket",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "cache",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "ticket",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "cache",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "ticket",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.weak-collections.parsons-01": {
+   "code": [
+    "const seen = new WeakSet();",
+    "const room = { name: \"attic\" };",
+    "seen.add(room);",
+    "console.log(seen.has(room));",
+    "console.log(seen.has({}));"
+   ],
+   "output": [
+    "true",
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "seen",
+       "scope": "global",
+       "value": "WeakSet {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "seen",
+       "scope": "global",
+       "value": "WeakSet {}"
+      },
+      {
+       "name": "room",
+       "scope": "global",
+       "value": "{name: 'attic'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "seen",
+       "scope": "global",
+       "value": "WeakSet {}"
+      },
+      {
+       "name": "room",
+       "scope": "global",
+       "value": "{name: 'attic'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "seen",
+       "scope": "global",
+       "value": "WeakSet {}"
+      },
+      {
+       "name": "room",
+       "scope": "global",
+       "value": "{name: 'attic'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "seen",
+       "scope": "global",
+       "value": "WeakSet {}"
+      },
+      {
+       "name": "room",
+       "scope": "global",
+       "value": "{name: 'attic'}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.weak-collections.fix-01": {
+   "code": [
+    "const labels = new WeakMap();",
+    "const crate = { id: \"c9\" };",
+    "labels.set(crate, \"fragile\");",
+    "console.log(labels.get(crate));"
+   ],
+   "output": [
+    "fragile"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "WeakMap {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "crate",
+       "scope": "global",
+       "value": "{id: 'c9'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "crate",
+       "scope": "global",
+       "value": "{id: 'c9'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "labels",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "crate",
+       "scope": "global",
+       "value": "{id: 'c9'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.weak-collections.write-01": {
+   "code": [
+    "function canBeKey(value) {",
+    "try {",
+    "  new WeakMap().set(value, 1);",
+    "  return true;",
+    "} catch (error) {",
+    "  return false;",
+    "}",
+    "}",
+    "console.log(canBeKey({\"a\":1}));"
+   ],
+   "output": [
+    "true"
+   ],
+   "steps": [
+    {
+     "line": 9,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "value",
+       "scope": "canBeKey",
+       "value": "{a: 1}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "canBeKey"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "value",
+       "scope": "canBeKey",
+       "value": "{a: 1}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "canBeKey"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "value",
+       "scope": "canBeKey",
+       "value": "{a: 1}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "canBeKey"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.symbol-keys.predict-01": {
+   "code": [
+    "const front = Symbol(\"locker\");",
+    "const back = Symbol(\"locker\");",
+    "console.log(front === back);",
+    "console.log(front);"
+   ],
+   "output": [
+    "false",
+    "Symbol(locker)"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "front",
+       "scope": "global",
+       "value": "Symbol(locker)"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "front",
+       "scope": "global",
+       "value": "Symbol(locker)"
+      },
+      {
+       "name": "back",
+       "scope": "global",
+       "value": "Symbol(locker)"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "front",
+       "scope": "global",
+       "value": "Symbol(locker)"
+      },
+      {
+       "name": "back",
+       "scope": "global",
+       "value": "Symbol(locker)"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "front",
+       "scope": "global",
+       "value": "Symbol(locker)"
+      },
+      {
+       "name": "back",
+       "scope": "global",
+       "value": "Symbol(locker)"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.symbol-keys.concept-01": {
+   "code": [
+    "const secret = Symbol(\"pin\");",
+    "const card = { owner: \"Dee\" };",
+    "card[secret] = 4821;",
+    "console.log(Object.keys(card));",
+    "console.log(card[secret]);"
+   ],
+   "output": [
+    "['owner']",
+    "4821"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "secret",
+       "scope": "global",
+       "value": "Symbol(pin)"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "secret",
+       "scope": "global",
+       "value": "Symbol(pin)"
+      },
+      {
+       "name": "card",
+       "scope": "global",
+       "value": "{owner: 'Dee'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "secret",
+       "scope": "global",
+       "value": "Symbol(pin)"
+      },
+      {
+       "name": "card",
+       "scope": "global",
+       "value": "{owner: 'Dee', [Symbol(pin)]: 4821}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "secret",
+       "scope": "global",
+       "value": "Symbol(pin)"
+      },
+      {
+       "name": "card",
+       "scope": "global",
+       "value": "{owner: 'Dee', [Symbol(pin)]: 4821}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "secret",
+       "scope": "global",
+       "value": "Symbol(pin)"
+      },
+      {
+       "name": "card",
+       "scope": "global",
+       "value": "{owner: 'Dee', [Symbol(pin)]: 4821}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.symbol-keys.fill-01": {
+   "code": [
+    "const a = Symbol.for(\"sku\");",
+    "const b = Symbol.for(\"sku\");",
+    "console.log(a === b);",
+    "console.log(Symbol.keyFor(a));"
+   ],
+   "output": [
+    "true",
+    "sku"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Symbol(sku)"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Symbol(sku)"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Symbol(sku)"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Symbol(sku)"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Symbol(sku)"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Symbol(sku)"
+      },
+      {
+       "name": "b",
+       "scope": "global",
+       "value": "Symbol(sku)"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.symbol-keys.fix-01": {
+   "code": [
+    "const water = Symbol(\"water\");",
+    "const fern = { [water]: \"weekly\" };",
+    "console.log(fern[water]);"
+   ],
+   "output": [
+    "weekly"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "water",
+       "scope": "global",
+       "value": "Symbol(water)"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "water",
+       "scope": "global",
+       "value": "Symbol(water)"
+      },
+      {
+       "name": "fern",
+       "scope": "global",
+       "value": "{[Symbol(water)]: 'weekly'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "water",
+       "scope": "global",
+       "value": "Symbol(water)"
+      },
+      {
+       "name": "fern",
+       "scope": "global",
+       "value": "{[Symbol(water)]: 'weekly'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "adv.map-set-weakmap-symbol.symbol-keys.write-01": {
+   "code": [
+    "function countNotes(texts) {",
+    "const box = {};",
+    "for (const text of texts) {",
+    "  box[Symbol(\"note\")] = text;",
+    "}",
+    "const syms =",
+    "  Object.getOwnPropertySymbols(box);",
+    "return syms.length;",
+    "}",
+    "console.log(countNotes([\"a\",\"b\",\"c\"]));"
+   ],
+   "output": [
+    "3"
+   ],
+   "steps": [
+    {
+     "line": 10,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "texts",
+       "scope": "countNotes",
+       "value": "['a', 'b', 'c']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countNotes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "texts",
+       "scope": "countNotes",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "box",
+       "scope": "countNotes",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countNotes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "texts",
+       "scope": "countNotes",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "box",
+       "scope": "countNotes",
+       "value": "{}"
+      },
+      {
+       "name": "text",
+       "scope": "countNotes",
+       "value": "'a'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countNotes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "texts",
+       "scope": "countNotes",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "box",
+       "scope": "countNotes",
+       "value": "{}"
+      },
+      {
+       "name": "text",
+       "scope": "countNotes",
+       "value": "'a'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countNotes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "texts",
+       "scope": "countNotes",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "box",
+       "scope": "countNotes",
+       "value": "{[Symbol(note)]: 'a'}"
+      },
+      {
+       "name": "text",
+       "scope": "countNotes",
+       "value": "'b'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countNotes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "texts",
+       "scope": "countNotes",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "box",
+       "scope": "countNotes",
+       "value": "{[Symbol(note)]: 'a'}"
+      },
+      {
+       "name": "text",
+       "scope": "countNotes",
+       "value": "'b'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countNotes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "texts",
+       "scope": "countNotes",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "box",
+       "scope": "countNotes",
+       "value": "{[Symbol(note)]: 'a', [Symbol(note)]: 'b'}"
+      },
+      {
+       "name": "text",
+       "scope": "countNotes",
+       "value": "'c'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countNotes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "texts",
+       "scope": "countNotes",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "box",
+       "scope": "countNotes",
+       "value": "{[Symbol(note)]: 'a', [Symbol(note)]: 'b'}"
+      },
+      {
+       "name": "text",
+       "scope": "countNotes",
+       "value": "'c'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countNotes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "texts",
+       "scope": "countNotes",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "box",
+       "scope": "countNotes",
+       "value": "{[Symbol(note)]: 'a', [Symbol(note)]: 'b', [Symbol(note)]: 'c'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countNotes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "texts",
+       "scope": "countNotes",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "box",
+       "scope": "countNotes",
+       "value": "{[Symbol(note)]: 'a', [Symbol(note)]: 'b', [Symbol(note)]: 'c'}"
+      },
+      {
+       "name": "syms",
+       "scope": "countNotes",
+       "value": "[Symbol(note), Symbol(note), Symbol(note)]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "countNotes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 1,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ },
+ "conceptCards": {
+  "map-set-weakmap-symbol.lesson-1": {
+   "code": [
+    "const dates = new Map();",
+    "dates.set(1, \"one\");",
+    "dates.set(\"1\", \"text\");",
+    "console.log(dates.size);",
+    "console.log(dates.get(1));"
+   ],
+   "output": [
+    "2",
+    "one"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "dates",
+       "scope": "global",
+       "value": "Map(0) {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "dates",
+       "scope": "global",
+       "value": "Map(1) {1 => 'one'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "dates",
+       "scope": "global",
+       "value": "Map(2) {1 => 'one', '1' => 'text'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "dates",
+       "scope": "global",
+       "value": "Map(2) {1 => 'one', '1' => 'text'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "dates",
+       "scope": "global",
+       "value": "Map(2) {1 => 'one', '1' => 'text'}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "map-set-weakmap-symbol.lesson-2": {
+   "code": [
+    "const tags = [\"cat\", \"dog\", \"cat\"];",
+    "const pets = new Set(tags);",
+    "console.log(pets.size);",
+    "console.log([...pets]);"
+   ],
+   "output": [
+    "2",
+    "['cat', 'dog']"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "tags",
+       "scope": "global",
+       "value": "['cat', 'dog', 'cat']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "tags",
+       "scope": "global",
+       "value": "['cat', 'dog', 'cat']"
+      },
+      {
+       "name": "pets",
+       "scope": "global",
+       "value": "Set(2) {'cat', 'dog'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "tags",
+       "scope": "global",
+       "value": "['cat', 'dog', 'cat']"
+      },
+      {
+       "name": "pets",
+       "scope": "global",
+       "value": "Set(2) {'cat', 'dog'}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "tags",
+       "scope": "global",
+       "value": "['cat', 'dog', 'cat']"
+      },
+      {
+       "name": "pets",
+       "scope": "global",
+       "value": "Set(2) {'cat', 'dog'}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "map-set-weakmap-symbol.lesson-3": {
+   "code": [
+    "const owners = new WeakMap();",
+    "const bike = {};",
+    "owners.set(bike, \"Mia\");",
+    "console.log(owners.get(bike));",
+    "console.log(owners.has({}));"
+   ],
+   "output": [
+    "Mia",
+    "false"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "owners",
+       "scope": "global",
+       "value": "WeakMap {}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "owners",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "bike",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "owners",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "bike",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "owners",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "bike",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "owners",
+       "scope": "global",
+       "value": "WeakMap {}"
+      },
+      {
+       "name": "bike",
+       "scope": "global",
+       "value": "{}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  },
+  "map-set-weakmap-symbol.lesson-4": {
+   "code": [
+    "const id = Symbol(\"id\");",
+    "const user = { [id]: 7, n: \"Lu\" };",
+    "console.log(Object.keys(user));",
+    "console.log(user[id]);"
+   ],
+   "output": [
+    "['n']",
+    "7"
+   ],
+   "steps": [
+    {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "id",
+       "scope": "global",
+       "value": "Symbol(id)"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "id",
+       "scope": "global",
+       "value": "Symbol(id)"
+      },
+      {
+       "name": "user",
+       "scope": "global",
+       "value": "{n: 'Lu', [Symbol(id)]: 7}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "id",
+       "scope": "global",
+       "value": "Symbol(id)"
+      },
+      {
+       "name": "user",
+       "scope": "global",
+       "value": "{n: 'Lu', [Symbol(id)]: 7}"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "id",
+       "scope": "global",
+       "value": "Symbol(id)"
+      },
+      {
+       "name": "user",
+       "scope": "global",
+       "value": "{n: 'Lu', [Symbol(id)]: 7}"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [],
+     "microtasks": [],
+     "macrotasks": []
+    }
+   ],
+   "usesEventLoop": false
+  }
+ }
+}
