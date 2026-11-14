@@ -18,12 +18,14 @@ import { logError } from "@/utils/logger";
 import { getStreakCalendarDate } from "@/utils/streakCalendar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { UserRow } from "./UserRow";
+import QRCode from "react-native-qrcode-svg";
 import { friendLink } from "@/config/appLinks";
 import { useInviteToDuel } from "@/components/play/useInviteToDuel";
 import { useAppSelector } from "@/redux/hooks";
 import type { PresenceStatus } from "@project/api-contract";
 
 const SEARCH_DELAY_MS = 300;
+const QR_SIZE = 160;
 
 /**
  * Friends (PRD 11.1): your code to share, search, add by code, requests both ways, the list by
@@ -79,6 +81,10 @@ export function FriendsScreen() {
           <AppText align="center" style={styles.code} accessibilityLabel={friends.friendCode.split("").join(" ")}>
             {friends.friendCode}
           </AppText>
+          {/* Scanned by a friend's camera: opens the app on the friend link (PRD 11.1). */}
+          <View style={styles.qr} accessible accessibilityLabel={t("friends.qr")}>
+            <QRCode value={friendLink(friends.friendCode)} size={QR_SIZE} color={palette.bg.base} backgroundColor={palette.text.primary} quietZone={space.sm} />
+          </View>
           <OutlineButton label={t("friends.shareCode")} onPress={() => void Share.share({ message: t("friends.shareMessage", { code: friends.friendCode, link: friendLink(friends.friendCode) }) })} />
         </Surface>
       ) : null}
@@ -180,6 +186,7 @@ const styles = StyleSheet.create({
   card: { gap: space.md },
   group: { gap: space.md },
   code: { ...typography.code, fontSize: 28, lineHeight: 36, letterSpacing: 4, color: palette.brand.js },
+  qr: { alignSelf: "center", borderRadius: space.sm, overflow: "hidden" },
   codeRow: { flexDirection: "row", gap: space.md, alignItems: "center" },
   codeField: { flex: 1, ...typography.code },
   actions: { flexDirection: "row", alignItems: "center", gap: space.sm },

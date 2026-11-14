@@ -231,9 +231,15 @@ Tooling notes for the next session:
 | expo-splash-screen | mobile | Hold the splash until fonts and language are ready | MIT |
 | expo-crypto | mobile | Attempt idempotency ids | MIT |
 | @expo-google-fonts/rubik, @expo-google-fonts/jetbrains-mono | mobile | UI and code fonts (PRD 12.3) | MIT (package), OFL-1.1 (fonts) |
+| react-native-qrcode-svg 6.3.21 (pinned, released 2025-12; uses the installed react-native-svg) | mobile | The friend-link QR code (PRD 11.1); pure JavaScript, no native rebuild | MIT |
 
 ## Risks
 
+- In development, a Metro full reload while a token refresh is in flight can leave two JavaScript
+  runtimes holding the same refresh token; the second use is (correctly) treated as reuse and every
+  session of the account is revoked. Seen once on 2026-11-15 during package rebuilds; production
+  has no such reload (the language switch flushes tokens first). Worth a look if it ever appears
+  outside development: a short grace window for the immediately previous refresh token.
 - Sub-agents share the session's usage limit: on 2026-11-14 all four stopped at the 5-hour limit
   and were resumed after the reset. Long loops (the verification passes) will hit this again.
 
