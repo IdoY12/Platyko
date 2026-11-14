@@ -10,6 +10,7 @@ import { resolveSocketIoCors } from "@project/server-kit/cors";
 import { logError, logInfo } from "@project/server-kit/logger";
 import { validateIoProductionSecuritySettings } from "@project/server-kit/validateIoSecurity";
 import { attachDuelNamespace } from "./socket/duel/index.js";
+import { attachPlayNamespace } from "./socket/play/attachPlayNamespace.js";
 import type { DuelSocketData } from "./socket/duel/types.js";
 
 // Global error handlers to prevent the process from crashing silently
@@ -47,6 +48,7 @@ const io = new Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, Duel
 });
 
 attachDuelNamespace(io);
+attachPlayNamespace(io as never);
 
 const port = Number(config.get<number | string>("app.port"));
 const host = config.get<string>("app.host");

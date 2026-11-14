@@ -9,9 +9,6 @@ export const GAME_MODES = {
 } as const;
 export type GameMode = keyof typeof GAME_MODES;
 
-/** Unrated games that earn XP each day (PRD 11.4): a cap against farming between two accounts. */
-export const UNRATED_XP_GAMES_PER_DAY = 5;
-
 /** 31 characters with no look-alikes: no 0, O, 1, I or L. */
 export const ROOM_CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 export const ROOM_CODE_LENGTH = 6;

@@ -6,8 +6,6 @@ export const GAME_MODES = {
     friends: { players: [2, 2], rounds: [5], rated: false, dailyXpCap: true },
     room: { players: [2, 4], rounds: [5, 7, 10], rated: false, dailyXpCap: true },
 };
-/** Unrated games that earn XP each day (PRD 11.4): a cap against farming between two accounts. */
-export const UNRATED_XP_GAMES_PER_DAY = 5;
 /** 31 characters with no look-alikes: no 0, O, 1, I or L. */
 export const ROOM_CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 export const ROOM_CODE_LENGTH = 6;
