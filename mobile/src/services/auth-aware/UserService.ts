@@ -1,3 +1,4 @@
+import type { GameRecordResponse } from "@project/api-contract";
 import type { Language } from "@project/locales";
 import AuthAware from "./AuthAware";
 import { API_BASE_URL, UPLOAD_TIMEOUT_MS } from "@/config/network";
@@ -17,6 +18,8 @@ export default class UserService extends AuthAware {
     const { data } = await this.axiosInstance.post<{ ok: boolean }>("/auth/logout", { refreshToken });
     return data;
   }
+
+  async getGameRecord(): Promise<GameRecordResponse> { return (await this.axiosInstance.get<GameRecordResponse>("/user/game-record")).data; }
 
   async getProfile(): Promise<UserProfile> { return (await this.axiosInstance.get<UserProfile>("/user/profile")).data; }
 

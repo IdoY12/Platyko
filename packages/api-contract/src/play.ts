@@ -62,6 +62,14 @@ export type InviteDuelRequest = { userId: string; track: Track };
 export type InviteToRoomRequest = { userId: string };
 export type AnswerInviteRequest = { inviteId: string; accept: boolean };
 
+/** One finished game on a profile (PRD 14.1); an opponent whose account is gone is null. */
+export type RecentGame = { matchId: string; mode: PlayMode; variant: GameVariant; endedAt: string; place: number; players: number; points: number; opponents: (string | null)[] };
+/**
+ * `GET /api/user/game-record`: the rating once the placement games are played (null before), the
+ * record without practice games against recordings, and the last 10 games.
+ */
+export type GameRecordResponse = { rating: number | null; placementGamesLeft: number; wins: number; losses: number; draws: number; recent: RecentGame[] };
+
 /** Why a play request was refused; the app shows each in the UI language. */
 export const PLAY_ERRORS = ["room-not-found", "room-full", "room-started", "not-host", "not-enough-players", "in-another-game", "cooldown", "cannot-invite", "invite-gone", "friend-busy"] as const;
 export type PlayError = (typeof PLAY_ERRORS)[number];

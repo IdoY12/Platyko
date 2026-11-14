@@ -2,6 +2,7 @@ import rateLimit from "express-rate-limit";
 import { raw, Router } from "express";
 import {
   deleteAccount,
+  getGameRecord,
   getPreferences,
   getProfile,
   getProgressSummary,
@@ -34,6 +35,7 @@ userRouter.use(userLimiter);
 userRouter.use(authMiddleware);
 
 userRouter.get("/profile", getProfile);
+userRouter.get("/game-record", getGameRecord);
 userRouter.patch("/profile", validateBody(patchProfileBodySchema), patchProfile);
 // raw() parses the binary image body as a Buffer for this route only.
 // The app-level JSON parser skips non-application/json content types.
