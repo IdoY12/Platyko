@@ -82,4 +82,10 @@ export const MAX_GUEST_ATTEMPTS = 3000;
 /** `POST /content/items/:itemId/feedback` — a vote after the explanation, or a report (PRD 7.6). Registered users. */
 export const ITEM_REPORT_REASONS = ["WRONG_ANSWER", "UNCLEAR", "TYPO", "OTHER"] as const;
 export type ItemReportReason = (typeof ITEM_REPORT_REASONS)[number];
+/** `POST /content/items/:itemId/explain` (body: JudgeCodeRequest): null means "show the pre-written explanation". */
+export type ExplainMistakeResponse = { explanation: string | null };
+/** "Explain my mistake" limits (PRD 15.9). */
+export const EXPLANATION_MAX_WORDS = 80;
+export const EXPLANATIONS_PER_DAY = 10;
+
 export type ItemFeedbackRequest = { vote?: 1 | -1; reportReason?: ItemReportReason };

@@ -125,6 +125,7 @@ export function LessonPlayerScreen({ route, navigation }: Props) {
           onSeeItRun={() => setRunOpen(true)}
           onVote={(vote) => void new ContentService().sendItemFeedback(item.id, { vote }).catch(() => undefined)}
           onReport={(reportReason) => void new ContentService().sendItemFeedback(item.id, { reportReason }).catch(() => undefined)}
+          explainMistake={!isGuest && draft?.kind === "code" ? () => new ContentService().explainMistake(item.id, draft.source) : undefined}
         />
       ) : null}
 

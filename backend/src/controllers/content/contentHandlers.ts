@@ -1,8 +1,10 @@
 import type { Request, Response } from "express";
-import type { JudgeCodeResponse } from "@project/api-contract";
+import type { ExplainMistakeResponse, JudgeCodeResponse } from "@project/api-contract";
+import { prisma } from "@project/db";
 import { judgeCodeWrite } from "@project/code-sandbox";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
 import { loadContentMap, loadItems, loadLessonContent } from "../../services/content/contentCatalog.js";
+import { explainMistake } from "../../services/content/explainMistake.js";
 import { recordItemFeedback } from "../../services/content/itemFeedback.js";
 import type { ItemFeedbackBody, ItemParams, ItemsQuery, JudgeCodeBody, LessonParams } from "../../validators/contentValidators.js";
 
@@ -36,6 +38,15 @@ export async function postJudgeCode(request: Request, response: Response): Promi
   }
   const verdict: JudgeCodeResponse = await judgeCodeWrite(entry, source, tests);
   response.json(verdict);
+}
+
+/** "Explain my mistake" (PRD 15.9): an explanation, or null for the pre-written one; never an error. */
+export async function postExplainMistake(request: AuthenticatedRequest, response: Response): Promise<void> {
+  const { itemId } = request.validatedParams as ItemParams;
+  const { source } = request.validatedBody as JudgeCodeBody;
+  const [[item], user] = await Promise.all([loadItems([itemId]), prisma.user.findUnique({ where: { id: request.user!.userId }, select: { language: true } })]);
+  const body: ExplainMistakeResponse = { explanation: item ? await explainMistake(item, source, user?.language ?? "en") : null };
+  response.json(body);
 }
 
 export async function postItemFeedback(request: AuthenticatedRequest, response: Response): Promise<void> {

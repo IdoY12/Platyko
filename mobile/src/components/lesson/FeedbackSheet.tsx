@@ -11,6 +11,7 @@ import { LipButton } from "@/components/common/LipButton/LipButton";
 import { OutlineButton } from "@/components/common/LipButton/OutlineButton";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { Mascot } from "@/components/mascot/Mascot";
+import { ExplainMistake } from "./ExplainMistake";
 import { t } from "@/i18n/translate";
 import { bottomSheet, duration, palette, radii, space, springs, wash } from "@/theme/tokens";
 
@@ -31,6 +32,8 @@ type Props = {
   onSeeItRun: () => void;
   onVote: (vote: 1 | -1) => void;
   onReport: (reason: ItemReportReason) => void;
+  /** A wrong `CODE_WRITE` answer by a registered learner: a live explanation may be asked for. */
+  explainMistake?: () => Promise<string | null>;
 };
 
 const TITLE_KEY = { correct: "feedback.correctTitle", retry: "feedback.almostTitle", reveal: "feedback.revealTitle" } as const;
@@ -82,6 +85,7 @@ export function FeedbackSheet(props: Props) {
       </View>
       {outcome === "reveal" && correctAnswer !== null ? <FlipCard answer={correctAnswer} isCode={answerIsCode} /> : null}
       {message ? <ContentText>{message}</ContentText> : null}
+      {props.explainMistake && outcome !== "correct" ? <ExplainMistake explain={props.explainMistake} /> : null}
 
       {canGiveFeedback && outcome !== "retry" && !feedbackGiven ? (
         <View style={styles.feedbackRow}>
