@@ -5,13 +5,14 @@ import { unexpectedErrorReply } from "../../utils/dbErrors.js";
 import { comparePassword, equalizeCompareTiming } from "../../utils/passwordHashing.js";
 import type { LoginBody } from "../../validators/authValidators.js";
 import { issueSessionForUser } from "../../services/auth/issueSessionForUser.js";
+import { PROVIDER_LABEL } from "../../services/auth/socialAccountLinking.js";
 
 export async function authLoginHandler(request: Request, response: Response): Promise<void> {
   const { email, password } = request.validatedBody as LoginBody;
   logInfo("[AUTH]", "login:attempt", { email });
 
   try {
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({ where: { email }, include: { identities: { select: { provider: true }, orderBy: { createdAt: "asc" } } } });
 
     if (!user) {
       await equalizeCompareTiming();
@@ -22,7 +23,7 @@ export async function authLoginHandler(request: Request, response: Response): Pr
     if (!user.hashedPassword) {
       await equalizeCompareTiming();
       logWarn("[AUTH]", "login:social-only-account", { userId: user.id });
-      response.status(401).json({ error: `Sign in with ${user.googleId ? "Google" : "Apple"} for this account` });
+      response.status(401).json({ error: `Sign in with ${PROVIDER_LABEL[user.identities[0]?.provider ?? "GOOGLE"].signIn} for this account` });
       return;
     }
     const isPasswordValid = await comparePassword(password, user.hashedPassword);

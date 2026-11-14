@@ -40,7 +40,7 @@ export async function getProfile(req: AuthenticatedRequest, res: Response) {
     : null;
 
   // Never echo the credential/provider columns — only the derived flags leave the server.
-  const { hashedPassword: _hash, googleId: _google, appleSub: _apple, ...publicUser } = user;
+  const { hashedPassword: _hash, identities: _identities, ...publicUser } = user;
   return res.json({
     ...publicUser,
     ...authAccountFields(user),

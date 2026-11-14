@@ -1,9 +1,10 @@
+import type { AuthProviderName } from "@project/api-contract";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 type Goal = "JOB" | "WORK" | "FUN" | "PROJECT";
 
 /** The identity fields every account payload (/auth/me, login, profile) carries, in setUserIdentity shape. */
-export const identityOf = (u: { username: string; email: string; avatarUrl?: string | null; hasPassword: boolean; authProvider: "google" | "apple" | null }) =>
+export const identityOf = (u: { username: string; email: string; avatarUrl?: string | null; hasPassword: boolean; authProvider: AuthProviderName | null }) =>
   ({ username: u.username, email: u.email, avatarUrl: u.avatarUrl ?? null, hasPassword: u.hasPassword, authProvider: u.authProvider });
 type Experience = "JUNIOR" | "MID" | "SENIOR";
 export type Commitment = "10" | "15" | "25";
@@ -17,7 +18,7 @@ type ProfileState = {
   commitment: Commitment;
   notificationsEnabled: boolean;
   hasPassword: boolean;
-  authProvider: "google" | "apple" | null;
+  authProvider: AuthProviderName | null;
 };
 
 const initialState: ProfileState = {

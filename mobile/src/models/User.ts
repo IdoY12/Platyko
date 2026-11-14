@@ -1,3 +1,4 @@
+import type { AuthProviderName } from "@project/api-contract";
 import type { Language } from "@project/locales";
 
 export default interface User {
@@ -10,7 +11,7 @@ export default interface User {
     dailyCommitmentMinutes: number | null
     notificationsEnabled: boolean
     hasPassword: boolean
-    authProvider: "google" | "apple" | null
+    authProvider: AuthProviderName | null
     /** The UI language stored on the account. */
     language: Language
     blockProgress?: Record<string, number>

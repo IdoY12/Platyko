@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { parsePuzzleXpSolveCounts, prisma, type User } from "@project/db";
+import { parsePuzzleXpSolveCounts, prisma, type AuthProvider, type User } from "@project/db";
 import { containsBannedWord, USERNAME_MAX_LEN, USERNAME_MIN_LEN } from "@project/user-credentials";
 import { isUsernameTakenError } from "../../utils/dbErrors.js";
 import { createProgressRowsFromSnapshot, type GuestSnapshot } from "./guestSnapshotMigration.js";
@@ -8,8 +8,8 @@ import { DEFAULT_LANGUAGE } from "@project/locales";
 const USERNAME_SUFFIX_RETRIES = 12;
 const USERNAME_RANDOM_RETRIES = 8;
 
-/** Provider identity column(s) to store on the new user row. */
-export type SocialProvider = { googleId: string } | { appleSub: string };
+/** The sign-in identity the new account is created with. */
+type SocialIdentity = { provider: AuthProvider; subject: string };
 
 function deriveUsername(email: string, displayName?: string): string {
   const named = displayName?.trim().replace(/\s+/g, "_").slice(0, USERNAME_MAX_LEN);
@@ -31,7 +31,7 @@ function randomUsername(): string {
 }
 
 export async function createSocialUserWithProgress(
-  provider: SocialProvider, email: string, displayName?: string, snapshot: GuestSnapshot = {},
+  identity: SocialIdentity, email: string, displayName?: string, snapshot: GuestSnapshot = {},
 ): Promise<User> {
   let candidate = deriveUsername(email, displayName);
   const max = USERNAME_SUFFIX_RETRIES + USERNAME_RANDOM_RETRIES;
@@ -41,7 +41,6 @@ export async function createSocialUserWithProgress(
         const created = await tx.user.create({
           data: {
             email,
-            ...provider,
             username: candidate,
             hashedPassword: null,
             activeExperienceLevel: snapshot.experienceLevel ?? "JUNIOR",
@@ -50,6 +49,7 @@ export async function createSocialUserWithProgress(
             puzzleXpSolveCounts: parsePuzzleXpSolveCounts(snapshot.puzzleXpSolveCounts ?? null),
           },
         });
+        await tx.authIdentity.create({ data: { ...identity, userId: created.id } });
         await createProgressRowsFromSnapshot(tx, created.id, snapshot);
         return created;
       });

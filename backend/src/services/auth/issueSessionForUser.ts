@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 import type { User } from "@prisma/client";
-import { resolveExperienceLevel } from "@project/db";
+import { prisma, resolveExperienceLevel } from "@project/db";
 import { authAccountFields } from "../../utils/authAccountFields.js";
 import { signAccessToken, signRefreshToken } from "../../utils/sessionJwtTokens.js";
 import { storeRefreshToken } from "../../utils/storeRefreshToken.js";
@@ -9,6 +9,7 @@ import { ensureUserProgressForLogin, touchUserLastActive } from "./loginSideEffe
 /** Runs login side effects and builds the same session payload /auth/login returns. */
 export async function issueSessionForUser(user: User, includeBlockProgress = false) {
   const progress = await ensureUserProgressForLogin(user);
+  const identities = await prisma.authIdentity.findMany({ where: { userId: user.id }, select: { provider: true }, orderBy: { createdAt: "asc" } });
   await touchUserLastActive(user.id);
   const tokenPayload = { userId: user.id, email: user.email, tokenVersion: user.tokenVersion };
   const accessToken = signAccessToken(tokenPayload);
@@ -24,7 +25,7 @@ export async function issueSessionForUser(user: User, includeBlockProgress = fal
       experienceLevel: resolveExperienceLevel(progress.experienceLevel),
       dailyCommitmentMinutes: progress.dailyCommitmentMinutes ?? 15,
       notificationsEnabled: user.notificationsEnabled,
-      ...authAccountFields(user),
+      ...authAccountFields({ ...user, identities }),
       ...(includeBlockProgress ? { blockProgress: (progress.blockProgress ?? {}) as Record<string, number> } : {}),
     },
     accessToken,

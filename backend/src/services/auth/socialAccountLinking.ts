@@ -1,8 +1,7 @@
-import { prisma, type User } from "@project/db";
+import type { AuthProviderName } from "@project/api-contract";
+import { prisma, type AuthProvider, type User } from "@project/db";
 import { createSocialUserWithProgress } from "./createSocialUser.js";
 import type { GuestSnapshot } from "./guestSnapshotMigration.js";
-
-export type SocialSignInProvider = "google" | "apple";
 
 export class SocialSignInBlockedError extends Error {
   constructor(message: string) {
@@ -11,39 +10,42 @@ export class SocialSignInBlockedError extends Error {
   }
 }
 
-const APPLE_NO_EMAIL_MESSAGE =
+export const PROVIDER: Record<AuthProviderName, AuthProvider> = { google: "GOOGLE", apple: "APPLE", github: "GITHUB" };
+export const PROVIDER_LABEL: Record<AuthProvider, { account: string; signIn: string }> = {
+  GOOGLE: { account: "Google account", signIn: "Google" },
+  APPLE: { account: "Apple ID", signIn: "Apple" },
+  GITHUB: { account: "GitHub account", signIn: "GitHub" },
+};
+
+const NO_EMAIL_MESSAGE =
   "Apple did not share an email for this account. In Settings > Apple ID > Sign-In & Security, remove this app and try again.";
 
-/** Every User row carries a password, a Google id or an Apple sub, so an email match is always one of these. */
-function blockedReason(existing: User, provider: SocialSignInProvider): string {
-  const linkedToOtherAccountOfSameProvider = provider === "google" ? existing.googleId : existing.appleSub;
-  if (linkedToOtherAccountOfSameProvider) {
-    return `This email is linked to a different ${provider === "google" ? "Google account" : "Apple ID"}.`;
-  }
+/** Why a sign-in whose email belongs to another account stops: every account has a password or an identity. */
+function blockedReason(existing: { hashedPassword: string | null; identities: { provider: AuthProvider }[] }, provider: AuthProvider): string {
+  if (existing.identities.some((identity) => identity.provider === provider)) return `This email is linked to a different ${PROVIDER_LABEL[provider].account}.`;
   if (existing.hashedPassword) return "This email is already registered with a password. Sign in with email and password.";
-  return provider === "google"
-    ? "This email is linked to an Apple ID. Sign in with Apple."
-    : "This email is linked to a Google account. Sign in with Google.";
+  const other = existing.identities[0]?.provider ?? provider;
+  return `This email is linked to ${other === "APPLE" ? "an" : "a"} ${PROVIDER_LABEL[other].account}. Sign in with ${PROVIDER_LABEL[other].signIn}.`;
 }
 
 /**
  * Returning users match by the provider subject alone (Apple only shares the email on the first
  * authorization; private-relay addresses are ordinary emails). The guest snapshot is applied only
- * when a NEW user is created; existing server data always wins.
+ * when a NEW user is created; existing server data always wins. Identities live in AuthIdentity,
+ * several providers per account (PRD 14.3).
  */
 export async function findOrCreateSocialUser(
-  provider: SocialSignInProvider,
+  provider: AuthProviderName,
   subject: string,
   email: string | undefined,
   displayName?: string,
   guestSnapshot?: GuestSnapshot,
 ): Promise<{ user: User; isNew: boolean }> {
-  const providerKey = provider === "google" ? { googleId: subject } : { appleSub: subject };
-  const bySubject = await prisma.user.findUnique({ where: providerKey });
-  if (bySubject) return { user: bySubject, isNew: false };
-  if (!email) throw new SocialSignInBlockedError(APPLE_NO_EMAIL_MESSAGE);
-  const byEmail = await prisma.user.findUnique({ where: { email } });
-  if (byEmail) throw new SocialSignInBlockedError(blockedReason(byEmail, provider));
-  const user = await createSocialUserWithProgress(providerKey, email, displayName, guestSnapshot);
+  const identity = await prisma.authIdentity.findUnique({ where: { provider_subject: { provider: PROVIDER[provider], subject } }, include: { user: true } });
+  if (identity) return { user: identity.user, isNew: false };
+  if (!email) throw new SocialSignInBlockedError(NO_EMAIL_MESSAGE);
+  const byEmail = await prisma.user.findUnique({ where: { email }, select: { hashedPassword: true, identities: { select: { provider: true }, orderBy: { createdAt: "asc" } } } });
+  if (byEmail) throw new SocialSignInBlockedError(blockedReason(byEmail, PROVIDER[provider]));
+  const user = await createSocialUserWithProgress({ provider: PROVIDER[provider], subject }, email, displayName, guestSnapshot);
   return { user, isNew: true };
 }
