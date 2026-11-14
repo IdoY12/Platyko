@@ -102,10 +102,16 @@ function checkOptions(item: AuthoredItem, unit: UnitFile, report: FindingReporte
   });
 }
 
+/**
+ * Words a hint must be free to use even when one of them is the answer: they are the vocabulary
+ * of the topic. Gate C's reviewer still judges whether a hint gives the answer away.
+ */
+const LANGUAGE_VOCABULARY = new Set(["true", "false", "null", "undefined", "NaN", "Infinity", "number", "string", "boolean", "object", "function", "bigint", "symbol"]);
+
 function checkHints(item: AuthoredItem, report: FindingReporter): void {
   const answers = [...(item.options ?? []).filter((option) => option.correct).map((option) => option.text), item.solution.expectedOutput ?? ""]
     .map((answer) => answer.trim())
-    .filter((answer) => answer.length >= SHORTEST_ANSWER_A_HINT_CAN_REVEAL);
+    .filter((answer) => answer.length >= SHORTEST_ANSWER_A_HINT_CAN_REVEAL && !LANGUAGE_VOCABULARY.has(answer));
   item.hints.forEach((hint, index) => {
     const label = `hint ${index + 1}`;
     checkText(report, label, hint);

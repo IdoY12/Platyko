@@ -83,6 +83,16 @@ module-pattern code, and the syntax appears only in prose.
 Difficulty rises inside a lesson and across a unit: 1 to 2 in Beginner, 2 to 3 in Intermediate,
 3 to 4 in Advanced, 4 to 5 in Expert.
 
+### Practical notes for authors
+
+- **Legacy items** keep their concept, not their suggested format: when a lesson has no free slot
+  of the suggested format, convert the item into whichever recipe slot is free.
+- **Parsons orderings.** Gate A runs every ordering, so lines that print the same thing, or
+  independent declarations, create extra valid orders. Give each printed line a distinct value
+  and make each line depend on the one before it; otherwise record the extra orders.
+- **MDN links.** Glossary pages live under `https://developer.mozilla.org/en-US/docs/Glossary/`,
+  not under `/Web/JavaScript/`.
+
 ### Writing feedback, hints and explanations
 
 - The explanation says why the right answer is right, in at most 60 words, and names the rule.
