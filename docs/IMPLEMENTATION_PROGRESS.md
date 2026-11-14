@@ -57,6 +57,17 @@ after any context reset, then continue from "Current position".
 - [ ] CI workflow, repository-wide Hebrew scan.
 - [ ] Section 2 bug fixes (accuracy, progress loss on login, solo wins, XP loopholes).
 
+## Owner instructions received mid-run (2026-11-14)
+
+- At most **two** sub-agents in parallel, to conserve usage.
+- **D5:** the mascot must be identical to the logo platypus and feel 3D: layers cut from
+  `mobile/assets/splash-icon.png`, animated with Reanimated and Skia; plus a path that renders
+  `mobile/assets/mascot/platyko.glb` with a native 3D renderer when that file exists.
+- **D6:** "explain my mistake" runs on a free model behind a provider-agnostic interface and a
+  flag, with a silent fallback to pre-written hints. Personalisation stays algorithmic.
+- The PRD was updated to revision 3 for both decisions (sections 1, 5.4, 6.5, 10.1, 12.8, 12.9,
+  13.2–13.4, 15.1, 15.9, 17.5, 18, 19, 20.1, 20.7, 21, 22).
+
 ## Decisions (with reasons)
 
 | # | Decision | Reason |
@@ -75,7 +86,8 @@ after any context reset, then continue from "Current position".
 | A12 | Review scheduling uses SM-2 at concept level. | PRD Q2 recommendation; FSRS needs Node 24 while the backend targets Node 22. |
 | A13 | Code Puzzle is folded into the `CODE_WRITE` format; the separate screen is removed. | PRD Q9 recommendation. |
 | A15 | `text.muted` is `#8F92C4`, not the PRD's proposed `#7C7FB0`. | PRD 12.2 asks for 4.5:1 on every pair; `#7C7FB0` on `bg.raised` measures 4.05:1. The new value is at least 5.19:1 on every background (see `tokens.test.ts`). |
-| A16 | The mascot is a stack of static SVG layers, each inside an animated view; motion is view transforms and opacity only. | Transforms and opacity run on the UI thread without re-rendering SVG each frame, which is what keeps 60fps realistic. Still vector shapes and code only, with `react-native-svg` as the single mascot dependency (PRD 13.2). |
+| A16 | Superseded by owner decision D5. The mascot is the logo render cut into layers (body, head, tuft, brows, eyes, irises, bill, generated eyelids) by a reproducible script, drawn in one Skia canvas and driven by Reanimated values; a depth-map shader, layer parallax and moving light give the 3D feel. The 12-state machine and the two inputs are unchanged; `streakLength` drives the halo and tuft because the bust has no tail. | Owner decision D5; PRD 13.2–13.4 (revision 3). |
+| A19 | Free AI provider for "explain my mistake": **Cloudflare Workers AI, Workers Free plan**, through its OpenAI-compatible endpoint; Groq's free plan configured as the second provider; then the pre-written hints. Read on 2026-11-14 from the providers' own pages: Cloudflare gives 10,000 Neurons a day free, fails with an error once exceeded on the free plan, and states it does not use customer content to train models; a request of about 600 input and 120 output tokens costs about 6 to 14 Neurons depending on the model, so roughly 700 to 1,500 explanations a day. Groq does not retain inference requests by default (logs up to 30 days only for abuse or reliability), offers zero data retention, and limits free use per organisation (about 30 requests a minute and 1,000 a day on the models listed). Gemini's free tier was rejected: third-party summaries say free-tier content may be used for product improvement and human review, and its free quotas are unpublished. | Owner decision D6. Official pages were used for the chosen providers; third-party figures are marked as such in PRD S102. Limits must be re-read before launch; the fallback makes changes harmless. |
 | A17 | Language switching uses `I18nManager.forceRTL` plus `reloadAppAsync` from `expo`. | PRD 12.10/16.8 expect a restart; native stack gestures and native controls only follow the direction set at launch. |
 | A18 | Simulator automation uses the `agent-device` CLI (installed globally on the dev machine, not a project dependency). | The earlier CDP fiber driver could not tap native UI; `agent-device` drives real taps through an XCTest runner. |
 | A14 | Gates B, C and D run as fresh sub-agents that receive only exported, redacted item files; their findings are written to files and compared mechanically by `tools/content`. | PRD 8.3/8.4 require blind derivation and independent review with fresh contexts on every pass. |
@@ -115,7 +127,8 @@ after any context reset, then continue from "Current position".
 | H1 | Legal sign-off on the originality and licensing position (PRD Q1). | Commercial launch |
 | H2 | Minimum age and legal requirements for the social layer (PRD Q4). | Social launch |
 | H3 | Owner of the report queue and response time (PRD Q5). | Social launch |
-| H4 | AI provider key and monthly budget for "explain my mistake" (PRD Q6). Feature ships behind a flag. | Live AI explanations |
+| H4 | A free Cloudflare account, its account id and a Workers AI API token (and optionally a free Groq key) for "explain my mistake". The feature ships behind a flag and falls back to pre-written hints. | Live AI explanations only |
+| H10 | A rigged 3D GLB of the logo platypus at `mobile/assets/mascot/platyko.glb`, following `docs/mascot-3d-model.md` (one clip per mascot state). Needs a 3D artist. | True real-time 3D mascot; the layered 2.5D mascot ships without it |
 | H5 | Reference device for the 60fps criteria (PRD Q7). Simulators are used until then. | Performance sign-off |
 | H6 | Apple Developer account, APNs key, EAS credentials, App Store assets. | Store submission, real push |
 | H7 | GitHub OAuth app (client id and secret). Feature ships behind a flag. | GitHub sign-in |

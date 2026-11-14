@@ -1,6 +1,6 @@
 # Platyko — Product Redesign PRD
 
-- **Date:** 14 November 2026 (revision 2)
+- **Date:** 14 November 2026 (revision 3 — owner decisions D5 and D6 added the same day)
 - **Status:** Draft for product-owner approval. Specification only; no application code has been changed.
 - **Basis:** Full code scan of `mobile/`, `backend/`, `io/`, `packages/` (HEAD `a514004`) and web research carried out on the date above.
 
@@ -28,7 +28,9 @@ Research sources are numbered in section 22 and cited as (S1), (S2) and so on. A
 | R3 | **File length:** the 80-line limit in `CLAUDE.md` is waived for this PRD and for the work it describes, where needed to reach the goal. | This PRD and its implementation |
 | D1 | The app supports **English and Hebrew with RTL**. The user chooses the language in settings. Code is always shown left-to-right. | Section 12.10 |
 | D2 | The name stays **Platyko** and the platypus mascot stays. | Sections 12, 13 |
-| D3 | The mascot is **designed and animated by the AI agent**, keeping all 12 states. | Section 13 |
+| D3 | The mascot is **animated by the AI agent**, keeping all 12 states. | Section 13 |
+| D5 | The mascot must **look identical to the logo platypus** (the splash and app-icon artwork) and **feel 3D**. It is built from the real logo artwork, split into layers and animated with Reanimated and Skia, with an integration path for a true rigged 3D model. This replaces the flat-vector decision. | Sections 12.8, 12.9, 13, 20.7 |
+| D6 | "Explain my mistake" uses a **free model** behind a provider-agnostic interface and a feature flag, and falls back silently to the pre-written hints and explanations. Learning personalisation is algorithmic and never depends on a paid AI. | Sections 6.5, 15.9, 20.1 |
 | D4 | The question bank is **written and verified by the AI agent** under a zero-defect standard. | Sections 7, 8, 9 |
 
 ---
@@ -48,7 +50,7 @@ Research sources are numbered in section 22 and cited as (S1), (S2) and so on. A
 
 1. **Active learning in place of a quiz.** Seven question formats (predict output, trace, reorder lines, fill blank, fix bug, write code, concept question), an explanation tailored to each mistake, and a visual execution player that shows how the code runs.
 2. **A trustworthy question bank.** One unified, original bank. No item goes live until the whole bank passes every verification gate in three consecutive clean runs (section 8), and every item passes an originality check (section 9).
-3. **The platypus as a living character.** A 2D vector mascot with 12 animated states, whose behaviours come from real platypus traits: an electro-sensing bill that finds bugs, a dive while searching for an opponent, a glow on milestones.
+3. **The platypus as a living character.** The logo platypus itself, brought to life from the real artwork with layered depth, lighting and 12 animated states, whose behaviours come from real platypus traits: an electro-sensing bill that finds bugs, a dive while searching for an opponent, a glow on milestones.
 4. **Social play.** Friends, invitations, skill-rated duels, friend duels and private rooms for 2–4 players with a live leaderboard.
 
 The app ships in English and Hebrew with RTL **[DECIDED]**.
@@ -57,8 +59,8 @@ The app ships in English and Hebrew with RTL **[DECIDED]**.
 
 **Three critical caveats to know up front:**
 
-- **A real-time 3D mascot is rejected.** The research found favours 2D characters, and the performance and production cost is not justified (section 13).
-- **An agent-made mascot will be simpler than the current icon art.** It will be a flat vector character, not the 3D-style render used in the app icon (section 13.2).
+- **The mascot is the logo artwork, animated in layers [DECIDED, D5].** It looks identical to the icon at rest and reads as 3D through parallax, lighting and shadow. It is a bust: states that need limbs are adapted (section 13.4).
+- **A true real-time 3D model is supported but not included.** The app renders a rigged model when one is supplied; producing that model needs a 3D artist (section 13.2).
 - **XP as it stands is not trustworthy.** It can be collected without learning (section 2.6), so no ranking or league may rest on it before the fix in phase 0.
 
 ---
@@ -345,7 +347,7 @@ Priority: **P0** — the redesign is not achieved without it. **P1** — complet
 | # | Requirement | Origin | Priority |
 |---|---|---|---|
 | B1 | New design system matching the branding | [REQUIRED] | P0 |
-| B2 | Animated vector mascot with a 12-state machine, made by the agent | [DECIDED] | P0 |
+| B2 | Animated mascot identical to the logo platypus, 3D in feel, with a 12-state machine | [DECIDED] | P0 |
 | I1 | English and Hebrew UI with RTL, chosen in settings; code always LTR | [DECIDED] | P0 |
 | P1 | Achievements and badges | [REQUIRED] | P1 |
 | P2 | GitHub sign-in and account linking | [REQUIRED to evaluate] → [RECOMMENDATION]: yes | P1 |
@@ -353,7 +355,7 @@ Priority: **P0** — the redesign is not achieved without it. **P1** — complet
 | R2 | Streak freeze and smart reminders | [RECOMMENDATION] | P1 |
 | R3 | Weekly goal (practice days per week) | [RECOMMENDATION] — the owner believed it existed | P1 |
 | R4 | Weekly league | [REQUIRED to evaluate] → [RECOMMENDATION]: yes, after R1 | P1 |
-| R5 | "Explain my mistake" with AI | [REQUIRED to evaluate] → [RECOMMENDATION]: limited scope | P1 |
+| R5 | "Explain my mistake" with a free AI model, limited scope, behind a flag | [DECIDED, D6] | P1 |
 
 ---
 
@@ -485,7 +487,7 @@ An item answered wrongly returns once at the end of the lesson.
 
 Using a hint does not reduce XP, but the item does not count as a "clean first attempt" for mastery. A hint is a learning tool, not a penalty.
 
-**"Explain my mistake" (AI) [RECOMMENDATION, P1]:** detailed in section 15.9.
+**"Explain my mistake" (AI) [DECIDED, D6, P1]:** a free model behind a flag, with a silent fallback to the hints above; detailed in section 15.9.
 
 ### 6.6 The visual execution player
 
@@ -804,7 +806,7 @@ Almost every academic source forbids commercial use, which is why wording and sn
 | Random Duel, Friends Duel, creating a room | No | Yes **[REQUIRED]** |
 | Public profile, friends, invitations | No | Yes **[REQUIRED]** |
 | League, achievements, match history | No | Yes |
-| "Explain my mistake" (AI) | No | Yes, with a daily quota |
+| "Explain my mistake" (AI, free model, behind a flag) | No | Yes, with a daily quota; pre-written hints otherwise |
 
 ### 10.2 Local progress and migration to an account **[REQUIRED]**
 
@@ -1134,7 +1136,7 @@ This change alone makes the app unrecognisable next to the existing version, as 
 
 | Place | Decision | Reason |
 |---|---|---|
-| Real-time 3D mascot | **[REJECTED]** | See section 13.2 |
+| Mascot | **2.5D from the logo artwork [DECIDED, D5]**: layered parallax, a depth-map warp, moving light and shadow. A real-time 3D model replaces it when a rigged GLB is supplied | See section 13.2 |
 | 3D backgrounds and scenes | **[REJECTED]** | No learning value; performance cost on weaker devices |
 | Buttons with a pressing lip | Yes | Tactile feel at almost no cost |
 | Cards that flip (solution reveal) | Yes | A simple 3D transform in Reanimated; conveys "the other side" |
@@ -1145,7 +1147,7 @@ This change alone makes the app unrecognisable next to the existing version, as 
 
 **Accessibility:**
 
-- **Reduce Motion:** **[VERIFIED]** honoured today in 10 Reanimated components. It extends to every new component. The mascot is built on Reanimated, whose animations follow the system setting by default (S74); under Reduce Motion the mascot shows a static pose for each state.
+- **Reduce Motion:** **[VERIFIED]** honoured today in 10 Reanimated components. It extends to every new component. The mascot is driven by Reanimated values, whose animations follow the system setting by default (S74); under Reduce Motion the mascot shows a static pose for each state.
 - **Screen reader:** a label and role on every interactive component (**[VERIFIED]** missing today on option cards and chips). Code is read line by line. Labels are translated with the UI.
 - **Alternative to dragging:** in every drag item the user can also tap a line and then a target.
 
@@ -1154,7 +1156,7 @@ This change alone makes the app unrecognisable next to the existing version, as 
 - 60 frames per second on a weak reference device (open question Q7).
 - Animations run on the UI thread only.
 - At most one mascot instance is animated on a screen at a time.
-- The mascot ships as code and vector shapes, with no image sequence and no binary animation file.
+- The mascot ships as a small set of layer images cut from the logo artwork plus code; no image sequence and no baked animation file. An optional rigged 3D model is loaded only when present.
 
 ### 12.10 Language and direction **[DECIDED]**
 
@@ -1217,42 +1219,48 @@ This change alone makes the app unrecognisable next to the existing version, as 
 - **The persona effect:** a lifelike character improves **perceived** learning, not measured learning (S67, snippet).
 - **Distraction risk:** appealing but irrelevant details hurt learning, mostly for novices and in lessons under 5 minutes (S36, snippet).
 
-**Conclusion:** the mascot is a tool for emotion and brand identity, not a teaching tool. Its place is the transition moments — before and after thinking, not during it.
+**Conclusion:** the mascot is a tool for emotion and brand identity, not a teaching tool. Its place is the transition moments — before and after thinking, not during it. The 2D-over-3D finding above concerns learning outcomes; the owner's decision D5 to make the mascot identical to the logo and 3D in feel is a brand decision, and the appearance rules in section 13.5 keep it away from the moments where it could distract.
 
-### 13.2 Decision: an agent-made vector mascot **[DECIDED]**
+### 13.2 Decision: the logo platypus, animated in layers, 3D in feel **[DECIDED, D5]**
 
-The product owner decided that the AI agent designs and animates the mascot. This section states the best achievable approach and its limits.
+The product owner decided that the mascot must look identical to the logo platypus — the artwork of `mobile/assets/splash-icon.png` and the app icon — and must feel three-dimensional. This replaces the earlier flat-vector decision. The earlier research conclusion still holds for where the mascot appears (section 13.5); only how it is built changes.
 
 **Options considered:**
 
 | Option | Decision | Reason |
 |---|---|---|
-| **Vector character in SVG, animated with Reanimated, driven by a small state machine** | **Chosen** | The agent can write it entirely as code; Reanimated is already installed; it honours Reduce Motion by default; nothing binary to produce |
-| Rive file with a state machine | Not achievable by the agent | A Rive file is made in the Rive editor, a visual tool. The agent cannot operate it or produce the binary file. Used by Duolingo and Brilliant (S68, S10), so it remains the upgrade path |
-| React Native Skia | Fallback | More drawing power (blur, shaders) but adds about 6MB on iOS and 4MB on Android (S90, snippet). Used only if SVG proves too slow |
-| Lottie | Rejected | Plays fixed clips; the agent cannot author them either; no interactive state machine |
-| Real-time 3D | **[REJECTED]** | The research favours 2D; no independent performance benchmarks exist for any 3D library in React Native; high production cost |
-| Image sequence from the existing render | Rejected | Heavy files, no interactivity, and only a bust exists |
+| **The logo artwork cut into layers, animated with Reanimated and drawn with Skia (2.5D)** | **Chosen** | Pixel-identical to the logo at rest; the agent can produce the layers from the existing render; depth comes from parallax, a depth-map warp and moving light |
+| **A rigged real-time 3D model (GLB) rendered natively** | **Supported, model not included** | The truest 3D. The agent cannot sculpt and rig a model that matches the render, so the app ships the integration and uses it automatically when the model file is supplied |
+| Flat vector character in SVG | Replaced by D5 | Would not look like the logo |
+| Rive file with a state machine | Not achievable by the agent | Made in a visual editor; remains a possible future source for the same component interface |
+| Lottie | Rejected | Plays fixed clips; no interactive state machine |
+| Image sequence from the existing render | Rejected | Heavy files, no interactivity |
 
-**How it is built:**
+**How the 2.5D mascot is built:**
 
-- **The character** is a full-body platypus drawn as layered vector shapes: body, head, bill, eyes and eyelids, cheeks, front feet, back feet, tail. Each part is a separate, named shape with its own pivot point.
-- **Animation** is a set of numeric values per part (rotation, position, scale, opacity, path shape between two poses) driven by Reanimated on the UI thread.
+- **Layers from the real artwork.** A reproducible script cuts the logo render into transparent layers: body, head, tuft, brows, eye whites, irises, bill (upper and lower), plus generated eyelids textured with fur sampled from the artwork. The area hidden behind each moving layer is filled in, so no gap appears when a layer moves.
+- **Depth.** Each layer has its own depth: when the head turns or bobs, nearer layers (bill, tuft, eyes) travel further than farther ones (head, body). A depth map of the head feeds a shader that shifts pixels by depth, so a head tilt reads as rotation of a volume, not as a sliding picture.
+- **Light and shadow.** A soft light moves across the fur with the head's motion, the head casts a shadow on the chest that shifts as it moves, and the warm halo of the logo sits behind the character. The halo turns cyan in the `glow` state.
+- **Animation** is a set of numeric values per layer (position, rotation, scale, opacity, shader inputs) driven by Reanimated on the UI thread and drawn in one Skia canvas.
 - **The state machine** is plain TypeScript: 12 named states, the allowed transitions between them, and two continuous inputs (`streakLength`, `mood`).
-- **Idle life** comes from several independent loops with different periods (breathing, blinking, tail sway), so the motion does not look repeated. This mirrors the approach Duolingo describes (S69).
+- **Idle life** comes from several independent loops with different periods (breathing, blinking, head drift, tuft sway), so the motion does not look repeated. This mirrors the approach Duolingo describes (S69).
 - **One component** exposes the mascot to the rest of the app: it takes a state and the two inputs and nothing else.
 
-**Required new dependency:** `react-native-svg`. That is the only one for the mascot. **[ASSUMPTION]** that animating SVG properties through Reanimated holds 60fps on the reference device for a character of this complexity; this is tested first, with Skia as the fallback.
+**The real-time 3D path:**
 
-**Honest limits of an agent-made mascot:**
+- If a rigged model exists at `mobile/assets/mascot/platyko.glb`, the same component renders it with the native 3D renderer in place of the layered artwork. No screen changes.
+- The model contract is documented in `docs/mascot-3d-model.md`: one animation clip per state, named exactly as the 12 states; a neutral pose facing the camera; a triangle and texture budget that holds 60 frames per second on the reference device.
+- A missing clip falls back to the `idle` clip. A model that fails to load falls back to the layered artwork.
+- Producing the model is logged under "Needs human input": it needs a 3D artist working from the logo render.
 
-- **It will not look like the current icon.** The icon is a 3D-style render with fur, lighting and soft shading. The in-app character will be a flat, geometric vector drawing in the same colours. The two will read as the same animal, not as the same artwork.
-- **The agent works without an artist's eye.** It can check its output through simulator screenshots, but judging charm, appeal and timing is a human strength. Expect a clean, competent character, not studio-grade character animation.
-- **Technique limits.** Hand-coded rigs have no bones or mesh deformation. Motion is built from rotating, moving, scaling and blending shapes. Squash-and-stretch and overlapping motion are possible; fluid, organic deformation is not.
-- **The glow is simulated** with layered translucent shapes and gradients, not a true blur.
-- **The icon, splash and email art stay as they are**, since the agent cannot redraw a 3D render. This leaves a visible style gap between the app icon and the in-app character.
+**Dependencies:** `@shopify/react-native-skia` for the layered mascot; a native 3D renderer for the optional model path.
 
-**Upgrade path [RECOMMENDATION]:** the component's interface — the 12 state names and the two inputs — is defined so that a professionally made Rive file can replace the vector rig later with no change to any screen. The current Rive runtime for React Native requires React Native 0.78+ and Expo SDK 53+, which the project meets (S72).
+**Honest limits:**
+
+- **It is a bust.** The logo shows the head and upper body only: no legs, no tail, and arms that are only hinted. States that need limbs are adapted (section 13.4), and the adaptations are stated there.
+- **It is 2.5D, not a model.** The head can turn and tilt by a small angle before the illusion breaks. Large rotations, a back view and walking need the rigged model.
+- **The mouth is the logo's smile.** The bill can open slightly and tremble; it cannot form new mouth shapes.
+- **The agent works without an artist's eye.** It checks its output through simulator screenshots; judging charm and timing remains a human strength.
 
 ### 13.3 What makes it distinctive: behaviours from a real platypus
 
@@ -1261,35 +1269,33 @@ What separates this mascot from an owl or a generic character is that its behavi
 | Real trait | Behaviour in the product | Where |
 |---|---|---|
 | **The bill is an electro-sensing organ** used to find prey | **"Bug sense":** the bill trembles and gives off small sparks when a bug is near | Hint in `FIX_BUG`; Bug Hunt mode |
-| **Dives with eyes, ears and nostrils closed**, 30–140 seconds | **Dive:** dives into the water with eyes shut and surfaces with the result | Opponent search, loading |
-| **Cheek pouches** for storing food | **Full cheeks:** collects XP in its cheeks during the lesson and spits it out at the end | Lesson summary screen |
-| **A tail that stores fat** as a reserve | **The streak tail:** the tail thickens as the streak grows; a streak freeze is "stored in the tail" | Home, streak screen |
+| **Dives with eyes, ears and nostrils closed**, 30–140 seconds | **Dive:** sinks below the water line with eyes shut and surfaces with the result | Opponent search, loading |
+| **Cheek pouches** for storing food | **Full cheeks:** the cheeks puff with the XP collected in the lesson and release it at the end | Lesson summary screen |
+| **A tail that stores fat** as a reserve | **The streak glow:** the bust has no tail, so the reserve shows as the warm halo behind the character and the height of its tuft, which grow with the streak; a streak freeze is shown beside it | Home, streak screen |
 | **Lives in a burrow** in the riverbank | **The burrow:** peeks from the burrow, hides in it, sleeps in it | Empty state, streak at risk, late night |
-| **Glows green-cyan under UV light** | **Glow state:** the fur glows in `brand.glow` | Milestones only: perfect lesson, unit mastered, tier promotion |
-| **Webbed front feet** | **Wave:** waves a webbed hand | Welcome, win |
-
-This answers the product owner's request directly (walks, moves, waves on a win, hides), and each motion also teaches something true about the animal and belongs to Platyko alone.
+| **Glows green-cyan under UV light** | **Glow state:** the fur is rim-lit in `brand.glow` and the halo turns cyan | Milestones only: perfect lesson, unit mastered, tier promotion |
+| **Webbed front feet** | Not visible in the bust; the greeting is a head tilt and bob. A wave becomes possible with the rigged model | Welcome, win |
 
 **Note on the glow:** the finding rests on a small sample of museum specimens and its function is unknown (S71). It is used as design inspiration, not as a scientific claim inside the product.
 
 ### 13.4 The state machine — 12 states
 
-| State | Trigger | Description |
+| State | Trigger | Description (layered bust) |
 |---|---|---|
-| `idle` | Default | Breathing, blinking, a light tail sway |
-| `wave` | Entering the app, opening onboarding | Waves a webbed hand |
-| `think` | Waiting for the AI or the server | Head tilted, bill moving |
-| `sense` | Hint in `FIX_BUG` | Bill trembling with sparks |
-| `cheer` | Correct answer (short), lesson end (full) | A small hop; in the full version, XP spat from the cheeks |
-| `comfort` | Solution reveal after two attempts | An encouraging look and a nod. **Not sad and not disappointed** |
-| `dive` | Opponent search | Dive, bubbles, surfacing with the opponent's avatar |
-| `glow` | Milestone | The fur glows cyan |
-| `hide` | Streak at risk; empty state | Peeks from the burrow |
-| `sleep` | Late night | Asleep in the burrow |
-| `victory` | Game won | A victory dance with a wave |
-| `defeat` | Game lost | A sporting shrug |
+| `idle` | Default | Breathing, blinking, a slow head drift, a light tuft sway |
+| `wave` | Entering the app, opening onboarding | **Adapted (no arm in the bust):** a greeting — head tilt, two quick bobs, raised brows, a happy squint |
+| `think` | Waiting for the AI or the server | Head tilted, eyes up and to the side, one brow raised, bill moving |
+| `sense` | Hint in `FIX_BUG` | Bill trembling with sparks, eyes fixed on the bill |
+| `cheer` | Correct answer (short), lesson end (full) | A hop with squash and stretch; the cheeks puff and release XP |
+| `comfort` | Solution reveal after two attempts | Soft eyes, a kind brow and a slow nod. **Not sad and not disappointed** |
+| `dive` | Opponent search | Sinks below the water line with eyes shut; bubbles; surfaces when the search ends |
+| `glow` | Milestone | Cyan rim light, the halo turns cyan, sparkles |
+| `hide` | Streak at risk; empty state | Peeks over the edge of the burrow, eyes looking around |
+| `sleep` | Late night | Low in the burrow, eyes closed, slow breathing |
+| `victory` | Game won | **Adapted (no wave):** a side-to-side dance with hops, happy eyes and sparkles |
+| `defeat` | Game lost | A sporting shrug: the shoulders rise and drop, the head tilts, the smile stays |
 
-**Continuous inputs:** `streakLength` (controls tail thickness) and `mood` (driven by the run of answers: Brilliant describes a character that reacts differently to a struggling learner and to one breezing through, S10).
+**Continuous inputs:** `streakLength` (controls the halo and tuft, standing in for the tail) and `mood` (driven by the run of answers: Brilliant describes a character that reacts differently to a struggling learner and to one breezing through, S10).
 
 ### 13.5 Appearance rules **[REQUIRED: natural, not in the way]**
 
@@ -1408,7 +1414,7 @@ About 25 badges at launch. An unearned badge shows as a silhouette with the cond
 | Code view | A lexer in place of regex; line numbers; forced left-to-right | Medium |
 | Execution player | Displays a ready `trace`; no code runs on the device | Medium |
 | Skill map | Replaces `LearnRoadmapScreen` | Medium |
-| Mascot | Vector shapes with `react-native-svg`, animated with Reanimated, one wrapping component | High — the agent draws and animates it |
+| Mascot | Layers cut from the logo artwork, drawn in a Skia canvas and animated with Reanimated; one wrapping component; optional rigged GLB through a native 3D renderer | High — the agent cuts and animates it |
 | Social screens | Friends, search, public profile, invitations inbox, lobby | High |
 | Redux | New slices: `social`, `match` (replaces `duelLive`), `review`, `settings` (language); `lesson` is rebuilt | Medium |
 
@@ -1418,7 +1424,9 @@ About 25 badges at launch. An unearned badge shows as a silhouette with the cond
 
 | Dependency | For | Notes |
 |---|---|---|
-| `react-native-svg` | The mascot's vector shapes | Required |
+| `@shopify/react-native-skia` | The layered mascot, ambient water, glow and particles | Required |
+| `react-native-svg` | Progress rings, map path, badges | Required |
+| A native 3D renderer | The optional rigged mascot model | Loaded only when the model file exists |
 | A translation library, or a small in-house lookup | English and Hebrew strings | The choice is an implementation decision; a small lookup avoids a dependency |
 | A JavaScript lexer | Syntax highlighting | Open question Q3 |
 | An audio library | Three feedback sounds | Optional with sound |
@@ -1623,18 +1631,32 @@ model ItemFeedback { itemId String; userId String; vote Int?; reportReason Strin
 - **Recording attempts:** sent as a batch at the end of a lesson, not one request per answer.
 - **Mascot:** one animated instance per screen; idle loops pause when the screen is not focused.
 
-### 15.9 "Explain my mistake" (AI) **[RECOMMENDATION]**
+### 15.9 "Explain my mistake" (AI) **[DECIDED, D6]**
 
 **Basis:** a study published in PNAS in 2025 found that unrestricted access to a language model harmed performance once removed, and that a hint-only tutor reduced the harm but did not beat the control group (S85, snippet). So there is no free chat and no "solve it for me".
 
+**Owner decision D6:** the feature runs on a **free model**, behind a provider-agnostic interface and a feature flag, and it falls back silently to the pre-written hints and explanations. **Learning personalisation — mastery, review scheduling and jump tests — is algorithmic and never calls a model, free or paid.**
+
 **Scope:**
 
-- **First layer, no live AI:** the three hints and the explanation per distractor are written in advance and pass the verification gates. The bank is finite, so this covers most cases at no running cost.
+- **First layer, no live AI:** the three hints and the explanation per distractor are written in advance and pass the verification gates. The bank is finite, so this covers most cases at no running cost. This layer is always available.
 - **Second layer, live AI:** only in `CODE_WRITE` items, where the answer is free code and no explanation can be written in advance. The model receives the item, the reference solution and the user's code, and returns a short explanation **without writing the solution**.
-- **Limits:** registered users only; 10 requests a day; a reply of up to 80 words.
+- **Limits:** registered users only; 10 requests a day per user; a reply of up to 80 words.
 - **Language:** the explanation is returned in the user's chosen language, with code left as is.
-- **Cost:** the system instructions and item details are kept in a prompt cache; a cache read costs a tenth of the regular input price (S87).
-- **Risk:** the model may reveal the solution despite the instruction. CS50 reports a similar "instruction dilution" effect (S86, snippet). An automated check that the reply does not contain the reference solution is required.
+
+**Provider design:**
+
+- **One interface, any provider.** The backend talks to an OpenAI-compatible chat endpoint described only by configuration: base URL, API key and model. Changing provider is a configuration change, not a code change. An ordered list of providers may be configured; each is tried in turn.
+- **Feature flag.** With the flag off, or with no provider configured, the endpoint answers "not available" and the app shows the pre-written material. Nothing else in the product depends on the flag.
+- **Chosen free provider:** Cloudflare Workers AI on the Workers Free plan (S100, S101) — 10,000 Neurons a day at no charge, a hard stop when the allocation is used up (no surprise bill), and a published statement that customer content is not used to train models. At roughly 600 input and 120 output tokens per request this is on the order of a thousand explanations a day, depending on the model.
+- **Considered and not chosen as primary:** the Gemini API free tier, because free-tier content may be used to improve Google's products and may be read by reviewers (S102, third-party summaries); Groq's free plan, which does not retain inference requests by default and offers zero data retention (S103) but whose free limits are published only per account — it is the configured second provider; OpenRouter's free models, capped at 50 requests a day and served by providers with mixed training terms (S102).
+- **Silent fallback.** Quota exhausted, a provider error, a timeout of 8 seconds, a reply that fails the checks below, or the user's daily limit: in every case the app shows the item's pre-written explanation and hints, with no error message.
+
+**Safeguards:**
+
+- An automated check rejects a reply that contains the reference solution or an accepted answer (compared after normalising whitespace), and a reply longer than the limit. CS50 reports a similar "instruction dilution" effect (S86, snippet).
+- No personal identifiers are sent: only the item, the reference solution and the user's code.
+- Free tiers change without notice. The limits above were read on 14 November 2026 and must be re-read before launch; the fallback makes a change of limits harmless.
 
 ### 15.10 Scalability
 
@@ -1658,7 +1680,7 @@ model ItemFeedback { itemId String; userId String; vote Int?; reportReason Strin
 |---|---|---|---|
 | Unified `Item` model | One source of truth; a large duel pool at once | Migration of four tables | Medium — data migration |
 | N-player game engine | One engine for all modes | Rewriting most of `io` | High — no existing tests |
-| Agent-made SVG mascot | No external artist; code-only; honours Reduce Motion | Simpler look than the icon; style gap | Medium — visual quality and performance |
+| Layered logo mascot (2.5D) | Identical to the logo; no external artist; honours Reduce Motion | A bust; small head angles only | Medium — cut quality and performance |
 | User-level XP | A meaningful level; a trustworthy league | Migration; changes to shared packages | Medium |
 | `AuthIdentity` | Several providers, account linking | Migration of existing identities | Low |
 | Two languages with RTL | Serves the primary audience | Every screen needs direction testing; restart on switch | Medium |
@@ -1945,7 +1967,7 @@ The wireframes show the English layout. In Hebrew the layout is mirrored and lab
 - **Minors [ASSUMPTION]:** the audience includes students, but users under 18 are possible. A minimum age must be set and the relevant legal requirements checked before the social layer launches. See Q4.
 - **User-generated content:** username, bio and avatar only. No chat. **[VERIFIED]** There is no filtering or moderation of avatars today.
 - **GitHub:** disconnecting deletes all stored GitHub data.
-- **AI:** the user's code is sent to the model provider. This must be stated in the privacy policy, and no personal identifiers are sent.
+- **AI:** the user's code is sent to the model provider. This must be stated in the privacy policy, and no personal identifiers are sent. The chosen provider does not train on the content (section 15.9).
 - **Logs:** **[VERIFIED]** logs redact emails, passwords and answers. Extend to room codes and push tokens.
 - **Repository language rule:** a pre-commit check rejects any staged file containing Hebrew characters outside the Hebrew UI locale file, and rejects a Hebrew branch name. User-entered Hebrew lives only in the database.
 
@@ -1969,7 +1991,7 @@ A score of 1–5 per dimension; for complexity and upkeep, 5 means cheap.
 | Adaptive Learning | 4 | 4 | 3 | 4 | 15 | **Yes, light version:** review by mastery, and jump tests. Not a full adaptation engine |
 | Personalized Learning Path | 3 | 3 | 3 | 4 | 13 | **Merged** into the row above; no separate path per user |
 | Weekly League | 2 | 4 | 3 | 3 | 12 | **Yes**, after the XP fix |
-| AI Tutor | 3 | 3 | 3 | 2 | 11 | **Yes, limited** (section 15.9) |
+| AI Tutor | 3 | 3 | 3 | 4 | 13 | **Yes, limited, on a free model** (section 15.9) |
 | Weekly Tournaments | 1 | 3 | 2 | 2 | 8 | **[REJECTED]** — the league covers it |
 | Study Groups | 2 | 2 | 2 | 2 | 8 | **[REJECTED]** — rooms and friends cover it |
 
@@ -1977,7 +1999,7 @@ A score of 1–5 per dimension; for complexity and upkeep, 5 means cheap.
 
 | Idea | Reason |
 |---|---|
-| Real-time 3D mascot | Research favours 2D; performance and production cost |
+| A flat vector mascot | Replaced by decision D5: the mascot is the logo artwork, 2.5D, with a path to a rigged model |
 | Hearts or energy | Documented user resistance; contradicts "real learning" |
 | A timer in lessons | No research basis for novices |
 | Free chat | Heavy moderation load with no learning value |
@@ -1992,7 +2014,7 @@ A score of 1–5 per dimension; for complexity and upkeep, 5 means cheap.
 1. **A visual execution player** on every item, including the Event Loop.
 2. **An explanation for every distractor**, not "wrong".
 3. **Live multiplayer on real code** — no competitor examined combines this with a mobile learning path.
-4. **A mascot whose behaviours are unique to the animal** and cannot be copied.
+4. **The logo character itself, alive and 3D in feel**, with behaviours unique to the animal that cannot be copied.
 5. **A bank proven by execution**, verified to a zero-defect standard, with a reference for every question.
 6. **Hebrew and English** with correct handling of code inside a right-to-left interface.
 
@@ -2019,11 +2041,11 @@ A score of 1–5 per dimension; for complexity and upkeep, 5 means cheap.
 
 | | |
 |---|---|
-| **What is built** | The lesson player and the seven formats; the feedback sheet and hints; the code view and code keyboard; the execution player; the skill map; the new Home; the new onboarding with the language switch; the mascot (states `idle`, `wave`, `cheer`, `comfort`, `sense`, `glow`, `think`, `hide`, `sleep`); every screen in English and Hebrew |
+| **What is built** | The lesson player and the seven formats; the feedback sheet and hints; the code view and code keyboard; the execution player; the skill map; the new Home; the new onboarding with the language switch; the layered logo mascot (states `idle`, `wave`, `cheer`, `comfort`, `sense`, `glow`, `think`, `hide`, `sleep`) and the 3D-model path; every screen in English and Hebrew |
 | **Why it matters** | This is the change the user feels; here the product becomes "completely different" |
-| **Infrastructure** | `react-native-svg`; a lexer; phase 0 |
+| **Infrastructure** | `@shopify/react-native-skia`; `react-native-svg`; a lexer; phase 0 |
 | **Complexity** | High |
-| **Risks** | Mascot visual quality and frame rate; smooth dragging on weak devices; mixed-direction layouts |
+| **Risks** | Quality of the layer cut and frame rate of the mascot; smooth dragging on weak devices; mixed-direction layouts |
 | **Success conditions** | A new user completes a first item within 30 seconds of opening; 60fps on the reference device; all formats are usable with a screen reader; every screen passes a right-to-left review |
 
 ### Phase 2 — Building the bank (parallel to phase 1)
@@ -2079,7 +2101,7 @@ A score of 1–5 per dimension; for complexity and upkeep, 5 means cheap.
 | **Infrastructure** | All earlier phases; a language-model provider |
 | **Complexity** | Medium |
 | **Risks** | AI cost; league pressure |
-| **Success conditions** | An AI explanation does not contain the reference solution in an automated check; the league can be turned off |
+| **Success conditions** | An AI explanation does not contain the reference solution in an automated check; with the AI flag off or the provider failing, the pre-written explanation is shown with no error; the league can be turned off |
 
 ### 19.1 A realistic MVP **[REQUIRED]**
 
@@ -2108,6 +2130,9 @@ This is a recommendation for the case of need only. Under rule R1 the full scope
 - [ ] **L6:** lesson accuracy equals items answered correctly on the first attempt divided by total items. A lesson with one mistake does not show 100%.
 - [ ] **L7:** an item answered wrongly appears in Review within 3 days, as a different item on the same concept when one exists.
 - [ ] **No timer** on any lesson or review screen.
+- [ ] **R5:** with the AI flag off, no provider configured, the quota exhausted or the provider failing, "explain my mistake" shows the pre-written explanation and hints with no error message.
+- [ ] **R5:** an AI reply that contains the reference solution is rejected by an automated check and replaced by the pre-written explanation.
+- [ ] Mastery, review scheduling and jump tests call no AI model.
 
 ### 20.2 Content verification and originality
 
@@ -2174,10 +2199,12 @@ This is a recommendation for the case of need only. Under rule R1 the full scope
 
 - [ ] No screen uses a colour or font not defined in the tokens.
 - [ ] Every text and background pair meets a 4.5:1 contrast ratio.
-- [ ] With Reduce Motion on, there is no animation beyond a fade, and the mascot is static.
+- [ ] With Reduce Motion on, there is no animation beyond a fade, and the mascot shows a static pose for each state.
 - [ ] The mascot **is not shown** while an item is being solved, in the execution player or during an active game round.
 - [ ] Each of the 12 mascot states is triggered by the trigger defined for it.
-- [ ] The mascot is built from vector shapes and code only; the only dependency added for it is `react-native-svg`.
+- [ ] At rest the mascot is pixel-identical to the logo artwork: its layers are cut from `splash-icon.png`, and recomposing them reproduces the character.
+- [ ] The mascot reads as 3D: layers move with depth-based parallax, and light and shadow follow the head's motion.
+- [ ] When `mobile/assets/mascot/platyko.glb` exists the mascot is rendered from it by the native 3D renderer through the same component; when it is absent or fails to load, the layered artwork is used.
 - [ ] The mascot component's interface is the 12 state names and the two inputs, and nothing else.
 - [ ] 60fps on the reference device with the mascot animating, on the skill map, in Parsons dragging and on the leaderboard.
 
@@ -2217,7 +2244,7 @@ Resolved on 14 November 2026 and removed from this list: interface language (D1)
 | Q3 | Syntax-highlighting lexer: an existing library or a small in-house one for JavaScript? | Engineering | No |
 | Q4 | Minimum age and legal requirements for young users in the social layer. | Legal | Blocks phase 4 |
 | Q5 | Who handles the report queue, and with what response time? | Product owner | Blocks phase 4 |
-| Q6 | Provider, model and monthly budget for "explain my mistake". | Product owner | Blocks part of phase 6 |
+| Q6 | Resolved by D6: a free model (Cloudflare Workers AI) behind a provider-agnostic interface. Still needed from the owner: a Cloudflare account and API token. | Product owner | Blocks only the live AI layer; the fallback works without it |
 | Q7 | The reference device for performance tests. | Engineering | Blocks acceptance criteria |
 | Q8 | Business model: free, subscription or a mix? Affects AI quotas and any future limit. | Product owner | No |
 | Q9 | Keep Code Puzzle as a separate screen? Recommendation: fold it in as the `CODE_WRITE` format. | Product owner | Blocks phase 1 navigation |
@@ -2347,6 +2374,10 @@ Accessed on 14 November 2026. "Snippet" means the information came from a search
 83. isolated-vm — https://github.com/laverdet/isolated-vm
 84. quickjs-emscripten — https://github.com/justjake/quickjs-emscripten
 87. Claude Docs, Prompt caching — https://platform.claude.com/docs/en/build-with-claude/prompt-caching
+100. Cloudflare Docs, Workers AI pricing (read 14 November 2026) — https://developers.cloudflare.com/workers-ai/platform/pricing/
+101. Cloudflare Docs, Workers AI data usage (read 14 November 2026) — https://developers.cloudflare.com/workers-ai/platform/data-usage/
+102. Third-party summaries of free model tiers (snippet) — https://openrouter.ai/blog/tutorials/free-llm-apis-compared/ ; https://www.aifreeapi.com/en/posts/google-gemini-api-free-tier
+103. Groq Docs, rate limits and "Your data" (read 14 November 2026) — https://console.groq.com/docs/rate-limits ; https://console.groq.com/docs/your-data
 91. Expo Docs, Authentication — https://docs.expo.dev/guides/authentication/
 92. GitHub Docs, GitHub Apps versus OAuth Apps — https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/differences-between-github-apps-and-oauth-apps
 
