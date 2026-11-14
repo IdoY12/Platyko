@@ -1,0 +1,1305 @@
+{
+  "track": "EXPERT",
+  "unit": "debugging",
+  "order": 3,
+  "title": "Debugging",
+  "summary": "Finding off-by-one slips, shared-state mutation, async ordering mistakes and failures that travel through several functions.",
+  "concepts": [
+    {
+      "id": "off-by-one-and-boundaries",
+      "title": "Boundaries and off-by-one errors",
+      "prerequisites": [
+        "array-iteration",
+        "loop-accumulator"
+      ]
+    },
+    {
+      "id": "mutation-bugs",
+      "title": "Bugs from shared and mutated state",
+      "prerequisites": [
+        "reference-vs-value",
+        "shallow-copy",
+        "array-map"
+      ]
+    },
+    {
+      "id": "async-ordering-bugs",
+      "title": "Bugs from asynchronous ordering",
+      "prerequisites": [
+        "microtask-queue",
+        "await-scheduling",
+        "closure-in-loops"
+      ]
+    },
+    {
+      "id": "reading-a-stack-of-calls",
+      "title": "Following a failure through several functions",
+      "prerequisites": [
+        "call-stack",
+        "error-types",
+        "promise-rejection-flow"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "out-of-range-read-skipped",
+      "description": "Believes reading one index past the end adds or does nothing instead of producing undefined."
+    },
+    {
+      "id": "out-of-range-read-throws",
+      "description": "Believes reading an array index that does not exist throws an error."
+    },
+    {
+      "id": "slice-end-inclusive",
+      "description": "Believes the end argument of slice is included in the result, or that it counts items."
+    },
+    {
+      "id": "page-number-as-offset",
+      "description": "Uses a one-based page number directly as the number of pages to skip."
+    },
+    {
+      "id": "spread-copies-deeply",
+      "description": "Believes spread or Object.assign copies nested arrays and objects too."
+    },
+    {
+      "id": "in-place-method-returns-copy",
+      "description": "Believes sort, reverse or splice return an independent copy while leaving the original alone."
+    },
+    {
+      "id": "map-callback-cannot-mutate",
+      "description": "Believes map never changes the original items, even when the callback edits the objects it receives."
+    },
+    {
+      "id": "async-call-defers-whole-body",
+      "description": "Believes calling an async function delays its entire body until the caller finishes."
+    },
+    {
+      "id": "async-runs-to-completion",
+      "description": "Believes an async function runs to the end before the caller continues, ignoring await."
+    },
+    {
+      "id": "await-serializes-calls",
+      "description": "Believes await makes other calls of the same function wait for it."
+    },
+    {
+      "id": "missing-await-harmless",
+      "description": "Believes starting an async call without awaiting it still finishes its work before the next line."
+    },
+    {
+      "id": "code-continues-after-throw",
+      "description": "Believes code after a throw, or later steps of a rejected chain, keep running normally."
+    },
+    {
+      "id": "finally-skipped-on-throw",
+      "description": "Believes finally does not run when an error is passing through to a caller."
+    },
+    {
+      "id": "catch-keeps-chain-rejected",
+      "description": "Believes a promise chain stays rejected after a catch has handled it."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice",
+      "retrievedAt": "2026-11-14",
+      "sha256": "ffb801d3747e1ec50a5f79bfa8f14149461725e78c737c5577c965d1d88c6df0"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+      "retrievedAt": "2026-11-14",
+      "sha256": "3b5eb96e87b38462b813db533102618706c6561ce532ab16e4a2ce80f8090497"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+      "retrievedAt": "2026-11-14",
+      "sha256": "1e1d0c5980a7e42979a5a0d85b2a86715439dfc79f730e1403a5ece019bf3a7f"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
+      "retrievedAt": "2026-11-14",
+      "sha256": "19d84358b27f9406d2d4ce0beec3623cc0bf49c3b31afde94106a3239f929c5f"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises",
+      "retrievedAt": "2026-11-14",
+      "sha256": "f855c7e94df74174f68b186558c5b4019b59544bee251e4b3d6512bd9994c1b2"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
+      "retrievedAt": "2026-11-14",
+      "sha256": "de117a0890a33a86fafc6c86d8619639f834b7b70cd13585cfa86d8c476dec0b"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
+      "retrievedAt": "2026-11-14",
+      "sha256": "d0bb1e15cd9bc4a284b58a621c9d981a4667f1f5180dc58b975b8e23957a28ce"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+      "retrievedAt": "2026-11-14",
+      "sha256": "2fd98bfc1984170f119a9b7224e3113395f519ab395da872a9984032c9fe78d2"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "debugging.lesson-1",
+      "title": "Boundaries and off-by-one errors",
+      "conceptCard": {
+        "title": "Boundaries and off-by-one errors",
+        "body": "An array with n items has indexes 0 to n - 1. A loop that stops at n reads one slot too many, and one that stops at n - 1 skips the last item. slice(start, end) includes start and excludes end.",
+        "code": [
+          "const days = [\"Mon\", \"Tue\", \"Wed\"];",
+          "console.log(days[days.length]);",
+          "console.log(days[days.length - 1]);",
+          "console.log(days.slice(0, 2));"
+        ],
+        "expectedOutput": "undefined\nWed\n['Mon', 'Tue']"
+      },
+      "itemIds": [
+        "exp.debugging.off-by-one-and-boundaries.predict-01",
+        "exp.debugging.off-by-one-and-boundaries.concept-01",
+        "exp.debugging.off-by-one-and-boundaries.fix-01",
+        "exp.debugging.off-by-one-and-boundaries.write-01"
+      ]
+    },
+    {
+      "id": "debugging.lesson-2",
+      "title": "Bugs from shared and mutated state",
+      "conceptCard": {
+        "title": "Bugs from shared and mutated state",
+        "body": "Arrays and objects are shared by reference. A second name, a method that works in place, or a shallow copy can all point at the same data, so a change through one name shows up in the others. Copy the level you change.",
+        "code": [
+          "const a = [1, 2];",
+          "const b = a;",
+          "b.push(3);",
+          "const c = [...a];",
+          "c.push(4);",
+          "console.log(a, c);"
+        ],
+        "expectedOutput": "[1, 2, 3] [1, 2, 3, 4]"
+      },
+      "itemIds": [
+        "exp.debugging.mutation-bugs.predict-01",
+        "exp.debugging.mutation-bugs.concept-01",
+        "exp.debugging.mutation-bugs.fix-01",
+        "exp.debugging.mutation-bugs.fill-01"
+      ]
+    },
+    {
+      "id": "debugging.lesson-3",
+      "title": "Bugs from asynchronous ordering",
+      "conceptCard": {
+        "title": "Bugs from asynchronous ordering",
+        "body": "An async function runs normally until its first await, and the rest continues later. A value read before an await can be stale after it, and a loop counter declared outside the loop is one slot shared by every callback.",
+        "code": [
+          "const run = async () => {",
+          "  console.log(\"a\");",
+          "  await null;",
+          "  console.log(\"c\");",
+          "};",
+          "run();",
+          "console.log(\"b\");"
+        ],
+        "expectedOutput": "a\nb\nc"
+      },
+      "itemIds": [
+        "exp.debugging.async-ordering-bugs.predict-01",
+        "exp.debugging.async-ordering-bugs.concept-01",
+        "exp.debugging.async-ordering-bugs.fix-01",
+        "exp.debugging.async-ordering-bugs.write-02"
+      ]
+    },
+    {
+      "id": "debugging.lesson-4",
+      "title": "Following a failure through several functions",
+      "conceptCard": {
+        "title": "Following a failure through several functions",
+        "body": "An error moves up the call stack through each caller until a catch handles it, and finally runs on the way. In a promise chain, a rejection skips then steps until a catch. A handler that swallows an error hides it from its callers.",
+        "code": [
+          "const inner = () => {",
+          "  throw new TypeError();",
+          "};",
+          "const outer = () => inner();",
+          "try { outer(); }",
+          "catch (e) { console.log(e.name); }"
+        ],
+        "expectedOutput": "TypeError"
+      },
+      "itemIds": [
+        "exp.debugging.reading-a-stack-of-calls.predict-01",
+        "exp.debugging.reading-a-stack-of-calls.concept-01",
+        "exp.debugging.reading-a-stack-of-calls.fix-02",
+        "exp.debugging.reading-a-stack-of-calls.fill-02"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "exp.debugging.off-by-one-and-boundaries.predict-01",
+      "concept": "off-by-one-and-boundaries",
+      "prerequisites": [
+        "array-iteration"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A bus route lists three stops. The loop copies each stop into a new array. What does this program print?",
+      "code": [
+        "const stops = [\"Oak\", \"Elm\", \"Fir\"];",
+        "const count = stops.length;",
+        "const seen = [];",
+        "for (let i = 0; i <= count; i++) {",
+        "  seen.push(stops[i]);",
+        "}",
+        "console.log(seen);"
+      ],
+      "options": [
+        {
+          "text": "['Oak', 'Elm', 'Fir', undefined]",
+          "correct": true,
+          "feedback": "Right. The last pass reads index 3, which does not exist, and a missing index gives undefined."
+        },
+        {
+          "text": "['Oak', 'Elm', 'Fir']",
+          "correct": false,
+          "feedback": "You expected the extra pass to add nothing. Reading past the end does not skip the push: it pushes undefined.",
+          "misconception": "out-of-range-read-skipped"
+        },
+        {
+          "text": "Uncaught TypeError",
+          "correct": false,
+          "feedback": "Reading an index that does not exist on an array does not throw. It gives undefined, and the loop carries on.",
+          "misconception": "out-of-range-read-throws"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "['Oak', 'Elm', 'Fir', undefined]"
+      },
+      "explanation": "Three stops have indexes 0, 1 and 2. The condition i <= 3 allows a fourth pass, where stops[3] is undefined, and push adds it. Use < to stop after the last index.",
+      "hints": [
+        "Count how many times line 5 runs.",
+        "The last valid index is one less than the length.",
+        "Check the condition on line 4: how many passes does it allow?"
+      ],
+      "reference": {
+        "title": "Array length",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.off-by-one-and-boundaries.concept-01",
+      "concept": "off-by-one-and-boundaries",
+      "prerequisites": [
+        "array-iteration"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "Two slices of a queue are printed. Which statement explains why the first one has two items?",
+      "code": [
+        "const queue = [5, 6, 7, 8, 9];",
+        "console.log(queue.slice(1, 3));",
+        "console.log(queue.slice(-2));"
+      ],
+      "options": [
+        {
+          "text": "The end index is excluded, so slice(1, 3) takes the items at indexes 1 and 2.",
+          "correct": true,
+          "feedback": "Right. slice reads from the start index up to, but not including, the end index."
+        },
+        {
+          "text": "The end index is included, so slice(1, 3) should return three items and the output is wrong.",
+          "correct": false,
+          "feedback": "The output is real. The end index marks where slicing stops and that slot is not taken.",
+          "misconception": "slice-end-inclusive"
+        },
+        {
+          "text": "The second number counts items, so slice(1, 3) takes three items from index 1.",
+          "correct": false,
+          "feedback": "The second number is a position, not a count. Taking three items from index 1 would give a different result.",
+          "misconception": "slice-end-inclusive"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "[6, 7]\n[8, 9]"
+      },
+      "explanation": "slice(start, end) copies from start up to, but not including, end, so the number of items is end minus start. A negative start counts back from the end of the array.",
+      "hints": [
+        "Count the items in the first printed array.",
+        "Think about which of the two numbers is a position that is left out.",
+        "The length of a slice is end minus start."
+      ],
+      "reference": {
+        "title": "Array.prototype.slice()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.off-by-one-and-boundaries.fix-01",
+      "concept": "off-by-one-and-boundaries",
+      "prerequisites": [
+        "array-iteration"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "Page 2 of the table should list rows 4, 5 and 6, but it prints a different slice. Tap the buggy line and pick the fix.",
+      "code": [
+        "const rows = [1, 2, 3, 4, 5, 6, 7];",
+        "const size = 3;",
+        "const page = 2;",
+        "const start = page * size;",
+        "const end = start + size;",
+        "console.log(rows.slice(start, end));"
+      ],
+      "options": [
+        {
+          "text": "const start = (page - 1) * size;",
+          "correct": true,
+          "feedback": "Right. Pages count from 1, so page 2 starts after one full page of three books."
+        },
+        {
+          "text": "const start = page * size - 1;",
+          "correct": false,
+          "feedback": "That starts at index 5, which is the sixth row. Page 2 begins at the fourth, so the slice shows the wrong books.",
+          "misconception": "page-number-as-offset"
+        },
+        {
+          "text": "const start = (page - 1) * size + 1;",
+          "correct": false,
+          "feedback": "That is one slot after the real start. Page 2 would begin at its second row instead of its first.",
+          "misconception": "page-number-as-offset"
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "[4, 5, 6]"
+      },
+      "explanation": "Page numbers start at 1 but indexes start at 0. Page 2 skips one full page, so its first index is (page - 1) * size. Using page * size skips two pages.",
+      "hints": [
+        "Work out the index of row 4 and compare it with start.",
+        "Page 1 must start at index 0.",
+        "The start index is the number of pages before this one, times size."
+      ],
+      "reference": {
+        "title": "for statement",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.off-by-one-and-boundaries.write-01",
+      "concept": "off-by-one-and-boundaries",
+      "prerequisites": [
+        "array-iteration",
+        "loop-accumulator"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 5,
+      "prompt": "Write the body of chunk(list, n). Return the items grouped into arrays of n, in order; the last array may hold fewer. An empty list gives [].",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "chunk",
+          "params": [
+            "list",
+            "n"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              [
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              2
+            ],
+            "expected": [
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                5
+              ]
+            ]
+          },
+          {
+            "input": [
+              [
+                1,
+                2,
+                3,
+                4
+              ],
+              2
+            ],
+            "expected": [
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          {
+            "input": [
+              [],
+              3
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              [
+                7
+              ],
+              5
+            ],
+            "expected": [
+              [
+                7
+              ]
+            ]
+          }
+        ],
+        "reference": [
+          "const pages = [];",
+          "let i = 0;",
+          "while (i < list.length) {",
+          "  pages.push(list.slice(i, i + n));",
+          "  i += n;",
+          "}",
+          "return pages;"
+        ],
+        "wrongSolutions": [
+          [
+            "const pages = [];",
+            "let i = 0;",
+            "while (i < list.length - n) {",
+            "  pages.push(list.slice(i, i + n));",
+            "  i += n;",
+            "}",
+            "return pages;"
+          ],
+          [
+            "const pages = [];",
+            "let i = 0;",
+            "while (i < list.length) {",
+            "  const end = i + n - 1;",
+            "  pages.push(list.slice(i, end));",
+            "  i += n;",
+            "}",
+            "return pages;"
+          ],
+          [
+            "const pages = [];",
+            "let i = 0;",
+            "while (i <= list.length) {",
+            "  pages.push(list.slice(i, i + n));",
+            "  i += n;",
+            "}",
+            "return pages;"
+          ]
+        ]
+      },
+      "explanation": "Start each page at i and step by n. slice(i, i + n) excludes its end, so it takes n items and stops safely at the end of the list. The loop must stop when i reaches the length.",
+      "hints": [
+        "Think of one page per step of the loop.",
+        "slice excludes its end index and tolerates an end past the array.",
+        "Move i forward by n each time and slice from i to i plus n."
+      ],
+      "reference": {
+        "title": "Array.prototype.slice()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.mutation-bugs.predict-01",
+      "concept": "mutation-bugs",
+      "prerequisites": [
+        "shallow-copy"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A plant shop copies a shelf with spread, then edits the copy. What does this program print?",
+      "code": [
+        "const shelf = {",
+        "  name: \"herbs\",",
+        "  pots: [3, 5],",
+        "};",
+        "const copy = { ...shelf };",
+        "copy.pots.push(8);",
+        "copy.name = \"spices\";",
+        "console.log(shelf.name, shelf.pots);"
+      ],
+      "options": [
+        {
+          "text": "herbs [3, 5, 8]",
+          "correct": true,
+          "feedback": "Right. The copy has its own name, but its pots property points at the same array as the original."
+        },
+        {
+          "text": "herbs [3, 5]",
+          "correct": false,
+          "feedback": "You expected spread to copy the inner array too. It copies one level, so both objects share the same pots array.",
+          "misconception": "spread-copies-deeply"
+        },
+        {
+          "text": "spices [3, 5, 8]",
+          "correct": false,
+          "feedback": "The name is a text value, copied into the new object. Assigning a new name to the copy leaves the original name alone.",
+          "misconception": "spread-copies-deeply"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "herbs [3, 5, 8]"
+      },
+      "explanation": "Spread makes a shallow copy. The name text is copied, so changing it does not touch the original. The pots array is shared by reference, so push changes the original too.",
+      "hints": [
+        "Compare what the two lines before the print change.",
+        "A shallow copy duplicates the top level only.",
+        "One property is copied by value and one is shared."
+      ],
+      "reference": {
+        "title": "Spread syntax (...)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.mutation-bugs.concept-01",
+      "concept": "mutation-bugs",
+      "prerequisites": [
+        "reference-vs-value"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "A shop sorts its price list and keeps the result in a second name. Which statement explains the output?",
+      "code": [
+        "const prices = [30, 10, 20];",
+        "const byValue = (a, b) => a - b;",
+        "const sorted = prices.sort(byValue);",
+        "console.log(prices);",
+        "console.log(sorted === prices);"
+      ],
+      "options": [
+        {
+          "text": "sort reorders the array in place and returns that same array, so both names point to it.",
+          "correct": true,
+          "feedback": "Right. sort changes the array it is called on and gives back the same array."
+        },
+        {
+          "text": "sort returns a new sorted array and leaves prices in its original order.",
+          "correct": false,
+          "feedback": "That would print the original order. sort works in place, so prices is already sorted.",
+          "misconception": "in-place-method-returns-copy"
+        },
+        {
+          "text": "sort reorders prices but returns a separate copy, so the two names are different arrays.",
+          "correct": false,
+          "feedback": "The returned value is the same array, not a copy, so comparing the two names gives a different result.",
+          "misconception": "in-place-method-returns-copy"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "[10, 20, 30]\ntrue"
+      },
+      "explanation": "Array sort is a mutating method: it reorders the array in place and returns a reference to the same array. To keep the original order, sort a copy.",
+      "hints": [
+        "Look at what the first printed line shows about prices.",
+        "Some array methods change the array they are called on.",
+        "Compare the two names: are they two arrays or one?"
+      ],
+      "reference": {
+        "title": "Array.prototype.sort()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.mutation-bugs.fix-01",
+      "concept": "mutation-bugs",
+      "prerequisites": [
+        "array-map",
+        "shallow-copy"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "The cart should keep its weights while doubled holds new ones, but both lists change. Tap the buggy line and pick the fix.",
+      "code": [
+        "const cart = [{ kg: 1 }, { kg: 2 }];",
+        "const doubled = cart.map((o) => {",
+        "  o.kg *= 2;",
+        "  return o;",
+        "});",
+        "console.log(cart[0].kg);",
+        "console.log(doubled[0].kg);"
+      ],
+      "options": [
+        {
+          "text": "o = { ...o, kg: o.kg * 2 };",
+          "correct": true,
+          "feedback": "Right. The callback now builds a new object, so the original cart item is never changed."
+        },
+        {
+          "text": "o.kg += o.kg;",
+          "correct": false,
+          "feedback": "This doubles the weight by writing into o, the original cart item. It still changes the original.",
+          "misconception": "map-callback-cannot-mutate"
+        },
+        {
+          "text": "o.kg = o.kg * 2;",
+          "correct": false,
+          "feedback": "That is the same change written longer. It still edits the original object that the callback received.",
+          "misconception": "map-callback-cannot-mutate"
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "1\n2"
+      },
+      "explanation": "map builds a new array, but its callback receives the same objects. Writing o.kg edits the original. Return a new object instead of changing the one received.",
+      "hints": [
+        "Which object does o refer to on line 3?",
+        "map copies the array, not the objects inside it.",
+        "Build a fresh object from o with the new kg."
+      ],
+      "reference": {
+        "title": "Array.prototype.map()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.mutation-bugs.fill-01",
+      "concept": "mutation-bugs",
+      "prerequisites": [
+        "reference-vs-value",
+        "shallow-copy"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 5,
+      "prompt": "The bakery needs a sorted copy while the bin keeps its order. Fill the blank so the program prints 3 4.",
+      "code": [
+        "const bin = [\"rye\", \"oat\", \"corn\"];",
+        "const out = ___.sort();",
+        "out.push(\"spelt\");",
+        "console.log(bin.length, out.length);"
+      ],
+      "options": [
+        {
+          "text": "[...bin]",
+          "correct": true,
+          "feedback": "Right. Spread makes a new array, so sort and push leave the bin alone."
+        },
+        {
+          "text": "bin.slice()",
+          "correct": true,
+          "feedback": "Right. slice with no arguments returns a new array copy."
+        },
+        {
+          "text": "bin",
+          "correct": false,
+          "feedback": "This is a second name for the same array, so push grows the bin too and the program prints 4 4."
+        },
+        {
+          "text": "bin.reverse()",
+          "correct": false,
+          "feedback": "reverse works in place and returns the same array, so the bin still grows with the push."
+        },
+        {
+          "text": "bin.splice(0)",
+          "correct": false,
+          "feedback": "splice removes the items from the bin and returns them, so the bin ends up empty."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "[...bin]",
+            "bin.slice()"
+          ]
+        ],
+        "expectedOutput": "3 4"
+      },
+      "explanation": "sort and push change the array they run on. To keep bin unchanged, sort a copy made with spread or slice. A second name or a method that works in place does not make a copy.",
+      "hints": [
+        "Look at which array push changes.",
+        "A copy is a new array, not another name for the bin.",
+        "Two expressions build a new array from bin."
+      ],
+      "reference": {
+        "title": "Array.prototype.splice()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.async-ordering-bugs.predict-01",
+      "concept": "async-ordering-bugs",
+      "prerequisites": [
+        "microtask-queue",
+        "await-scheduling"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A print shop starts a job and then queues another. What does this program print?",
+      "code": [
+        "const print = async () => {",
+        "  console.log(\"start\");",
+        "  await null;",
+        "  console.log(\"end\");",
+        "};",
+        "print();",
+        "console.log(\"next job\");"
+      ],
+      "options": [
+        {
+          "text": "start\nnext job\nend",
+          "correct": true,
+          "feedback": "Right. The body runs until the await, then the caller continues and the rest resumes later."
+        },
+        {
+          "text": "start\nend\nnext job",
+          "correct": false,
+          "feedback": "You expected the call to finish before the next line. await pauses the function, so the caller moves on first.",
+          "misconception": "async-runs-to-completion"
+        },
+        {
+          "text": "next job\nstart\nend",
+          "correct": false,
+          "feedback": "The body of an async function starts right away, up to its first await. Only the part after the await is delayed.",
+          "misconception": "async-call-defers-whole-body"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "start\nnext job\nend"
+      },
+      "explanation": "An async function runs synchronously until its first await. The await hands control back to the caller, and the rest of the body continues later as a microtask.",
+      "hints": [
+        "Find which line pauses print.",
+        "The code before the first await is not delayed.",
+        "The call returns at the await, before the last line of print."
+      ],
+      "reference": {
+        "title": "await",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.async-ordering-bugs.concept-01",
+      "concept": "async-ordering-bugs",
+      "prerequisites": [
+        "microtask-queue",
+        "await-scheduling"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 5,
+      "prompt": "Two sales start at the same moment on a stock of 5. Which statement explains the printed 4?",
+      "code": [
+        "let qty = 5;",
+        "const sell = async () => {",
+        "  const seen = qty;",
+        "  await null;",
+        "  qty = seen - 1;",
+        "};",
+        "const show = () => console.log(qty);",
+        "sell();",
+        "sell();",
+        "setTimeout(show, 0);"
+      ],
+      "options": [
+        {
+          "text": "Both calls read 5 before either writes, so the second write stores 4 again.",
+          "correct": true,
+          "feedback": "Right. Each call read a value that went stale during the await, and the last write replaced the first."
+        },
+        {
+          "text": "The second call waits for the first call to finish, so the stock only goes down once.",
+          "correct": false,
+          "feedback": "Calls do not queue behind each other. The second call starts as soon as the first one pauses.",
+          "misconception": "await-serializes-calls"
+        },
+        {
+          "text": "await makes each call finish before the next starts, so the stock should reach 3 but a bug skips one.",
+          "correct": false,
+          "feedback": "await pauses only its own function. The second call begins while the first is paused, so nothing is skipped by a bug.",
+          "misconception": "await-serializes-calls"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "4"
+      },
+      "explanation": "The first call reads 5 and pauses. The second call reads 5 too. Both resume and write 5 - 1, so one update is lost. Read the value after the await, or avoid keeping a stale copy.",
+      "hints": [
+        "Follow the order of lines 3 and 5 for both calls.",
+        "A value saved before an await can be stale after it.",
+        "Both calls save the same value before either one writes."
+      ],
+      "reference": {
+        "title": "async function",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.async-ordering-bugs.fix-01",
+      "concept": "async-ordering-bugs",
+      "prerequisites": [
+        "await-scheduling"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "The log should show the latte before served, but it shows only served. Tap the buggy line and pick the fix.",
+      "code": [
+        "const steps = [];",
+        "const brew = async (cup) => {",
+        "  await null;",
+        "  steps.push(cup);",
+        "};",
+        "async function serve() {",
+        "  brew(\"latte\");",
+        "  steps.push(\"served\");",
+        "  console.log(steps);",
+        "}",
+        "serve();"
+      ],
+      "options": [
+        {
+          "text": "await brew(\"latte\");",
+          "correct": true,
+          "feedback": "Right. serve pauses until brew finishes, so the latte is added before served."
+        },
+        {
+          "text": "return brew(\"latte\");",
+          "correct": false,
+          "feedback": "return ends serve at that line, so the lines that push served and print never run.",
+          "misconception": "missing-await-harmless"
+        },
+        {
+          "text": "setTimeout(brew, 0, \"latte\");",
+          "correct": false,
+          "feedback": "A timer only starts the brew later. serve does not wait for it, so the print runs before the latte is added.",
+          "misconception": "missing-await-harmless"
+        }
+      ],
+      "solution": {
+        "bugLine": 7,
+        "expectedOutput": "['latte', 'served']"
+      },
+      "explanation": "Calling an async function starts it and returns a promise. Without await, serve carries on at once, and brew adds the cup after the print. Awaiting the promise keeps the steps in order.",
+      "hints": [
+        "Line 7 starts brew; what makes serve wait for it?",
+        "An async call returns a promise that serve must wait on.",
+        "Put the keyword that pauses serve in front of the call."
+      ],
+      "reference": {
+        "title": "Using promises",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.async-ordering-bugs.write-02",
+      "concept": "async-ordering-bugs",
+      "prerequisites": [
+        "closure-in-loops"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 5,
+      "prompt": "Write the body of lateReadings(count). Build count functions in a loop, the one for index i returning i * 10. Call them after the loop and return the results.",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "lateReadings",
+          "params": [
+            "count"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              3
+            ],
+            "expected": [
+              0,
+              10,
+              20
+            ]
+          },
+          {
+            "input": [
+              1
+            ],
+            "expected": [
+              0
+            ]
+          },
+          {
+            "input": [
+              0
+            ],
+            "expected": []
+          },
+          {
+            "input": [
+              4
+            ],
+            "expected": [
+              0,
+              10,
+              20,
+              30
+            ]
+          }
+        ],
+        "reference": [
+          "const tasks = [];",
+          "for (let i = 0; i < count; i++) {",
+          "  tasks.push(() => i * 10);",
+          "}",
+          "return tasks.map((run) => run());"
+        ],
+        "wrongSolutions": [
+          [
+            "const tasks = [];",
+            "let i = 0;",
+            "for (; i < count; i++) {",
+            "  tasks.push(() => i * 10);",
+            "}",
+            "return tasks.map((run) => run());"
+          ],
+          [
+            "const tasks = [];",
+            "let last = 0;",
+            "for (let i = 0; i < count; i++) {",
+            "  last = i;",
+            "  tasks.push(() => last * 10);",
+            "}",
+            "return tasks.map((run) => run());"
+          ],
+          [
+            "const tasks = [];",
+            "for (let i = 0; i <= count; i++) {",
+            "  tasks.push(() => i * 10);",
+            "}",
+            "return tasks.map((run) => run());"
+          ]
+        ]
+      },
+      "explanation": "let gives each iteration its own i, so every function keeps the index it was created with. A counter declared outside the loop or a shared outer variable is one slot that every function reads after the loop ends.",
+      "hints": [
+        "Think about which i each function reads when it runs.",
+        "A let loop variable is a new binding on every pass.",
+        "Declare the loop counter inside the for statement and call the functions after the loop."
+      ],
+      "reference": {
+        "title": "Closures",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.reading-a-stack-of-calls.predict-01",
+      "concept": "reading-a-stack-of-calls",
+      "prerequisites": [
+        "call-stack",
+        "error-types"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 5,
+      "prompt": "An oven error travels up through two callers. What does this program print?",
+      "code": [
+        "const log = [];",
+        "const bake = () => {",
+        "  log.push(\"bake\");",
+        "  throw new RangeError(\"x\");",
+        "};",
+        "const prep = () => {",
+        "  try { bake(); log.push(\"a\"); }",
+        "  finally { log.push(\"b\"); }",
+        "};",
+        "try { prep(); }",
+        "catch (e) { log.push(e.name); }",
+        "console.log(log);"
+      ],
+      "options": [
+        {
+          "text": "['bake', 'b', 'RangeError']",
+          "correct": true,
+          "feedback": "Right. The throw skips the rest of prep's try block, finally still runs, and the outer catch gets the error."
+        },
+        {
+          "text": "['bake', 'a', 'b', 'RangeError']",
+          "correct": false,
+          "feedback": "After a throw nothing else in that block runs, so line 7 never reaches the push of a.",
+          "misconception": "code-continues-after-throw"
+        },
+        {
+          "text": "['bake', 'RangeError']",
+          "correct": false,
+          "feedback": "finally runs whether the try block finished or threw, even when the error continues up to a caller.",
+          "misconception": "finally-skipped-on-throw"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "['bake', 'b', 'RangeError']"
+      },
+      "explanation": "The throw leaves bake and skips the rest of prep's try block. finally runs on the way out, then the error reaches the catch in the caller, which logs its name.",
+      "hints": [
+        "Follow the error out of bake, one caller at a time.",
+        "A throw skips the rest of its block, but finally still runs.",
+        "Order the pushes: bake, then the cleanup, then the catch."
+      ],
+      "reference": {
+        "title": "try...catch",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.reading-a-stack-of-calls.concept-01",
+      "concept": "reading-a-stack-of-calls",
+      "prerequisites": [
+        "promise-rejection-flow"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 5,
+      "prompt": "A promise chain throws in its first step. Which statement explains the printed output?",
+      "code": [
+        "const fail = () => {",
+        "  throw new TypeError();",
+        "};",
+        "Promise.resolve(1)",
+        "  .then(fail)",
+        "  .then(() => console.log(\"ran\"))",
+        "  .catch((e) => console.log(e.name))",
+        "  .then(() => console.log(\"after\"));"
+      ],
+      "options": [
+        {
+          "text": "The rejection skips later then steps until the catch, and after the catch the chain continues normally.",
+          "correct": true,
+          "feedback": "Right. The catch handles the rejection and returns normally, so the next then runs."
+        },
+        {
+          "text": "The rejection skips the next then, but the chain stays rejected, so after is never printed.",
+          "correct": false,
+          "feedback": "A catch that returns normally turns the chain back to fulfilled, so the following then does run.",
+          "misconception": "catch-keeps-chain-rejected"
+        },
+        {
+          "text": "A throw does not stop the chain, so ran is printed before the catch runs.",
+          "correct": false,
+          "feedback": "A throw inside a then rejects its promise, and a then step with no rejection handler is passed over.",
+          "misconception": "code-continues-after-throw"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "TypeError\nafter"
+      },
+      "explanation": "A throw in a then handler rejects the promise it returns. then steps without a rejection handler are passed over until a catch. The catch returns normally, so the chain is fulfilled again.",
+      "hints": [
+        "Follow each step of the chain from the throw.",
+        "A rejected promise skips then handlers that only handle success.",
+        "Ask what state the chain is in after the catch returns."
+      ],
+      "reference": {
+        "title": "Promise.prototype.catch()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.reading-a-stack-of-calls.fix-02",
+      "concept": "reading-a-stack-of-calls",
+      "prerequisites": [
+        "call-stack",
+        "error-types"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "The caller should print TypeError, but the inner function hides the failure. Tap the buggy line and pick the fix.",
+      "code": [
+        "const parseQty = (text) => {",
+        "  if (!text) throw new TypeError();",
+        "  return Number(text);",
+        "};",
+        "const readQty = (text) => {",
+        "  try { return parseQty(text); }",
+        "  catch (e) { return 0; }",
+        "};",
+        "try { readQty(\"\"); }",
+        "catch (e) { console.log(e.name); }"
+      ],
+      "options": [
+        {
+          "text": "catch (e) { throw e; }",
+          "correct": true,
+          "feedback": "Right. The error is passed on, so the outer catch sees it and prints its name."
+        },
+        {
+          "text": "catch (e) { return e; }",
+          "correct": false,
+          "feedback": "The error becomes an ordinary return value. No error reaches the outer catch, so nothing is printed."
+        },
+        {
+          "text": "catch (e) { console.log(\"low\"); }",
+          "correct": false,
+          "feedback": "This reports the failure here, but it ends in this function and the outer catch never runs."
+        }
+      ],
+      "solution": {
+        "bugLine": 7,
+        "expectedOutput": "TypeError"
+      },
+      "explanation": "A catch that returns a value handles the error and ends the failure there. Callers never learn of it. To let a caller decide, rethrow the error from the catch.",
+      "hints": [
+        "Follow line 2's error: who gets it first?",
+        "A catch ends the failure unless it throws again.",
+        "The inner catch should pass the same error on."
+      ],
+      "reference": {
+        "title": "throw",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.debugging.reading-a-stack-of-calls.fill-02",
+      "concept": "reading-a-stack-of-calls",
+      "prerequisites": [
+        "promise-rejection-flow"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 5,
+      "prompt": "A job starts rejected and one step should recover from it. Fill the two blanks so the program prints ['B'].",
+      "code": [
+        "const log = [];",
+        "Promise.___(new TypeError())",
+        "  .then(() => log.push(\"A\"))",
+        "  .___(() => log.push(\"B\"))",
+        "  .then(() => console.log(log));"
+      ],
+      "options": [
+        {
+          "text": "reject",
+          "correct": true,
+          "feedback": "Right. The chain starts rejected, so step A is skipped."
+        },
+        {
+          "text": "catch",
+          "correct": true,
+          "feedback": "Right. It runs for the rejection, and the chain is fulfilled after it."
+        },
+        {
+          "text": "resolve",
+          "correct": false,
+          "feedback": "The chain would start fulfilled, so A is pushed and the recovery step is skipped, which prints ['A']."
+        },
+        {
+          "text": "then",
+          "correct": false,
+          "feedback": "A success step is skipped for a rejection, so the rejection stays unhandled and nothing is printed."
+        },
+        {
+          "text": "finally",
+          "correct": false,
+          "feedback": "finally runs but passes the rejection on, so the last step is skipped and nothing is printed."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "reject"
+          ],
+          [
+            "catch"
+          ]
+        ],
+        "expectedOutput": "['B']"
+      },
+      "explanation": "A rejected promise skips success steps. Only a step made for failures runs, and after it the chain is fulfilled again, so the last step prints. A fulfilled start would skip the recovery step.",
+      "hints": [
+        "Follow the first step down the chain with each choice.",
+        "Decide how the promise starts, then which step may react to it.",
+        "The second blank must run for a failure and let the chain continue."
+      ],
+      "reference": {
+        "title": "Promise.prototype.catch()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    }
+  ]
+}

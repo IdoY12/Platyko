@@ -1,0 +1,1341 @@
+{
+  "track": "EXPERT",
+  "unit": "proxy-reflect-metaprogramming",
+  "order": 2,
+  "title": "`Proxy`, `Reflect` and metaprogramming",
+  "summary": "Intercept object operations with Proxy traps, forward them with Reflect, shape properties with descriptors and hook into the language with well-known symbols.",
+  "concepts": [
+    {
+      "id": "proxy-traps",
+      "title": "Proxy and its traps",
+      "prerequisites": [
+        "object-properties",
+        "prototype-chain"
+      ]
+    },
+    {
+      "id": "reflect-api",
+      "title": "Reflect as the default behaviour",
+      "prerequisites": [
+        "proxy-traps"
+      ]
+    },
+    {
+      "id": "property-descriptors",
+      "title": "Property descriptors and defineProperty",
+      "prerequisites": [
+        "object-properties",
+        "prototype-chain"
+      ]
+    },
+    {
+      "id": "well-known-symbols",
+      "title": "Well-known symbols",
+      "prerequisites": [
+        "symbol-keys",
+        "to-primitive-conversion",
+        "iteration-protocol"
+      ]
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "trap-skipped-for-missing-keys",
+      "description": "Believes a get trap runs only for keys that exist, so a missing key still gives undefined."
+    },
+    {
+      "id": "trap-answers-every-key-the-same",
+      "description": "Believes a get trap returns its fallback for every key, existing or not."
+    },
+    {
+      "id": "proxy-copies-target",
+      "description": "Believes a proxy makes a copy of its target, so writes through the proxy do not reach the original."
+    },
+    {
+      "id": "proxy-is-target",
+      "description": "Believes a proxy is the same object as its target."
+    },
+    {
+      "id": "trap-lookup-target-confusion",
+      "description": "Believes a trap may look data up through the proxy itself or with t.k instead of reading t[k] from the target."
+    },
+    {
+      "id": "reflect-ownkeys-like-keys",
+      "description": "Believes Reflect.ownKeys lists the same keys as Object.keys."
+    },
+    {
+      "id": "symbols-listed-first",
+      "description": "Believes symbol keys come before string keys in the own-key order."
+    },
+    {
+      "id": "reflect-set-returns-value",
+      "description": "Believes Reflect.set returns the assigned value, or only checks without writing, instead of writing and returning a boolean."
+    },
+    {
+      "id": "reflect-fits-any-trap",
+      "description": "Believes any Reflect function can stand in for the forwarding call, whatever its arguments."
+    },
+    {
+      "id": "descriptor-flags-default-true",
+      "description": "Believes flags left out of a defineProperty descriptor default to true."
+    },
+    {
+      "id": "assigned-properties-lack-flags",
+      "description": "Believes properties created by assignment have false flags or no flags at all."
+    },
+    {
+      "id": "flag-controls-listing",
+      "description": "Believes writable or configurable decides whether Object.keys lists a property."
+    },
+    {
+      "id": "tostringtag-confusion",
+      "description": "Believes Symbol.toStringTag changes typeof, or that the default object text ignores it."
+    },
+    {
+      "id": "protocol-hook-confusion",
+      "description": "Believes language hooks are ordinary method names or array-only features, not symbol-keyed methods that the language looks up."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+      "retrievedAt": "2026-11-14",
+      "sha256": "d781b92ba55fb7fb7b20d2ccfd794a146b3744160d709a04d969c8872a638c72"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+      "retrievedAt": "2026-11-14",
+      "sha256": "e6442cfee6573a35829a46e551b6f6f13aa14426d859155f727f25f8a3d02aa5"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty",
+      "retrievedAt": "2026-11-14",
+      "sha256": "5f48027d150ad0d63c891b1ea577e434b17726486984871cc93fa45fc3e5ae8f"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toStringTag",
+      "retrievedAt": "2026-11-14",
+      "sha256": "e02c9edb1c684c1e874c46bd0e4ce15766e3e46c8fa45528a2836e3d133f30db"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "proxy-reflect-metaprogramming.lesson-1",
+      "title": "Proxy and its traps",
+      "conceptCard": {
+        "title": "A proxy intercepts operations",
+        "body": "A Proxy wraps a target object. Its handler object holds traps such as get and set, which run when code reads or writes a property of the proxy. A trap receives the target and the key. An operation with no trap goes straight to the target.",
+        "code": [
+          "const prices = { tea: 3 };",
+          "const menu = (o) => new Proxy(o, {",
+          "  get: (t, k) => k in t ? t[k] : 0,",
+          "});",
+          "console.log(menu(prices).tea);",
+          "console.log(menu(prices).cake);"
+        ],
+        "expectedOutput": "3\n0"
+      },
+      "itemIds": [
+        "exp.proxy-reflect-metaprogramming.proxy-traps.predict-01",
+        "exp.proxy-reflect-metaprogramming.proxy-traps.concept-01",
+        "exp.proxy-reflect-metaprogramming.proxy-traps.fix-01",
+        "exp.proxy-reflect-metaprogramming.proxy-traps.write-01"
+      ]
+    },
+    {
+      "id": "proxy-reflect-metaprogramming.lesson-2",
+      "title": "Reflect as the default",
+      "conceptCard": {
+        "title": "Reflect does the default job",
+        "body": "Reflect has one function for every trap. Each does the default work of an operation and returns a plain result: Reflect.set gives true or false, Reflect.has gives a boolean. Inside a trap, the matching Reflect call forwards the operation to the target.",
+        "code": [
+          "const o = { n: 2 };",
+          "console.log(Reflect.has(o, \"n\"));",
+          "console.log(Reflect.set(o, \"n\", 5));",
+          "console.log(Reflect.get(o, \"n\"));",
+          "console.log(Reflect.ownKeys(o));"
+        ],
+        "expectedOutput": "true\ntrue\n5\n['n']"
+      },
+      "itemIds": [
+        "exp.proxy-reflect-metaprogramming.reflect-api.predict-01",
+        "exp.proxy-reflect-metaprogramming.reflect-api.concept-01",
+        "exp.proxy-reflect-metaprogramming.reflect-api.fix-01",
+        "exp.proxy-reflect-metaprogramming.reflect-api.fill-01"
+      ]
+    },
+    {
+      "id": "proxy-reflect-metaprogramming.lesson-3",
+      "title": "Property descriptors",
+      "conceptCard": {
+        "title": "Flags behind every property",
+        "body": "Every property has flags: writable, enumerable and configurable. Plain assignment makes all three true. Object.defineProperty sets any flag you leave out to false, so the property is read-only, hidden from Object.keys and cannot be redefined.",
+        "code": [
+          "const cup = { ml: 250 };",
+          "Object.defineProperty(cup, \"tag\", {",
+          "  value: \"A\",",
+          "});",
+          "cup.tag = \"B\";",
+          "console.log(cup.tag);",
+          "console.log(Object.keys(cup));"
+        ],
+        "expectedOutput": "A\n['ml']"
+      },
+      "itemIds": [
+        "exp.proxy-reflect-metaprogramming.property-descriptors.predict-01",
+        "exp.proxy-reflect-metaprogramming.property-descriptors.concept-01",
+        "exp.proxy-reflect-metaprogramming.property-descriptors.fix-01",
+        "exp.proxy-reflect-metaprogramming.property-descriptors.write-01"
+      ]
+    },
+    {
+      "id": "proxy-reflect-metaprogramming.lesson-4",
+      "title": "Well-known symbols",
+      "conceptCard": {
+        "title": "Symbols the language looks up",
+        "body": "Well-known symbols are built-in keys that the language looks up on your objects. Symbol.iterator feeds spread and for-of, Symbol.toStringTag changes the tag in the default text, and Symbol.hasInstance customizes instanceof. Define a method under the symbol to hook in.",
+        "code": [
+          "const walk = {",
+          "  [Symbol.toStringTag]: \"Walk\",",
+          "  *[Symbol.iterator]() {",
+          "    yield 1;",
+          "  },",
+          "};",
+          "console.log(String(walk));",
+          "console.log([...walk]);"
+        ],
+        "expectedOutput": "[object Walk]\n[1]"
+      },
+      "itemIds": [
+        "exp.proxy-reflect-metaprogramming.well-known-symbols.predict-01",
+        "exp.proxy-reflect-metaprogramming.well-known-symbols.concept-01",
+        "exp.proxy-reflect-metaprogramming.well-known-symbols.fix-01",
+        "exp.proxy-reflect-metaprogramming.well-known-symbols.fill-01"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "exp.proxy-reflect-metaprogramming.proxy-traps.predict-01",
+      "concept": "proxy-traps",
+      "prerequisites": [
+        "object-properties",
+        "prototype-chain"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A pantry shelf wraps its stock in a proxy. What does this code print?",
+      "code": [
+        "const stock = { fig: 4 };",
+        "const rack = (o) => new Proxy(o, {",
+        "  get: (t, k) => k in t ? t[k] : 0,",
+        "});",
+        "console.log(rack(stock).fig);",
+        "console.log(rack(stock).pear);"
+      ],
+      "options": [
+        {
+          "text": "4\n0",
+          "correct": true,
+          "feedback": "Right. The get trap runs for both reads: fig exists and is returned, and pear is missing so the trap returns 0."
+        },
+        {
+          "text": "4\nundefined",
+          "correct": false,
+          "feedback": "That is what the plain object would give. The trap runs for every read of the proxy, also for a key that does not exist, and it answers 0 there.",
+          "misconception": "trap-skipped-for-missing-keys"
+        },
+        {
+          "text": "0\n0",
+          "correct": false,
+          "feedback": "The trap checks the key first. fig is in the target, so its stored value is returned, and only a missing key gets the fallback.",
+          "misconception": "trap-answers-every-key-the-same"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "4\n0"
+      },
+      "explanation": "Every property read on the proxy calls the get trap. The trap returns the stored value when the key is in the target and 0 when it is not, so fig gives 4 and pear gives 0.",
+      "hints": [
+        "Look at what the trap returns on line 3.",
+        "A get trap runs on every read of the proxy, even for keys the target lacks.",
+        "Work out the test k in t for fig, then for pear."
+      ],
+      "reference": {
+        "title": "Proxy handler get()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/get",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:25"
+      ]
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.proxy-traps.concept-01",
+      "concept": "proxy-traps",
+      "prerequisites": [
+        "object-properties",
+        "prototype-chain"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "A ticket office uses a proxy with an empty handler. Which claim does this code demonstrate?",
+      "code": [
+        "const raw = { sold: 1 };",
+        "const view = new Proxy(raw, {});",
+        "view.sold = 5;",
+        "console.log(raw.sold, view === raw);"
+      ],
+      "options": [
+        {
+          "text": "An empty handler forwards writes to the target, yet the proxy is a different object",
+          "correct": true,
+          "feedback": "Right. Without traps every operation goes to the target, but the proxy itself is a separate object."
+        },
+        {
+          "text": "A proxy copies the target, so writing to the proxy leaves the target unchanged",
+          "correct": false,
+          "feedback": "A proxy does not copy anything. It stands in front of the target, and a write with no trap lands on the target itself.",
+          "misconception": "proxy-copies-target"
+        },
+        {
+          "text": "A proxy with an empty handler is the same object as its target",
+          "correct": false,
+          "feedback": "The proxy wraps the target but is a separate object, so comparing the two with === gives false.",
+          "misconception": "proxy-is-target"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "5 false"
+      },
+      "explanation": "With no trap for an operation, the proxy performs it on the target, so raw.sold becomes 5. The proxy and the target are still two distinct objects, so === is false.",
+      "hints": [
+        "Compare the two values printed on line 4.",
+        "An operation with no trap goes to the target; identity is a separate question.",
+        "Check whether raw changed, then whether view and raw are one object."
+      ],
+      "reference": {
+        "title": "Proxy",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.proxy-traps.fix-01",
+      "concept": "proxy-traps",
+      "prerequisites": [
+        "object-properties",
+        "prototype-chain"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "The cafe menu should print 3 and 0 on two lines, but the program crashes. Tap the buggy line and pick the fix.",
+      "code": [
+        "const prices = { tea: 3 };",
+        "const menu = (o) => new Proxy(o, {",
+        "  get: (t, k, p) => p[k] ?? 0,",
+        "});",
+        "console.log(menu(prices).tea);",
+        "console.log(menu(prices).cake);"
+      ],
+      "options": [
+        {
+          "text": "get: (t, k) => t[k] ?? 0,",
+          "correct": true,
+          "feedback": "Right. The trap reads the target directly, so reading does not call the trap again."
+        },
+        {
+          "text": "get: (t, k, p) => p[k] || 0,",
+          "correct": false,
+          "feedback": "p is the proxy, so this read calls the trap again, and the loop never ends. The operator is not the problem.",
+          "misconception": "trap-lookup-target-confusion"
+        },
+        {
+          "text": "get: (t, k) => t.k ?? 0,",
+          "correct": false,
+          "feedback": "t.k reads a property literally named k, which the target does not have. Both reads print 0.",
+          "misconception": "trap-lookup-target-confusion"
+        }
+      ],
+      "solution": {
+        "bugLine": 3,
+        "expectedOutput": "3\n0"
+      },
+      "explanation": "Reading a key from the proxy inside its own get trap calls the trap again, forever. Read from the target parameter with the key in brackets; it holds the real data and skips the proxy.",
+      "hints": [
+        "Check which object line 3 reads from.",
+        "A read on the proxy runs the get trap, even when the trap does it.",
+        "Read from the first parameter of the trap, using the key variable."
+      ],
+      "reference": {
+        "title": "Proxy handler get()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/get",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.proxy-traps.write-01",
+      "concept": "proxy-traps",
+      "prerequisites": [
+        "object-properties",
+        "prototype-chain"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 5,
+      "prompt": "Write the body of logWrites(target, pairs). Wrap target in a proxy that records each written key and stores the value. Assign every pair through it. Return [keys, target].",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "logWrites",
+          "params": [
+            "target",
+            "pairs"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              {},
+              [
+                [
+                  "bagel",
+                  2
+                ],
+                [
+                  "rye",
+                  1
+                ]
+              ]
+            ],
+            "expected": [
+              [
+                "bagel",
+                "rye"
+              ],
+              {
+                "bagel": 2,
+                "rye": 1
+              }
+            ]
+          },
+          {
+            "input": [
+              {},
+              []
+            ],
+            "expected": [
+              [],
+              {}
+            ]
+          },
+          {
+            "input": [
+              {
+                "rye": 9
+              },
+              [
+                [
+                  "rye",
+                  1
+                ],
+                [
+                  "rye",
+                  4
+                ]
+              ]
+            ],
+            "expected": [
+              [
+                "rye",
+                "rye"
+              ],
+              {
+                "rye": 4
+              }
+            ]
+          },
+          {
+            "input": [
+              {
+                "fig": 3
+              },
+              [
+                [
+                  "oat",
+                  0
+                ]
+              ]
+            ],
+            "expected": [
+              [
+                "oat"
+              ],
+              {
+                "fig": 3,
+                "oat": 0
+              }
+            ]
+          }
+        ],
+        "reference": [
+          "const log = [];",
+          "const bag = new Proxy(target, {",
+          "  set(t, k, v) {",
+          "    log.push(k);",
+          "    t[k] = v;",
+          "    return true;",
+          "  },",
+          "});",
+          "for (const [k, v] of pairs) {",
+          "  bag[k] = v;",
+          "}",
+          "return [log, target];"
+        ],
+        "wrongSolutions": [
+          [
+            "const log = [];",
+            "for (const [k, v] of pairs) {",
+            "  target[k] = v;",
+            "}",
+            "return [log, target];"
+          ],
+          [
+            "const log = [];",
+            "const bag = new Proxy(target, {",
+            "  set(t, k, v) {",
+            "    log.push(k);",
+            "    return true;",
+            "  },",
+            "});",
+            "for (const [k, v] of pairs) {",
+            "  bag[k] = v;",
+            "}",
+            "return [log, target];"
+          ],
+          [
+            "const log = [];",
+            "const bag = new Proxy(target, {",
+            "  set(t, k, v) {",
+            "    if (!(k in t)) log.push(k);",
+            "    t[k] = v;",
+            "    return true;",
+            "  },",
+            "});",
+            "for (const [k, v] of pairs) {",
+            "  bag[k] = v;",
+            "}",
+            "return [log, target];"
+          ]
+        ]
+      },
+      "explanation": "The set trap runs for every write through the proxy, so it can record the key. It must also store the value in the target and return true, or the data would be lost.",
+      "hints": [
+        "Create the log before the proxy.",
+        "Only writes made through the proxy reach its set trap.",
+        "In the trap, record the key, store the value on the target and return true."
+      ],
+      "reference": {
+        "title": "Proxy handler set()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/set",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.reflect-api.predict-01",
+      "concept": "reflect-api",
+      "prerequisites": [
+        "proxy-traps"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A library record has a symbol key and a hidden key. What does this code print?",
+      "code": [
+        "const tag = Symbol(\"id\");",
+        "const book = { title: \"Dune\" };",
+        "book[tag] = 7;",
+        "Object.defineProperty(book, \"ean\", {",
+        "  value: 1,",
+        "});",
+        "console.log(Reflect.ownKeys(book));",
+        "console.log(Object.keys(book));"
+      ],
+      "options": [
+        {
+          "text": "['title', 'ean', Symbol(id)]\n['title']",
+          "correct": true,
+          "feedback": "Right. ownKeys lists every own key: strings first, then symbols. Object.keys lists only enumerable string keys."
+        },
+        {
+          "text": "['title']\n['title']",
+          "correct": false,
+          "feedback": "Reflect.ownKeys is not the same as Object.keys. It also lists a hidden string key and symbol keys.",
+          "misconception": "reflect-ownkeys-like-keys"
+        },
+        {
+          "text": "[Symbol(id), 'title', 'ean']\n['title']",
+          "correct": false,
+          "feedback": "The list has the right members, but string keys come before symbols in own-key order.",
+          "misconception": "symbols-listed-first"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "['title', 'ean', Symbol(id)]\n['title']"
+      },
+      "explanation": "Reflect.ownKeys returns all own keys: enumerable or not, string or symbol, strings first. Object.keys keeps only enumerable string keys, and ean is hidden because defineProperty defaults enumerable to false.",
+      "hints": [
+        "Compare what the two calls on lines 7 and 8 list.",
+        "ownKeys includes non-enumerable and symbol keys; keys does not.",
+        "Strings come first in the list, symbols last."
+      ],
+      "reference": {
+        "title": "Reflect.ownKeys()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/ownKeys",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 40,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "legacyKeys": [
+        "exercise:SENIOR:29"
+      ]
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.reflect-api.concept-01",
+      "concept": "reflect-api",
+      "prerequisites": [
+        "proxy-traps"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "A theatre updates a row's seat count with Reflect.set. Which claim does this code demonstrate?",
+      "code": [
+        "const row = { n: 4 };",
+        "const ok = Reflect.set(row, \"n\", 9);",
+        "console.log(ok, row.n);"
+      ],
+      "options": [
+        {
+          "text": "Reflect.set performs the assignment and returns true or false for success",
+          "correct": true,
+          "feedback": "Right. It does the write and reports whether it worked."
+        },
+        {
+          "text": "Reflect.set returns the value it assigned",
+          "correct": false,
+          "feedback": "The value 9 is stored in row, but the call returns a success flag, not the value or the object.",
+          "misconception": "reflect-set-returns-value"
+        },
+        {
+          "text": "Reflect.set only checks whether a write would be allowed, and changes nothing",
+          "correct": false,
+          "feedback": "It really writes: row.n is 9 afterwards. The boolean reports the outcome of that write.",
+          "misconception": "reflect-set-returns-value"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true 9"
+      },
+      "explanation": "Reflect.set carries out the default assignment and returns a boolean: true when the write succeeded. That makes it a fitting return value for a set trap.",
+      "hints": [
+        "Look at both values printed on line 3.",
+        "Reflect functions do the default job and return plain results.",
+        "The first printed value says whether the write worked."
+      ],
+      "reference": {
+        "title": "Reflect.set()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/set",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 25,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.reflect-api.fix-01",
+      "concept": "reflect-api",
+      "prerequisites": [
+        "proxy-traps"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "The recycling bin should print ['glass'] 3, but prints ['glass'] undefined. Tap the buggy line and pick the fix.",
+      "code": [
+        "const seen = [];",
+        "const bin = new Proxy({}, {",
+        "  set(t, k, v) {",
+        "    seen.push(k);",
+        "    return true;",
+        "  },",
+        "});",
+        "bin.glass = 3;",
+        "console.log(seen, bin.glass);"
+      ],
+      "options": [
+        {
+          "text": "return Reflect.set(t, k, v);",
+          "correct": true,
+          "feedback": "Right. The trap now forwards the write to the target and returns its result."
+        },
+        {
+          "text": "return Reflect.set(t, k);",
+          "correct": false,
+          "feedback": "No value is passed, so glass is stored as undefined. The write must carry the value too.",
+          "misconception": "reflect-fits-any-trap"
+        },
+        {
+          "text": "return Reflect.get(t, k);",
+          "correct": false,
+          "feedback": "Reflect.get reads a value and writes nothing. It returns undefined here, and the glass key is never stored.",
+          "misconception": "reflect-fits-any-trap"
+        }
+      ],
+      "solution": {
+        "bugLine": 5,
+        "expectedOutput": "['glass'] 3"
+      },
+      "explanation": "Returning true only says the write succeeded; nothing was stored in the target. Calling Reflect.set with the target, key and value performs the default write and returns its result.",
+      "hints": [
+        "Check what line 5 does with the value v.",
+        "A set trap that does not write to the target stores nothing.",
+        "Call the Reflect function that matches a write, with all three arguments."
+      ],
+      "reference": {
+        "title": "Proxy handler set()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/set",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.reflect-api.fill-01",
+      "concept": "reflect-api",
+      "prerequisites": [
+        "proxy-traps"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 5,
+      "prompt": "A garden seed log forwards two operations to the default behaviour. Fill both blanks so the program prints true, false and 0 on separate lines.",
+      "code": [
+        "const seeds = { basil: 0 };",
+        "const wrap = (o) => new Proxy(o, {",
+        "  has: (t, k) => Reflect.___(t, k),",
+        "  get: (t, k) => Reflect.___(t, k),",
+        "});",
+        "console.log(\"basil\" in wrap(seeds));",
+        "console.log(\"fig\" in wrap(seeds));",
+        "console.log(wrap(seeds).basil);"
+      ],
+      "options": [
+        {
+          "text": "has",
+          "correct": true,
+          "feedback": "Right. Reflect.has gives the default result of the in operator."
+        },
+        {
+          "text": "get",
+          "correct": true,
+          "feedback": "Right. Reflect.get gives the default result of reading a property."
+        },
+        {
+          "text": "set",
+          "correct": false,
+          "feedback": "Reflect.set writes to the target and returns true, so in would be true for every key and a read would print true."
+        },
+        {
+          "text": "deleteProperty",
+          "correct": false,
+          "feedback": "Reflect.deleteProperty removes the key and returns true, so the target loses basil and the reads print true."
+        },
+        {
+          "text": "ownKeys",
+          "correct": false,
+          "feedback": "Reflect.ownKeys returns an array, which counts as true for in and prints a list instead of a value."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "has"
+          ],
+          [
+            "get"
+          ]
+        ],
+        "expectedOutput": "true\nfalse\n0"
+      },
+      "explanation": "Each trap should forward to the Reflect function with the same name as its operation: has for the in operator and get for reading a property. The results then match the plain target.",
+      "hints": [
+        "Look at the names of the two traps.",
+        "Reflect has one function for every trap, named like the trap.",
+        "Each blank repeats the name of the trap that holds it."
+      ],
+      "reference": {
+        "title": "Proxy handler has()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/has",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.property-descriptors.predict-01",
+      "concept": "property-descriptors",
+      "prerequisites": [
+        "object-properties",
+        "prototype-chain"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A cup gets a property from defineProperty and then an assignment. What does this code print?",
+      "code": [
+        "const cup = {};",
+        "Object.defineProperty(cup, \"ml\", {",
+        "  value: 250,",
+        "});",
+        "cup.ml = 300;",
+        "console.log(cup.ml);",
+        "console.log(Object.keys(cup));"
+      ],
+      "options": [
+        {
+          "text": "250\n[]",
+          "correct": true,
+          "feedback": "Right. defineProperty leaves writable and enumerable false by default, so the assignment is ignored and the key is hidden."
+        },
+        {
+          "text": "300\n[]",
+          "correct": false,
+          "feedback": "The flags default to false, not true. writable is false, so the assignment on line 5 changes nothing.",
+          "misconception": "descriptor-flags-default-true"
+        },
+        {
+          "text": "250\n['ml']",
+          "correct": false,
+          "feedback": "enumerable also defaults to false with defineProperty, so Object.keys does not list ml.",
+          "misconception": "descriptor-flags-default-true"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "250\n[]"
+      },
+      "explanation": "Object.defineProperty sets every flag you leave out to false. A non-writable property keeps its value when assigned, and a non-enumerable one is skipped by Object.keys.",
+      "hints": [
+        "Look at what the descriptor on lines 2 to 4 leaves out.",
+        "Flags missing from a descriptor default to false in defineProperty.",
+        "Decide whether ml is writable and whether it is enumerable."
+      ],
+      "reference": {
+        "title": "Object.defineProperty()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.property-descriptors.concept-01",
+      "concept": "property-descriptors",
+      "prerequisites": [
+        "object-properties",
+        "prototype-chain"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 4,
+      "prompt": "A plant shop reads the flags of a normal property. Which claim does this code demonstrate?",
+      "code": [
+        "const plant = { leaves: 5 };",
+        "const d =",
+        "  Object.getOwnPropertyDescriptor(",
+        "    plant, \"leaves\");",
+        "console.log(d.writable);",
+        "console.log(d.enumerable);",
+        "console.log(d.configurable);"
+      ],
+      "options": [
+        {
+          "text": "A property created by plain assignment has all three flags set to true",
+          "correct": true,
+          "feedback": "Right. Only defineProperty defaults the flags to false."
+        },
+        {
+          "text": "A property created by plain assignment has all three flags set to false",
+          "correct": false,
+          "feedback": "Assignment makes an ordinary open property: writable, enumerable and configurable are all true.",
+          "misconception": "assigned-properties-lack-flags"
+        },
+        {
+          "text": "Only properties made by defineProperty have flags, so these are undefined",
+          "correct": false,
+          "feedback": "Every property has the flags. The descriptor reports them for an assigned property too.",
+          "misconception": "assigned-properties-lack-flags"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "true\ntrue\ntrue"
+      },
+      "explanation": "An ordinary property made by assignment or an object literal is writable, enumerable and configurable. Object.defineProperty is the case with false defaults for flags you omit.",
+      "hints": [
+        "Read the three values printed on lines 5 to 7.",
+        "Every property carries three flags, whatever way it was created.",
+        "Decide whether assignment creates an open property or a locked one."
+      ],
+      "reference": {
+        "title": "Object.getOwnPropertyDescriptor()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.property-descriptors.fix-01",
+      "concept": "property-descriptors",
+      "prerequisites": [
+        "object-properties",
+        "prototype-chain"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 4,
+      "prompt": "The trip tip should show up in Object.keys, so the program should print 2, but prints 1. Tap the buggy line and pick the fix.",
+      "code": [
+        "const trip = { stops: 3 };",
+        "Object.defineProperty(trip, \"tip\", {",
+        "  value: \"scenic\",",
+        "  enumerable: false,",
+        "});",
+        "const keys = Object.keys(trip);",
+        "console.log(keys.length);"
+      ],
+      "options": [
+        {
+          "text": "enumerable: true,",
+          "correct": true,
+          "feedback": "Right. Object.keys lists only enumerable own string keys."
+        },
+        {
+          "text": "writable: true,",
+          "correct": false,
+          "feedback": "writable decides whether the value can be reassigned. It does not change whether Object.keys lists the key.",
+          "misconception": "flag-controls-listing"
+        },
+        {
+          "text": "configurable: true,",
+          "correct": false,
+          "feedback": "configurable decides whether the property can be redefined or deleted. It has no effect on Object.keys.",
+          "misconception": "flag-controls-listing"
+        }
+      ],
+      "solution": {
+        "bugLine": 4,
+        "expectedOutput": "2"
+      },
+      "explanation": "Object.keys skips properties whose enumerable flag is false. Setting enumerable to true makes tip appear in the list. The other two flags control changing and deleting, not listing.",
+      "hints": [
+        "Look at line 4 and at what Object.keys skips.",
+        "One flag decides whether a key is listed by Object.keys.",
+        "Pick the flag whose name means countable in a list of keys."
+      ],
+      "reference": {
+        "title": "Enumerability and ownership of properties",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Enumerability_and_ownership_of_properties",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.property-descriptors.write-01",
+      "concept": "property-descriptors",
+      "prerequisites": [
+        "object-properties",
+        "prototype-chain"
+      ],
+      "format": "CODE_WRITE",
+      "difficulty": 5,
+      "prompt": "Write the body of readOnlyField(key, value). Make an object with a read-only, listed property key holding value. Return [keys, result of Reflect.set(obj, key, 0), obj[key]].",
+      "solution": {
+        "entry": {
+          "kind": "function",
+          "name": "readOnlyField",
+          "params": [
+            "key",
+            "value"
+          ]
+        },
+        "tests": [
+          {
+            "input": [
+              "sku",
+              "A1"
+            ],
+            "expected": [
+              [
+                "sku"
+              ],
+              false,
+              "A1"
+            ]
+          },
+          {
+            "input": [
+              "qty",
+              5
+            ],
+            "expected": [
+              [
+                "qty"
+              ],
+              false,
+              5
+            ]
+          },
+          {
+            "input": [
+              "note",
+              ""
+            ],
+            "expected": [
+              [
+                "note"
+              ],
+              false,
+              ""
+            ]
+          },
+          {
+            "input": [
+              "ok",
+              true
+            ],
+            "expected": [
+              [
+                "ok"
+              ],
+              false,
+              true
+            ]
+          }
+        ],
+        "reference": [
+          "const o = {};",
+          "Object.defineProperty(o, key, {",
+          "  value,",
+          "  enumerable: true,",
+          "});",
+          "const ok = Reflect.set(o, key, 0);",
+          "return [Object.keys(o), ok, o[key]];"
+        ],
+        "wrongSolutions": [
+          [
+            "const o = {};",
+            "o[key] = value;",
+            "const ok = Reflect.set(o, key, 0);",
+            "return [Object.keys(o), ok, o[key]];"
+          ],
+          [
+            "const o = {};",
+            "Object.defineProperty(o, key, {",
+            "  value,",
+            "  writable: false,",
+            "});",
+            "const ok = Reflect.set(o, key, 0);",
+            "return [Object.keys(o), ok, o[key]];"
+          ],
+          [
+            "const o = {};",
+            "Object.defineProperty(o, key, {",
+            "  value,",
+            "  enumerable: true,",
+            "  writable: true,",
+            "});",
+            "const ok = Reflect.set(o, key, 0);",
+            "return [Object.keys(o), ok, o[key]];"
+          ]
+        ]
+      },
+      "explanation": "defineProperty defaults writable to false, so leaving it out makes the property read-only and Reflect.set reports false. enumerable must be set to true explicitly, or Object.keys would skip the key.",
+      "hints": [
+        "Use defineProperty on an empty object, not plain assignment.",
+        "Flags you omit default to false in defineProperty.",
+        "Pass value and the flag that lists the key, and leave the writable flag out."
+      ],
+      "reference": {
+        "title": "Object.defineProperty()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty",
+        "source": "MDN"
+      },
+      "duelEligible": false,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.predict-01",
+      "concept": "well-known-symbols",
+      "prerequisites": [
+        "symbol-keys",
+        "to-primitive-conversion",
+        "iteration-protocol"
+      ],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 4,
+      "prompt": "A shipping crate carries a Symbol.toStringTag. What does this code print?",
+      "code": [
+        "const crate = {",
+        "  [Symbol.toStringTag]: \"Crate\",",
+        "};",
+        "console.log(String(crate));",
+        "console.log(typeof crate);"
+      ],
+      "options": [
+        {
+          "text": "[object Crate]\nobject",
+          "correct": true,
+          "feedback": "Right. toStringTag changes the tag inside the default text, while typeof is decided by the value itself."
+        },
+        {
+          "text": "[object Object]\nobject",
+          "correct": false,
+          "feedback": "The default text uses the tag when a Symbol.toStringTag property exists, so the word after object is Crate.",
+          "misconception": "tostringtag-confusion"
+        },
+        {
+          "text": "[object Crate]\nCrate",
+          "correct": false,
+          "feedback": "typeof never reads the tag. It reports the kind of value, and every plain object is object.",
+          "misconception": "tostringtag-confusion"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "[object Crate]\nobject"
+      },
+      "explanation": "String(crate) uses the default object text, which puts the Symbol.toStringTag value after the word object. typeof reports the type of the value and ignores that tag.",
+      "hints": [
+        "Compare what line 4 and line 5 each ask for.",
+        "Symbol.toStringTag only changes the tag in the default object text.",
+        "typeof does not look at symbol keys."
+      ],
+      "reference": {
+        "title": "Symbol.toStringTag",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toStringTag",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 30,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.concept-01",
+      "concept": "well-known-symbols",
+      "prerequisites": [
+        "symbol-keys",
+        "to-primitive-conversion",
+        "iteration-protocol"
+      ],
+      "format": "CONCEPT_MCQ",
+      "difficulty": 5,
+      "prompt": "A hiking trail object has a generator under Symbol.iterator. Which claim does this code demonstrate?",
+      "code": [
+        "const trail = {",
+        "  names: [\"oak\", \"elm\"],",
+        "  [Symbol.iterator]() {",
+        "    return this.names.values();",
+        "  },",
+        "};",
+        "console.log([...trail]);"
+      ],
+      "options": [
+        {
+          "text": "Spread works on any object with a Symbol.iterator method, not only arrays",
+          "correct": true,
+          "feedback": "Right. Spread asks the object for its iterator and uses the values it yields."
+        },
+        {
+          "text": "Spread works only on arrays, so this program ends with an error",
+          "correct": false,
+          "feedback": "Spread accepts any iterable. An object becomes iterable by having a method under Symbol.iterator.",
+          "misconception": "protocol-hook-confusion"
+        },
+        {
+          "text": "The Symbol.iterator method runs once when trail is created, and spread reads its stored result",
+          "correct": false,
+          "feedback": "The method runs when spread asks for an iterator, and the generator then yields values one at a time.",
+          "misconception": "protocol-hook-confusion"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "['oak', 'elm']"
+      },
+      "explanation": "Spread looks up the Symbol.iterator method of its operand and calls it to get values. Any object with that method is iterable, so arrays are not required.",
+      "hints": [
+        "Look at the key of the method on line 2.",
+        "Spread and for-of look for one well-known symbol method.",
+        "Decide whether trail needs to be an array for spread to work."
+      ],
+      "reference": {
+        "title": "Symbol.iterator",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.fix-01",
+      "concept": "well-known-symbols",
+      "prerequisites": [
+        "symbol-keys",
+        "to-primitive-conversion",
+        "iteration-protocol"
+      ],
+      "format": "FIX_BUG",
+      "difficulty": 5,
+      "prompt": "The check should print true, but prints false. Tap the buggy line and pick the fix.",
+      "code": [
+        "class Even {",
+        "  static hasInstance(n) {",
+        "    return n % 2 === 0;",
+        "  }",
+        "}",
+        "console.log(4 instanceof Even);"
+      ],
+      "options": [
+        {
+          "text": "static [Symbol.hasInstance](n) {",
+          "correct": true,
+          "feedback": "Right. instanceof looks for a static method under this well-known symbol."
+        },
+        {
+          "text": "static [Symbol.iterator](n) {",
+          "correct": false,
+          "feedback": "Symbol.iterator is the key for iteration. instanceof looks for a different symbol, so the old behaviour stays and prints false.",
+          "misconception": "protocol-hook-confusion"
+        },
+        {
+          "text": "[Symbol.hasInstance](n) {",
+          "correct": false,
+          "feedback": "Without static, the method sits on the instances, not on Even itself. instanceof asks Even, so it prints false.",
+          "misconception": "protocol-hook-confusion"
+        }
+      ],
+      "solution": {
+        "bugLine": 2,
+        "expectedOutput": "true"
+      },
+      "explanation": "instanceof calls the Symbol.hasInstance method of the class on its right. A method named hasInstance is an ordinary name and is never looked up, so the default check runs and fails.",
+      "hints": [
+        "Look at how line 2 names the method.",
+        "instanceof looks up one well-known symbol, as a static member.",
+        "The key must be that symbol written in square brackets, with static kept."
+      ],
+      "reference": {
+        "title": "Symbol.hasInstance",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/hasInstance",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 35,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1
+    },
+    {
+      "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.fill-01",
+      "concept": "well-known-symbols",
+      "prerequisites": [
+        "symbol-keys",
+        "to-primitive-conversion",
+        "iteration-protocol"
+      ],
+      "format": "FILL_BLANK",
+      "difficulty": 5,
+      "prompt": "A tag list is array-like. Fill both blanks so concat adds its items and the program prints ['x', 'a', 'b'].",
+      "code": [
+        "const tags = { 0: \"a\", 1: \"b\" };",
+        "tags.length = 2;",
+        "tags[Symbol.___] = ___;",
+        "console.log([\"x\"].concat(tags));"
+      ],
+      "options": [
+        {
+          "text": "isConcatSpreadable",
+          "correct": true,
+          "feedback": "Right. concat reads this symbol to decide whether to spread an object."
+        },
+        {
+          "text": "true",
+          "correct": true,
+          "feedback": "Right. A true value tells concat to spread the array-like object."
+        },
+        {
+          "text": "iterator",
+          "correct": false,
+          "feedback": "Symbol.iterator is for spread and for-of. concat does not look at it, so tags would stay one object."
+        },
+        {
+          "text": "toStringTag",
+          "correct": false,
+          "feedback": "Symbol.toStringTag only changes the text tag. concat does not read it, so tags would stay one object."
+        },
+        {
+          "text": "false",
+          "correct": false,
+          "feedback": "A false value tells concat not to spread, so tags would be added as one object."
+        }
+      ],
+      "solution": {
+        "blanks": [
+          [
+            "isConcatSpreadable"
+          ],
+          [
+            "true"
+          ]
+        ],
+        "expectedOutput": "['x', 'a', 'b']"
+      },
+      "explanation": "Array.prototype.concat checks Symbol.isConcatSpreadable on each argument. Set to true on an array-like object, it makes concat add its indexed items instead of the object itself.",
+      "hints": [
+        "Think about which well-known symbol concat reads.",
+        "concat decides for each argument whether to add its items or the object itself.",
+        "The first blank names the symbol concat reads; the second makes it say yes."
+      ],
+      "reference": {
+        "title": "Symbol.isConcatSpreadable",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/isConcatSpreadable",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 1,
+      "timeLimitSec": 35
+    }
+  ]
+}
