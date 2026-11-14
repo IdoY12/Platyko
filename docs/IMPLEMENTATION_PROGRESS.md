@@ -16,11 +16,32 @@ after any context reset, then continue from "Current position".
 
 ## Current position
 
-- **Phase:** 0 — Foundations and trust (most of it done; see the open list below), with phase 1
-  (mobile learning core) and phase 2 (bank authoring) started in parallel.
-- **Baseline (2026-11-14, HEAD 4bff66a):** typecheck, lint, 28 tests and knip all green.
-- **Local data before migration:** 2 users, 3 `UserProgress`, 2 `DuelSession`, 90 `Exercise`,
-  21 `CodePuzzle`, 10 `DuelQuestion`.
+- **Updated:** 2026-11-14 21:10. HEAD 6360072. All gates green (typecheck, lint, tests, knip,
+  language scan).
+- **Phases:** 0 nearly done; 1 (mobile learning core) well under way; 2 (bank) 7 of 28 units
+  committed and verified, two more authoring (`objects`, `array-methods`).
+- **Next for the main thread:** onboarding (5 steps), Profile and Settings rebuild (language on
+  the account, notifications, account), jump test, Hebrew RTL walk-through, then phase 3.
+- **Next for sub-agents:** keep two unit authors running (Sonnet, `model: "sonnet"`), one unit
+  each, from `scratchpad/briefs/unit-<slug>.md` regenerated from
+  `content/verification/prompts/unit-author.md` (see "How unit authoring runs").
+- **Owner rules added mid-run:** at most two sub-agents at a time; sub-agents default to Sonnet
+  through `.claude/settings.local.json` (`CLAUDE_CODE_SUBAGENT_MODEL=sonnet`); Opus only for
+  hard engineering; show the owner each change to usage settings before making it.
+
+### How unit authoring runs
+
+1. Per-unit brief = template `content/verification/prompts/unit-author.md` with placeholders
+   filled from `content/concept-catalog.json`, `tools/content/src/bank/curriculum.ts` and
+   `content/migration/legacy-triage.json` (a short Python snippet does it; briefs live in the
+   session scratchpad and can be regenerated).
+2. The author writes `content/units/<track>/<nn>-<unit>.json`, runs
+   `sources --update-ledger`, `verify --unit <slug> --write-traces` (online) and `legacy-map`.
+3. The main thread re-runs `verify --offline` over the whole bank (duplicates are cross-unit),
+   reads a few items, commits the unit with its trace file and the legacy map.
+4. When all 28 units are in: `pass start --complete`, gate B/C/D agents per unit with the
+   prompts in `content/verification/prompts/`, `pass finish`, fix, repeat until three
+   consecutive clean passes (PRD 8.4); then `npm --prefix backend run prisma:seed` loads LIVE.
 
 ## Phase status
 
@@ -69,32 +90,42 @@ Done (all committed; typecheck, lint and tests green at commit 0d354ed):
       `ProgressSegments`, `Screen` + `AmbientRiver`, `CodeView`.
 - [x] Old-UI reference screenshots in `docs/screenshots/before/`.
 
-Open in phase 0:
+Done since the first update (all committed):
 
-- [ ] `tools/content` agent gates B/C/D (export, ingest, comparison), run log, pass commands,
-      release check, catalog and legacy-map checks — sub-agent running (brief: gates B/C/D).
-- [ ] Pilot unit `values-and-types` — sub-agent running; then fan out the other 27 units, two
-      authors at a time, from `content/verification/prompts/unit-author.md`
-      (per-unit briefs are generated from the template, the catalog and the triage file).
-- [x] CI workflow (`.github/workflows/ci.yml`: gates, language scan, content pre-check and Gate A,
-      migrations from scratch, audit and secret scan) and `npm run check:language`.
-- [ ] `npm audit --omit=dev --audit-level=high` reports 7 high and 1 critical advisory, all in
-      transitive build-tool dependencies (babel, metro, postcss, shell-quote, image-size,
-      prisma's effect). To be resolved in the security pass with `npm audit fix` and overrides.
-- [ ] Backend: content, lesson, attempt and progress endpoints on the new models; seed from
-      `content/`; guest snapshot by item ids; merge on any login; section 2 bug fixes.
-- [ ] knip is red only for the new mobile kit and mascot, which no screen imports yet; it turns
-      green when the phase 1 screens land (do not suppress).
-- [ ] Docker image builds with the new sandbox package could not be verified (registry
-      timeouts); re-run `docker build -f backend/Dockerfile .` and `-f io/Dockerfile .`.
-- [ ] 3D model path for the mascot (`platyko.glb` through a native 3D renderer) and
-      `docs/mascot-3d-model.md`.
+- [x] Gates B/C/D export and ingest, run log, pass lifecycle, release check, catalog and
+      legacy-map checks (538 tooling tests). Seed loads `content/` as LIVE only when releasable.
+- [x] Units 1–7 (beginner): 168 items, 126 duel-eligible, 37 legacy items converted; whole-bank
+      pre-check, construct scan and Gate A clean.
+- [x] Backend learning API (map, lessons, items, judge, feedback with auto-flag, progress,
+      resume, guest merge), smoke-tested with a throwaway user.
+- [x] `@project/learning-logic` (attempts, XP, mastery, SM-2, map states, lesson plans and
+      sessions, progress reducer) and streak freezes in `@project/streak-logic`.
+- [x] Mobile: lesson player (seven formats, feedback, hints, reveal flip, execution player,
+      summary), skill map, Home, tab bar, learning slice with offline cache and sync, guest
+      hand-over prompt, language switch. Walked through on the simulator: screenshots in
+      `docs/screenshots/after/`.
+- [x] Old Learn/lesson/exercise/code-puzzle screens and state removed.
+
+Open:
+
+- [ ] Units 8–28 (21 units), then the full verification loop to three clean passes.
+- [ ] Onboarding (5 steps with language switch, first item in 20 s, weekly goal, notifications).
+- [ ] Profile and Settings rebuild; language stored on the account; old xp/streak slices and
+      the old duel screens retire with phases 4–5.
+- [ ] Jump test per track; daily challenge; revision mode (phase 3).
+- [ ] Hebrew RTL walk-through of every screen.
+- [ ] `npm audit` high/critical advisories in build-tool dependencies (security pass).
+- [ ] Docker image builds with the new sandbox package (registry timeouts earlier).
+- [ ] 3D model path for the mascot (`platyko.glb`) and `docs/mascot-3d-model.md`.
+- [ ] Legacy tables and endpoints removal after cutover (re-run the migration's data part).
 
 Tooling notes for the next session:
 
 - Simulator: iPhone 17 Pro `E5F01F76-1E58-40B2-9E8C-0F834E323D48`; app built at
   `mobile/ios/build/Build/Products/Debug-iphonesimulator/Platyko.app` (rebuild with
   `npx expo prebuild --platform ios` and `xcodebuild` after adding a native dependency).
+- Simulator automation session name: `app` (`agent-device --session app …`); close stale
+  sessions with `agent-device close --session <name>`.
 - Start Metro WITHOUT `CI=1` (`npx expo start --port 8081 --clear < /dev/null`), otherwise it
   serves a stale bundle after edits.
 - `agent-device --session <name> open com.idoyahav.platyko --platform ios --device "iPhone 17 Pro"`,
