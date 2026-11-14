@@ -3,6 +3,7 @@ import { prisma } from "@project/db";
 import type { AuthenticatedRequest } from "../../@types/auth.js";
 import { deleteAvatarObject, extractAvatarKeyFromUrl } from "../../utils/storage.js";
 import { logWarn } from "../../utils/logger.js";
+import { revokeAppleGrant } from "../../services/auth/appleGrant.js";
 
 export async function deleteAccount(req: AuthenticatedRequest, res: Response) {
   const userId = req.user!.userId;
@@ -14,6 +15,7 @@ export async function deleteAccount(req: AuthenticatedRequest, res: Response) {
   if (!user) return res.status(404).json({ error: "User not found" });
 
   const avatarKey = user.avatarUrl ? extractAvatarKeyFromUrl(user.avatarUrl) : null;
+  const appleGrant = await prisma.authIdentity.findUnique({ where: { userId_provider: { userId, provider: "APPLE" } }, select: { providerRefreshToken: true } });
 
   await prisma.$transaction(async (tx) => {
     await tx.duelSession.updateMany({
@@ -26,6 +28,9 @@ export async function deleteAccount(req: AuthenticatedRequest, res: Response) {
     await tx.userProgress.deleteMany({ where: { userId } });
     await tx.user.delete({ where: { id: userId } });
   });
+
+  // Apple requires the Sign in with Apple grant to be revoked when the account is deleted.
+  if (appleGrant?.providerRefreshToken) await revokeAppleGrant(appleGrant.providerRefreshToken);
 
   if (avatarKey) {
     try {

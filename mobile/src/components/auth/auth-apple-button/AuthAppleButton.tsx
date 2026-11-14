@@ -33,6 +33,8 @@ export function AuthAppleButton({ dispatch }: { dispatch: AppDispatch }) {
       const state = store.getState();
       const r = await authService.loginWithApple(
         credential.identityToken,
+        // Exchanged on the server for the grant that account deletion revokes.
+        credential.authorizationCode,
         // Apple provides fullName only on the FIRST authorization; the server reads the email from the token.
         formatFullName(credential.fullName),
         state.session.isGuest ? buildGuestLocalState(state) : undefined,

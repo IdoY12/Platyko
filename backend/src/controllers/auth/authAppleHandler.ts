@@ -5,9 +5,10 @@ import { verifyAppleIdentityToken } from "../../utils/appleIdTokenVerify.js";
 import type { AppleAuthBody } from "../../validators/appleAuthValidators.js";
 import { SocialSignInBlockedError, findOrCreateSocialUser } from "../../services/auth/socialAccountLinking.js";
 import { issueSessionForUser } from "../../services/auth/issueSessionForUser.js";
+import { storeAppleGrant } from "../../services/auth/appleGrant.js";
 
 export async function authAppleHandler(request: Request, response: Response): Promise<void> {
-  const { identityToken, fullName, ...guestSnapshot } = request.validatedBody as AppleAuthBody;
+  const { identityToken, fullName, authorizationCode, ...guestSnapshot } = request.validatedBody as AppleAuthBody;
   let appleSub: string;
   let tokenEmail: string | undefined;
   try {
@@ -20,6 +21,8 @@ export async function authAppleHandler(request: Request, response: Response): Pr
     // Only the verified token's email claim is trusted (see appleAuthValidators for why).
     const { user, isNew } = await findOrCreateSocialUser("apple", appleSub, tokenEmail, fullName, guestSnapshot);
     const session = await issueSessionForUser(user, isNew);
+    // Kept for revocation when the account is deleted; it never delays or fails the sign-in.
+    if (authorizationCode) void storeAppleGrant(user.id, appleSub, authorizationCode);
     logInfo("[AUTH]", "apple:success", { userId: user.id });
     response.status(isNew ? 201 : 200).json(session);
   } catch (error) {

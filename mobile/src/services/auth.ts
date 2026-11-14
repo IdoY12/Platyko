@@ -53,9 +53,9 @@ class AuthService {
     }
   }
 
-  async loginWithApple(identityToken: string, fullName?: string, local?: GuestLocalState): Promise<AuthResponse> {
+  async loginWithApple(identityToken: string, authorizationCode: string | null, fullName?: string, local?: GuestLocalState): Promise<AuthResponse> {
     try {
-      const { data } = await publicApi.post<AuthResponse>("/auth/apple", { identityToken, fullName, ...guestStateRequestBody(local) });
+      const { data } = await publicApi.post<AuthResponse>("/auth/apple", { identityToken, authorizationCode: authorizationCode ?? undefined, fullName, ...guestStateRequestBody(local) });
       return data;
     } catch (e) {
       throw new Error(apiErrorMessage(e));

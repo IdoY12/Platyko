@@ -10,6 +10,8 @@ import { guestSnapshotShape } from "./authValidators.js";
 export const appleAuthBodySchema = z.object({
   identityToken: z.string().min(1, { message: "Identity token is required" }).max(8192),
   fullName: z.string().max(USERNAME_MAX_LEN * 2).optional(),
+  /** One-time code exchanged on the server for the refresh token that account deletion revokes. */
+  authorizationCode: z.string().min(1).max(2048).optional(),
   ...guestSnapshotShape,
 });
 
