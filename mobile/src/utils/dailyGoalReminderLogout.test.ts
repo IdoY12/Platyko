@@ -16,7 +16,6 @@ vi.mock("expo-notifications", () => ({
 }));
 vi.mock("@/utils/secureSessionTokens", () => ({ clearSecureSessionTokens: vi.fn(async () => {}) }));
 vi.mock("@/services/auth", () => ({ apiErrorMessage: () => "error" }));
-vi.mock("@/services/playSocket", () => ({ playService: { disconnect: vi.fn() } }));
 
 const getStateMock = vi.fn<() => unknown>();
 vi.mock("@/redux/store", () => ({ default: { getState: () => getStateMock() } }));

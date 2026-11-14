@@ -12,6 +12,7 @@ import { playService } from "@/services/playSocket";
 import { palette, space } from "@/theme/tokens";
 import { PlayRound } from "./PlayRound";
 import { PlayRoundEnd } from "./PlayRoundEnd";
+import { ReactionBar, RecentReaction } from "./ReactionBar";
 import { usePlayClock } from "./usePlayClock";
 
 /** The server counts down three seconds before the first round. */
@@ -68,6 +69,8 @@ export function PlayMatch({ match }: { match: MatchStartEvent }) {
 
 function Countdown({ match }: { match: MatchStartEvent }) {
   const remainingMs = usePlayClock(match.startsAt, COUNTDOWN_MS);
+  const reactions = useAppSelector((state) => state.play.reactions);
+  const now = Date.now();
   return (
     <View style={styles.countdown}>
       {match.ghostOf ? (
@@ -86,9 +89,13 @@ function Countdown({ match }: { match: MatchStartEvent }) {
             <AppText variant="bodyStrong" align="ltr" numberOfLines={1}>
               {seat.username}
             </AppText>
+            <View style={styles.reaction}>
+              <RecentReaction reactions={reactions} userId={seat.userId} now={now} />
+            </View>
           </View>
         ))}
       </View>
+      <ReactionBar />
       <AppText
         variant="display"
         align="center"
@@ -112,4 +119,6 @@ const styles = StyleSheet.create({
     gap: space.xl,
   },
   seat: { alignItems: "center", gap: space.sm, maxWidth: 120 },
+  /** Keeps the names level whether or not a reaction is showing. */
+  reaction: { height: 24 },
 });

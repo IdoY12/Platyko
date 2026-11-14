@@ -1,5 +1,5 @@
 import type { Server } from "socket.io";
-import type { PlaySyncEvent } from "@project/api-contract";
+import { REACTIONS, type PlaySyncEvent, type Reaction } from "@project/api-contract";
 import { GAME_MODES, isGameVariant, isRoomCode } from "@project/match-engine";
 import { TRACKS, type ItemAnswer, type Track } from "@project/content-model";
 import { isThrottled } from "../../utils/socketThrottle.js";
@@ -14,6 +14,7 @@ import { presenceSnapshotFor, startPresenceSweep } from "./presence.js";
 /** A lobby keeps a disconnected player this long (PRD 11.8). */
 const LOBBY_GRACE_MS = 15_000;
 const MIN_EVENT_INTERVAL_MS = 150;
+const REACTION_INTERVAL_MS = 2000;
 
 const isTrack = (value: unknown): value is Track => typeof value === "string" && (TRACKS as readonly string[]).includes(value);
 const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === "object" && value !== null;
@@ -95,6 +96,11 @@ export function attachPlayNamespace(io: Server): void {
       if (match?.id === payload.matchId) match.answer(userId, payload.round, payload.answer);
     });
     on("match:leave", () => activeMatchOf(userId)?.leave(userId));
+    on("match:react", (payload) => {
+      // At most one reaction every two seconds, on top of the general event limit.
+      if (!isRecord(payload) || !(REACTIONS as readonly unknown[]).includes(payload.reaction) || isThrottled(socket, "match:react:cooldown", REACTION_INTERVAL_MS)) return;
+      activeMatchOf(userId)?.react(userId, payload.reaction as Reaction);
+    });
 
     on("invite:duel", async (payload, reply) => {
       if (!isRecord(payload) || typeof payload.userId !== "string" || !isTrack(payload.track)) return;

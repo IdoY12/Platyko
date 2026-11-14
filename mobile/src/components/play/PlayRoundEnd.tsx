@@ -6,6 +6,7 @@ import { t } from "@/i18n/translate";
 import { useAppSelector } from "@/redux/hooks";
 import { bottomSheet, palette, radii, space, springs, wash } from "@/theme/tokens";
 import { PlayStandings } from "./PlayStandings";
+import { ReactionBar } from "./ReactionBar";
 
 /** A long right answer (a whole program) is cut to this many lines; the item above shows the rest. */
 const RIGHT_ANSWER_LINES = 4;
@@ -32,6 +33,7 @@ export function PlayRoundEnd({ match, roundEnd }: { match: MatchStartEvent; roun
         {t("play.standings")}
       </AppText>
       <PlayStandings standings={roundEnd.standings} seats={match.seats} selfId={selfId} roundPoints={roundEnd.points} />
+      <ReactionBar />
     </Animated.View>
   );
 }

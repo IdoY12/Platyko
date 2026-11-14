@@ -38,6 +38,11 @@ export type LobbyEvent = {
   players: (PlaySeat & { ready: boolean })[];
 };
 
+/** The only in-game communication (PRD 11.2): six preset reactions, no free text. */
+export const REACTIONS = ["wave", "nice", "wow", "think", "oops", "gg"] as const;
+export type Reaction = (typeof REACTIONS)[number];
+export type ReactionEvent = { matchId: string; userId: string; reaction: Reaction };
+
 /** Presence (PRD 11.3): sent to friends only, and only when it changes. */
 export type PresenceStatus = "online" | "in-game" | "offline";
 export type PresenceEvent = { userId: string; status: PresenceStatus };

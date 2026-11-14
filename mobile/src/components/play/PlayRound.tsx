@@ -11,6 +11,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { playService } from "@/services/playSocket";
 import { palette, radii, space, wash } from "@/theme/tokens";
 import { itemOfPlay } from "./playItemView";
+import { RecentReaction } from "./ReactionBar";
 import { usePlayClock } from "./usePlayClock";
 
 const NOT_CHECKED = { optionIndex: null, wrongLine: false, codeVerdict: null } as const;
@@ -21,7 +22,7 @@ const NOT_CHECKED = { optionIndex: null, wrongLine: false, codeVerdict: null } a
  * option; PlayMatch adds the standings. Mounted afresh for every round.
  */
 export function PlayRound({ match, round }: { match: MatchStartEvent; round: RoundStartEvent }) {
-  const { progress, lastAnswer, roundEnd } = useAppSelector((state) => state.play);
+  const { progress, lastAnswer, roundEnd, reactions } = useAppSelector((state) => state.play);
   const ended = roundEnd?.round === round.round ? roundEnd : null;
   const item = useMemo(() => itemOfPlay(round.item, match.track, ended?.rightOptionIndex ?? null), [round.item, match.track, ended]);
   const outputLines = useMemo(() => shuffledOutputLines(item), [item]);
@@ -50,6 +51,8 @@ export function PlayRound({ match, round }: { match: MatchStartEvent; round: Rou
     setWaiting(true);
     playService.answer({ matchId: match.matchId, round: round.round, answer: built });
   };
+  // The round clock re-renders every quarter second, so a reaction fades on time.
+  const now = Date.now();
   const answered = new Set(progress?.round === round.round ? progress.answeredUserIds : []);
 
   return (
@@ -64,6 +67,7 @@ export function PlayRound({ match, round }: { match: MatchStartEvent; round: Rou
               {seat.username}
             </AppText>
             {answered.has(seat.userId) ? <AppText variant="label" color={palette.brand.glow}>{t("play.answered")}</AppText> : null}
+            <RecentReaction reactions={reactions} userId={seat.userId} now={now} />
           </View>
         ))}
       </View>

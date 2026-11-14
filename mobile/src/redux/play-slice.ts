@@ -9,6 +9,7 @@ import type {
   PlaySyncEvent,
   PresenceEvent,
   PresenceStatus,
+  ReactionEvent,
   QueueStatusEvent,
   RoundEndEvent,
   RoundProgressEvent,
@@ -42,6 +43,8 @@ type PlayState = {
   presence: Record<string, PresenceStatus>;
   /** A room or friend link opened before it could be acted on (a guest signs in first). */
   pendingLink: AppLink | null;
+  /** Each player's latest reaction in the running game, with when it arrived. */
+  reactions: Record<string, { reaction: ReactionEvent["reaction"]; at: number }>;
 };
 
 const initialState: PlayState = {
@@ -60,6 +63,7 @@ const initialState: PlayState = {
   outgoingInvite: null,
   presence: {},
   pendingLink: null,
+  reactions: {},
 };
 
 /** Leaving a game keeps what belongs to the connection, not to the game, and a room reopened after it. */
@@ -88,7 +92,7 @@ const playSlice = createSlice({
     /** A new game, or the same one again after a reconnect. */
     matchStarted: (state, action: PayloadAction<MatchStartEvent>) => {
       const sameGame = state.match?.matchId === action.payload.matchId;
-      Object.assign(state, { queue: null, lobby: null, match: action.payload, end: null, interrupted: false, outgoingInvite: null }, sameGame ? {} : { round: null, progress: null, lastAnswer: null, roundEnd: null, leftUserIds: [] });
+      Object.assign(state, { queue: null, lobby: null, match: action.payload, end: null, interrupted: false, outgoingInvite: null }, sameGame ? {} : { round: null, progress: null, lastAnswer: null, roundEnd: null, leftUserIds: [], reactions: {} });
     },
     roundStarted: (state, action: PayloadAction<RoundStartEvent>) => {
       Object.assign(state, { round: action.payload, progress: null, lastAnswer: null, roundEnd: null });
@@ -112,6 +116,12 @@ const playSlice = createSlice({
     leavePlay: (state) => afterGame(state),
     /** Sign-out: nothing of the previous account stays. */
     playSignedOut: () => initialState,
+    reactionReceived: {
+      reducer: (state, action: PayloadAction<ReactionEvent & { at: number }>) => {
+        if (action.payload.matchId === state.match?.matchId) state.reactions[action.payload.userId] = { reaction: action.payload.reaction, at: action.payload.at };
+      },
+      prepare: (event: ReactionEvent) => ({ payload: { ...event, at: Date.now() } }),
+    },
     linkOpened: (state, action: PayloadAction<AppLink | null>) => {
       state.pendingLink = action.payload;
     },
@@ -140,6 +150,7 @@ const playSlice = createSlice({
 });
 
 export const {
+  reactionReceived,
   linkOpened,
   invitesListed,
   inviteReceived,

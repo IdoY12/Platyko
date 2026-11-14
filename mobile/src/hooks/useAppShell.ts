@@ -54,9 +54,12 @@ export function useAppShell() {
   }, [hasHydrated]);
 
   // The game connection opens once the session is confirmed, wherever the learner is, so a game
-  // that was running when the app closed resumes (PRD 11.8). Sign-out closes it.
+  // that was running when the app closed resumes (PRD 11.8). It belongs to the signed-in account:
+  // signing out, by any path, closes it.
   useEffect(() => {
-    if (authChecked && isAuthenticated) playService.connect();
+    if (!authChecked) return;
+    if (isAuthenticated) playService.connect();
+    else playService.disconnect();
   }, [authChecked, isAuthenticated]);
 
   useEffect(() => {

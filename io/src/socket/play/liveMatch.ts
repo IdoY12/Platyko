@@ -1,5 +1,5 @@
 import type { Namespace } from "socket.io";
-import type { AnswerResultEvent, MatchEndEvent, MatchStartEvent, PlayMode, PlaySeat, Standing } from "@project/api-contract";
+import type { AnswerResultEvent, MatchEndEvent, MatchStartEvent, Reaction, ReactionEvent, PlayMode, PlaySeat, Standing } from "@project/api-contract";
 import { answerFromPlay, checkItemAnswer, playItemOf, type Item, type ItemAnswer, type OptionOrder, type Track } from "@project/content-model";
 import { createMatch, GAME_VARIANTS, isLastRound, isRoundOver, markLeft, playersRemaining, recordAnswer, roundEndsAt, standings, startNextRound, type GameVariant, type MatchState } from "@project/match-engine";
 import { revealFor, shuffledOptionOrder, shuffledOutputLines } from "./revealAnswer.js";
@@ -139,6 +139,13 @@ export class LiveMatch {
     const humansLeft = this.state.players.filter((player) => !player.left && !this.seats.find((seat) => seat.userId === player.id)?.isGhost).length;
     if (playersRemaining(this.state) < 2 || humansLeft === 0) void this.finish();
     else if (this.state.roundStartedAt !== null && isRoundOver(this.state, Date.now())) this.endRound(this.state.round);
+  }
+
+  /** A preset reaction goes to every human in the game, the sender included (PRD 11.2). */
+  react(userId: string, reaction: Reaction): void {
+    if (this.finished || !this.seats.some((seat) => seat.userId === userId)) return;
+    const event: ReactionEvent = { matchId: this.id, userId, reaction };
+    for (const seat of this.seats) if (!seat.isGhost) this.toUser(seat.userId, "match:reaction", event);
   }
 
   disconnected(userId: string): void {
