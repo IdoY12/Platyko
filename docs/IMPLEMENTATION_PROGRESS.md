@@ -16,13 +16,12 @@ after any context reset, then continue from "Current position".
 
 ## Current position
 
-- **Updated:** 2026-11-14 22:30. All gates green (typecheck, lint, tests, knip, language scan,
+- **Updated:** 2026-11-14 23:30. All gates green (typecheck, lint, tests, knip, language scan,
   whole-bank verify).
-- **Phases:** 0 nearly done; 1 done apart from the walk-through of the old duel screens (phase 5
-  rebuilds them); 2 (bank) 21 of 28 units committed (484 items), two more authoring
-  (`map-set-weakmap-symbol`, `performance-and-memory`); 3 started (jump test done).
-- **Next for the main thread:** phase 3 — daily challenge, revision mode, push reminders through
-  the server, achievements; then the backend error codes (PRD 15.x "the server returns codes").
+- **Phases:** 0 nearly done; 1 done; 2 (bank) 27 of 28 units committed, the last (`code-analysis`)
+  authoring, then the verification loop; 3 done apart from server push (needs APNs, H6).
+- **Next for the main thread:** verification loop (pass start --complete; Gate B/C/D agents one per
+  track per gate; fix; repeat to three clean passes); then phase 4 (social).
 - **Next for sub-agents:** keep two unit authors running (Sonnet, `model: "sonnet"`), one unit
   each, from `scratchpad/briefs/unit-<slug>.md` regenerated from
   `content/verification/prompts/unit-author.md` (see "How unit authoring runs").
@@ -50,8 +49,8 @@ after any context reset, then continue from "Current position".
 |---|---|---|
 | 0 | Item model, attempts, user-level XP, verification pipeline, CI, bug fixes, tokens, fonts, i18n | In progress |
 | 1 | Learning core: lesson player, 7 formats, feedback, code view, execution player, map, Home, onboarding, mascot | Done (Profile, Settings, auth in the new design; EN + HE) |
-| 2 | 604-item bank, legacy migration, full verification loop | In progress (21 of 28 units) |
-| 3 | Retention: review (SM-2), daily challenge, revision, weekly goal, freeze, push, achievements | In progress (review, weekly goal, freeze, jump test done) |
+| 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); verification loop next |
+| 3 | Retention: review (SM-2), daily challenge, revision, weekly goal, freeze, push, achievements | Done except server push (credentials) |
 | 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Not started |
 | 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Not started |
 | 6 | Depth: league, extra modes, AI explain, share cards, item analysis | Not started |
@@ -116,6 +115,12 @@ Done since the first update (all committed):
       and launch); state flushed to disk before any language restart.
 - [x] Jump test (PRD 6.2): shared selection and pass rule, server opens a track only from
       stored attempts, map card, result screen; verified on the simulator.
+- [x] Daily challenge (5 items a day, one try, 30 XP once a day, grid), revision mode (units and
+      length, weakest first), achievements (25 badges, server records them), smart local
+      reminders (a week ahead, none once the day's goal is met).
+- [x] Security: sign-up no longer reveals registered emails (decoy reply + owner notice); Sign in
+      with Apple grants stored encrypted and revoked on account deletion (needs the Apple key, H6).
+- [x] Units 22–27 and the tracer fix for proxies.
 - [x] Profile (three measures, 12-week activity map, track progress, mastered and weak concepts,
       guest save card) and Settings (language, reminder, account dialogs, guest reset, legal
       pages), English and Hebrew; old terminal profile, preference drafts and the legacy learning
@@ -124,12 +129,13 @@ Done since the first update (all committed):
 
 Open:
 
-- [ ] Units 22–28 (7 units), then the full verification loop to three clean passes.
+- [ ] Full verification loop to three clean passes (all 28 units authored).
 - [ ] Server error codes (PRD: "the server keeps returning generic errors and codes"): today the
       app maps the server's English messages to translated text in one place
       (`mobile/src/i18n/localizedMessage.ts`); switching to codes removes the string coupling.
 - [ ] Old xp/streak/duel slices and the old duel screens retire with phases 4–5.
-- [ ] Daily challenge; revision mode; push reminders from the server; achievements (phase 3).
+- [ ] Server push through Expo (register tokens, send in the stored language) once APNs and EAS
+      credentials exist (H6); the smart local reminder covers guests and accounts meanwhile.
 - [ ] Hebrew RTL walk-through of every screen (done: Home, lesson, map, onboarding, Profile,
       Settings).
 - [ ] `npm audit` high/critical advisories in build-tool dependencies (security pass).
