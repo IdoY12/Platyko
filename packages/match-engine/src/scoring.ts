@@ -7,7 +7,7 @@
 
 export const MAX_ATTEMPTS_PER_ROUND = 2;
 const FULL_POINTS = 1000;
-const MAX_LATENCY_CREDIT_MS = 250;
+export const MAX_LATENCY_CREDIT_MS = 250;
 
 /** The response time that counts: server time minus half the ping, never below zero. */
 export function countedResponseMs(serverResponseMs: number, pingMs: number): number {

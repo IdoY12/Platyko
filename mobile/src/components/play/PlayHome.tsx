@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { TRACKS, type Track } from "@project/content-model";
 import { GAME_MODES, GAME_VARIANTS, ROOM_CODE_LENGTH, isRoomCode, type GameVariant } from "@project/match-engine";
 import { AppText } from "@/components/common/AppText/AppText";
@@ -16,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { queueStatus } from "@/redux/play-slice";
 import { playService } from "@/services/playSocket";
 import { palette, space, typography } from "@/theme/tokens";
+import type { RootNavigation } from "@/types/rootNavigation.types";
 import { InviteCard } from "./InviteCard";
 import { playRequest } from "./playRequest";
 
@@ -26,6 +28,7 @@ const VARIANTS = Object.keys(GAME_VARIANTS) as GameVariant[];
 /** The Play tab's start (PRD 11.3–11.7): open invitations, a ranked duel on a track, or a private room by code. */
 export function PlayHome() {
   const dispatch = useAppDispatch();
+  const navigation = useNavigation<RootNavigation>();
   const { connected, interrupted, invites } = useAppSelector((state) => state.play);
   const startingTrack = useAppSelector((state) => state.learning.startingTrack);
   const [track, setTrack] = useState<Track>(startingTrack ?? "BEGINNER");
@@ -103,7 +106,7 @@ export function PlayHome() {
         </View>
       </Surface>
 
-      <TextButton label={t("play.scoring")} onPress={() => Alert.alert(t("play.scoring"), t("play.scoringBody"))} />
+      <TextButton label={t("play.scoring")} onPress={() => navigation.navigate("PlayScoring")} />
     </Screen>
   );
 }

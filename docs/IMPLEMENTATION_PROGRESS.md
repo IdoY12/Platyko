@@ -58,7 +58,7 @@ after any context reset, then continue from "Current position".
 | 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); pass 1 resolved (329 findings); pass 2 next |
 | 3 | Retention: review (SM-2), daily challenge, revision, weekly goal, freeze, push, achievements | Done except server push (credentials) |
 | 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Done: profile, privacy, search, friends, played recently, presence, invitations inbox, block and report, friend links. Open: Friend Streak, QR code, GitHub (H7), README badge |
-| 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Done: engine, `/play`, Play tab, friends duels and invitations, presence, reconnect and server-restart recovery, rooms reopening, podium, leaver cooldown, room links, `/duel` retired. Open: in-game reactions, multi-simulator run |
+| 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Done: engine, `/play`, Play tab, friends duels and invitations, presence, reconnect and server-restart recovery, rooms reopening, podium, leaver cooldown, room links, in-game reactions, "how scoring works" screen (examples computed by the engine's own `pointsForAnswer`), `/duel` retired. Open: multi-simulator run |
 | 6 | Depth: league, extra modes, AI explain, share cards, item analysis | Bug Hunt, Output Race and "explain my mistake" (flag off until H4) done; Reverse (A33), league, share cards, item analysis open |
 
 ## Work log
