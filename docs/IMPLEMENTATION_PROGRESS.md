@@ -38,13 +38,22 @@ after any context reset, then continue from "Current position".
 ### Phase 0
 
 - [x] Baseline gates verified green.
-- [ ] `@project/content-model` — item, unit, lesson and trace types; answer checking; bank hash.
-- [ ] `tools/content` — schema, executor, trace generator, pre-check, Gate A, originality, run log.
-- [ ] Prisma: new models beside the old ones, user-level XP and streak, data migration script.
+- [x] `@project/content-model` — item, unit, lesson and trace types; shared answer checker (7 tests).
+- [x] XP model (`@project/xp-constants/xpModel`): per-action values and level curve (3 tests).
+- [x] `content/README.md` — authoring, execution, originality and verification rules.
+- [ ] `tools/content` executor, canonical formatter, DOM stub, worker pool, trace generator — sub-agent running.
+- [ ] `tools/content` bank loader, schema, pre-check, originality, construct scan, bank hash — sub-agent running.
+- [ ] `tools/content` Gate A, gates B/C/D export and ingest, run log, CLI — after the two above.
+- [ ] `@project/code-sandbox` (isolated-vm, expression and function-body entries) — sub-agent running.
+- [ ] Prisma: new models beside the old ones, SQL data conversion, verification script — sub-agent running.
 - [ ] Legacy content (90 + 21 + 10) converted to items and passing pre-check and Gate A.
-- [ ] XP model (`@project/xp-constants`): new per-action values and level curve.
-- [ ] Design tokens, Rubik and JetBrains Mono fonts.
-- [ ] Localisation: `@project/locales` (en, he), lookup, direction-aware layout, key-parity check.
+- [x] Design tokens (`mobile/src/theme/tokens.ts`) with a 44-pair contrast test.
+- [x] `@project/locales` (en, he): lookup, plural forms, key and placeholder parity tests (9 tests).
+- [x] App language module (`mobile/src/i18n`): device default, stored choice, RTL via reload.
+- [x] In-house JavaScript lexer for the code view (11 tests).
+- [x] Native dependencies installed, iOS project regenerated, simulator build succeeds.
+- [x] Old-UI reference screenshots in `docs/screenshots/before/`.
+- [ ] Fonts loaded at startup; base components; mascot rig.
 - [ ] CI workflow, repository-wide Hebrew scan.
 - [ ] Section 2 bug fixes (accuracy, progress loss on login, solo wins, XP loopholes).
 
@@ -65,15 +74,34 @@ after any context reset, then continue from "Current position".
 | A11 | Syntax highlighting uses a small in-house JavaScript lexer in the app. | PRD Q3; avoids a dependency for roughly 150 lines of code and is fully testable. |
 | A12 | Review scheduling uses SM-2 at concept level. | PRD Q2 recommendation; FSRS needs Node 24 while the backend targets Node 22. |
 | A13 | Code Puzzle is folded into the `CODE_WRITE` format; the separate screen is removed. | PRD Q9 recommendation. |
+| A15 | `text.muted` is `#8F92C4`, not the PRD's proposed `#7C7FB0`. | PRD 12.2 asks for 4.5:1 on every pair; `#7C7FB0` on `bg.raised` measures 4.05:1. The new value is at least 5.19:1 on every background (see `tokens.test.ts`). |
+| A16 | The mascot is a stack of static SVG layers, each inside an animated view; motion is view transforms and opacity only. | Transforms and opacity run on the UI thread without re-rendering SVG each frame, which is what keeps 60fps realistic. Still vector shapes and code only, with `react-native-svg` as the single mascot dependency (PRD 13.2). |
+| A17 | Language switching uses `I18nManager.forceRTL` plus `reloadAppAsync` from `expo`. | PRD 12.10/16.8 expect a restart; native stack gestures and native controls only follow the direction set at launch. |
+| A18 | Simulator automation uses the `agent-device` CLI (installed globally on the dev machine, not a project dependency). | The earlier CDP fiber driver could not tap native UI; `agent-device` drives real taps through an XCTest runner. |
 | A14 | Gates B, C and D run as fresh sub-agents that receive only exported, redacted item files; their findings are written to files and compared mechanically by `tools/content`. | PRD 8.3/8.4 require blind derivation and independent review with fresh contexts on every pass. |
 
 ## Dependencies added (reason, license)
 
 | Package | Where | Reason | License |
 |---|---|---|---|
-| _none yet_ | | | |
+| acorn, acorn-walk | tools/content | Parse snippets for banned constructs, the construct scan and trace instrumentation | MIT |
+| zod | tools/content | Unit-file schema validation | MIT |
+| react-native-svg | mobile | Mascot vector shapes (PRD 13.2), icons and rings | MIT |
+| @shopify/react-native-skia | mobile | Ambient water, glow and particle effects (owner's brief; PRD 13.2 fallback) | MIT |
+| expo-linear-gradient, expo-blur | mobile | Background depth and sheet scrims | MIT |
+| expo-localization | mobile | Device language on first launch, RTL support flag | MIT |
+| expo-audio | mobile | Three feedback sounds (PRD 12.7) | MIT |
+| expo-linking | mobile | Room invite links (PRD 11.7) | MIT |
+| expo-clipboard, expo-sharing, react-native-view-shot | mobile | Copy a room or friend code, share cards (PRD 14.4) | MIT |
+| expo-device | mobile | Push token registration needs a physical-device check | MIT |
+| expo-splash-screen | mobile | Hold the splash until fonts and language are ready | MIT |
+| expo-crypto | mobile | Attempt idempotency ids | MIT |
+| @expo-google-fonts/rubik, @expo-google-fonts/jetbrains-mono | mobile | UI and code fonts (PRD 12.3) | MIT (package), OFL-1.1 (fonts) |
 
 ## Risks
+
+- Sub-agents share the session's usage limit: on 2026-11-14 all four stopped at the 5-hour limit
+  and were resumed after the reset. Long loops (the verification passes) will hit this again.
 
 - The verification loop (PRD 8.4) has no fixed length; every fix restarts the clean-pass count.
 - The N-player engine is a rewrite of `io` with no prior tests.

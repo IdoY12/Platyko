@@ -17,14 +17,15 @@
       "backgroundColor": "#080930"
     },
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "requireFullScreen": true,
       "bundleIdentifier": "com.idoyahav.platyko",
       "appleTeamId": "PL973694GG",
       "usesAppleSignIn": true,
       "buildNumber": "1",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "CADisableMinimumFrameDurationOnPhone": true
       }
     },
     "android": {
@@ -59,7 +60,25 @@
           "icon": "./assets/android-icon-monochrome.png",
           "color": "#0C0C31"
         }
+      ],
+      [
+        "expo-localization",
+        {
+          "supportsRTL": true
+        }
+      ],
+      "expo-audio",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#080930"
+        }
       ]
-    ]
+    ],
+    "extra": {
+      "supportsRTL": true
+    }
   }
 }
