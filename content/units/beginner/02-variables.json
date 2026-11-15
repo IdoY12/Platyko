@@ -326,7 +326,7 @@
         "string-values"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What value does total hold right after line 3 has run?",
       "code": [
         "let eggs = 6;",
@@ -375,7 +375,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.let-declaration.fill-01",
@@ -385,7 +385,7 @@
         "string-values"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blank with the variable that holds the booked seats, so the program prints 18.",
       "code": [
         "let seats = 30;",
@@ -431,7 +431,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.variables.let-declaration.parsons-01",
@@ -498,13 +498,13 @@
         {
           "text": "Both lines print calm, because quotes do not change what a name means.",
           "correct": false,
-          "feedback": "You thought quotes make no difference to a name. Quotes turn the word into plain text instead of a variable.",
+          "feedback": "You thought quotes make no difference to a name. Check what the quotes do to the word between them.",
           "misconception": "name-printed-as-text"
         },
         {
           "text": "Both lines print mood, because console.log shows the name of a variable.",
           "correct": false,
-          "feedback": "You thought console.log shows the name of a variable. It shows the value that an unquoted name stands for.",
+          "feedback": "You thought console.log shows the name of a variable. Check what an unquoted name stands for in code.",
           "misconception": "name-printed-as-text"
         }
       ],
@@ -525,7 +525,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.variables.reassignment.predict-01",
@@ -662,7 +662,7 @@
         {
           "text": "15",
           "correct": false,
-          "feedback": "That is the number taken away on line 3. The question asks about baked, which never had 15 stored.",
+          "feedback": "You took the number written on line 3 as the stored value. Line 3 subtracts it from onShelf, and the question asks about baked.",
           "misconception": "mixes-up-variables"
         }
       ],
@@ -678,7 +678,7 @@
       "hints": [
         "Ask which name line 3 changes.",
         "Copying a variable copies its value, not a link.",
-        "Line 3 changes onShelf. It never touches baked."
+        "Compare the name line 3 assigns to with the name the question asks about."
       ],
       "reference": {
         "title": "Assignment (=)",
@@ -687,7 +687,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:JUNIOR:9"
       ]
@@ -1141,7 +1141,7 @@
       "hints": [
         "Which line needs no other name?",
         "Each name must be declared before a later line reads it.",
-        "The line that changes heat comes right before the print."
+        "Each line reads a name the previous line stored; follow that chain from the first line to the print."
       ],
       "reference": {
         "title": "const",
@@ -1151,7 +1151,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.const-declaration.concept-02",
@@ -1185,7 +1185,7 @@
         {
           "text": "It stops at line 2, because only the first assignment to any variable is allowed.",
           "correct": false,
-          "feedback": "You thought only one assignment is allowed for any variable. The keyword a variable was declared with decides whether it can be assigned again.",
+          "feedback": "You thought a second assignment to any variable is refused. Look at which keyword declared plays on line 1.",
           "misconception": "const-wrong-error"
         }
       ],
@@ -1206,7 +1206,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.variables.undefined-and-null.predict-01",
@@ -1231,7 +1231,7 @@
         {
           "text": "Stop: ",
           "correct": false,
-          "feedback": "A missing value is not printed as empty text. It has a name, and that name is joined to the text.",
+          "feedback": "You thought a variable with nothing stored adds nothing to the text. It holds a value of its own, and + joins that value.",
           "misconception": "unset-let-is-zero"
         },
         {
@@ -1258,7 +1258,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.undefined-and-null.predict-02",
@@ -1285,7 +1285,7 @@
         {
           "text": "undefined\nnull",
           "correct": false,
-          "feedback": "You thought typeof answers null for the value null. typeof gives the name of a type, and null has no type name of its own.",
+          "feedback": "You thought typeof answers null for the value null. typeof always answers with the name of a type.",
           "misconception": "null-typeof-null"
         },
         {
@@ -1302,7 +1302,7 @@
       "hints": [
         "Work out the two typeof results one at a time.",
         "The two values have different types.",
-        "One result is the word object."
+        "Match each variable to its case on the concept card."
       ],
       "reference": {
         "title": "typeof",
@@ -1312,7 +1312,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.variables.undefined-and-null.trace-01",
@@ -1322,7 +1322,7 @@
         "typeof-operator"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What value does seat hold right after line 2 has run?",
       "code": [
         "let seat = \"A4\";",
@@ -1370,7 +1370,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.variables.undefined-and-null.fill-01",
@@ -1380,7 +1380,7 @@
         "typeof-operator"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blank so the program prints object.",
       "code": [
         "let parcel = ___;",
@@ -1420,7 +1420,7 @@
       "hints": [
         "Look at what typeof is asked about.",
         "One value reports a surprising type name.",
-        "It is the value you store on purpose to mean empty."
+        "Reread the card: it names the value that typeof reports as object."
       ],
       "reference": {
         "title": "typeof",
@@ -1430,7 +1430,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.undefined-and-null.parsons-02",

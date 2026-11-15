@@ -1808,18 +1808,19 @@
   },
   "exp.debugging.async-ordering-bugs.predict-01": {
    "code": [
-    "const print = async () => {",
-    "  console.log(\"start\");",
+    "let pts = 1;",
+    "const bump = async () => {",
+    "  const old = pts;",
     "  await null;",
-    "  console.log(\"end\");",
+    "  pts = old + 1;",
     "};",
-    "print();",
-    "console.log(\"next job\");"
+    "const show = () => console.log(pts);",
+    "bump();",
+    "pts = 10;",
+    "setTimeout(show, 0);"
    ],
    "output": [
-    "start",
-    "next job",
-    "end"
+    "2"
    ],
    "steps": [
     {
@@ -1833,51 +1834,17 @@
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 2,
      "variables": [
       {
-       "name": "print",
+       "name": "pts",
        "scope": "global",
-       "value": "[Function: print]"
+       "value": "1"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "print",
-       "scope": "global",
-       "value": "[Function: print]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "print"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "print",
-       "scope": "global",
-       "value": "[Function: print]"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global",
-      "print"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -1886,32 +1853,219 @@
      "line": 7,
      "variables": [
       {
-       "name": "print",
+       "name": "pts",
        "scope": "global",
-       "value": "[Function: print]"
+       "value": "1"
+      },
+      {
+       "name": "bump",
+       "scope": "global",
+       "value": "[Function: bump]"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 0,
      "callStack": [
       "global"
      ],
      "macrotasks": [],
-     "microtasks": [
-      "resume print"
-     ]
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "pts",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "bump",
+       "scope": "global",
+       "value": "[Function: bump]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "pts",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "bump",
+       "scope": "global",
+       "value": "[Function: bump]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bump"
+     ],
+     "macrotasks": [],
+     "microtasks": []
     },
     {
      "line": 4,
      "variables": [
       {
-       "name": "print",
+       "name": "pts",
        "scope": "global",
-       "value": "[Function: print]"
+       "value": "1"
+      },
+      {
+       "name": "bump",
+       "scope": "global",
+       "value": "[Function: bump]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "old",
+       "scope": "bump",
+       "value": "1"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 0,
      "callStack": [
-      "print"
+      "global",
+      "bump"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "pts",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "bump",
+       "scope": "global",
+       "value": "[Function: bump]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "resume bump"
+     ]
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "pts",
+       "scope": "global",
+       "value": "10"
+      },
+      {
+       "name": "bump",
+       "scope": "global",
+       "value": "[Function: bump]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": [
+      "resume bump"
+     ]
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "pts",
+       "scope": "global",
+       "value": "10"
+      },
+      {
+       "name": "bump",
+       "scope": "global",
+       "value": "[Function: bump]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "old",
+       "scope": "bump",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "bump"
+     ],
+     "macrotasks": [
+      "show"
+     ],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "pts",
+       "scope": "global",
+       "value": "2"
+      },
+      {
+       "name": "bump",
+       "scope": "global",
+       "value": "[Function: bump]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "show"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -1920,12 +2074,22 @@
      "line": 0,
      "variables": [
       {
-       "name": "print",
+       "name": "pts",
        "scope": "global",
-       "value": "[Function: print]"
+       "value": "2"
+      },
+      {
+       "name": "bump",
+       "scope": "global",
+       "value": "[Function: bump]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
       }
      ],
-     "outputCount": 3,
+     "outputCount": 1,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -2530,21 +2694,28 @@
   },
   "exp.debugging.async-ordering-bugs.write-02": {
    "code": [
-    "function lateReadings(count) {",
-    "const tasks = [];",
-    "for (let i = 0; i < count; i++) {",
-    "  tasks.push(() => i * 10);",
+    "function interleave(jobs) {",
+    "const line = jobs.map(([name, n]) =>",
+    "  ({ name, n, k: 1 }));",
+    "const order = [];",
+    "while (line.length > 0) {",
+    "  const job = line.shift();",
+    "  order.push(job.name + job.k);",
+    "  job.k += 1;",
+    "  if (job.k <= job.n) {",
+    "    line.push(job);",
+    "  }",
     "}",
-    "return tasks.map((run) => run());",
+    "return order;",
     "}",
-    "console.log(lateReadings(3));"
+    "console.log(interleave([[\"a\",2],[\"b\",1]]));"
    ],
    "output": [
-    "[0, 10, 20]"
+    "['a1', 'b1', 'a2']"
    ],
    "steps": [
     {
-     "line": 8,
+     "line": 15,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -2557,15 +2728,15 @@
      "line": 2,
      "variables": [
       {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "lateReadings"
+      "interleave"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -2574,182 +2745,26 @@
      "line": 3,
      "variables": [
       {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
       },
       {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "lateReadings"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
+       "name": "name",
+       "scope": "anonymous",
+       "value": "'a'"
       },
       {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[]"
-      },
-      {
-       "name": "i",
-       "scope": "lateReadings",
-       "value": "0"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "lateReadings"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
-      },
-      {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[]"
-      },
-      {
-       "name": "i",
-       "scope": "lateReadings",
-       "value": "0"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "lateReadings"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
-      },
-      {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[[Function (anonymous)]]"
-      },
-      {
-       "name": "i",
-       "scope": "lateReadings",
-       "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "lateReadings"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
-      },
-      {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[[Function (anonymous)]]"
-      },
-      {
-       "name": "i",
-       "scope": "lateReadings",
-       "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "lateReadings"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
-      },
-      {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[[Function (anonymous)], [Function (anonymous)]]"
-      },
-      {
-       "name": "i",
-       "scope": "lateReadings",
+       "name": "n",
+       "scope": "anonymous",
        "value": "2"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "lateReadings"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
-      },
-      {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[[Function (anonymous)], [Function (anonymous)]]"
-      },
-      {
-       "name": "i",
-       "scope": "lateReadings",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "lateReadings"
+      "interleave",
+      "anonymous"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -2758,188 +2773,25 @@
      "line": 3,
      "variables": [
       {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
       },
       {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
-      },
-      {
-       "name": "i",
-       "scope": "lateReadings",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "lateReadings"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
-      },
-      {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "lateReadings"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
-      },
-      {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
-      },
-      {
-       "name": "run",
+       "name": "name",
        "scope": "anonymous",
-       "value": "[Function (anonymous)]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "lateReadings",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
+       "value": "'b'"
       },
       {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
-      },
-      {
-       "name": "i",
-       "scope": "lateReadings",
-       "value": "0"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "lateReadings",
-      "anonymous",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
-      },
-      {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
-      },
-      {
-       "name": "run",
+       "name": "n",
        "scope": "anonymous",
-       "value": "[Function (anonymous)]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "lateReadings",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
-      },
-      {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
-      },
-      {
-       "name": "i",
-       "scope": "lateReadings",
        "value": "1"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "lateReadings",
-      "anonymous",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
-      },
-      {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
-      },
-      {
-       "name": "run",
-       "scope": "anonymous",
-       "value": "[Function (anonymous)]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "lateReadings",
+      "interleave",
       "anonymous"
      ],
      "macrotasks": [],
@@ -2949,27 +2801,556 @@
      "line": 4,
      "variables": [
       {
-       "name": "count",
-       "scope": "lateReadings",
-       "value": "3"
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
       },
       {
-       "name": "tasks",
-       "scope": "lateReadings",
-       "value": "[[Function (anonymous)], [Function (anonymous)], [Function (anonymous)]]"
-      },
-      {
-       "name": "i",
-       "scope": "lateReadings",
-       "value": "2"
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'a', n: 2, k: 1}, {name: 'b', n: 1, k: 1}]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "lateReadings",
-      "anonymous",
-      "anonymous"
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'a', n: 2, k: 1}, {name: 'b', n: 1, k: 1}]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'a', n: 2, k: 1}, {name: 'b', n: 1, k: 1}]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'b', n: 1, k: 1}]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "[]"
+      },
+      {
+       "name": "job",
+       "scope": "interleave",
+       "value": "{name: 'a', n: 2, k: 1}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'b', n: 1, k: 1}]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1']"
+      },
+      {
+       "name": "job",
+       "scope": "interleave",
+       "value": "{name: 'a', n: 2, k: 1}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'b', n: 1, k: 1}]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1']"
+      },
+      {
+       "name": "job",
+       "scope": "interleave",
+       "value": "{name: 'a', n: 2, k: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'b', n: 1, k: 1}]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1']"
+      },
+      {
+       "name": "job",
+       "scope": "interleave",
+       "value": "{name: 'a', n: 2, k: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'b', n: 1, k: 1}, {name: 'a', n: 2, k: 2}]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'b', n: 1, k: 1}, {name: 'a', n: 2, k: 2}]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'a', n: 2, k: 2}]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1']"
+      },
+      {
+       "name": "job",
+       "scope": "interleave",
+       "value": "{name: 'b', n: 1, k: 1}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'a', n: 2, k: 2}]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1', 'b1']"
+      },
+      {
+       "name": "job",
+       "scope": "interleave",
+       "value": "{name: 'b', n: 1, k: 1}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'a', n: 2, k: 2}]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1', 'b1']"
+      },
+      {
+       "name": "job",
+       "scope": "interleave",
+       "value": "{name: 'b', n: 1, k: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'a', n: 2, k: 2}]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1', 'b1']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[{name: 'a', n: 2, k: 2}]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1', 'b1']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1', 'b1']"
+      },
+      {
+       "name": "job",
+       "scope": "interleave",
+       "value": "{name: 'a', n: 2, k: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1', 'b1', 'a2']"
+      },
+      {
+       "name": "job",
+       "scope": "interleave",
+       "value": "{name: 'a', n: 2, k: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1', 'b1', 'a2']"
+      },
+      {
+       "name": "job",
+       "scope": "interleave",
+       "value": "{name: 'a', n: 2, k: 3}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1', 'b1', 'a2']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 13,
+     "variables": [
+      {
+       "name": "jobs",
+       "scope": "interleave",
+       "value": "[['a', 2], ['b', 1]]"
+      },
+      {
+       "name": "line",
+       "scope": "interleave",
+       "value": "[]"
+      },
+      {
+       "name": "order",
+       "scope": "interleave",
+       "value": "['a1', 'b1', 'a2']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "interleave"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3273,18 +3654,19 @@
   },
   "exp.debugging.reading-a-stack-of-calls.concept-01": {
    "code": [
-    "const fail = () => {",
-    "  throw new TypeError();",
-    "};",
-    "Promise.resolve(1)",
-    "  .then(fail)",
-    "  .then(() => console.log(\"ran\"))",
-    "  .catch((e) => console.log(e.name))",
-    "  .then(() => console.log(\"after\"));"
+    "const read = () =>",
+    "  Promise.reject(new RangeError());",
+    "const parse = () =>",
+    "  read().catch(() => 0);",
+    "const load = () =>",
+    "  parse().then((v) => v + 1);",
+    "const show = (t) => console.log(t);",
+    "load()",
+    "  .then(show)",
+    "  .catch((e) => show(e.name));"
    ],
    "output": [
-    "TypeError",
-    "after"
+    "1"
    ],
    "steps": [
     {
@@ -3298,12 +3680,12 @@
      "microtasks": []
     },
     {
-     "line": 4,
+     "line": 3,
      "variables": [
       {
-       "name": "fail",
+       "name": "read",
        "scope": "global",
-       "value": "[Function: fail]"
+       "value": "[Function: read]"
       }
      ],
      "outputCount": 0,
@@ -3314,17 +3696,22 @@
      "microtasks": []
     },
     {
-     "line": 2,
+     "line": 5,
      "variables": [
       {
-       "name": "fail",
+       "name": "read",
        "scope": "global",
-       "value": "[Function: fail]"
+       "value": "[Function: read]"
+      },
+      {
+       "name": "parse",
+       "scope": "global",
+       "value": "[Function: parse]"
       }
      ],
      "outputCount": 0,
      "callStack": [
-      "fail"
+      "global"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3333,14 +3720,180 @@
      "line": 7,
      "variables": [
       {
-       "name": "fail",
+       "name": "read",
        "scope": "global",
-       "value": "[Function: fail]"
+       "value": "[Function: read]"
       },
       {
-       "name": "e",
-       "scope": "anonymous",
-       "value": "TypeError"
+       "name": "parse",
+       "scope": "global",
+       "value": "[Function: parse]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "read",
+       "scope": "global",
+       "value": "[Function: read]"
+      },
+      {
+       "name": "parse",
+       "scope": "global",
+       "value": "[Function: parse]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "read",
+       "scope": "global",
+       "value": "[Function: read]"
+      },
+      {
+       "name": "parse",
+       "scope": "global",
+       "value": "[Function: parse]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "load"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "read",
+       "scope": "global",
+       "value": "[Function: read]"
+      },
+      {
+       "name": "parse",
+       "scope": "global",
+       "value": "[Function: parse]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "load",
+      "parse"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "read",
+       "scope": "global",
+       "value": "[Function: read]"
+      },
+      {
+       "name": "parse",
+       "scope": "global",
+       "value": "[Function: parse]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "load",
+      "parse",
+      "read"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "read",
+       "scope": "global",
+       "value": "[Function: read]"
+      },
+      {
+       "name": "parse",
+       "scope": "global",
+       "value": "[Function: parse]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
       }
      ],
      "outputCount": 0,
@@ -3351,17 +3904,73 @@
      "microtasks": []
     },
     {
-     "line": 8,
+     "line": 6,
      "variables": [
       {
-       "name": "fail",
+       "name": "read",
        "scope": "global",
-       "value": "[Function: fail]"
+       "value": "[Function: read]"
+      },
+      {
+       "name": "parse",
+       "scope": "global",
+       "value": "[Function: parse]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "v",
+       "scope": "anonymous",
+       "value": "0"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 0,
      "callStack": [
       "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "read",
+       "scope": "global",
+       "value": "[Function: read]"
+      },
+      {
+       "name": "parse",
+       "scope": "global",
+       "value": "[Function: parse]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "t",
+       "scope": "show",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "show"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3370,12 +3979,27 @@
      "line": 0,
      "variables": [
       {
-       "name": "fail",
+       "name": "read",
        "scope": "global",
-       "value": "[Function: fail]"
+       "value": "[Function: read]"
+      },
+      {
+       "name": "parse",
+       "scope": "global",
+       "value": "[Function: parse]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

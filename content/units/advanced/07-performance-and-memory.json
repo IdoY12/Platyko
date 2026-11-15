@@ -335,13 +335,13 @@
         {
           "text": "The second call ran the body again, but it still read the old tax.",
           "correct": false,
-          "feedback": "If the body had run again it would have read tax as 20 and printed 120. The 110 comes straight from the cache.",
+          "feedback": "You thought the body ran a second time. A run of the body would read tax as it is at that moment, which would not give the number printed twice.",
           "misconception": "memo-reruns-body"
         },
         {
           "text": "Every call to withTax starts with an empty cache.",
           "correct": false,
-          "feedback": "The cache is declared outside the function, so it survives between calls. That is why the second call finds the first answer.",
+          "feedback": "You thought the cache is rebuilt on every call. Look at line 2: it is created once, outside withTax, so it lasts between calls.",
           "misconception": "fresh-cache-each-call"
         }
       ],
@@ -361,7 +361,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.performance-and-memory.memoization.parsons-01",
@@ -627,7 +627,7 @@
         {
           "text": "c",
           "correct": false,
-          "feedback": "That merges all three calls. b has already fired at 300 because no call arrived during its 200 ms wait.",
+          "feedback": "You thought each call cancels all the calls before it. A call only cancels a timer that has not fired yet. Check whether b had already fired when c arrived.",
           "misconception": "debounce-ignores-gap"
         }
       ],
@@ -647,7 +647,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:13"
       ]
@@ -687,7 +687,7 @@
         {
           "text": "It runs every call, only later.",
           "correct": false,
-          "feedback": "Calls at 100 and 250 print nothing. They are dropped, not delayed.",
+          "feedback": "You thought the extra calls are queued and run later. Nothing in this code stores or schedules a call for later.",
           "misconception": "limit-still-runs-every-call"
         }
       ],
@@ -698,7 +698,7 @@
       "hints": [
         "Follow lastRun as each time in the array is checked.",
         "A throttle caps how often the function runs; it does not queue the extra calls.",
-        "Check which calls print and what the dropped calls had in common."
+        "Compare t - lastRun on line 3 for each time in the array."
       ],
       "reference": {
         "title": "setTimeout()",
@@ -708,7 +708,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.performance-and-memory.debounce-and-throttle.fill-01",
@@ -988,7 +988,7 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 3,
-      "prompt": "The page sets poll to null at 250 ms and logs the tick count at 450 ms. What does this program print?",
+      "prompt": "The page sets poll to null at 250 ms and logs the tick count at 350 ms. What does this program print?",
       "code": [
         "let ticks = 0;",
         "const tick = () => ticks++;",
@@ -1000,13 +1000,13 @@
         "setTimeout(() => {",
         "  console.log(ticks);",
         "  clearInterval(id);",
-        "}, 450);"
+        "}, 350);"
       ],
       "options": [
         {
-          "text": "4",
+          "text": "3",
           "correct": true,
-          "feedback": "Right. The interval was never cleared, so it still fires at 100, 200, 300 and 400 before the log."
+          "feedback": "Right. The interval was never cleared, so it still fires at 100, 200 and 300 before the log."
         },
         {
           "text": "2",
@@ -1015,20 +1015,20 @@
           "misconception": "null-cancels-existing"
         },
         {
-          "text": "5",
+          "text": "4",
           "correct": false,
           "feedback": "That counts a tick at 0. An interval waits one full period before its first run, so the first tick is at 100.",
           "misconception": "interval-fires-immediately"
         }
       ],
       "solution": {
-        "expectedOutput": "4"
+        "expectedOutput": "3"
       },
-      "explanation": "Only clearInterval stops an interval. Assigning null to poll just loses the id, so the interval fires at 100, 200, 300 and 400. The log at 450 sees four ticks.",
+      "explanation": "Only clearInterval stops an interval. Assigning null to poll just loses the id, so the interval fires at 100, 200 and 300. The log at 350 sees three ticks.",
       "hints": [
         "List the times at which the interval fires.",
         "Changing a variable does not change a timer that was already started.",
-        "Count the interval ticks that happen before 450 ms."
+        "Count the interval ticks that happen before 350 ms."
       ],
       "reference": {
         "title": "clearInterval()",
@@ -1037,7 +1037,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.performance-and-memory.memory-leaks.concept-01",
@@ -1067,13 +1067,13 @@
         {
           "text": "Only the object with text b is reachable, because draft moved on from a.",
           "correct": false,
-          "feedback": "Moving draft away only removes one reference to a. The array was given its own reference on line 2, so a is still reachable.",
+          "feedback": "You treated draft as the only reference to the first object. Look at line 2: does anything besides draft refer to it?",
           "misconception": "reassign-frees-object"
         },
         {
           "text": "Neither object is reachable, because draft is null.",
           "correct": false,
-          "feedback": "draft was only one of the references. The array still holds both objects, whatever draft contains.",
+          "feedback": "You treated draft as the only reference to either object. Look at what lines 2 and 4 do with draft before it is set to null.",
           "misconception": "reassign-frees-object"
         }
       ],
@@ -1084,7 +1084,7 @@
       "hints": [
         "Count the places that refer to each object after line 5.",
         "Memory is freed only when no reachable reference is left.",
-        "The array keeps its own reference to each object it was given, whatever draft is set to later. What does it still hold?"
+        "Look at lines 2 and 4: what receives draft before it changes?"
       ],
       "reference": {
         "title": "Memory management",
@@ -1094,7 +1094,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:16"
       ]
@@ -1492,7 +1492,7 @@
         {
           "text": "The steps add up: four from the outer loop and four from the inner loop.",
           "correct": false,
-          "feedback": "That would be 8. The inner loop starts again from the beginning on every outer pass, so its steps are repeated.",
+          "feedback": "You added the two loop sizes, which gives 8. Ask how many times the inner loop starts, and what it does each time it starts.",
           "misconception": "nested-loops-add"
         },
         {
@@ -1509,7 +1509,7 @@
       "hints": [
         "Count how many times line 4 runs for one value of a.",
         "The inner loop starts over on each outer pass.",
-        "Multiply the passes of the outer loop by the passes of the inner loop."
+        "The outer loop has four passes; count how many inner passes happen inside each one."
       ],
       "reference": {
         "title": "for statement",
@@ -1519,7 +1519,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.performance-and-memory.algorithmic-cost.fill-01",

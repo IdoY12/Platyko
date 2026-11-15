@@ -122,7 +122,7 @@
       "title": "Comparing with === and !==",
       "conceptCard": {
         "title": "Comparing with === and !==",
-        "body": "=== asks whether two values are the same. It gives true only when the value and the type both match. !== gives the opposite answer. Both give true or false, never the values themselves.",
+        "body": "=== asks whether two values are the same. It gives true only when the value and the type both match. Two texts match only when every character matches, capitals included. !== gives the opposite answer. Both give true or false, never the values themselves.",
         "code": [
           "let eggs = 6;",
           "console.log(eggs === 6);",
@@ -321,7 +321,7 @@
         "let-declaration"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What value does full hold right after line 3 has run?",
       "code": [
         "let seats = 20;",
@@ -371,7 +371,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.operators-and-comparisons.strict-equality.fill-01",
@@ -381,7 +381,7 @@
         "let-declaration"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blank so the program prints false.",
       "code": [
         "let cups = 6;",
@@ -426,7 +426,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.operators-and-comparisons.strict-equality.parsons-01",
@@ -457,7 +457,7 @@
       "hints": [
         "The variable must exist before any line reads it.",
         "Each print shows the comparison for the value ticket has at that moment.",
-        "Print the A7 check before ticket changes."
+        "Decide which value ticket holds when each print runs."
       ],
       "reference": {
         "title": "Strict equality (===)",
@@ -467,7 +467,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.operators-and-comparisons.strict-equality.concept-01",
@@ -492,13 +492,13 @@
         {
           "text": "=== compares only what is written, so both lines print true.",
           "correct": false,
-          "feedback": "The second line prints false. The number 7 and the text '7' look alike but have different types.",
+          "feedback": "You thought === looks only at what is written. Check whether the two sides of line 2 are the same kind of value.",
           "misconception": "strict-ignores-type"
         },
         {
           "text": "=== prints the value when both sides match, and false otherwise.",
           "correct": false,
-          "feedback": "The first line prints true, not 7. A comparison always gives true or false.",
+          "feedback": "You thought a match gives back the value. === answers with true or false, never with one of its sides.",
           "misconception": "returns-operand-not-boolean"
         }
       ],
@@ -519,7 +519,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:10"
       ]
@@ -620,7 +620,7 @@
       "hints": [
         "Look at the types on each side of ==.",
         "== converts a boolean to a number.",
-        "false turns into 0."
+        "Convert the boolean first, then compare the two numbers."
       ],
       "reference": {
         "title": "Type coercion",
@@ -630,7 +630,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.operators-and-comparisons.loose-equality.trace-01",
@@ -700,7 +700,7 @@
         "string-values"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blank so the program prints true.",
       "code": [
         "let typed = '25';",
@@ -718,14 +718,14 @@
           "feedback": "The text '25' and the number 25 have different types, so this prints false."
         },
         {
-          "text": "!=",
-          "correct": false,
-          "feedback": "This asks whether they differ after conversion, so it prints false."
-        },
-        {
           "text": "=",
           "correct": false,
           "feedback": "One = stores 25 in typed and prints 25, not true."
+        },
+        {
+          "text": "+",
+          "correct": false,
+          "feedback": "This joins the text and the number, so the program prints 2525."
         }
       ],
       "solution": {
@@ -750,7 +750,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.operators-and-comparisons.loose-equality.parsons-01",
@@ -781,7 +781,7 @@
       "hints": [
         "Work out what each print shows for the text '3'.",
         "== converts, + joins text, === compares the types too.",
-        "The line that creates answer comes first."
+        "Match each printed value in the prompt to the comparison or join that produces it."
       ],
       "reference": {
         "title": "Equality (==)",
@@ -791,7 +791,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.operators-and-comparisons.loose-equality.write-01",
@@ -867,7 +867,7 @@
       "hints": [
         "You need an operator that compares two values.",
         "One equality operator converts the types first.",
-        "Write typed, then the comparison sign, then target. The sign is a relative of === that is more forgiving."
+        "Put typed on the left and target on the right, with the sign the card shows for comparing after conversion."
       ],
       "reference": {
         "title": "Equality (==)",
@@ -876,7 +876,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.predict-01",
@@ -954,7 +954,7 @@
         {
           "text": "false",
           "correct": false,
-          "feedback": "You compared 10 and 9 as numbers. Both values are text, and text is not compared by its numeric value.",
+          "feedback": "You compared 10 and 9 as numbers. Both values here are text; check how the card says two texts are compared.",
           "misconception": "text-compared-as-number"
         },
         {
@@ -981,7 +981,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.trace-01",
@@ -1048,7 +1048,7 @@
         "strict-equality"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blank so the program prints true.",
       "code": [
         "let guests = 8;",
@@ -1099,7 +1099,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.parsons-01",
@@ -1131,7 +1131,7 @@
       "hints": [
         "steps is computed from goal, so one comes first.",
         "Each print shows the state at that moment.",
-        "Print the < check while steps is still 4000."
+        "Decide when steps is smaller than goal and when it reaches goal, and place each print there."
       ],
       "reference": {
         "title": "Less than (<)",
@@ -1141,7 +1141,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.concept-01",
@@ -1166,13 +1166,13 @@
         {
           "text": "Texts made of digits are compared as numbers, so line 2 behaves like line 3.",
           "correct": false,
-          "feedback": "Line 2 prints true and line 3 prints false. Texts are compared by characters, not by numeric value.",
+          "feedback": "You thought digit texts act like numbers. Check how the card says two texts are compared.",
           "misconception": "text-compared-as-number"
         },
         {
           "text": "A longer text is always bigger, so '10' is bigger than '9'.",
           "correct": false,
-          "feedback": "Length does not decide. '10' is the smaller text because its first character '1' comes before '9'.",
+          "feedback": "You thought length decides which text is bigger. Check what the card says texts are compared by.",
           "misconception": "longer-text-is-bigger"
         }
       ],
@@ -1183,7 +1183,7 @@
       "hints": [
         "Compare line 2 with line 3.",
         "Texts and numbers follow different comparison rules.",
-        "The text rule looks at one character at a time."
+        "Line 2 compares two texts, so apply the text rule from the card to it."
       ],
       "reference": {
         "title": "Less than (<)",
@@ -1193,7 +1193,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.operators-and-comparisons.truthy-and-falsy.predict-01",
@@ -1464,7 +1464,7 @@
       "hints": [
         "isOpen must exist before the prints, and it changes in the middle.",
         "! turns true into false and false into true.",
-        "Print the flipped value before the flip happens."
+        "Work out what each print shows before and after isOpen = !isOpen, then match the prompt's order."
       ],
       "reference": {
         "title": "Logical NOT (!)",
@@ -1474,7 +1474,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:12"
       ]

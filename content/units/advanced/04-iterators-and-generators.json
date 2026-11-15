@@ -129,7 +129,7 @@
       "title": "Walking an iterator by hand",
       "conceptCard": {
         "title": "Iterables hand out values one at a time",
-        "body": "An iterable can give its values one at a time. Calling [Symbol.iterator]() returns an iterator. Each next() call returns an object with value and done. When done is true, there are no more values. for...of and spread use this protocol.",
+        "body": "An iterable can give its values one at a time. Calling [Symbol.iterator]() returns an iterator. Each next() call returns an object with value and done. When done is true, there are no more values. for...of and spread use this protocol. Array.from(iterable) collects the values into an array.",
         "code": [
           "const fruit = ['fig', 'kiwi'];",
           "const it = fruit[Symbol.iterator]();",
@@ -246,13 +246,13 @@
         {
           "text": "1 undefined",
           "correct": false,
-          "feedback": "That treats the string as one single value, so there is no second element. A string is iterable, so looping over it yields its characters one by one.",
+          "feedback": "You thought the string counts as one single value. Ask what an iterator over a string hands out.",
           "misconception": "strings-are-single-values"
         },
         {
           "text": "Uncaught TypeError",
           "correct": false,
-          "feedback": "Array.from does not need an array. Any iterable works, and a string is one, so nothing throws.",
+          "feedback": "You thought Array.from accepts only arrays. Ask which kinds of value Array.from accepts.",
           "misconception": "only-arrays-iterate"
         }
       ],
@@ -273,7 +273,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:14"
       ]
@@ -304,13 +304,13 @@
         {
           "text": "The first two results are the elements themselves, and the third result is plain undefined.",
           "correct": false,
-          "feedback": "The printed results are objects, not bare elements. Even the last one is an object: its done property reports the end.",
+          "feedback": "You thought next() returns bare elements and then undefined. Look at what the printed a and b are.",
           "misconception": "next-returns-raw-value"
         },
         {
           "text": "done is true already on the second result, the one holding the last element.",
           "correct": false,
-          "feedback": "The second result still has done: false. The flag turns true only on a result that has no element left to give.",
+          "feedback": "You thought done is true on the result that holds the last element. Check which call finds no element left.",
           "misconception": "done-true-on-last-value"
         }
       ],
@@ -331,7 +331,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.iteration-protocol.fill-01",
@@ -340,7 +340,7 @@
         "array-iteration"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "Fill the blank so total adds up the seats left on every bus, including the bus with 0 seats.",
       "code": [
         "const seats = [4, 0, 2];",
@@ -389,7 +389,7 @@
       "hints": [
         "Compare what each chip tests on line 5.",
         "An iterator reports its end with the done property, not with the value.",
-        "The loop must go on while the end has not been reported, so read the end flag the right way round."
+        "Which chip is true while the iterator still has a result, whatever its value is?"
       ],
       "reference": {
         "title": "Iteration protocols",
@@ -398,7 +398,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.iterators-and-generators.iteration-protocol.fix-01",
@@ -442,7 +442,7 @@
       "hints": [
         "Check which kind of value line 2 tries to spread.",
         "Spread needs an iterable, and a plain object has no [Symbol.iterator].",
-        "Turn the object into an array of its values first."
+        "Line 2 needs something iterable built from the property values of the object."
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -452,7 +452,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.iteration-protocol.write-01",
@@ -461,7 +461,7 @@
         "array-iteration"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "Write the body of firstTwo(items). Read the iterator of items with next() and return up to two values in an array. A short list gives fewer values.",
       "solution": {
         "entry": {
@@ -568,7 +568,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.custom-iterables.predict-01",
@@ -603,13 +603,13 @@
         {
           "text": "3",
           "correct": false,
-          "feedback": "The third call does return a result, but it has done: true. Spread stops there and does not keep that result.",
+          "feedback": "You thought the result with done: true is collected too. Ask what spread does when it reads done: true.",
           "misconception": "done-value-included"
         },
         {
           "text": "Uncaught TypeError",
           "correct": false,
-          "feedback": "Spread accepts any iterable, not only arrays. A class instance with a [Symbol.iterator] method qualifies.",
+          "feedback": "You thought spread works only on arrays. Ask what spread needs from an object.",
           "misconception": "only-arrays-iterate"
         }
       ],
@@ -620,7 +620,7 @@
       "hints": [
         "Follow seat through the calls to next().",
         "Spread collects values until a call reports done: true.",
-        "Find the first call where seat is greater than 2; calls before it count."
+        "Line 7 decides done on each call: note seat and done for calls 1, 2 and 3."
       ],
       "reference": {
         "title": "Iteration protocols",
@@ -629,7 +629,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.custom-iterables.concept-01",
@@ -638,7 +638,7 @@
         "iteration-protocol"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "The track program spreads the same object twice and prints 3, then 0. Which statement explains this?",
       "code": [
         "let n = 0;",
@@ -662,13 +662,13 @@
         {
           "text": "Each spread starts a fresh count, so the second spread should report 3 as well.",
           "correct": false,
-          "feedback": "A fresh count needs a new iterator object each time. Here the method returns the same object, so n keeps growing.",
+          "feedback": "You thought each spread begins a fresh count. Ask what [Symbol.iterator] returns on line 2.",
           "misconception": "iterator-always-fresh"
         },
         {
           "text": "An object can be spread only once, so every later spread gives an empty array.",
           "correct": false,
-          "feedback": "Iterables can be looped many times when each loop gets a new iterator. This one is used up because it hands back itself.",
+          "feedback": "You thought an object can be spread only once. Ask whether a spread uses up the object or something it receives.",
           "misconception": "iterable-loops-once"
         }
       ],
@@ -688,7 +688,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.iterators-and-generators.custom-iterables.fill-01",
@@ -806,7 +806,7 @@
       "hints": [
         "Compare the name of the method on line 3 with what a loop looks for.",
         "Loops find the iterator method under a well-known symbol key.",
-        "Use a computed key built from Symbol and its iterator property."
+        "Look for the replacement whose key is written in square brackets and names the protocol."
       ],
       "reference": {
         "title": "Symbol.iterator",
@@ -815,7 +815,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.custom-iterables.write-01",
@@ -984,13 +984,13 @@
         {
           "text": "boots on\nat gate\nridge",
           "correct": false,
-          "feedback": "Calling a generator function does not start its body. The body runs only when next() is called.",
+          "feedback": "You thought calling hike() starts its body. Ask which line first makes the body run.",
           "misconception": "generator-runs-on-call"
         },
         {
           "text": "at gate\nboots on\nlunch\nridge",
           "correct": false,
-          "feedback": "The body pauses at yield and stops there. lunch would print only if next() were called again.",
+          "feedback": "You thought the body runs on past the yield. Ask what a generator does when it reaches yield.",
           "misconception": "generator-runs-ahead"
         }
       ],
@@ -1001,7 +1001,7 @@
       "hints": [
         "Find the line where the body of hike first starts to run.",
         "A generator pauses at each yield until next() is called again.",
-        "Line 6 runs nothing; the body starts at the next() call and ends at the yield."
+        "Line 6 creates the generator; decide which later line makes the body start."
       ],
       "reference": {
         "title": "function*",
@@ -1011,7 +1011,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:23"
       ]
@@ -1044,13 +1044,13 @@
         {
           "text": "It is yielded like the others, so the spread is ['am', 'closed'].",
           "correct": false,
-          "feedback": "Only yield hands a value to a loop. The value of return comes with done: true, and loops ignore that result.",
+          "feedback": "You thought return hands a value to the loop like yield. Look at the done flag on the first logged line.",
           "misconception": "return-acts-as-yield"
         },
         {
           "text": "The second next() returns the text closed on its own, not an object.",
           "correct": false,
-          "feedback": "Every call to next() returns a result object, including the one that finishes the generator.",
+          "feedback": "You thought the finishing call returns the bare text. Look at what the first logged line prints.",
           "misconception": "next-returns-raw-value"
         }
       ],
@@ -1071,7 +1071,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.iterators-and-generators.generator-functions.fill-01",
@@ -1179,7 +1179,7 @@
       "hints": [
         "Compare what line 6 loops over with what pages returns.",
         "A generator function must be called to produce an iterable generator.",
-        "Call pages and give it the number of pages to produce."
+        "Line 6 loops over the function itself, not over a generator object built by calling it."
       ],
       "reference": {
         "title": "for...of",
@@ -1189,7 +1189,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.generator-functions.write-01",
@@ -1348,13 +1348,13 @@
         {
           "text": "100",
           "correct": false,
-          "feedback": "That treats every call to next() as a restart at 100. The generator keeps its place between calls.",
+          "feedback": "You thought every next() starts the body again at 100. Ask whether a generator remembers its place.",
           "misconception": "each-next-restarts"
         },
         {
           "text": "The program never finishes",
           "correct": false,
-          "feedback": "The loop is endless, but the generator runs only until the next yield for each next() call, then pauses.",
+          "feedback": "You thought the endless loop never lets the program finish. Ask what the generator does each time it reaches yield.",
           "misconception": "infinite-generator-hangs"
         }
       ],
@@ -1375,7 +1375,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.lazy-sequences.concept-01",
@@ -1405,13 +1405,13 @@
         {
           "text": "The endless loop starts on the first call and the program never prints the value.",
           "correct": false,
-          "feedback": "An endless loop is fine when it pauses at each yield. The generator hands the value out and waits.",
+          "feedback": "You thought the endless loop never lets the program print. Ask what stops the loop after one value.",
           "misconception": "infinite-generator-hangs"
         },
         {
           "text": "The generator makes a batch of tiles first, so cut 1, cut 2 and cut 3 print before the value.",
           "correct": false,
-          "feedback": "Nothing is made ahead of time. Each next() runs the body only as far as the next yield.",
+          "feedback": "You thought the generator makes a batch ahead of time. Ask what triggers each run of the body.",
           "misconception": "generator-runs-ahead"
         }
       ],
@@ -1432,7 +1432,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.lazy-sequences.parsons-01",

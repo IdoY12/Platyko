@@ -517,7 +517,7 @@
       "hints": [
         "Which line creates n?",
         "Tripling and then adding gives a different result than adding and then tripling.",
-        "n must exist before the call, and the print comes last."
+        "Check which line each of the other lines depends on."
       ],
       "reference": {
         "title": "function declaration",
@@ -527,7 +527,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.functions.function-declaration.concept-01",
@@ -554,13 +554,13 @@
         {
           "text": "water runs once where it is defined, so watering prints first.",
           "correct": false,
-          "feedback": "You thought a function runs where it is defined. A definition only stores the function, and nothing in this code asks for its body to run.",
+          "feedback": "You thought a function runs where it is defined. Check what the card says defines a function and what runs it.",
           "misconception": "declaration-runs-body"
         },
         {
           "text": "water runs by itself after the last line, so watering prints last.",
           "correct": false,
-          "feedback": "You thought a function runs by itself at the end of the program. A function runs only when a line calls it, and no line here does.",
+          "feedback": "You thought a function runs by itself at the end of the program. Check on the card what makes a function's code run.",
           "misconception": "call-deferred"
         }
       ],
@@ -581,7 +581,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.functions.parameters-and-arguments.predict-01",
@@ -608,13 +608,13 @@
         {
           "text": "blue-red\nred-blue",
           "correct": false,
-          "feedback": "You thought the arguments are swapped, as if each parameter took the last argument. Each call matches arguments to parameters in the order they are written, one call at a time.",
+          "feedback": "You thought arguments fill parameters from the right. Check on the card how arguments fill parameters.",
           "misconception": "argument-order-ignored"
         },
         {
           "text": "red-blue\nred-blue",
           "correct": false,
-          "feedback": "You thought a parameter keeps the value from the first call. Each call gets its own fresh values from its own arguments.",
+          "feedback": "You thought a parameter keeps its value from the first call. Check on the card what each call starts with.",
           "misconception": "parameter-keeps-old-value"
         }
       ],
@@ -635,7 +635,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.functions.parameters-and-arguments.predict-02",
@@ -664,7 +664,7 @@
         {
           "text": "4\n4",
           "correct": false,
-          "feedback": "You thought changing count also changes stock, because stock was passed in. count holds a copy of the value, and the assignment on line 3 reaches only count.",
+          "feedback": "You thought changing count also changes stock. Check what line 6 hands to count: the variable itself or something else.",
           "misconception": "outer-variable-changed"
         },
         {
@@ -691,7 +691,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.functions.parameters-and-arguments.trace-01",
@@ -725,7 +725,7 @@
         {
           "text": "2",
           "correct": false,
-          "feedback": "You thought a keeps a value from the first call. Each call starts with fresh parameters, so a begins the second call as the first argument of that call.",
+          "feedback": "You thought a keeps its value from the first call and then subtracts 5. Check on the card what each call starts with.",
           "misconception": "parameter-keeps-old-value"
         }
       ],
@@ -750,7 +750,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.functions.parameters-and-arguments.fill-01",
@@ -1031,13 +1031,13 @@
         {
           "text": "shipped\n6",
           "correct": false,
-          "feedback": "You thought line 3 still runs when ship(3) is called, so shipped prints before the 6 appears. A function stops at its return, and nothing below it is carried out.",
+          "feedback": "You thought line 3 still runs, before the 6 is shown. Check on the card what return does to the rest of the function.",
           "misconception": "code-after-return-runs"
         },
         {
           "text": "6\nshipped",
           "correct": false,
-          "feedback": "You thought the function hands back its value and then goes on to run line 3, so shipped prints after the 6. A return ends the function, so it does not go on.",
+          "feedback": "You thought the 6 is shown as soon as return runs, with line 3 running afterwards. Check on the card what return does to the function.",
           "misconception": "code-after-return-runs"
         }
       ],
@@ -1058,7 +1058,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.functions.return-value.trace-01",
@@ -1274,13 +1274,13 @@
         {
           "text": "Both values come back, one after the other.",
           "correct": false,
-          "feedback": "You thought a call can give back both values, one after the other. A call produces a single result, and it ends when that result is returned.",
+          "feedback": "You thought a call can give back both values. Check on the card what return does besides giving a value back.",
           "misconception": "code-after-return-runs"
         },
         {
           "text": "The last return wins, so aisle comes back.",
           "correct": false,
-          "feedback": "You thought a later return replaces an earlier one. A function that has returned is over, so a return below it is never reached.",
+          "feedback": "You thought a later return replaces an earlier one. Check on the card what return does to the function.",
           "misconception": "code-after-return-runs"
         }
       ],
@@ -1301,7 +1301,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.functions.function-expressions.predict-01",
@@ -1386,7 +1386,7 @@
         {
           "text": "5",
           "correct": false,
-          "feedback": "You thought the arrow function gives back a + b on its own. With braces the body is a list of statements, and a statement that is only a sum does not become the result.",
+          "feedback": "You thought the sum comes back on its own. Check on the card what a braced arrow function needs to give a value back.",
           "misconception": "no-return-last-value"
         },
         {
@@ -1413,7 +1413,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.functions.function-expressions.trace-01",

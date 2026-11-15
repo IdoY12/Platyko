@@ -49,8 +49,10 @@ function checkDeclarations(unit: UnitFile, availableConcepts: Set<string>, repor
       }
     }
   }
+  const namedMisconceptions = new Set(unit.items.flatMap((item) => item.options ?? []).map((option) => option.misconception));
   unit.misconceptions.forEach((misconception, index) => {
     if (!KEBAB_CASE.test(misconception.id)) report("id-format", `misconception id "${misconception.id}" is not lower-case kebab-case`);
+    if (!namedMisconceptions.has(misconception.id)) report("misconception-unused", `misconception "${misconception.id}" is named by no option`);
     checkText(report, `description of misconception "${misconception.id}"`, misconception.description);
     if (unit.misconceptions.findIndex((other) => other.id === misconception.id) !== index) {
       report("misconception-duplicate", `misconception "${misconception.id}" is declared twice`);

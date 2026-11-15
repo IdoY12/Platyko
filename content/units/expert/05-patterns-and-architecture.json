@@ -142,7 +142,7 @@
       "title": "Observer: publish and subscribe",
       "conceptCard": {
         "title": "Observer: publish and subscribe",
-        "body": "A subject keeps a list of functions. Subscribing adds a function to the list, and publishing calls every function in it with the same value. The publisher does not know who listens. A function that subscribes later hears only later messages.",
+        "body": "A subject keeps a list of functions. Subscribing adds a function to the list, and publishing calls every function in it with the same value. Unsubscribing removes one function from the list. The publisher does not know who listens. A function that subscribes later hears only later messages.",
         "code": [
           "const heard = [];",
           "const add = (fn) => heard.push(fn);",
@@ -255,7 +255,7 @@
         {
           "text": "pier 3\nbay -3\npier 5\nbay -5",
           "correct": false,
-          "feedback": "The bay listener did not exist during the first emit. Listeners hear only the emits that happen after they subscribe; earlier messages are not replayed.",
+          "feedback": "You thought the bay listener hears the first emit. Check where line 8 sits compared with the emit on line 7.",
           "misconception": "late-subscriber-replays"
         },
         {
@@ -266,7 +266,7 @@
         {
           "text": "bay -5",
           "correct": false,
-          "feedback": "emit loops over every registered listener, not only the newest one. The pier listener is still in the list during the second emit.",
+          "feedback": "You thought only the newest listener is called. Look at line 4: how many functions does the loop call?",
           "misconception": "only-one-function-runs"
         }
       ],
@@ -286,7 +286,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:1"
       ]
@@ -318,7 +318,7 @@
         {
           "text": "off() empties the whole Set, so no listener is left for the second send.",
           "correct": false,
-          "feedback": "The second send still prints bb, so the Set was not emptied. delete removes only the function it is given.",
+          "feedback": "You thought off() removes every listener. If it did, the second send would print nothing, yet the prompt says it prints bb.",
           "misconception": "unsubscribe-clears-all"
         },
         {
@@ -349,7 +349,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.patterns-and-architecture.observer-pattern.fix-01",
@@ -398,7 +398,7 @@
       "hints": [
         "Read the test inside filter on line 4 and ask what it keeps.",
         "filter keeps the elements whose test is true.",
-        "The test should be true for every function except the one passed to off."
+        "Line 4 keeps the wrong group of functions; decide which group off should keep."
       ],
       "reference": {
         "title": "Array.prototype.filter()",
@@ -407,7 +407,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.patterns-and-architecture.observer-pattern.write-01",
@@ -583,7 +583,7 @@
         {
           "text": "22.5\n20",
           "correct": false,
-          "feedback": "chain applies first to the number before second, so each call starts with the rule it received first.",
+          "feedback": "You thought chain runs the second rule first. Read line 4: which function does the argument n go into first?",
           "misconception": "chain-runs-last-first"
         }
       ],
@@ -604,7 +604,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.concept-01",
@@ -628,7 +628,7 @@
         {
           "text": "duck extends a parent class that defines swim and fly, so each new mix of moves needs a new subclass.",
           "correct": false,
-          "feedback": "Nothing here uses extends. make only receives functions as data and keeps them, so no parent class is involved.",
+          "feedback": "You thought a parent class defines the moves. Search the program for the word extends.",
           "misconception": "composition-needs-hierarchy"
         },
         {
@@ -660,7 +660,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.fix-01",
@@ -811,13 +811,13 @@
         {
           "text": "0 false",
           "correct": false,
-          "feedback": "The nullish check keeps the existing object, so get creates the object only on its first call. The second call returns that same object.",
+          "feedback": "You thought get builds a new object on every call. Look at line 3: when does ?? use its right side?",
           "misconception": "singleton-new-each-call"
         },
         {
           "text": "0 true",
           "correct": false,
-          "feedback": "The two names point at one object, so the write through a is visible through b. Nothing copies the object.",
+          "feedback": "You thought writing through a leaves the shared object unchanged. Line 7 assigns to a.visits: ask which object that changes.",
           "misconception": "reference-copied-not-shared"
         },
         {
@@ -842,7 +842,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:0"
       ]
@@ -872,13 +872,13 @@
         {
           "text": "make returns the class itself, and go() is then called on that class.",
           "correct": false,
-          "feedback": "The new on line 8 already builds an instance. go belongs to the instances, so it is called on an object, not on a class.",
+          "feedback": "You thought make hands back the class. Check line 8: is there a new, and what does line 9 call go on?",
           "misconception": "factory-returns-class"
         },
         {
           "text": "make keeps one instance per kind, so calls with the same name return the same object.",
           "correct": false,
-          "feedback": "Every call runs new again, so each call builds a fresh instance. Nothing here stores or reuses an earlier one.",
+          "feedback": "You thought make caches instances. Look for a variable in make or outside it that stores an instance.",
           "misconception": "factory-is-singleton"
         },
         {
@@ -903,7 +903,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:4"
       ]
@@ -952,7 +952,7 @@
       "hints": [
         "Check what line 3 does on the second and third call.",
         "A single instance is created once and then returned every time.",
-        "Keep the stored jar when it exists, and build a new one only when jar is null."
+        "Line 3 must build the object only under a condition on jar; decide which side holds the stored jar."
       ],
       "reference": {
         "title": "Nullish coalescing operator (??)",
@@ -962,7 +962,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.patterns-and-architecture.factory-and-singleton.write-01",
@@ -1108,7 +1108,7 @@
         {
           "text": "['a']",
           "correct": false,
-          "feedback": "The constructor keeps the very array it receives, not a copy. add therefore writes into the array that fake names.",
+          "feedback": "You thought add changes a copy. Look at line 3: what does the constructor store?",
           "misconception": "reference-copied-not-shared"
         },
         {
@@ -1139,7 +1139,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:3"
       ]
@@ -1171,13 +1171,13 @@
         {
           "text": "withFee must be edited to switch from percent to flat, because the rule is chosen inside it.",
           "correct": false,
-          "feedback": "Both calls use the same withFee. The rule arrives as its second argument, so only the caller changes.",
+          "feedback": "You thought switching rules means editing withFee. Compare lines 6 and 7: do they call the same withFee?",
           "misconception": "fake-needs-code-change"
         },
         {
           "text": "withFee has one fixed fee of its own, and the function passed in only changes how the result looks.",
           "correct": false,
-          "feedback": "The two printed lines differ, so the passed function does decide the result. A fixed helper inside withFee could not do that.",
+          "feedback": "You thought the helper inside withFee is fixed. Read lines 3 to 5: where does fee come from?",
           "misconception": "dependency-hardwired"
         }
       ],
@@ -1197,7 +1197,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:SENIOR:8"
       ]
@@ -1251,7 +1251,7 @@
       "hints": [
         "Compare what line 5 stores with the parameter declared on line 4.",
         "A dependency passed in is useless unless the object keeps and uses it.",
-        "The constructor should store the value it received, not a fixed helper."
+        "Line 4 gives the parameter a default; line 5 must use that parameter."
       ],
       "reference": {
         "title": "Functions",
@@ -1261,7 +1261,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.patterns-and-architecture.dependency-inversion.fill-01",

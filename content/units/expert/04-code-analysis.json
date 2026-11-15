@@ -316,7 +316,7 @@
         {
           "text": "has() looks at every earlier id, so doubling the ids roughly quadruples the work.",
           "correct": false,
-          "feedback": "You thought has() walks through the earlier ids like includes on an array. A Set finds a value by another route, so its cost does not grow with what it holds.",
+          "feedback": "You thought has() walks through the earlier ids like includes on an array. Check line 2 to see which structure holds the ids that were seen.",
           "misconception": "set-lookup-scans"
         },
         {
@@ -343,7 +343,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.code-analysis.complexity-analysis.fix-01",
@@ -591,7 +591,7 @@
         {
           "text": "[20, 20]",
           "correct": false,
-          "feedback": "You thought the setter written in Box runs for every object in the list. A setter is looked up through the object's own class first, so a subclass can supply a different one.",
+          "feedback": "You thought the setter in Box runs for every object in the list. Check which class the second object in the list comes from.",
           "misconception": "override-ignored"
         },
         {
@@ -617,7 +617,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:SENIOR:7"
       ]
@@ -649,7 +649,7 @@
         {
           "text": "Both tests reject 0 and undefined alike, so old and ok are equivalent.",
           "correct": false,
-          "feedback": "You thought 0 and undefined behave the same because both are falsy. A test for truthiness and a test for undefined ask different questions.",
+          "feedback": "You thought ok rejects 0 just like old does. Work through ok on the value 0: does 0 equal undefined?",
           "misconception": "falsy-equals-undefined"
         },
         {
@@ -675,7 +675,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6,
+      "version": 7,
       "legacyKeys": [
         "exercise:SENIOR:2"
       ]
@@ -724,7 +724,7 @@
       "hints": [
         "Run the filter on the log whose km is 0.",
         "Truthiness and presence are different questions.",
-        "Pick the test that asks only whether km exists."
+        "The test must keep a km of 0 and drop the log that has no km at all."
       ],
       "reference": {
         "title": "in operator",
@@ -734,7 +734,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.code-analysis.refactoring-equivalence.fill-01",
@@ -892,13 +892,13 @@
         {
           "text": "bill has one branch per kind, so pie needs a new branch inside bill.",
           "correct": false,
-          "feedback": "You thought every kind needs its own branch. bill has none: it maps each key through priceOf, which reads the table.",
+          "feedback": "You thought pricing is decided by branches in bill. Read line 5 again: does bill contain any branch at all?",
           "misconception": "ocp-more-branches-is-open"
         },
         {
           "text": "The program throws for pie, because cost has no pie key.",
           "correct": false,
-          "feedback": "You thought reading a missing key throws. Reading a key an object lacks gives a value, and ?? in priceOf then supplies a fallback.",
+          "feedback": "You thought a missing key makes the program throw. Look at line 2 to see what priceOf does when cost has no such key.",
           "misconception": "missing-key-throws"
         }
       ],
@@ -918,7 +918,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:SENIOR:6"
       ]
@@ -1326,7 +1326,7 @@
         {
           "text": "s.apples * n",
           "correct": false,
-          "feedback": "This multiplies instead of adding, so the new count is 12 and not the old count plus n."
+          "feedback": "This multiplies instead of adding, so the program prints 3 12."
         },
         {
           "text": "n",
@@ -1356,7 +1356,7 @@
       "hints": [
         "Check which chips write to the original object.",
         "A pure function only reads its inputs.",
-        "Only one chip reads the old count and adds n without changing the original."
+        "Check each chip for a write to s, and for the way it uses n."
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -1366,7 +1366,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     }
   ]
 }

@@ -134,7 +134,7 @@
       "title": "Map keeps keys as they are",
       "conceptCard": {
         "title": "A Map keeps every key as it is",
-        "body": "A Map stores key and value pairs. A key can be any value, and it keeps its type: 1 and \"1\" are different keys. Objects are compared by identity. The set method adds an entry, get reads one, size counts them, and a loop gives entries in insertion order.",
+        "body": "A Map stores key and value pairs. A key can be any value, and it keeps its type: 1 and \"1\" are different keys. Objects are compared by identity. The set method adds an entry, get reads one, size counts them. new Map(pairs) starts from an array of [key, value] pairs. A loop or spread gives entries in insertion order.",
         "code": [
           "const dates = new Map();",
           "dates.set(1, \"one\");",
@@ -157,7 +157,7 @@
       "title": "Set keeps values once",
       "conceptCard": {
         "title": "A Set keeps each value once",
-        "body": "A Set is a collection with no repeated values. add ignores a value that is already inside, has tests for it, and size counts the values. A Set is iterable in insertion order, so spreading it gives an array without repeats.",
+        "body": "A Set is a collection with no repeated values. add ignores a value that is already inside, has tests for it, and size counts the values. NaN counts as a repeat of NaN. A Set is iterable in insertion order, so spreading it gives an array without repeats.",
         "code": [
           "const tags = [\"cat\", \"dog\", \"cat\"];",
           "const pets = new Set(tags);",
@@ -202,7 +202,7 @@
       "title": "Symbols are unique keys",
       "conceptCard": {
         "title": "Every symbol is unique",
-        "body": "Symbol(text) returns a new unique value; the text is only a description. Symbols can be property keys, written as [sym], and are skipped by Object.keys and for...in. Symbol.for(text) returns one shared symbol per text.",
+        "body": "Symbol(text) returns a new unique value; the text is only a description. Symbols can be property keys, written as [sym], and are skipped by Object.keys and for...in. Object.getOwnPropertySymbols(obj) lists them. Symbol.for(text) returns one shared symbol per text, and Symbol.keyFor(sym) returns that text.",
         "code": [
           "const id = Symbol(\"id\");",
           "const user = { [id]: 7, n: \"Lu\" };",
@@ -444,7 +444,7 @@
       "hints": [
         "Compare line 3 with the way line 2 stores a value.",
         "A Map keeps entries with its own methods, not with property syntax.",
-        "Use the same method as line 2, with the cactus name and price."
+        "Line 2 shows how an entry is stored; line 3 needs the Map's own way of doing the same."
       ],
       "reference": {
         "title": "Map.prototype.get()",
@@ -454,7 +454,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.map-set-weakmap-symbol.map-collection.write-01",
@@ -647,7 +647,7 @@
         "map-collection"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "A sensor sends NaN twice. Which statement explains the two lines this program prints?",
       "code": [
         "const r = [NaN, 5, NaN];",
@@ -690,7 +690,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.map-set-weakmap-symbol.set-collection.fill-01",
@@ -983,7 +983,7 @@
       "hints": [
         "Check what kind of value is the key on line 5.",
         "A WeakMap key must be an object.",
-        "The first log works; look at what happens at line 5, and whether line 6 is reached."
+        "Follow the lines in order and decide whether line 6 is reached."
       ],
       "reference": {
         "title": "WeakMap",
@@ -993,7 +993,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:MID:19"
       ]
@@ -1426,7 +1426,7 @@
         "object-properties"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The greenhouse should print weekly, but prints undefined. Tap the buggy line and pick the fix.",
       "code": [
         "const water = Symbol(\"water\");",
@@ -1468,7 +1468,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.map-set-weakmap-symbol.symbol-keys.write-01",

@@ -172,7 +172,7 @@
       "title": "Promises",
       "conceptCard": {
         "title": "A value that arrives later",
-        "body": "A promise stands for a value that arrives later. then(handler) runs when it is fulfilled, and catch(handler) runs when it is rejected. Both return a new promise, so calls chain, and each handler passes its returned value to the next one. Handlers run after the current code finishes.",
+        "body": "A promise stands for a value that arrives later. then(handler) runs when it is fulfilled, catch(handler) when it is rejected. Both return a new promise, so calls chain and each handler passes its returned value on. Handlers run after the current code. new Promise(fn) runs fn at once and gives it a function that fulfils the promise.",
         "code": [
           "Promise.resolve(2)",
           "  .then((n) => n + 1)",
@@ -365,7 +365,7 @@
         "closure-captures-variable"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "Line 4 runs once per sale. What does lastReport hold right after the callback finishes for the second sale?",
       "code": [
         "let jarsSold = 0;",
@@ -396,7 +396,7 @@
         {
           "text": "3",
           "correct": false,
-          "feedback": "3 is only the second sale's count. jarsSold keeps the 2 from the first sale, so the report is the sum.",
+          "feedback": "You took 3, the count of the second sale. The callback is called with jarsSold, not with count.",
           "misconception": "wrong-step-value"
         }
       ],
@@ -412,7 +412,7 @@
       "hints": [
         "Line 4 runs each time sell calls report.",
         "jarsSold keeps its value between the two calls of sell.",
-        "The callback receives the running total, not the count of one sale."
+        "Check what value sell passes to report on line 8."
       ],
       "reference": {
         "title": "Callback function",
@@ -421,7 +421,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.async-basics.callbacks-and-timers.fill-01",
@@ -495,7 +495,7 @@
         "closure-captures-variable"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "The bus message should print after the delay, but it prints at once. Tap the buggy line and pick the fix.",
       "code": [
         "function showArrival() {",
@@ -539,7 +539,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.async-basics.callbacks-and-timers.write-01",
@@ -746,7 +746,7 @@
         {
           "text": "The last then receives the original error, because catch only observes the rejection.",
           "correct": false,
-          "feedback": "You thought catch only observes the rejection, so the error carries on to the next link. A catch handler's returned value becomes the value of the promise catch returns.",
+          "feedback": "You thought catch only watches the rejection and lets the error through. A catch handler is a link of its own: the error stops there.",
           "misconception": "chain-value-confusion"
         }
       ],
@@ -767,7 +767,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.async-basics.promise-basics.trace-01",
@@ -880,7 +880,7 @@
         "throw-and-try-catch"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "The last handler should print the doubled parking fee, 40, but it gets nothing to print. Tap the buggy line and pick the fix.",
       "code": [
         "Promise.resolve(20)",
@@ -917,7 +917,7 @@
       "hints": [
         "Follow what the first handler gives to the second.",
         "A handler in braces returns undefined unless it uses return.",
-        "Keep the calculation and add the keyword that sends it on."
+        "Line 3 computes a value that nothing sends to the next link."
       ],
       "reference": {
         "title": "Promise.prototype.then()",
@@ -927,7 +927,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.async-basics.promise-basics.write-01",
@@ -1037,8 +1037,8 @@
         "  return 12;",
         "}",
         "const rooms = countRooms();",
-        "console.log(typeof rooms);",
-        "rooms.then((n) => console.log(n));"
+        "rooms.then((n) => console.log(n));",
+        "console.log(typeof rooms);"
       ],
       "options": [
         {
@@ -1055,7 +1055,7 @@
         {
           "text": "12\nobject",
           "correct": false,
-          "feedback": "You thought the then handler on line 6 runs at once. A then handler waits until the current code has finished.",
+          "feedback": "You thought the then handler on line 5 runs at once. A then handler waits until the current code has finished.",
           "misconception": "then-runs-immediately"
         }
       ],
@@ -1066,7 +1066,7 @@
       "hints": [
         "Look at what countRooms() gives back on line 4.",
         "An async function always wraps its result in a promise.",
-        "Line 5 prints at once; the handler runs later."
+        "Line 6 prints at once; the handler runs later."
       ],
       "reference": {
         "title": "async function",
@@ -1076,7 +1076,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:MID:20"
       ]
@@ -1280,7 +1280,7 @@
         "promise-basics"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "showDouble should print double the price, 60, but it prints something else. Tap the buggy line and pick the fix.",
       "code": [
         "async function loadPrice() {",
@@ -1318,7 +1318,7 @@
       "hints": [
         "Look at what loadPrice() gives back on line 5.",
         "An async function returns a promise, and the value is inside it.",
-        "Call the function and put the keyword that unwraps promises in front."
+        "Line 6 multiplies price, so price must already hold the number."
       ],
       "reference": {
         "title": "await",
@@ -1328,7 +1328,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:23"
       ]

@@ -62,10 +62,6 @@
       "description": "Believes a bound function takes this from the object it is called on."
     },
     {
-      "id": "bind-does-not-fix-this",
-      "description": "Believes bind does not change which object this refers to."
-    },
-    {
       "id": "arrow-gets-own-this",
       "description": "Believes an arrow function gets its own this, like a regular function."
     },
@@ -305,7 +301,7 @@
       "hints": [
         "Look at line 7: what stands before the dot in the call?",
         "Inside a method, this is the object the method was called on.",
-        "Replace this with the object in the call, then read its title."
+        "Line 4 reads title through this; ask which object that is for the call on line 7."
       ],
       "reference": {
         "title": "this",
@@ -315,7 +311,7 @@
       "duelEligible": true,
       "timeLimitSec": 41,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.this-in-methods.concept-01",
@@ -412,7 +408,7 @@
         {
           "text": "6",
           "correct": false,
-          "feedback": "The total is stored on till, not on the call. It does not start again at 0, so the second price is added to 4.",
+          "feedback": "You restarted the total at 0 for the second call. The total is stored on till, not on the call, so it is not reset between calls.",
           "misconception": "state-resets-each-call"
         }
       ],
@@ -428,7 +424,7 @@
       "hints": [
         "Line 5 runs once for each call of add.",
         "The total is a property of till, so it keeps its value from call to call.",
-        "Add the first price to the starting total, then add the second."
+        "Follow this.total through both calls: where does the second call start from?"
       ],
       "reference": {
         "title": "Method definitions",
@@ -437,7 +433,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.this-and-classes.this-in-methods.fill-01",
@@ -471,7 +467,7 @@
         {
           "text": "this",
           "correct": false,
-          "feedback": "At the top level this is not one of the two objects, so this.info is not the method of oat."
+          "feedback": "At the top level this is not oat or rye, so this.info is not the method and the call fails."
         },
         {
           "text": "label",
@@ -491,7 +487,7 @@
       "hints": [
         "Look at what stands before the dot on line 6.",
         "The object before the dot becomes this inside info.",
-        "Pick the variable whose label is 'oat'."
+        "Two of the chips are the objects on lines 4 and 5; compare their labels."
       ],
       "reference": {
         "title": "this",
@@ -501,7 +497,7 @@
       "duelEligible": true,
       "timeLimitSec": 38,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.this-in-methods.fix-01",
@@ -685,10 +681,10 @@
           "misconception": "bound-this-follows-caller"
         },
         {
-          "text": "undefined",
+          "text": "Uncaught TypeError",
           "correct": false,
-          "feedback": "bind does not drop this. The new function keeps the object it was given.",
-          "misconception": "bind-does-not-fix-this"
+          "feedback": "You thought bind calls the function right away, which would make show a string. bind only returns a new function; it does not call it.",
+          "misconception": "bind-calls-now"
         }
       ],
       "solution": {
@@ -708,7 +704,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:27"
       ]
@@ -792,14 +788,14 @@
         "};",
         "const drop = jar.add.bind(jar);",
         "const first = drop(2);",
-        "const second = drop(2);",
+        "const second = drop(4);",
         "console.log(first, second);"
       ],
       "options": [
         {
-          "text": "7",
+          "text": "9",
           "correct": true,
-          "feedback": "Right. The bound function always uses jar, so the coins grow from 3 to 5, then to 7."
+          "feedback": "Right. The bound function always uses jar, so the coins grow from 3 to 5, then to 9."
         },
         {
           "text": "5",
@@ -808,9 +804,9 @@
           "misconception": "trace-wrong-pass"
         },
         {
-          "text": "3",
+          "text": "7",
           "correct": false,
-          "feedback": "That is the value jar.coins started with. The bound function changes jar itself, so each call builds on the previous result.",
+          "feedback": "You restarted from 3 for the second call. The bound function changes jar itself, so each call builds on the previous result.",
           "misconception": "state-resets-each-call"
         }
       ],
@@ -820,13 +816,13 @@
           "afterLine": 10,
           "visit": 1
         },
-        "expectedOutput": "5 7"
+        "expectedOutput": "5 9"
       },
-      "explanation": "bind fixes this to jar, so drop(2) adds 2 to jar.coins each time: 3 becomes 5 on the first call and 7 on the second.",
+      "explanation": "bind fixes this to jar, so each call changes jar.coins: 3 becomes 5 on the first call and 9 after the second call adds 4.",
       "hints": [
         "Line 9 runs drop before line 10 does.",
         "bind fixes this to the same jar object for every call.",
-        "Each call drop(2) adds 2 to whatever jar.coins holds at that moment."
+        "Each call adds its own n to whatever jar.coins holds at that moment."
       ],
       "reference": {
         "title": "Function.prototype.bind()",
@@ -835,7 +831,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.this-and-classes.this-lost-and-bound.parsons-01",
@@ -1217,7 +1213,7 @@
       "hints": [
         "Line 4 runs once for each tick.",
         "The constructor runs once; sum stays on the instance afterwards.",
-        "Start at 10, add 2, then add 5."
+        "Follow this.sum from the constructor through the first tick, then use it in the second."
       ],
       "reference": {
         "title": "Classes",
@@ -1226,7 +1222,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.this-and-classes.class-basics.fill-01",
@@ -1285,7 +1281,7 @@
       "hints": [
         "Look at the right side of line 6.",
         "The new value is the current value plus one.",
-        "Read the current value from the object the method runs on."
+        "The method runs on one instance; ask which chip reads that instance's field."
       ],
       "reference": {
         "title": "Classes",
@@ -1294,7 +1290,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:8"
       ]
@@ -1502,7 +1498,7 @@
         {
           "text": "5",
           "correct": false,
-          "feedback": "super.speed() is a call that returns 10. Its result is part of the sum, so it is not dropped.",
+          "feedback": "You left out the super call. The expression includes it, so the parent method runs and its result is used.",
           "misconception": "super-call-result-is-lost"
         }
       ],
@@ -1513,7 +1509,7 @@
       "hints": [
         "Look at line 8: it calls super.speed().",
         "A subclass method overrides the parent's, and super reaches the parent's.",
-        "Work out what super.speed() returns, then add 5."
+        "Line 8 combines two parts: what super.speed() gives and the number written after it."
       ],
       "reference": {
         "title": "super",
@@ -1522,7 +1518,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.class-inheritance.concept-01",
@@ -1635,7 +1631,7 @@
       "hints": [
         "Line 6 runs before line 7.",
         "super() runs the parent constructor on the same object.",
-        "Read log after Base set it and before Kid changes it."
+        "Line 7 reads this.log; ask which lines have already set it by then."
       ],
       "reference": {
         "title": "super",
@@ -1644,7 +1640,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.class-inheritance.parsons-01",
@@ -1832,7 +1828,7 @@
       "hints": [
         "Which class must you create with new at the end?",
         "super.area() gives the parent's result inside the subclass method.",
-        "Subclass area returns the parent's area times two."
+        "The subclass method needs the parent's result before it can change it."
       ],
       "reference": {
         "title": "extends",
@@ -1841,7 +1837,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

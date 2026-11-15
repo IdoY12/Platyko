@@ -304,7 +304,7 @@
       "concept": "number-values",
       "prerequisites": [],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What value does tray hold right after line 2 has run?",
       "code": [
         "let tray = 12;",
@@ -352,14 +352,14 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.values-and-types.number-values.fill-01",
       "concept": "number-values",
       "prerequisites": [],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blank so the program prints the remainder of 17 divided by 5.",
       "code": [
         "console.log(17 ___ 5);"
@@ -408,7 +408,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.values-and-types.number-values.parsons-01",
@@ -420,7 +420,7 @@
       "code": [
         "console.log(10 % 4);",
         "console.log(7 * 6);",
-        "console.log(2 ** 3);",
+        "console.log(5 + 3);",
         "console.log(20 / 8);"
       ],
       "solution": {
@@ -432,10 +432,10 @@
         ],
         "expectedOutput": "42\n2.5\n2\n8"
       },
-      "explanation": "Each line prints one number. 7 * 6 is 42, 20 / 8 is 2.5, 10 % 4 is 2 and 2 ** 3 is 8. The output order is the order of the lines.",
+      "explanation": "Each line prints one number. 7 * 6 is 42, 20 / 8 is 2.5, 10 % 4 is 2 and 5 + 3 is 8. The output order is the order of the lines.",
       "hints": [
         "Work out what each line prints before you move it.",
-        "** raises a number to a power, and % gives a remainder.",
+        "% gives a remainder, and / keeps the fraction.",
         "Work out each result, then match it to the prompt's list from left to right."
       ],
       "reference": {
@@ -446,7 +446,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.values-and-types.number-values.concept-01",
@@ -485,7 +485,7 @@
       "hints": [
         "Run each line by hand and compare the two results.",
         "One sign keeps the fraction; the other keeps the leftover.",
-        "The leftover is what remains after taking out as many whole 4s as possible."
+        "Check line 2 by hand: how many whole 4s fit into 10, and how much of 10 is left over?"
       ],
       "reference": {
         "title": "Remainder (%)",
@@ -495,7 +495,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.values-and-types.string-values.predict-01",
@@ -535,7 +535,7 @@
       "hints": [
         "Look at the quotation marks around the 7.",
         "A + with text on one side joins the two pieces.",
-        "The result looks like two digits side by side."
+        "Line 1 has a number on the left and text on the right; apply the rule for that mix."
       ],
       "reference": {
         "title": "Addition (+)",
@@ -545,7 +545,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:JUNIOR:7"
       ]
@@ -577,7 +577,7 @@
         {
           "text": "teatea",
           "correct": false,
-          "feedback": "You thought the capital text is lost because it comes from a method. Line 2 stores the returned text in big, and big is printed.",
+          "feedback": "You thought toUpperCase has no visible effect, so big is just tea. Line 2 stores the text the method returns in big.",
           "misconception": "method-result-ignored"
         }
       ],
@@ -588,7 +588,7 @@
       "hints": [
         "Look at what big and cup hold after line 2.",
         "A string method returns new text and does not change the variable.",
-        "big holds capitals, and cup still holds the original text."
+        "Work out the text in big and the text in cup separately, then join them in that order."
       ],
       "reference": {
         "title": "String.prototype.toUpperCase()",
@@ -598,7 +598,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "puzzle:11"
       ]
@@ -608,7 +608,7 @@
       "concept": "string-values",
       "prerequisites": [],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What does tag hold right after line 2 has run?",
       "code": [
         "let tag = \"ab\";",
@@ -656,14 +656,14 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.values-and-types.string-values.fill-01",
       "concept": "string-values",
       "prerequisites": [],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blank so the program prints BREAD.",
       "code": [
         "console.log(\"bread\".___());"
@@ -712,7 +712,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:10"
       ]
@@ -818,7 +818,7 @@
       "hints": [
         "You need a property of the text, not a method call.",
         "A text keeps its character count in a built-in property.",
-        "Write the variable name, a dot, then the property name."
+        "Use the property the lesson card shows on \"tea\"."
       ],
       "reference": {
         "title": "String: length",
@@ -827,7 +827,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:2"
       ]
@@ -974,7 +974,7 @@
       "hints": [
         "Follow the lines in order and stop after line 2.",
         "Joining copies the value at that moment into new text.",
-        "isOpen is still true when line 2 runs."
+        "Check what isOpen holds at the moment line 2 runs; line 3 comes later."
       ],
       "reference": {
         "title": "Addition (+)",
@@ -983,14 +983,14 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.values-and-types.boolean-values.fill-01",
       "concept": "boolean-values",
       "prerequisites": [],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blank so the program prints door: true.",
       "code": [
         "console.log(\"door: \" + ___);"
@@ -1029,7 +1029,7 @@
       "hints": [
         "Look at what comes after the + on line 1.",
         "A boolean joined to text becomes a word.",
-        "The chip you need is a boolean written without quotation marks."
+        "Two chips are not booleans; of the other two, the output decides which one line 1 needs."
       ],
       "reference": {
         "title": "Boolean",
@@ -1039,7 +1039,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.values-and-types.boolean-values.parsons-01",
@@ -1065,7 +1065,7 @@
       "hints": [
         "Each line starts with a label; find the three labels.",
         "A boolean joined to text becomes the word true or false.",
-        "The line with the label lamp goes first."
+        "Read the prompt's order of labels and find where each label appears in the code."
       ],
       "reference": {
         "title": "Boolean",
@@ -1075,7 +1075,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.values-and-types.boolean-values.concept-01",
@@ -1097,7 +1097,7 @@
         {
           "text": "Without quotes, true is the number 1, so the first line prints 1.",
           "correct": false,
-          "feedback": "A boolean is not a number, so the first line cannot print 1.",
+          "feedback": "You treated true as another way to write 1. Check what console.log shows for a value that is not a number.",
           "misconception": "boolean-joins-wrong"
         },
         {
@@ -1114,7 +1114,7 @@
       "hints": [
         "Compare the two lines, one with quotation marks and one without.",
         "Quotation marks make text; a boolean is written bare.",
-        "Both lines print the same word, but they are not the same kind of value."
+        "Compare what each line prints, then ask what the quotation marks change."
       ],
       "reference": {
         "title": "Boolean",
@@ -1124,7 +1124,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.values-and-types.typeof-operator.predict-01",
@@ -1202,7 +1202,7 @@
         {
           "text": "boolean",
           "correct": false,
-          "feedback": "You thought typeof answers true or false. A boolean would come from a comparison, and typeof gives its answer as another kind of value.",
+          "feedback": "You thought typeof answers true or false. It always answers with a type name, so ask what kind of value a name is.",
           "misconception": "typeof-result-not-text"
         }
       ],
@@ -1213,7 +1213,7 @@
       "hints": [
         "Work from the inside out: which typeof runs first?",
         "typeof gives its answer as text.",
-        "Ask what type the word number is, when it is a text."
+        "Replace the inner typeof 5 by what it gives, then apply the outer typeof to that."
       ],
       "reference": {
         "title": "typeof",
@@ -1223,7 +1223,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6,
+      "version": 7,
       "legacyKeys": [
         "exercise:JUNIOR:5"
       ]
@@ -1291,7 +1291,7 @@
       "concept": "typeof-operator",
       "prerequisites": [],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blank so the program prints boolean.",
       "code": [
         "console.log(typeof ___);"
@@ -1340,7 +1340,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:JUNIOR:8"
       ]

@@ -118,7 +118,7 @@
       "title": "Counting with for",
       "conceptCard": {
         "title": "Repeating with for",
-        "body": "A for loop repeats a block. Its header has three parts: a start value, a condition checked before every pass, and an update that runs after every pass. When the condition is false, the loop ends.",
+        "body": "A for loop repeats a block. Its header has three parts: a start value, a condition checked before every pass, and an update that runs after every pass. When the condition is false, the loop ends. cup++ adds 1 to cup, and cup-- takes 1 away.",
         "code": [
           "for (let cup = 1; cup <= 3; cup++) {",
           "  console.log(\"cup \" + cup);",
@@ -475,7 +475,7 @@
       "hints": [
         "Which line opens the loop?",
         "A block starts with a header, holds its body, and ends with a closing brace.",
-        "The liftoff message belongs after the loop, not inside it."
+        "Decide which line must print only once, after the countdown is over."
       ],
       "reference": {
         "title": "for statement",
@@ -485,7 +485,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.loops.for-loop.concept-01",
@@ -512,13 +512,13 @@
         {
           "text": "The body runs once, then the condition is checked.",
           "correct": false,
-          "feedback": "You thought the condition is tested only after the body has run once. In a for loop the condition is tested before every pass, the first one included.",
+          "feedback": "You thought the body always runs once before any test. Check on the card when the condition is tested.",
           "misconception": "condition-checked-after-body"
         },
         {
           "text": "The body runs once with n equal to 6, because the update comes first.",
           "correct": false,
-          "feedback": "You thought the update n++ runs before the first pass. The update runs after a pass, so the first test uses the start value.",
+          "feedback": "You thought n++ runs before the first test. Check on the card when the update runs.",
           "misconception": "update-runs-first"
         }
       ],
@@ -539,7 +539,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.loops.while-loop.predict-01",
@@ -626,8 +626,8 @@
         {
           "text": "-2",
           "correct": false,
-          "feedback": "You thought the condition is tested only after the subtraction, so one more pass runs. The condition is tested before each pass, including the one that would come next.",
-          "misconception": "condition-checked-after-body"
+          "feedback": "You ran one pass too many. Test n > 3 with the current n before every pass, including the one after your last subtraction.",
+          "misconception": "bound-off-by-one"
         }
       ],
       "solution": {
@@ -647,7 +647,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.loops.while-loop.trace-01",
@@ -1131,7 +1131,7 @@
       "hints": [
         "Look at line 1 and line 4.",
         "A counter starts before the loop and grows inside the if.",
-        "Growing means adding to the old value."
+        "Line 4 must make evens one bigger than it was; ask which operator does that to the old value."
       ],
       "reference": {
         "title": "Loops and iteration",
@@ -1141,7 +1141,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.loops.loop-accumulator.parsons-01",
@@ -1212,7 +1212,7 @@
         {
           "text": "total keeps growing, so the lines show 1, 3 and 6.",
           "correct": false,
-          "feedback": "You thought total keeps its value from one pass to the next. A declaration inside the body is carried out again at the start of every pass.",
+          "feedback": "You thought total keeps its value across passes. Look at where line 2 sits and how often it runs.",
           "misconception": "declared-inside-keeps-value"
         },
         {
@@ -1239,7 +1239,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.loops.break-and-continue.predict-01",
@@ -1479,7 +1479,7 @@
       "hints": [
         "Look at line 5.",
         "Something must end the loop early, when tries is 4.",
-        "The word that ends a loop is a statement of its own."
+        "Reread the card: it names the word that ends a loop at once and the word that only skips a pass."
       ],
       "reference": {
         "title": "break statement",
@@ -1489,7 +1489,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.loops.break-and-continue.parsons-01",

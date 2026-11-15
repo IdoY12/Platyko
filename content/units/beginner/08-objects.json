@@ -84,14 +84,6 @@
       "description": "Believes a variable copied from a property follows later changes of that property."
     },
     {
-      "id": "keys-return-values",
-      "description": "Believes Object.keys returns the values of the object instead of its keys."
-    },
-    {
-      "id": "object-has-length",
-      "description": "Believes an object has a length, or that Object.keys gives a count instead of an array."
-    },
-    {
       "id": "item-is-index",
       "description": "Believes the loop variable of for...of or for...in is an index number, so reading a property of it gives undefined."
     },
@@ -513,7 +505,7 @@
       "hints": [
         "Look for the line that uses no name made by another line.",
         "A name must exist before another line uses it.",
-        "The object comes first and the print comes last; the two lines between them follow the chain of names."
+        "The line that makes tag reads mug.hue and mug.n, so mug must already exist when it runs."
       ],
       "reference": {
         "title": "Property accessors",
@@ -523,7 +515,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.objects.properties.concept-01",
@@ -549,7 +541,7 @@
         {
           "text": "A key the object lacks stops the program, because it was never written.",
           "correct": false,
-          "feedback": "The program prints undefined for room.window and carries on. A missing key is not an error.",
+          "feedback": "You expected a missing key to stop the program. Run line 3 as written: reading a key that is not there is not an error, so the program carries on.",
           "misconception": "missing-key-is-error"
         },
         {
@@ -576,7 +568,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.access.predict-01",
@@ -696,28 +688,28 @@
       "prompt": "What does eta hold right after line 3 has run?",
       "code": [
         "const mins = { A: 12, B: 8, C: 35 };",
-        "let line = \"A\";",
-        "let eta = mins[line];",
-        "line = \"C\";",
-        "eta = mins[line];",
+        "let route = \"A\";",
+        "let eta = mins[route];",
+        "route = \"C\";",
+        "eta = mins[route];",
         "console.log(eta);"
       ],
       "options": [
         {
           "text": "12",
           "correct": true,
-          "feedback": "Right. At line 3, line holds A, so the read gives the value under A."
+          "feedback": "Right. At line 3, route holds A, so the read gives the value under A."
         },
         {
           "text": "35",
           "correct": false,
-          "feedback": "That is the value after line 5. The question stops after line 3, when line still holds A.",
+          "feedback": "That is the value after line 5. The question stops after line 3, when route still holds A.",
           "misconception": "wrong-moment-value"
         },
         {
           "text": "undefined",
           "correct": false,
-          "feedback": "You read a key named line. The brackets use the text inside the variable instead.",
+          "feedback": "You read a key named route. The brackets use the text inside the variable instead.",
           "misconception": "bracket-name-is-literal"
         }
       ],
@@ -729,11 +721,11 @@
         },
         "expectedOutput": "35"
       },
-      "explanation": "At line 3 the variable line holds A, so mins[line] reads 12. Line 4 changes line to C, and line 5 reads again, so the program prints 35. Right after line 3 the value is 12.",
+      "explanation": "At line 3 the variable route holds A, so mins[route] reads 12. Line 4 changes route to C, and line 5 reads again, so the program prints 35. Right after line 3 the value is 12.",
       "hints": [
-        "Check what line holds when line 3 runs.",
+        "Check what route holds when line 3 runs.",
         "Brackets use the value the variable has at that moment.",
-        "Ignore lines 4 and 5 and read the key that line holds."
+        "Ignore lines 4 and 5 and read the key that route holds."
       ],
       "reference": {
         "title": "Property accessors",
@@ -742,7 +734,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.access.fill-01",
@@ -797,7 +789,7 @@
       "hints": [
         "Both blanks sit right after pet.",
         "Brackets with a quoted text read the key with that text.",
-        "The first blank reads age and the second reads id; both keys are written as text."
+        "Look at line 1 for the spelling of each key, in the order the program prints them."
       ],
       "reference": {
         "title": "Property accessors",
@@ -807,7 +799,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:0"
       ]
@@ -841,7 +833,7 @@
       "hints": [
         "Look for the line that uses no name made by another line.",
         "A name must exist before another line uses it.",
-        "The object comes first and the print comes last; the two lines between them follow the chain of names."
+        "result reads key inside brackets, so the line that makes key must run before it."
       ],
       "reference": {
         "title": "Property accessors",
@@ -851,7 +843,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.objects.access.write-01",
@@ -972,7 +964,7 @@
         {
           "text": "11 5",
           "correct": false,
-          "feedback": "Assignment replaces the old value, it does not add to it. 8 is stored, not 3 + 8.",
+          "feedback": "You added the new value to the old one. An assignment replaces what was stored under the key; it does not add to it.",
           "misconception": "assignment-adds-to-value"
         }
       ],
@@ -993,7 +985,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.update.predict-02",
@@ -1203,11 +1195,11 @@
         ],
         "expectedOutput": "8"
       },
-      "explanation": "doors becomes 4 on line 2, then wheels becomes 4 * 2. If the order changed, wheels would use the old doors, and the output would differ.",
+      "explanation": "The first change sets doors to 4, then wheels becomes 4 * 2. If the order changed, wheels would use the old doors, and the output would differ.",
       "hints": [
         "Which line must come first so the others have an object?",
         "Each line uses the result of the line before it.",
-        "doors is changed first, then wheels is built from it."
+        "wheels is built from doors, so decide whether doors should change before or after that line."
       ],
       "reference": {
         "title": "Assignment (=)",
@@ -1217,7 +1209,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.update.concept-01",
@@ -1512,7 +1504,7 @@
       "hints": [
         "The first blank is a word on the for line. The second is a read of one value.",
         "for...in visits keys. A variable key needs brackets.",
-        "The second blank reads the value of the current key from zoo."
+        "Line 4 must add a number, not the key text itself."
       ],
       "reference": {
         "title": "for...in",
@@ -1522,7 +1514,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.iteration.parsons-01",
@@ -1567,7 +1559,7 @@
       "hints": [
         "Look for the lines the loop header and the print both rely on.",
         "A loop body sits between its header and its closing brace.",
-        "The two declarations come first, in either order, and the print comes last."
+        "The loop header reads cart and the body changes count, so both must exist before the loop starts."
       ],
       "reference": {
         "title": "for...in",
@@ -1577,7 +1569,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.objects.iteration.write-01",

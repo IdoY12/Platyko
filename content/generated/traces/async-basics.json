@@ -1679,8 +1679,8 @@
     "  return 12;",
     "}",
     "const rooms = countRooms();",
-    "console.log(typeof rooms);",
-    "rooms.then((n) => console.log(n));"
+    "rooms.then((n) => console.log(n));",
+    "console.log(typeof rooms);"
    ],
    "output": [
     "object",
@@ -1733,15 +1733,17 @@
        "value": "Promise {<fulfilled>: 12}"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 0,
      "callStack": [
       "global"
      ],
      "macrotasks": [],
-     "microtasks": []
+     "microtasks": [
+      "callback (line 5)"
+     ]
     },
     {
-     "line": 6,
+     "line": 5,
      "variables": [
       {
        "name": "rooms",
@@ -1776,7 +1778,7 @@
      "macrotasks": []
     }
    ],
-   "usesEventLoop": false
+   "usesEventLoop": true
   },
   "int.async-basics.async-await.concept-01": {
    "code": [

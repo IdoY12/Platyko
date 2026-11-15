@@ -21,13 +21,13 @@ after any context reset, then continue from "Current position".
 - **Phases:** 0 nearly done; 1 done; 2: all 604 items authored, verification pass 1
   (`run-20261114-205833`, 329 findings) and pass 2 (`run-20261114-221204`, 123 findings, 70
   of them item defects), pass 3 (`run-20261114-225713`, 57) and pass 4 (`run-20261114-232751`, 44;
-  Gate B clean) pass 5 (`run-20261115-000513`, 20) pass 6 (`run-20261115-004356`, 55, of which 30 tooling or not defects) and pass 7 (`run-20261115-012331`, 29) pass 8 (`run-20261115-184631`, 22) and pass 9 (`run-20261115-194017`, 17) resolved and committed; pass 10 next; 3 done apart from server
+  Gate B clean) pass 5 (`run-20261115-000513`, 20) pass 6 (`run-20261115-004356`, 55, of which 30 tooling or not defects) and pass 7 (`run-20261115-012331`, 29) pass 8 (`run-20261115-184631`, 22) and pass 9 (`run-20261115-194017`, 17) and pass 10 (`run-20261115-202220`, 32) resolved and committed; pass 11 next; 3 done apart from server
   push (H6); 4: profile, privacy, search, friends with presence, played recently, block and
   report, friend and room links done; 5: engine, io `/play`, the Play tab, friends duels with
   invitations, rooms that reopen after a game, leaver cooldown, Bug Hunt and Output Race done and
   played end to end on the simulator against scripted players; 6: "explain my mistake" behind
   its flag done.
-- **Next for the main thread:** pass 10; fix and repeat to three consecutive clean passes. Acceptance evidence is in the last section: the gaps left are the clean passes (and with them LIVE items), the mascot rest-pose rims, and the items blocked on H5, H6, H8 and H10.
+- **Next for the main thread:** pass 11; fix and repeat to three consecutive clean passes. Acceptance evidence is in the last section: the gaps left are the clean passes (and with them LIVE items), the mascot rest-pose rims, and the items blocked on H5, H6, H8 and H10.
 - **Next for sub-agents:** gate agents for pass 2, then fix agents per batch (briefs written from
   the pass's findings; see pass 1's `scratchpad/fix1/brief-N.md` for the shape).
 - **Owner rules added mid-run:** at most two sub-agents at a time; sub-agents default to Sonnet
@@ -54,7 +54,7 @@ after any context reset, then continue from "Current position".
 |---|---|---|
 | 0 | Item model, attempts, user-level XP, verification pipeline, CI, bug fixes, tokens, fonts, i18n | In progress |
 | 1 | Learning core: lesson player, 7 formats, feedback, code view, execution player, map, Home, onboarding, mascot | Done (Profile, Settings, auth in the new design; EN + HE) |
-| 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); passes 1–9 resolved (329, 123, 57, 44, 20, 55, 29, 22, 17 findings); pass 10 next |
+| 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); passes 1–10 resolved (329, 123, 57, 44, 20, 55, 29, 22, 17, 32 findings); pass 11 next |
 | 3 | Retention: review (SM-2), daily challenge, revision, weekly goal, freeze, push, achievements | Done except server push (credentials) |
 | 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Done: profile, privacy, search, friends, played recently, presence, invitations inbox, block and report, friend links, Friend Streak, QR code, README badge, GitHub sign-in and link (flag off until H7) |
 | 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Done: engine, `/play`, Play tab, friends duels and invitations, presence, reconnect and server-restart recovery, rooms reopening, podium, leaver cooldown, room links, in-game reactions, "how scoring works" screen (examples computed by the engine's own `pointsForAnswer`), `/duel` retired, and a friends duel played between two simulators (iPhone 17 Pro in Hebrew, iPhone 16e in English): same item each round, clocks in step, draw scored as a shared first place. |
@@ -134,7 +134,7 @@ Done since the first update (all committed):
 
 Open:
 
-- [ ] Full verification loop to three clean passes: passes 1–9 resolved (329, 123, 57, 44, 20, 55, 29, 22, 17 findings); pass 10 next. Pass 7 swept 18 units for answer-revealing feedback and hints; pass 8 rewrote every pointer-style wrong-option feedback (164) to name the mistaken thought (README rule) and made "difficulty never falls within a lesson" a pre-check rule. Pass 9 bounded that rule by a lesson's first and last item (README), because strict monotony pushed reading formats too high, and Gate D now sees each lesson's concept card.
+- [ ] Full verification loop to three clean passes: passes 1–10 resolved (329, 123, 57, 44, 20, 55, 29, 22, 17, 32 findings); pass 11 next. Pass 7 swept 18 units for answer-revealing feedback and hints; pass 8 rewrote every pointer-style wrong-option feedback (164) to name the mistaken thought (README rule) and made "difficulty never falls within a lesson" a pre-check rule. Pass 9 bounded that rule by a lesson's first and last item (README), because strict monotony pushed reading formats too high, and Gate D now sees each lesson's concept card. Pass 10 made four rules testable (A40), swept all 28 units against them, and added the `misconception-unused` pre-check rule.
 - [ ] Server error codes (PRD: "the server keeps returning generic errors and codes"): today the
       app maps the server's English messages to translated text in one place
       (`mobile/src/i18n/localizedMessage.ts`); switching to codes removes the string coupling.
@@ -224,6 +224,7 @@ Tooling notes for the next session:
 | A37 | Share cards (PRD 14.4) are drawn on the device with Skia (already in the build) into a 1080x1350 PNG in the cache folder: the logo, a headline and line in the UI language (system fonts shape Hebrew), the daily challenge's squares in played order, and the site name; iOS shares the image through the system sheet. React Native's Android share takes text only, so Android, and any drawing failure, shares the same result as text. | No new native module (an expo-sharing or view-shot dependency would need a native rebuild); expo-file-system is already linked through expo and is now a direct dependency. |
 | A38 | Mascot triggers: `dive` during the opponent search, `victory` for a win and `defeat` for a loss on the results screen (a shared first place cheers), `think` while "explain my mistake" is on its way, and `sense` in the feedback sheet of a wrong `FIX_BUG` answer, where the sheet offers the hint. | PRD 13.4 ties `sense` to a hint in `FIX_BUG`, but 13.5 keeps the mascot off the screen while an item is solved; the retry sheet is where the hint is offered and the mascot is allowed. |
 | A39 | The three hints are offered in every session, the jump test and the daily challenge included. A hinted first answer still counts as not clean for mastery, so a test's mastery evidence stays honest. | PRD L2 and criterion 20.1 ask for three hints on every item, with no exception for tests. |
+| A40 | Four bank rules are stated as tests a writer and a reviewer apply the same way (content/README.md): wrong-option feedback names a thought that really gives that option's value and may state only the one fact it missed; hint 3 may point at the exact line or rule but not state the result, chip or option; "taught" means a lesson card or an earlier unit, never a hint; a track's lower and upper difficulty step are told apart by the ideas combined and the changes of state to follow. The Gate C and D prompts cite them; after pass 10 every unit was swept against all four. | Ten passes leveled off at 17 to 55 findings because each pass sampled new cases of the same four kinds; a rule both sides read alike removes the population, not the sample. |
 
 ## Dependencies added (reason, license)
 

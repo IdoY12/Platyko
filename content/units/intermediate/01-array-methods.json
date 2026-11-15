@@ -212,7 +212,7 @@
       "title": "find, some, every and includes",
       "conceptCard": {
         "title": "Searching an array",
-        "body": "find returns the first element that passes the test, or undefined. some is true when at least one element passes; every is true only when all pass. includes checks whether an array holds one exact value.",
+        "body": "find returns the first element that passes the test, or undefined. some is true when at least one element passes; find and some stop looking as soon as one does. every is true only when all pass. includes checks whether an array holds one exact value.",
         "code": [
           "const sizes = [5, 9, 14];",
           "const big = (s) => s > 8;",
@@ -458,7 +458,7 @@
       "hints": [
         "Look at what the function inside map( ) returns.",
         "map builds a new array from the value the callback returns for each element.",
-        "Each result must be ten times its bag, and the callback has to return it."
+        "Look at the first bag and its result: how does the callback turn 3 into 30?"
       ],
       "reference": {
         "title": "Array.prototype.map()",
@@ -468,7 +468,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:20"
       ]
@@ -613,7 +613,7 @@
       "hints": [
         "Which array method makes a new array from an old one, one element at a time?",
         "The callback must return the new value for each element.",
-        "Return the result of calling map on amounts."
+        "Hand the doubling callback to the method from hint 1, and return what it gives back."
       ],
       "reference": {
         "title": "Array.prototype.map()",
@@ -622,7 +622,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:3"
       ]
@@ -811,7 +811,7 @@
         "truthy-and-falsy"
       ],
       "format": "PARSONS",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "Put the lines in order so the program prints 3.",
       "code": [
         "const first = hrs[0];",
@@ -856,7 +856,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.array-methods.array-filter.fix-01",
@@ -995,7 +995,7 @@
       "hints": [
         "Which array method keeps only some of the elements?",
         "An even number leaves a remainder of 0 when divided by 2.",
-        "Return the result of calling filter on spaces with that test."
+        "Build the test from hint 2, hand it to the method from hint 1, and return the outcome."
       ],
       "reference": {
         "title": "Array.prototype.filter()",
@@ -1004,7 +1004,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:4"
       ]
@@ -1251,7 +1251,7 @@
       "hints": [
         "Look at what the callback must return and at the second argument of reduce.",
         "The callback returns the next running total; the second argument is where it starts.",
-        "Add the running total and the current element, and start from a value that changes nothing."
+        "Try each chip in blank 1 on the first pot: which one carries the running total forward?"
       ],
       "reference": {
         "title": "Array.prototype.reduce()",
@@ -1261,7 +1261,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:5"
       ]
@@ -1680,7 +1680,7 @@
       "hints": [
         "Does the question ask about one reading or about every reading?",
         "some needs one passing element; every needs all of them.",
-        "Replace the method with the one that requires all readings to pass."
+        "Only the method name on line 2 needs to change; the test on line 3 is fine."
       ],
       "reference": {
         "title": "Array.prototype.every()",
@@ -1690,7 +1690,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:15"
       ]
@@ -1778,7 +1778,7 @@
       "hints": [
         "Which method returns the first element that passes a test?",
         "find gives undefined when nothing passes, so check for that.",
-        "Compare the result of find with undefined and return -1 in that case."
+        "After find, test its result against the no-match value before returning it."
       ],
       "reference": {
         "title": "Array.prototype.find()",
@@ -1787,7 +1787,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:18"
       ]

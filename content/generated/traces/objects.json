@@ -600,10 +600,10 @@
   "beg.objects.access.trace-01": {
    "code": [
     "const mins = { A: 12, B: 8, C: 35 };",
-    "let line = \"A\";",
-    "let eta = mins[line];",
-    "line = \"C\";",
-    "eta = mins[line];",
+    "let route = \"A\";",
+    "let eta = mins[route];",
+    "route = \"C\";",
+    "eta = mins[route];",
     "console.log(eta);"
    ],
    "output": [
@@ -645,7 +645,7 @@
        "value": "{A: 12, B: 8, C: 35}"
       },
       {
-       "name": "line",
+       "name": "route",
        "scope": "global",
        "value": "'A'"
       }
@@ -666,7 +666,7 @@
        "value": "{A: 12, B: 8, C: 35}"
       },
       {
-       "name": "line",
+       "name": "route",
        "scope": "global",
        "value": "'A'"
       },
@@ -692,7 +692,7 @@
        "value": "{A: 12, B: 8, C: 35}"
       },
       {
-       "name": "line",
+       "name": "route",
        "scope": "global",
        "value": "'C'"
       },
@@ -718,7 +718,7 @@
        "value": "{A: 12, B: 8, C: 35}"
       },
       {
-       "name": "line",
+       "name": "route",
        "scope": "global",
        "value": "'C'"
       },
@@ -744,7 +744,7 @@
        "value": "{A: 12, B: 8, C: 35}"
       },
       {
-       "name": "line",
+       "name": "route",
        "scope": "global",
        "value": "'C'"
       },

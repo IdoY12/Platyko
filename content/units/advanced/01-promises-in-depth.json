@@ -195,7 +195,7 @@
       "title": "Rejection flow",
       "conceptCard": {
         "title": "A rejection skips ahead to a catch",
-        "body": "A rejection skips every then until a catch handles it. A throw inside a handler rejects the promise that then returned. After a catch, the chain is fulfilled again, with the value the catch handler returned.",
+        "body": "A rejection skips every then until a catch handles it. A throw inside a handler rejects the promise that then returned. After a catch, the chain is fulfilled again, with the value the catch handler returned. A second function passed to then handles a rejection of the promise before it.",
         "code": [
           "Promise.reject(new Error('x'))",
           "  .then(() => console.log('skip'))",
@@ -265,13 +265,13 @@
         {
           "text": "10\n11\noven on",
           "correct": false,
-          "feedback": "The handlers wait for the plain code to finish, even though the promise is already fulfilled.",
+          "feedback": "You thought a handler runs as soon as its promise is fulfilled. A handler waits until the current code has finished.",
           "misconception": "then-runs-immediately"
         },
         {
           "text": "oven on\n10\n10",
           "correct": false,
-          "feedback": "The last handler gets what the middle handler returned, loaves + 1, not the earlier value.",
+          "feedback": "You thought the last handler receives the same value as the one before it. It receives what the middle handler returns.",
           "misconception": "chain-value-confusion"
         }
       ],
@@ -292,7 +292,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:24"
       ]
@@ -322,13 +322,13 @@
         {
           "text": "It receives the returned promise object, so it prints a Promise.",
           "correct": false,
-          "feedback": "A promise returned from a handler is unwrapped. The next handler gets its value, not the promise.",
+          "feedback": "You thought the next handler gets the promise object itself. A promise that a handler returns is followed, not passed on as it is.",
           "misconception": "returned-promise-not-unwrapped"
         },
         {
           "text": "It receives undefined, because the inner promise value is dropped.",
           "correct": false,
-          "feedback": "The value is not dropped. When a handler returns a promise, the next link waits and receives its result.",
+          "feedback": "You thought the value inside the returned promise is lost. Check what Promise.resolve(id) holds and which link waits for it.",
           "misconception": "chain-value-confusion"
         }
       ],
@@ -349,7 +349,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.promises-in-depth.promise-chaining.fill-01",
@@ -426,7 +426,7 @@
         "promise-basics"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The last handler should print flour!, but it prints undefined. Tap the buggy line and pick the fix.",
       "code": [
         "Promise.resolve('flour')",
@@ -471,7 +471,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.promises-in-depth.promise-chaining.write-01",
@@ -602,13 +602,13 @@
         {
           "text": "['tent', 'map']",
           "correct": false,
-          "feedback": "all does not skip rejected promises. A single rejection rejects the whole result.",
+          "feedback": "You thought all leaves a failed input out and returns the rest. Check what the rejected input does to the combined promise.",
           "misconception": "all-ignores-rejections"
         },
         {
           "text": "['tent', undefined, 'map']",
           "correct": false,
-          "feedback": "all never replaces a rejection with undefined. It rejects with that reason instead.",
+          "feedback": "You thought all puts undefined in place of a rejected input. A rejected input is never turned into a value.",
           "misconception": "all-ignores-rejections"
         }
       ],
@@ -629,7 +629,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:20"
       ]
@@ -660,13 +660,13 @@
         {
           "text": "any rejects as soon as one input rejects, so nothing is printed.",
           "correct": false,
-          "feedback": "That describes all. any waits for a fulfilled input and skips rejections.",
+          "feedback": "You thought any fails on the first rejection, as all does. Check which of the three inputs fulfills.",
           "misconception": "any-rejects-on-first-rejection"
         },
         {
           "text": "any fulfills with an array of every fulfilled value.",
           "correct": false,
-          "feedback": "any gives one value, from the first input that fulfills, not a list.",
+          "feedback": "You thought any gathers every fulfilled value. Check how many values the handler on line 5 receives.",
           "misconception": "any-collects-all-values"
         }
       ],
@@ -687,7 +687,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.promises-in-depth.promise-combinators.parsons-01",
@@ -715,7 +715,7 @@
       "hints": [
         "Both promises are already fulfilled, so handlers run in the order they were attached.",
         "race settles with the first promise to settle, but the others keep running.",
-        "The race handler is attached after the two direct handlers."
+        "Line 5 attaches the race handler: compare when it was attached with lines 3 and 4."
       ],
       "reference": {
         "title": "Promise.race()",
@@ -724,7 +724,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:21"
       ]
@@ -737,7 +737,7 @@
         "array-map"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The report should print the status of every job, but the failed job stops it. Tap the buggy line and pick the fix.",
       "code": [
         "const jobs = [",
@@ -777,7 +777,7 @@
       "hints": [
         "What happens to Promise.all when one input rejects?",
         "The handler needs a result for every job, including the failed one.",
-        "Use the combinator that never rejects and reports a status for each input."
+        "Line 5 has to wait for every input, whether it fulfills or rejects."
       ],
       "reference": {
         "title": "Promise.allSettled()",
@@ -786,7 +786,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:22"
       ]
@@ -929,13 +929,13 @@
         {
           "text": "Error",
           "correct": false,
-          "feedback": "catch does not end the chain. It returns a fulfilled promise, so the last handler runs too.",
+          "feedback": "You thought the chain stops at catch. catch returns a promise of its own, like then.",
           "misconception": "catch-ends-chain"
         },
         {
           "text": "potted\nError\nopen",
           "correct": false,
-          "feedback": "A throw in a handler rejects its promise, so the next then is skipped.",
+          "feedback": "You thought every handler in the chain runs after the throw. A then handler runs only for a fulfilled promise.",
           "misconception": "then-runs-after-throw"
         }
       ],
@@ -956,7 +956,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:22"
       ]
@@ -990,13 +990,13 @@
         {
           "text": "The second argument of then handles the throw, so handled prints.",
           "correct": false,
-          "feedback": "The second function handles a rejection of the earlier promise. The throw comes from the first function of the same then.",
+          "feedback": "You thought the second function of then catches a throw from the first. It reacts to the promise before then, not to this then.",
           "misconception": "second-argument-covers-first"
         },
         {
           "text": "A throw inside then cannot be caught later, so nothing prints.",
           "correct": false,
-          "feedback": "The throw rejects the promise that then returned, and a later catch can handle it.",
+          "feedback": "You thought a throw inside then cannot be caught later. Look at what the throw does to the promise that then returns.",
           "misconception": "throw-escapes-promise"
         }
       ],
@@ -1017,7 +1017,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.promises-in-depth.promise-rejection-flow.fill-01",
@@ -1049,8 +1049,7 @@
         {
           "text": "finally",
           "correct": false,
-          "feedback": "finally does not handle a rejection and receives no value. In the first blank the rejection stays unhandled and nothing prints. In the second blank it runs after the catch and the last line prints undefined.",
-          "misconception": "catch-ends-chain"
+          "feedback": "You thought finally can stand in for a handler. It receives no value, so a chain that needs the rejection or its result gets nothing."
         },
         {
           "text": "all",
@@ -1073,7 +1072,7 @@
       "hints": [
         "Look at what happens to the rejection on line 2.",
         "Only one kind of handler reacts to a rejection; the last link must receive the value it returns.",
-        "The first blank takes a handler for errors, the second one reads a value passed along the chain."
+        "Line 3 must handle the rejection; line 4 must read what line 3 returns."
       ],
       "reference": {
         "title": "Promise.prototype.catch()",
@@ -1083,7 +1082,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.promises-in-depth.promise-rejection-flow.fix-01",
@@ -1093,7 +1092,7 @@
         "async-error-handling"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "check(0) rejects and nothing handles it, so the program should print no but ends with an unhandled rejection. Tap the buggy line and pick the fix.",
       "code": [
         "const check = (stock) =>",
@@ -1140,7 +1139,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:29"
       ]
@@ -1266,13 +1265,13 @@
         {
           "text": "shipping\npacking\nparcel",
           "correct": false,
-          "feedback": "The function passed to new Promise runs immediately, before the next line.",
+          "feedback": "You thought the executor runs later, after the lines that follow. The function passed to new Promise is called while the promise is created.",
           "misconception": "executor-runs-later"
         },
         {
           "text": "packing\nparcel\nshipping",
           "correct": false,
-          "feedback": "Handlers never run in the middle of the main code, even for a promise that is already fulfilled.",
+          "feedback": "You thought the then handler runs the moment it is attached. A handler waits until the current code has finished, even for a fulfilled promise.",
           "misconception": "then-runs-immediately"
         }
       ],
@@ -1293,7 +1292,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.promises-in-depth.promise-construction.concept-01",
@@ -1303,7 +1302,7 @@
         "callbacks-and-timers"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Which statement explains what this code prints?",
       "code": [
         "const p = new Promise((ok, no) => {",
@@ -1322,13 +1321,13 @@
         {
           "text": "The last call wins, so second prints.",
           "correct": false,
-          "feedback": "A settled promise never changes, so a later resolve does not replace the value.",
+          "feedback": "You thought the last call wins. Check what happens to a promise that is already settled.",
           "misconception": "later-call-overrides-settled"
         },
         {
           "text": "Every resolve call delivers its value, so first and second both print.",
           "correct": false,
-          "feedback": "The handler runs once, with the value of the first settlement only.",
+          "feedback": "You thought every resolve call sends its value to the handler. The handler on line 6 is attached once, to one promise.",
           "misconception": "settles-more-than-once"
         }
       ],
@@ -1349,7 +1348,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.promises-in-depth.promise-construction.parsons-01",

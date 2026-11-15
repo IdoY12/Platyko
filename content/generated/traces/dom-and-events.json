@@ -559,8 +559,9 @@
    "code": [
     "const page = document.body;",
     "const ul = page.querySelector('ul');",
-    "const second = ul.children[1];",
-    "console.log(second.textContent);"
+    "const one = ul.firstElementChild;",
+    "const two = one.nextElementSibling;",
+    "console.log(two.textContent);"
    ],
    "output": [
     "Bergen"
@@ -627,7 +628,38 @@
        "value": "<ul#trains>"
       },
       {
-       "name": "second",
+       "name": "one",
+       "scope": "global",
+       "value": "<li.train>"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#trains>"
+      },
+      {
+       "name": "one",
+       "scope": "global",
+       "value": "<li.train>"
+      },
+      {
+       "name": "two",
        "scope": "global",
        "value": "<li.train.late>"
       }
@@ -653,7 +685,12 @@
        "value": "<ul#trains>"
       },
       {
-       "name": "second",
+       "name": "one",
+       "scope": "global",
+       "value": "<li.train>"
+      },
+      {
+       "name": "two",
        "scope": "global",
        "value": "<li.train.late>"
       }

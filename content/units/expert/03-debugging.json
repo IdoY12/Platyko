@@ -97,6 +97,10 @@
     {
       "id": "catch-keeps-chain-rejected",
       "description": "Believes a promise chain stays rejected after a catch has handled it."
+    },
+    {
+      "id": "catch-result-ignored",
+      "description": "Believes the value a catch handler returns is discarded, so the next step receives undefined."
     }
   ],
   "sources": [
@@ -147,7 +151,7 @@
       "title": "Boundaries and off-by-one errors",
       "conceptCard": {
         "title": "Boundaries and off-by-one errors",
-        "body": "An array with n items has indexes 0 to n - 1. A loop that keeps going while i <= n reads one slot too many, and one that stops early at i < n - 1 skips the last item. slice(start, end) includes start and excludes end.",
+        "body": "An array with n items has indexes 0 to n - 1. A loop that keeps going while i <= n reads one slot too many, and one that stops early at i < n - 1 skips the last item. slice(start, end) includes start and excludes end. A negative start counts from the end.",
         "code": [
           "const days = [\"Mon\", \"Tue\", \"Wed\"];",
           "console.log(days[days.length]);",
@@ -191,7 +195,7 @@
       "title": "Bugs from asynchronous ordering",
       "conceptCard": {
         "title": "Bugs from asynchronous ordering",
-        "body": "An async function runs normally until its first await, and the rest continues later. A value read before an await can be stale after it, and a loop counter declared outside the loop is one slot shared by every callback.",
+        "body": "An async function runs normally until its first await, and the rest continues later. A value read before an await can be stale after it. Two async calls take turns: after each await, a call goes to the back of the line.",
         "code": [
           "const run = async () => {",
           "  console.log(\"a\");",
@@ -407,7 +411,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 5,
-      "prompt": "Write the body of chunk(list, n). Return the items grouped into arrays of n, in order; the last array may hold fewer. An empty list gives [].",
+      "prompt": "Write the body of chunk(list, n), with n at least 1. Group the items into arrays of n, in order; the last may hold fewer. An empty list gives [].",
       "solution": {
         "entry": {
           "kind": "function",
@@ -538,7 +542,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.mutation-bugs.predict-01",
@@ -696,7 +700,7 @@
       "hints": [
         "Which object does o refer to on line 3?",
         "map copies the array, not the objects inside it.",
-        "The callback should return something new, not the object it was given."
+        "The change on line 3 must happen on an object that cart does not hold."
       ],
       "reference": {
         "title": "Array.prototype.map()",
@@ -706,7 +710,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.debugging.mutation-bugs.fill-01",
@@ -763,7 +767,7 @@
       "hints": [
         "Look at which array push changes.",
         "A copy is a new array, not another name for the bin.",
-        "The right chip leaves bin with all three items and gives sort a separate array to work on."
+        "Decide for each chip whether bin still has three items afterwards and whether out is a different array from bin."
       ],
       "reference": {
         "title": "Array.prototype.splice()",
@@ -773,7 +777,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.debugging.async-ordering-bugs.predict-01",
@@ -784,43 +788,46 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 4,
-      "prompt": "A print shop starts a job and then queues another. What does this program print?",
+      "prompt": "A scoreboard value is read, then written back after an await. What does this program print?",
       "code": [
-        "const print = async () => {",
-        "  console.log(\"start\");",
+        "let pts = 1;",
+        "const bump = async () => {",
+        "  const old = pts;",
         "  await null;",
-        "  console.log(\"end\");",
+        "  pts = old + 1;",
         "};",
-        "print();",
-        "console.log(\"next job\");"
+        "const show = () => console.log(pts);",
+        "bump();",
+        "pts = 10;",
+        "setTimeout(show, 0);"
       ],
       "options": [
         {
-          "text": "start\nnext job\nend",
+          "text": "2",
           "correct": true,
-          "feedback": "Right. The body runs until the await, then the caller continues and the rest resumes later."
+          "feedback": "Right. bump read 1 before its await, line 9 ran while it waited, and the write after the await stores 1 + 1 over the newer value."
         },
         {
-          "text": "start\nend\nnext job",
+          "text": "10",
           "correct": false,
-          "feedback": "You thought print runs to the end before the caller continues. The await inside print hands control back to the caller before the line after it can run.",
+          "feedback": "You thought bump finished before line 9. The await hands control back to the caller, so line 9 runs before bump's last line.",
           "misconception": "async-runs-to-completion"
         },
         {
-          "text": "next job\nstart\nend",
+          "text": "11",
           "correct": false,
-          "feedback": "You thought calling print postpones its whole body until the caller finishes. An async function starts running its body at once, up to its first await.",
+          "feedback": "You thought calling bump postpones its whole body until the caller finishes. The body up to its first await runs at once, so old is read on line 3 first.",
           "misconception": "async-call-defers-whole-body"
         }
       ],
       "solution": {
-        "expectedOutput": "start\nnext job\nend"
+        "expectedOutput": "2"
       },
-      "explanation": "An async function runs synchronously until its first await. The await hands control back to the caller, and the rest of the body continues later as a microtask.",
+      "explanation": "bump reads old as 1, then the await hands control back, so line 9 sets pts to 10. When bump resumes it writes old + 1, which is 2, over the newer 10.",
       "hints": [
-        "Find which line pauses print.",
-        "The code before the first await is not delayed.",
-        "Decide which line of print runs before the call returns."
+        "Find which line reads pts into old and which line writes it back.",
+        "A value read before an await can be stale when the code continues after it.",
+        "Decide whether line 9 runs before or after line 5."
       ],
       "reference": {
         "title": "await",
@@ -830,7 +837,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.debugging.async-ordering-bugs.concept-01",
@@ -940,7 +947,7 @@
       "hints": [
         "Line 7 starts brew; what makes serve wait for it?",
         "An async call returns a promise that serve must wait on.",
-        "Use the keyword that makes serve wait for a promise."
+        "Only line 7 needs to change; the new line still starts brew with \"latte\"."
       ],
       "reference": {
         "title": "Using promises",
@@ -949,110 +956,201 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.debugging.async-ordering-bugs.write-02",
       "concept": "async-ordering-bugs",
       "prerequisites": [
-        "closure-in-loops"
+        "microtask-queue",
+        "await-scheduling"
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of lateReadings(count). Build count functions in a loop, the one for index i returning i * 10. Call them after the loop and return the results.",
+      "prompt": "Write interleave(jobs): each job is [name, steps], at least one step. Jobs take turns, one step each, like awaiting calls. Return the steps in order, like 'a1'.",
       "solution": {
         "entry": {
           "kind": "function",
-          "name": "lateReadings",
+          "name": "interleave",
           "params": [
-            "count"
+            "jobs"
           ]
         },
         "tests": [
           {
             "input": [
-              3
+              [
+                [
+                  "a",
+                  2
+                ],
+                [
+                  "b",
+                  1
+                ]
+              ]
             ],
             "expected": [
-              0,
-              10,
-              20
+              "a1",
+              "b1",
+              "a2"
             ]
           },
           {
             "input": [
-              1
+              [
+                [
+                  "x",
+                  3
+                ]
+              ]
             ],
             "expected": [
-              0
+              "x1",
+              "x2",
+              "x3"
             ]
           },
           {
             "input": [
-              0
+              []
             ],
             "expected": []
           },
           {
             "input": [
-              4
+              [
+                [
+                  "a",
+                  2
+                ],
+                [
+                  "b",
+                  2
+                ],
+                [
+                  "c",
+                  1
+                ]
+              ]
             ],
             "expected": [
-              0,
-              10,
-              20,
-              30
+              "a1",
+              "b1",
+              "c1",
+              "a2",
+              "b2"
+            ]
+          },
+          {
+            "input": [
+              [
+                [
+                  "a",
+                  3
+                ],
+                [
+                  "b",
+                  3
+                ]
+              ]
+            ],
+            "expected": [
+              "a1",
+              "b1",
+              "a2",
+              "b2",
+              "a3",
+              "b3"
+            ]
+          },
+          {
+            "input": [
+              [
+                [
+                  "a",
+                  1
+                ],
+                [
+                  "b",
+                  3
+                ]
+              ]
+            ],
+            "expected": [
+              "a1",
+              "b1",
+              "b2",
+              "b3"
             ]
           }
         ],
         "reference": [
-          "const tasks = [];",
-          "for (let i = 0; i < count; i++) {",
-          "  tasks.push(() => i * 10);",
+          "const line = jobs.map(([name, n]) =>",
+          "  ({ name, n, k: 1 }));",
+          "const order = [];",
+          "while (line.length > 0) {",
+          "  const job = line.shift();",
+          "  order.push(job.name + job.k);",
+          "  job.k += 1;",
+          "  if (job.k <= job.n) {",
+          "    line.push(job);",
+          "  }",
           "}",
-          "return tasks.map((run) => run());"
+          "return order;"
         ],
         "wrongSolutions": [
           [
-            "const tasks = [];",
-            "let i = 0;",
-            "for (; i < count; i++) {",
-            "  tasks.push(() => i * 10);",
+            "const order = [];",
+            "for (const [name, n] of jobs) {",
+            "  for (let k = 1; k <= n; k++) {",
+            "    order.push(name + k);",
+            "  }",
             "}",
-            "return tasks.map((run) => run());"
+            "return order;"
           ],
           [
-            "const tasks = [];",
-            "let last = 0;",
-            "for (let i = 0; i < count; i++) {",
-            "  last = i;",
-            "  tasks.push(() => last * 10);",
+            "const line = jobs.map(([name, n]) =>",
+            "  ({ name, n, k: 0 }));",
+            "const order = [];",
+            "while (line.length > 0) {",
+            "  const job = line.shift();",
+            "  order.push(job.name + job.k);",
+            "  job.k += 1;",
+            "  if (job.k <= job.n) {",
+            "    line.push(job);",
+            "  }",
             "}",
-            "return tasks.map((run) => run());"
+            "return order;"
           ],
           [
-            "const tasks = [];",
-            "for (let i = 0; i <= count; i++) {",
-            "  tasks.push(() => i * 10);",
+            "const order = [];",
+            "for (const [name] of jobs) {",
+            "  order.push(name + 1);",
             "}",
-            "return tasks.map((run) => run());"
+            "for (const [name, n] of jobs) {",
+            "  for (let k = 2; k <= n; k++) {",
+            "    order.push(name + k);",
+            "  }",
+            "}",
+            "return order;"
           ]
         ]
       },
-      "explanation": "let gives each iteration its own i, so every function keeps the index it was created with. A counter declared outside the loop or a shared outer variable is one slot that every function reads after the loop ends.",
+      "explanation": "Keep the jobs in a queue. Take the first job, count one more step for it and record name plus step number. If it has steps left, put it at the back, so the jobs take turns.",
       "hints": [
-        "Think about which i each function reads when it runs.",
-        "A let loop variable is a new binding on every pass.",
-        "Decide where the loop counter must be declared so that every function gets its own."
+        "Keep the jobs in a line and take them from the front.",
+        "After a job runs one step it goes to the back of the line, unless it has no steps left.",
+        "Loop while the line is not empty: take the first job, count its step, record it, and add it back if steps remain."
       ],
       "reference": {
-        "title": "Closures",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
+        "title": "await",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.predict-01",
@@ -1123,44 +1221,46 @@
       ],
       "format": "CONCEPT_MCQ",
       "difficulty": 4,
-      "prompt": "A promise chain throws in its first step. Which statement explains the printed output?",
+      "prompt": "A failure starts in read and passes through two more functions. Which statement explains the printed line?",
       "code": [
-        "const fail = () => {",
-        "  throw new TypeError();",
-        "};",
-        "Promise.resolve(1)",
-        "  .then(fail)",
-        "  .then(() => console.log(\"ran\"))",
-        "  .catch((e) => console.log(e.name))",
-        "  .then(() => console.log(\"after\"));"
+        "const read = () =>",
+        "  Promise.reject(new RangeError());",
+        "const parse = () =>",
+        "  read().catch(() => 0);",
+        "const load = () =>",
+        "  parse().then((v) => v + 1);",
+        "const show = (t) => console.log(t);",
+        "load()",
+        "  .then(show)",
+        "  .catch((e) => show(e.name));"
       ],
       "options": [
         {
-          "text": "The rejection skips later then steps until the catch, and after the catch the chain continues normally.",
+          "text": "The catch in parse handles the failure and returns 0, so load and the caller receive a normal value.",
           "correct": true,
-          "feedback": "Right. The catch handles the rejection and returns normally, so the next then runs."
+          "feedback": "Right. A failure ends at the first handler that deals with it; the functions above it see a normal result."
         },
         {
-          "text": "The rejection skips the next then, but the chain stays rejected, so after is never printed.",
+          "text": "The rejection passes through parse and load to the final catch, which prints its name.",
           "correct": false,
-          "feedback": "You thought the chain stays rejected after the catch. A catch handler that returns normally hands the next step a successful result.",
+          "feedback": "You thought the chain stays rejected after parse's catch. Ask what promise parse returns once its catch handler has run.",
           "misconception": "catch-keeps-chain-rejected"
         },
         {
-          "text": "A throw does not stop the chain, so ran is printed before the catch runs.",
+          "text": "The catch handler's result is thrown away, so load adds 1 to undefined and prints NaN.",
           "correct": false,
-          "feedback": "You thought a throw does not stop the chain, so the step that prints ran comes next. A rejected promise skips every then that has no rejection handler.",
-          "misconception": "code-continues-after-throw"
+          "feedback": "You thought a catch handler's return value is discarded. Look at line 4: the handler returns 0, and the promise it creates carries that value.",
+          "misconception": "catch-result-ignored"
         }
       ],
       "solution": {
-        "expectedOutput": "TypeError\nafter"
+        "expectedOutput": "1"
       },
-      "explanation": "A throw in a then handler rejects the promise it returns. then steps without a rejection handler are passed over until a catch. The catch returns normally, so the chain is fulfilled again.",
+      "explanation": "A failure travels up only until a handler deals with it. The catch in parse returns 0, which fulfils the promise parse gives back, so load adds 1 and the last then prints 1. The final catch never runs.",
       "hints": [
-        "Follow each step of the chain from the throw.",
-        "A rejected promise skips then handlers that only handle success.",
-        "Ask what state the chain is in after the catch returns."
+        "Follow the failure from line 2 up through parse and load, one function at a time.",
+        "A catch that returns normally ends the failure for the callers above it.",
+        "Decide what the promise returned by parse holds after line 4 has run."
       ],
       "reference": {
         "title": "Promise.prototype.catch()",
@@ -1170,7 +1270,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.fix-02",

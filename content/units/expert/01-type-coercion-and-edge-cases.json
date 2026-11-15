@@ -137,7 +137,7 @@
       "title": "How objects become primitives",
       "conceptCard": {
         "title": "How objects become primitives",
-        "body": "An object turns into a primitive with a hint: default, number or string. The default and number hints call valueOf first, and the string hint calls toString first. A Symbol.toPrimitive method replaces both and receives the hint.",
+        "body": "An object turns into a primitive with a hint. The default and number hints call valueOf first; the string hint calls toString first. A template literal and String() use the string hint, unary + and - the number hint, binary + the default. A Symbol.toPrimitive method replaces both and receives the hint.",
         "code": [
           "const jar = {",
           "  valueOf: () => 7,",
@@ -182,7 +182,7 @@
       "title": "NaN, -0, Infinity and floating point",
       "conceptCard": {
         "title": "NaN, -0, Infinity and floating point",
-        "body": "NaN is the only value not strictly equal to itself, so use Number.isNaN. A zero can have a sign: === sees -0 and 0 as equal, Object.is does not. Dividing a positive number by zero gives Infinity, a negative one -Infinity, and 0 / 0 gives NaN. Decimal sums are rounded.",
+        "body": "NaN is the only value not strictly equal to itself: use Number.isNaN. indexOf misses NaN; includes finds it. A zero can have a sign: === sees -0 and 0 as equal, Object.is does not. A positive number divided by zero gives Infinity, a negative one -Infinity, and 0 / 0 gives NaN; Number.isFinite rejects all three. Decimal sums are rounded.",
         "code": [
           "console.log(NaN === NaN);",
           "console.log(Number.isNaN(NaN));",
@@ -264,7 +264,7 @@
       "hints": [
         "Compare how the object is used on line 5 and on line 6.",
         "An object becomes a primitive with a hint: default, number or string.",
-        "The default hint tries valueOf first; the string hint tries toString first."
+        "Decide which hint + uses and which hint a template literal uses, then apply the card."
       ],
       "reference": {
         "title": "Type coercion",
@@ -274,7 +274,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.type-coercion-and-edge-cases.to-primitive-conversion.concept-01",
@@ -307,7 +307,7 @@
         {
           "text": "The hint is the same for every conversion, so all three lines would print the same.",
           "correct": false,
-          "feedback": "You thought every operation converts tank the same way. Each operation passes its own hint to the method, and the three lines print different values because of that.",
+          "feedback": "You thought every operation converts tank the same way. Look at line 4: the method can only return something different if the hint it receives is different.",
           "misconception": "hint-ignored"
         },
         {
@@ -324,7 +324,7 @@
       "hints": [
         "Look at the three operations and what each one asks of tank.",
         "Each operation tells the object which kind of primitive it wants.",
-        "Only one of the three operations asks for the string hint."
+        "Line 4 is the only branch that returns something other than this.l; ask which line can reach it."
       ],
       "reference": {
         "title": "Symbol.toPrimitive",
@@ -333,7 +333,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.type-coercion-and-edge-cases.to-primitive-conversion.fix-01",
@@ -490,8 +490,8 @@
       },
       "explanation": "The method gets the hint, so it can return n for the number hint and text for the others. A method that ignores the hint returns one kind of value for every conversion, and a plain valueOf leaves the string hint to toString, which gives '[object Object]'.",
       "hints": [
-        "Define a method under the Symbol.toPrimitive key and look at its parameter.",
-        "The parameter tells which conversion is wanted: number, string or default.",
+        "Look at the three conversions in the array that is returned.",
+        "A Symbol.toPrimitive method receives the hint and replaces valueOf and toString.",
         "Use the hint parameter in an if to choose between two return values."
       ],
       "reference": {
@@ -501,7 +501,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.predict-01",
@@ -545,7 +545,7 @@
       "hints": [
         "Line 3 compares an object with a boolean; line 5 involves null.",
         "== converts a boolean to a number, then an object to a primitive.",
-        "Turn the boolean into a number first, then the array into a primitive."
+        "Line 3 applies the boolean rule and then the object rule; line 4 is the same case."
       ],
       "reference": {
         "title": "Equality comparisons and sameness",
@@ -555,7 +555,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "duel:3"
       ]
@@ -585,7 +585,7 @@
         {
           "text": "== calls valueOf on both sides, so the last line compares 8 with 8 and is true.",
           "correct": false,
-          "feedback": "You thought == converts both objects to their valueOf result and compares 8 with 8. When both sides are objects, the conversion step is not used.",
+          "feedback": "You thought == turns both objects into 8. In lines 3 and 4 the other side is a number or text. Check what the other side is on line 5.",
           "misconception": "objects-equal-by-contents"
         },
         {
@@ -612,7 +612,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.fix-01",
@@ -621,7 +621,7 @@
         "loose-equality"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "The survey should count 2 missing scores, but prints 1. Tap the buggy line and pick the fix.",
       "code": [
         "const marks = [0, null, 5];",
@@ -669,7 +669,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.fill-01",
@@ -694,7 +694,7 @@
         {
           "text": "true",
           "correct": false,
-          "feedback": "true becomes 1 before the comparison, while the array becomes 5. 5 == 1 is false, so this prints false.",
+          "feedback": "true becomes the number 1 before the comparison, and the array does not convert to 1, so this prints false.",
           "misconception": "loose-equality-by-truthiness"
         },
         {
@@ -710,12 +710,12 @@
         {
           "text": "0",
           "correct": false,
-          "feedback": "The array becomes 5, not 0, and null is not loosely equal to 0, so this prints false."
+          "feedback": "You thought null == 0 is true because both are falsy. The null rule is separate from the number rules, and the array does not convert to 0 either."
         },
         {
           "text": "\"\"",
           "correct": false,
-          "feedback": "Neither side converts to an empty text that matches: the array gives \"5\" and null equals only undefined."
+          "feedback": "An empty text matches neither side: this array does not convert to it, and null is not loosely equal to any text."
         }
       ],
       "solution": {
@@ -743,7 +743,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.type-coercion-and-edge-cases.numeric-edge-cases.predict-01",
@@ -769,13 +769,13 @@
         {
           "text": "1\ntrue\nfalse",
           "correct": false,
-          "feedback": "You thought indexOf finds NaN, because NaN is equal to itself. indexOf compares with ===, and NaN === NaN is false, as the last line shows.",
+          "feedback": "You thought indexOf finds NaN because NaN looks equal to itself. Line 4 tests that directly with ===: check what it prints.",
           "misconception": "nan-equals-nan"
         },
         {
           "text": "-1\nfalse\nfalse",
           "correct": false,
-          "feedback": "You thought includes behaves like indexOf, so it cannot find NaN. includes uses a different comparison than ===, one that treats NaN as equal to itself.",
+          "feedback": "You thought includes behaves exactly like indexOf. The two methods do not compare values in the same way.",
           "misconception": "nan-equals-nan"
         }
       ],
@@ -786,7 +786,7 @@
       "hints": [
         "Compare indexOf on line 2 with includes on line 3, and read line 4.",
         "Array methods differ in how they compare values.",
-        "Only one of the first two methods can find NaN."
+        "Line 4 shows how === treats NaN; ask whether line 2 and line 3 use that comparison."
       ],
       "reference": {
         "title": "Array.prototype.indexOf()",
@@ -796,7 +796,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "duel:4"
       ]
@@ -826,7 +826,7 @@
         {
           "text": "=== compares the sign of zero, so it is false for -0 and 0 while Object.is says they match.",
           "correct": false,
-          "feedback": "You thought === compares the sign of zero, so -0 and 0 differ and Object.is says they match. Object.is is the one that separates them, and === is the one that does not.",
+          "feedback": "You thought === compares the sign of zero. Lines 2 and 3 print different values, so only one of the two comparisons can be the one that looks at the sign.",
           "misconception": "negative-zero-sign-confused"
         },
         {
@@ -843,7 +843,7 @@
       "hints": [
         "Look at lines 2 and 4 together.",
         "A number can be zero and still carry a sign.",
-        "One comparison ignores the sign and another one keeps it."
+        "Line 4 divides by drift: ask what 1 divided by zero gives for each sign of zero."
       ],
       "reference": {
         "title": "Object.is()",
@@ -853,7 +853,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "exp.type-coercion-and-edge-cases.numeric-edge-cases.fix-01",
@@ -899,7 +899,7 @@
       "hints": [
         "Print total to see what line 4 is really comparing.",
         "Decimal fractions are rounded in binary, so sums can be a hair off.",
-        "Test whether the two numbers are close, not equal."
+        "Line 4 asks whether the two numbers are identical; decide what the test should allow for instead."
       ],
       "reference": {
         "title": "Number",
@@ -909,7 +909,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.type-coercion-and-edge-cases.numeric-edge-cases.write-01",
@@ -1023,13 +1023,13 @@
         {
           "text": "false\nfalse\n[3, 12, 25, 100]",
           "correct": false,
-          "feedback": "You thought the comparisons and the default sort treat 12 and 3 as numbers. Two texts compare character by character, and the default sort turns items into text first.",
+          "feedback": "You treated 12 and 3 as numbers in every line. Line 2 compares two texts and line 4 gives sort no compare function; ask how those compare.",
           "misconception": "default-sort-is-numeric"
         },
         {
           "text": "true\ntrue\n[100, 12, 25, 3]",
           "correct": false,
-          "feedback": "You thought < compares as text whenever one side is text. With a number and a text, < converts the text to a number, so line 3 does not compare characters.",
+          "feedback": "You thought < compares characters whenever one side is text. Check line 3: one of its sides is a number.",
           "misconception": "mixed-comparison-stringifies"
         }
       ],
@@ -1050,7 +1050,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "duel:0"
       ]
@@ -1079,13 +1079,13 @@
         {
           "text": "+ joins text everywhere as soon as one string appears in the expression, so line 2 prints 23x.",
           "correct": false,
-          "feedback": "You thought + joins everything as text once a string appears anywhere. Each + works on its own two values at that moment, so a number added to the object is summed before any text joins in.",
+          "feedback": "You thought one string anywhere makes every + join. Check line 2: which two values does the first + see?",
           "misconception": "plus-order-and-grouping-confused"
         },
         {
           "text": "Brackets do not change +, so the last line prints x23.",
           "correct": false,
-          "feedback": "You thought brackets do not change +. Brackets decide which + runs first, so line 4 combines seat and 3 before the text is involved.",
+          "feedback": "You thought brackets leave + unchanged. On line 4, ask which + runs first and which two values it sees.",
           "misconception": "plus-order-and-grouping-confused"
         }
       ],
@@ -1096,7 +1096,7 @@
       "hints": [
         "Work out the pairs one + at a time on lines 2 and 3.",
         "The object becomes a primitive first; then the type of the two values on each + decides adding or joining.",
-        "Brackets in the last line are evaluated before any joining."
+        "On line 4, find which + runs first, then what its two values are."
       ],
       "reference": {
         "title": "Addition (+)",
@@ -1106,7 +1106,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6,
+      "version": 7,
       "legacyKeys": [
         "duel:1"
       ]
@@ -1153,7 +1153,7 @@
       "hints": [
         "Look at what line 4 compares.",
         "Two texts are compared as text; a number comparison needs numbers.",
-        "Convert both sides of the comparison, not the value you store."
+        "Line 4 compares n and hi: check whether each is text or a number at that moment."
       ],
       "reference": {
         "title": "parseInt()",
@@ -1163,7 +1163,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "duel:2"
       ]
@@ -1221,7 +1221,7 @@
       "hints": [
         "Look at what the comparison function must return.",
         "- always works on numbers, so it converts its operands.",
-        "Choose the chip that turns both texts into numbers and is negative when a is the smaller number."
+        "The result must be negative when a belongs first; test each chip with a = \"8\" and b = \"9\"."
       ],
       "reference": {
         "title": "Array.prototype.sort()",
@@ -1231,7 +1231,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     }
   ]
 }

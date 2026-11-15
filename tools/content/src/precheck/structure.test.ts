@@ -39,10 +39,14 @@ function checksAfter(change: (unit: UnitFile, file: LoadedUnit) => void, options
 
 type ItemChange = (item: AuthoredItem, unit: UnitFile) => void;
 
-/** Rows of [what is changed, item id ending, the change, the checks expected to fire]. */
+/**
+ * Rows of [what is changed, item id ending, the change, the checks expected to fire]. Changing an
+ * option can leave a fixture misconception unnamed; that unit rule has its own row, so it is ignored here.
+ */
 function expectItemRules(rows: [string, string, ItemChange, string[]][]): void {
   it.each(rows)("%s", (_what, idEnding, change, expected) => {
-    expect(checksAfter((unit) => change(itemOf(unit, idEnding), unit))).toEqual(expected);
+    const checks = checksAfter((unit) => change(itemOf(unit, idEnding), unit)).filter((check) => check !== "misconception-unused");
+    expect(checks).toEqual(expected);
   });
 }
 
@@ -82,6 +86,7 @@ describe("unit file rules", () => {
     ["a concept id that is not kebab-case", (unit) => void unit.concepts.push({ id: "Bad_Id", title: "Bad", prerequisites: [] }), ["id-format"]],
     ["a misconception declared twice", (unit) => void unit.misconceptions.push(unit.misconceptions[0]), ["misconception-duplicate"]],
     ["a misconception without a description", (unit) => void (unit.misconceptions[0].description = ""), ["text-empty"]],
+    ["a misconception no option names", (unit) => void unit.misconceptions.push({ id: "never-named", description: "Nobody holds this." }), ["misconception-unused"]],
     ["a source without a hash", (unit) => void unit.sources.push({ url: "https://sources.example/a", retrievedAt: "2026-11-14", sha256: "" }), ["source-ledger-entry"]],
     ["a source with a malformed date", (unit) => void unit.sources.push({ url: "https://sources.example/a", retrievedAt: "14/11/2026", sha256: "a".repeat(64) }), ["source-ledger-entry"]],
     ["a wrong lesson id", (unit) => void (unit.lessons[1].id = "fixture-unit.lesson-3"), ["lesson-id"]],

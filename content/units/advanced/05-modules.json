@@ -261,13 +261,13 @@
         {
           "text": "3 3",
           "correct": false,
-          "feedback": "pens is a variable inside the function, not a property of the returned object. Outside, bin.pens does not exist.",
+          "feedback": "You thought bin.pens reads the private variable. Ask which names the returned object contains.",
           "misconception": "module-vars-global"
         },
         {
           "text": "2 undefined",
           "correct": false,
-          "feedback": "You thought count returns the pens value from when the module was built. count reads pens each time it is called, so an earlier add can change what it returns.",
+          "feedback": "You thought count returns the pens value from when the module was built. Ask when count reads pens.",
           "misconception": "snapshot-at-creation"
         }
       ],
@@ -288,7 +288,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.module-scope.concept-01",
@@ -317,13 +317,13 @@
         {
           "text": "pin is visible everywhere, so typeof pin reports a number.",
           "correct": false,
-          "feedback": "A const inside the function belongs to that function. Outside it, the name pin does not exist.",
+          "feedback": "You thought pin is visible everywhere. Ask where the const pin was declared.",
           "misconception": "module-vars-global"
         },
         {
           "text": "open cannot read pin, because pin is not one of open's own variables.",
           "correct": false,
-          "feedback": "A function can read the variables around the place where it was written. The output true shows open did read pin.",
+          "feedback": "You thought open cannot read pin. Ask where open was created compared with pin.",
           "misconception": "inner-cannot-see-private"
         }
       ],
@@ -344,7 +344,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.module-scope.fill-01",
@@ -633,13 +633,13 @@
         {
           "text": "Mill Dock\nobject",
           "correct": false,
-          "feedback": "stops is private to the module. Importing first and last does not bring the list along.",
+          "feedback": "You thought importing brings the module's private names along. Ask which names the returned object lists.",
           "misconception": "unexported-accessible"
         },
         {
           "text": "Uncaught TypeError",
           "correct": false,
-          "feedback": "In first: head the property name is on the left and the new name on the right. head is bound to first, so it is a function.",
+          "feedback": "You thought the new name stands on the left of the colon, so head is undefined. Check which side of the colon holds the property name.",
           "misconception": "rename-direction-reversed"
         }
       ],
@@ -660,7 +660,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.exports-and-imports.concept-01",
@@ -689,13 +689,13 @@
         {
           "text": "The importer must keep the name makeLabel, as every named import must match.",
           "correct": false,
-          "feedback": "Named imports must match the exported names. A single unnamed value is different: tag works the same as makeLabel.",
+          "feedback": "You thought every import must keep the original name. Look at the name tag on line 4 and at the call that uses it.",
           "misconception": "default-name-fixed"
         },
         {
           "text": "tag holds a separate copy of the function, so the last line prints false.",
           "correct": false,
-          "feedback": "Assigning a function to another name shares it. The last line prints true.",
+          "feedback": "You thought assigning a function to another name copies it. Ask what a copy would do to the === check on line 6.",
           "misconception": "import-makes-copy"
         }
       ],
@@ -716,7 +716,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.exports-and-imports.parsons-01",
@@ -781,7 +781,7 @@
         "destructuring"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The program should print 1 and then ['rye'], but it stops with an error on the last line. Tap the buggy line and pick the fix.",
       "code": [
         "const bakery = (() => {",
@@ -821,7 +821,7 @@
       "hints": [
         "Compare the names taken on line 7 with the object returned on line 5.",
         "An importer can only take what the module exported.",
-        "Add the missing function to the returned object and keep the one that already works."
+        "Line 5 returns one name; line 7 asks for two."
       ],
       "reference": {
         "title": "export",
@@ -831,7 +831,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.exports-and-imports.write-01",
@@ -1003,13 +1003,13 @@
         {
           "text": "2 true",
           "correct": false,
-          "feedback": "Taking rota into another name does not run the module body again. The body ran once, when rota was built.",
+          "feedback": "You thought each new name for rota runs the module body again. Ask which lines contain a call.",
           "misconception": "module-reruns-per-import"
         },
         {
           "text": "1 false",
           "correct": false,
-          "feedback": "Both names hold the same object, not two copies, so the comparison is true.",
+          "feedback": "You thought each name gets its own copy of the module's object. Ask what === compares for objects.",
           "misconception": "import-makes-copy"
         }
       ],
@@ -1030,7 +1030,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.module-singletons.concept-01",
@@ -1064,13 +1064,13 @@
         {
           "text": "The module body runs at startup as well, so map ready appears before app start.",
           "correct": false,
-          "feedback": "A lazily loaded module is not evaluated until requested. Here map ready appears after app start.",
+          "feedback": "You thought a lazy module still runs when the app starts. Ask which line prints app start and when getMap is first called.",
           "misconception": "lazy-runs-at-start"
         },
         {
           "text": "The module body runs on every request, so map ready appears twice.",
           "correct": false,
-          "feedback": "The stored result makes the second request skip the body. The text appears only once.",
+          "feedback": "You thought the body runs again on every request. Ask what the check on line 3 sees on the second call.",
           "misconception": "lazy-runs-each-request"
         }
       ],
@@ -1090,7 +1090,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:15"
       ]
@@ -1207,7 +1207,7 @@
       "hints": [
         "Compare how line 2 and line 3 get their object.",
         "Importing a module gives you the shared object, not a copy of it.",
-        "Make pageB use the same object as pageA, with no new braces."
+        "Line 3 builds a new object; line 2 does not."
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -1217,7 +1217,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.module-singletons.write-01",
@@ -1376,13 +1376,13 @@
         {
           "text": "J\nJ",
           "correct": false,
-          "feedback": "Declaring jar later in the file does not make it available earlier. At line 6 the line that creates jar has not run yet.",
+          "feedback": "You thought a later declaration is already available. Ask whether the line that creates jar has run at line 6.",
           "misconception": "cycle-values-ready"
         },
         {
           "text": "ReferenceError\nReferenceError",
           "correct": false,
-          "feedback": "Failure is not permanent. Once line 7 has run, jar exists and the same call succeeds.",
+          "feedback": "You thought a failed read stays failed. Ask what changed between the two calls.",
           "misconception": "failed-read-stays-failed"
         }
       ],
@@ -1403,7 +1403,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.dependency-direction.concept-01",
@@ -1430,13 +1430,13 @@
         {
           "text": "Two modules that refer to each other always fail, whatever the code does.",
           "correct": false,
-          "feedback": "The output shows a working cycle. Failure depends on when a name is read, not on the cycle.",
+          "feedback": "You thought cycles always fail. Compare that with the output this code gives.",
           "misconception": "cycle-always-fails"
         },
         {
           "text": "In a cycle, each module sees the other fully set up when its own code starts.",
           "correct": false,
-          "feedback": "One module always starts first and cannot see the other yet. Here that does not matter because the read is delayed.",
+          "feedback": "You thought each module sees the other fully set up from the start. Ask which of odd and even is created first.",
           "misconception": "cycle-values-ready"
         }
       ],
@@ -1457,7 +1457,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.dependency-direction.parsons-01",
@@ -1502,7 +1502,7 @@
       "hints": [
         "Which line reads another module at the moment it runs?",
         "Dependencies go first. A function that reads later only needs to exist by its call.",
-        "base comes before leg, and the print comes last."
+        "Find the one line that reads another name at once, and place that name's line before it."
       ],
       "reference": {
         "title": "Hoisting",
@@ -1512,7 +1512,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.dependency-direction.fix-01",

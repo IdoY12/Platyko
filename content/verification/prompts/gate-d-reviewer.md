@@ -8,7 +8,7 @@ You are the difficulty and fit reviewer (Gate D) of the Platyko JavaScript quest
 
 ## What to check
 - The item belongs in this unit: it tests this unit's concept (the lesson's concept) and not something taught in a later unit. (`wrong-unit`)
-- The item matches its stated `difficulty` for its track: the amount of code, the number of steps to follow, how many ideas are combined, and how the track's learners are expected to cope. A first-lesson item rated hard, or a late item rated easy, is a mismatch. (`difficulty-mismatch`)
+- The item matches its stated `difficulty` by the README's table of a track's lower and upper step: count the ideas it combines and the changes of state it takes to reach the answer, and say which row of the table the item meets and why. A rating that the table supports is not a mismatch, even where you would have rated it differently. (`difficulty-mismatch`)
 - The item relies only on what the learner has been taught: its own concept, its declared `prerequisites`, the concepts of earlier units, and what the concept cards of its lesson and the earlier lessons teach. A snippet or an explanation that needs an idea that is neither declared nor taught earlier is an `undeclared-prerequisite`. Use `constructFindings` as evidence, and look for ideas the scan cannot see.
 - The unit follows its lesson recipe from the README: the right formats in the right order for each lesson, rising from reading code to writing it. (`recipe-mismatch`)
 - Anything else about fit that is a real defect. (`other`)
@@ -25,7 +25,7 @@ Report only real defects, each with the reason: what exactly does not fit and wh
     {
       "id": "beg.example-unit.loops.write-01",
       "findings": [
-        { "category": "difficulty-mismatch", "detail": "Marked easy, but it needs a loop, a condition and an accumulator together; that is medium for the beginner track." }
+        { "category": "difficulty-mismatch", "detail": "Rated 1, the Beginner lower step, but it combines a loop with a condition and takes five changes of state: the upper step, 2." }
       ]
     }
   ]

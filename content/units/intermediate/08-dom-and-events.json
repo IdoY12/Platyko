@@ -93,6 +93,10 @@
     {
       "id": "listener-covers-only-existing-children",
       "description": "Believes a listener on a parent works only for children that existed when it was added."
+    },
+    {
+      "id": "list-index-starts-at-one",
+      "description": "Believes the first element of a list sits at index 1, so index 1 reads the first element."
     }
   ],
   "sources": [
@@ -153,7 +157,7 @@
       "title": "The DOM tree and selection",
       "conceptCard": {
         "title": "The page is a tree of elements",
-        "body": "The DOM is a tree: every element can have children, which you reach through properties like children and firstElementChild. querySelector returns the first element that matches a CSS selector, or null. querySelectorAll returns all matches. The object below is a tiny model of such a tree.",
+        "body": "The DOM is a tree: every element has children, reached through properties like children, firstElementChild, lastElementChild and nextElementSibling. querySelector returns the first element matching a CSS selector, or null; querySelectorAll returns all matches. getElementById(id) finds one element by its id, document.body is the page body, and textContent is an element's text.",
         "code": [
           "const page = {",
           "  tag: 'ul',",
@@ -178,7 +182,7 @@
       "title": "Changing content and classes",
       "conceptCard": {
         "title": "Changing what the page shows",
-        "body": "Assigning textContent replaces everything inside an element, child elements too. classList.add, remove and toggle change one class and leave the others. createElement makes a new element, and appendChild puts it into the page. A plain object models the element here.",
+        "body": "Assigning textContent replaces everything inside an element, child elements too. classList.add, remove and toggle change one class and leave the others; toggle adds a missing class and removes a present one. classList.contains(name) tests a class, and className is all classes as one text. createElement makes a new element, and appendChild puts it into the page.",
         "code": [
           "const el = {",
           "  text: 'Soup',",
@@ -205,7 +209,7 @@
       "title": "Listening for events",
       "conceptCard": {
         "title": "A function the page calls later",
-        "body": "addEventListener(type, handler) stores a function that the browser calls each time that event happens. Pass the function itself, never a call to it. The page keeps the stored handlers; an array plays that part below.",
+        "body": "addEventListener(type, handler) stores a function that the browser calls each time that event happens. Pass the function itself, never a call to it. Listeners on one element run in the order you added them. element.click() makes a click happen from code.",
         "code": [
           "const listeners = [];",
           "const hi = () => console.log('hi');",
@@ -327,10 +331,10 @@
           "misconception": "missing-element-is-undefined"
         },
         {
-          "text": "1\nBergen\nnull",
+          "text": "3\nOslo\nnull",
           "correct": false,
-          "feedback": "You thought querySelectorAll stops at the first match, so the length would be 1. It collects every matching element, and the page lists several trains.",
-          "misconception": "query-all-returns-one"
+          "feedback": "You counted list positions from 1, so trains[1] seemed to be the first train. A list starts at position 0.",
+          "misconception": "list-index-starts-at-one"
         }
       ],
       "solution": {
@@ -349,7 +353,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.dom-and-events.dom-tree-and-selection.concept-01",
@@ -460,7 +464,7 @@
         "property-access"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "The loop walks the trains from first to last. What does got hold right after line 6 runs for the second time?",
       "code": [
         "let node = document",
@@ -550,7 +554,7 @@
       "hints": [
         "Count the passes: line 6 has run twice at that moment.",
         "got grows by one letter per pass, taken from the current element.",
-        "The first letters are O, B and N. Only two of them have been added."
+        "Line 7 moves node on after each pass, so the second pass reads the train after the first."
       ],
       "reference": {
         "title": "Element: nextElementSibling property",
@@ -559,7 +563,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.dom-and-events.dom-tree-and-selection.fill-01",
@@ -682,13 +686,14 @@
         "property-access"
       ],
       "format": "PARSONS",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "Order the lines so the program prints the name of the second train.",
       "code": [
-        "const second = ul.children[1];",
+        "const two = one.nextElementSibling;",
         "const page = document.body;",
-        "console.log(second.textContent);",
-        "const ul = page.querySelector('ul');"
+        "console.log(two.textContent);",
+        "const ul = page.querySelector('ul');",
+        "const one = ul.firstElementChild;"
       ],
       "dom": {
         "tag": "main",
@@ -740,16 +745,17 @@
         "lineOrder": [
           1,
           3,
+          4,
           0,
           2
         ],
         "expectedOutput": "Bergen"
       },
-      "explanation": "Each line uses the variable made by the line before it: page, then ul, then second, then the print. The result is Bergen, at index 1.",
+      "explanation": "Each line uses the variable made by the line before it: page, ul, one, two, then the print. The first train is Oslo and its next sibling is Bergen.",
       "hints": [
         "Start with the line that has no dependency on another variable.",
         "A variable must exist before a later line uses it.",
-        "The print line needs second, and second needs ul."
+        "The print line needs two, and two needs one."
       ],
       "reference": {
         "title": "Document: body property",
@@ -759,7 +765,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.dom-and-events.dom-tree-and-selection.fix-01",
@@ -1016,13 +1022,13 @@
         {
           "text": "It changes only the element's own text and keeps its children",
           "correct": false,
-          "feedback": "You thought the child elements survive an assignment to textContent. They are part of what the element contains, and the assignment treats all of it as old content.",
+          "feedback": "You thought the li elements stay and only the text changes. The printed lengths before and after disagree with that.",
           "misconception": "textcontent-keeps-children"
         },
         {
           "text": "It adds the new text after the existing content",
           "correct": false,
-          "feedback": "You thought the new text is added after the existing content. The assignment treats everything inside the element as old content, so nothing of it stays for the new text to follow.",
+          "feedback": "You thought the new text goes after what is already inside. Compare the two printed lengths: something that was there is gone.",
           "misconception": "textcontent-appends"
         }
       ],
@@ -1043,7 +1049,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.dom-and-events.dom-updates.trace-01",
@@ -1053,7 +1059,7 @@
         "property-update"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "What does seen hold right after line 7 runs?",
       "code": [
         "const step = document",
@@ -1133,7 +1139,7 @@
       "hints": [
         "Follow the class list after every line, starting from step.",
         "toggle adds a class when it is missing and removes it when it is present.",
-        "After two toggles of the same class, only the add on line 6 has changed the list."
+        "Apply the toggle on line 3, then the toggle on line 5, then the add on line 6, to the same list."
       ],
       "reference": {
         "title": "DOMTokenList: toggle() method",
@@ -1142,7 +1148,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.dom-and-events.dom-updates.fill-01",
@@ -1241,7 +1247,7 @@
       "hints": [
         "The first blank creates an element, the second puts it in the list.",
         "A created element does not exist in the page until you add it to a parent.",
-        "Look for a method that makes an element and one that adds a child."
+        "Both blanks are method names: one is called on document, the other on steps."
       ],
       "reference": {
         "title": "Document: createElement() method",
@@ -1250,7 +1256,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.dom-and-events.dom-updates.parsons-01",
@@ -1342,7 +1348,7 @@
         "property-update"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "The program should print true, but the step does not get the class. Tap the buggy line and pick the fix.",
       "code": [
         "const step = document",
@@ -1422,7 +1428,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.event-listeners.predict-01",
@@ -1549,13 +1555,13 @@
         {
           "text": "hi() ran when it was added and runs again on every click",
           "correct": false,
-          "feedback": "You thought hi would run again on each click. The expected output has no hi after 'clicking', so the click ran nothing that prints.",
+          "feedback": "You thought the click calls hi again. Look at what the output shows after 'clicking'.",
           "misconception": "handler-called-at-registration"
         },
         {
           "text": "hi() and hi mean the same thing here, so the click runs the handler",
           "correct": false,
-          "feedback": "You thought hi() and hi mean the same thing in addEventListener. With parentheses the function is called on the spot, which changes what the listener receives.",
+          "feedback": "You thought hi() and hi mean the same here, so the click runs the handler. Look at where hi appears in the output.",
           "misconception": "call-equals-reference"
         }
       ],
@@ -1575,7 +1581,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "int.dom-and-events.event-listeners.trace-01",
@@ -1585,7 +1591,7 @@
         "callbacks-and-timers"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "What does order hold right after line 10 runs?",
       "code": [
         "let order = '';",
@@ -1629,7 +1635,7 @@
         {
           "text": "'AB|AB'",
           "correct": false,
-          "feedback": "You thought the handlers run in the order their functions are defined, one before two. Listeners run in the order the addEventListener calls registered them, not in the order of the definitions.",
+          "feedback": "You thought the handlers run in the order their functions are defined. Look at the order of the two addEventListener lines instead.",
           "misconception": "order-follows-code-layout"
         },
         {
@@ -1660,7 +1666,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "int.dom-and-events.event-listeners.fill-01",
@@ -1904,7 +1910,7 @@
       "hints": [
         "Look at the first argument on line 6.",
         "The event type names the event itself, in lower case.",
-        "One replacement is the plain name of the event that btn.click() triggers."
+        "Line 7 triggers the event; line 6 must use that event's name."
       ],
       "reference": {
         "title": "EventTarget: addEventListener() method",
@@ -1913,7 +1919,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.event-propagation.predict-01",
@@ -2023,7 +2029,7 @@
       "hints": [
         "Find where the click starts, then move outward through the parents.",
         "Bubbling goes from the target to the outermost ancestor.",
-        "The first id printed belongs to the element that was clicked."
+        "Follow the path: button, then its li, then the ul. Read which id each listener prints."
       ],
       "reference": {
         "title": "Event bubbling",
@@ -2032,7 +2038,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "int.dom-and-events.event-propagation.concept-01",
@@ -2264,16 +2270,16 @@
       "hints": [
         "Work out which button each click line triggers.",
         "The click bubbles up to the list's listener, and e.target is the button that was clicked. Clicks run in the order of the lines.",
-        "The clicks happen in the order bts[1], bts[0], not in page order."
+        "Lines 10 and 11 pick the buttons by position: look at which index each one uses."
       ],
       "reference": {
-        "title": "Element: closest() method",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/closest",
+        "title": "Event: target property",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Event/target",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.dom-and-events.event-propagation.fill-01",

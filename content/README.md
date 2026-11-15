@@ -85,6 +85,13 @@ Difficulty rises inside a lesson and across a unit: 1 to 2 in Beginner, 2 to 3 i
 and the last item is rated at least as high as every other; between them each item is rated for
 itself, so a reading format may sit one step below a harder item just before it.
 
+A track's two levels are told apart by what the item asks, not by its format:
+
+| Step | The item… |
+|---|---|
+| Lower (1 Beginner, 2 Intermediate, 3 Advanced, 4 Expert) | applies its lesson's concept directly: one idea, and at most three changes of state to follow before the answer shows |
+| Upper (2 Beginner, 3 Intermediate, 4 Advanced, 5 Expert) | combines the concept with a second idea (an earlier concept, or a second rule of the same one), or needs four or more changes of state (loop turns, calls, queued callbacks, coercion steps) |
+
 ### Practical notes for authors
 
 - **Legacy items** keep their concept, not their suggested format: when a lesson has no free slot
@@ -123,11 +130,19 @@ itself, so a reading format may sit one step below a harder item just before it.
 ### Writing feedback, hints and explanations
 
 - The explanation says why the right answer is right, in at most 60 words, and names the rule.
-- A wrong option's feedback addresses the thought that leads to it ("You added 1 + 2 + 3. The
-  loop starts at 0, so it adds 0 + 1 + 2.") and never just says "wrong". It does not reveal the
-  correct answer: the learner gets a second attempt.
+- A wrong option's feedback addresses the thought that leads to it ("You started the count at 1.
+  The loop starts at 0, so 0 is the first value added.") and never just says "wrong". The thought
+  it names must really produce that option's value for this code: work it through. It does not
+  reveal the correct answer, because the learner gets a second attempt: it may state the one fact
+  the thought missed, but not the printed result, the correct option's text or rule, or a
+  calculation carried through to the end.
 - Hint 1 points at a place ("Look at line 3"). Hint 2 states the concept. Hint 3 narrows the
-  choice without naming the answer.
+  choice without naming the answer: it may point at the exact line or the rule to apply there,
+  but not state the result, the chip or line to use, or the text of an option.
+- **Taught means on a card or in an earlier unit.** Every operator, built-in method or rule an
+  item needs is the item's own concept, a declared prerequisite, the subject of an earlier unit,
+  or stated on the concept card of its lesson or an earlier lesson of the unit. A hint or an
+  explanation is not where something is taught.
 - Address the learner as "you". No exclamation marks, no praise words, no filler.
 
 ## Execution model

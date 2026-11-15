@@ -163,7 +163,7 @@
       "title": "The prototype chain and property lookup",
       "conceptCard": {
         "title": "Reads climb the chain, writes stay put",
-        "body": "An object can have a prototype, another object it falls back on. A class keeps its methods on the prototype of its instances. A missing property is looked up in the prototype, then in its prototype, and so on. An ordinary assignment writes on the object itself. hasOwnProperty checks only that object.",
+        "body": "An object can have a prototype, another object it falls back on. A class keeps its methods on the prototype of its instances, written Class.prototype. A missing property is looked up in the prototype, then in its prototype, and so on. An ordinary assignment writes on the object itself. hasOwnProperty checks only that object.",
         "code": [
           "class Base {",
           "  x() { return 'hi'; }",
@@ -187,7 +187,7 @@
       "title": "Constructor functions and new",
       "conceptCard": {
         "title": "new builds an object linked to prototype",
-        "body": "A function called with new builds an object. Inside it, this is that object, and the object's prototype is the function's prototype property. Put shared methods on that property: every instance finds them there instead of owning a copy.",
+        "body": "A function called with new builds an object. Inside it, this is that object, and the object's prototype is the function's prototype property. Put shared methods on that property: every instance finds them there instead of owning a copy. Object.getPrototypeOf(obj) returns an object's prototype.",
         "code": [
           "function Pen(ink) {",
           "  this.ink = ink;",
@@ -237,7 +237,7 @@
       "title": "Classes as syntax over prototypes",
       "conceptCard": {
         "title": "A class is a constructor in disguise",
-        "body": "A class is a constructor function with cleaner syntax. Its methods live on the class's prototype property, and extends links the subclass prototype to the parent's. Unlike a plain constructor function, a class cannot be called without new.",
+        "body": "A class is a constructor function with cleaner syntax. Its methods live on the class's prototype property, and extends links the subclass prototype to the parent's. Unlike a plain constructor function, a class cannot be called without new. x instanceof C is true when C.prototype is on the chain of x.",
         "code": [
           "class Ink {",
           "  write() { return 'ink'; }",
@@ -286,13 +286,13 @@
         {
           "text": "true\ntrue\nA4",
           "correct": false,
-          "feedback": "You thought hasOwnProperty also counts properties found on the prototype. It asks only about the object it is called on.",
+          "feedback": "You thought hasOwnProperty also counts properties found on the prototype. Ask which object each call asks about.",
           "misconception": "own-check-includes-inherited"
         },
         {
           "text": "true\nfalse\nundefined",
           "correct": false,
-          "feedback": "You thought a read looks only at s itself. A read keeps searching up the chain when the object lacks the name.",
+          "feedback": "You thought a read looks only at s itself. Ask what happens when s has no property of that name.",
           "misconception": "lookup-stops-early"
         }
       ],
@@ -301,9 +301,9 @@
       },
       "explanation": "hasOwnProperty tests only the object it is called on, so it is false for id, which s inherits. A normal read follows the chain from s to Shelf.prototype and finds A4.",
       "hints": [
-        "Compare line 5 and line 6: which property was assigned on s?",
+        "Line 4 writes one property on s; line 2 writes another on Shelf.prototype.",
         "hasOwnProperty ignores the prototype, but a property read does not.",
-        "ad was written on s. id was never written on s."
+        "Lines 5 and 6 ask only about s itself; line 7 is a plain read."
       ],
       "reference": {
         "title": "Object.prototype.hasOwnProperty()",
@@ -313,7 +313,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:MID:7"
       ]
@@ -345,7 +345,7 @@
         {
           "text": "It changes hours on Shop.prototype, so both objects now say ten.",
           "correct": false,
-          "feedback": "You thought an assignment through stall writes to the prototype that stall reads hours from. Reading and assigning follow different rules.",
+          "feedback": "You thought an assignment writes where the read finds the value. Ask which object stands before the dot.",
           "misconception": "write-changes-prototype"
         },
         {
@@ -372,7 +372,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.prototypes-and-inheritance.prototype-chain.fill-01",
@@ -660,13 +660,13 @@
         {
           "text": "Due: Dune Due: Emma\nfalse",
           "correct": false,
-          "feedback": "You thought each object gets its own copy of tag. A method written on the prototype exists once, however many objects are built.",
+          "feedback": "You thought each object gets its own copy of tag. Ask how many times line 2 stores a function.",
           "misconception": "methods-copied-into-objects"
         },
         {
           "text": "Due: undefined Due: undefined\ntrue",
           "correct": false,
-          "feedback": "You thought this inside tag is the prototype that stores the method. this is the object the call is made on, not the place the method is kept.",
+          "feedback": "You thought this inside tag is the prototype that stores the method. Ask which object stands before the dot in each call.",
           "misconception": "delegation-this-is-prototype"
         }
       ],
@@ -677,7 +677,7 @@
       "hints": [
         "Where is tag defined, and how many times does line 2 run?",
         "A shared prototype method gets this from the object it is called on.",
-        "Each loan stores its own t. The function that reads it is one object."
+        "Compare what each loan stores with what both loans reach through the prototype."
       ],
       "reference": {
         "title": "new operator",
@@ -687,7 +687,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.prototypes-and-inheritance.constructor-functions.concept-01",
@@ -715,13 +715,13 @@
         {
           "text": "The prototype of s is the function Seed itself.",
           "correct": false,
-          "feedback": "You thought new links the object to the constructor function itself. The link points at something the function carries, not at the function.",
+          "feedback": "You thought new links the object to the constructor function itself. Look at the result of the comparison on line 5.",
           "misconception": "prototype-is-constructor"
         },
         {
           "text": "s has no prototype until a method is added to Seed.prototype.",
           "correct": false,
-          "feedback": "You thought an object gets a prototype only once something is stored on it. A prototype exists as soon as the constructor does, empty or not.",
+          "feedback": "You thought an object has no prototype until something is stored on it. Look at what the code adds to Seed.prototype: nothing.",
           "misconception": "prototype-created-late"
         }
       ],
@@ -742,7 +742,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "adv.prototypes-and-inheritance.constructor-functions.fill-01",
@@ -818,7 +818,7 @@
         "this-in-methods"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The program should print Seat 12, but line 8 throws. Tap the buggy line and pick the fix.",
       "code": [
         "function Pass(seat) {",
@@ -867,7 +867,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.constructor-functions.write-01",
@@ -1024,7 +1024,7 @@
         {
           "text": "1 1 1",
           "correct": false,
-          "feedback": "You thought this inside add is the shared visits object, so the write lands there. this is the object the call is made on.",
+          "feedback": "You thought this inside add is the shared visits object, so the write lands there. Ask which object stands before the dot in a.add().",
           "misconception": "delegation-this-is-prototype"
         },
         {
@@ -1051,7 +1051,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.prototypes-and-inheritance.object-create-and-delegation.concept-01",
@@ -1060,7 +1060,7 @@
         "prototype-chain"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "Which statement does this program demonstrate about Object.create?",
       "code": [
         "const menu = { soup: 'leek' };",
@@ -1079,13 +1079,13 @@
         {
           "text": "day got a copy of soup when it was created, so the later change is not visible.",
           "correct": false,
-          "feedback": "You thought Object.create copies the properties of menu into day at that moment. It does not copy anything.",
+          "feedback": "You thought day got its own copy of soup when it was created. Compare the printed soup with the change made on line 3.",
           "misconception": "create-copies-properties"
         },
         {
           "text": "Object.keys counts soup, because day can read it.",
           "correct": false,
-          "feedback": "You thought Object.keys lists every property day can read, inherited ones too. It reports only properties stored on the object itself.",
+          "feedback": "You thought Object.keys lists every property day can read, inherited ones too. Ask whether Object.keys looks at the whole chain or at one object.",
           "misconception": "own-check-includes-inherited"
         }
       ],
@@ -1096,7 +1096,7 @@
       "hints": [
         "Compare the printed soup with the value at line 1.",
         "Object.create links objects. It does not copy their properties.",
-        "A read follows the link every time, and Object.keys lists only what day itself owns."
+        "Does day have anything stored on itself? Check what Object.keys is asked about."
       ],
       "reference": {
         "title": "Object.create()",
@@ -1106,7 +1106,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.prototypes-and-inheritance.object-create-and-delegation.parsons-01",
@@ -1343,13 +1343,13 @@
         {
           "text": "object\ntrue\n0",
           "correct": false,
-          "feedback": "You thought typeof reports a class as a plain object. typeof reports what a class really is underneath the syntax.",
+          "feedback": "You thought typeof reports a class as a plain object. Ask what a class is built from underneath the syntax.",
           "misconception": "class-is-not-function"
         },
         {
           "text": "function\nfalse\n1",
           "correct": false,
-          "feedback": "You thought each instance gets its own copy of fill, which would also make it an own key. A method in a class body is stored once, not per instance.",
+          "feedback": "You thought each instance gets its own copy of fill, which would also make it an own key. Ask where a class body stores its methods.",
           "misconception": "methods-copied-into-objects"
         }
       ],
@@ -1360,7 +1360,7 @@
       "hints": [
         "Check what typeof reports for a class on line 6.",
         "Methods declared in a class body go on the prototype.",
-        "c reaches fill through the chain, so it has no own keys."
+        "Object.keys lists only what c itself stores: does c store fill?"
       ],
       "reference": {
         "title": "Classes",
@@ -1370,7 +1370,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.concept-01",
@@ -1380,7 +1380,7 @@
         "class-inheritance"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "Which statement does the output of this program demonstrate?",
       "code": [
         "class Boat {}",
@@ -1400,13 +1400,13 @@
         {
           "text": "extends copies Boat's methods into Canoe.prototype when the class is declared.",
           "correct": false,
-          "feedback": "You thought extends copies methods into the subclass when it is declared. A copy would be a snapshot, and extends does not make one.",
+          "feedback": "You thought extends copies methods into the subclass when it is declared. Ask what a later change to the parent would do to a copy.",
           "misconception": "methods-copied-into-objects"
         },
         {
           "text": "c instanceof Boat is true only because Boat is the direct parent.",
           "correct": false,
-          "feedback": "You thought instanceof needs a direct parent. It walks the whole chain, so the result here does not depend on Boat being the direct parent.",
+          "feedback": "You thought instanceof needs a direct parent. Ask what instanceof does with a grandparent.",
           "misconception": "lookup-stops-early"
         }
       ],
@@ -1427,7 +1427,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.fill-01",
@@ -1437,7 +1437,7 @@
         "class-inheritance"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "A class is syntax over prototypes. Fill the blank so the program prints true.",
       "code": [
         "class Bike {",
@@ -1492,7 +1492,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.fix-01",
@@ -1502,7 +1502,7 @@
         "class-inheritance"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The program should print sage, but it throws on line 6. Tap the buggy line and pick the fix.",
       "code": [
         "class Pot {",
@@ -1540,7 +1540,7 @@
       "hints": [
         "Look at how line 6 calls Pot.",
         "A class is a function, but a stricter one.",
-        "Look for the keyword that creates an object from a constructor."
+        "Compare line 6 with how the card example builds an Ink."
       ],
       "reference": {
         "title": "Classes",
@@ -1550,7 +1550,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.write-01",

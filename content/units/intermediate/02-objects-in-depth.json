@@ -126,7 +126,7 @@
       "title": "Destructuring",
       "conceptCard": {
         "title": "Taking values out of arrays and objects",
-        "body": "Destructuring reads several values in one line. An array pattern with square brackets matches by position. An object pattern with braces matches by property name. A default after = is used when the value is undefined, such as a missing property, and { key: name } stores it under another name.",
+        "body": "Destructuring reads several values in one line. An array pattern with square brackets matches by position. An object pattern with braces matches by property name. A default after = is used when the value is undefined, such as a missing property, and may use names set earlier. { key: name } stores it under another name.",
         "code": [
           "const trip = { days: 3, stops: 2 };",
           "const { days, stops: count } = trip;",
@@ -149,7 +149,7 @@
       "title": "Spread and rest",
       "conceptCard": {
         "title": "Spread out, rest in",
-        "body": "The three dots mean two things. In a call or a literal, spread expands an array or object into separate pieces. In a parameter list or a pattern, rest collects the remaining pieces into an array. With two spread objects, the later one wins.",
+        "body": "The three dots mean two things. In a call or a literal, spread expands an array or object into separate pieces. In a parameter list or a pattern, rest collects the remaining pieces into an array, or into an object for an object pattern. With two spread objects, the later one wins. Math.max returns the largest of its arguments.",
         "code": [
           "const base = { a: 1, b: 2 };",
           "const next = { ...base, b: 9 };",
@@ -174,7 +174,7 @@
       "title": "References",
       "conceptCard": {
         "title": "Two names, one object",
-        "body": "Objects and arrays are stored once, and a variable holds a reference to them. Assigning it to another name shares the object. Changing it through either name is seen by both. Strict equality asks whether two names reach the same object.",
+        "body": "Objects and arrays are stored once, and a variable holds a reference to them. Assigning it to another name shares the object. Changing it through either name is seen by both. Methods such as push and reverse change an array in place. Strict equality asks whether two names reach the same object.",
         "code": [
           "const a = { n: 1 };",
           "const b = a;",
@@ -337,7 +337,7 @@
         "array-index"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "What value does hi hold right after line 2 has run?",
       "code": [
         "const bag = { lo: 2 };",
@@ -385,7 +385,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6,
+      "version": 7,
       "legacyKeys": [
         "duel:9"
       ]
@@ -438,7 +438,7 @@
       "hints": [
         "Look at the property names on line 1.",
         "In { name: variable } the left side is the property to read and the right side is the new variable.",
-        "Pick the property that holds the number 9."
+        "Only one property of hike holds a number."
       ],
       "reference": {
         "title": "Destructuring assignment",
@@ -448,7 +448,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:18"
       ]
@@ -809,7 +809,7 @@
       "hints": [
         "Find the line that uses both small objects and put it after them.",
         "When two spreads share a key, the later one wins.",
-        "Both prints read drink, so they come after it."
+        "A print can only read drink after the line that creates it."
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -819,7 +819,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.objects-in-depth.spread-and-rest.fix-01",
@@ -1060,7 +1060,7 @@
       "hints": [
         "Notice which two objects were created with braces and which was not.",
         "=== treats objects differently from numbers and strings. Ask what it checks for objects.",
-        "cardC was never given braces of its own."
+        "Count how many pairs of braces create an object in lines 1 to 3."
       ],
       "reference": {
         "title": "Strict equality (===)",
@@ -1070,7 +1070,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.trace-01",
@@ -1079,7 +1079,7 @@
         "function-declaration"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "What value does box hold right after line 8 has run?",
       "code": [
         "let visits = 5;",
@@ -1132,7 +1132,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.fill-01",
@@ -1183,7 +1183,7 @@
       "hints": [
         "Look at which array line 4 measures.",
         "push changes the array it is called on.",
-        "The array on line 4 only grows if spare is another name for it."
+        "Check each chip: does the push on line 3 reach the array that line 4 measures?"
       ],
       "reference": {
         "title": "Array.prototype.push()",
@@ -1193,7 +1193,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.fix-01",
@@ -1223,9 +1223,9 @@
           "misconception": "copy-by-assignment"
         },
         {
-          "text": "const preview = hall ?? {};",
+          "text": "const preview = hall || {};",
           "correct": false,
-          "feedback": "hall is not null, so ?? keeps hall itself. preview is still the same object as hall.",
+          "feedback": "hall is truthy, so || keeps hall itself. preview is still the same object as hall.",
           "misconception": "copy-by-assignment"
         }
       ],
@@ -1247,7 +1247,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.write-01",
@@ -1525,7 +1525,7 @@
         },
         "expectedOutput": "{days: 3, stops: ['Rome', 'Pisa']}"
       },
-      "explanation": "copyA spreads plan, so its stops is the same array as plan.stops, and the push of \"Pisa\" shows in plan. Line 5 gives copyB its own stops array, a deep copy of that level, so the push of \"Bari\" stays out of plan.",
+      "explanation": "copyA spreads plan, so its stops is the same array as plan.stops, and the push of \"Pisa\" shows in plan. Line 5 gives copyB a new copy of that array, so the push of \"Bari\" stays out of plan.",
       "hints": [
         "Check which copy shares stops with plan and which has its own array.",
         "Spreading plan.stops inside [ ] builds a new array.",
@@ -1538,7 +1538,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.objects-in-depth.shallow-copy.parsons-01",
@@ -1570,7 +1570,7 @@
       "hints": [
         "The copy needs the original to exist, and the push needs the copy.",
         "A shallow copy shares the tools array with the original.",
-        "Both prints read the pushed array, so they come last."
+        "The prompt says the printed array has grown, so check where the push must sit relative to the prints."
       ],
       "reference": {
         "title": "Shallow copy",
@@ -1580,7 +1580,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.objects-in-depth.shallow-copy.fix-01",
@@ -1610,9 +1610,9 @@
           "misconception": "shallow-is-deep"
         },
         {
-          "text": "copy.food.unshift(\"nut\");",
+          "text": "copy.food.pop();",
           "correct": false,
-          "feedback": "unshift also changes the array in place. That array is shared with bag, so its length becomes 2.",
+          "feedback": "pop also changes the array in place. That array is shared with bag, so its length becomes 0.",
           "misconception": "shallow-is-deep"
         }
       ],
@@ -1634,7 +1634,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.objects-in-depth.shallow-copy.write-01",
@@ -1782,7 +1782,7 @@
       "hints": [
         "Look at what happens to shop.tags if you push onto it.",
         "A spread copy shares nested arrays with the original, so give the copy its own tags array.",
-        "Build a new array from shop.tags plus tag, and put it in the copy."
+        "The copy needs a tags array of its own that is not shop.tags."
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -1791,7 +1791,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "puzzle:17"
       ]

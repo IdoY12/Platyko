@@ -60,14 +60,6 @@
       "description": "Believes a trap may look data up through the proxy itself or with t.k instead of reading t[k] from the target."
     },
     {
-      "id": "reflect-ownkeys-like-keys",
-      "description": "Believes Reflect.ownKeys lists the same keys as Object.keys."
-    },
-    {
-      "id": "symbols-listed-first",
-      "description": "Believes symbol keys come before string keys in the own-key order."
-    },
-    {
       "id": "reflect-set-returns-value",
       "description": "Believes Reflect.set returns the assigned value, or only checks without writing, instead of writing and returning a boolean."
     },
@@ -124,7 +116,7 @@
       "title": "Proxy and its traps",
       "conceptCard": {
         "title": "A proxy intercepts operations",
-        "body": "A Proxy wraps a target object. Its handler object holds traps such as get and set, which run when code reads or writes a property of the proxy. A trap receives the target and the key. An operation with no trap goes straight to the target.",
+        "body": "A Proxy wraps a target object. Its handler holds traps such as get and set, which run when code reads or writes a property of the proxy. A trap receives the target and the key. A get trap also gets the proxy, a set trap the new value, and it returns true. No trap means the target handles it.",
         "code": [
           "const prices = { tea: 3 };",
           "const menu = (o) => new Proxy(o, {",
@@ -169,7 +161,7 @@
       "title": "Property descriptors",
       "conceptCard": {
         "title": "Flags behind every property",
-        "body": "Every property has flags: writable, enumerable and configurable. Plain assignment makes all three true. When Object.defineProperty creates a new property, it sets any flag you leave out to false, so the property is read-only, hidden from Object.keys and cannot be redefined. Assigning to a read-only property is ignored in non-strict code; strict code throws.",
+        "body": "Every property has flags: writable, enumerable and configurable; Object.getOwnPropertyDescriptor shows them. Plain assignment makes all three true. Object.defineProperty sets any flag you leave out to false on a new property: it is read-only, hidden from Object.keys and cannot be redefined. Assigning to a read-only property is ignored in non-strict code; strict code throws.",
         "code": [
           "const cup = { ml: 250 };",
           "Object.defineProperty(cup, \"tag\", {",
@@ -193,7 +185,7 @@
       "title": "Well-known symbols",
       "conceptCard": {
         "title": "Symbols the language looks up",
-        "body": "Well-known symbols are built-in keys that the language looks up on your objects. Symbol.iterator feeds spread and for-of, Symbol.toStringTag changes the tag in the default text, and Symbol.hasInstance customizes instanceof. Define a method under the symbol to hook in.",
+        "body": "Well-known symbols are built-in keys that the language looks up on your objects. Symbol.iterator feeds spread and for-of, Symbol.toStringTag changes the tag in the default text, and Symbol.hasInstance customizes instanceof. Symbol.isConcatSpreadable set to true makes concat add an array-like's items. Define a method or value under the symbol to hook in.",
         "code": [
           "const walk = {",
           "  [Symbol.toStringTag]: \"Walk\",",
@@ -299,13 +291,13 @@
         {
           "text": "A proxy copies the target, so writing to the proxy leaves the target unchanged",
           "correct": false,
-          "feedback": "You thought writing to a proxy changes a copy of the target. A proxy wraps its target instead of copying it, so a write with an empty handler lands on the original.",
+          "feedback": "You thought writing to a proxy changes a copy of the target. Check what raw.sold prints: is it still the 1 it started with?",
           "misconception": "proxy-copies-target"
         },
         {
           "text": "A proxy with an empty handler is the same object as its target",
           "correct": false,
-          "feedback": "You thought a proxy with an empty handler is the same object as its target. The proxy is a new object that wraps the target, so comparing it with the target using === does not match.",
+          "feedback": "You thought a proxy with an empty handler is the same object as its target. Ask what new Proxy returns: the target itself, or a new object?",
           "misconception": "proxy-is-target"
         }
       ],
@@ -326,7 +318,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.proxy-traps.fix-01",
@@ -355,7 +347,7 @@
         {
           "text": "get: (t, k, p) => p[k] || 0,",
           "correct": false,
-          "feedback": "p is the proxy, so this read calls the trap again, and the loop never ends. The operator is not the problem.",
+          "feedback": "You changed the operator, but line 3 still reads from the same object as before, so the crash remains.",
           "misconception": "trap-lookup-target-confusion"
         },
         {
@@ -383,7 +375,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.proxy-traps.write-01",
@@ -563,52 +555,56 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 4,
-      "prompt": "A library record has a symbol key and two string keys. What does this code print?",
+      "prompt": "A bin counter is wrapped in a proxy whose set trap forwards the write with Reflect. What does this code print?",
       "code": [
-        "const tag = Symbol(\"id\");",
-        "const book = { title: \"Dune\" };",
-        "book[tag] = 7;",
-        "book.year = 1965;",
-        "console.log(Reflect.ownKeys(book));",
-        "console.log(Object.keys(book));"
+        "const bin = { n: 1 };",
+        "const spy = new Proxy(bin, {",
+        "  set(t, k, v) {",
+        "    return Reflect.set(t, k, v * 2);",
+        "  },",
+        "});",
+        "spy.n = 5;",
+        "console.log(bin.n);",
+        "const ok = Reflect.set(bin, \"n\", 7);",
+        "console.log(ok);"
       ],
       "options": [
         {
-          "text": "['title', 'year', Symbol(id)]\n['title', 'year']",
+          "text": "10\ntrue",
           "correct": true,
-          "feedback": "Right. ownKeys lists every own key: strings first, then symbols. Object.keys lists only the string keys."
+          "feedback": "Right. The trap forwards the doubled value, so bin.n becomes 10, and a direct Reflect.set reports success with a boolean."
         },
         {
-          "text": "['title', 'year']\n['title', 'year']",
+          "text": "5\ntrue",
           "correct": false,
-          "feedback": "You thought Reflect.ownKeys skips the symbol key, as Object.keys does. ownKeys lists every own key, symbols as well as strings.",
-          "misconception": "reflect-ownkeys-like-keys"
+          "feedback": "You thought the trap stores the value unchanged. Look at the third argument of Reflect.set on line 4: it is not v.",
+          "misconception": "reflect-fits-any-trap"
         },
         {
-          "text": "[Symbol(id), 'title', 'year']\n['title', 'year']",
+          "text": "10\n7",
           "correct": false,
-          "feedback": "You thought the symbol comes first because it was added before year. Own-key order is not just the order of creation; the kind of key decides part of it.",
-          "misconception": "symbols-listed-first"
+          "feedback": "You thought Reflect.set returns the value it assigned. The card says what Reflect.set gives back.",
+          "misconception": "reflect-set-returns-value"
         }
       ],
       "solution": {
-        "expectedOutput": "['title', 'year', Symbol(id)]\n['title', 'year']"
+        "expectedOutput": "10\ntrue"
       },
-      "explanation": "Reflect.ownKeys returns all own keys, string keys first in creation order, then symbol keys. Object.keys keeps only the enumerable string keys, so the symbol is missing from the second line.",
+      "explanation": "The set trap forwards through Reflect.set with v * 2, so writing 5 stores 10 in bin. The direct Reflect.set on line 9 writes 7 and returns true, the boolean that reports success.",
       "hints": [
-        "Compare what the two calls on lines 5 and 6 list.",
-        "Reflect.ownKeys and Object.keys do not always list the same kinds of key.",
-        "Own keys come in a fixed order by kind, not by the time they were added."
+        "Look at what the set trap passes as the third argument to Reflect.set.",
+        "Reflect.set does the default write on the target and returns a boolean.",
+        "Line 7 writes through the proxy; line 9 calls Reflect.set on bin directly."
       ],
       "reference": {
-        "title": "Reflect.ownKeys()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/ownKeys",
+        "title": "Reflect.set()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/set",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:SENIOR:29"
       ]
@@ -880,7 +876,7 @@
         {
           "text": "A property created by plain assignment has all three flags set to false",
           "correct": false,
-          "feedback": "You thought assigned properties start with every flag false. Creating a property by assignment sets its flags the open way, unlike defineProperty.",
+          "feedback": "You thought assignment creates a locked property. Think about what you already do with such properties: reassign them, list them and delete them.",
           "misconception": "assigned-properties-lack-flags"
         },
         {
@@ -907,7 +903,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.property-descriptors.fix-01",
@@ -1253,7 +1249,7 @@
       "hints": [
         "Look at how line 2 names the method.",
         "instanceof looks up one well-known symbol, as a static member.",
-        "The method keeps its parameter and static; only its name changes."
+        "Line 2 is the only line to change; look at the part before the parenthesis."
       ],
       "reference": {
         "title": "Symbol.hasInstance",
@@ -1263,7 +1259,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.fill-01",

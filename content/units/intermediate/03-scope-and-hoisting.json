@@ -69,10 +69,6 @@
       "description": "Believes a variable that is out of scope still exists and reads as undefined."
     },
     {
-      "id": "value-before-line-runs",
-      "description": "Reads the value a variable had before the traced line ran instead of after it."
-    },
-    {
       "id": "declaration-not-hoisted",
       "description": "Believes a declaration does not exist until the line that writes it has run."
     },
@@ -91,10 +87,6 @@
     {
       "id": "tdz-depends-on-position",
       "description": "Believes code written above a let declaration can never read it, even if it runs later."
-    },
-    {
-      "id": "initial-value-kept-after-reassign",
-      "description": "Believes a let variable keeps its first value after it is assigned a new one."
     }
   ],
   "sources": [
@@ -474,7 +466,7 @@
       "hints": [
         "Look at the blank on line 5 and at what line 8 prints.",
         "Writing let or const creates a new variable; leaving it out reuses an existing one.",
-        "The value must reach the variable declared on line 1."
+        "Check which chips would create a new variable inside the if block."
       ],
       "reference": {
         "title": "let",
@@ -484,7 +476,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.scope-and-hoisting.block-scope.fix-01",
@@ -714,7 +706,7 @@
       "hints": [
         "Check where label is declared and where it is read, for each call.",
         "var is scoped to the function. Each call gets its own copy.",
-        "The first call assigns label; the second call skips the if."
+        "Trace each call separately, and ask what label holds when line 5 runs in each."
       ],
       "reference": {
         "title": "var",
@@ -724,7 +716,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.concept-01",
@@ -875,7 +867,7 @@
       "hints": [
         "The function body sits between the header and the closing line.",
         "Inside pickLabel, assign label before you return it.",
-        "The line that prints the result comes after the function is closed."
+        "The return line reads label, so it comes after the line that assigns it."
       ],
       "reference": {
         "title": "var",
@@ -885,7 +877,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.fix-01",
@@ -930,7 +922,7 @@
       "hints": [
         "Line 6 reads width. Where is width visible?",
         "A var inside a function cannot be read outside it. The function can return a value instead.",
-        "Print the variable that already holds the returned value."
+        "Line 6 needs a name that is visible outside measure."
       ],
       "reference": {
         "title": "var",
@@ -940,7 +932,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.write-01",
@@ -1058,9 +1050,9 @@
           "feedback": "Right. The declaration is ready from the first line, but closing holds undefined until line 6 has run."
         },
         {
-          "text": "Uncaught TypeError",
+          "text": "Uncaught ReferenceError",
           "correct": false,
-          "feedback": "You thought a function declaration is not ready until its line is reached. A function declaration is ready before any line runs.",
+          "feedback": "You thought a function declaration is not ready until its line is reached, so line 1 fails with an unknown name. A function declaration is set up before any line runs.",
           "misconception": "declaration-not-hoisted"
         },
         {
@@ -1087,7 +1079,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6,
+      "version": 7,
       "legacyKeys": [
         "exercise:JUNIOR:20"
       ]
@@ -1196,7 +1188,7 @@
       "hints": [
         "Which variable called taken does line 3 use?",
         "Hoisting makes a var exist from the start of its function, holding undefined.",
-        "Add 1 to undefined and read the result."
+        "Line 4 has not run when line 3 runs: ask what the inner taken holds then."
       ],
       "reference": {
         "title": "Hoisting",
@@ -1205,7 +1197,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.scope-and-hoisting.hoisting.fill-01",
@@ -1251,7 +1243,7 @@
       "hints": [
         "Line 1 reads boxes before line 2 runs.",
         "Only one kind of declaration can be read early without an error.",
-        "The early read must give undefined, not an error."
+        "Compare what each of the three keywords does when read before its line."
       ],
       "reference": {
         "title": "var",
@@ -1261,7 +1253,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.hoisting.fix-01",
@@ -1303,7 +1295,7 @@
       "hints": [
         "Line 2 uses fare before line 3 creates it.",
         "Some declarations can be used before their line, others cannot.",
-        "Declare fare in the form whose body is hoisted."
+        "Look at which declaration form the card says is ready from the first line."
       ],
       "reference": {
         "title": "function declaration",
@@ -1313,7 +1305,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.scope-and-hoisting.hoisting.write-01",
@@ -1384,7 +1376,7 @@
       "hints": [
         "The return line runs before the helper line. Which declaration form is ready that early?",
         "Function declarations are hoisted with their bodies.",
-        "Declare decorate with the function keyword and make it use toUpperCase."
+        "Only one declaration form may sit below the line that calls it; the helper must also change the case."
       ],
       "reference": {
         "title": "function declaration",
@@ -1393,7 +1385,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.predict-01",
@@ -1483,7 +1475,7 @@
         {
           "text": "peek gives NaN, because let is hoisted without a value.",
           "correct": false,
-          "feedback": "You thought a let is hoisted with an undefined value, as a var is. A let has no such state: a read before its line is an error, and a read after it sees the value.",
+          "feedback": "You read cap as undefined because peek is written above line 2, the way a var would. A let has no undefined state: until its line has run, any read of it is an error.",
           "misconception": "tdz-gives-undefined"
         }
       ],
@@ -1504,7 +1496,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.trace-01",
@@ -1534,7 +1526,7 @@
         {
           "text": "0",
           "correct": false,
-          "feedback": "This treats the dead zone as a matter of where code is written: bill sits above the let line. The dead zone is about when a read runs, compared with when the let line has run.",
+          "feedback": "You expected the read inside bill to fail because bill is written above the let line, so total stays 0. The dead zone is about when a read runs, not where it is written.",
           "misconception": "tdz-depends-on-position"
         },
         {
@@ -1565,7 +1557,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.parsons-01",
@@ -1652,7 +1644,7 @@
       "hints": [
         "Line 3 declares a score while also reading score.",
         "The new variable cannot be read until its declaration has finished.",
-        "The loop must change the score from line 1, not make its own."
+        "Decide whether line 3 should create a score or reuse the one from line 1."
       ],
       "reference": {
         "title": "ReferenceError: cannot access before initialization",
@@ -1662,7 +1654,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.write-01",

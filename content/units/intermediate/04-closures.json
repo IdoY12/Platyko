@@ -263,7 +263,7 @@
           "misconception": "closure-copies-value"
         },
         {
-          "text": "stock undefined",
+          "text": "Uncaught ReferenceError",
           "correct": false,
           "feedback": "report can read stock because stock is declared outside it. A function may use variables from the code around it.",
           "misconception": "outer-variable-invisible"
@@ -286,7 +286,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-captures-variable.concept-01",
@@ -313,7 +313,7 @@
           "feedback": "Right. The returned function keeps access to sign, so back() prints \"to Elm\"."
         },
         {
-          "text": "sign is removed when marker returns, so back() prints undefined.",
+          "text": "sign is removed when marker returns, so back() throws a ReferenceError.",
           "correct": false,
           "feedback": "A variable stays alive as long as a function that uses it exists. back keeps sign available.",
           "misconception": "variables-die-on-return"
@@ -342,7 +342,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-captures-variable.trace-01",
@@ -457,7 +457,7 @@
       "hints": [
         "Look at what the inner function needs to add in front.",
         "A function can use the parameters of the function that created it.",
-        "The remembered text came in as the argument of stamp."
+        "Two of the chips are names of parameters; only one belongs to stamp."
       ],
       "reference": {
         "title": "Closures",
@@ -467,7 +467,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-captures-variable.fix-01",
@@ -511,7 +511,7 @@
       "hints": [
         "Look at which variable line 3 subtracts.",
         "A copy made earlier does not follow later changes.",
-        "Read the original variable inside the function."
+        "Line 3 should depend on a variable that line 4 changes, not on a value stored earlier."
       ],
       "reference": {
         "title": "Closures",
@@ -521,7 +521,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.closures.closure-captures-variable.write-01",
@@ -1090,7 +1090,7 @@
         {
           "text": "30 30",
           "correct": false,
-          "feedback": "The last pass used 3, but the loop adds 1 once more and stops when day is 4. The functions read that 4.",
+          "feedback": "You took the last value the body saw. The loop ends only after day++ has run once more, so the functions read a later value.",
           "misconception": "loop-stops-at-last-pass"
         }
       ],
@@ -1111,7 +1111,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "duel:5"
       ]
@@ -1202,13 +1202,13 @@
         {
           "text": "6",
           "correct": false,
-          "feedback": "That uses 3, the last value the body saw. The loop stops only after k becomes 4.",
+          "feedback": "You took the last value the body saw. The loop ends only after one more k++, and the function reads k when it is called.",
           "misconception": "loop-stops-at-last-pass"
         },
         {
           "text": "2",
           "correct": false,
-          "feedback": "That would be the first function keeping k as 1. All functions share one k, which is 4 by now.",
+          "feedback": "You gave the first function its own k. A var loop has a single k, and the function reads it when it is called.",
           "misconception": "loop-var-one-per-iteration"
         }
       ],
@@ -1233,7 +1233,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-in-loops.fill-01",
@@ -1288,7 +1288,7 @@
       "hints": [
         "Look at what show needs to receive on each pass.",
         "A function parameter is a new variable for each call.",
-        "Pass the loop variable itself."
+        "Compare what each chip hands to show on the first and on the last pass."
       ],
       "reference": {
         "title": "Closures",
@@ -1298,7 +1298,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-in-loops.fix-01",
@@ -1501,7 +1501,7 @@
       "hints": [
         "Read mix(3)(4) as two calls, left to right.",
         "The inner function can use both a and b.",
-        "Multiply the remembered number by the new one."
+        "Find which number double remembers and which number it receives."
       ],
       "reference": {
         "title": "Closures",
@@ -1511,7 +1511,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:26"
       ]
@@ -1662,7 +1662,7 @@
       "hints": [
         "Find the line that uses no other name.",
         "Each line needs a name that an earlier line creates.",
-        "The line with console.log goes last."
+        "Of the two lines that call triple, one uses the result of the other."
       ],
       "reference": {
         "title": "Arrow function expressions",
@@ -1672,7 +1672,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-factories.fix-01",
@@ -1716,7 +1716,7 @@
       "hints": [
         "Look at what withTax holds after line 4.",
         "The first call returns a function; the second call returns a number.",
-        "Call addTax only once and keep the function it returns."
+        "Line 5 calls withTax with 40, so withTax must be a function; check how many calls line 4 makes."
       ],
       "reference": {
         "title": "Closures",
@@ -1726,7 +1726,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-factories.write-01",
@@ -1820,7 +1820,7 @@
       "hints": [
         "Which function should map receive: the factory or what it returns?",
         "Call the factory once with markup, then give the result to map.",
-        "Return costs.map applied to the function that the factory call gives back."
+        "Write the factory first: it takes markup, and what it returns takes one cost."
       ],
       "reference": {
         "title": "Array.prototype.map()",
@@ -1829,7 +1829,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     }
   ]
 }

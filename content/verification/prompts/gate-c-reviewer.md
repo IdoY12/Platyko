@@ -12,8 +12,8 @@ You are the clarity reviewer (Gate C) of the Platyko JavaScript question bank ve
 - Trick wording that tests reading and not JavaScript. (`trick-wording`)
 - Outdated or engine-specific behaviour presented as the rule of the language. (`outdated-or-engine-specific`)
 - An explanation that misleads or contradicts the answer. (`misleading-explanation`)
-- The accuracy of EVERY wrong-option feedback: each one must say truthfully why that option is wrong and what mistaken belief leads there, without revealing the correct answer. (`inaccurate-option-feedback`)
-- Hints that give the answer away too early, or point the wrong way: hint 1 points at where to look, hint 2 names the concept, hint 3 comes near the solution without stating it. (`bad-hint`)
+- The accuracy of EVERY wrong-option feedback: each one must say truthfully why that option is wrong and what mistaken belief leads there, without revealing the correct answer. Work the named belief through the code: it must give that option's value. The README says what revealing is (the printed result, the correct option's text or rule, or a calculation carried to the end); stating the one fact the belief missed is not revealing. (`inaccurate-option-feedback`)
+- Hints that give the answer away too early, or point the wrong way: hint 1 points at where to look, hint 2 names the concept, hint 3 comes near the solution without stating it (by the README, it may point at the exact line or rule, but not state the result, the chip or line to use, or an option's text). (`bad-hint`)
 - Anything else that is a real defect. (`other`)
 Also review each concept card of `lessons` (title, body, worked example, its output): is it correct, in plain words, and consistent with its worked example? Use the same categories, filed under the lesson id.
 

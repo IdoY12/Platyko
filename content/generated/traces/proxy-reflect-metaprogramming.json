@@ -1180,16 +1180,20 @@
   },
   "exp.proxy-reflect-metaprogramming.reflect-api.predict-01": {
    "code": [
-    "const tag = Symbol(\"id\");",
-    "const book = { title: \"Dune\" };",
-    "book[tag] = 7;",
-    "book.year = 1965;",
-    "console.log(Reflect.ownKeys(book));",
-    "console.log(Object.keys(book));"
+    "const bin = { n: 1 };",
+    "const spy = new Proxy(bin, {",
+    "  set(t, k, v) {",
+    "    return Reflect.set(t, k, v * 2);",
+    "  },",
+    "});",
+    "spy.n = 5;",
+    "console.log(bin.n);",
+    "const ok = Reflect.set(bin, \"n\", 7);",
+    "console.log(ok);"
    ],
    "output": [
-    "['title', 'year', Symbol(id)]",
-    "['title', 'year']"
+    "10",
+    "true"
    ],
    "steps": [
     {
@@ -1206,9 +1210,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "tag",
+       "name": "bin",
        "scope": "global",
-       "value": "Symbol(id)"
+       "value": "{n: 1}"
       }
      ],
      "outputCount": 0,
@@ -1219,17 +1223,17 @@
      "microtasks": []
     },
     {
-     "line": 3,
+     "line": 7,
      "variables": [
       {
-       "name": "tag",
+       "name": "bin",
        "scope": "global",
-       "value": "Symbol(id)"
+       "value": "{n: 1}"
       },
       {
-       "name": "book",
+       "name": "spy",
        "scope": "global",
-       "value": "{title: 'Dune'}"
+       "value": "Proxy"
       }
      ],
      "outputCount": 0,
@@ -1243,14 +1247,51 @@
      "line": 4,
      "variables": [
       {
-       "name": "tag",
+       "name": "bin",
        "scope": "global",
-       "value": "Symbol(id)"
+       "value": "{n: 1}"
       },
       {
-       "name": "book",
+       "name": "spy",
        "scope": "global",
-       "value": "{title: 'Dune', [Symbol(id)]: 7}"
+       "value": "Proxy"
+      },
+      {
+       "name": "t",
+       "scope": "set",
+       "value": "{n: 1}"
+      },
+      {
+       "name": "k",
+       "scope": "set",
+       "value": "'n'"
+      },
+      {
+       "name": "v",
+       "scope": "set",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "set"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "bin",
+       "scope": "global",
+       "value": "{n: 10}"
+      },
+      {
+       "name": "spy",
+       "scope": "global",
+       "value": "Proxy"
       }
      ],
      "outputCount": 0,
@@ -1261,20 +1302,20 @@
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 9,
      "variables": [
       {
-       "name": "tag",
+       "name": "bin",
        "scope": "global",
-       "value": "Symbol(id)"
+       "value": "{n: 10}"
       },
       {
-       "name": "book",
+       "name": "spy",
        "scope": "global",
-       "value": "{title: 'Dune', year: 1965, [Symbol(id)]: 7}"
+       "value": "Proxy"
       }
      ],
-     "outputCount": 0,
+     "outputCount": 1,
      "callStack": [
       "global"
      ],
@@ -1282,17 +1323,22 @@
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 10,
      "variables": [
       {
-       "name": "tag",
+       "name": "bin",
        "scope": "global",
-       "value": "Symbol(id)"
+       "value": "{n: 7}"
       },
       {
-       "name": "book",
+       "name": "spy",
        "scope": "global",
-       "value": "{title: 'Dune', year: 1965, [Symbol(id)]: 7}"
+       "value": "Proxy"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "true"
       }
      ],
      "outputCount": 1,
@@ -1306,14 +1352,19 @@
      "line": 0,
      "variables": [
       {
-       "name": "tag",
+       "name": "bin",
        "scope": "global",
-       "value": "Symbol(id)"
+       "value": "{n: 7}"
       },
       {
-       "name": "book",
+       "name": "spy",
        "scope": "global",
-       "value": "{title: 'Dune', year: 1965, [Symbol(id)]: 7}"
+       "value": "Proxy"
+      },
+      {
+       "name": "ok",
+       "scope": "global",
+       "value": "true"
       }
      ],
      "outputCount": 2,

@@ -324,7 +324,7 @@
         "relational-operators"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What value does battery hold right after line 3 has run?",
       "code": [
         "let battery = 15;",
@@ -374,7 +374,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.conditionals.if-statement.fill-01",
@@ -384,7 +384,7 @@
         "relational-operators"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blank so the program prints hot.",
       "code": [
         "let temp = 31;",
@@ -433,7 +433,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.conditionals.if-statement.parsons-01",
@@ -482,7 +482,7 @@
       "hints": [
         "A variable must exist before the if reads it.",
         "The block opens on the if line and ends at the brace. A false condition skips it.",
-        "Put inside the braces only the print that must not appear in the output."
+        "Ask which print is allowed to be skipped, and which must always run."
       ],
       "reference": {
         "title": "Control flow and error handling",
@@ -492,7 +492,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.conditionals.if-statement.concept-01",
@@ -520,7 +520,7 @@
         {
           "text": "The block runs whatever the condition says, so long prints too.",
           "correct": false,
-          "feedback": "The condition decides whether the block runs; it is not ignored.",
+          "feedback": "You thought the block runs regardless. Work out what 40 > 50 gives, and what a block needs.",
           "misconception": "block-ignores-condition"
         },
         {
@@ -547,7 +547,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.conditionals.else-branches.predict-01",
@@ -668,7 +668,7 @@
         "if-statement"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What value does fee hold right after line 4 has run?",
       "code": [
         "let fee = 5;",
@@ -721,7 +721,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.conditionals.else-branches.fill-01",
@@ -1045,7 +1045,7 @@
         "else-branches"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What value does pace hold right after line 2 has run?",
       "code": [
         "let lap = 1;",
@@ -1094,7 +1094,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.ternary-operator.fill-01",
@@ -1103,7 +1103,7 @@
         "else-branches"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blank so the program prints A.",
       "code": [
         "let stars = 5;",
@@ -1154,7 +1154,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.conditionals.ternary-operator.parsons-01",
@@ -1163,7 +1163,7 @@
         "else-branches"
       ],
       "format": "PARSONS",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Put the lines in order so the program prints hot.",
       "code": [
         "console.log(tag);",
@@ -1192,7 +1192,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.conditionals.ternary-operator.concept-01",
@@ -1218,13 +1218,13 @@
         {
           "text": "A ternary gives back true or false, the result of its condition.",
           "correct": false,
-          "feedback": "You read a ternary as only its condition, giving true or false. Line 4 is the plain condition; line 2 has two values around a colon as well, and tyre is assigned from those.",
+          "feedback": "You read a ternary as its condition alone. Look again at line 2: what follows the condition, and what does tyre hold?",
           "misconception": "ternary-returns-condition"
         },
         {
           "text": "A ternary gives the second value when the condition is true.",
           "correct": false,
-          "feedback": "You thought the value after the colon is used when the condition is true. The ? and : decide which value goes with a true condition and which with a false one, and temp < 0 is true here.",
+          "feedback": "You paired the second value with a true condition. Check which side of the colon holds the value for a true condition.",
           "misconception": "condition-direction-flipped"
         }
       ],
@@ -1235,7 +1235,7 @@
       "hints": [
         "Compare what lines 3 and 4 print.",
         "A ternary turns a condition into one of two values.",
-        "The same condition is true on both lines."
+        "Work out the condition once, then see what each line does with it."
       ],
       "reference": {
         "title": "Conditional (ternary) operator",
@@ -1245,7 +1245,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.conditionals.condition-truthiness.predict-01",
@@ -1537,7 +1537,7 @@
       "hints": [
         "The variable comes first, then the if line.",
         "A falsy condition skips the whole block.",
-        "Put inside the braces only the print that must not appear in the output."
+        "Ask which print is allowed to be skipped, and which must always run."
       ],
       "reference": {
         "title": "if...else",
@@ -1547,7 +1547,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.conditionals.condition-truthiness.write-01",

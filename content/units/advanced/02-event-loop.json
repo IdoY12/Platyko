@@ -261,13 +261,13 @@
         {
           "text": "lens in\nlens out\nlamp\ndone",
           "correct": false,
-          "feedback": "You thought lampOn waits until checkLens has finished. A call made inside a function runs at the moment it is reached, and the caller resumes only after it returns.",
+          "feedback": "You thought lampOn waits until checkLens has finished. Look at where line 6 sits inside checkLens.",
           "misconception": "call-waits-for-caller"
         },
         {
           "text": "lens in\nlens out\ndone\nlamp",
           "correct": false,
-          "feedback": "You thought lampOn is postponed until all the plain code is done. Nothing in this program is delayed: no timer and no promise sits in it, so every call runs as soon as it is reached.",
+          "feedback": "You thought lampOn is postponed until all the plain code is done. Nothing in this program is delayed.",
           "misconception": "call-waits-for-caller"
         }
       ],
@@ -288,7 +288,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.event-loop.call-stack.concept-01",
@@ -318,13 +318,13 @@
         {
           "text": "The callback interrupts the loop once the timer is due, so ding can print before n is 3.",
           "correct": false,
-          "feedback": "You thought a timer callback can cut into code that is running. JavaScript finishes the running code before it starts any callback, however due the timer is.",
+          "feedback": "You thought a due timer interrupts the loop. Ask what must be empty before any callback can start.",
           "misconception": "callback-interrupts-code"
         },
         {
           "text": "A delay of 0 puts the callback ahead of the loop, so ding prints first.",
           "correct": false,
-          "feedback": "You thought a delay of 0 puts the callback ahead of the loop. A zero delay makes the callback wait for the next turn, not jump ahead of code that is running.",
+          "feedback": "You thought a delay of 0 moves the callback ahead of the loop. A delay says how soon the callback is queued, not where it stands in line.",
           "misconception": "deferred-code-runs-now"
         }
       ],
@@ -345,7 +345,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.event-loop.call-stack.fill-01",
@@ -462,7 +462,7 @@
       "hints": [
         "Compare when line 5 runs book with when line 6 reads seats.",
         "Timer callbacks wait for the running code to finish.",
-        "Run book right there, before the line that reads seats."
+        "Line 5 hands book to the queue, but line 6 needs its result sooner."
       ],
       "reference": {
         "title": "Call stack",
@@ -472,7 +472,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.event-loop.call-stack.write-01",
@@ -630,13 +630,13 @@
         {
           "text": "doors open\ncurtain\nseats filled",
           "correct": false,
-          "feedback": "You thought a zero-delay callback runs at once, right where setTimeout is written. setTimeout only schedules it, and the callback has to wait for the plain code that follows.",
+          "feedback": "You thought a zero-delay callback runs right where setTimeout is written. setTimeout only schedules it.",
           "misconception": "deferred-code-runs-now"
         },
         {
           "text": "curtain\ndoors open\nseats filled",
           "correct": false,
-          "feedback": "You thought a small or zero delay lets the timer callback run before the plain lines. A callback never starts while plain code is still running, however short its delay is.",
+          "feedback": "You thought a zero delay lets the timer callback run before the plain lines. Ask what has to be empty before a callback can run.",
           "misconception": "timer-callbacks-run-first"
         }
       ],
@@ -657,7 +657,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6,
+      "version": 7,
       "legacyKeys": [
         "exercise:MID:25"
       ]
@@ -669,7 +669,7 @@
         "call-stack"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "Three breakfast timers are set in one go. Which statement explains the order this program prints?",
       "code": [
         "const say = (t) => console.log(t);",
@@ -686,7 +686,7 @@
         {
           "text": "Timers fire in the order of their lines, so tea prints first.",
           "correct": false,
-          "feedback": "You thought timers fire in the order of their lines. A timer fires according to its delay, so a longer delay set on an earlier line does not go first.",
+          "feedback": "You thought timers fire in the order of their lines. Compare the delays instead of the lines.",
           "misconception": "timer-order-by-code"
         },
         {
@@ -713,7 +713,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.event-loop.macrotask-queue.fill-01",
@@ -780,7 +780,7 @@
         "call-stack"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The woodshop timers should print sand, glue, coat, but coat prints too early. Tap the buggy line and pick the fix.",
       "code": [
         "const say = (t) => console.log(t);",
@@ -825,7 +825,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.event-loop.macrotask-queue.write-01",
@@ -981,7 +981,7 @@
         {
           "text": "paper in\npaper out\ndried\ncut",
           "correct": false,
-          "feedback": "You thought the timer callback runs before the microtask because it was set first. After the plain code, the loop empties one queue completely before it takes anything from the other.",
+          "feedback": "You thought the timer callback runs before the microtask because its line comes first. Ask which queue the loop empties first.",
           "misconception": "micro-after-macro"
         },
         {
@@ -1008,7 +1008,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:SENIOR:11"
       ]
@@ -1041,13 +1041,13 @@
         {
           "text": "The new handler waits for the next task, so horn prints between scan and stamp.",
           "correct": false,
-          "feedback": "You thought a handler added while another handler runs waits for the next task. A promise handler joins the microtask queue, and that queue is emptied in one go, including handlers added meanwhile.",
+          "feedback": "You thought a handler added while another one runs waits for the next task. Ask which queue the handler for stamp joins.",
           "misconception": "new-microtask-waits-for-next-task"
         },
         {
           "text": "Timers always run first, because their line comes first in the program.",
           "correct": false,
-          "feedback": "You thought the timer goes first because its line comes first. Line order does not rank a timer callback against promise handlers; each kind waits in its own queue.",
+          "feedback": "You thought the timer goes first because its line comes first. Ask whether line order ranks a timer callback against a promise handler.",
           "misconception": "micro-after-macro"
         }
       ],
@@ -1068,7 +1068,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.event-loop.microtask-queue.parsons-01",
@@ -1079,7 +1079,7 @@
       ],
       "format": "PARSONS",
       "variant": "ORDER_OUTPUT",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Order the four lines that the tea house program prints, from first to last.",
       "code": [
         "const say = (t) => console.log(t);",
@@ -1106,7 +1106,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:10"
       ]
@@ -1137,13 +1137,13 @@
         {
           "text": "setTimeout(() => say('clean'));",
           "correct": false,
-          "feedback": "A timer without a delay is still a timer task. It waits for the whole microtask queue to empty.",
+          "feedback": "You thought dropping the delay makes the timer run sooner. Ask which queue a timer callback waits in.",
           "misconception": "timer-callbacks-run-first"
         },
         {
           "text": "setTimeout(() => say('clean'), 5);",
           "correct": false,
-          "feedback": "Changing the delay does not move a timer between promise handlers. Every microtask runs before it.",
+          "feedback": "You thought a small delay could place the timer between the two jobs. A delay does not put a timer among promise handlers.",
           "misconception": "delay-compared-wrongly"
         }
       ],
@@ -1165,7 +1165,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.event-loop.microtask-queue.write-01",
@@ -1346,13 +1346,13 @@
         {
           "text": "heat\ncool\nunload",
           "correct": false,
-          "feedback": "You thought the caller waits at the await until fireKiln is done. await pauses only fireKiln; the caller carries on with the next line while fireKiln is paused.",
+          "feedback": "You thought the caller waits at the await until fireKiln is done. Ask who is paused at the await: the caller or fireKiln.",
           "misconception": "deferred-code-runs-now"
         },
         {
           "text": "unload\nheat\ncool",
           "correct": false,
-          "feedback": "You thought calling an async function delays its whole body. An async function starts running at the call and only pauses when it reaches an await.",
+          "feedback": "You thought calling an async function delays its whole body. Ask where an async function starts running.",
           "misconception": "async-body-deferred"
         }
       ],
@@ -1363,7 +1363,7 @@
       "hints": [
         "Find the line where the function pauses.",
         "Code before the first await runs at once. Code after it resumes later.",
-        "The caller moves on to its next line while the function waits."
+        "After line 6 calls fireKiln, which line does the caller run next?"
       ],
       "reference": {
         "title": "await",
@@ -1373,7 +1373,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "adv.event-loop.await-scheduling.concept-01",
@@ -1383,7 +1383,7 @@
         "async-await"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "A function awaits while a timer is waiting. Which statement about the code after await is true?",
       "code": [
         "const say = (t) => console.log(t);",
@@ -1403,13 +1403,13 @@
         {
           "text": "await blocks the whole program until it resumes, so nothing else can run in between.",
           "correct": false,
-          "feedback": "You thought await freezes the whole program until it resumes. await pauses only its own function, and the rest of the program keeps running in the meantime.",
+          "feedback": "You thought await freezes the whole program. Ask what the rest of the program can do while hang waits.",
           "misconception": "await-blocks-program"
         },
         {
           "text": "It resumes as a timer task, so bell prints first because its timer was set first.",
           "correct": false,
-          "feedback": "You thought the code after await resumes as a timer task behind earlier timers. It resumes through the promise machinery, which is not the queue that timer callbacks wait in.",
+          "feedback": "You thought the code after await resumes as a timer task behind the earlier timer. Ask which queue promise-based resumption uses.",
           "misconception": "await-after-timer"
         }
       ],
@@ -1430,7 +1430,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "adv.event-loop.await-scheduling.parsons-01",
@@ -1479,7 +1479,7 @@
         "async-await"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The program should print stamped, then mailed, but it prints them the other way round. Tap the buggy line and pick the fix.",
       "code": [
         "async function stamp() {",
@@ -1528,7 +1528,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.event-loop.await-scheduling.write-01",
