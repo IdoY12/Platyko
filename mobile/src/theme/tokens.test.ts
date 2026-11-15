@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { contrastRatio } from "./contrast";
-import { palette, syntax } from "./tokens";
+import { palette, scene, syntax, wash } from "./tokens";
+
+/** A translucent `rgba(...)` colour laid over an opaque hex background, as the eye sees it. */
+function over(rgba: string, backgroundHex: string): string {
+  const [red, green, blue, alpha] = rgba.replace(/rgba\(|\)/g, "").split(",").map(Number);
+  const base = [0, 2, 4].map((offset) => parseInt(backgroundHex.replace("#", "").slice(offset, offset + 2), 16));
+  return `#${[red, green, blue].map((channel, index) => Math.round(channel * alpha + base[index] * (1 - alpha)).toString(16).padStart(2, "0")).join("")}`;
+}
 
 const MINIMUM_TEXT_CONTRAST = 4.5;
 
@@ -27,6 +34,12 @@ const TEXT_PAIRS: [name: string, foreground: string, background: string][] = [
     ),
   ),
   ...Object.entries(syntax).map(([token, color]): [string, string, string] => [`syntax.${token} on bg.code`, color, palette.bg.code]),
+  // Text on the washes (selected, correct, wrong and glow states), which lie over cards.
+  ...(["primary", "js", "glow", "success", "danger"] as const).flatMap((tone) =>
+    (["primary", "secondary"] as const).map((text): [string, string, string] => [`text.${text} on wash.${tone} over bg.surface`, palette.text[text], over(wash[tone], palette.bg.surface)]),
+  ),
+  ["text.muted on the tab bar", palette.text.muted, over(scene.tabBarGlass, palette.bg.base)],
+  ["brand.primary on the tab bar", palette.brand.primary, over(scene.tabBarGlass, palette.bg.base)],
 ];
 
 describe("design tokens", () => {
