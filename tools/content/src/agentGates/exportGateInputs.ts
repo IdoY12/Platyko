@@ -82,7 +82,7 @@ function clarityInput(unit: UnitFile, items: Item[], runId: string, traces: Unit
   };
 }
 
-/** Gate D: the complete authored items, with the unit's place in the curriculum and what the catalog fixes for it. */
+/** Gate D: the complete authored items and what each lesson teaches, with the unit's place in the curriculum and what the catalog fixes for it. */
 function fitInput(unit: UnitFile, items: Item[], request: GateInputsRequest, catalog: ConceptCatalog | null) {
   const position = Math.max(curriculumPosition(request.curriculum, unit.unit), 0);
   return {
@@ -95,7 +95,8 @@ function fitInput(unit: UnitFile, items: Item[], request: GateInputsRequest, cat
     earlierUnits: request.curriculum.slice(0, position).map((entry) => entry.title),
     concepts: catalog?.[unit.unit] ?? unit.concepts,
     lessonRecipes: { file: README, section: "Lesson recipes" },
-    lessons: unit.lessons.map(({ id, title, itemIds }) => ({ id, title, itemIds })),
+    // The concept card is what a lesson teaches, so "was it taught?" (undeclared-prerequisite) can be judged from it.
+    lessons: unit.lessons.map(({ id, title, itemIds, conceptCard }) => ({ id, title, itemIds, conceptCard: { title: conceptCard.title, body: conceptCard.body } })),
     constructFindings: request.constructFindings.filter((finding) => finding.unit === unit.unit),
     items,
   };

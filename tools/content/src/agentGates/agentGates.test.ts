@@ -101,6 +101,8 @@ describe("gate input export", () => {
     expect(input.earlierUnits).toHaveLength(8);
     expect(input).toMatchObject({ track: "BEGINNER", lessonRecipes: { file: "content/README.md", section: "Lesson recipes" }, constructFindings: [constructFinding] });
     expect(input.concepts.map((concept) => concept.id)).toEqual(unit.concepts.map((concept) => concept.id));
+    // What each lesson teaches, so a reviewer can tell a taught idea from an undeclared one.
+    expect(input.lessons[0]).toMatchObject({ conceptCard: { title: unit.lessons[0].conceptCard.title, body: unit.lessons[0].conceptCard.body } });
   });
 });
 
