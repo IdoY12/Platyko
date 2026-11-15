@@ -2,7 +2,7 @@ import { Canvas, Circle, LinearGradient, Path, RadialGradient, Rect, Skia, vec }
 import { useEffect } from "react";
 import { StyleSheet, useWindowDimensions } from "react-native";
 import { cancelAnimation, Easing, useDerivedValue, useSharedValue, withRepeat, withTiming } from "react-native-reanimated";
-import { palette } from "@/theme/tokens";
+import { palette, scene } from "@/theme/tokens";
 
 type Props = {
   /** The river only moves while its screen is in front. */
@@ -53,12 +53,12 @@ export function AmbientRiver({ active }: Props) {
         <LinearGradient start={vec(0, 0)} end={vec(0, height)} colors={[palette.bg.base, palette.bg.deep]} />
       </Rect>
       <Circle c={cyanPool} r={width * 0.75}>
-        <RadialGradient c={cyanPool} r={width * 0.75} colors={["rgba(33,230,245,0.11)", "rgba(33,230,245,0)"]} />
+        <RadialGradient c={cyanPool} r={width * 0.75} colors={[scene.cyanPool, scene.cyanFade]} />
       </Circle>
       <Circle c={indigoPool} r={width * 0.9}>
-        <RadialGradient c={indigoPool} r={width * 0.9} colors={["rgba(96,104,255,0.16)", "rgba(96,104,255,0)"]} />
+        <RadialGradient c={indigoPool} r={width * 0.9} colors={[scene.indigoPool, scene.indigoFade]} />
       </Circle>
-      <Path path={motes} color="rgba(182,184,222,0.32)" />
+      <Path path={motes} color={scene.mote} />
     </Canvas>
   );
 }

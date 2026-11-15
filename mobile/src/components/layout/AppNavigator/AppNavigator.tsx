@@ -8,13 +8,13 @@ import { logNav } from "@/utils/logger";
 import { useAppSelector } from "@/redux/hooks";
 import { HydrationLoadingScreen } from "@/components/layout/HydrationLoadingScreen/HydrationLoadingScreen";
 import { MainNavigator } from "@/components/layout/MainNavigator/MainNavigator";
-import { colors } from "@/theme/theme";
+import { palette } from "@/theme/tokens";
 
 const navigationRef = createNavigationContainerRef<RootStackParamList>();
 
 const APP_NAV_THEME: Theme = {
   ...DefaultTheme,
-  colors: { ...DefaultTheme.colors, background: colors.background, card: colors.card, text: colors.textPrimary, border: colors.border, primary: colors.accent },
+  colors: { ...DefaultTheme.colors, background: palette.bg.base, card: palette.bg.surface, text: palette.text.primary, border: palette.line.subtle, primary: palette.brand.primary },
 };
 
 /**

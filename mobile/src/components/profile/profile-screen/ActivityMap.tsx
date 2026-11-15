@@ -4,7 +4,7 @@ import { AppText } from "@/components/common/AppText/AppText";
 import { LtrView } from "@/components/common/AppText/LtrView";
 import { Surface } from "@/components/common/Surface/Surface";
 import { t } from "@/i18n/translate";
-import { palette, radii, space } from "@/theme/tokens";
+import { palette, radii, space, wash } from "@/theme/tokens";
 
 const WEEKS = 12;
 const DAYS_PER_WEEK = 7;
@@ -12,8 +12,8 @@ const DAYS_PER_WEEK = 7;
 /** Fill for a day's practice: none, a little, a lesson, more. */
 function cellColour(items: number): string {
   if (items === 0) return palette.bg.raised;
-  if (items < 4) return "rgba(255,138,61,0.35)";
-  if (items < 9) return "rgba(255,138,61,0.65)";
+  if (items < 4) return wash.activityMid;
+  if (items < 9) return wash.activityHigh;
   return palette.brand.primary;
 }
 

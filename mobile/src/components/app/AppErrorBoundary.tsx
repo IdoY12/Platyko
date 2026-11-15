@@ -1,5 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
 import { Pressable, Text, View } from "react-native";
+import { t } from "@/i18n/translate";
 import { logError } from "@/utils/logger";
 import { styles } from "./App.styles";
 
@@ -27,10 +28,10 @@ export class AppErrorBoundary extends Component<{ children: ReactNode }, State> 
     if (this.state.crashed) {
       return (
         <View style={styles.crashScreen}>
-          <Text style={styles.crashTitle}>Something went wrong.</Text>
-          <Text style={styles.crashBody}>Platyko hit an unexpected error. Your progress is saved on this device.</Text>
-          <Pressable style={styles.crashButton} onPress={this.restart} accessibilityRole="button" accessibilityLabel="Restart app">
-            <Text style={styles.crashButtonLabel}>Restart</Text>
+          <Text style={styles.crashTitle}>{t("app.crashTitle")}</Text>
+          <Text style={styles.crashBody}>{t("app.crashBody")}</Text>
+          <Pressable style={styles.crashButton} onPress={this.restart} accessibilityRole="button" accessibilityLabel={t("app.crashRestartLabel")}>
+            <Text style={styles.crashButtonLabel}>{t("app.crashRestart")}</Text>
           </Pressable>
         </View>
       );

@@ -1,5 +1,6 @@
 import { Alert } from "react-native";
 import type { AuthSessionResult } from "expo-auth-session";
+import { t } from "@/i18n/translate";
 import { logAuth, logError } from "@/utils/logger";
 
 /**
@@ -10,7 +11,7 @@ export function handleGoogleAuthResponse(res: AuthSessionResult | null): string 
   if (!res) return null;
   if (res.type === "error") {
     logError("[AUTH]", res.error ?? new Error("google-auth-error"), { mode: "google" });
-    Alert.alert("Google sign-in", "Google sign-in failed. Please try again.");
+    Alert.alert(t("auth.googleTitle"), t("auth.googleFailed"));
     return null;
   }
   if (res.type !== "success") {
@@ -22,7 +23,7 @@ export function handleGoogleAuthResponse(res: AuthSessionResult | null): string 
     res.authentication?.idToken ?? (typeof res.params?.id_token === "string" ? res.params.id_token : undefined);
   if (!id) {
     logError("[AUTH]", new Error("google-no-id-token"), { mode: "google" });
-    Alert.alert("Google sign-in", "Google did not return an identity token. Please try again.");
+    Alert.alert(t("auth.googleTitle"), t("auth.googleNoToken"));
     return null;
   }
   return id;

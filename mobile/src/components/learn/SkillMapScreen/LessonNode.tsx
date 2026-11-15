@@ -25,7 +25,7 @@ const FACE: Record<LessonState, { face: string; lip: string; icon: React.Compone
   available: { face: palette.brand.primary, lip: palette.brand.primaryDeep, icon: "play", iconColour: palette.text.onBright },
   inProgress: { face: palette.brand.primary, lip: palette.brand.primaryDeep, icon: "play", iconColour: palette.text.onBright },
   completed: { face: palette.state.success, lip: palette.state.successDeep, icon: "check-bold", iconColour: palette.text.onBright },
-  mastered: { face: palette.brand.glow, lip: "#0FA3AE", icon: "star", iconColour: palette.text.onBright },
+  mastered: { face: palette.brand.glow, lip: palette.brand.glowDeep, icon: "star", iconColour: palette.text.onBright },
 };
 
 /**

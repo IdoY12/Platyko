@@ -15,7 +15,7 @@ import {
   type SkImage,
 } from "@shopify/react-native-skia";
 import { useDerivedValue, type DerivedValue } from "react-native-reanimated";
-import { palette } from "@/theme/tokens";
+import { palette, scene } from "@/theme/tokens";
 import {
   ART_GEOMETRY,
   ART_VIEW,
@@ -41,8 +41,6 @@ type Props = { frame: DerivedValue<MascotFrame>; width: number };
 const PARALLAX = { head: 10, eyes: 8, brows: 6, bill: 16, tuft: -5, body: -3 } as const;
 const PITCH_RATIO = 0.75;
 
-const LID_COLOUR = "#3B1C0B";
-const MOUTH_COLOUR = "#4A1A10";
 const HALO_CENTER = vec(632, 650);
 const HALO_RADIUS = 470;
 
@@ -236,7 +234,7 @@ export function MascotCanvas({ frame, width }: Props) {
     return (0.34 + warmth * 0.4 + glow * 0.3) * (1 - Math.max(burrow, water));
   });
   const haloColors = useDerivedValue(() =>
-    frame.get().glow > 0.5 ? [palette.brand.glow, "rgba(33,230,245,0)"] : [palette.brand.primary, "rgba(255,138,61,0)"],
+    frame.get().glow > 0.5 ? [palette.brand.glow, scene.cyanFade] : [palette.brand.primary, scene.orangeFade],
   );
 
   if (!images) return null;
@@ -284,10 +282,10 @@ export function MascotCanvas({ frame, width }: Props) {
                   <Layer name="eyelidRight" image={images.eyelidRight} />
                 </Group>
                 <Group clip={leftLidLineArea}>
-                  <Path path={leftLidLines} color={LID_COLOUR} style="stroke" strokeWidth={5} strokeCap="round" />
+                  <Path path={leftLidLines} color={scene.eyelid} style="stroke" strokeWidth={5} strokeCap="round" />
                 </Group>
                 <Group clip={rightLidLineArea}>
-                  <Path path={rightLidLines} color={LID_COLOUR} style="stroke" strokeWidth={5} strokeCap="round" />
+                  <Path path={rightLidLines} color={scene.eyelid} style="stroke" strokeWidth={5} strokeCap="round" />
                 </Group>
               </Group>
               <Group transform={leftBrowTransform} origin={browCenter("browLeft")}>
@@ -300,7 +298,7 @@ export function MascotCanvas({ frame, width }: Props) {
                 <Group transform={lowerBillTransform}>
                   <Layer name="billLower" image={images.billLower} />
                 </Group>
-                <Path path={mouthCrease} color={MOUTH_COLOUR} style="stroke" strokeWidth={mouthWidth} opacity={mouthOpacity} transform={mouthTransform} strokeCap="round" />
+                <Path path={mouthCrease} color={scene.mouth} style="stroke" strokeWidth={mouthWidth} opacity={mouthOpacity} transform={mouthTransform} strokeCap="round" />
                 <Layer name="billUpper" image={images.billUpper} />
               </Group>
             </Group>

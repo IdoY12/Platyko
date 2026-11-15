@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { learnerProgressOf } from "@/redux/learning-selectors";
 import { refreshContentMap } from "@/redux/learning-sync";
 import { t } from "@/i18n/translate";
-import { palette, SCREEN_MARGIN, space, TAB_BAR_CLEARANCE } from "@/theme/tokens";
+import { palette, scene, SCREEN_MARGIN, space, TAB_BAR_CLEARANCE } from "@/theme/tokens";
 import type { RootNavigation } from "@/types/rootNavigation.types";
 import { JumpTestCard } from "./JumpTestCard";
 import { LessonNode } from "./LessonNode";
@@ -41,8 +41,8 @@ function UnitPath({ width, count }: { width: number; count: number }) {
   }, "");
   return (
     <Svg width={width} height={count * ROW_HEIGHT} style={StyleSheet.absoluteFill} pointerEvents="none">
-      <Path d={path} stroke="rgba(33,230,245,0.22)" strokeWidth={14} fill="none" strokeLinecap="round" />
-      <Path d={path} stroke="rgba(182,184,222,0.35)" strokeWidth={3} strokeDasharray="2 12" fill="none" strokeLinecap="round" />
+      <Path d={path} stroke={scene.riverPath} strokeWidth={14} fill="none" strokeLinecap="round" />
+      <Path d={path} stroke={scene.riverDash} strokeWidth={3} strokeDasharray="2 12" fill="none" strokeLinecap="round" />
     </Svg>
   );
 }
@@ -157,7 +157,7 @@ export function SkillMapScreen() {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: palette.bg.base },
   middleLayer: { ...StyleSheet.absoluteFillObject },
-  bank: { position: "absolute", width: 180, height: 260, borderRadius: 130, backgroundColor: "rgba(27,30,85,0.55)" },
+  bank: { position: "absolute", width: 180, height: 260, borderRadius: 130, backgroundColor: scene.riverBank },
   content: { paddingHorizontal: SCREEN_MARGIN, paddingBottom: TAB_BAR_CLEARANCE, gap: space.xl },
   track: { gap: space.lg },
   titleRow: { flexDirection: "row", alignItems: "center", gap: space.md },

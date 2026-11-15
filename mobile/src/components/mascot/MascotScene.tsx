@@ -1,6 +1,6 @@
 import { Group, LinearGradient, Oval, Path, Skia, vec } from "@shopify/react-native-skia";
 import { useDerivedValue, type DerivedValue } from "react-native-reanimated";
-import { palette } from "@/theme/tokens";
+import { palette, scene } from "@/theme/tokens";
 import { ART_VIEW, BILL_VOLUME, LEFT_CHEEK, RIGHT_CHEEK } from "./mascotArt";
 import type { MascotFrame } from "./useMascotRig";
 
@@ -161,17 +161,17 @@ export function MascotSceneFront({ frame }: SceneProps) {
           <LinearGradient
             start={vec(0, WATER_LINE_Y - 20)}
             end={vec(0, VIEW_BOTTOM)}
-            colors={["rgba(33,230,245,0.3)", "rgba(27,60,120,0.5)", "rgba(8,9,48,0.9)"]}
+            colors={[scene.waterTop, scene.waterMiddle, scene.waterBottom]}
             positions={[0, 0.5, 1]}
           />
         </Path>
       </Group>
-      <Path path={bubbles} color="rgba(159,216,255,0.75)" style="stroke" strokeWidth={3} />
+      <Path path={bubbles} color={scene.bubble} style="stroke" strokeWidth={3} />
       <Group opacity={burrowOpacity} transform={burrowTransform}>
         <Path path={moundPath}>
-          <LinearGradient start={vec(0, BURROW_EDGE_Y - 34)} end={vec(0, VIEW_BOTTOM)} colors={["#2E327F", palette.bg.surface]} />
+          <LinearGradient start={vec(0, BURROW_EDGE_Y - 34)} end={vec(0, VIEW_BOTTOM)} colors={[scene.burrowTop, palette.bg.surface]} />
         </Path>
-        <Path path={moundRimPath} color="rgba(182,184,222,0.4)" style="stroke" strokeWidth={4} />
+        <Path path={moundRimPath} color={scene.moundRim} style="stroke" strokeWidth={4} />
       </Group>
       <Path path={sparkles} color={sparkleColor} />
       <Path path={thoughts} color={palette.text.secondary} />

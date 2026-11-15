@@ -8,7 +8,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { Surface } from "@/components/common/Surface/Surface";
 import { t } from "@/i18n/translate";
-import { duration, palette, radii, space, syntax } from "@/theme/tokens";
+import { duration, palette, radii, space, syntax, wash } from "@/theme/tokens";
 import { LtrView } from "@/components/common/AppText/LtrView";
 
 type Props = { trace: ItemTrace };
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   player: { gap: space.lg },
   panel: { gap: space.sm, padding: space.lg },
   variable: { flexDirection: "row", alignItems: "center", gap: space.md, paddingHorizontal: space.sm, paddingVertical: space.xs, borderRadius: radii.chip },
-  changedVariable: { backgroundColor: "rgba(247,223,30,0.12)" },
+  changedVariable: { backgroundColor: wash.js },
   variableName: { minWidth: 80 },
   variableValue: { flex: 1 },
   eventLoop: { flexDirection: "row", gap: space.sm },

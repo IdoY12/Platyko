@@ -49,7 +49,17 @@ module.exports = tseslint.config(
       // Async handlers on props like onPress are the React Native idiom; RN
       // ignores the returned promise and each handler manages its own errors.
       "@typescript-eslint/no-misused-promises": ["error", { checksVoidReturn: { attributes: false } }],
+      // PRD 20.3 and 20.7: every UI string comes from the locale files, every colour from the tokens.
+      "no-restricted-syntax": [
+        "error",
+        { selector: "JSXText[value=/[A-Za-z\\u0590-\\u05FF]/]", message: "Write UI text through t() and the locale files." },
+        { selector: "Literal[value=/^(#[0-9A-Fa-f]{3,8}|rgba?\\()/]", message: "Take colours from mobile/src/theme/tokens.ts." },
+      ],
     },
+  },
+  {
+    files: ["mobile/src/theme/tokens.ts", "mobile/src/**/*.test.ts", "mobile/src/**/*.test.tsx"],
+    rules: { "no-restricted-syntax": "off" },
   },
   {
     // React Navigation's documented global-augmentation idiom requires a

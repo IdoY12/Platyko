@@ -20,6 +20,8 @@ export const palette = {
     js: "#F7DF1E",
     jsDeep: "#B8A30B",
     glow: "#21E6F5",
+    /** The dark lip under a cyan (mastered) node. */
+    glowDeep: "#0FA3AE",
   },
   state: {
     success: "#4ADE80",
@@ -48,6 +50,35 @@ export const wash = {
   success: "rgba(74,222,128,0.16)",
   danger: "rgba(255,77,109,0.18)",
   scrim: "rgba(4,5,28,0.72)",
+  /** The activity map's busier days. */
+  activityMid: "rgba(255,138,61,0.35)",
+  activityHigh: "rgba(255,138,61,0.65)",
+} as const;
+
+/**
+ * Colours of drawn scenery (the river, the burrow, the tab bar's glass) and of the mascot artwork
+ * itself (sampled from the logo). They are not text or control colours, so they sit apart from the
+ * palette; transparent ends of gradients fade the colour they belong to.
+ */
+export const scene = {
+  riverPath: "rgba(33,230,245,0.22)",
+  riverDash: "rgba(182,184,222,0.35)",
+  riverBank: "rgba(27,30,85,0.55)",
+  tabBarGlass: "rgba(27,30,85,0.94)",
+  cyanPool: "rgba(33,230,245,0.11)",
+  cyanFade: "rgba(33,230,245,0)",
+  orangeFade: "rgba(255,138,61,0)",
+  indigoPool: "rgba(96,104,255,0.16)",
+  indigoFade: "rgba(96,104,255,0)",
+  mote: "rgba(182,184,222,0.32)",
+  waterTop: "rgba(33,230,245,0.3)",
+  waterMiddle: "rgba(27,60,120,0.5)",
+  waterBottom: "rgba(8,9,48,0.9)",
+  bubble: "rgba(159,216,255,0.75)",
+  burrowTop: "#2E327F",
+  moundRim: "rgba(182,184,222,0.4)",
+  eyelid: "#3B1C0B",
+  mouth: "#4A1A10",
 } as const;
 
 /** Syntax colours for the code view; each one is checked against `bg.code` for contrast. */

@@ -6,7 +6,7 @@ import { AppText } from "@/components/common/AppText/AppText";
 import { useAppSelector } from "@/redux/hooks";
 import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { haptic } from "@/theme/haptics";
-import { MIN_TOUCH_TARGET, palette, radii, space } from "@/theme/tokens";
+import { MIN_TOUCH_TARGET, palette, radii, scene, space, wash } from "@/theme/tokens";
 
 type TabIconName = React.ComponentProps<typeof MaterialCommunityIcons>["name"];
 
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   bar: {
     flexDirection: "row",
     borderRadius: radii.card,
-    backgroundColor: "rgba(27,30,85,0.94)",
+    backgroundColor: scene.tabBarGlass,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: palette.line.strong,
     paddingVertical: space.sm,
@@ -81,5 +81,5 @@ const styles = StyleSheet.create({
   },
   tab: { flex: 1, minHeight: MIN_TOUCH_TARGET, alignItems: "center", justifyContent: "center", gap: 2 },
   iconPill: { paddingHorizontal: space.lg, paddingVertical: 2, borderRadius: radii.pill },
-  iconPillActive: { backgroundColor: "rgba(255,138,61,0.16)" },
+  iconPillActive: { backgroundColor: wash.primary },
 });
