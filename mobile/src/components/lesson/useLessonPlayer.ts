@@ -84,7 +84,7 @@ export function useLessonPlayer(lessonId: string) {
   const jumpTrack = jumpTestTrack(lessonId);
   /** The day of a daily challenge; null otherwise. */
   const challengeDate = dailyChallengeDate(lessonId);
-  /** A jump test and a daily challenge give one attempt per item and no hints. */
+  /** A jump test and a daily challenge give one attempt per item. */
   const isTest = jumpTrack !== null || challengeDate !== null;
   /** The units and length of a revision session; null otherwise. */
   const revision = useMemo(() => revisionChoice(lessonId), [lessonId]);
