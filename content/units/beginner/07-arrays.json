@@ -78,6 +78,10 @@
     {
       "id": "bound-excludes-last-item",
       "description": "Believes a loop with i < length stops before the last item."
+    },
+    {
+      "id": "start-value-ignored",
+      "description": "Believes a for loop visits every item whatever its start value, as if it began at index 0."
     }
   ],
   "sources": [
@@ -457,7 +461,7 @@
       "hints": [
         "Look at the two numbers in square brackets.",
         "Indexes start at 0, so the first item is not at index 1.",
-        "later takes the item that comes second in the array."
+        "Check which index each of the two items has before you place a chip."
       ],
       "reference": {
         "title": "Property accessors",
@@ -467,7 +471,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "puzzle:14"
       ]
@@ -717,7 +721,7 @@
       "hints": [
         "Stop after line 2 and ignore line 3.",
         "length counts the items; the last index is one less.",
-        "The array has three items, then subtract 1."
+        "Find the length of queue, then apply the subtraction on line 2."
       ],
       "reference": {
         "title": "Array: length",
@@ -726,7 +730,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.arrays.length.fill-01",
@@ -909,7 +913,7 @@
       "hints": [
         "The last item has the highest index.",
         "The highest index is one less than the length.",
-        "Put an expression with arr.length inside the brackets."
+        "Check your expression on an array with one item: it must still return that item."
       ],
       "reference": {
         "title": "Array: length",
@@ -918,7 +922,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:0"
       ]
@@ -1348,7 +1352,7 @@
           "text": "35",
           "correct": false,
           "feedback": "You counted all three laps, as if i started at 0. Line 4 sets the starting value of i, and that decides which laps are added.",
-          "misconception": "one-based-index"
+          "misconception": "start-value-ignored"
         },
         {
           "text": "9",
@@ -1374,7 +1378,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.arrays.iteration.trace-01",
@@ -1426,7 +1430,7 @@
       "hints": [
         "Count how often line 4 has run.",
         "Each pass adds the current item to total.",
-        "Add only the first two items."
+        "Stop after two passes; total holds only what those passes added."
       ],
       "reference": {
         "title": "for...of statement",
@@ -1435,7 +1439,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.arrays.iteration.fill-01",

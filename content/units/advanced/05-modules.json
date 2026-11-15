@@ -94,6 +94,10 @@
     {
       "id": "unready-reads-undefined",
       "description": "Believes a name read too early gives undefined for any declaration, so a call fails differently than it does."
+    },
+    {
+      "id": "function-property-is-getter",
+      "description": "Believes a property that holds a function gives the function's result when it is read."
     }
   ],
   "sources": [
@@ -399,7 +403,7 @@
       "hints": [
         "Look at the name used after trails on the last line.",
         "The returned object lists what the module shares.",
-        "The shared name must match the function declared on line 4."
+        "Compare the name after trails. on line 7 with the names declared inside the module."
       ],
       "reference": {
         "title": "export",
@@ -409,7 +413,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.module-scope.fix-01",
@@ -441,8 +445,8 @@
         {
           "text": "    seen: () => seen,",
           "correct": false,
-          "feedback": "Now gate.seen is a function, so the program prints the function instead of the count.",
-          "misconception": "snapshot-at-creation"
+          "feedback": "You thought a property holding a function gives the count when read. gate.seen is then the function itself, so the program prints the function instead of the count.",
+          "misconception": "function-property-is-getter"
         },
         {
           "text": "    seen: seen + 0,",
@@ -469,7 +473,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.module-scope.write-01",
@@ -592,7 +596,7 @@
       "hints": [
         "Test an empty list and a list shorter than two.",
         "Trim only when the list has grown past two entries.",
-        "After each push, remove the first entry if recent.length is above 2."
+        "Decide when the list has grown too long, and which end to drop from."
       ],
       "reference": {
         "title": "Closures",
@@ -601,7 +605,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.exports-and-imports.predict-01",
@@ -761,7 +765,7 @@
       "hints": [
         "Which line opens the module?",
         "A name has to be declared before a later line can return or read it.",
-        "The closing line of the module comes right after its return."
+        "Lines 2 and 5 open and close the same function; the lines that belong inside come between them."
       ],
       "reference": {
         "title": "import",
@@ -771,7 +775,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.exports-and-imports.fix-01",
@@ -963,7 +967,7 @@
       "hints": [
         "Test an empty request and a name that pkg does not have.",
         "An import only works for names the module really exported.",
-        "Check each name with hasOwnProperty before copying it."
+        "Decide how to ask whether pkg itself holds a name, without counting inherited ones."
       ],
       "reference": {
         "title": "Object.prototype.hasOwnProperty()",
@@ -972,7 +976,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.module-singletons.predict-01",
@@ -1001,9 +1005,9 @@
           "feedback": "Right. The module body ran once. Both names point at the one object it returned."
         },
         {
-          "text": "2 true",
+          "text": "2 false",
           "correct": false,
-          "feedback": "You thought each new name for rota runs the module body again. Ask which lines contain a call.",
+          "feedback": "You thought the body runs once for each part that uses rota, so runs reaches 2 and kitchen and bar get separate objects. Check which lines actually call the function that builds the module.",
           "misconception": "module-reruns-per-import"
         },
         {
@@ -1030,7 +1034,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "adv.modules.module-singletons.concept-01",
@@ -1129,8 +1133,7 @@
         {
           "text": "lamp.press()",
           "correct": false,
-          "feedback": "This stores the number 1, not the module, so porch.press is not a function.",
-          "misconception": "import-makes-copy"
+          "feedback": "This stores the number 1, not the module, so porch.press is not a function."
         },
         {
           "text": "{}",
@@ -1161,7 +1164,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.module-singletons.fix-01",
@@ -1336,7 +1339,7 @@
       "hints": [
         "Test a name that repeats, but not one after the other.",
         "The module cache remembers what has already been evaluated.",
-        "Keep a record of names seen so far and add 1 only for a new one; a name must count as seen only if you recorded it yourself, not because the record type inherits it."
+        "Record counted names in an object, and take care how you test for a key: built-in names such as toString exist on every object."
       ],
       "reference": {
         "title": "Object.prototype.hasOwnProperty()",
@@ -1345,7 +1348,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.dependency-direction.predict-01",
@@ -1502,7 +1505,7 @@
       "hints": [
         "Which line reads another module at the moment it runs?",
         "Dependencies go first. A function that reads later only needs to exist by its call.",
-        "Find the one line that reads another name at once, and place that name's line before it."
+        "Check which lines read another name when they run, and which only when called."
       ],
       "reference": {
         "title": "Hoisting",
@@ -1512,7 +1515,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.modules.dependency-direction.fix-01",
@@ -1695,7 +1698,7 @@
       "hints": [
         "Test a module that is missing from deps and a one-way dependency.",
         "A circular import needs an arrow in both directions.",
-        "Check one direction, return false when it fails, then return the other check."
+        "Both directions must hold: look up each module's list in deps, using an empty list when it is missing."
       ],
       "reference": {
         "title": "JavaScript modules",
@@ -1704,7 +1707,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

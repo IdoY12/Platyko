@@ -78,6 +78,10 @@
     {
       "id": "break-acts-late",
       "description": "Believes break or continue takes effect only after the rest of the pass has run."
+    },
+    {
+      "id": "loop-lands-on-bound",
+      "description": "Believes a loop that counts toward a bound ends with the variable exactly at the bound."
     }
   ],
   "sources": [
@@ -284,9 +288,9 @@
           "feedback": "Right. After 8 the variable becomes 11, which is not below 10."
         },
         {
-          "text": "2\n5\n8\n10",
+          "text": "2\n5\n8\n11",
           "correct": false,
-          "feedback": "You thought the loop also prints the bound 10. k only takes the values 2, then each step of 3 after it, and the condition must hold for a value to print.",
+          "feedback": "You ran one more pass after 8. The condition is tested for 11 before a pass can run, and 11 is not below 10.",
           "misconception": "bound-off-by-one"
         },
         {
@@ -313,7 +317,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.loops.for-loop.trace-01",
@@ -621,7 +625,7 @@
           "text": "3",
           "correct": false,
           "feedback": "You thought n stops at exactly 3 because the condition mentions 3. n changes only by the subtraction, in steps of 4, so it need not land on the bound.",
-          "misconception": "bound-off-by-one"
+          "misconception": "loop-lands-on-bound"
         },
         {
           "text": "-2",
@@ -647,7 +651,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.loops.while-loop.trace-01",
@@ -888,7 +892,7 @@
       "hints": [
         "Try first 2 and last 4, and list the values day takes.",
         "The condition uses <=, so the pass where day equals last still runs.",
-        "Subtract the start from the end, then decide whether both ends are counted."
+        "Test your formula with first equal to last: how many passes run then?"
       ],
       "reference": {
         "title": "while statement",
@@ -897,7 +901,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.loops.loop-accumulator.predict-01",

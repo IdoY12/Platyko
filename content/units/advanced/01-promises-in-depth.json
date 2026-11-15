@@ -44,7 +44,7 @@
     },
     {
       "id": "chain-value-confusion",
-      "description": "Believes a handler that returns nothing, or logs instead of returning, still passes its value on to the next link."
+      "description": "Believes the next link receives a handler's earlier value or the handler's logged value whatever the handler returns, so returning nothing still passes a value on."
     },
     {
       "id": "returned-promise-not-unwrapped",
@@ -93,6 +93,14 @@
     {
       "id": "call-instead-of-pass",
       "description": "Calls resolve, or another function, where a function must be handed over to be called later."
+    },
+    {
+      "id": "resolve-delivers-at-once",
+      "description": "Believes calling resolve hands the value to the handler at once, before the code after the promise runs."
+    },
+    {
+      "id": "returned-promise-value-lost",
+      "description": "Believes the value inside a promise returned from a handler is dropped, so the next link receives undefined."
     }
   ],
   "sources": [
@@ -329,7 +337,7 @@
           "text": "It receives undefined, because the inner promise value is dropped.",
           "correct": false,
           "feedback": "You thought the value inside the returned promise is lost. Check what Promise.resolve(id) holds and which link waits for it.",
-          "misconception": "chain-value-confusion"
+          "misconception": "returned-promise-value-lost"
         }
       ],
       "solution": {
@@ -349,7 +357,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.promises-in-depth.promise-chaining.fill-01",
@@ -462,7 +470,7 @@
       "hints": [
         "Compare what line 3 creates with what the handler returns.",
         "A handler passes on only what it returns, even when it starts another promise.",
-        "Keep the promise and put the keyword that hands it to the chain in front of it."
+        "Line 3 already builds the right value; look at what the handler gives back."
       ],
       "reference": {
         "title": "Promise.prototype.then()",
@@ -471,7 +479,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.promises-in-depth.promise-chaining.write-01",
@@ -677,7 +685,7 @@
       "hints": [
         "Count how many inputs reject and how many fulfill.",
         "any looks for one fulfilled promise and passes on its single value.",
-        "Compare with all, which fails on any rejection and gives a list."
+        "Check which inputs fulfill and how many values the handler can receive."
       ],
       "reference": {
         "title": "Promise.any()",
@@ -687,7 +695,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.promises-in-depth.promise-combinators.parsons-01",
@@ -890,7 +898,7 @@
       "hints": [
         "Each entry has a status you can test.",
         "Filter the entries first, then map them to their values.",
-        "Keep status fulfilled, then take the value property of each remaining entry."
+        "Look at the property that tells a fulfilled entry from a rejected one."
       ],
       "reference": {
         "title": "Promise.allSettled()",
@@ -899,7 +907,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.promises-in-depth.promise-rejection-flow.predict-01",
@@ -1072,7 +1080,7 @@
       "hints": [
         "Look at what happens to the rejection on line 2.",
         "Only one kind of handler reacts to a rejection; the last link must receive the value it returns.",
-        "Line 3 must handle the rejection; line 4 must read what line 3 returns."
+        "Line 3 follows a link that rejected; line 4 follows a link that returned text."
       ],
       "reference": {
         "title": "Promise.prototype.catch()",
@@ -1082,7 +1090,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.promises-in-depth.promise-rejection-flow.fix-01",
@@ -1130,7 +1138,7 @@
       "hints": [
         "Look at which handler is on line 7.",
         "A then handler never runs for a rejected promise; another method handles rejections.",
-        "Replace the method name and keep the function that prints out."
+        "Only the method on line 7 changes; the printing function stays."
       ],
       "reference": {
         "title": "Promise.prototype.catch()",
@@ -1139,7 +1147,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:29"
       ]
@@ -1227,7 +1235,7 @@
       "hints": [
         "Both outcomes must return text.",
         "Use an if on failure.code, and return in each outcome.",
-        "Compare with the exact text busy and return the other text when it differs."
+        "Both outcomes build text from failure.item; only the ending differs."
       ],
       "reference": {
         "title": "Promise.prototype.catch()",
@@ -1236,7 +1244,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.promises-in-depth.promise-construction.predict-01",
@@ -1271,8 +1279,8 @@
         {
           "text": "packing\nparcel\nshipping",
           "correct": false,
-          "feedback": "You thought the then handler runs the moment it is attached. A handler waits until the current code has finished, even for a fulfilled promise.",
-          "misconception": "then-runs-immediately"
+          "feedback": "You thought the value is delivered the moment ok is called on line 3. A handler exists only after then is called on line 6, and it is queued, not run at once.",
+          "misconception": "resolve-delivers-at-once"
         }
       ],
       "solution": {
@@ -1292,7 +1300,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.promises-in-depth.promise-construction.concept-01",
@@ -1382,7 +1390,7 @@
       "hints": [
         "Start with the logs that are not inside a handler.",
         "Each promise settles when its timer fires, and the shorter delay fires first.",
-        "The order of the then lines does not decide the order, the delays do."
+        "Compare the two numbers on lines 2 and 5, not the order of lines 8 to 11."
       ],
       "reference": {
         "title": "setTimeout()",
@@ -1391,7 +1399,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.promises-in-depth.promise-construction.fix-01",
@@ -1423,13 +1431,13 @@
         {
           "text": "load(id, resolve(id));",
           "correct": false,
-          "feedback": "This settles at once and passes undefined as the callback, so the timer later crashes.",
+          "feedback": "You called resolve(id) on the spot. That settles the promise at once and passes its result, undefined, to load as the callback, so the timer later crashes.",
           "misconception": "call-instead-of-pass"
         },
         {
           "text": "load(id, () => resolve);",
           "correct": false,
-          "feedback": "The callback only returns resolve and never calls it, so the promise never settles."
+          "feedback": "You wrapped resolve in an arrow function, but the arrow only returns resolve and never calls it, so the promise never settles."
         }
       ],
       "solution": {
@@ -1440,7 +1448,7 @@
       "hints": [
         "Look at what line 6 passes as the second argument.",
         "Parentheses call a function now; load needs a function it can call later.",
-        "Pass the function itself, so that load can call it later with the value."
+        "Compare line 6 with how line 2 uses done: what must done be?"
       ],
       "reference": {
         "title": "Promise() constructor",
@@ -1449,7 +1457,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "adv.promises-in-depth.promise-construction.write-01",
@@ -1540,7 +1548,7 @@
       "hints": [
         "Decide the outcome from the error first.",
         "Compare error with null, and build the matching object in each case.",
-        "If error is not null, report it; otherwise report the data, even when that is 0."
+        "The first branch tests error; data is never tested."
       ],
       "reference": {
         "title": "Promise() constructor",
@@ -1549,7 +1557,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

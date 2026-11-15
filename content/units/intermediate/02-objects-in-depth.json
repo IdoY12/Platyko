@@ -60,10 +60,6 @@
       "description": "Believes spreading an array inside a call or literal still leaves it as one array."
     },
     {
-      "id": "later-spread-loses",
-      "description": "Believes the first of two spread objects wins when they share a key."
-    },
-    {
       "id": "copy-by-assignment",
       "description": "Believes assigning an object to another variable, or spreading it, copies the nested data or shares nothing."
     },
@@ -86,6 +82,22 @@
     {
       "id": "default-always-applies",
       "description": "Believes a destructuring default replaces the value even when the property exists."
+    },
+    {
+      "id": "object-name-spreads",
+      "description": "Believes writing an object name inside braces adds its properties, as a spread would."
+    },
+    {
+      "id": "assignment-through-copy-ignored",
+      "description": "Believes assigning to a property through a second variable has no effect on the object."
+    },
+    {
+      "id": "stops-after-first-call",
+      "description": "Reads the value after an earlier call of the function than the one asked about."
+    },
+    {
+      "id": "new-array-still-shared",
+      "description": "Believes assigning a newly spread array to a property still leaves it sharing the original array."
     }
   ],
   "sources": [
@@ -438,7 +450,7 @@
       "hints": [
         "Look at the property names on line 1.",
         "In { name: variable } the left side is the property to read and the right side is the new variable.",
-        "Only one property of hike holds a number."
+        "Check the value stored under each property and pick the one that is a distance."
       ],
       "reference": {
         "title": "Destructuring assignment",
@@ -448,7 +460,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:18"
       ]
@@ -476,7 +488,7 @@
         {
           "text": "const [second, first] = lanes;",
           "correct": false,
-          "feedback": "The names are in the wrong places. The first name receives the item at index 0, so the output order changes."
+          "feedback": "The names are in the wrong places. The name written first in the brackets gets the item at index 0, so the output order changes."
         },
         {
           "text": "const [first, second] = lanes[0];",
@@ -492,7 +504,7 @@
       "hints": [
         "Compare the brackets on line 2 with the value on its right.",
         "Curly braces read properties by name; square brackets read positions.",
-        "The value is an array, so the pattern needs the matching kind of brackets."
+        "Only line 2 needs to change; the names first and second can stay."
       ],
       "reference": {
         "title": "Destructuring assignment",
@@ -502,7 +514,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "int.objects-in-depth.destructuring.write-01",
@@ -759,7 +771,7 @@
       "hints": [
         "Follow route through the first pass of the loop only.",
         "Spreading an array inside [ ] puts its elements, not the array, into the new array.",
-        "On the first pass leg is [\"Ayr\"]. Build the new array from route and leg."
+        "Check what route holds before the first pass and what leg is on that pass."
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -768,7 +780,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.objects-in-depth.spread-and-rest.parsons-01",
@@ -809,7 +821,7 @@
       "hints": [
         "Find the line that uses both small objects and put it after them.",
         "When two spreads share a key, the later one wins.",
-        "A print can only read drink after the line that creates it."
+        "Find which lines the line that creates drink needs, and which lines read drink."
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -819,7 +831,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.objects-in-depth.spread-and-rest.fix-01",
@@ -846,7 +858,7 @@
           "text": "const opts = { ...base, saved };",
           "correct": false,
           "feedback": "This adds one new property named saved that holds the whole object. opts.volume stays 5.",
-          "misconception": "later-spread-loses"
+          "misconception": "object-name-spreads"
         },
         {
           "text": "const opts = [...base, ...saved];",
@@ -862,7 +874,7 @@
       "hints": [
         "Look at the order of the two spreads on line 3.",
         "When two spread objects share a key, the one written later wins.",
-        "The object with the values you want to keep must be spread last."
+        "Decide which of base and saved must come later for volume to end up as 8."
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -872,7 +884,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.objects-in-depth.spread-and-rest.write-01",
@@ -995,8 +1007,8 @@
         {
           "text": "red red",
           "correct": false,
-          "feedback": "You thought the assignment on line 3 has no visible effect. A property assignment changes the object itself, for every reader afterwards.",
-          "misconception": "copy-by-assignment"
+          "feedback": "You expected both names to still read red. Line 3 assigns to a property of the object that mug and gift both lead to.",
+          "misconception": "assignment-through-copy-ignored"
         }
       ],
       "solution": {
@@ -1016,7 +1028,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.concept-01",
@@ -1107,8 +1119,8 @@
         {
           "text": "{n: 6}",
           "correct": false,
-          "feedback": "You thought the second call starts from a fresh copy, so only one increase is kept. Nothing resets box between calls.",
-          "misconception": "argument-copy"
+          "feedback": "That is the value after line 7, the first call. The question asks about line 8, after the second call.",
+          "misconception": "stops-after-first-call"
         }
       ],
       "solution": {
@@ -1123,7 +1135,7 @@
       "hints": [
         "Check what each call to bump can change.",
         "A function receives the same object, but a plain number is copied.",
-        "Both calls change the same object; count how many have happened at line 8."
+        "Count the calls that have run by line 8 and what line 5 does in each."
       ],
       "reference": {
         "title": "Working with objects",
@@ -1132,7 +1144,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.fill-01",
@@ -1513,8 +1525,8 @@
         {
           "text": "{days: 3, stops: ['Rome', 'Pisa', 'Bari']}",
           "correct": false,
-          "feedback": "You thought both pushes land in the array plan holds. A property assignment can point a copy's property at a different array.",
-          "misconception": "copy-by-assignment"
+          "feedback": "You thought both pushes land in the array plan holds. Line 5 gave copyB a new array of its own, so check where each push goes.",
+          "misconception": "new-array-still-shared"
         }
       ],
       "solution": {
@@ -1529,7 +1541,7 @@
       "hints": [
         "Check which copy shares stops with plan and which has its own array.",
         "Spreading plan.stops inside [ ] builds a new array.",
-        "Only one push reaches plan. Decide which one."
+        "Follow which array each push acts on, after line 5 has run."
       ],
       "reference": {
         "title": "Shallow copy",
@@ -1538,7 +1550,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "int.objects-in-depth.shallow-copy.parsons-01",
@@ -1570,7 +1582,7 @@
       "hints": [
         "The copy needs the original to exist, and the push needs the copy.",
         "A shallow copy shares the tools array with the original.",
-        "The prompt says the printed array has grown, so check where the push must sit relative to the prints."
+        "Find which lines the push needs before it can run, and which lines read the grown array."
       ],
       "reference": {
         "title": "Shallow copy",
@@ -1580,7 +1592,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.objects-in-depth.shallow-copy.fix-01",
@@ -1606,8 +1618,7 @@
         {
           "text": "bag.food = [...bag.food, \"nut\"];",
           "correct": false,
-          "feedback": "This adds the new item to bag itself, so bag.food has length 2.",
-          "misconception": "shallow-is-deep"
+          "feedback": "This adds the new item to bag itself, so bag.food has length 2."
         },
         {
           "text": "copy.food.pop();",
@@ -1624,7 +1635,7 @@
       "hints": [
         "Look at which array line 3 changes.",
         "A shallow copy shares nested arrays, so push reaches the original.",
-        "Give copy its own food array instead of changing the shared one."
+        "The fix keeps the new item but must not touch the array bag holds."
       ],
       "reference": {
         "title": "Shallow copy",
@@ -1634,7 +1645,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.objects-in-depth.shallow-copy.write-01",

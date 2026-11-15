@@ -547,7 +547,7 @@
       "hints": [
         "Each pair is one step of the inner loop.",
         "Start the inner index after the outer index so no pair repeats.",
-        "Add 1 to the counter before testing the pair, and return from inside the loops."
+        "Decide where the counter changes relative to the test, and where the function can return early."
       ],
       "reference": {
         "title": "for",
@@ -556,7 +556,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.code-analysis.refactoring-equivalence.predict-01",
@@ -568,7 +568,7 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 4,
-      "prompt": "Before a refactor the list held two Box objects and the loop printed [20, 20]. The refactor swapped the second one for a Bin. What does the program print now?",
+      "prompt": "Before a refactor the list held two Box objects and the program printed [20, 20]. The refactor swapped the second one for a Bin. What does the program print now?",
       "code": [
         "class Box {",
         "  set size(v) { this.v = v; }",
@@ -608,7 +608,7 @@
       "hints": [
         "Look at which class each object in the array comes from.",
         "A subclass setter overrides the parent's only for its own objects.",
-        "Apply each object's own setter to 20, in array order."
+        "Check which setter runs for each object in the array."
       ],
       "reference": {
         "title": "setter",
@@ -617,7 +617,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6,
+      "version": 8,
       "legacyKeys": [
         "exercise:SENIOR:7"
       ]
@@ -794,7 +794,7 @@
       "hints": [
         "Check what each chip does when pct is 0.",
         "Only an absent value should get the default.",
-        "Only one chip gives 10 for an absent percent and still keeps an explicit 0."
+        "Test each chip with row(), row(0) and row(20) in turn."
       ],
       "reference": {
         "title": "Nullish coalescing operator (??)",
@@ -804,7 +804,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.code-analysis.reading-unfamiliar-code.predict-01",

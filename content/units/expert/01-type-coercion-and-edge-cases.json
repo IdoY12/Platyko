@@ -87,6 +87,14 @@
     {
       "id": "plus-order-and-grouping-confused",
       "description": "Believes + adds all numbers first or joins everything once a string appears, and that brackets do not matter."
+    },
+    {
+      "id": "toprimitive-method-ignored",
+      "description": "Believes a Symbol.toPrimitive method is ignored, so a template literal calls toString directly."
+    },
+    {
+      "id": "equality-ignores-valueof",
+      "description": "Believes == never converts an object through valueOf, so it compares text forms instead."
     }
   ],
   "sources": [
@@ -314,7 +322,7 @@
           "text": "Template literals skip the method and call toString, so the last line prints an object text.",
           "correct": false,
           "feedback": "You thought a template literal calls toString directly. When an object has a Symbol.toPrimitive method, that method is used instead of valueOf and toString.",
-          "misconception": "valueof-tostring-order-confused"
+          "misconception": "toprimitive-method-ignored"
         }
       ],
       "solution": {
@@ -333,7 +341,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "exp.type-coercion-and-edge-cases.to-primitive-conversion.fix-01",
@@ -492,7 +500,7 @@
       "hints": [
         "Look at the three conversions in the array that is returned.",
         "A Symbol.toPrimitive method receives the hint and replaces valueOf and toString.",
-        "Use the hint parameter in an if to choose between two return values."
+        "The method receives one argument; decide which of its values selects the number."
       ],
       "reference": {
         "title": "Symbol.toPrimitive",
@@ -501,7 +509,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.predict-01",
@@ -592,7 +600,7 @@
           "text": "== never calls valueOf and compares text forms, so the first line is false.",
           "correct": false,
           "feedback": "You thought == never calls valueOf. When the other side is a number or a text, the object is converted through valueOf, which the first two lines show.",
-          "misconception": "valueof-tostring-order-confused"
+          "misconception": "equality-ignores-valueof"
         }
       ],
       "solution": {
@@ -612,7 +620,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.fix-01",
@@ -659,7 +667,7 @@
       "hints": [
         "Check which of the four marks line 5 counts.",
         "null is loosely equal only to undefined, not to false.",
-        "Use a comparison that matches exactly null and undefined."
+        "Line 5 must treat null and undefined alike but leave 0 and 5 out; decide which operator and value do that."
       ],
       "reference": {
         "title": "Equality comparisons and sameness",
@@ -669,7 +677,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.fill-01",

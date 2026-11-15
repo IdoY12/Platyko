@@ -86,6 +86,10 @@
     {
       "id": "protocol-hook-confusion",
       "description": "Believes language hooks are ordinary method names or array-only features, not symbol-keyed methods that the language looks up."
+    },
+    {
+      "id": "assignment-always-overwrites",
+      "description": "Believes an assignment to an existing property always changes its value, whatever its flags say."
     }
   ],
   "sources": [
@@ -365,7 +369,7 @@
       "hints": [
         "Check which object line 3 reads from.",
         "A read on the proxy runs the get trap, even when the trap does it.",
-        "One of the trap's own parameters is the raw data the proxy wraps."
+        "Compare the parameters on line 3: which one is the proxy itself, and which is the object it wraps?"
       ],
       "reference": {
         "title": "Proxy handler get()",
@@ -375,7 +379,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.proxy-traps.write-01",
@@ -536,7 +540,7 @@
       "hints": [
         "Create the log before the proxy.",
         "Only writes made through the proxy reach its set trap.",
-        "In the trap, record the key, store the value on the target and return true."
+        "The trap runs for each write: decide what it must do with k and v, and what it must return."
       ],
       "reference": {
         "title": "Proxy handler set()",
@@ -545,7 +549,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.reflect-api.predict-01",
@@ -708,7 +712,7 @@
       "hints": [
         "Check what line 5 does with the value v.",
         "A set trap that does not write to the target stores nothing.",
-        "Call the Reflect function that matches a write, with all three arguments."
+        "Ask which Reflect function does the default job of this trap, and what it needs besides the target."
       ],
       "reference": {
         "title": "Proxy handler set()",
@@ -717,7 +721,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.reflect-api.fill-01",
@@ -757,7 +761,7 @@
         {
           "text": "deleteProperty",
           "correct": false,
-          "feedback": "Reflect.deleteProperty removes the key and returns true, so the target loses basil and the reads print true."
+          "feedback": "Reflect.deleteProperty removes the key and returns true, so in would be true for every key and a read would print true."
         },
         {
           "text": "ownKeys",
@@ -780,7 +784,7 @@
       "hints": [
         "Look at the names of the two traps.",
         "Reflect has one function for every trap, named like the trap.",
-        "Both operations only read from the target: neither writes, deletes nor lists anything."
+        "Line 3 forwards the in operator and line 4 forwards a property read; neither should change the target."
       ],
       "reference": {
         "title": "Proxy handler has()",
@@ -789,7 +793,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.property-descriptors.predict-01",
@@ -817,16 +821,16 @@
           "feedback": "Right. defineProperty leaves writable and enumerable false by default, so the assignment is ignored in non-strict code and the key is hidden."
         },
         {
-          "text": "300\n[]",
+          "text": "300\n['ml']",
           "correct": false,
-          "feedback": "You expected the assignment on line 5 to change the value, as for any property. A property made by defineProperty can follow different rules than one made by assignment.",
+          "feedback": "You thought flags left out of the descriptor are true, so ml is writable and listed. defineProperty treats a missing flag differently from a property made by assignment.",
           "misconception": "descriptor-flags-default-true"
         },
         {
-          "text": "250\n['ml']",
+          "text": "300\n[]",
           "correct": false,
-          "feedback": "You thought ml is listed because flags left out of the descriptor are true. defineProperty treats a missing flag differently from a property made by assignment.",
-          "misconception": "descriptor-flags-default-true"
+          "feedback": "You thought an assignment always replaces the value, even though the key stays hidden. A property can be defined so that assignments to it have no effect.",
+          "misconception": "assignment-always-overwrites"
         }
       ],
       "solution": {
@@ -846,7 +850,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.property-descriptors.concept-01",
@@ -951,7 +955,7 @@
       "hints": [
         "Look at line 4 and at what Object.keys skips.",
         "One flag decides whether a key is listed by Object.keys.",
-        "Pick the flag whose name means countable in a list of keys."
+        "Object.keys checks one flag on each property; line 4 sets that flag."
       ],
       "reference": {
         "title": "Enumerability and ownership of properties",
@@ -961,7 +965,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.property-descriptors.write-01",
@@ -1077,7 +1081,7 @@
       "hints": [
         "Use defineProperty on an empty object, not plain assignment.",
         "Flags you omit default to false in defineProperty.",
-        "Pass value and the flag that lists the key, and leave the writable flag out."
+        "Decide which flags must differ from the default false, and leave the rest out."
       ],
       "reference": {
         "title": "Object.defineProperty()",
@@ -1086,7 +1090,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.predict-01",
@@ -1320,7 +1324,7 @@
       "hints": [
         "Think about which well-known symbol concat reads.",
         "concat decides for each argument whether to add its items or the object itself.",
-        "The first blank names the symbol concat reads; the second makes it say yes."
+        "Blank 1 completes the key written after Symbol. on line 3; blank 2 is the value stored under it."
       ],
       "reference": {
         "title": "Symbol.isConcatSpreadable",
@@ -1329,7 +1333,7 @@
       },
       "duelEligible": true,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "timeLimitSec": 35
     }
   ]

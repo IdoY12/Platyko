@@ -249,7 +249,7 @@
       "hints": [
         "Look at the condition on line 2.",
         "The block runs only when the condition is true.",
-        "Is 3 less than 5? Then check which lines are outside the braces."
+        "Work out the condition on line 2, then check which lines sit outside the braces."
       ],
       "reference": {
         "title": "if...else",
@@ -259,7 +259,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.conditionals.if-statement.predict-02",
@@ -407,8 +407,7 @@
         {
           "text": "===",
           "correct": false,
-          "feedback": "31 is not strictly equal to 30, so the block is skipped and nothing prints.",
-          "misconception": "block-ignores-condition"
+          "feedback": "31 is not strictly equal to 30, so the block is skipped and nothing prints."
         }
       ],
       "solution": {
@@ -433,7 +432,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.conditionals.if-statement.parsons-01",
@@ -696,8 +695,8 @@
         {
           "text": "8",
           "correct": false,
-          "feedback": "You ran the else block as well. Check whether both blocks can run in one pass.",
-          "misconception": "else-runs-too"
+          "feedback": "You took the else block, which stores 8, as if the condition were false. Check whether the condition on line 3 is true or false for 70 before choosing a block.",
+          "misconception": "condition-direction-flipped"
         }
       ],
       "solution": {
@@ -721,7 +720,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.conditionals.else-branches.fill-01",
@@ -1450,8 +1449,7 @@
         {
           "text": "!nickname",
           "correct": false,
-          "feedback": "The ! flips the value. A non-empty text is truthy, so this is false and nothing prints.",
-          "misconception": "only-true-passes"
+          "feedback": "The ! flips the value. A non-empty text is truthy, so this is false and nothing prints."
         },
         {
           "text": "nickname === true",
@@ -1488,7 +1486,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.conditionals.condition-truthiness.parsons-01",
@@ -1617,7 +1615,7 @@
       "hints": [
         "Look at which of the five tests give 'Hi guest' and which give a name.",
         "A ternary picks between two results, and its condition can be the variable alone.",
-        "Put the greeting with the name before the colon."
+        "Check your expression against all five tests, especially the text '0' and the number 0."
       ],
       "reference": {
         "title": "Truthy",
@@ -1626,7 +1624,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

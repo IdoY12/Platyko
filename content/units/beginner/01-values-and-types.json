@@ -184,7 +184,7 @@
       "title": "Finding a value's type with typeof",
       "conceptCard": {
         "title": "Finding a value's type with typeof",
-        "body": "typeof gives the type of a value as text, such as number, string or boolean. Quotation marks make digits a string. A number with decimals is still a number. Because the answer is text, typeof typeof 5 is string.",
+        "body": "typeof gives the type of a value as text, such as number, string or boolean. Quotation marks make digits a string. A number with decimals is still a number. Because the answer is text, typeof typeof 5 is string. typeof is worked out before +, so typeof x + \"!\" joins the type name and the !.",
         "code": [
           "console.log(typeof 5);",
           "console.log(typeof \"5\");",
@@ -287,7 +287,7 @@
       "hints": [
         "Look at what / does to the two numbers.",
         "Division in JavaScript keeps the fractional part.",
-        "9 does not split evenly by 2; half of it is between 4 and 5."
+        "Check whether 9 divides evenly by 2, and what / does with the part that is left."
       ],
       "reference": {
         "title": "Division (/)",
@@ -297,7 +297,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.values-and-types.number-values.trace-01",
@@ -343,7 +343,7 @@
       "hints": [
         "Follow the lines in order and stop after line 2.",
         "A variable keeps its value until a later line replaces it.",
-        "Divide 12 by 4 and ignore line 3 for now."
+        "Line 2 uses the value line 1 stored; line 3 has not run yet at the probe."
       ],
       "reference": {
         "title": "Assignment (=)",
@@ -352,7 +352,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.values-and-types.number-values.fill-01",
@@ -398,7 +398,7 @@
       "hints": [
         "Look at the sign between 17 and 5.",
         "One sign gives the leftover after a division.",
-        "Work out 17 / 5 first: 5 fits three whole times. The blank gives what is left after that."
+        "Try each chip between 17 and 5 and keep the one that gives the leftover."
       ],
       "reference": {
         "title": "Remainder (%)",
@@ -408,7 +408,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.values-and-types.number-values.parsons-01",
@@ -647,7 +647,7 @@
       "hints": [
         "Follow the lines in order and stop after line 2.",
         "A + between two texts joins them into one text.",
-        "Add c to the right end of ab."
+        "Line 2 joins a text onto the value line 1 stored."
       ],
       "reference": {
         "title": "Addition (+)",
@@ -656,7 +656,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.values-and-types.string-values.fill-01",
@@ -818,7 +818,7 @@
       "hints": [
         "You need a property of the text, not a method call.",
         "A text keeps its character count in a built-in property.",
-        "Write that property after the name of the text and a dot; no brackets follow it."
+        "The card names the property that counts characters; read it from title."
       ],
       "reference": {
         "title": "String: length",
@@ -827,7 +827,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "puzzle:2"
       ]
@@ -870,7 +870,7 @@
       "hints": [
         "Look at the two lines that print isOn.",
         "A variable can hold a boolean, and a boolean prints as a word.",
-        "Line 2 joins the word to a label, and line 3 prints it alone."
+        "Work out the text line 2 builds, then what line 3 shows for the variable itself."
       ],
       "reference": {
         "title": "Boolean",
@@ -880,7 +880,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.values-and-types.boolean-values.predict-02",
@@ -1162,7 +1162,7 @@
       "hints": [
         "Look at the value after typeof.",
         "JavaScript has one kind of number.",
-        "A decimal point does not change the type."
+        "Check the card: does a number with decimals get a type of its own?"
       ],
       "reference": {
         "title": "Number",
@@ -1172,7 +1172,7 @@
       "duelEligible": true,
       "timeLimitSec": 15,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 6,
       "legacyKeys": [
         "exercise:JUNIOR:0"
       ]
@@ -1272,7 +1272,7 @@
       "hints": [
         "Follow the lines in order and stop after line 2.",
         "typeof gives the type of the value the variable holds at that moment.",
-        "The value on line 1 is written without quotation marks."
+        "Check what price holds when line 2 runs; line 3 comes later."
       ],
       "reference": {
         "title": "typeof",
@@ -1281,7 +1281,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:3"
       ]
@@ -1330,7 +1330,7 @@
       "hints": [
         "Look at what typeof receives on line 1; quotation marks matter.",
         "A boolean is written as a bare word with only two possible forms.",
-        "Quotation marks make text and a digit makes a number, so rule out the chips that have them."
+        "Read each chip as a value and say its type, then compare with the output."
       ],
       "reference": {
         "title": "typeof",
@@ -1340,7 +1340,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:JUNIOR:8"
       ]
@@ -1446,7 +1446,7 @@
       "hints": [
         "You need three pieces joined with +.",
         "typeof gives the type name of a value as text, and + joins texts together.",
-        "The type name goes first and the value itself goes last, with a colon and a space between them."
+        "Keep the colon and the space together inside one pair of quotation marks."
       ],
       "reference": {
         "title": "typeof",
@@ -1455,7 +1455,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     }
   ]
 }

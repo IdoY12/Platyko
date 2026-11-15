@@ -396,7 +396,7 @@
       "hints": [
         "Two variables are called paid. Find the one that line 6 reads.",
         "The inner paid exists only between the braces.",
-        "Line 6 is outside the braces."
+        "Check whether line 6 sits inside the braces or outside them."
       ],
       "reference": {
         "title": "let",
@@ -405,7 +405,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 5
     },
     {
       "id": "int.scope-and-hoisting.block-scope.fill-01",
@@ -820,7 +820,7 @@
       "hints": [
         "Find which cups line 4 changes.",
         "A var inside a function is a separate variable from an outer one with the same name.",
-        "Line 7 copies the cups that lives outside the function."
+        "Check which cups lines 3 and 4 act on, and which cups line 7 reads."
       ],
       "reference": {
         "title": "var",
@@ -829,7 +829,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.parsons-01",
@@ -863,7 +863,7 @@
       "hints": [
         "The function body sits between the header and the closing line.",
         "Inside pickLabel, assign label before you return it.",
-        "The return line reads label, so it comes after the line that assigns it."
+        "Find which line assigns label and which line reads it."
       ],
       "reference": {
         "title": "var",
@@ -873,7 +873,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.fix-01",
@@ -1426,7 +1426,7 @@
       "hints": [
         "Which rooms does line 3 refer to?",
         "A let covers its whole block, but cannot be read until its declaration line has run.",
-        "Line 4 has not run yet when line 3 reads the variable."
+        "Compare the moment line 3 reads rooms with the moment line 4 declares it."
       ],
       "reference": {
         "title": "ReferenceError: cannot access before initialization",
@@ -1436,7 +1436,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "duel:8"
       ]

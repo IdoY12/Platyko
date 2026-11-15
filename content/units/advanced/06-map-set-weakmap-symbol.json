@@ -52,8 +52,8 @@
       "description": "Believes a Map compares object keys by their contents instead of by identity."
     },
     {
-      "id": "map-bracket-assignment",
-      "description": "Believes map[key] = value stores a Map entry the way it stores an object property."
+      "id": "map-method-mixup",
+      "description": "Believes Map methods are interchangeable or borrowed from Set, so add stores a Map entry or get with a second argument stores one."
     },
     {
       "id": "set-keeps-duplicates",
@@ -390,7 +390,7 @@
       "hints": [
         "Line 3 changes an existing entry; line 4 chooses what to loop over.",
         "Maps are iterable and produce [key, value] pairs.",
-        "The first blank is a method that stores a value under a key; the second is what the loop reads from."
+        "Blank 1 is the same kind of call as line 2; blank 2 must hand the loop one [key, value] pair per entry."
       ],
       "reference": {
         "title": "Map.prototype.set()",
@@ -400,7 +400,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.map-set-weakmap-symbol.map-collection.fix-01",
@@ -427,13 +427,13 @@
           "text": "shelf.add(\"cactus\", 8);",
           "correct": false,
           "feedback": "A Map has no add method, so this line throws a TypeError. The method for a Map takes a key and a value but has another name.",
-          "misconception": "map-bracket-assignment"
+          "misconception": "map-method-mixup"
         },
         {
           "text": "shelf.get(\"cactus\", 8);",
           "correct": false,
           "feedback": "get only reads. It ignores the second argument and stores nothing, so the program still prints undefined.",
-          "misconception": "map-bracket-assignment"
+          "misconception": "map-method-mixup"
         }
       ],
       "solution": {
@@ -454,7 +454,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.map-set-weakmap-symbol.map-collection.write-01",
@@ -571,7 +571,7 @@
       "hints": [
         "Keep one Map and update it inside a loop over items.",
         "get returns undefined for a key that is not stored yet, so give it a starting number.",
-        "Store the old count plus one under the item, then spread the Map into an array."
+        "For each item, write back a count one higher than the stored one; then turn the Map into an array of pairs."
       ],
       "reference": {
         "title": "Map",
@@ -580,7 +580,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.map-set-weakmap-symbol.set-collection.predict-01",
@@ -929,7 +929,7 @@
       "hints": [
         "Build a Set from one array and loop over the other.",
         "has tells you whether a value is in a Set, and add ignores repeats.",
-        "Spread a Set of a into an array, then filter it with has."
+        "Remove repeats from a with one Set, then keep what the Set made from b holds."
       ],
       "reference": {
         "title": "Set.prototype.add()",
@@ -938,7 +938,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.map-set-weakmap-symbol.weak-collections.predict-01",
@@ -1092,7 +1092,7 @@
       "hints": [
         "Find the two lines that create values the others use.",
         "add must run before the has check that should print true.",
-        "Each has check needs the value it asks about to exist, and the add must come before the check that prints true."
+        "Two of the lines use seen and room as soon as they run; check which lines each of them needs before it."
       ],
       "reference": {
         "title": "WeakSet",
@@ -1102,7 +1102,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.map-set-weakmap-symbol.weak-collections.fix-01",
@@ -1144,7 +1144,7 @@
       "hints": [
         "Look at the type of the first argument on line 3.",
         "WeakMap keys must be objects, and lookups need the same object.",
-        "Pass the object that line 4 passes to get."
+        "Compare the first argument of line 3 with the argument of get on line 4."
       ],
       "reference": {
         "title": "WeakMap.prototype.set()",
@@ -1154,7 +1154,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.map-set-weakmap-symbol.weak-collections.write-01",
@@ -1234,7 +1234,7 @@
       "hints": [
         "Let the WeakMap decide: try to use the value as a key.",
         "set throws a TypeError for a value that cannot be a key, such as a string, a number or null.",
-        "Return true after a successful set inside try, and false inside catch."
+        "Put the set call inside try and decide what each block returns."
       ],
       "reference": {
         "title": "WeakMap.prototype.set()",
@@ -1243,7 +1243,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.map-set-weakmap-symbol.symbol-keys.predict-01",
@@ -1458,7 +1458,7 @@
       "hints": [
         "Compare how line 2 stores the value with how line 3 reads it.",
         "Dot syntax and quoted names always mean string keys.",
-        "The variable water on line 1 holds the symbol; line 3 has to use it in place of a name."
+        "Look at what stands between the brackets on line 2 and use the same kind of thing on line 3."
       ],
       "reference": {
         "title": "Symbol",
@@ -1468,7 +1468,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.map-set-weakmap-symbol.symbol-keys.write-01",
@@ -1564,7 +1564,7 @@
       "hints": [
         "Create a fresh symbol inside the loop, once per text.",
         "Separate Symbol calls give separate keys, so nothing is overwritten.",
-        "Assign box[Symbol(\"note\")] in the loop and count the result of getOwnPropertySymbols."
+        "Each text goes under its own freshly created symbol; read the symbols back with the function the prompt names."
       ],
       "reference": {
         "title": "Object.getOwnPropertySymbols()",
@@ -1573,7 +1573,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

@@ -807,7 +807,7 @@
       "hints": [
         "Look at what line 2 subtracts.",
         "The first argument becomes top, the second becomes base.",
-        "Pick two numbers whose difference is 5, larger one first."
+        "Decide which chip goes to top and which to base, then check each pair in line 2."
       ],
       "reference": {
         "title": "Functions: arguments and parameters",
@@ -817,7 +817,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.functions.parameters-and-arguments.parsons-01",
@@ -939,7 +939,7 @@
       "hints": [
         "Work out the discount for price 200 and percent 10.",
         "Percent means parts per 100, so divide by 100.",
-        "Take the discount away from the price."
+        "Check your expression with price 80 and percent 100: it must give 0."
       ],
       "reference": {
         "title": "Functions: arguments and parameters",
@@ -948,7 +948,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.functions.return-value.predict-01",
@@ -1040,7 +1040,7 @@
         {
           "text": "6\nshipped",
           "correct": false,
-          "feedback": "You thought the 6 is shown as soon as return runs, with line 3 running afterwards. Check on the card what return does to the function.",
+          "feedback": "You thought the 6 goes back to line 5 while line 3 still runs afterwards, so shipped comes last. Check on the card what return does to the rest of the function.",
           "misconception": "code-after-return-runs"
         }
       ],
@@ -1061,7 +1061,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "beg.functions.return-value.trace-01",
@@ -1184,7 +1184,7 @@
       "hints": [
         "Look at what line 4 prints.",
         "The body needs a keyword that hands a value back, and an argument for days.",
-        "The argument times 3 must equal 12."
+        "Test each number chip as the argument in days * 3."
       ],
       "reference": {
         "title": "return statement",
@@ -1194,7 +1194,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.functions.return-value.parsons-01",
@@ -1239,7 +1239,7 @@
       "hints": [
         "Which line opens the function?",
         "A variable must exist before a line changes or returns it.",
-        "The return line comes last in the body, before the closing brace."
+        "Ask which line may only run once the label is complete."
       ],
       "reference": {
         "title": "return statement",
@@ -1249,7 +1249,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.functions.return-value.concept-01",
@@ -1576,7 +1576,7 @@
       "hints": [
         "Which line must exist before any call?",
         "Each line uses the value created by the one before it.",
-        "The line that calls markUp on a plain number must come before the line that uses its result."
+        "Draw the chain: what must exist before each call can run?"
       ],
       "reference": {
         "title": "Arrow function expressions",
@@ -1586,7 +1586,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.functions.function-expressions.write-01",

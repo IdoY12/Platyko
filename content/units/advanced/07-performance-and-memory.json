@@ -96,6 +96,14 @@
     {
       "id": "nested-loops-add",
       "description": "Believes the work of nested loops adds up, or is counted per loop, instead of multiplying."
+    },
+    {
+      "id": "add-answers-membership",
+      "description": "Believes Set add reports whether the value was already present, so it can serve as the membership test."
+    },
+    {
+      "id": "copy-or-null-call-releases",
+      "description": "Believes copying the list, or calling the storing function again with null, releases the callback already stored."
     }
   ],
   "sources": [
@@ -412,7 +420,7 @@
       "hints": [
         "Find the line that reads has and the line that stores the key. Which must come first?",
         "A cache lookup asks the question first and stores the answer afterwards.",
-        "The two calls come last, and the printing call is the one that uses the first result."
+        "Check which declaration each line relies on before you place it."
       ],
       "reference": {
         "title": "Set.prototype.has()",
@@ -422,7 +430,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.performance-and-memory.memoization.fix-01",
@@ -580,7 +588,7 @@
       "hints": [
         "Think about what must be remembered between requests.",
         "A miss is the first time an id is asked for.",
-        "Keep a set of seen ids and count the ids that are not in it yet."
+        "Decide when a request counts as new, using something that remembers earlier ids."
       ],
       "reference": {
         "title": "Set",
@@ -589,7 +597,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.performance-and-memory.debounce-and-throttle.predict-01",
@@ -822,7 +830,7 @@
       "hints": [
         "Compare what line 3 clears with what line 4 stores.",
         "clearTimeout takes the value that setTimeout returned.",
-        "The id is kept in a variable declared on line 1."
+        "Line 1 declares a variable for a reason; compare it with what line 3 passes."
       ],
       "reference": {
         "title": "clearTimeout()",
@@ -832,7 +840,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.performance-and-memory.debounce-and-throttle.write-01",
@@ -966,7 +974,7 @@
       "hints": [
         "Decide what must be remembered between calls.",
         "Update the remembered time only when a call actually runs.",
-        "The first call always runs, so start from a time infinitely far back."
+        "Choose a starting value for the remembered time so that the first call always passes the test."
       ],
       "reference": {
         "title": "Array.prototype.push()",
@@ -975,7 +983,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.performance-and-memory.memory-leaks.predict-01",
@@ -1128,7 +1136,7 @@
           "text": "jobs.slice(0)",
           "correct": false,
           "feedback": "slice returns a copy and leaves jobs unchanged. The callback stays in the list with its data, so the program prints 1.",
-          "misconception": "null-cancels-existing"
+          "misconception": "copy-or-null-call-releases"
         },
         {
           "text": "jobs.push(null)",
@@ -1140,7 +1148,7 @@
           "text": "watch(null)",
           "correct": false,
           "feedback": "Calling watch again stores a second callback. The first callback is still in the list with its data.",
-          "misconception": "null-cancels-existing"
+          "misconception": "copy-or-null-call-releases"
         }
       ],
       "solution": {
@@ -1165,7 +1173,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:SENIOR:18"
       ]
@@ -1216,7 +1224,7 @@
       "hints": [
         "Compare the value added on line 4 with the value removed on line 5.",
         "Two functions are equal only when they are the very same function.",
-        "Remove it by the name it was stored under, without calling it."
+        "Line 5 must give the set the very same value that line 4 gave it."
       ],
       "reference": {
         "title": "Set.prototype.delete()",
@@ -1226,7 +1234,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:12"
       ]
@@ -1387,7 +1395,7 @@
       "hints": [
         "Decide what to keep while reading the events.",
         "A stop must remove the timer it names, not just any timer.",
-        "A set keeps insertion order and ignores a repeated add, so spreading it gives the names in the order their current runs began."
+        "Think of a collection that ignores a repeated add and remembers the order things were added."
       ],
       "reference": {
         "title": "Set.prototype.delete()",
@@ -1396,7 +1404,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.performance-and-memory.algorithmic-cost.predict-01",
@@ -1551,7 +1559,7 @@
           "text": "add",
           "correct": false,
           "feedback": "add returns the set itself, which counts as true for every id. Every id would count as repeated.",
-          "misconception": "early-exit-confused"
+          "misconception": "add-answers-membership"
         },
         {
           "text": "includes",
@@ -1571,7 +1579,7 @@
       "hints": [
         "Look at what the condition on line 5 must ask the set.",
         "Sets have their own method to test membership.",
-        "The method name is a short question word about the set."
+        "Choose the Set method that reads the set and does not change it."
       ],
       "reference": {
         "title": "Set.prototype.has()",
@@ -1581,7 +1589,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.performance-and-memory.algorithmic-cost.fix-01",
@@ -1746,7 +1754,7 @@
       "hints": [
         "Count how many items come after the item at position i.",
         "The inner loop should not look backwards or at the item itself.",
-        "Start the inner index one step after the outer index."
+        "Look at where the inner index begins: items already compared must not be visited again."
       ],
       "reference": {
         "title": "for statement",
@@ -1755,7 +1763,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

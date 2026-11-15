@@ -421,8 +421,8 @@
       "explanation": "The program must subtract the booked seats from 30. The variable booked, declared on line 2, holds 12, and 30 - 12 gives 18.",
       "hints": [
         "Look at line 2 to see which name holds the number of taken seats.",
-        "Only names that were declared can be used.",
-        "Subtract something from 30 to get 18: work out what that something is, then find the name that holds it."
+        "A name in an expression gives the value stored under it.",
+        "Only declared names can be used; test the declared ones in the subtraction and compare with 18."
       ],
       "reference": {
         "title": "let",
@@ -432,7 +432,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 5
     },
     {
       "id": "beg.variables.let-declaration.parsons-01",
@@ -463,7 +463,7 @@
       "hints": [
         "Ask which line needs no other variable.",
         "A name must hold a value before a later line reads it.",
-        "Find the line that needs no other variable, then the line that needs only that one."
+        "Trace each name back to where it gets its value; a line may only use names declared above it."
       ],
       "reference": {
         "title": "let",
@@ -473,7 +473,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.variables.let-declaration.concept-01",
@@ -875,7 +875,7 @@
       "hints": [
         "Write the steps one after the other.",
         "Every step uses the value left by the step before.",
-        "Start with start, add deposit, then take away fee."
+        "Replace the variable in the second step by the whole first step."
       ],
       "reference": {
         "title": "Assignment (=)",
@@ -884,7 +884,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.const-declaration.predict-01",
@@ -1292,7 +1292,7 @@
         {
           "text": "object\nobject",
           "correct": false,
-          "feedback": "You thought undefined and null have the same type. An unfilled variable and a stored null do not give the same typeof result.",
+          "feedback": "You gave both empty values the answer object. Only one of them reports that name; the other reports a type name of its own.",
           "misconception": "undefined-null-same"
         }
       ],
@@ -1313,7 +1313,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "beg.variables.undefined-and-null.trace-01",
@@ -1362,7 +1362,7 @@
       "hints": [
         "Stop after line 2. Do not read line 3 yet.",
         "Assigning a new value replaces the old one, even with an empty value.",
-        "The answer is a value you store yourself, not a missing one."
+        "Line 2 stores a value of its own on purpose; the card names that value."
       ],
       "reference": {
         "title": "null",
@@ -1371,7 +1371,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.variables.undefined-and-null.fill-01",
@@ -1462,7 +1462,7 @@
       "hints": [
         "Which line declares the name?",
         "The first print must happen while ticket has no value.",
-        "Decide which print can run before ticket gets 7."
+        "A name must be declared before a line uses it, and a print shows the value held at that moment."
       ],
       "reference": {
         "title": "undefined",
@@ -1472,7 +1472,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.variables.undefined-and-null.write-02",
@@ -1542,7 +1542,7 @@
       "hints": [
         "You need the value of driver itself, not its type.",
         "The + sign joins texts, and a null joined to text shows as the word null.",
-        "Put the label first, with the space after its colon, then driver."
+        "The label is text, so it needs quotation marks; driver itself does not."
       ],
       "reference": {
         "title": "null",
@@ -1551,7 +1551,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

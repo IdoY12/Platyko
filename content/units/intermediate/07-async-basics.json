@@ -93,6 +93,18 @@
     {
       "id": "try-continues-after-error",
       "description": "Believes the lines after a failing await inside try still run before catch."
+    },
+    {
+      "id": "executor-runs-later",
+      "description": "Believes the function given to new Promise does not run until a handler is attached or the code has finished."
+    },
+    {
+      "id": "settled-handler-goes-first",
+      "description": "Believes the handler of an already settled promise runs before the plain lines of the program."
+    },
+    {
+      "id": "rejected-await-ignored",
+      "description": "Believes a rejected await does not throw, so the try block finishes and catch never runs."
     }
   ],
   "sources": [
@@ -290,7 +302,7 @@
       "hints": [
         "Which line is not inside a setTimeout?",
         "A timer callback runs after its delay, and the delay decides the order, not the line number.",
-        "Separate the plain call from the three timers, then order the timers by their numbers."
+        "Line 7 is the only call outside a timer; compare the numbers on lines 4 to 6."
       ],
       "reference": {
         "title": "setTimeout()",
@@ -300,7 +312,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.async-basics.callbacks-and-timers.concept-01",
@@ -529,7 +541,7 @@
       "hints": [
         "Look at what stands before the comma on line 4.",
         "Parentheses after a function name call it right now.",
-        "Hand setTimeout the function itself rather than the result of calling it."
+        "Only line 4 changes; ask what setTimeout receives as its first argument there."
       ],
       "reference": {
         "title": "Callback function",
@@ -539,7 +551,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.async-basics.callbacks-and-timers.write-01",
@@ -691,8 +703,8 @@
         {
           "text": "lent map\ndesk open\ndesk closed",
           "correct": false,
-          "feedback": "You thought the handler can print before the lines above it. It is attached on line 3, after desk open has already printed.",
-          "misconception": "then-runs-immediately"
+          "feedback": "You thought the handler of a settled promise goes ahead of the plain lines. A handler only queues when then is called on line 3, so it cannot print before them.",
+          "misconception": "settled-handler-goes-first"
         }
       ],
       "solution": {
@@ -712,7 +724,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.async-basics.promise-basics.concept-01",
@@ -807,7 +819,7 @@
           "text": "10",
           "correct": false,
           "feedback": "You thought the addition inside the function given to new Promise has not happened yet. That function runs as soon as the promise is created.",
-          "misconception": "wrong-step-value"
+          "misconception": "executor-runs-later"
         }
       ],
       "solution": {
@@ -822,7 +834,7 @@
       "hints": [
         "Check which of the three additions happen before line 10.",
         "The function inside new Promise runs immediately; a then handler runs later.",
-        "Add the first two changes and leave the handler's 100 out."
+        "Ask whether line 8 can already have run when line 10 prints."
       ],
       "reference": {
         "title": "Promise() constructor",
@@ -831,7 +843,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.async-basics.promise-basics.parsons-01",
@@ -1012,7 +1024,7 @@
       "hints": [
         "The next link receives only what the function returns.",
         "Use an if on item.left and return in both outcomes.",
-        "Strictly below 3 means a stock of 3 is ok."
+        "Decide whether a left of exactly 3 counts as low."
       ],
       "reference": {
         "title": "Promise.prototype.then()",
@@ -1021,7 +1033,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.async-basics.async-await.predict-01",
@@ -1193,7 +1205,7 @@
       "hints": [
         "Which call reads seats first, and when does each write?",
         "A paused call does not stop the next call from starting.",
-        "Both calls read the same starting number."
+        "Check what free holds in each call by the time line 5 runs."
       ],
       "reference": {
         "title": "await",
@@ -1202,7 +1214,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.async-basics.async-await.fill-01",
@@ -1258,7 +1270,7 @@
       "hints": [
         "Look at the first word of line 2 and the word before ready on line 3.",
         "Waiting for a promise is allowed only inside a function that is marked in a special way.",
-        "One keyword marks the function; the other unwraps the promise."
+        "Line 2 needs a word before function; line 3 needs a word before ready."
       ],
       "reference": {
         "title": "async function",
@@ -1268,7 +1280,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:28"
       ]
@@ -1581,13 +1593,13 @@
           "text": "'declined'",
           "correct": false,
           "feedback": "You read note as it was when catch ended. The question asks about the moment after the assignment on line 9 has run.",
-          "misconception": "finally-skipped-after-error"
+          "misconception": "wrong-step-value"
         },
         {
           "text": "'paid+log'",
           "correct": false,
-          "feedback": "You thought the line after the rejected await still ran before catch. A rejected await throws at that point, so later lines in try are skipped.",
-          "misconception": "try-continues-after-error"
+          "feedback": "You thought the rejected await did not throw, so line 5 ran and catch never did. A rejected await throws at its own line.",
+          "misconception": "rejected-await-ignored"
         }
       ],
       "solution": {
@@ -1602,7 +1614,7 @@
       "hints": [
         "Which of lines 5 and 7 can run after the rejected await?",
         "finally runs after catch and works on whatever value catch left.",
-        "Start from the catch value and add the text from line 9."
+        "Look at what note holds when line 9 starts, then at what line 9 does to it."
       ],
       "reference": {
         "title": "try...catch",
@@ -1611,7 +1623,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.async-basics.async-error-handling.parsons-01",
@@ -1638,7 +1650,7 @@
       "hints": [
         "Start with the lines that are not inside a handler.",
         "A rejection skips handlers until it meets one made for rejections.",
-        "After catch handles the rejection, the chain continues to the next then."
+        "Check which then handlers sit before the catch and which after it."
       ],
       "reference": {
         "title": "Promise.prototype.catch()",
@@ -1648,7 +1660,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.async-basics.async-error-handling.fix-01",
@@ -1699,7 +1711,7 @@
       "hints": [
         "Look at line 6: does anything wait for the promise?",
         "try/catch only sees errors thrown while the try block is running.",
-        "Something on line 6 has to make the function wait before the try block ends."
+        "Only line 6 changes; the try and catch lines stay as they are."
       ],
       "reference": {
         "title": "try...catch",
@@ -1709,7 +1721,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.async-basics.async-error-handling.write-01",

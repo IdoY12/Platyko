@@ -419,7 +419,7 @@
       "hints": [
         "Follow the loop pass by pass until the throw.",
         "A throw leaves the whole try block, loop included.",
-        "The throw happens on line 5 before line 6 runs for that number."
+        "Check what line 5 does for the number 0."
       ],
       "reference": {
         "title": "try...catch",
@@ -428,7 +428,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.errors.throw-and-try-catch.fill-01",
@@ -496,7 +496,7 @@
       "hints": [
         "Line 3 should stop half. Which keyword does that with a value?",
         "Raising a problem and receiving it use two different keywords.",
-        "The first blank leaves the function with 'odd'; the second blank opens the receiver."
+        "Check which keyword sends a value to a handler and which one starts a handler."
       ],
       "reference": {
         "title": "throw",
@@ -505,7 +505,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.throw-and-try-catch.fix-01",
@@ -556,7 +556,7 @@
       "hints": [
         "Look at what line 3 does when the group is too big.",
         "A returned value is a normal result. Only throw triggers catch.",
-        "Replace the line with the statement that raises the problem."
+        "Decide which statement hands a problem to catch."
       ],
       "reference": {
         "title": "throw",
@@ -565,7 +565,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.throw-and-try-catch.write-01",
@@ -757,7 +757,7 @@
       "hints": [
         "Compare line 1 with the names read on lines 4 and 5.",
         "One name exists, the other does not.",
-        "Check which line prints undefined and which one throws."
+        "Compare how each of the two names is introduced before line 4 runs."
       ],
       "reference": {
         "title": "ReferenceError",
@@ -767,7 +767,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.errors.error-types.trace-01",
@@ -1050,7 +1050,7 @@
       "hints": [
         "Which inputs make the read fail?",
         "Put the read in try and return from both parts.",
-        "Both return statements are needed: one after the read, one for the failure case."
+        "Check what each of the two paths must return."
       ],
       "reference": {
         "title": "Error",
@@ -1059,7 +1059,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.finally-block.predict-01",
@@ -1362,7 +1362,7 @@
       "hints": [
         "Which line decides what readLine hands back?",
         "finally runs last and can replace a return from try.",
-        "Keep the cleanup but stop returning from finally."
+        "Compare what lines 3 and 5 hand back, and which one wins."
       ],
       "reference": {
         "title": "try...catch",
@@ -1372,7 +1372,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.errors.finally-block.write-01",
@@ -1469,7 +1469,7 @@
       "hints": [
         "Which text is added on every path?",
         "Put the throw before the line that adds -ok.",
-        "The text added on every path belongs in the block that runs on every path."
+        "Check what each path through the function must add to the text."
       ],
       "reference": {
         "title": "try...catch",
@@ -1478,7 +1478,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.custom-errors.predict-01",
@@ -1651,7 +1651,7 @@
       "hints": [
         "Follow the value from line 4 into line 6.",
         "A throw inside catch starts a new throw towards the outer handler.",
-        "The inner catch computes what the outer catch receives."
+        "Follow what inside holds on line 6, and where that new throw goes."
       ],
       "reference": {
         "title": "throw",
@@ -1660,7 +1660,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.errors.custom-errors.parsons-01",
@@ -1778,7 +1778,7 @@
       "hints": [
         "Look at what line 5 does with the caught error.",
         "To let an error continue, a catch must throw again.",
-        "Throw the caught object, not a new value."
+        "Check what the outer catch needs from e, and how line 5 could pass it on."
       ],
       "reference": {
         "title": "throw",
@@ -1787,7 +1787,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.errors.custom-errors.write-01",

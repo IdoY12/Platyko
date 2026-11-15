@@ -55,10 +55,6 @@
       "description": "Believes the end argument of slice is included in the result, or that it counts items."
     },
     {
-      "id": "page-number-as-offset",
-      "description": "Uses a one-based page number directly as the number of pages to skip."
-    },
-    {
       "id": "spread-copies-deeply",
       "description": "Believes spread or Object.assign copies nested arrays and objects too."
     },
@@ -83,10 +79,6 @@
       "description": "Believes await makes other calls of the same function wait for it."
     },
     {
-      "id": "missing-await-harmless",
-      "description": "Believes starting an async call without awaiting it still finishes its work before the next line."
-    },
-    {
       "id": "code-continues-after-throw",
       "description": "Believes code after a throw, or later steps of a rejected chain, keep running normally."
     },
@@ -101,6 +93,18 @@
     {
       "id": "catch-result-ignored",
       "description": "Believes the value a catch handler returns is discarded, so the next step receives undefined."
+    },
+    {
+      "id": "offset-patched-by-one",
+      "description": "Believes a start index is fixed by adding or taking away one after multiplying, instead of counting the whole pages before the page."
+    },
+    {
+      "id": "spread-copy-is-alias",
+      "description": "Believes a spread copy shares every property with the original, so changing any property of the copy changes the original."
+    },
+    {
+      "id": "return-or-timer-waits",
+      "description": "Believes returning the async call, or scheduling it with a timer, makes the lines after it wait for it."
     }
   ],
   "sources": [
@@ -373,13 +377,13 @@
           "text": "const start = page * size - 1;",
           "correct": false,
           "feedback": "That starts at index 5, which is the sixth row, so the slice shows the wrong rows.",
-          "misconception": "page-number-as-offset"
+          "misconception": "offset-patched-by-one"
         },
         {
           "text": "const start = (page - 1) * size + 1;",
           "correct": false,
           "feedback": "That is one slot after the real start. Page 2 would begin at its second row instead of its first.",
-          "misconception": "page-number-as-offset"
+          "misconception": "offset-patched-by-one"
         }
       ],
       "solution": {
@@ -400,7 +404,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.debugging.off-by-one-and-boundaries.write-01",
@@ -533,7 +537,7 @@
       "hints": [
         "Think of one page per step of the loop.",
         "slice excludes its end index and tolerates an end past the array.",
-        "Use an index that moves forward by a fixed step, and take a slice at each step."
+        "One index that moves forward by a fixed amount can drive the whole loop; decide the step and when it stops."
       ],
       "reference": {
         "title": "Array.prototype.slice()",
@@ -542,7 +546,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.debugging.mutation-bugs.predict-01",
@@ -579,7 +583,7 @@
           "text": "spices [3, 5, 8]",
           "correct": false,
           "feedback": "You expected assigning copy.name to change shelf.name too, as if both names were one object. copy is a new object made on line 5, and name holds a text, not a reference.",
-          "misconception": "spread-copies-deeply"
+          "misconception": "spread-copy-is-alias"
         }
       ],
       "solution": {
@@ -599,7 +603,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.debugging.mutation-bugs.concept-01",
@@ -930,13 +934,13 @@
           "text": "return brew(\"latte\");",
           "correct": false,
           "feedback": "return ends serve at that line, so the lines that push served and print never run.",
-          "misconception": "missing-await-harmless"
+          "misconception": "return-or-timer-waits"
         },
         {
           "text": "setTimeout(brew, 0, \"latte\");",
           "correct": false,
           "feedback": "A timer only starts the brew later. serve does not wait for it, so the print runs before the latte is added.",
-          "misconception": "missing-await-harmless"
+          "misconception": "return-or-timer-waits"
         }
       ],
       "solution": {
@@ -956,7 +960,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.debugging.async-ordering-bugs.write-02",
@@ -1141,7 +1145,7 @@
       "hints": [
         "Keep the jobs in a line and take them from the front.",
         "After a job runs one step it goes to the back of the line, unless it has no steps left.",
-        "Loop while the line is not empty: take the first job, count its step, record it, and add it back if steps remain."
+        "A loop that runs while jobs remain can handle one step per turn; decide where a job goes after its step."
       ],
       "reference": {
         "title": "await",
@@ -1150,7 +1154,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.predict-01",

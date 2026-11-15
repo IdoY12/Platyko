@@ -72,8 +72,8 @@
       "description": "Believes assigning to a key the object does not have does nothing, because keys can only be set in the literal."
     },
     {
-      "id": "delete-keeps-key",
-      "description": "Believes delete only empties a value, so the key stays in the object."
+      "id": "delete-does-nothing",
+      "description": "Believes delete has no effect on the object, so the property keeps its value."
     },
     {
       "id": "wrong-moment-value",
@@ -505,7 +505,7 @@
       "hints": [
         "Look for the line that uses no name made by another line.",
         "A name must exist before another line uses it.",
-        "The line that makes tag reads mug.hue and mug.n, so mug must already exist when it runs."
+        "Find which line reads from mug, and which line has to exist before it can run."
       ],
       "reference": {
         "title": "Property accessors",
@@ -515,7 +515,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.objects.properties.concept-01",
@@ -789,7 +789,7 @@
       "hints": [
         "Both blanks sit right after pet.",
         "Brackets with a quoted text read the key with that text.",
-        "Look at line 1 for the spelling of each key, in the order the program prints them."
+        "Look at line 1 for the spelling of each key."
       ],
       "reference": {
         "title": "Property accessors",
@@ -799,7 +799,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:MID:0"
       ]
@@ -833,7 +833,7 @@
       "hints": [
         "Look for the line that uses no name made by another line.",
         "A name must exist before another line uses it.",
-        "result reads key inside brackets, so the line that makes key must run before it."
+        "Find the line that uses key inside brackets, and ask what that line needs first."
       ],
       "reference": {
         "title": "Property accessors",
@@ -843,7 +843,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.objects.access.write-01",
@@ -1012,8 +1012,8 @@
         {
           "text": "1 2",
           "correct": false,
-          "feedback": "delete removes the whole key with its value. After it, reading pc gives nothing.",
-          "misconception": "delete-keeps-key"
+          "feedback": "You treated line 3 as if it changed nothing. delete is a real change to the object: it acts on the key pc.",
+          "misconception": "delete-does-nothing"
         },
         {
           "text": "undefined undefined",
@@ -1039,7 +1039,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.objects.update.trace-01",
@@ -1369,7 +1369,7 @@
       "hints": [
         "Look at what is added on line 7.",
         "The loop variable holds one whole object each pass.",
-        "Add the two numbers stored under beds."
+        "Look at which key of each cabin line 7 reads."
       ],
       "reference": {
         "title": "for...of",
@@ -1378,7 +1378,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.objects.iteration.trace-01",
@@ -1433,7 +1433,7 @@
       "hints": [
         "Find which key page holds on the second pass.",
         "On each pass, most takes the value under the current key.",
-        "The keys are visited in order: a, b, then c."
+        "Check the if on line 5: it decides whether most changes on each pass."
       ],
       "reference": {
         "title": "for...in",
@@ -1442,7 +1442,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.iteration.fill-01",
@@ -1559,7 +1559,7 @@
       "hints": [
         "Look for the lines the loop header and the print both rely on.",
         "A loop body sits between its header and its closing brace.",
-        "The loop header reads cart and the body changes count, so both must exist before the loop starts."
+        "Find which lines create cart and count, and which lines use them."
       ],
       "reference": {
         "title": "for...in",
@@ -1569,7 +1569,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.objects.iteration.write-01",
@@ -1664,7 +1664,7 @@
       "hints": [
         "First pick the object from the array, then read its property.",
         "Indexes start at 0, so the second cabin is not at index 2.",
-        "Put the index in brackets after cabins, then a dot and the property name."
+        "Read one item of cabins first, then one key of that item."
       ],
       "reference": {
         "title": "Property accessors",
@@ -1673,7 +1673,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:19"
       ]

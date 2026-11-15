@@ -508,8 +508,8 @@
       "explanation": "A number and a text are different types, even when they show the same digit. === checks value and type together, so 7 === '7' is false.",
       "hints": [
         "Compare what the second line has on each side.",
-        "=== looks at the type as well as the value.",
-        "One side is a number and the other side is text."
+        "Think about what === checks besides the value written on each side.",
+        "Compare the two sides of line 2: are they the same kind of value?"
       ],
       "reference": {
         "title": "Equality comparisons and sameness",
@@ -519,7 +519,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 4,
       "legacyKeys": [
         "exercise:JUNIOR:10"
       ]
@@ -681,7 +681,7 @@
       "hints": [
         "Work out what reading holds after line 4.",
         "+ with a text joins; it does not add.",
-        "Compare '301' with 30."
+        "After line 4, compare the new reading with limit using the rule for ==."
       ],
       "reference": {
         "title": "Equality (==)",
@@ -690,7 +690,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.operators-and-comparisons.loose-equality.fill-01",
@@ -1030,7 +1030,7 @@
       "hints": [
         "Check what water holds when line 4 runs.",
         "A variable keeps its newest value.",
-        "Is 1 at least 2?"
+        "Work out water after line 3, then apply >= with 2."
       ],
       "reference": {
         "title": "Greater than or equal (>=)",
@@ -1039,7 +1039,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.fill-01",
@@ -1226,7 +1226,7 @@
         {
           "text": "false\nfalse",
           "correct": false,
-          "feedback": "You gave comment the same result as spacer. One text holds nothing at all, and the other holds a character.",
+          "feedback": "You treated the empty text as truthy, as if any text counted. The card lists the empty text among the falsy values.",
           "misconception": "falsy-by-meaning"
         }
       ],
@@ -1247,7 +1247,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:JUNIOR:2"
       ]
@@ -1546,8 +1546,8 @@
       "explanation": "The || sign gives back its left side when it is truthy, and its right side when it is falsy. So username || 'guest' falls back to 'guest' only for empty or falsy names.",
       "hints": [
         "You need a sign that picks one of two values.",
-        "|| keeps the left side if it is truthy.",
-        "Put username on the left and 'guest' on the right."
+        "Two signs on the card give back one of their operands; decide which one keeps a truthy left side.",
+        "Test your expression with username set to '' and to 'Mo', and check which value comes back each time."
       ],
       "reference": {
         "title": "Logical OR (||)",
@@ -1556,7 +1556,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

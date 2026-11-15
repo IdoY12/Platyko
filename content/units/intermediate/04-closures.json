@@ -395,7 +395,7 @@
       "hints": [
         "Line 3 runs once for each call of bake.",
         "The variable loaves lives outside bake and keeps its value.",
-        "Add the first two amounts only."
+        "Follow loaves through the first two calls and stop at the second one."
       ],
       "reference": {
         "title": "Closures",
@@ -404,7 +404,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-captures-variable.fill-01",
@@ -457,7 +457,7 @@
       "hints": [
         "Look at what the inner function needs to add in front.",
         "A function can use the parameters of the function that created it.",
-        "Two of the chips are names of parameters; only one belongs to stamp."
+        "Check which parameter belongs to stamp and which belongs to the returned function."
       ],
       "reference": {
         "title": "Closures",
@@ -467,7 +467,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.closures.closure-captures-variable.fix-01",
@@ -511,7 +511,7 @@
       "hints": [
         "Look at which variable line 3 subtracts.",
         "A copy made earlier does not follow later changes.",
-        "Line 3 should depend on a variable that line 4 changes, not on a value stored earlier."
+        "Look at which variable line 3 reads, and which variable line 4 changes."
       ],
       "reference": {
         "title": "Closures",
@@ -521,7 +521,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.closures.closure-captures-variable.write-01",
@@ -622,7 +622,7 @@
       "hints": [
         "The callback needs to remember something between calls.",
         "A variable declared outside the callback keeps its value from call to call.",
-        "Declare previous before filter, compare, then update it inside the callback."
+        "Decide when previous must be updated so the next call compares with the right word."
       ],
       "reference": {
         "title": "Array.prototype.filter()",
@@ -631,7 +631,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-private-state.predict-01",
@@ -682,7 +682,7 @@
       "hints": [
         "Look at the two values printed on line 11.",
         "Only the functions written inside makeGate can see count.",
-        "One value reads count through get; the other looks for a property."
+        "Check whether count is a property of the object that makeGate returns."
       ],
       "reference": {
         "title": "Closure (glossary)",
@@ -692,7 +692,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:9"
       ]
@@ -813,7 +813,7 @@
       "hints": [
         "Line 4 runs once for each call of wallet.",
         "cash keeps its value between calls.",
-        "Start from 10 and apply the first two changes only."
+        "Follow cash through the first two calls of wallet and stop there."
       ],
       "reference": {
         "title": "Closures",
@@ -822,7 +822,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-private-state.parsons-01",
@@ -873,7 +873,7 @@
       "hints": [
         "Start with the line that opens makeShelf.",
         "The returned function lowers n first and returns it second.",
-        "Create take from makeShelf(3) before the line that calls it."
+        "Find which lines must exist before console.log can call take."
       ],
       "reference": {
         "title": "Closures",
@@ -883,7 +883,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.closures.closure-private-state.fix-01",
@@ -932,7 +932,7 @@
       "hints": [
         "Look at what line 4 does with the result of hits + 1.",
         "Private state changes only when the inner function assigns to it.",
-        "The fixed line must change hits and also give the call its result."
+        "Check both what line 4 changes and what the call returns."
       ],
       "reference": {
         "title": "Closures",
@@ -942,7 +942,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.closures.closure-private-state.write-01",
@@ -953,7 +953,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write the body of numberBoxes(prefix, names). Return one label per name, like \"crate-1\" and \"crate-2\", counting up from 1 with a private counter.",
+      "prompt": "Write the body of numberBoxes(prefix, names). Return one label per name: prefix, a dash, then a private counter starting at 1, like \"crate-1\" and \"crate-2\" for prefix \"crate\".",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1046,7 +1046,7 @@
       "hints": [
         "Where should the counter live so each call continues from the last?",
         "Declare it outside the inner function and add 1 inside it.",
-        "Raise count before building the label, then call nextId once per name."
+        "Check what the label needs from count each time it is built."
       ],
       "reference": {
         "title": "Closures",
@@ -1055,7 +1055,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-in-loops.predict-01",
@@ -1224,7 +1224,7 @@
       "hints": [
         "Line 5 runs after the loop has ended.",
         "All three functions read the same k.",
-        "Find k when the loop stops, then double it."
+        "Check what k holds when line 5 runs."
       ],
       "reference": {
         "title": "var",
@@ -1233,7 +1233,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.closures.closure-in-loops.fill-01",
@@ -1343,7 +1343,7 @@
       "hints": [
         "Look at the keyword in the loop header on line 2.",
         "The functions all share one variable when the loop uses var.",
-        "Choose the keyword that makes a new variable for every pass."
+        "Compare how var and let behave in a loop header."
       ],
       "reference": {
         "title": "let",
@@ -1353,7 +1353,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-in-loops.write-01",

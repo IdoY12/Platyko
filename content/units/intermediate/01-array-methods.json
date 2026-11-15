@@ -264,9 +264,9 @@
           "misconception": "iteration-method-mutates-original"
         },
         {
-          "text": "1 7",
+          "text": "undefined 7",
           "correct": false,
-          "feedback": "map does not fold the elements into one value. It returns one result per element, so bonus is as long as marks.",
+          "feedback": "map does not fold the elements into one value, so bonus is not a single number. It returns an array.",
           "misconception": "map-collapses-to-one-value"
         }
       ],
@@ -287,7 +287,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:25"
       ]
@@ -398,7 +398,7 @@
       "hints": [
         "Line 4 runs once for every element of orders.",
         "A variable declared outside the callback keeps its value from one call to the next.",
-        "Add the first two orders only; the third has not been reached yet."
+        "Follow seen through the calls in order, and stop at the second one."
       ],
       "reference": {
         "title": "Array.prototype.map()",
@@ -407,7 +407,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.array-methods.array-map.fill-01",
@@ -846,7 +846,7 @@
       "hints": [
         "Some lines read a name that another line creates; that line must come first.",
         "filter keeps the elements that pass a test, and map transforms what filter returns.",
-        "The predicate isLong only needs to exist before filter uses it."
+        "Find the line that creates isLong and the line that uses it."
       ],
       "reference": {
         "title": "Array.prototype.filter()",
@@ -856,7 +856,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.array-methods.array-filter.fix-01",
@@ -898,7 +898,7 @@
       "hints": [
         "Check which numbers make n % 3 truthy.",
         "filter keeps an element when the test is truthy, and 0 is falsy.",
-        "Compare the remainder with 0 so the test is true for multiples."
+        "Check what the callback returns for 3 and for 4, then compare it with what filter needs."
       ],
       "reference": {
         "title": "Array.prototype.filter()",
@@ -908,7 +908,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.array-methods.array-filter.write-01",
@@ -1051,7 +1051,7 @@
       "hints": [
         "Look at the second argument of reduce on line 3.",
         "reduce starts with that value and the callback returns the next total.",
-        "Start from the number on line 3 and add each fare once."
+        "Check what the total is before the first fare is added."
       ],
       "reference": {
         "title": "Array.prototype.reduce()",
@@ -1061,7 +1061,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "duel:6"
       ]
@@ -1177,7 +1177,7 @@
       "hints": [
         "Line 4 runs once for every element.",
         "sum is the total returned by the previous call, starting at 0.",
-        "Add the first three loads; the fourth has not been reached."
+        "Follow sum through the calls in order, and stop at the third one."
       ],
       "reference": {
         "title": "Array.prototype.reduce()",
@@ -1186,7 +1186,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:17"
       ]
@@ -1309,7 +1309,7 @@
       "hints": [
         "Look at the last argument of reduce.",
         "Every step multiplies the running value by the next roll, starting from the starting value.",
-        "Pick the starting value that leaves a product unchanged."
+        "Look at what the starting value 0 does to every product it takes part in."
       ],
       "reference": {
         "title": "Array.prototype.reduce()",
@@ -1319,7 +1319,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.array-methods.array-reduce.write-01",
@@ -1445,7 +1445,7 @@
           "feedback": "Right. find stops at the first match, 12, and gives undefined when nothing matches."
         },
         {
-          "text": "[12, 7, 20] undefined",
+          "text": "[12, 7, 20] []",
           "correct": false,
           "feedback": "That is what filter would give. find returns only the first matching element, not an array.",
           "misconception": "search-method-returns-array"
@@ -1464,7 +1464,7 @@
       "hints": [
         "Compare the two tests on lines 2 and 5.",
         "find returns one element, or a special value when nothing matches.",
-        "The first test matches, and the second test matches no delay."
+        "Work out which delays pass the test on line 3, then which pass the test on line 6."
       ],
       "reference": {
         "title": "Array.prototype.find()",
@@ -1474,7 +1474,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 5,
       "legacyKeys": [
         "exercise:JUNIOR:27"
       ]
@@ -1524,7 +1524,7 @@
       "hints": [
         "Compare what lines 2 and 5 return when nothing passes.",
         "some answers a yes or no question; filter collects elements.",
-        "One result is a boolean and the other is an array."
+        "Check what each of the two methods hands back when no element passes."
       ],
       "reference": {
         "title": "Array.prototype.some()",
@@ -1534,7 +1534,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:16"
       ]
@@ -1623,11 +1623,11 @@
         ],
         "expectedOutput": "11\ntrue"
       },
-      "explanation": "km must exist before find reads it, and far must exist before it is printed or searched for. find returns 11, the first trail over 10, and includes finds that value in km.",
+      "explanation": "km must exist before find reads it, and far must exist before it is printed or searched for. find returns 11, the first distance over 10, and includes finds that value in km.",
       "hints": [
         "The array must be declared before anything reads it.",
         "far is made by find, and both console.log lines use far.",
-        "The program prints 11 before it prints true."
+        "Find which line must exist before the two console.log lines can read far."
       ],
       "reference": {
         "title": "Array.prototype.includes()",
@@ -1637,7 +1637,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "int.array-methods.array-find-and-search.fix-01",

@@ -94,6 +94,10 @@
     {
       "id": "infinite-generator-hangs",
       "description": "Believes a generator with an endless loop freezes the program as soon as it is used."
+    },
+    {
+      "id": "value-tests-the-end",
+      "description": "Believes a loop over next() results can test the value instead of done, so a falsy value looks like the end."
     }
   ],
   "sources": [
@@ -263,7 +267,7 @@
       "hints": [
         "Look at what Array.from receives on line 2.",
         "A string is an iterable, so it has an iterator that yields values.",
-        "Count what the string's iterator yields for 'K9-M'; each yielded value becomes one element, and the second one is printed."
+        "Line 3 prints how many elements the array holds and the one at index 1."
       ],
       "reference": {
         "title": "Array.from()",
@@ -273,7 +277,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:MID:14"
       ]
@@ -369,12 +373,13 @@
           "text": "s.value",
           "correct": false,
           "feedback": "The value 0 is falsy, so the loop stops at the second bus. The total would be 4 instead of the sum of all three.",
-          "misconception": "done-true-means-more"
+          "misconception": "value-tests-the-end"
         },
         {
           "text": "!s.value",
           "correct": false,
-          "feedback": "The first value, 4, is truthy, so this condition is false at once and total stays 0."
+          "feedback": "The first value, 4, is truthy, so this condition is false at once and total stays 0.",
+          "misconception": "value-tests-the-end"
         }
       ],
       "solution": {
@@ -389,7 +394,7 @@
       "hints": [
         "Compare what each chip tests on line 5.",
         "An iterator reports its end with the done property, not with the value.",
-        "Which chip is true while the iterator still has a result, whatever its value is?"
+        "Line 5 must stay true while the iterator reports more results; compare whether each chip reads done or value."
       ],
       "reference": {
         "title": "Iteration protocols",
@@ -398,7 +403,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.iterators-and-generators.iteration-protocol.fix-01",
@@ -424,8 +429,7 @@
         {
           "text": "const prices = Object.keys(menu);",
           "correct": false,
-          "feedback": "This gives the names, so prices[0] is the text tea. You need the values, not the keys.",
-          "misconception": "objects-are-iterable"
+          "feedback": "This gives the names, so prices[0] is the text tea. You need the values, not the keys."
         },
         {
           "text": "const prices = Array.from(menu);",
@@ -442,7 +446,7 @@
       "hints": [
         "Check which kind of value line 2 tries to spread.",
         "Spread needs an iterable, and a plain object has no [Symbol.iterator].",
-        "Line 2 needs something iterable built from the property values of the object."
+        "Look at the static methods of Object that turn an object into an array."
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -452,7 +456,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.iterators-and-generators.iteration-protocol.write-01",
@@ -559,7 +563,7 @@
       "hints": [
         "Start with the iterator from items[Symbol.iterator]().",
         "Each next() returns an object; only value belongs in the result.",
-        "Loop twice and push step.value only when step.done is false."
+        "Check each result's done flag before keeping its value."
       ],
       "reference": {
         "title": "Symbol.iterator",
@@ -568,7 +572,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.iterators-and-generators.custom-iterables.predict-01",
@@ -750,7 +754,7 @@
       "hints": [
         "Work out n on each call to next() and what done must be.",
         "done: true means there is nothing more to give.",
-        "The condition must first become true when n is 3."
+        "Write the condition out for n = 1, 2 and 3 and compare it with each chip."
       ],
       "reference": {
         "title": "Iteration protocols",
@@ -759,7 +763,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.custom-iterables.fix-01",
@@ -945,7 +949,7 @@
       "hints": [
         "Give the object a [Symbol.iterator] method that returns the iterator.",
         "next() returns { done, value }; value is the current number.",
-        "done becomes true as soon as the current number is greater than to."
+        "Compare the current number with to to decide done, and read the value before moving on."
       ],
       "reference": {
         "title": "Iteration protocols",
@@ -954,7 +958,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.generator-functions.predict-01",
@@ -1120,7 +1124,7 @@
       "hints": [
         "Look at what the loop body must do on every pass.",
         "One keyword gives a value out and lets the generator continue later.",
-        "The keyword is the one that pauses the generator instead of ending it."
+        "Line 3 must hand out a value on each pass and let the loop go on afterwards."
       ],
       "reference": {
         "title": "yield",
@@ -1130,7 +1134,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:28"
       ]
@@ -1179,7 +1183,7 @@
       "hints": [
         "Compare what line 6 loops over with what pages returns.",
         "A generator function must be called to produce an iterable generator.",
-        "Line 6 loops over the function itself, not over a generator object built by calling it."
+        "Compare what line 6 names after of with what a call to pages produces."
       ],
       "reference": {
         "title": "for...of",
@@ -1189,7 +1193,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.iterators-and-generators.generator-functions.write-01",
@@ -1310,7 +1314,7 @@
       "hints": [
         "Write a function* inside the body and spread it at the end.",
         "Loop with i += 2 and hand out items[i] with yield.",
-        "Start i at 0, stop at the length, and spread the generator."
+        "The spread at the end collects what the generator yields; the loop bounds use the length of items."
       ],
       "reference": {
         "title": "Generator",
@@ -1319,7 +1323,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.lazy-sequences.predict-01",
@@ -1466,7 +1470,7 @@
       "hints": [
         "Decide which lines define the generator and which use it.",
         "A generator object must exist before next() is called on it.",
-        "Each next() call moves the generator one yield further, so count how many calls it takes to reach 9."
+        "The program prints one value; decide how many next() calls come before the print."
       ],
       "reference": {
         "title": "Generator.prototype.next()",
@@ -1476,7 +1480,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.iterators-and-generators.lazy-sequences.fix-01",
@@ -1662,7 +1666,7 @@
       "hints": [
         "Define an endless generator, create it once, and loop count times.",
         "Each next() continues the same generator; keep only its value.",
-        "Call next() on one generator object, and push its value into the array."
+        "Create the generator once, outside the loop that calls next()."
       ],
       "reference": {
         "title": "Generator.prototype.next()",
@@ -1671,7 +1675,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

@@ -755,7 +755,7 @@
       "hints": [
         "Start with the line that has no dependency on another variable.",
         "A variable must exist before a later line uses it.",
-        "The print line needs two, and two needs one."
+        "Lines 1 and 4 read variables that other lines define; find those lines first."
       ],
       "reference": {
         "title": "Document: body property",
@@ -765,7 +765,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.dom-and-events.dom-tree-and-selection.fix-01",
@@ -1039,7 +1039,7 @@
       "hints": [
         "Compare the two printed lengths.",
         "textContent covers the whole content of an element, not only the text next to its children.",
-        "One option says the children survive. The second printed number disagrees."
+        "Compare what lines 3 and 5 print for the same list."
       ],
       "reference": {
         "title": "Node: textContent property",
@@ -1049,7 +1049,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.dom-and-events.dom-updates.trace-01",
@@ -1328,7 +1328,7 @@
       "hints": [
         "The heading must be found before it can change.",
         "Assignment replaces the text. += adds to what is already there.",
-        "Set the base text first, then add the two pieces in the order they read."
+        "Compare the target text with the two += pieces on lines 1 and 5."
       ],
       "reference": {
         "title": "Node: textContent property",
@@ -1338,7 +1338,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.dom-and-events.dom-updates.fix-01",
@@ -1749,7 +1749,7 @@
       "hints": [
         "Look at line 6: it names a method and an event type.",
         "A listener is registered with a method that takes an event type and a function.",
-        "The type is a quoted string, written in lower case, for the event the last line triggers."
+        "Line 7 triggers the event; the second blank names that event as text."
       ],
       "reference": {
         "title": "EventTarget: addEventListener() method",
@@ -1758,7 +1758,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.event-listeners.parsons-01",
@@ -2029,7 +2029,7 @@
       "hints": [
         "Find where the click starts, then move outward through the parents.",
         "Bubbling goes from the target to the outermost ancestor.",
-        "Follow the path: button, then its li, then the ul. Read which id each listener prints."
+        "Each listener prints the id of the element it is attached to: lines 8 to 10 show which."
       ],
       "reference": {
         "title": "Event bubbling",
@@ -2038,7 +2038,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7
+      "version": 8
     },
     {
       "id": "int.dom-and-events.event-propagation.concept-01",
@@ -2145,7 +2145,7 @@
       "hints": [
         "Find which element has the listener and which one is clicked.",
         "A click reaches the ancestors of the element it started on.",
-        "The list got a new child after the listener was added, and it still printed."
+        "Ask which element besides the new li hears a click made on the li."
       ],
       "reference": {
         "title": "Event bubbling",
@@ -2154,7 +2154,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.dom-and-events.event-propagation.trace-01",
@@ -2402,7 +2402,7 @@
       "hints": [
         "The condition must be true only when the clicked element is the rent button.",
         "The method asks about the clicked element itself, not about its contents.",
-        "One chip tests the element itself. The others search inside it, read an attribute or do not exist."
+        "Line 4 asks a yes-or-no question about the clicked element, using the selector '.rent'."
       ],
       "reference": {
         "title": "Element: matches() method",
@@ -2411,7 +2411,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.dom-and-events.event-propagation.parsons-01",
@@ -2765,7 +2765,7 @@
       "hints": [
         "Look at line 4 and ask which element it reads.",
         "target is where the event started, currentTarget is where the listener sits.",
-        "One replacement reads the element that holds the listener."
+        "Line 4 must read the property from hint 2 that names the element holding the listener."
       ],
       "reference": {
         "title": "Event: currentTarget property",
@@ -2774,7 +2774,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

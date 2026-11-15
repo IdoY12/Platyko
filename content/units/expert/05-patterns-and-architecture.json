@@ -97,6 +97,10 @@
     {
       "id": "chain-runs-last-first",
       "description": "Believes a joined function runs its last rule first."
+    },
+    {
+      "id": "truthy-filter-removes-listener",
+      "description": "Believes a filter test that is merely truthy drops the listener that should be removed."
     }
   ],
   "sources": [
@@ -376,7 +380,7 @@
           "text": "  fns = fns.filter((x) => x);",
           "correct": false,
           "feedback": "Every function is truthy, so filter keeps all of them and the bell is still notified.",
-          "misconception": "unsubscribe-clears-all"
+          "misconception": "truthy-filter-removes-listener"
         },
         {
           "text": "  fns = [];",
@@ -407,7 +411,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.patterns-and-architecture.observer-pattern.write-01",
@@ -537,7 +541,7 @@
       "hints": [
         "You need a collection of the names that are listening right now.",
         "Subscribing and unsubscribing change the collection; publishing only reads it.",
-        "Split each command at the colon, then add, delete, or loop over the collection depending on the first part."
+        "Split each command at the colon, then decide from the first part whether to change the collection or read it."
       ],
       "reference": {
         "title": "Set",
@@ -546,7 +550,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.predict-01",
@@ -594,7 +598,7 @@
       "hints": [
         "Work out each call separately, starting with the rule it receives first.",
         "chain applies its first rule to the number and its second rule to that result, so the argument order sets the step order.",
-        "In the first call half runs before minus; in the second call minus runs before half."
+        "Work through each call with 50, one rule at a time, and compare the two results."
       ],
       "reference": {
         "title": "First-class function",
@@ -604,7 +608,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.concept-01",
@@ -708,7 +712,7 @@
       "hints": [
         "Look at how line 6 finds the rule inside fare.",
         "A dot reads a fixed name; square brackets read a name stored in a variable.",
-        "The key must come from the parameter m, and the bus rule must stay as the fallback."
+        "Line 6 reads a property of fare; decide whether its name should be written out or taken from m."
       ],
       "reference": {
         "title": "Property accessors",
@@ -718,7 +722,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.fill-01",
@@ -751,8 +755,7 @@
         {
           "text": "x",
           "correct": false,
-          "feedback": "x holds a number, and a number cannot be called, so the program fails.",
-          "misconception": "composition-needs-hierarchy"
+          "feedback": "x holds a number, and a number cannot be called, so the program fails."
         },
         {
           "text": "n",
@@ -775,7 +778,7 @@
       "hints": [
         "Check which function should run first for compose(fee, half).",
         "A call written inside another call's parentheses runs first, and its result feeds the outer call.",
-        "The inner blank is the first step; the outer blank is the step that follows."
+        "Compare which function the prompt says runs first with which call is written inside the other."
       ],
       "reference": {
         "title": "Arrow functions",
@@ -785,7 +788,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.patterns-and-architecture.factory-and-singleton.predict-01",
@@ -815,9 +818,9 @@
           "misconception": "singleton-new-each-call"
         },
         {
-          "text": "0 true",
+          "text": "4 false",
           "correct": false,
-          "feedback": "You thought writing through a leaves the shared object unchanged. Line 7 assigns to a.visits: ask which object that changes.",
+          "feedback": "You thought a later call returns a copy of the stored object: b would show the 4 but be a different object. Check what line 4 returns.",
           "misconception": "reference-copied-not-shared"
         },
         {
@@ -842,7 +845,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 4,
       "legacyKeys": [
         "exercise:SENIOR:0"
       ]
@@ -1071,7 +1074,7 @@
       "hints": [
         "You need a memory of every key that has been requested so far.",
         "A cached factory builds on a miss and reuses on a hit.",
-        "Check the memory for each key; add the key on a miss."
+        "For each key, ask the memory first, then decide whether to record it."
       ],
       "reference": {
         "title": "Map.prototype.has()",
@@ -1080,7 +1083,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.patterns-and-architecture.dependency-inversion.predict-01",
@@ -1328,7 +1331,7 @@
       "hints": [
         "Look at which parameter is called with no arguments on line 2.",
         "Pass functions, not their results, and remember a method taken from an object loses that object.",
-        "The first blank gives a value, the second changes it, and the third must still reach lines."
+        "Each blank must be a function, not a call; check that the third can still reach lines when out calls it."
       ],
       "reference": {
         "title": "First-class function",
@@ -1338,7 +1341,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     }
   ]
 }

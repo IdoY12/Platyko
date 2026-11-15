@@ -303,7 +303,7 @@
       "hints": [
         "Line 4 writes one property on s; line 2 writes another on Shelf.prototype.",
         "hasOwnProperty ignores the prototype, but a property read does not.",
-        "Lines 5 and 6 ask only about s itself; line 7 is a plain read."
+        "Lines 5 and 6 call hasOwnProperty; line 7 is a read, not a check."
       ],
       "reference": {
         "title": "Object.prototype.hasOwnProperty()",
@@ -313,7 +313,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6,
+      "version": 7,
       "legacyKeys": [
         "exercise:MID:7"
       ]
@@ -362,7 +362,7 @@
       "hints": [
         "Compare the two printed values with what lines 4 to 6 touch.",
         "A write lands on the object you assign through, not on its prototype.",
-        "Two objects now hold an hours property. Which one is read first from stall?"
+        "Ask which object stands before the dot on line 4, and which one line 5 names."
       ],
       "reference": {
         "title": "Inheritance and the prototype chain",
@@ -372,7 +372,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "adv.prototypes-and-inheritance.prototype-chain.fill-01",
@@ -406,8 +406,7 @@
         {
           "text": "saw",
           "correct": false,
-          "feedback": "saw is a value, not a property name, so the read gives undefined.",
-          "misconception": "lookup-stops-early"
+          "feedback": "saw is a value, not a property name, so the read gives undefined."
         },
         {
           "text": "Kit",
@@ -437,7 +436,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.prototypes-and-inheritance.prototype-chain.fix-01",
@@ -467,7 +466,7 @@
         {
           "text": "if (bakery.hasOwnProperty('Shop')) {",
           "correct": false,
-          "feedback": "The class name is not a property of bakery, so this is false as well.",
+          "feedback": "You thought hasOwnProperty can find the class through the instance. It still asks only about bakery itself, which has no property named Shop, so this is false as well.",
           "misconception": "own-check-includes-inherited"
         },
         {
@@ -485,7 +484,7 @@
       "hints": [
         "Where does a class keep the methods you declare in its body?",
         "hasOwnProperty skips the prototype. Another test covers the whole chain.",
-        "Replace the whole condition with a test that also looks at inherited names."
+        "Only the condition on line 5 changes; ask which test looks beyond the object itself."
       ],
       "reference": {
         "title": "in operator",
@@ -495,7 +494,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.prototype-chain.write-01",
@@ -732,7 +731,7 @@
       "hints": [
         "Compare what line 4 and line 5 each compare s's link with.",
         "A constructor function has a property named prototype.",
-        "The link goes to a property of Seed, not to Seed."
+        "Line 4 compares p with a property of Seed; line 5 compares it with Seed itself."
       ],
       "reference": {
         "title": "Object.getPrototypeOf()",
@@ -742,7 +741,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "adv.prototypes-and-inheritance.constructor-functions.fill-01",
@@ -798,7 +797,7 @@
       "hints": [
         "Look at which object the constructor should write on.",
         "Every call with new gets a fresh object to fill in.",
-        "The keyword you need names the object under construction."
+        "Ask which name inside a constructor refers to the object that new has just made."
       ],
       "reference": {
         "title": "new operator",
@@ -808,7 +807,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.constructor-functions.fix-01",
@@ -985,7 +984,7 @@
       "hints": [
         "Both the stored data and the method have to be reachable from each new Tag.",
         "Data goes on this inside the constructor. The shared method goes on the prototype.",
-        "Build each Tag with new, call shout(), and push the results into an array."
+        "Declare both the constructor and the method inside the function body, before the loop."
       ],
       "reference": {
         "title": "new operator",
@@ -994,7 +993,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.object-create-and-delegation.predict-01",
@@ -1138,7 +1137,7 @@
       "hints": [
         "Which line has to come first so that the others can use its name?",
         "cake needs recipe, and the doubling needs cake.",
-        "Only one of the two prints can show 8, and it needs the doubling to have run already."
+        "Line 4 changes what one of the two prints shows; place it relative to the prints."
       ],
       "reference": {
         "title": "Object.create()",
@@ -1148,7 +1147,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.prototypes-and-inheritance.object-create-and-delegation.fix-01",
@@ -1191,7 +1190,7 @@
       "hints": [
         "Does line 2 create a second object?",
         "Two names for one object share every change.",
-        "You need a new object that falls back on rack."
+        "Look at the Object methods that build a new object from a prototype."
       ],
       "reference": {
         "title": "Object.create()",
@@ -1201,7 +1200,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.object-create-and-delegation.write-01",
@@ -1303,7 +1302,7 @@
       "hints": [
         "The method must run with your own object as this.",
         "Create the object with Object.create(animal), then give it the two fields.",
-        "Call move on the new object, not on animal itself."
+        "Both fields of species must end up on your own object, not on animal."
       ],
       "reference": {
         "title": "Object.create()",
@@ -1312,7 +1311,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.predict-01",
@@ -1482,7 +1481,7 @@
       "hints": [
         "Line 7 compares the method found through b with the one on the class function.",
         "Where does a class keep the methods its instances share?",
-        "The class function has a property that holds that shared object; its name says what it is for."
+        "Instances are linked to an object stored on the class function; line 7 must read it."
       ],
       "reference": {
         "title": "Classes",
@@ -1492,7 +1491,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.fix-01",
@@ -1661,7 +1660,7 @@
       "hints": [
         "The pets are created before hello exists.",
         "An instance looks a method up on its prototype at call time, so a method added later to the class's prototype is still found.",
-        "Assign a regular function to Pet.prototype.hello after creating the pets, and read this.name inside it."
+        "The method is added after the pets exist; use a regular function so this is the pet."
       ],
       "reference": {
         "title": "Inheritance and the prototype chain",
@@ -1670,7 +1669,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     }
   ]
 }

@@ -544,7 +544,7 @@
       "hints": [
         "Line 5 uses two names. Are they variables?",
         "Properties of the object are read through this inside a method.",
-        "Put this and a dot before each property name."
+        "Check which names on line 5 are properties of seats, and how a method reaches them."
       ],
       "reference": {
         "title": "Method definitions",
@@ -554,7 +554,7 @@
       "duelEligible": true,
       "timeLimitSec": 44,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.this-in-methods.write-01",
@@ -934,7 +934,7 @@
       "hints": [
         "Line 8 calls pour with nothing before the dot.",
         "A method copied into a variable loses the object it came from.",
-        "Make a version of fill that always uses mug."
+        "Line 7 must give pour a version of fill whose this cannot change."
       ],
       "reference": {
         "title": "Function.prototype.bind()",
@@ -944,7 +944,7 @@
       "duelEligible": true,
       "timeLimitSec": 44,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.this-lost-and-bound.write-01",
@@ -1086,7 +1086,7 @@
       "hints": [
         "Look at lines 9 and 10: two instances are made.",
         "Each new call builds a separate object with its own fields.",
-        "The first call reads a's name and the second reads b's."
+        "Check which instance stands before the dot in each of the two calls."
       ],
       "reference": {
         "title": "Classes",
@@ -1095,7 +1095,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:1"
       ]
@@ -1338,7 +1338,7 @@
       "hints": [
         "Line 6 creates the ticket.",
         "Classes are used to make instances with a special keyword.",
-        "Put the keyword before Ticket and keep the argument."
+        "Check how line 6 differs from the way a class makes an instance."
       ],
       "reference": {
         "title": "new operator",
@@ -1348,7 +1348,7 @@
       "duelEligible": true,
       "timeLimitSec": 41,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.class-basics.write-01",
@@ -1450,7 +1450,7 @@
       "hints": [
         "Look at where the starting level comes in: the class constructor must receive start.",
         "pour must add to the stored level, not replace it.",
-        "Make the tank, loop over pours calling pour, then return the level."
+        "Think how to apply pour once for each amount in pours, and what to return afterwards."
       ],
       "reference": {
         "title": "Classes",
@@ -1459,7 +1459,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.this-and-classes.class-inheritance.predict-01",
@@ -1674,7 +1674,7 @@
       "hints": [
         "Start with the line that declares the parent class.",
         "A class must exist before another class extends it or an instance is made from it.",
-        "The method line sits between the line that opens Dog and the line that closes it."
+        "Find which lines open and close Dog, and what belongs between them."
       ],
       "reference": {
         "title": "extends",
@@ -1684,7 +1684,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:2"
       ]
@@ -1737,7 +1737,7 @@
       "hints": [
         "Line 8 uses this inside the Bike constructor.",
         "In a subclass constructor, this does not exist until super() has run.",
-        "Call the parent constructor with the number of wheels."
+        "Check what the Bike constructor must do before it may use this."
       ],
       "reference": {
         "title": "super",
@@ -1746,7 +1746,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.class-inheritance.write-01",
