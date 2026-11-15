@@ -75,7 +75,7 @@ function playSocket(): Socket {
   created.on("connect_error", () => {
     if (created.active) return;
     setTimeout(() => {
-      if (socket !== created) return;
+      if (socket !== created || !store.getState().session.isAuthenticated) return;
       void new UserService()
         .getMe()
         .catch(() => undefined)
@@ -137,3 +137,10 @@ export const playService = {
   cancelInvite: () => playSocket().emit("invite:cancel"),
   answerInvite: (inviteId: string, accept: boolean) => request("invite:answer", { inviteId, accept }),
 };
+
+/**
+ * Development only: a fast refresh runs this module again. The connection of the replaced copy, and
+ * its retry timer, must close with it; left running, its requests refresh the session with their own
+ * single-flight guard, and two refreshes with one token revoke the session as a reuse.
+ */
+(module as { hot?: { dispose: (callback: () => void) => void } }).hot?.dispose(() => playService.disconnect());
