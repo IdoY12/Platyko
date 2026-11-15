@@ -1,4 +1,5 @@
 import { StyleSheet, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import type { InviteEvent } from "@project/api-contract";
 import { AppText } from "@/components/common/AppText/AppText";
 import { LipButton } from "@/components/common/LipButton/LipButton";
@@ -9,6 +10,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { inviteClosed } from "@/redux/play-slice";
 import { playService } from "@/services/playSocket";
 import { palette, space } from "@/theme/tokens";
+import type { RootNavigation } from "@/types/rootNavigation.types";
 import { playRequest } from "./playRequest";
 import { usePlayClock } from "./usePlayClock";
 
@@ -18,10 +20,13 @@ const LONGEST_DUEL_INVITE_MS = 60_000;
 /** One game invitation (PRD 11.3): who, which game, the time left on a duel, and the two answers. */
 export function InviteCard({ invite }: { invite: InviteEvent }) {
   const dispatch = useAppDispatch();
+  const navigation = useNavigation<RootNavigation>();
   const remainingMs = usePlayClock(invite.expiresAt, LONGEST_DUEL_INVITE_MS);
   const answer = async (accept: boolean) => {
     dispatch(inviteClosed(invite.inviteId));
-    await playRequest(() => playService.answerInvite(invite.inviteId, accept));
+    const reply = await playRequest(() => playService.answerInvite(invite.inviteId, accept));
+    // Accepted from the banner over another tab: the game starts on the Play tab, so go there.
+    if (accept && reply) navigation.navigate("MainTabs", { screen: "PlayTab" });
   };
   const title = t(invite.kind === "duel" ? "play.inviteDuelFrom" : "play.inviteRoomFrom", { name: invite.from.username });
 

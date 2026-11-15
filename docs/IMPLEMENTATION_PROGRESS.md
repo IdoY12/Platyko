@@ -20,15 +20,16 @@ after any context reset, then continue from "Current position".
   whole-bank verify offline, legacy map, source ledger).
 - **Phases:** 0 nearly done; 1 done; 2: all 604 items authored, verification pass 1
   (`run-20261114-205833`, 329 findings) and pass 2 (`run-20261114-221204`, 123 findings, 70
-  of them item defects) resolved and committed; pass 3 (`run-20261114-225713`) running; 3 done apart from server
+  of them item defects), pass 3 (`run-20261114-225713`, 57) and pass 4 (`run-20261114-232751`, 44;
+  Gate B clean) resolved and committed; pass 5 (`run-20261115-000513`) running; 3 done apart from server
   push (H6); 4: profile, privacy, search, friends with presence, played recently, block and
   report, friend and room links done; 5: engine, io `/play`, the Play tab, friends duels with
   invitations, rooms that reopen after a game, leaver cooldown, Bug Hunt and Output Race done and
   played end to end on the simulator against scripted players; 6: "explain my mistake" behind
   its flag done.
-- **Next for the main thread:** finish pass 3 (`pass finish <run> --solver/--clarity/--fit`), fix,
+- **Next for the main thread:** pass 5 is running (passes 1–4 resolved: 329, 123, 57 and 44 findings);
   repeat to three consecutive clean passes; meanwhile phase 6 (league, share cards, item
-  analysis), Friend Streak, in-game reactions, GitHub behind its flag, multi-simulator run.
+  analysis) and the Hebrew auth screens.
 - **Next for sub-agents:** gate agents for pass 2, then fix agents per batch (briefs written from
   the pass's findings; see pass 1's `scratchpad/fix1/brief-N.md` for the shape).
 - **Owner rules added mid-run:** at most two sub-agents at a time; sub-agents default to Sonnet
@@ -55,10 +56,10 @@ after any context reset, then continue from "Current position".
 |---|---|---|
 | 0 | Item model, attempts, user-level XP, verification pipeline, CI, bug fixes, tokens, fonts, i18n | In progress |
 | 1 | Learning core: lesson player, 7 formats, feedback, code view, execution player, map, Home, onboarding, mascot | Done (Profile, Settings, auth in the new design; EN + HE) |
-| 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); pass 1 resolved (329 findings); pass 2 next |
+| 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); passes 1–4 resolved (329, 123, 57, 44 findings); pass 5 running |
 | 3 | Retention: review (SM-2), daily challenge, revision, weekly goal, freeze, push, achievements | Done except server push (credentials) |
 | 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Done: profile, privacy, search, friends, played recently, presence, invitations inbox, block and report, friend links. Open: Friend Streak, QR code, GitHub (H7), README badge |
-| 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Done: engine, `/play`, Play tab, friends duels and invitations, presence, reconnect and server-restart recovery, rooms reopening, podium, leaver cooldown, room links, in-game reactions, "how scoring works" screen (examples computed by the engine's own `pointsForAnswer`), `/duel` retired. Open: multi-simulator run |
+| 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Done: engine, `/play`, Play tab, friends duels and invitations, presence, reconnect and server-restart recovery, rooms reopening, podium, leaver cooldown, room links, in-game reactions, "how scoring works" screen (examples computed by the engine's own `pointsForAnswer`), `/duel` retired, and a friends duel played between two simulators (iPhone 17 Pro in Hebrew, iPhone 16e in English): same item each round, clocks in step, draw scored as a shared first place. |
 | 6 | Depth: league, extra modes, AI explain, share cards, item analysis | Bug Hunt, Output Race and "explain my mistake" (flag off until H4) done; Reverse (A33), league, share cards, item analysis open |
 
 ## Work log
