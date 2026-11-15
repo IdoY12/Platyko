@@ -333,7 +333,7 @@ From a read-only audit of the code, tests, logs and screenshots on 15 Nov, updat
 
 | Criterion | Status | Evidence |
 |---|---|---|
-| Every UI string from locale files, none in a component | Partly met | `t()` is used throughout, but English literals remain: `mobile/src/components/app/AppErrorBoundary.tsx:30-33` ("Something went wrong.", "Restart", label), `components/auth/auth-google-button/handleGoogleAuthResponse.ts:13,25` (two alerts). No lint rule enforces it. Small. |
+| Every UI string from locale files, none in a component | Met | Every component text goes through `t()`; the crash screen and Google alerts moved to locale keys (commit `76b1203`); a lint rule rejects lettered JSX text in the app (`eslint.config.js`). |
 | English and Hebrew hold same keys; missing key fails build | Met | `packages/locales/src/locales.test.ts:16` (key parity, placeholders, no empty message); CI runs `npm run test:all` (`.github/workflows/ci.yml`); `t` is typed on the dictionary. |
 | Language switch in settings for guests and users, survives restart | Met | `mobile/src/components/settings/LanguageSwitch.tsx`; stored in AsyncStorage and re-applied before first render (`i18n/languagePreference.ts:11-41`); account language adopted on sign-in. Screenshots `18-settings-he-rtl.png`, `10`/`11` onboarding. Code only (language detection tested, switching not). |
 | Hebrew: every screen mirrored, text right-aligned | Met | Owned by the app (`languagePreference.ts:alignLayoutDirection`). Walk-through in progress log; screenshots `11, 12, 13, 14, 15, 16, 17, 18, 19, 20-26, 27, 39-43, 45, 46`. No automated RTL test. |
@@ -376,7 +376,7 @@ From a read-only audit of the code, tests, logs and screenshots on 15 Nov, updat
 | M5: room of 4, one player leaving does not end the game | Met | `liveMatch.ts:134-142` (ends only when fewer than two remain). Engine tested with two players only (`match.test.ts:29`). |
 | M6: ghost game labelled practice, no rating, not counted in wins | Met | Label: `mobile/src/components/play/PlayMatch.tsx:76`, `locales/en.json` `play.mode.ghost`. Rating only for `ranked` (`io/src/socket/play/persistMatch.ts:38`). Wins exclude `GHOST` (`backend/src/services/play/gameRecord.ts:31`). Code only. |
 | Correct answer in no payload before round ends | Met | `packages/content-model/src/play.test.ts:28` ("send nothing that gives the answer away"); reveal only at `round:end` (`liveMatch.ts:129`). |
-| No item seen in last 20 games while pool allows | Partly met | `io/src/socket/play/playItems.ts:14-22` reads only `20 x players` newest rows across all players together, so one busy player can crowd out the other's history; if too few fresh items it drops the filter for all. Code only. Small: query per player. |
+| No item seen in last 20 games while pool allows | Met (code only) | `io/src/socket/play/playItems.ts` reads each player's own last 20 games and picks unseen items first, filling only a shortfall with seen ones (commit `c1ba5c7`). |
 | Historical solo games not in win statistic | Met | Migration turns self-play into `GHOST` matches (`packages/db/prisma/migrations/20261114000000_redesign_models/migration.sql:4.4`, checked by `backend/src/scripts/verifyRedesignMigration.ts:74`, a manual script not run in CI); wins exclude `GHOST` (`gameRecord.ts:31`). |
 
 ### 20.7 Design and mascot
