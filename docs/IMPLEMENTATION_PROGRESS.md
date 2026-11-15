@@ -143,9 +143,10 @@ Open:
 - [ ] Drop the legacy tables (`DuelQuestion`, `DuelSession`, old exercise and puzzle tables) at cutover, after re-running the redesign migration's data part against production; `/duel`, `duel-constants` and the old duel UI are already gone, so an old app version loses duels once this backend is deployed (ship the backend with the new app).
 - [ ] Server push through Expo (register tokens, send in the stored language) once APNs and EAS
       credentials exist (H6); the smart local reminder covers guests and accounts meanwhile.
-- [ ] Hebrew RTL walk-through of every screen (done: Home, lesson, map, onboarding, Profile,
-      Settings, Play home, how scoring works, Friends, another learner's profile, room lobby,
-      match round, results, Achievements, revision setup; open: the signed-out auth screens).
+- [x] Hebrew RTL walk-through of every screen: Home, lesson, map, onboarding, Profile, Settings,
+      Play home, how scoring works, Friends, another learner's profile, room lobby, match round,
+      results, Achievements, revision setup, sign-in, sign-up, forgot password. The native "Sign
+      in with Apple" button follows the device language, not the app's (iOS draws it).
 - [ ] `npm audit`: critical shell-quote, postcss and source-map-js patched by overrides; Prisma 7 and
       Metro image-size remain (H13).
 - [ ] Docker image builds with the new sandbox package (registry timeouts earlier).
