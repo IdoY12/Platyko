@@ -6,6 +6,7 @@ import { OutlineButton } from "@/components/common/LipButton/OutlineButton";
 import { TextButton } from "@/components/common/LipButton/TextButton";
 import { Screen } from "@/components/common/Screen/Screen";
 import { Surface } from "@/components/common/Surface/Surface";
+import { Mascot } from "@/components/mascot/Mascot";
 import { shareCard } from "@/components/share/shareCard";
 import { t } from "@/i18n/translate";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -27,6 +28,8 @@ export function PlayResults({ match, end }: { match: MatchStartEvent; end: Match
   const own = end.standings.find((standing) => standing.userId === selfId);
   const sharedFirst = end.standings.filter((standing) => standing.place === 1).length > 1;
   const headline = own?.place === 1 ? t(sharedFirst ? "play.draw" : "play.youWon") : t("play.place", { place: own?.place ?? end.standings.length });
+  // PRD 13.4: a win dances, a loss shrugs; a shared first place is neither, and cheers.
+  const mascotState = own?.place === 1 ? (sharedFirst ? "cheer" : "victory") : "defeat";
   const signedChange = end.ratingChange === null ? null : `${end.ratingChange > 0 ? "+" : ""}${end.ratingChange}`;
   const lobby = useAppSelector((state) => state.play.lobby);
   const opponent = match.seats.find((seat) => seat.userId !== selfId && !seat.isGhost);
@@ -49,6 +52,9 @@ export function PlayResults({ match, end }: { match: MatchStartEvent; end: Match
 
   return (
     <Screen scrollable contentStyle={styles.content}>
+      <View style={styles.mascot}>
+        <Mascot state={mascotState} streakLength={0} mood={own?.place === 1 ? 1 : 0} />
+      </View>
       <AppText variant="display" align="center" color={own?.place === 1 && !sharedFirst ? palette.brand.js : palette.text.primary}>
         {headline}
       </AppText>
@@ -78,6 +84,7 @@ export function PlayResults({ match, end }: { match: MatchStartEvent; end: Match
 }
 
 const styles = StyleSheet.create({
+  mascot: { width: "50%", alignSelf: "center" },
   content: { gap: space.xl, paddingTop: space.xxl },
   summary: { gap: space.md },
   rewards: { flexDirection: "row", justifyContent: "center", gap: space.xl },

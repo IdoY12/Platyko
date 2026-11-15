@@ -34,6 +34,8 @@ type Props = {
   onReport: (reason: ItemReportReason) => void;
   /** A wrong `CODE_WRITE` answer by a registered learner: a live explanation may be asked for. */
   explainMistake?: () => Promise<string | null>;
+  /** A `FIX_BUG` item: on a retry, the sheet's hint is the moment the mascot senses the bug. */
+  bugHunt: boolean;
 };
 
 const TITLE_KEY = { correct: "feedback.correctTitle", retry: "feedback.almostTitle", reveal: "feedback.revealTitle" } as const;
@@ -70,12 +72,15 @@ export function FeedbackSheet(props: Props) {
   const { outcome, message, correctAnswer, answerIsCode, mood, canShowRun, canGiveFeedback } = props;
   const [reporting, setReporting] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState(false);
+  const [thinking, setThinking] = useState(false);
+  // PRD 13.4: `think` while an explanation is on its way, `sense` at a bug-fix item's hint.
+  const mascotState = thinking ? "think" : outcome === "retry" && props.bugHunt ? "sense" : MASCOT_STATE[outcome];
 
   return (
     <Animated.View entering={SlideInDown.springify().duration(springs.sheet.duration).dampingRatio(springs.sheet.dampingRatio)} style={[styles.sheet, { borderTopColor: TONE[outcome] }]} accessibilityViewIsModal>
       <View style={styles.header}>
         <View style={styles.mascot}>
-          <Mascot state={MASCOT_STATE[outcome]} streakLength={0} mood={mood} />
+          <Mascot state={mascotState} streakLength={0} mood={mood} />
         </View>
         <View style={styles.headerText}>
           <AppText variant="cardTitle" color={TONE[outcome]} accessibilityRole="header" accessibilityLiveRegion="assertive">
@@ -85,7 +90,7 @@ export function FeedbackSheet(props: Props) {
       </View>
       {outcome === "reveal" && correctAnswer !== null ? <FlipCard answer={correctAnswer} isCode={answerIsCode} /> : null}
       {message ? <ContentText>{message}</ContentText> : null}
-      {props.explainMistake && outcome !== "correct" ? <ExplainMistake explain={props.explainMistake} /> : null}
+      {props.explainMistake && outcome !== "correct" ? <ExplainMistake explain={props.explainMistake} onThinkingChange={setThinking} /> : null}
 
       {canGiveFeedback && outcome !== "retry" && !feedbackGiven ? (
         <View style={styles.feedbackRow}>

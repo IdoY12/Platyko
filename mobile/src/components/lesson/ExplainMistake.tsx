@@ -13,12 +13,14 @@ type State = "idle" | "asking" | "done";
  * comes back (flag off, no provider, quota, failure or a rejected reply) nothing is added: the
  * pre-written explanation above it stays, with no error message.
  */
-export function ExplainMistake({ explain }: { explain: () => Promise<string | null> }) {
+export function ExplainMistake({ explain, onThinkingChange }: { explain: () => Promise<string | null>; onThinkingChange: (thinking: boolean) => void }) {
   const [state, setState] = useState<State>("idle");
   const [explanation, setExplanation] = useState<string | null>(null);
   const ask = async () => {
     setState("asking");
+    onThinkingChange(true);
     setExplanation(await explain().catch(() => null));
+    onThinkingChange(false);
     setState("done");
   };
 

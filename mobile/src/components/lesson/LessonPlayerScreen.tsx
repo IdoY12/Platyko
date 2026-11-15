@@ -114,6 +114,7 @@ export function LessonPlayerScreen({ route, navigation }: Props) {
           message={feedbackMessage(item, checked)}
           correctAnswer={checked.outcome === "reveal" ? correctAnswerText(item) : null}
           answerIsCode={answerIsCode(item)}
+          bugHunt={item.format === "FIX_BUG"}
           mood={player.mood}
           canShowRun={Boolean(item.trace) && checked.outcome !== "retry"}
           canGiveFeedback={!isGuest}
