@@ -150,7 +150,12 @@ Open:
 - [ ] `npm audit`: critical shell-quote, postcss and source-map-js patched by overrides; Prisma 7 and
       Metro image-size remain (H13).
 - [ ] Docker image builds with the new sandbox package (registry timeouts earlier).
-- [ ] 3D model path for the mascot (`platyko.glb`) and `docs/mascot-3d-model.md`.
+- [ ] 3D model path for the mascot (`platyko.glb`) and `docs/mascot-3d-model.md`. Tried and reverted
+      (15 Nov): expo-gl 16 with three.js 0.166/0.187 parsed sample GLBs (Khronos Fox, Duck) and
+      ran the render loop, but on the iOS 26 simulator nothing was presented once a model was in the
+      scene, while plain GL and three.js clears were (needed shims: FinalizationRegistry,
+      `navigator.userAgent`, embedded textures through files). Next candidate: a Metal renderer
+      (react-native-filament), validated against the artist's model (H10).
 - [ ] Legacy tables and endpoints removal after cutover (re-run the migration's data part).
 
 Tooling notes for the next session:
