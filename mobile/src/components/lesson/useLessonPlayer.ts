@@ -303,8 +303,6 @@ export function useLessonPlayer(lessonId: string) {
   return {
     load,
     session,
-    /** A test shows no hints: its score is what the learner knows unaided. */
-    isTest,
     slot,
     item,
     conceptCard,
