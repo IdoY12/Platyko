@@ -7289,7 +7289,7 @@
       "itemId": "beg.values-and-types.number-values.concept-01",
       "unit": "values-and-types",
       "message": "The feedback of the second wrong option ends with 'The / sign keeps the fraction, and % gives the leftover, not the count of times', which is the correct statement almost word for word. The third option's feedback also confirms that the first half is right and says what % gives. The learner gets the answer in the feedback, so the second attempt tests nothing.",
-      "resolution": null
+      "resolution": "Fixed: the two wrong-option feedbacks no longer restate the correct statement and instead send the learner to check the output of line 1 and line 2."
     },
     {
       "gate": "C",
@@ -7297,7 +7297,7 @@
       "itemId": "beg.variables.undefined-and-null.trace-01",
       "unit": "variables",
       "message": "The feedback of the wrong option 'undefined' says 'Line 2 stored null, which is a value you choose.' This names the correct answer outright, so the learner's second attempt is no longer a prediction.",
-      "resolution": null
+      "resolution": "Fixed: the 'undefined' feedback no longer says line 2 stored null and only tells the learner to re-check what line 2 assigns."
     },
     {
       "gate": "C",
@@ -7305,7 +7305,7 @@
       "itemId": "beg.operators-and-comparisons.truthy-and-falsy.trace-01",
       "unit": "operators-and-comparisons",
       "message": "The feedback of the wrong option 'false' ends with 'here the number 0', which names the correct answer outright. The feedback of the wrong option '15' also states the full rule ('gives back the left side when it is falsy, and 0 is falsy'), which leaves only 0 as the answer. The learner's second attempt is no longer a prediction.",
-      "resolution": null
+      "resolution": "Fixed: the '15' and 'false' feedback no longer state the rule outcome or name the number 0, and only direct the learner to the left operand and operand-returning behaviour."
     },
     {
       "gate": "C",
@@ -7313,7 +7313,7 @@
       "itemId": "beg.conditionals.else-branches.parsons-01",
       "unit": "conditionals",
       "message": "Hint 3 ('Put full inside the if block and low inside the else block') states the whole structure of the solution. Only the trivial placement of the braces is left, so the hint no longer stays near the solution without stating it.",
-      "resolution": null
+      "resolution": "Fixed: hint 3 now only says each print line sits between the line that opens its block and the line that closes it."
     },
     {
       "gate": "C",
@@ -7321,7 +7321,7 @@
       "itemId": "beg.functions.return-value.concept-01",
       "unit": "functions",
       "message": "The option 'The last return wins, so aisle comes back' is tagged no-return-last-value (a function with no return gives back its last computed value). Its belief is that a later return replaces an earlier one, which the unit file lists under code-after-return-runs, so the tag is wrong and would route remediation to the wrong misconception.",
-      "resolution": null
+      "resolution": "Fixed: the 'last return wins' option is now tagged code-after-return-runs, which covers a later return replacing an earlier one."
     },
     {
       "gate": "C",
@@ -7329,7 +7329,7 @@
       "itemId": "beg.objects.iteration.predict-02",
       "unit": "objects",
       "message": "The option '3' (the sum of the ids) is tagged object-has-position, which is the belief that object values are read by position. Adding cabin.id instead of cabin.beds is a different slip (reading the wrong key), so the tag would route remediation to the wrong misconception.",
-      "resolution": null
+      "resolution": "Fixed: the option '3' now carries a new unit misconception, wrong-key-read (reads the id instead of beds), instead of object-has-position, which stays in use elsewhere."
     },
     {
       "gate": "C",
@@ -7337,7 +7337,7 @@
       "itemId": "int.array-methods.array-map.concept-01",
       "unit": "array-methods",
       "message": "Hint 2 ('map returns a new array and does not edit the original') is word for word the correct option, so the learner is handed the answer at the concept level.",
-      "resolution": null
+      "resolution": "Fixed: hint 2 now points at where the callback results end up instead of restating the correct option."
     },
     {
       "gate": "C",
@@ -7345,7 +7345,7 @@
       "itemId": "int.array-methods.array-filter.concept-01",
       "unit": "array-methods",
       "message": "Hint 2 ('filter keeps an element when the callback result is truthy') repeats the correct option nearly verbatim, so it states the answer instead of naming the concept.",
-      "resolution": null
+      "resolution": "Fixed: hint 2 now says filter uses each callback result as a test and asks which numbers pass, without stating the rule."
     },
     {
       "gate": "C",
@@ -7353,7 +7353,7 @@
       "itemId": "int.array-methods.array-find-and-search.predict-01",
       "unit": "array-methods",
       "message": "Feedback of option '12 null' says 'When nothing matches it returns undefined', which gives away the second half of the correct answer and removes the learner's second attempt.",
-      "resolution": null
+      "resolution": "Fixed: the '12 null' feedback no longer states undefined and only sends the learner back to the second call."
     },
     {
       "gate": "C",
@@ -7361,7 +7361,7 @@
       "itemId": "int.array-methods.array-find-and-search.concept-01",
       "unit": "array-methods",
       "message": "Feedback of option 'some gives null and filter gives an empty array' says 'some returns a boolean, so it gives false', which states the first half of the correct option and reveals the answer.",
-      "resolution": null
+      "resolution": "Fixed: the 'some gives null' feedback no longer says some gives false; it says only that some never returns null and gives a plain true or false answer."
     },
     {
       "gate": "C",
@@ -7369,7 +7369,7 @@
       "itemId": "int.objects-in-depth.spread-and-rest.concept-01",
       "unit": "objects-in-depth",
       "message": "Hint 2 ('The ... in a parameter list collects arguments into an array') restates the correct option almost word for word, so it states the answer instead of only naming the concept.",
-      "resolution": null
+      "resolution": "Fixed: hint 2 now only says a three-dot parameter behaves differently from a normal one."
     },
     {
       "gate": "C",
@@ -7377,7 +7377,7 @@
       "itemId": "int.objects-in-depth.reference-vs-value.concept-01",
       "unit": "objects-in-depth",
       "message": "Hint 2 ('=== on objects compares where they live, not what they hold') is the correct option rephrased, so the learner is handed the answer at the concept level.",
-      "resolution": null
+      "resolution": "Fixed: hint 2 now says === treats objects differently and asks what it checks, without giving the identity rule."
     },
     {
       "gate": "C",
@@ -7385,7 +7385,7 @@
       "itemId": "int.scope-and-hoisting.hoisting.concept-01",
       "unit": "scope-and-hoisting",
       "message": "Hint 2 ('Hoisting moves the declaration, not the assignment') is the correct option restated, so it gives the answer instead of only naming the concept.",
-      "resolution": null
+      "resolution": "Fixed: hint 2 now only points at what the name holds before the assignment line runs, without restating the correct option."
     },
     {
       "gate": "C",
@@ -7393,7 +7393,7 @@
       "itemId": "int.closures.closure-private-state.concept-01",
       "unit": "closures",
       "message": "Hint 2 ('A new call of the outer function creates new variables') restates the correct option ('Each makeJar call creates its own coins') almost word for word, so it hands over the answer instead of only naming the concept.",
-      "resolution": null
+      "resolution": "Fixed: hint 2 now points at when the line let coins = 0 runs instead of restating the correct option."
     },
     {
       "gate": "C",
@@ -7401,7 +7401,7 @@
       "itemId": "int.this-and-classes.this-lost-and-bound.trace-01",
       "unit": "this-and-classes",
       "message": "Hint 3 says each call drop(2) adds 2 to the starting coins. Read literally, both calls add 2 to the starting value 3, which points to 5 for the second call (the wrong option). The second call must add 2 to the value the first call left behind (5), so the hint points the wrong way.",
-      "resolution": null
+      "resolution": "Fixed: hint 3 now says each call adds 2 to whatever jar.coins holds at that moment, so the second call builds on the first."
     },
     {
       "gate": "C",
@@ -7409,7 +7409,7 @@
       "itemId": "int.async-basics.async-error-handling.trace-01",
       "unit": "async-basics",
       "message": "The reference points to Promise.prototype.finally(), but the snippet uses the try...catch...finally statement inside an async function. A learner who follows the link reads about a different construct; the try...catch page (as used by the sibling item) fits the code.",
-      "resolution": null
+      "resolution": "Fixed: the reference now points to the try...catch statement page that matches the snippet."
     },
     {
       "gate": "C",
@@ -7417,7 +7417,7 @@
       "itemId": "int.dom-and-events.event-listeners.trace-01",
       "unit": "dom-and-events",
       "message": "Hint 1 already states the key rule (listeners fire in registration order, not definition order). Hint 1 should only point at where to look; the rule belongs in hint 2, so the hints do not rise in strength.",
-      "resolution": null
+      "resolution": "Fixed: hint 1 now only points at lines 6 and 7, and the registration-order rule moved into hint 2."
     },
     {
       "gate": "C",
@@ -7425,7 +7425,7 @@
       "itemId": null,
       "unit": "dom-and-events",
       "message": "dom-and-events.lesson-4: The card says closest(selector) returns the nearest ancestor that matches. closest also tests the element itself first, so a click whose target is the matching element returns that element. A learner delegating on clicks of the item itself would be misled by the word ancestor.",
-      "resolution": null
+      "resolution": "Fixed: the concept card now says closest returns the element itself or its nearest ancestor that matches."
     },
     {
       "gate": "C",
@@ -7433,7 +7433,7 @@
       "itemId": "adv.event-loop.macrotask-queue.predict-01",
       "unit": "event-loop",
       "message": "Hint 3 says both plain say calls come before the callback in the printed order. That states the full output order ('doors open', 'seats filled', then 'curtain'), so only one option remains and the learner has nothing left to work out. It should narrow the choice, not state it.",
-      "resolution": null
+      "resolution": "Fixed: hint 3 now asks where the timer callback's output falls relative to the two plain lines instead of stating the order."
     },
     {
       "gate": "C",
@@ -7441,7 +7441,7 @@
       "itemId": "adv.prototypes-and-inheritance.class-as-prototype-sugar.fill-01",
       "unit": "prototypes-and-inheritance",
       "message": "The correct-option feedback and the explanation both say 'bike has no own go' and 'bike finds the same function', but the snippet has no variable named bike; the instance is called b. A learner looking for bike in the code is confused.",
-      "resolution": null
+      "resolution": "Fixed: the feedback, explanation and hint 1 now call the instance b, as in the snippet."
     },
     {
       "gate": "C",
@@ -7449,7 +7449,7 @@
       "itemId": "adv.modules.exports-and-imports.concept-01",
       "unit": "modules",
       "message": "Hint 2 says a single unnamed value is 'found by position, as the only one'. A default export is not found by position; it is stored under the fixed name default and the importer simply binds it to a name of its choice. The hint teaches a wrong mechanism.",
-      "resolution": null
+      "resolution": "Fixed: hint 2 no longer claims a default export is found by position; it only asks how named and default exports are matched to the importer's name."
     },
     {
       "gate": "C",
@@ -7457,7 +7457,7 @@
       "itemId": "adv.modules.exports-and-imports.fix-01",
       "unit": "modules",
       "message": "Hint 1 says to compare 'the ids on line 7 with the ids on line 5', but line 5 (return { count };) contains no ids; ids is declared on line 4. A learner looks for ids on line 5, finds nothing, and may be sent the wrong way. It should point at the returned object on line 5 rather than at an ids on it.",
-      "resolution": null
+      "resolution": "Fixed: hint 1 now compares the names taken on line 7 with the object returned on line 5."
     },
     {
       "gate": "C",
@@ -7465,7 +7465,7 @@
       "itemId": "adv.map-set-weakmap-symbol.weak-collections.predict-01",
       "unit": "map-set-weakmap-symbol",
       "message": "The feedback of option 'tidy\\ndone' ends with 'so line 5 throws', which states the correct outcome (the TypeError) and so reveals the answer; the learner has no second attempt left to reason out.",
-      "resolution": null
+      "resolution": "Fixed: the 'tidy\\ndone' feedback no longer states that line 5 throws; it only says a WeakMap is stricter about its keys."
     },
     {
       "gate": "C",
@@ -7473,7 +7473,7 @@
       "itemId": "adv.performance-and-memory.memory-leaks.write-01",
       "unit": "performance-and-memory",
       "message": "'Return running names by first start' can be read as order of the first start ever, or order of the current run. For ['start a','start b','stop a','start a'] the Set reference returns ['b','a'] (the restarted name moves to the end), while the literal reading 'by first start' gives ['a','b']. No test pins this down, and hint 3 and the explanation repeat the 'order of first start' wording, so a careful learner who keeps first-start order is marked wrong by a hidden choice.",
-      "resolution": null
+      "resolution": "Fixed: the prompt, explanation and hint 3 now say names are ordered by when their current run began, and a test pins a stop followed by a restart."
     },
     {
       "gate": "C",
@@ -7481,7 +7481,7 @@
       "itemId": "adv.performance-and-memory.algorithmic-cost.predict-01",
       "unit": "performance-and-memory",
       "message": "The feedback of '6 6' states 'It never visits the stops after the 3', and the feedback of '3 6' states that 'it is find that quits early'. Both give away the mechanism and the visited count of the correct answer ('6 3') instead of only addressing the mistaken belief.",
-      "resolution": null
+      "resolution": "Fixed: both wrong-option feedbacks now only address the mistaken belief and no longer state the mechanism or the visited count."
     },
     {
       "gate": "C",
@@ -7489,7 +7489,7 @@
       "itemId": "exp.type-coercion-and-edge-cases.numeric-edge-cases.concept-01",
       "unit": "type-coercion-and-edge-cases",
       "message": "The feedback of the option that says === compares the sign of zero begins 'It is the other way round. === says they are equal, and Object.is is the one that separates them.' That states the correct answer outright instead of addressing the mistaken belief, so the learner gets no real second attempt.",
-      "resolution": null
+      "resolution": "Fixed: the feedback now points the learner at lines 2 to 4 without stating which comparison ignores the sign."
     },
     {
       "gate": "C",
@@ -7497,7 +7497,7 @@
       "itemId": "exp.proxy-reflect-metaprogramming.proxy-traps.predict-01",
       "unit": "proxy-reflect-metaprogramming",
       "message": "The feedback of '4\\nundefined' ends with 'it answers 0 there', which states the second printed value of the correct answer outright. It should only say that the trap also runs for a missing key.",
-      "resolution": null
+      "resolution": "Fixed: the '4\\nundefined' feedback no longer says the trap answers 0; it only says the trap also runs for a missing key."
     },
     {
       "gate": "C",
@@ -7505,7 +7505,7 @@
       "itemId": "exp.debugging.reading-a-stack-of-calls.fill-02",
       "unit": "debugging",
       "message": "The feedback of 'then' and 'finally' says 'nothing is printed'. In both cases the rejection reaches the end of the chain unhandled, and under the execution model that prints 'Uncaught (in promise) TypeError' (and a real console reports it too). Only console.log(log) prints nothing, so the learner is told something the program does not do.",
-      "resolution": null
+      "resolution": "Fixed: the 'then' and 'finally' feedback now says the rejection stays unhandled and the log is never printed, instead of 'nothing is printed'."
     },
     {
       "gate": "D",
@@ -7513,7 +7513,7 @@
       "itemId": "beg.arrays.iteration.trace-01",
       "unit": "arrays",
       "message": "The snippet uses the compound assignment `+=` (total += crate), which no earlier unit or declared prerequisite teaches; Variables and Loops only show `x = x + n`. A beginner meets an unexplained operator inside a trace item.",
-      "resolution": null
+      "resolution": "Fixed: the snippet now uses total = total + crate, the form taught in earlier units, instead of +=."
     },
     {
       "gate": "D",
@@ -7521,7 +7521,7 @@
       "itemId": "beg.arrays.iteration.parsons-01",
       "unit": "arrays",
       "message": "The loop body uses `song += ...`, the compound assignment `+=`, which neither this unit's declared prerequisites nor any earlier unit teaches (they use `x = x + n`). It is needed to read the program being ordered.",
-      "resolution": null
+      "resolution": "Fixed: the loop body now uses song = song + \"-\" + notes[i] instead of +=; the line order is unchanged."
     },
     {
       "gate": "D",
@@ -7529,7 +7529,7 @@
       "itemId": "int.scope-and-hoisting.hoisting.fill-01",
       "unit": "scope-and-hoisting",
       "message": "Rated 3, but it is a three-line snippet with one blank and three chips (var, let, const) and one idea; the other single-idea fill in the unit (block-scope.fill-01) is 2. It should be 2 so difficulty rises inside the lesson.",
-      "resolution": null
+      "resolution": "Fixed: difficulty lowered from 3 to 2 so it sits below the lesson's concept item."
     },
     {
       "gate": "D",
@@ -7537,7 +7537,7 @@
       "itemId": "int.scope-and-hoisting.temporal-dead-zone.write-01",
       "unit": "scope-and-hoisting",
       "message": "The task (average of an array, 0 when empty) is a plain loop-accumulator exercise; any correct answer is written in the natural order and never touches the temporal dead zone. Only one wrong solution hits it, so the item does not test this lesson's concept.",
-      "resolution": null
+      "resolution": "Fixed: rewrote the item so the learner must declare a function first and call it only after a later let line, which exercises the temporal dead zone (wrong solutions hit the ReferenceError)."
     },
     {
       "gate": "D",
@@ -7545,7 +7545,7 @@
       "itemId": "adv.event-loop.await-scheduling.predict-01",
       "unit": "event-loop",
       "message": "Rated 4, but it is the simplest await case (one await, one plain line after the call) and opens the lesson. The Parsons item parsons-01 in the same lesson has the same program shape and is rated 3, so the lesson does not rise and the two ratings contradict each other. This predict item should be 3.",
-      "resolution": null
+      "resolution": "Fixed: difficulty lowered from 4 to 3, matching parsons-01 of the same lesson."
     },
     {
       "gate": "D",
@@ -7553,7 +7553,7 @@
       "itemId": "adv.prototypes-and-inheritance.class-as-prototype-sugar.write-01",
       "unit": "prototypes-and-inheritance",
       "message": "The lesson concept is that a class is syntax over prototypes. This task exercises only extends and super.cost(), which is the declared prerequisite class-inheritance. Nothing in the task, tests, hints or explanation touches the prototype link, a prototype method or the constructor function, so the item does not test the lesson's own concept.",
-      "resolution": null
+      "resolution": "Fixed: the task now builds Pet instances first and then adds hello() to Pet.prototype, so it tests the prototype link, with a new entry, tests, wrong solutions, hints and prerequisites (class-basics)."
     },
     {
       "gate": "D",
@@ -7561,7 +7561,7 @@
       "itemId": "adv.map-set-weakmap-symbol.weak-collections.predict-01",
       "unit": "map-set-weakmap-symbol",
       "message": "Hint 2 and the first wrong option's feedback say a WeakMap key may also be 'a non-registered symbol'. Symbols, and the registered versus non-registered distinction, are taught only in lesson 4 of this unit, and this lesson's declared prerequisites do not include them. A learner in lesson 3 meets an unexplained idea in the feedback. The item can be solved without it, so only the hint and feedback wording needs to drop the parenthetical.",
-      "resolution": null
+      "resolution": "Fixed: removed the non-registered symbol parenthetical from hint 2 and the option feedback, so only objects are mentioned."
     },
     {
       "gate": "D",
@@ -7569,7 +7569,7 @@
       "itemId": "adv.map-set-weakmap-symbol.weak-collections.parsons-01",
       "unit": "map-set-weakmap-symbol",
       "message": "Rated 4, but it orders five lines whose only constraints are that the two declarations come first and add comes before the true check. The second hint already gives the whole structure, and there is no subtle effect to trace. The Parsons items of comparable size in the other advanced units are rated 3. This is a 3 for the advanced track.",
-      "resolution": null
+      "resolution": "Fixed: difficulty lowered from 4 to 3 for the five-line WeakSet ordering."
     },
     {
       "gate": "D",
@@ -7577,7 +7577,7 @@
       "itemId": "adv.performance-and-memory.memory-leaks.fill-01",
       "unit": "performance-and-memory",
       "message": "Rated 4, but the learner only has to pick the one chip that removes the entry from the array (pop). The reachability idea was already needed for the lesson's rated-3 concept item, and the chips are plain array methods. This is the same level as that item, so it is a 3 for the advanced track.",
-      "resolution": null
+      "resolution": "Fixed: difficulty lowered from 4 to 3 as the finding argued."
     },
     {
       "gate": "D",
@@ -7585,7 +7585,7 @@
       "itemId": "exp.type-coercion-and-edge-cases.to-primitive-conversion.fix-01",
       "unit": "type-coercion-and-edge-cases",
       "message": "Rated 5, but it is a one-step fix: valueOf returns a string, so change it to return the number. The lesson's predict item (valueOf versus toString by hint) is rated 4 and needs more steps, so the fix item is easier than the item before it and does not belong at the top of the track's scale. It is a 4.",
-      "resolution": null
+      "resolution": "Fixed: difficulty lowered from 5 to 4."
     },
     {
       "gate": "D",
@@ -7593,7 +7593,7 @@
       "itemId": "exp.debugging.reading-a-stack-of-calls.predict-01",
       "unit": "debugging",
       "message": "Rated 5 and placed first in its lesson, but it is one trace of throw, try, finally and catch over two frames, which is Errors-unit material at the same depth as the lesson's other items rated 4. Opening the lesson at the top of the scale leaves no room to rise within the lesson. It is a 4.",
-      "resolution": null
+      "resolution": "Fixed: difficulty lowered from 5 to 4."
     },
     {
       "gate": "D",
@@ -7601,7 +7601,7 @@
       "itemId": "exp.debugging.reading-a-stack-of-calls.fill-02",
       "unit": "debugging",
       "message": "The lesson concept is following a failure through several functions. This item is a plain promise rejection and recovery chain (Promise.reject, then, catch) with no function calling another, so it re-tests promise-rejection-flow from the Promises unit instead of the lesson's concept. It has the same shape as promise-rejection-flow.fill-01 in the advanced track, where it is rated 3, and here it is rated 4.",
-      "resolution": null
+      "resolution": "Fixed: rewrote the item so the rejection travels from load through run to the caller (functions calling functions), keeping the same two blanks and chips."
     },
     {
       "gate": "D",
@@ -7609,7 +7609,7 @@
       "itemId": "exp.patterns-and-architecture.strategy-and-composition.predict-01",
       "unit": "patterns-and-architecture",
       "message": "Below the Expert track. It only asks the learner to call a function passed as an argument and add 3, which is Functions-unit material (intermediate level) with two lines of arithmetic. Expert items are rated 4 to 5 and expect several combined ideas; this has one.",
-      "resolution": null
+      "resolution": "Fixed: replaced the single-call snippet with a chain(first, second) composition printed in both argument orders, so the learner must track closure and rule order (difficulty stays 4, now earned)."
     },
     {
       "gate": "D",
@@ -7617,7 +7617,7 @@
       "itemId": "exp.patterns-and-architecture.strategy-and-composition.fix-01",
       "unit": "patterns-and-architecture",
       "message": "Below the Expert track. The whole fix is dot access versus bracket access with a variable key (fare.m versus fare[m]), a basic Objects-unit idea. The strategy table around it adds nothing the learner has to reason about, so it does not reach the 4 to 5 range.",
-      "resolution": null
+      "resolution": "Fixed: the strategy table now has a pick function with a bracket lookup plus a || fallback to the bus rule, printing 27 and 6, so the fix combines dynamic key lookup with a default strategy."
     },
     {
       "gate": "D",
@@ -7625,7 +7625,7 @@
       "itemId": "exp.patterns-and-architecture.dependency-inversion.fix-01",
       "unit": "patterns-and-architecture",
       "message": "Below the Expert track. The bug is that the function ignores its send parameter and calls mail directly, so the fix is to call the parameter. That is a one-step Functions-unit idea with a single changed token; it is not a 4 to 5 item for expert learners.",
-      "resolution": null
+      "resolution": "Fixed: the bug is now an Alert class whose constructor ignores its injected send parameter (default parameter, this and class), with new wrong options that test truthiness and call-versus-store."
     },
     {
       "gate": "D",
@@ -7633,7 +7633,7 @@
       "itemId": "exp.patterns-and-architecture.dependency-inversion.fill-01",
       "unit": "patterns-and-architecture",
       "message": "Below the Expert track. Both blanks are solved by passing functions by name instead of calling them, and the two chips that call or hard-code a value fail for the same simple reason. This is intermediate callback usage, not an expert-level combination of ideas.",
-      "resolution": null
+      "resolution": "Fixed: the fill now has three blanks including an injected out function, and the lines.push chip fails because the method loses its array, so it needs a wrapper arrow, which is expert-level reasoning."
     }
   ]
 }

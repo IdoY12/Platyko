@@ -2521,24 +2521,25 @@
   },
   "adv.prototypes-and-inheritance.class-as-prototype-sugar.write-01": {
    "code": [
-    "function rushTotals(prices) {",
+    "function lateGreetings(names) {",
     "class Pet {",
     "  constructor(n) { this.name = n; }",
     "}",
-    "const all = names.map((n) => new Pet(n));",
+    "const make = (n) => new Pet(n);",
+    "const all = names.map(make);",
     "Pet.prototype.hello = function () {",
     "  return 'hi ' + this.name;",
     "};",
     "return all.map((g) => g.hello());",
     "}",
-    "console.log(rushTotals([\"ann\",\"bo\"]));"
+    "console.log(lateGreetings([\"ann\",\"bo\"]));"
    ],
    "output": [
-    "Uncaught ReferenceError"
+    "['hi ann', 'hi bo']"
    ],
    "steps": [
     {
-     "line": 11,
+     "line": 12,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -2551,15 +2552,329 @@
      "line": 5,
      "variables": [
       {
-       "name": "prices",
-       "scope": "rushTotals",
+       "name": "names",
+       "scope": "lateGreetings",
        "value": "['ann', 'bo']"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "rushTotals"
+      "lateGreetings"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "names",
+       "scope": "lateGreetings",
+       "value": "['ann', 'bo']"
+      },
+      {
+       "name": "make",
+       "scope": "lateGreetings",
+       "value": "[Function: make]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "lateGreetings"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "names",
+       "scope": "lateGreetings",
+       "value": "['ann', 'bo']"
+      },
+      {
+       "name": "make",
+       "scope": "lateGreetings",
+       "value": "[Function: make]"
+      },
+      {
+       "name": "n",
+       "scope": "make",
+       "value": "'ann'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "lateGreetings",
+      "make"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "names",
+       "scope": "lateGreetings",
+       "value": "['ann', 'bo']"
+      },
+      {
+       "name": "make",
+       "scope": "lateGreetings",
+       "value": "[Function: make]"
+      },
+      {
+       "name": "n",
+       "scope": "constructor",
+       "value": "'ann'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "lateGreetings",
+      "make",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "names",
+       "scope": "lateGreetings",
+       "value": "['ann', 'bo']"
+      },
+      {
+       "name": "make",
+       "scope": "lateGreetings",
+       "value": "[Function: make]"
+      },
+      {
+       "name": "n",
+       "scope": "make",
+       "value": "'bo'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "lateGreetings",
+      "make"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "names",
+       "scope": "lateGreetings",
+       "value": "['ann', 'bo']"
+      },
+      {
+       "name": "make",
+       "scope": "lateGreetings",
+       "value": "[Function: make]"
+      },
+      {
+       "name": "n",
+       "scope": "constructor",
+       "value": "'bo'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "lateGreetings",
+      "make",
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "names",
+       "scope": "lateGreetings",
+       "value": "['ann', 'bo']"
+      },
+      {
+       "name": "make",
+       "scope": "lateGreetings",
+       "value": "[Function: make]"
+      },
+      {
+       "name": "all",
+       "scope": "lateGreetings",
+       "value": "[Pet {name: 'ann'}, Pet {name: 'bo'}]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "lateGreetings"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "names",
+       "scope": "lateGreetings",
+       "value": "['ann', 'bo']"
+      },
+      {
+       "name": "make",
+       "scope": "lateGreetings",
+       "value": "[Function: make]"
+      },
+      {
+       "name": "all",
+       "scope": "lateGreetings",
+       "value": "[Pet {name: 'ann'}, Pet {name: 'bo'}]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "lateGreetings"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "names",
+       "scope": "lateGreetings",
+       "value": "['ann', 'bo']"
+      },
+      {
+       "name": "make",
+       "scope": "lateGreetings",
+       "value": "[Function: make]"
+      },
+      {
+       "name": "all",
+       "scope": "lateGreetings",
+       "value": "[Pet {name: 'ann'}, Pet {name: 'bo'}]"
+      },
+      {
+       "name": "g",
+       "scope": "anonymous",
+       "value": "Pet {name: 'ann'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "lateGreetings",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "names",
+       "scope": "lateGreetings",
+       "value": "['ann', 'bo']"
+      },
+      {
+       "name": "make",
+       "scope": "lateGreetings",
+       "value": "[Function: make]"
+      },
+      {
+       "name": "all",
+       "scope": "lateGreetings",
+       "value": "[Pet {name: 'ann'}, Pet {name: 'bo'}]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "lateGreetings",
+      "anonymous",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "names",
+       "scope": "lateGreetings",
+       "value": "['ann', 'bo']"
+      },
+      {
+       "name": "make",
+       "scope": "lateGreetings",
+       "value": "[Function: make]"
+      },
+      {
+       "name": "all",
+       "scope": "lateGreetings",
+       "value": "[Pet {name: 'ann'}, Pet {name: 'bo'}]"
+      },
+      {
+       "name": "g",
+       "scope": "anonymous",
+       "value": "Pet {name: 'bo'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "lateGreetings",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "names",
+       "scope": "lateGreetings",
+       "value": "['ann', 'bo']"
+      },
+      {
+       "name": "make",
+       "scope": "lateGreetings",
+       "value": "[Function: make]"
+      },
+      {
+       "name": "all",
+       "scope": "lateGreetings",
+       "value": "[Pet {name: 'ann'}, Pet {name: 'bo'}]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "lateGreetings",
+      "anonymous",
+      "anonymous"
      ],
      "macrotasks": [],
      "microtasks": []

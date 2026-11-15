@@ -98,62 +98,62 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "e64ea056869b1d151cf14a9fd6605a007ea8ee189917ccf47fd13e4d154c9243"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "23a0aaf6cad6a08a8934aaeb47de9d7d77ee94c45a148904bd4c9ca4e2a41063"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "087df612716479da4fd15855f251e1a94c88728859155b6693631a8187711113"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "5b93adc85e5bb9584bea4dc30965221031631b8907d6e039f53c065a33864dad"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "3bf614374d3d9052025cf9460791d48508829ddafba34c9f8d148ecdf6f28249"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "8dbea0e3df0d9f524b09b828302298d1dc5a5fe57981dcd186fd854769934d3a"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "dedc8c6fcb5bc6ab75458cf6febed2c7db6ea2a2124b8565a1f75a83ee45785b"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "00842d5bc9e5ab5d884204d1551c8be1b6609e9790f5ccf12f394e7d0ba9e230"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "0b4a76d07fe15c317e13753baac9f067b9ca4eda590588f821d6295332fd2023"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "c794dbf1f91a453e33eb99fa7aa88b8e517bc0d482a5acffeab366747184fe4d"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "3044dcbf9d48e690a18f3c78ca080ffb08160b624a97003d0b267fce64a94a98"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "82de563c85b1f879e6b59f0be2c663317bc5780b709cea92fa27299f2af0fd13"
     }
   ],
@@ -1561,13 +1561,13 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of lateGreetings(names). Declare class Pet whose constructor stores its name in this.name. Create one Pet per name first. Only then add hello() to Pet.prototype, returning 'hi ' followed by the pet's name. Return each pet's hello() result, in the order of names.",
+      "prompt": "In lateGreetings(names), declare class Pet storing this.name, create a Pet per name, then add hello() to Pet.prototype returning 'hi ' plus the name. Return every hello() result.",
       "solution": {
         "entry": {
           "kind": "function",
-          "name": "rushTotals",
+          "name": "lateGreetings",
           "params": [
-            "prices"
+            "names"
           ]
         },
         "tests": [
@@ -1614,7 +1614,8 @@
           "class Pet {",
           "  constructor(n) { this.name = n; }",
           "}",
-          "const all = names.map((n) => new Pet(n));",
+          "const make = (n) => new Pet(n);",
+          "const all = names.map(make);",
           "Pet.prototype.hello = function () {",
           "  return 'hi ' + this.name;",
           "};",
@@ -1625,7 +1626,8 @@
             "class Pet {",
             "  constructor(n) { this.name = n; }",
             "}",
-            "const all = names.map((n) => new Pet(n));",
+            "const make = (n) => new Pet(n);",
+            "const all = names.map(make);",
             "Pet.hello = function () {",
             "  return 'hi ' + this.name;",
             "};",
@@ -1635,7 +1637,8 @@
             "class Pet {",
             "  constructor(n) { this.name = n; }",
             "}",
-            "const all = names.map((n) => new Pet(n));",
+            "const make = (n) => new Pet(n);",
+            "const all = names.map(make);",
             "Pet.prototype.hello = () => {",
             "  return 'hi ' + this.name;",
             "};",
@@ -1645,7 +1648,8 @@
             "class Pet {",
             "  constructor(n) { this.name = n; }",
             "}",
-            "const all = names.map((n) => new Pet(n));",
+            "const make = (n) => new Pet(n);",
+            "const all = names.map(make);",
             "Pet.prototype.hello = function () {",
             "  return 'hi ' + this.name;",
             "};",

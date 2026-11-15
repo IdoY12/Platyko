@@ -3397,9 +3397,9 @@
     "const chain = (first, second) => {",
     "  return (n) => second(first(n));",
     "};",
-    "const price = 50;",
-    "console.log(chain(half, minus)(price));",
-    "console.log(chain(minus, half)(price));"
+    "const p = 50;",
+    "console.log(chain(half, minus)(p));",
+    "console.log(chain(minus, half)(p));"
    ],
    "output": [
     "20",
@@ -3498,7 +3498,7 @@
        "value": "[Function: chain]"
       },
       {
-       "name": "price",
+       "name": "p",
        "scope": "global",
        "value": "50"
       }
@@ -3529,7 +3529,7 @@
        "value": "[Function: chain]"
       },
       {
-       "name": "price",
+       "name": "p",
        "scope": "global",
        "value": "50"
       },
@@ -3571,7 +3571,7 @@
        "value": "[Function: chain]"
       },
       {
-       "name": "price",
+       "name": "p",
        "scope": "global",
        "value": "50"
       },
@@ -3618,7 +3618,7 @@
        "value": "[Function: chain]"
       },
       {
-       "name": "price",
+       "name": "p",
        "scope": "global",
        "value": "50"
       },
@@ -3656,7 +3656,7 @@
        "value": "[Function: chain]"
       },
       {
-       "name": "price",
+       "name": "p",
        "scope": "global",
        "value": "50"
       },
@@ -3694,7 +3694,7 @@
        "value": "[Function: chain]"
       },
       {
-       "name": "price",
+       "name": "p",
        "scope": "global",
        "value": "50"
       }
@@ -3725,7 +3725,7 @@
        "value": "[Function: chain]"
       },
       {
-       "name": "price",
+       "name": "p",
        "scope": "global",
        "value": "50"
       },
@@ -3767,7 +3767,7 @@
        "value": "[Function: chain]"
       },
       {
-       "name": "price",
+       "name": "p",
        "scope": "global",
        "value": "50"
       },
@@ -3814,7 +3814,7 @@
        "value": "[Function: chain]"
       },
       {
-       "name": "price",
+       "name": "p",
        "scope": "global",
        "value": "50"
       },
@@ -3852,7 +3852,7 @@
        "value": "[Function: chain]"
       },
       {
-       "name": "price",
+       "name": "p",
        "scope": "global",
        "value": "50"
       },
@@ -3890,7 +3890,7 @@
        "value": "[Function: chain]"
       },
       {
-       "name": "price",
+       "name": "p",
        "scope": "global",
        "value": "50"
       }
@@ -6712,7 +6712,8 @@
     "    return this.send(user);",
     "  }",
     "}",
-    "console.log(new Alert(fake).fire('ann'));"
+    "const a = new Alert(fake);",
+    "console.log(a.fire('ann'));"
    ],
    "output": [
     "fake ann"
@@ -6793,6 +6794,32 @@
      "microtasks": []
     },
     {
+     "line": 12,
+     "variables": [
+      {
+       "name": "mail",
+       "scope": "global",
+       "value": "[Function: mail]"
+      },
+      {
+       "name": "fake",
+       "scope": "global",
+       "value": "[Function: fake]"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Alert {send: [Function: fake]}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 8,
      "variables": [
       {
@@ -6804,6 +6831,11 @@
        "name": "fake",
        "scope": "global",
        "value": "[Function: fake]"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Alert {send: [Function: fake]}"
       },
       {
        "name": "user",
@@ -6833,6 +6865,11 @@
        "value": "[Function: fake]"
       },
       {
+       "name": "a",
+       "scope": "global",
+       "value": "Alert {send: [Function: fake]}"
+      },
+      {
        "name": "to",
        "scope": "fake",
        "value": "'ann'"
@@ -6859,6 +6896,11 @@
        "name": "fake",
        "scope": "global",
        "value": "[Function: fake]"
+      },
+      {
+       "name": "a",
+       "scope": "global",
+       "value": "Alert {send: [Function: fake]}"
       }
      ],
      "outputCount": 1,
@@ -6871,8 +6913,8 @@
   },
   "exp.patterns-and-architecture.dependency-inversion.fill-01": {
    "code": [
-    "const report = (clock, mark, out) => {",
-    "  out(mark(clock()));",
+    "const report = (now, mark, out) => {",
+    "  out(mark(now()));",
     "};",
     "const fixedClock = () => 9;",
     "const star = (n) => '*' + n;",
@@ -7012,7 +7054,7 @@
        "value": "[]"
       },
       {
-       "name": "clock",
+       "name": "now",
        "scope": "report",
        "value": "[Function: fixedClock]"
       },

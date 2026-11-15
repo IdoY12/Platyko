@@ -102,37 +102,37 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/First-class_Function",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "a61120aee64583db1c58bdedacaa067e03390ed4d7c5a17b2d60df1c87c67328"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/Callback_function",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "7d713a4bbd56705747421ed65b77a7024d692f0e87489a8ecbbb98c52361ee9d"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "7d71f9f6a40dc8df979db43f64c8f853b2651071338655ccf42e7e52feeaa580"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "c7f247484f4da7488313fa4901170cf5563351256861873dde533b3b1a0e4bf8"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "ff55a45d086fead937a04282242e3a029c3f21bf7df86033b820a68e0bb7ffd4"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "2f8895a066b7a58776de381a4d813a688fc95f1b4aa977c8d8dc8921bc24f93c"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "d0bb1e15cd9bc4a284b58a621c9d981a4667f1f5180dc58b975b8e23957a28ce"
     }
   ],
@@ -564,9 +564,9 @@
         "const chain = (first, second) => {",
         "  return (n) => second(first(n));",
         "};",
-        "const price = 50;",
-        "console.log(chain(half, minus)(price));",
-        "console.log(chain(minus, half)(price));"
+        "const p = 50;",
+        "console.log(chain(half, minus)(p));",
+        "console.log(chain(minus, half)(p));"
       ],
       "options": [
         {
@@ -670,7 +670,7 @@
       ],
       "format": "FIX_BUG",
       "difficulty": 4,
-      "prompt": "pick should return the rule stored under the mode, and the bus rule for an unknown mode, so the program prints 27 and 6. Tap the buggy line and pick the fix.",
+      "prompt": "pick returns the rule for a mode, or the bus rule if unknown, so the program prints 27 and 6. Tap the buggy line and pick the fix.",
       "code": [
         "const fare = {",
         "  bus: (km) => km * 2,",
@@ -1223,7 +1223,8 @@
         "    return this.send(user);",
         "  }",
         "}",
-        "console.log(new Alert(fake).fire('ann'));"
+        "const a = new Alert(fake);",
+        "console.log(a.fire('ann'));"
       ],
       "options": [
         {
@@ -1271,10 +1272,10 @@
       ],
       "format": "FILL_BLANK",
       "difficulty": 4,
-      "prompt": "report receives a clock, a mark function and an out function. Fill all three blanks so the program prints *9.",
+      "prompt": "report receives now, mark and out functions. Fill all three blanks so the program prints *9.",
       "code": [
-        "const report = (clock, mark, out) => {",
-        "  out(mark(clock()));",
+        "const report = (now, mark, out) => {",
+        "  out(mark(now()));",
         "};",
         "const fixedClock = () => 9;",
         "const star = (n) => '*' + n;",

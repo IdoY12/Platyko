@@ -3585,7 +3585,8 @@
   "exp.debugging.reading-a-stack-of-calls.fill-02": {
    "code": [
     "const log = [];",
-    "const load = () => Promise.reject(new TypeError());",
+    "const load = () =>",
+    "  Promise.reject(new TypeError());",
     "const run = () =>",
     "  load()",
     "    .then(() => log.push(\"A\"))",
@@ -3623,7 +3624,7 @@
      "microtasks": []
     },
     {
-     "line": 3,
+     "line": 4,
      "variables": [
       {
        "name": "log",
@@ -3644,7 +3645,7 @@
      "microtasks": []
     },
     {
-     "line": 7,
+     "line": 8,
      "variables": [
       {
        "name": "log",
@@ -3670,7 +3671,7 @@
      "microtasks": []
     },
     {
-     "line": 4,
+     "line": 5,
      "variables": [
       {
        "name": "log",
@@ -3697,7 +3698,7 @@
      "microtasks": []
     },
     {
-     "line": 2,
+     "line": 3,
      "variables": [
       {
        "name": "log",
@@ -3725,7 +3726,7 @@
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 7,
      "variables": [
       {
        "name": "log",
@@ -3751,7 +3752,7 @@
      "microtasks": []
     },
     {
-     "line": 7,
+     "line": 8,
      "variables": [
       {
        "name": "log",

@@ -102,42 +102,42 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "ffb801d3747e1ec50a5f79bfa8f14149461725e78c737c5577c965d1d88c6df0"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "3b5eb96e87b38462b813db533102618706c6561ce532ab16e4a2ce80f8090497"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "1e1d0c5980a7e42979a5a0d85b2a86715439dfc79f730e1403a5ece019bf3a7f"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "19d84358b27f9406d2d4ce0beec3623cc0bf49c3b31afde94106a3239f929c5f"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "f855c7e94df74174f68b186558c5b4019b59544bee251e4b3d6512bd9994c1b2"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "de117a0890a33a86fafc6c86d8619639f834b7b70cd13585cfa86d8c476dec0b"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "d0bb1e15cd9bc4a284b58a621c9d981a4667f1f5180dc58b975b8e23957a28ce"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
-      "retrievedAt": "2026-11-14",
+      "retrievedAt": "2026-11-15",
       "sha256": "2fd98bfc1984170f119a9b7224e3113395f519ab395da872a9984032c9fe78d2"
     }
   ],
@@ -1241,7 +1241,8 @@
       "prompt": "A loader starts rejected and the caller should recover from it. Fill the two blanks so the program prints ['B'].",
       "code": [
         "const log = [];",
-        "const load = () => Promise.___(new TypeError());",
+        "const load = () =>",
+        "  Promise.___(new TypeError());",
         "const run = () =>",
         "  load()",
         "    .then(() => log.push(\"A\"))",
