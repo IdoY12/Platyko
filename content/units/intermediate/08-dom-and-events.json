@@ -323,13 +323,13 @@
         {
           "text": "3\nBergen\nundefined",
           "correct": false,
-          "feedback": "The list part is right. Check what querySelector gives when no element matches.",
+          "feedback": "You thought a selector that matches nothing gives undefined, like a missing property. querySelector uses a value of its own to report that nothing matched.",
           "misconception": "missing-element-is-undefined"
         },
         {
           "text": "1\nBergen\nnull",
           "correct": false,
-          "feedback": "Check whether querySelectorAll stops at the first match.",
+          "feedback": "You thought querySelectorAll stops at the first match, so the length would be 1. It collects every matching element, and the page lists several trains.",
           "misconception": "query-all-returns-one"
         }
       ],
@@ -349,7 +349,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.dom-and-events.dom-tree-and-selection.concept-01",
@@ -423,13 +423,13 @@
         {
           "text": "It returns a real array, so map works on it",
           "correct": false,
-          "feedback": "Check what the second printed line says about items.map.",
+          "feedback": "You thought querySelectorAll returns a real array, so every array method exists on it. typeof items.map in this code shows what a NodeList actually has.",
           "misconception": "nodelist-is-array"
         },
         {
           "text": "It returns only the first matching element",
           "correct": false,
-          "feedback": "Check what the first printed number says about how many elements came back.",
+          "feedback": "You thought querySelectorAll returns a single element. The code reads items.length as a count of matches and calls forEach on the result, which a lone element would not support the same way.",
           "misconception": "query-all-returns-one"
         }
       ],
@@ -450,7 +450,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.dom-and-events.dom-tree-and-selection.trace-01",
@@ -460,7 +460,7 @@
         "property-access"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "The loop walks the trains from first to last. What does got hold right after line 6 runs for the second time?",
       "code": [
         "let node = document",
@@ -559,7 +559,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.dom-tree-and-selection.fill-01",
@@ -924,13 +924,13 @@
         {
           "text": "Soup 2\nbig big",
           "correct": false,
-          "feedback": "Check what classList.add does for a class the element already has.",
+          "feedback": "You thought calling classList.add twice writes the class twice. add looks at the classes the element already has, so repeating a name does not grow the list.",
           "misconception": "classlist-add-duplicates"
         },
         {
           "text": "SoupSoup 2\nbig",
           "correct": false,
-          "feedback": "Check whether assigning to textContent keeps the old text.",
+          "feedback": "You thought assigning to textContent adds to the old text. An assignment to textContent replaces what was there; it does not append.",
           "misconception": "textcontent-appends"
         }
       ],
@@ -950,7 +950,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.dom-and-events.dom-updates.concept-01",
@@ -1016,13 +1016,13 @@
         {
           "text": "It changes only the element's own text and keeps its children",
           "correct": false,
-          "feedback": "Compare the two printed lengths.",
+          "feedback": "You thought the child elements survive an assignment to textContent. They are part of what the element contains, and the assignment treats all of it as old content.",
           "misconception": "textcontent-keeps-children"
         },
         {
           "text": "It adds the new text after the existing content",
           "correct": false,
-          "feedback": "Check the last printed line against the old content.",
+          "feedback": "You thought the new text is added after the existing content. The assignment treats everything inside the element as old content, so nothing of it stays for the new text to follow.",
           "misconception": "textcontent-appends"
         }
       ],
@@ -1043,7 +1043,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.dom-and-events.dom-updates.trace-01",
@@ -1053,7 +1053,7 @@
         "property-update"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What does seen hold right after line 7 runs?",
       "code": [
         "const step = document",
@@ -1111,7 +1111,7 @@
         {
           "text": "'step done late'",
           "correct": false,
-          "feedback": "Check what the second toggle does to a class that is already present.",
+          "feedback": "You thought toggle only adds the class. toggle adds a class that is missing and removes one that is present, so the second call acts on what the first call left.",
           "misconception": "toggle-only-adds"
         },
         {
@@ -1142,7 +1142,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "int.dom-and-events.dom-updates.fill-01",
@@ -1474,13 +1474,13 @@
         {
           "text": "booked\nready\nbooked\nbooked",
           "correct": false,
-          "feedback": "Check whether adding a handler runs it.",
+          "feedback": "You thought addEventListener runs the handler when it is added. Registering only stores the function for later; show is called when a click arrives.",
           "misconception": "handler-called-at-registration"
         },
         {
           "text": "ready\nbooked",
           "correct": false,
-          "feedback": "Check whether a handler stays registered after it has run.",
+          "feedback": "You thought a listener is removed after it runs once. A listener stays registered until it is removed, so each click calls it again.",
           "misconception": "listener-fires-once"
         }
       ],
@@ -1500,7 +1500,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.dom-and-events.event-listeners.concept-01",
@@ -1510,7 +1510,7 @@
         "callbacks-and-timers"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Which statement explains this output?",
       "code": [
         "const btn = document",
@@ -1549,13 +1549,13 @@
         {
           "text": "hi() ran when it was added and runs again on every click",
           "correct": false,
-          "feedback": "Count how many times hi is printed, and where.",
+          "feedback": "You thought hi would run again on each click. The expected output has no hi after 'clicking', so the click ran nothing that prints.",
           "misconception": "handler-called-at-registration"
         },
         {
           "text": "hi() and hi mean the same thing here, so the click runs the handler",
           "correct": false,
-          "feedback": "Look at where hi appears in the output compared with the click.",
+          "feedback": "You thought hi() and hi mean the same thing in addEventListener. With parentheses the function is called on the spot, which changes what the listener receives.",
           "misconception": "call-equals-reference"
         }
       ],
@@ -1575,7 +1575,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 6
     },
     {
       "id": "int.dom-and-events.event-listeners.trace-01",
@@ -1585,7 +1585,7 @@
         "callbacks-and-timers"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What does order hold right after line 10 runs?",
       "code": [
         "let order = '';",
@@ -1629,13 +1629,13 @@
         {
           "text": "'AB|AB'",
           "correct": false,
-          "feedback": "Check the order in which the two listeners were added on lines 6 and 7.",
+          "feedback": "You thought the handlers run in the order their functions are defined, one before two. Listeners run in the order the addEventListener calls registered them, not in the order of the definitions.",
           "misconception": "order-follows-code-layout"
         },
         {
           "text": "'BA|'",
           "correct": false,
-          "feedback": "Check whether the listeners are still registered at the second click.",
+          "feedback": "You thought a listener is removed after it runs once. Registered listeners stay until they are removed, so the second click calls them again.",
           "misconception": "listener-fires-once"
         }
       ],
@@ -1660,7 +1660,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 6
     },
     {
       "id": "int.dom-and-events.event-listeners.fill-01",
@@ -2006,13 +2006,13 @@
         {
           "text": "bikes\ncity\nrent-city",
           "correct": false,
-          "feedback": "That is the order the listeners were added. Check whether that decides the order.",
+          "feedback": "You thought handlers run in the order they were added, the list first. The order follows the path the event travels from the clicked element, not the moments of registration.",
           "misconception": "order-follows-code-layout"
         },
         {
           "text": "rent-city",
           "correct": false,
-          "feedback": "Check whether listeners on the ancestors of the clicked element run.",
+          "feedback": "You thought a click only calls listeners on the clicked element. Listeners on its parent elements also hear the click as it travels outward.",
           "misconception": "events-stay-on-target"
         }
       ],
@@ -2032,7 +2032,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.dom-and-events.event-propagation.concept-01",
@@ -2122,13 +2122,13 @@
         {
           "text": "A listener only reacts to elements that existed when it was added",
           "correct": false,
-          "feedback": "Check whether the new li existed when the listener was added, and what was printed.",
+          "feedback": "You thought a listener covers only elements that existed when it was added. This listener is attached to the list, and a click inside the list reaches it wherever the child came from.",
           "misconception": "listener-covers-only-existing-children"
         },
         {
           "text": "The click stays on the new item, so the list's listener would not run",
           "correct": false,
-          "feedback": "Check whether the list's listener ran when the new item was clicked.",
+          "feedback": "You thought a click stays on the element it hit. The event also travels on to the ancestors of that element, where the list's listener waits.",
           "misconception": "events-stay-on-target"
         }
       ],
@@ -2148,7 +2148,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.dom-and-events.event-propagation.trace-01",
@@ -2242,7 +2242,7 @@
         {
           "text": "'cityroad'",
           "correct": false,
-          "feedback": "That is page order. Check which button is clicked first.",
+          "feedback": "You thought the buttons are handled in page order, the first button first. Events happen in the order the clicks are made, which the two click() calls set.",
           "misconception": "order-follows-code-layout"
         },
         {
@@ -2273,7 +2273,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.dom-and-events.event-propagation.fill-01",

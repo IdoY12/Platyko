@@ -2700,54 +2700,21 @@
   },
   "int.scope-and-hoisting.temporal-dead-zone.trace-01": {
    "code": [
-    "let size = 2;",
-    "let total = 10;",
-    "{",
-    "  total = total + 1;",
-    "  total = total + size;",
-    "  let size = 5;",
+    "function bill() {",
+    "  return price * 2;",
     "}",
+    "let total = 0;",
+    "let price = 4;",
+    "total = bill();",
     "console.log(total);"
    ],
    "output": [
-    "Uncaught ReferenceError"
+    "8"
    ],
    "steps": [
     {
-     "line": 1,
-     "variables": [],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "size",
-       "scope": "global",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 4,
-     "variables": [
-      {
-       "name": "total",
-       "scope": "global",
-       "value": "10"
-      }
-     ],
+     "variables": [],
      "outputCount": 0,
      "callStack": [
       "global"
@@ -2761,7 +2728,71 @@
       {
        "name": "total",
        "scope": "global",
-       "value": "11"
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "0"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "bill"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "8"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "4"
       }
      ],
      "outputCount": 0,
@@ -2775,14 +2806,14 @@
      "line": 0,
      "variables": [
       {
-       "name": "size",
-       "scope": "global",
-       "value": "2"
-      },
-      {
        "name": "total",
        "scope": "global",
-       "value": "11"
+       "value": "8"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "4"
       }
      ],
      "outputCount": 1,

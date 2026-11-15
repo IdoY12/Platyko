@@ -236,13 +236,13 @@
         {
           "text": "trail km",
           "correct": false,
-          "feedback": "You printed the names. Check what an unquoted name stands for.",
+          "feedback": "You thought console.log prints names as written. An unquoted name in code stands for the value stored under it.",
           "misconception": "name-printed-as-text"
         },
         {
           "text": "Pine Ridge km",
           "correct": false,
-          "feedback": "The first name was read as a value, but km is also a variable. Check what km stands for.",
+          "feedback": "You read trail as a value but km as a word. Every unquoted name in the expression stands for its stored value, not only the first.",
           "misconception": "name-printed-as-text"
         }
       ],
@@ -263,7 +263,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.variables.let-declaration.predict-02",
@@ -498,13 +498,13 @@
         {
           "text": "Both lines print calm, because quotes do not change what a name means.",
           "correct": false,
-          "feedback": "Check what the quotes on line 3 do to the word mood.",
+          "feedback": "You thought quotes make no difference to a name. Quotes turn the word into plain text instead of a variable.",
           "misconception": "name-printed-as-text"
         },
         {
           "text": "Both lines print mood, because console.log shows the name of a variable.",
           "correct": false,
-          "feedback": "Check what console.log shows for the unquoted name on line 2.",
+          "feedback": "You thought console.log shows the name of a variable. It shows the value that an unquoted name stands for.",
           "misconception": "name-printed-as-text"
         }
       ],
@@ -525,7 +525,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.variables.reassignment.predict-01",
@@ -603,7 +603,7 @@
         {
           "text": "30",
           "correct": false,
-          "feedback": "You expected area to follow width. Check when area gets its value.",
+          "feedback": "You thought area follows width, so changing width updates it. area received its value from a calculation done once, on line 2.",
           "misconception": "stays-linked"
         },
         {
@@ -630,7 +630,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.variables.reassignment.trace-01",
@@ -656,7 +656,7 @@
         {
           "text": "9",
           "correct": false,
-          "feedback": "You treated the two names as one box. Check what line 2 copies.",
+          "feedback": "You treated onShelf and baked as one box. Line 2 gave onShelf its own copy of the value.",
           "misconception": "stays-linked"
         },
         {
@@ -687,7 +687,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:9"
       ]
@@ -909,13 +909,13 @@
         {
           "text": "40",
           "correct": false,
-          "feedback": "You expected line 2 to be skipped so that the first value stays. Check what the keyword on line 1 allows.",
+          "feedback": "You thought line 2 is skipped quietly and the first value stays. An assignment to a const does not pass without a sign.",
           "misconception": "const-reassign-allowed"
         },
         {
           "text": "50",
           "correct": false,
-          "feedback": "You expected line 2 to give the name a new value. Check what the keyword on line 1 allows.",
+          "feedback": "You thought line 2 stores a new value, as it would for let. A const name is treated differently from a let name.",
           "misconception": "const-reassign-allowed"
         }
       ],
@@ -936,7 +936,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:JUNIOR:4"
       ]
@@ -972,7 +972,7 @@
         {
           "text": "Uncaught TypeError",
           "correct": false,
-          "feedback": "Check whether any line assigns to price again, and which name line 3 changes.",
+          "feedback": "You thought the program fails because price is a const. A const causes an error only when something assigns to it.",
           "misconception": "const-wrong-error"
         }
       ],
@@ -993,7 +993,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.variables.const-declaration.trace-01",
@@ -1179,13 +1179,13 @@
         {
           "text": "Line 4 is skipped quietly, so the program prints 2.",
           "correct": false,
-          "feedback": "Look at what the program does when line 4 runs.",
+          "feedback": "You thought an assignment to a const is skipped without a sign. It does not pass unnoticed.",
           "misconception": "const-reassign-allowed"
         },
         {
           "text": "It stops at line 2, because only the first assignment to any variable is allowed.",
           "correct": false,
-          "feedback": "Check line 2 again and the keyword its variable was declared with.",
+          "feedback": "You thought only one assignment is allowed for any variable. The keyword a variable was declared with decides whether it can be assigned again.",
           "misconception": "const-wrong-error"
         }
       ],
@@ -1206,7 +1206,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.variables.undefined-and-null.predict-01",
@@ -1285,13 +1285,13 @@
         {
           "text": "undefined\nnull",
           "correct": false,
-          "feedback": "Check again what typeof reports for the value null.",
+          "feedback": "You thought typeof answers null for the value null. typeof gives the name of a type, and null has no type name of its own.",
           "misconception": "null-typeof-null"
         },
         {
           "text": "object\nobject",
           "correct": false,
-          "feedback": "Check whether the two values have the same type.",
+          "feedback": "You thought undefined and null have the same type. An unfilled variable and a stored null do not give the same typeof result.",
           "misconception": "undefined-null-same"
         }
       ],
@@ -1312,7 +1312,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.variables.undefined-and-null.trace-01",
@@ -1345,7 +1345,7 @@
         {
           "text": "undefined",
           "correct": false,
-          "feedback": "undefined is what a variable holds when nothing was ever stored in it. Look again at what line 2 assigns.",
+          "feedback": "You thought null and undefined are the same value. undefined is what a variable holds when nothing was ever stored, and line 2 stores something on purpose.",
           "misconception": "undefined-null-same"
         }
       ],
@@ -1370,7 +1370,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.variables.undefined-and-null.fill-01",

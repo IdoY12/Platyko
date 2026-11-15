@@ -49,7 +49,7 @@
     },
     {
       "id": "spread-array-not-needed",
-      "description": "Believes Math.max accepts a whole array and finds its largest element."
+      "description": "Believes a function receives the elements of an array argument one by one without spread."
     },
     {
       "id": "rest-takes-one-argument",
@@ -242,13 +242,13 @@
         {
           "text": "Ana 3 none",
           "correct": false,
-          "feedback": "tip holds 0 in bill. Check when a default is used.",
+          "feedback": "You thought a default always replaces the value. A default only steps in for a property that gives nothing to use.",
           "misconception": "default-always-applies"
         },
         {
           "text": "Ana 0 undefined",
           "correct": false,
-          "feedback": "note is missing from bill. Check what a default does for a missing property.",
+          "feedback": "You thought a default is ignored when the property is missing. A default exists for exactly the case where there is no value.",
           "misconception": "default-skipped-when-missing"
         }
       ],
@@ -269,7 +269,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "duel:7"
       ]
@@ -297,13 +297,13 @@
         {
           "text": "Each name is looked up as a property of the array, so silver is undefined.",
           "correct": false,
-          "feedback": "Check whether the array board has properties called gold or silver.",
+          "feedback": "You read the names as property names, as braces would. Square brackets in a pattern do not look names up on the array.",
           "misconception": "array-pattern-by-name"
         },
         {
           "text": "The names are matched against the element values, so silver is undefined.",
           "correct": false,
-          "feedback": "Check what role the element values play when names are matched.",
+          "feedback": "You thought each name is compared with the element values. A name in the pattern is only a new variable; it does not search for anything.",
           "misconception": "array-pattern-by-name"
         }
       ],
@@ -324,7 +324,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:MID:13"
       ]
@@ -337,7 +337,7 @@
         "array-index"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What value does hi hold right after line 2 has run?",
       "code": [
         "const bag = { lo: 2 };",
@@ -354,13 +354,13 @@
         {
           "text": "7",
           "correct": false,
-          "feedback": "7 would mean lo holds 6. Check whether lo is missing from bag.",
+          "feedback": "You used the default 6 for lo, as if a default always applied. A default only fills in a property the object does not have.",
           "misconception": "default-always-applies"
         },
         {
           "text": "undefined",
           "correct": false,
-          "feedback": "Check what a default does for a property that bag lacks.",
+          "feedback": "You thought hi's default is skipped because bag has no hi. A default is exactly what a missing property receives.",
           "misconception": "default-skipped-when-missing"
         }
       ],
@@ -385,7 +385,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 6,
       "legacyKeys": [
         "duel:9"
       ]
@@ -610,47 +610,48 @@
       "prompt": "What does this code print?",
       "code": [
         "const laps = [52, 47, 49];",
-        "const best = Math.max(...laps);",
-        "const other = Math.max(laps);",
-        "console.log(best, other);"
+        "const count = (...a) => a.length;",
+        "const spread = count(...laps);",
+        "const plain = count(laps);",
+        "console.log(spread, plain);"
       ],
       "options": [
         {
-          "text": "52 NaN",
+          "text": "3 1",
           "correct": true,
-          "feedback": "Right. Only the spread call passes the numbers one by one."
+          "feedback": "Right. Only the spread call passes the numbers one by one; the plain call passes one array."
         },
         {
-          "text": "52 52",
+          "text": "3 3",
           "correct": false,
-          "feedback": "Check what Math.max receives on line 3, where the array is not spread.",
+          "feedback": "You thought a plain array argument arrives as its elements. Without ..., a call receives the array as a single value.",
           "misconception": "spread-array-not-needed"
         },
         {
-          "text": "NaN NaN",
+          "text": "1 1",
           "correct": false,
-          "feedback": "You treated ... as if it left the array in one piece. Check what spread does to an array placed in a call.",
+          "feedback": "You thought ... leaves the array in one piece. In a call, ... hands over the elements as separate arguments.",
           "misconception": "spread-nests-array"
         }
       ],
       "solution": {
-        "expectedOutput": "52 NaN"
+        "expectedOutput": "3 1"
       },
-      "explanation": "Math.max(...laps) spreads three numbers into three arguments, so it gives 52. Math.max(laps) receives one array, which is turned into text and then into NaN, so that call prints NaN.",
+      "explanation": "count(...laps) spreads the three numbers into three arguments, so a has length 3. count(laps) passes one array, so a has length 1.",
       "hints": [
-        "Compare the two Math.max calls on lines 2 and 3.",
+        "Compare the two calls to count on lines 3 and 4.",
         "Spread turns an array into separate arguments; without it the array is one argument.",
-        "One of the two calls hands Math.max a single array that cannot be read as a number."
+        "a.length counts how many arguments arrived, whatever they hold."
       ],
       "reference": {
-        "title": "Math.max()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max",
+        "title": "Spread syntax (...)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:MID:12"
       ]
@@ -679,13 +680,13 @@
         {
           "text": "scores holds only the next argument after label.",
           "correct": false,
-          "feedback": "Check how many arguments the call passes after \"quiz\" and where they go.",
+          "feedback": "You thought a rest parameter holds a single argument, the one next to label. A plain parameter already does that.",
           "misconception": "rest-takes-one-argument"
         },
         {
           "text": "scores holds only the last argument that is passed.",
           "correct": false,
-          "feedback": "Check what scores holds when three arguments are passed.",
+          "feedback": "You thought each extra argument replaces the one before it. Arguments are matched to parameters by position; none is overwritten.",
           "misconception": "rest-takes-one-argument"
         }
       ],
@@ -706,7 +707,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:MID:15"
       ]
@@ -737,7 +738,7 @@
         {
           "text": "['Bonn', ['Ayr']]",
           "correct": false,
-          "feedback": "That would happen without the ... before leg. Check what ... does to leg inside [ ].",
+          "feedback": "You thought spreading leg leaves it as one nested array. Inside [ ], ... places the elements of leg one by one, not leg itself.",
           "misconception": "spread-nests-array"
         },
         {
@@ -768,7 +769,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.objects-in-depth.spread-and-rest.parsons-01",
@@ -989,13 +990,13 @@
         {
           "text": "red blue",
           "correct": false,
-          "feedback": "That needs two separate objects. Check how many objects line 2 creates.",
+          "feedback": "You thought line 2 makes a second object for gift, so the change stays on gift. Assigning an object to another name builds no new object.",
           "misconception": "copy-by-assignment"
         },
         {
           "text": "red red",
           "correct": false,
-          "feedback": "Line 3 does run. Check which name or names it changes.",
+          "feedback": "You thought the assignment on line 3 has no visible effect. A property assignment changes the object itself, for every reader afterwards.",
           "misconception": "copy-by-assignment"
         }
       ],
@@ -1006,7 +1007,7 @@
       "hints": [
         "Count how many objects are created in the first two lines.",
         "An assignment of an object to another variable shares the object.",
-        "gift and mug are two names for one object, so both show the change."
+        "Think about what a name holds when it stands for an object: the object itself or a way to reach it."
       ],
       "reference": {
         "title": "Working with objects",
@@ -1016,7 +1017,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.concept-01",
@@ -1025,7 +1026,7 @@
         "strict-equality"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Which statement explains what the program prints?",
       "code": [
         "const cardA = { id: 1 };",
@@ -1043,13 +1044,13 @@
         {
           "text": "=== compares properties, so both comparisons are true.",
           "correct": false,
-          "feedback": "Check whether === looks at the contents of objects, using cardA and cardB.",
+          "feedback": "You thought === looks inside objects and compares their properties. For objects it asks about the objects themselves, not their contents.",
           "misconception": "equal-content-equal-identity"
         },
         {
           "text": "cardC is a copy of cardA, so both comparisons are false.",
           "correct": false,
-          "feedback": "Check whether line 3 creates a new object or something else.",
+          "feedback": "You thought line 3 builds a new object for cardC. Assigning an object only hands over what the variable holds; no new object appears.",
           "misconception": "copy-by-assignment"
         }
       ],
@@ -1070,7 +1071,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 6
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.trace-01",
@@ -1079,7 +1080,7 @@
         "function-declaration"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What value does box hold right after line 8 has run?",
       "code": [
         "let visits = 5;",
@@ -1101,13 +1102,13 @@
         {
           "text": "{n: 5}",
           "correct": false,
-          "feedback": "Check what bump does to obj.n and whose property that is.",
+          "feedback": "You thought bump gets a copy of box and changes only that. bump has two parameters, and a number and an object do not behave alike.",
           "misconception": "argument-copy"
         },
         {
           "text": "{n: 6}",
           "correct": false,
-          "feedback": "Count how many calls to bump have run by line 8.",
+          "feedback": "You thought the second call starts from a fresh copy, so only one increase is kept. Nothing resets box between calls.",
           "misconception": "argument-copy"
         }
       ],
@@ -1132,7 +1133,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 5
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.fill-01",
@@ -1396,13 +1397,13 @@
         {
           "text": "2 2",
           "correct": false,
-          "feedback": "Check whether assigning copy.id on line 4 can reach shop.",
+          "feedback": "You thought changing copy.id also changes shop.id. The spread built a new top-level object, so a plain property set on it belongs to it alone.",
           "misconception": "copy-by-assignment"
         },
         {
           "text": "1 1",
           "correct": false,
-          "feedback": "Check whether the push on line 5 reaches the array that shop holds.",
+          "feedback": "You thought the spread duplicated the tags array too, so the push stays in the copy. Spread copies each value as it is; an array value is not duplicated.",
           "misconception": "shallow-is-deep"
         }
       ],
@@ -1423,7 +1424,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.objects-in-depth.shallow-copy.concept-01",
@@ -1450,13 +1451,13 @@
         {
           "text": "Spread copies nested arrays too, so menu.sides still has length 1.",
           "correct": false,
-          "feedback": "Check what draft.sides refers to after line 3.",
+          "feedback": "You thought spread duplicates everything inside the object. It copies each property value as it stands, and an array value is only a reference.",
           "misconception": "shallow-is-deep"
         },
         {
           "text": "Spread makes draft the same object as menu, so every change is shared.",
           "correct": false,
-          "feedback": "Check whether a changed top-level property of draft would show in menu.",
+          "feedback": "You thought spread just gives draft another name for menu. Spread builds a new object, so setting a top-level property on it would not touch menu.",
           "misconception": "copy-by-assignment"
         }
       ],
@@ -1477,7 +1478,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.objects-in-depth.shallow-copy.trace-01",
@@ -1507,13 +1508,13 @@
         {
           "text": "{days: 3, stops: ['Rome']}",
           "correct": false,
-          "feedback": "Check whether copyA.stops is a separate array from plan.stops.",
+          "feedback": "You thought copyA has its own array, so its push never reaches plan. copyA came from a spread alone; nothing gave it a new stops array.",
           "misconception": "shallow-is-deep"
         },
         {
           "text": "{days: 3, stops: ['Rome', 'Pisa', 'Bari']}",
           "correct": false,
-          "feedback": "Check which array the push on line 7 changes.",
+          "feedback": "You thought both pushes land in the array plan holds. A property assignment can point a copy's property at a different array.",
           "misconception": "copy-by-assignment"
         }
       ],
@@ -1538,7 +1539,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.objects-in-depth.shallow-copy.parsons-01",

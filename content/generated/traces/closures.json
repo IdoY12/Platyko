@@ -2165,15 +2165,16 @@
   "int.closures.closure-private-state.parsons-01": {
    "code": [
     "const makeShelf = (n) => {",
-    "  let left = n;",
-    "  return () => (left = left - 1);",
+    "  return () => {",
+    "    n = n - 1;",
+    "    return n;",
+    "  };",
     "};",
     "const take = makeShelf(3);",
-    "take();",
-    "console.log(take());"
+    "console.log(take(), take());"
    ],
    "output": [
-    "1"
+    "2 1"
    ],
    "steps": [
     {
@@ -2187,7 +2188,7 @@
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 7,
      "variables": [
       {
        "name": "makeShelf",
@@ -2225,34 +2226,7 @@
      "microtasks": []
     },
     {
-     "line": 3,
-     "variables": [
-      {
-       "name": "makeShelf",
-       "scope": "global",
-       "value": "[Function: makeShelf]"
-      },
-      {
-       "name": "n",
-       "scope": "makeShelf",
-       "value": "3"
-      },
-      {
-       "name": "left",
-       "scope": "makeShelf",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "makeShelf"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
+     "line": 8,
      "variables": [
       {
        "name": "makeShelf",
@@ -2287,11 +2261,6 @@
       },
       {
        "name": "n",
-       "scope": "makeShelf",
-       "value": "3"
-      },
-      {
-       "name": "left",
        "scope": "makeShelf",
        "value": "3"
       }
@@ -2305,7 +2274,7 @@
      "microtasks": []
     },
     {
-     "line": 7,
+     "line": 4,
      "variables": [
       {
        "name": "makeShelf",
@@ -2316,11 +2285,17 @@
        "name": "take",
        "scope": "global",
        "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "n",
+       "scope": "makeShelf",
+       "value": "2"
       }
      ],
      "outputCount": 0,
      "callStack": [
-      "global"
+      "global",
+      "anonymous"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -2341,12 +2316,34 @@
       {
        "name": "n",
        "scope": "makeShelf",
-       "value": "3"
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "makeShelf",
+       "scope": "global",
+       "value": "[Function: makeShelf]"
       },
       {
-       "name": "left",
+       "name": "take",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "n",
        "scope": "makeShelf",
-       "value": "2"
+       "value": "1"
       }
      ],
      "outputCount": 0,
@@ -2383,7 +2380,10 @@
    "code": [
     "function makeHits() {",
     "  let hits = 0;",
-    "  return () => (hits = hits + 1);",
+    "  function count() {",
+    "    hits = hits + 1;return hits;",
+    "  }",
+    "  return count;",
     "}",
     "const visit = makeHits();",
     "visit();",
@@ -2394,7 +2394,7 @@
    ],
    "steps": [
     {
-     "line": 5,
+     "line": 8,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -2415,7 +2415,7 @@
      "microtasks": []
     },
     {
-     "line": 3,
+     "line": 6,
      "variables": [
       {
        "name": "hits",
@@ -2432,12 +2432,12 @@
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 9,
      "variables": [
       {
        "name": "visit",
        "scope": "global",
-       "value": "[Function (anonymous)]"
+       "value": "[Function: count]"
       }
      ],
      "outputCount": 0,
@@ -2448,12 +2448,12 @@
      "microtasks": []
     },
     {
-     "line": 3,
+     "line": 4,
      "variables": [
       {
        "name": "visit",
        "scope": "global",
-       "value": "[Function (anonymous)]"
+       "value": "[Function: count]"
       },
       {
        "name": "hits",
@@ -2464,34 +2464,18 @@
      "outputCount": 0,
      "callStack": [
       "global",
-      "anonymous"
+      "count"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 7,
+     "line": 4,
      "variables": [
       {
        "name": "visit",
        "scope": "global",
-       "value": "[Function (anonymous)]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "visit",
-       "scope": "global",
-       "value": "[Function (anonymous)]"
+       "value": "[Function: count]"
       },
       {
        "name": "hits",
@@ -2502,7 +2486,67 @@
      "outputCount": 0,
      "callStack": [
       "global",
-      "anonymous"
+      "count"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "visit",
+       "scope": "global",
+       "value": "[Function: count]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "visit",
+       "scope": "global",
+       "value": "[Function: count]"
+      },
+      {
+       "name": "hits",
+       "scope": "makeHits",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "count"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "visit",
+       "scope": "global",
+       "value": "[Function: count]"
+      },
+      {
+       "name": "hits",
+       "scope": "makeHits",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "count"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -2513,7 +2557,7 @@
       {
        "name": "visit",
        "scope": "global",
-       "value": "[Function (anonymous)]"
+       "value": "[Function: count]"
       }
      ],
      "outputCount": 1,

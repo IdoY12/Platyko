@@ -262,13 +262,13 @@
         {
           "text": "[3, -2, 4]",
           "correct": false,
-          "feedback": "Check how many passes the loop makes and what the last one pushes.",
+          "feedback": "You thought a read past the end adds nothing, so the result would be one value short. The loop runs four passes, and every pass pushes whatever the subtraction gives.",
           "misconception": "out-of-range-read-skipped"
         },
         {
           "text": "Uncaught TypeError",
           "correct": false,
-          "feedback": "Check whether reading an index past the end of an array throws.",
+          "feedback": "You thought reading an index past the end stops the program. An index with no item does not throw; the code simply keeps going with whatever that read gives.",
           "misconception": "out-of-range-read-throws"
         }
       ],
@@ -289,7 +289,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.debugging.off-by-one-and-boundaries.concept-01",
@@ -314,13 +314,13 @@
         {
           "text": "The end index is included, so slice(1, 3) should return three items and the output is wrong.",
           "correct": false,
-          "feedback": "Count the items in the first printed array and compare with this claim.",
+          "feedback": "You counted the end index as part of the slice. The first printed array holds two items, which an inclusive end would not produce.",
           "misconception": "slice-end-inclusive"
         },
         {
           "text": "The second number counts items, so slice(1, 3) takes three items from index 1.",
           "correct": false,
-          "feedback": "Count how many items the first printed array holds and compare that with 3.",
+          "feedback": "You read the second number as an item count, as if slice(1, 3) asked for three items. The first printed array holds two, so that reading does not match the output.",
           "misconception": "slice-end-inclusive"
         }
       ],
@@ -340,7 +340,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.off-by-one-and-boundaries.fix-01",
@@ -568,13 +568,13 @@
         {
           "text": "herbs [3, 5]",
           "correct": false,
-          "feedback": "You expected the push to affect only the copy. Check whether spread duplicates what pots points to.",
+          "feedback": "You expected spread to duplicate everything inside shelf, so the push stays on the copy. Spread copies one level of properties, and what pots holds is a reference to an array.",
           "misconception": "spread-copies-deeply"
         },
         {
           "text": "spices [3, 5, 8]",
           "correct": false,
-          "feedback": "Check whether assigning copy.name on line 7 can change shelf.name.",
+          "feedback": "You expected assigning copy.name to change shelf.name too, as if both names were one object. copy is a new object made on line 5, and name holds a text, not a reference.",
           "misconception": "spread-copies-deeply"
         }
       ],
@@ -595,7 +595,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.mutation-bugs.concept-01",
@@ -622,13 +622,13 @@
         {
           "text": "sort returns a new sorted array and leaves prices in its original order.",
           "correct": false,
-          "feedback": "Compare the first printed line with the original order of prices.",
+          "feedback": "You thought sort returns a new array and leaves prices in its original order. The line that prints prices runs after the sort call, and it shows the order after that call.",
           "misconception": "in-place-method-returns-copy"
         },
         {
           "text": "sort reorders prices but returns a separate copy, so the two names are different arrays.",
           "correct": false,
-          "feedback": "Check the result of the comparison printed on line 5.",
+          "feedback": "You thought sort returns a copy, so sorted and prices are different arrays. The last line asks whether two names point at the same array, which depends on what sort returns.",
           "misconception": "in-place-method-returns-copy"
         }
       ],
@@ -648,7 +648,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.mutation-bugs.fix-01",
@@ -658,7 +658,7 @@
         "shallow-copy"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "The cart should keep its weights while doubled holds new ones, but both lists change. Tap the buggy line and pick the fix.",
       "code": [
         "const cart = [{ kg: 1 }, { kg: 2 }];",
@@ -706,7 +706,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.mutation-bugs.fill-01",
@@ -803,13 +803,13 @@
         {
           "text": "start\nend\nnext job",
           "correct": false,
-          "feedback": "Check whether the caller waits for print to finish.",
+          "feedback": "You thought print runs to the end before the caller continues. The await inside print hands control back to the caller before the line after it can run.",
           "misconception": "async-runs-to-completion"
         },
         {
           "text": "next job\nstart\nend",
           "correct": false,
-          "feedback": "Check when the body of an async function starts running.",
+          "feedback": "You thought calling print postpones its whole body until the caller finishes. An async function starts running its body at once, up to its first await.",
           "misconception": "async-call-defers-whole-body"
         }
       ],
@@ -830,7 +830,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.async-ordering-bugs.concept-01",
@@ -840,7 +840,7 @@
         "await-scheduling"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "Two sales start at the same moment on a stock of 5. Which statement explains the printed 4?",
       "code": [
         "let qty = 5;",
@@ -861,15 +861,15 @@
           "feedback": "Right. Each call read a value that went stale during the await, and the last write replaced the first."
         },
         {
-          "text": "The second call waits for the first call to finish, so the stock only goes down once.",
+          "text": "The second call is skipped while the first call is still waiting, so the stock goes down only once.",
           "correct": false,
-          "feedback": "Check whether the second call has to wait for the first to finish.",
+          "feedback": "You treated the first call, still paused at its await, as a lock that stops the second one. Each call runs its own copy of the body, so a call in progress blocks nothing.",
           "misconception": "await-serializes-calls"
         },
         {
           "text": "await makes each call finish before the next starts, so the stock should reach 3 but a bug skips one.",
           "correct": false,
-          "feedback": "Check whether anything in the code makes the second call wait, and what the stock would be if so.",
+          "feedback": "You thought await makes each call finish before the next starts. Nothing here waits for the first call; the second sell() starts while the first one is paused.",
           "misconception": "await-serializes-calls"
         }
       ],
@@ -889,7 +889,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 5
     },
     {
       "id": "exp.debugging.async-ordering-bugs.fix-01",
@@ -898,7 +898,7 @@
         "await-scheduling"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "The log should show the latte before served, but it shows only served. Tap the buggy line and pick the fix.",
       "code": [
         "const steps = [];",
@@ -949,7 +949,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.async-ordering-bugs.write-02",
@@ -1087,13 +1087,13 @@
         {
           "text": "['bake', 'a', 'b', 'RangeError']",
           "correct": false,
-          "feedback": "Check whether the push of a on line 7 can run after bake throws.",
+          "feedback": "You thought the push of a still runs after bake throws. A throw leaves the function at once, so the statements after the throwing call in that try block do not run.",
           "misconception": "code-continues-after-throw"
         },
         {
           "text": "['bake', 'RangeError']",
           "correct": false,
-          "feedback": "Check whether the finally block on line 8 runs when bake throws.",
+          "feedback": "You thought finally is skipped while an error passes through. A finally block belongs to its try, and it runs whether that try ends normally or by a throw.",
           "misconception": "finally-skipped-on-throw"
         }
       ],
@@ -1113,7 +1113,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.concept-01",
@@ -1143,13 +1143,13 @@
         {
           "text": "The rejection skips the next then, but the chain stays rejected, so after is never printed.",
           "correct": false,
-          "feedback": "Check what state the chain is in after the catch handler returns.",
+          "feedback": "You thought the chain stays rejected after the catch. A catch handler that returns normally hands the next step a successful result.",
           "misconception": "catch-keeps-chain-rejected"
         },
         {
           "text": "A throw does not stop the chain, so ran is printed before the catch runs.",
           "correct": false,
-          "feedback": "Check whether the then on line 6 can run after the throw on line 5.",
+          "feedback": "You thought a throw does not stop the chain, so the step that prints ran comes next. A rejected promise skips every then that has no rejection handler.",
           "misconception": "code-continues-after-throw"
         }
       ],
@@ -1170,7 +1170,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.fix-02",
@@ -1180,7 +1180,7 @@
         "error-types"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "The caller should print TypeError, but the inner function hides the failure. Tap the buggy line and pick the fix.",
       "code": [
         "const parseQty = (text) => {",
@@ -1228,7 +1228,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.fill-02",

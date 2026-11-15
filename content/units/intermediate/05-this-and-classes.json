@@ -382,7 +382,7 @@
         "function-expressions"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What is the value of now right after line 5 runs for the second time?",
       "code": [
         "const till = {",
@@ -437,7 +437,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.this-in-methods.fill-01",
@@ -1171,7 +1171,7 @@
         "this-in-methods"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "After line 4 runs for the second time, which value does next hold?",
       "code": [
         "class Meter {",
@@ -1226,7 +1226,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.class-basics.fill-01",
@@ -1553,7 +1553,7 @@
         {
           "text": "twin is copied to every instance, so p.twin is a function.",
           "correct": false,
-          "feedback": "That is how an ordinary method behaves, not a static one. Compare what lines 7 and 9 do with twin.",
+          "feedback": "You thought twin is passed on to instances, as an ordinary method is. An ordinary method lives once on the prototype and instances reach it through that link; a static method is not stored there.",
           "misconception": "static-copied-to-instances"
         },
         {
@@ -1579,7 +1579,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.this-and-classes.class-inheritance.trace-01",

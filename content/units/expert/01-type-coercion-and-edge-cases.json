@@ -247,13 +247,13 @@
         {
           "text": "ticket1\nticket",
           "correct": false,
-          "feedback": "Check which conversion + asks for, and which method that conversion tries first.",
+          "feedback": "You thought + tries toString first, as joining text would. + asks for a default conversion, and that conversion starts with a different method than toString.",
           "misconception": "valueof-tostring-order-confused"
         },
         {
           "text": "5\n4",
           "correct": false,
-          "feedback": "Check which method a template literal tries first.",
+          "feedback": "You thought a template literal tries valueOf first, as + does. A template literal asks for text, and that conversion does not start with valueOf.",
           "misconception": "valueof-tostring-order-confused"
         }
       ],
@@ -274,7 +274,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.type-coercion-and-edge-cases.to-primitive-conversion.concept-01",
@@ -307,13 +307,13 @@
         {
           "text": "The hint is the same for every conversion, so all three lines would print the same.",
           "correct": false,
-          "feedback": "Check whether every operation asks tank for the same kind of primitive.",
+          "feedback": "You thought every operation converts tank the same way. Each operation passes its own hint to the method, and the three lines print different values because of that.",
           "misconception": "hint-ignored"
         },
         {
           "text": "Template literals skip the method and call toString, so the last line prints an object text.",
           "correct": false,
-          "feedback": "Check what Symbol.toPrimitive does to valueOf and toString when it exists.",
+          "feedback": "You thought a template literal calls toString directly. When an object has a Symbol.toPrimitive method, that method is used instead of valueOf and toString.",
           "misconception": "valueof-tostring-order-confused"
         }
       ],
@@ -333,7 +333,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.type-coercion-and-edge-cases.to-primitive-conversion.fix-01",
@@ -528,13 +528,13 @@
         {
           "text": "false\nfalse\nfalse",
           "correct": false,
-          "feedback": "Check whether == judges the array by truthiness.",
+          "feedback": "You thought == judges the array by truthiness, so an array that is truthy cannot equal false. == does not use truthiness; it converts values by its own steps.",
           "misconception": "loose-equality-by-truthiness"
         },
         {
           "text": "true\ntrue\ntrue",
           "correct": false,
-          "feedback": "Check what null is loosely equal to.",
+          "feedback": "You thought null is loosely equal to false, as another falsy value would be. == has a special rule for null that does not treat it like 0 or an empty text.",
           "misconception": "loose-equality-by-truthiness"
         }
       ],
@@ -555,7 +555,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "duel:3"
       ]
@@ -585,13 +585,13 @@
         {
           "text": "== calls valueOf on both sides, so the last line compares 8 with 8 and is true.",
           "correct": false,
-          "feedback": "Check whether both sides of the last line are primitives.",
+          "feedback": "You thought == converts both objects to their valueOf result and compares 8 with 8. When both sides are objects, the conversion step is not used.",
           "misconception": "objects-equal-by-contents"
         },
         {
           "text": "== never calls valueOf and compares text forms, so the first line is false.",
           "correct": false,
-          "feedback": "Check what the first two lines print.",
+          "feedback": "You thought == never calls valueOf. When the other side is a number or a text, the object is converted through valueOf, which the first two lines show.",
           "misconception": "valueof-tostring-order-confused"
         }
       ],
@@ -612,7 +612,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.fix-01",
@@ -769,13 +769,13 @@
         {
           "text": "1\ntrue\nfalse",
           "correct": false,
-          "feedback": "Check how indexOf compares values and what NaN === NaN gives.",
+          "feedback": "You thought indexOf finds NaN, because NaN is equal to itself. indexOf compares with ===, and NaN === NaN is false, as the last line shows.",
           "misconception": "nan-equals-nan"
         },
         {
           "text": "-1\nfalse\nfalse",
           "correct": false,
-          "feedback": "Check whether includes compares values the same way as indexOf.",
+          "feedback": "You thought includes behaves like indexOf, so it cannot find NaN. includes uses a different comparison than ===, one that treats NaN as equal to itself.",
           "misconception": "nan-equals-nan"
         }
       ],
@@ -796,7 +796,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "duel:4"
       ]
@@ -808,7 +808,7 @@
         "strict-equality"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "A gauge reads negative zero. Which statement explains why the first two lines disagree?",
       "code": [
         "const drift = -0;",
@@ -826,7 +826,7 @@
         {
           "text": "=== compares the sign of zero, so it is false for -0 and 0 while Object.is says they match.",
           "correct": false,
-          "feedback": "Compare what lines 2 and 3 print.",
+          "feedback": "You thought === compares the sign of zero, so -0 and 0 differ and Object.is says they match. Object.is is the one that separates them, and === is the one that does not.",
           "misconception": "negative-zero-sign-confused"
         },
         {
@@ -853,7 +853,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 6
     },
     {
       "id": "exp.type-coercion-and-edge-cases.numeric-edge-cases.fix-01",
@@ -1023,13 +1023,13 @@
         {
           "text": "false\nfalse\n[3, 12, 25, 100]",
           "correct": false,
-          "feedback": "Check whether each comparison and the default sort work on numbers or on text.",
+          "feedback": "You thought the comparisons and the default sort treat 12 and 3 as numbers. Two texts compare character by character, and the default sort turns items into text first.",
           "misconception": "default-sort-is-numeric"
         },
         {
           "text": "true\ntrue\n[100, 12, 25, 3]",
           "correct": false,
-          "feedback": "Check what line 3 compares: two texts, or a number and a text.",
+          "feedback": "You thought < compares as text whenever one side is text. With a number and a text, < converts the text to a number, so line 3 does not compare characters.",
           "misconception": "mixed-comparison-stringifies"
         }
       ],
@@ -1050,7 +1050,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "duel:0"
       ]
@@ -1079,13 +1079,13 @@
         {
           "text": "+ joins text everywhere as soon as one string appears in the expression, so line 2 prints 23x.",
           "correct": false,
-          "feedback": "Check which pair each + works on first, and what its two values are.",
+          "feedback": "You thought + joins everything as text once a string appears anywhere. Each + works on its own two values at that moment, so a number added to the object is summed before any text joins in.",
           "misconception": "plus-order-and-grouping-confused"
         },
         {
           "text": "Brackets do not change +, so the last line prints x23.",
           "correct": false,
-          "feedback": "Check what the brackets on line 4 change about which + runs first.",
+          "feedback": "You thought brackets do not change +. Brackets decide which + runs first, so line 4 combines seat and 3 before the text is involved.",
           "misconception": "plus-order-and-grouping-confused"
         }
       ],
@@ -1106,7 +1106,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "duel:1"
       ]

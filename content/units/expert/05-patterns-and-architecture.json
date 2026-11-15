@@ -417,7 +417,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 5,
-      "prompt": "Write the body of replay. Commands: 'on:name', 'off:name', 'pub:message'. Return one comma-joined text per pub: the message, then the subscribers in order, each name once.",
+      "prompt": "Write the body of replay(commands). Commands: 'on:name', 'off:name', 'pub:message'. Return an array with one comma-joined text per pub: message, then current subscribers in order, each once.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -546,7 +546,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.predict-01",
@@ -915,7 +915,7 @@
         "closure-private-state"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "getJar should create the jar once and then reuse it, so the program prints 2. Tap the buggy line and pick the fix.",
       "code": [
         "let jar = null;",
@@ -962,7 +962,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.patterns-and-architecture.factory-and-singleton.write-01",

@@ -272,13 +272,13 @@
         {
           "text": "10\n10",
           "correct": false,
-          "feedback": "You treated the inner let as a change to the outer variable. Check whether a let inside braces reuses the outer variable.",
+          "feedback": "You thought the inner let changes the outer buses. A let inside braces declares a separate variable that shares only the name.",
           "misconception": "inner-shadow-overwrites-outer"
         },
         {
           "text": "3\n3",
           "correct": false,
-          "feedback": "You ignored the inner declaration. Check which variable the name buses refers to inside the braces.",
+          "feedback": "You thought the inner declaration is ignored and the outer buses is used. Inside the braces the name means the variable declared there.",
           "misconception": "inner-declaration-ignored"
         }
       ],
@@ -299,7 +299,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.block-scope.concept-01",
@@ -328,13 +328,13 @@
         {
           "text": "label stays available after the loop and holds the last tag.",
           "correct": false,
-          "feedback": "If that were true, the program would print a tag. Check what line 5 prints.",
+          "feedback": "You thought a const declared in the loop body is still visible after the loop. Its scope ends at the closing brace.",
           "misconception": "let-leaks-block"
         },
         {
           "text": "label is available after the loop, but only as undefined.",
           "correct": false,
-          "feedback": "Check whether a name that is out of scope can be read at all.",
+          "feedback": "You thought a variable out of scope still exists and reads as undefined. Outside its scope the name is not known at all.",
           "misconception": "undefined-means-declared"
         }
       ],
@@ -355,7 +355,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.block-scope.trace-01",
@@ -386,13 +386,13 @@
         {
           "text": "9",
           "correct": false,
-          "feedback": "That is the inner paid. Check where the inner variable ends and which paid line 6 reads.",
+          "feedback": "You read the inner paid on line 6. The inner variable ends at the closing brace on line 5, so line 6 sees the other one.",
           "misconception": "inner-shadow-overwrites-outer"
         },
         {
           "text": "6",
           "correct": false,
-          "feedback": "That adds 1 to the outer paid. Check which variable the name paid means inside the braces on line 4.",
+          "feedback": "You thought the declaration on line 3 is ignored and line 4 adds to the outer paid. Inside the braces the name paid means the variable declared on line 3.",
           "misconception": "inner-declaration-ignored"
         }
       ],
@@ -417,7 +417,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.block-scope.fill-01",
@@ -697,13 +697,13 @@
         {
           "text": "Uncaught ReferenceError",
           "correct": false,
-          "feedback": "You treated var like let. Check whether the braces of an if limit a var.",
+          "feedback": "You treated var like let, as if the braces of the if closed its scope. A var belongs to the whole function, not to the block.",
           "misconception": "var-block-scoped"
         },
         {
           "text": "big big",
           "correct": false,
-          "feedback": "Check whether the second call can use the value that the first call assigned.",
+          "feedback": "You thought label keeps its value from the first call. Each call of pick starts with a fresh label.",
           "misconception": "var-persists-across-calls"
         }
       ],
@@ -724,7 +724,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.concept-01",
@@ -752,13 +752,13 @@
         {
           "text": "var inside a function creates a global variable once wrap runs.",
           "correct": false,
-          "feedback": "If that were true, line 5 would print red. Check what line 5 prints.",
+          "feedback": "You thought a var inside a function becomes a global once the function runs. A var stays inside the function that declares it.",
           "misconception": "var-leaks-function"
         },
         {
           "text": "ribbon exists after wrap runs, but holds undefined.",
           "correct": false,
-          "feedback": "Check whether a variable outside its scope exists at all.",
+          "feedback": "You thought ribbon still exists outside wrap and reads as undefined. Outside its scope the name is not known at all.",
           "misconception": "undefined-means-declared"
         }
       ],
@@ -779,7 +779,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.trace-01",
@@ -810,13 +810,13 @@
         {
           "text": "6",
           "correct": false,
-          "feedback": "That is the value inside brew. Check which cups line 7 reads.",
+          "feedback": "You read the value cups had inside brew. Line 7 runs outside brew, where the name means another variable.",
           "misconception": "inner-shadow-overwrites-outer"
         },
         {
           "text": "3",
           "correct": false,
-          "feedback": "That adds 1 to the outer cups. Check which variable the name cups means inside brew.",
+          "feedback": "You thought the declaration inside brew is ignored, so line 4 adds 1 to the outer cups. Inside brew the name cups means the var declared there.",
           "misconception": "inner-declaration-ignored"
         }
       ],
@@ -841,7 +841,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.parsons-01",
@@ -1041,7 +1041,7 @@
         "function-expressions"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
         "console.log(opening(\"bakery\"));",
@@ -1060,13 +1060,13 @@
         {
           "text": "Uncaught TypeError",
           "correct": false,
-          "feedback": "You thought the function declaration was not ready yet. Check what line 1 does before any other line has run.",
+          "feedback": "You thought a function declaration is not ready until its line is reached. A function declaration is ready before any line runs.",
           "misconception": "declaration-not-hoisted"
         },
         {
           "text": "bakery open\nbakery shut",
           "correct": false,
-          "feedback": "You treated the function expression like a declaration. Check what closing holds when line 2 runs.",
+          "feedback": "You thought a function stored in a var can be called before its line, like a declaration. The var exists early, but its function is stored only when its line runs.",
           "misconception": "function-expression-hoisted-like-declaration"
         }
       ],
@@ -1087,7 +1087,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 6,
       "legacyKeys": [
         "exercise:JUNIOR:20"
       ]
@@ -1100,7 +1100,7 @@
         "function-expressions"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Which statement is true about this code?",
       "code": [
         "console.log(riders);",
@@ -1116,13 +1116,13 @@
         {
           "text": "The declaration is not created until line 2, so line 1 can only throw.",
           "correct": false,
-          "feedback": "Check what line 1 prints if the name did not exist yet.",
+          "feedback": "You thought a var does not exist until the line that writes it has run. A var declaration takes effect before any line runs.",
           "misconception": "declaration-not-hoisted"
         },
         {
           "text": "The assignment is hoisted with the declaration, so line 1 reads 5.",
           "correct": false,
-          "feedback": "Check what line 1 would print if the value had moved up with the declaration.",
+          "feedback": "You thought the assigned value moves up with the declaration. Only the name moves up; the value is stored when its line runs.",
           "misconception": "var-hoisted-with-value"
         }
       ],
@@ -1143,7 +1143,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 5
     },
     {
       "id": "int.scope-and-hoisting.hoisting.trace-01",
@@ -1153,7 +1153,7 @@
         "function-expressions"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What is the value of result right after line 7 runs?",
       "code": [
         "var taken = 4;",
@@ -1174,13 +1174,13 @@
         {
           "text": "5",
           "correct": false,
-          "feedback": "That uses the outer taken. Check which taken line 3 refers to inside book.",
+          "feedback": "You used the outer taken on line 3. A var taken declared inside book belongs to the whole function, so the name means that one from the first line.",
           "misconception": "declaration-not-hoisted"
         },
         {
           "text": "21",
           "correct": false,
-          "feedback": "That reads the 20 from line 4. Check whether line 4 has run when line 3 runs.",
+          "feedback": "You thought the 20 from line 4 is already stored when line 3 runs. Line 4 has not run yet at that point.",
           "misconception": "var-hoisted-with-value"
         }
       ],
@@ -1205,7 +1205,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "int.scope-and-hoisting.hoisting.fill-01",
@@ -1421,13 +1421,13 @@
         {
           "text": "number",
           "correct": false,
-          "feedback": "You used the outer rooms. Check which rooms the name means inside the braces on line 3.",
+          "feedback": "You thought the inner let is ignored and the outer rooms is read. Inside the braces the name means the inner let, even above its line.",
           "misconception": "inner-declaration-ignored"
         },
         {
           "text": "undefined",
           "correct": false,
-          "feedback": "Check whether a let can be read before its declaration line has run.",
+          "feedback": "You thought a let reads as undefined before its line, as a var does. A let cannot be read at all before its line has run.",
           "misconception": "tdz-gives-undefined"
         }
       ],
@@ -1448,7 +1448,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "duel:8"
       ]
@@ -1477,13 +1477,13 @@
         {
           "text": "Code written above a let declaration can never read it.",
           "correct": false,
-          "feedback": "Where a line is written does not settle it on its own. Ask what has happened by the time that code runs.",
+          "feedback": "You thought a read written above a let line can never work. What matters is whether the let line has run by the time the read runs.",
           "misconception": "tdz-depends-on-position"
         },
         {
           "text": "peek gives NaN, because let is hoisted without a value.",
           "correct": false,
-          "feedback": "Compare what a var holds early with what a let allows early.",
+          "feedback": "You thought a let is hoisted with an undefined value, as a var is. A let has no such state: a read before its line is an error, and a read after it sees the value.",
           "misconception": "tdz-gives-undefined"
         }
       ],
@@ -1504,7 +1504,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.trace-01",
@@ -1515,49 +1515,48 @@
       ],
       "format": "TRACE",
       "difficulty": 3,
-      "prompt": "What does total hold right after line 4 has run?",
+      "prompt": "What does total hold right after line 6 has run?",
       "code": [
-        "let size = 2;",
-        "let total = 10;",
-        "{",
-        "  total = total + 1;",
-        "  total = total + size;",
-        "  let size = 5;",
+        "function bill() {",
+        "  return price * 2;",
         "}",
+        "let total = 0;",
+        "let price = 4;",
+        "total = bill();",
         "console.log(total);"
       ],
       "options": [
         {
-          "text": "11",
+          "text": "8",
           "correct": true,
-          "feedback": "Right. Line 4 adds 1 to the 10 stored on line 2, and line 5 has not run yet."
+          "feedback": "Right. The dead zone of price ends when line 5 runs. bill reads price only when line 6 calls it, after line 5 has stored 4, so it returns 8."
         },
         {
-          "text": "10",
+          "text": "0",
           "correct": false,
-          "feedback": "That is the value before line 4 has run. The question asks about the moment after it.",
-          "misconception": "value-before-line-runs"
+          "feedback": "This treats the dead zone as a matter of where code is written: bill sits above the let line. The dead zone is about when a read runs, compared with when the let line has run.",
+          "misconception": "tdz-depends-on-position"
         },
         {
-          "text": "13",
+          "text": "NaN",
           "correct": false,
-          "feedback": "That counts line 5 as well. The question stops after line 4, before line 5 runs.",
-          "misconception": "inner-declaration-ignored"
+          "feedback": "This reads price as undefined, the way a var reads before its line. A let has no undefined phase: before its line runs, any read of it throws.",
+          "misconception": "tdz-gives-undefined"
         }
       ],
       "solution": {
         "probe": {
           "variable": "total",
-          "afterLine": 4,
+          "afterLine": 6,
           "visit": 1
         },
-        "expectedOutput": "Uncaught ReferenceError"
+        "expectedOutput": "8"
       },
-      "explanation": "Line 4 adds 1 to total, so it holds 11 when line 4 finishes. Line 5 then reads size, but the block declares its own size on line 6, so that read is in the temporal dead zone and throws a ReferenceError. The program ends without printing.",
+      "explanation": "The dead zone of price lasts from the start of its scope until line 5 runs. bill reads price only when line 6 calls it, after line 5 has stored 4, so the read is allowed and bill returns 8. What counts is when the read runs, not where the function is written.",
       "hints": [
-        "Follow the lines in order and stop right after line 4.",
-        "A let covers its whole block but cannot be read before its line runs, so line 5 fails later.",
-        "Line 4 adds 1 to the value stored on line 2."
+        "Look at line 6 and ask which lines have already run when bill reads price.",
+        "A let binding cannot be read until its own line has run; time decides, not position in the file.",
+        "Compare the moment line 5 runs with the moment the return on line 2 runs."
       ],
       "reference": {
         "title": "let: temporal dead zone",
@@ -1566,7 +1565,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.parsons-01",

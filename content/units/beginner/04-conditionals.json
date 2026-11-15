@@ -1218,13 +1218,13 @@
         {
           "text": "A ternary gives back true or false, the result of its condition.",
           "correct": false,
-          "feedback": "Compare what line 3 prints with the result of the plain condition on line 4.",
+          "feedback": "You read a ternary as only its condition, giving true or false. Line 4 is the plain condition; line 2 has two values around a colon as well, and tyre is assigned from those.",
           "misconception": "ternary-returns-condition"
         },
         {
           "text": "A ternary gives the second value when the condition is true.",
           "correct": false,
-          "feedback": "Look at which text line 3 prints for temp -2, and which side of the colon it sits on.",
+          "feedback": "You thought the value after the colon is used when the condition is true. The ? and : decide which value goes with a true condition and which with a false one, and temp < 0 is true here.",
           "misconception": "condition-direction-flipped"
         }
       ],
@@ -1245,7 +1245,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.conditionals.condition-truthiness.predict-01",
@@ -1325,7 +1325,7 @@
         {
           "text": "open",
           "correct": true,
-          "feedback": "Right. Any number except 0 is truthy, so the if block runs."
+          "feedback": "Right. A nonzero number such as 3 is truthy, so the if block runs."
         },
         {
           "text": "full",
@@ -1343,7 +1343,7 @@
       "solution": {
         "expectedOutput": "open"
       },
-      "explanation": "A number counts as true unless it is 0. lanes is 3, so the condition passes and the if block runs, and the else block is skipped.",
+      "explanation": "A number counts as true unless it is 0 or NaN. lanes is 3, so the condition passes and the if block runs, and the else block is skipped.",
       "hints": [
         "Look at the condition on line 2.",
         "JavaScript turns any value into true or false for a test.",
@@ -1357,7 +1357,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.conditionals.condition-truthiness.trace-01",

@@ -270,13 +270,13 @@
         {
           "text": "4",
           "correct": false,
-          "feedback": "You dropped the fraction. Check whether / throws away part of the result.",
+          "feedback": "You thought / throws away the fractional part, as whole-number division does. The result of / in JavaScript is not cut.",
           "misconception": "division-gives-whole-number"
         },
         {
           "text": "5",
           "correct": false,
-          "feedback": "You rounded to the nearest whole number. Check whether / rounds anything.",
+          "feedback": "You thought / rounds the result to the nearest whole number. Nothing in / rounds.",
           "misconception": "division-gives-whole-number"
         }
       ],
@@ -297,7 +297,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.values-and-types.number-values.trace-01",
@@ -468,13 +468,13 @@
         {
           "text": "/ gives a whole number, and % tells you how many times 4 fits into 10.",
           "correct": false,
-          "feedback": "Run line 1 by hand: 10 / 4 does not print a whole number, so the first half cannot be right.",
+          "feedback": "You thought / always gives a whole number, with % counting how many 4s fit. That mixes up what each operator returns.",
           "misconception": "division-gives-whole-number"
         },
         {
           "text": "/ gives the exact result, and % gives how many times 4 fits into 10.",
           "correct": false,
-          "feedback": "Check the second half against line 2: if % counted how many 4s fit into 10, would it print what line 2 prints?",
+          "feedback": "You thought % gives the number of whole 4s in 10. That is a different question from the one % answers.",
           "misconception": "remainder-is-quotient"
         }
       ],
@@ -495,7 +495,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.values-and-types.string-values.predict-01",
@@ -518,13 +518,13 @@
         {
           "text": "11",
           "correct": false,
-          "feedback": "You added the numbers. Look at the quotation marks around the 7: is it still a number?",
+          "feedback": "You thought + always adds. When one side is text, + does something else.",
           "misconception": "plus-always-adds"
         },
         {
           "text": "NaN",
           "correct": false,
-          "feedback": "JavaScript does not fail here; + accepts a number and text together.",
+          "feedback": "You thought mixing a number with text breaks +. It does not break; + has a rule for that mix.",
           "misconception": "plus-always-adds"
         }
       ],
@@ -545,7 +545,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:JUNIOR:7"
       ]
@@ -571,13 +571,13 @@
         {
           "text": "TEATEA",
           "correct": false,
-          "feedback": "You changed cup as well. Check whether toUpperCase alters the variable it is called on.",
+          "feedback": "You thought toUpperCase changes cup itself. A string method hands back new text and leaves the variable alone.",
           "misconception": "method-changes-original"
         },
         {
           "text": "teatea",
           "correct": false,
-          "feedback": "You ignored what toUpperCase returns. Line 2 stores that result in big.",
+          "feedback": "You thought the capital text is lost because it comes from a method. Line 2 stores the returned text in big, and big is printed.",
           "misconception": "method-result-ignored"
         }
       ],
@@ -598,7 +598,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "puzzle:11"
       ]
@@ -837,7 +837,7 @@
       "concept": "boolean-values",
       "prerequisites": [],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What does this code print?",
       "code": [
         "let isOn = true;",
@@ -880,7 +880,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.values-and-types.boolean-values.predict-02",
@@ -1196,13 +1196,13 @@
         {
           "text": "number",
           "correct": false,
-          "feedback": "You stopped after the inner typeof. The outer typeof still has to run on what the inner one gave.",
+          "feedback": "You thought typeof stops after giving a type name for 5. The outer typeof still asks what kind of value that name is.",
           "misconception": "typeof-result-not-text"
         },
         {
           "text": "boolean",
           "correct": false,
-          "feedback": "A boolean would come from a comparison, and there is none here. Check what the inner typeof gives first.",
+          "feedback": "You thought typeof answers true or false. A boolean would come from a comparison, and typeof gives its answer as another kind of value.",
           "misconception": "typeof-result-not-text"
         }
       ],
@@ -1223,7 +1223,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:JUNIOR:5"
       ]

@@ -902,13 +902,13 @@
         {
           "text": "false\nfalse",
           "correct": false,
-          "feedback": "You read >= as strictly greater. Check what >= does when both sides are equal.",
+          "feedback": "You read >= as strictly greater. >= also accepts the case where both sides are equal.",
           "misconception": "equal-boundary-wrong"
         },
         {
           "text": "true\ntrue",
           "correct": false,
-          "feedback": "You read > as including equal. Check what > does when both sides are equal.",
+          "feedback": "You read > as including equal. > accepts only a left side that is larger, so equal sides do not pass.",
           "misconception": "equal-boundary-wrong"
         }
       ],
@@ -929,7 +929,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.predict-02",
@@ -1220,13 +1220,13 @@
         {
           "text": "true\ntrue",
           "correct": false,
-          "feedback": "You treated the text with only a space as empty. Look again at what spacer holds.",
+          "feedback": "You treated the text with only a space as empty. A space is still a character, so that text is not empty.",
           "misconception": "falsy-by-meaning"
         },
         {
           "text": "false\nfalse",
           "correct": false,
-          "feedback": "You gave comment the same result as spacer. Compare what the two texts hold.",
+          "feedback": "You gave comment the same result as spacer. One text holds nothing at all, and the other holds a character.",
           "misconception": "falsy-by-meaning"
         }
       ],
@@ -1247,7 +1247,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:JUNIOR:2"
       ]
@@ -1275,7 +1275,7 @@
         {
           "text": "unknown",
           "correct": false,
-          "feedback": "You used the right-hand value. Check the left side of ||; it decides whether the right side is used.",
+          "feedback": "You used the right-hand value. || falls back to its right side only when the left side is falsy, and the left side decides that.",
           "misconception": "logical-operand-misread"
         },
         {
@@ -1302,7 +1302,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:JUNIOR:19"
       ]
@@ -1333,7 +1333,7 @@
         {
           "text": "15",
           "correct": false,
-          "feedback": "You used the right-hand side. Check whether the left-hand side of && lets the expression go on.",
+          "feedback": "You used the right-hand side. && moves on to its right side only when the left side is truthy, and the left side decides that.",
           "misconception": "logical-operand-misread"
         },
         {
@@ -1364,7 +1364,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:17"
       ]

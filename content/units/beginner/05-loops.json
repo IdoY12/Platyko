@@ -233,13 +233,13 @@
         {
           "text": "tray 1\ntray 2",
           "correct": false,
-          "feedback": "That stops one pass early. Check whether the condition on line 1 lets the loop run when i is 3.",
+          "feedback": "You treated <= like <, so the loop ends one pass early. The condition i <= 3 also lets the pass where i equals 3 run.",
           "misconception": "bound-off-by-one"
         },
         {
           "text": "tray 2\ntray 3\ntray 4",
           "correct": false,
-          "feedback": "Check when the update part of the header runs relative to the first pass.",
+          "feedback": "You thought the update i++ runs before the first pass. The update runs after each pass, so the first pass sees the start value.",
           "misconception": "update-runs-first"
         }
       ],
@@ -260,7 +260,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.loops.for-loop.predict-02",
@@ -286,13 +286,13 @@
         {
           "text": "2\n5\n8\n10",
           "correct": false,
-          "feedback": "Check whether k ever equals 10 when it starts at 2 and grows in steps of 3.",
+          "feedback": "You thought the loop also prints the bound 10. k only takes the values 2, then each step of 3 after it, and the condition must hold for a value to print.",
           "misconception": "bound-off-by-one"
         },
         {
           "text": "5\n8\n11",
           "correct": false,
-          "feedback": "Check what k holds on the very first pass, and when the third part of the header runs.",
+          "feedback": "You thought k = k + 3 runs before the first pass, so 2 is never printed. The first pass uses the start value as it is.",
           "misconception": "update-runs-first"
         }
       ],
@@ -313,7 +313,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.loops.for-loop.trace-01",
@@ -512,13 +512,13 @@
         {
           "text": "The body runs once, then the condition is checked.",
           "correct": false,
-          "feedback": "Check where in the loop the condition is tested relative to the first pass.",
+          "feedback": "You thought the condition is tested only after the body has run once. In a for loop the condition is tested before every pass, the first one included.",
           "misconception": "condition-checked-after-body"
         },
         {
           "text": "The body runs once with n equal to 6, because the update comes first.",
           "correct": false,
-          "feedback": "Check when the update part of the header runs.",
+          "feedback": "You thought the update n++ runs before the first pass. The update runs after a pass, so the first test uses the start value.",
           "misconception": "update-runs-first"
         }
       ],
@@ -539,7 +539,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.loops.while-loop.predict-01",
@@ -620,13 +620,13 @@
         {
           "text": "3",
           "correct": false,
-          "feedback": "That assumes the loop lands exactly on the bound. Check what n is after each pass.",
+          "feedback": "You thought n stops at exactly 3 because the condition mentions 3. n changes only by the subtraction, in steps of 4, so it need not land on the bound.",
           "misconception": "bound-off-by-one"
         },
         {
           "text": "-2",
           "correct": false,
-          "feedback": "That runs one extra pass. Check when the condition is tested relative to the subtraction.",
+          "feedback": "You thought the condition is tested only after the subtraction, so one more pass runs. The condition is tested before each pass, including the one that would come next.",
           "misconception": "condition-checked-after-body"
         }
       ],
@@ -647,7 +647,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.loops.while-loop.trace-01",
@@ -830,7 +830,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "A while loop starts with day at first, adds 1 to day each pass, and runs while day <= last. Write an expression for the number of passes.",
+      "prompt": "A while loop starts with day equal to first, adds 1 to day each pass, and runs while day <= last. Write an expression for the number of passes.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -897,7 +897,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.loops.loop-accumulator.predict-01",
@@ -925,7 +925,7 @@
         {
           "text": "40",
           "correct": false,
-          "feedback": "That is only the last amount. Check whether line 3 keeps the earlier value of points.",
+          "feedback": "You thought each pass replaces points with the new amount. Line 3 reads points on its right side, so it starts from the value points already holds.",
           "misconception": "accumulator-overwritten"
         },
         {
@@ -952,7 +952,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.loops.loop-accumulator.predict-02",
@@ -980,7 +980,7 @@
         {
           "text": "*",
           "correct": false,
-          "feedback": "That treats line as replaced by one star each pass. Check whether line 3 uses the old value of line.",
+          "feedback": "You thought each pass replaces line with a single star. Line 3 uses the old value of line on its right side, so earlier stars stay.",
           "misconception": "accumulator-overwritten"
         },
         {
@@ -1007,7 +1007,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.loops.loop-accumulator.trace-01",
@@ -1212,13 +1212,13 @@
         {
           "text": "total keeps growing, so the lines show 1, 3 and 6.",
           "correct": false,
-          "feedback": "Check where total is declared and what line 2 does at the start of every pass.",
+          "feedback": "You thought total keeps its value from one pass to the next. A declaration inside the body is carried out again at the start of every pass.",
           "misconception": "declared-inside-keeps-value"
         },
         {
           "text": "The program stops with an error, because total is declared three times.",
           "correct": false,
-          "feedback": "A declaration inside a loop body is allowed on every pass. Check what the program prints.",
+          "feedback": "You thought the let declares total again in one scope and clashes. Each pass of the body gets its own fresh scope, so no earlier total is in the way.",
           "misconception": "redeclare-error"
         }
       ],
@@ -1239,7 +1239,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.loops.break-and-continue.predict-01",
@@ -1269,13 +1269,13 @@
         {
           "text": "1\n2\n4\n5",
           "correct": false,
-          "feedback": "That is what a different keyword does. Check whether break skips only one pass.",
+          "feedback": "You thought break only skips one pass and the loop goes on. break and continue do different jobs.",
           "misconception": "break-continue-confused"
         },
         {
           "text": "1\n2\n3",
           "correct": false,
-          "feedback": "Check whether the print on line 5 can run in the pass where lap is 3.",
+          "feedback": "You thought the rest of the pass still runs after break. break takes effect at once, so the later lines of that pass are skipped.",
           "misconception": "break-acts-late"
         }
       ],
@@ -1296,7 +1296,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:15"
       ]
@@ -1329,13 +1329,13 @@
         {
           "text": "0\n1",
           "correct": false,
-          "feedback": "That is what a different keyword does. Check whether the loop goes on after row 2.",
+          "feedback": "You thought continue ends the whole loop, as break does. continue and break do different jobs.",
           "misconception": "break-continue-confused"
         },
         {
           "text": "0\n1\n2\n3\n4",
           "correct": false,
-          "feedback": "Check whether the print on line 5 can run in the pass where row is 2.",
+          "feedback": "You thought continue takes effect only after the rest of the pass has run. It takes effect at once, so later lines of that pass are skipped.",
           "misconception": "break-acts-late"
         }
       ],
@@ -1356,7 +1356,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:16"
       ]
@@ -1505,55 +1505,19 @@
       "code": [
         "  total = total + n;",
         "console.log(total);",
-        "  if (n === 4) {",
-        "    break;",
-        "  }",
+        "  if (n === 4) { break; }",
         "let total = 0;",
         "}",
         "for (let n = 1; n <= 6; n++) {"
       ],
       "solution": {
         "lineOrder": [
-          5,
-          7,
-          2,
           3,
-          4,
+          5,
+          2,
           0,
-          6,
+          4,
           1
-        ],
-        "acceptedOrders": [
-          [
-            5,
-            7,
-            2,
-            1,
-            3,
-            4,
-            0,
-            6
-          ],
-          [
-            5,
-            7,
-            2,
-            1,
-            3,
-            6,
-            0,
-            4
-          ],
-          [
-            5,
-            7,
-            2,
-            3,
-            6,
-            0,
-            4,
-            1
-          ]
         ],
         "expectedOutput": "6"
       },
@@ -1571,7 +1535,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.loops.break-and-continue.write-01",

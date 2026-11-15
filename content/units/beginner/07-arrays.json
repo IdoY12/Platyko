@@ -247,7 +247,7 @@
         "number-values"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What does this code print?",
       "code": [
         "const stops = [\"Oak\", \"Bay\", \"Elm\"];",
@@ -268,7 +268,7 @@
         {
           "text": "Bay Elm",
           "correct": false,
-          "feedback": "Check how many items the array has and which indexes they use.",
+          "feedback": "You took the length, 3, as the last index, so you expected index 3 to hold an item. Length counts items; it is not the number of the last index.",
           "misconception": "length-is-last-index"
         }
       ],
@@ -289,7 +289,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 5,
       "legacyKeys": [
         "exercise:JUNIOR:26"
       ]
@@ -324,7 +324,7 @@
         {
           "text": "oat",
           "correct": false,
-          "feedback": "That is the item at index 1. Check which index line 2 reads.",
+          "feedback": "You counted the second item as the first, as if indexes started at 1. Line 2 reads index 0, and index 1 is not what it asks for.",
           "misconception": "one-based-index"
         }
       ],
@@ -345,7 +345,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:1"
       ]
@@ -541,13 +541,13 @@
         {
           "text": "The first item has index 1, so seats[0] is empty.",
           "correct": false,
-          "feedback": "Check what line 2 prints.",
+          "feedback": "You counted the first item as index 1, so you expect seats[0] to be empty. Line 2 reads seats[0] and prints a real letter, so that count does not match the output.",
           "misconception": "one-based-index"
         },
         {
           "text": "The last of four items has index 4, so seats[3] is the third item.",
           "correct": false,
-          "feedback": "Check which item seats[3] prints on line 3.",
+          "feedback": "You took the item count, four, as the last index, so you placed seats[3] third. Line 3 reads seats[3] and prints a real letter, so that count does not describe where the items sit.",
           "misconception": "length-is-last-index"
         }
       ],
@@ -568,7 +568,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.arrays.length.predict-01",
@@ -592,13 +592,13 @@
         {
           "text": "n: 2",
           "correct": false,
-          "feedback": "That is the last index, not what length gives. Check what length measures.",
+          "feedback": "You took the last index, 2, for what length reports. length counts items, and with indexes starting at 0 that number is not the last index.",
           "misconception": "length-is-last-index"
         },
         {
           "text": "n: 10",
           "correct": false,
-          "feedback": "That adds up the letters of the items. Check what length counts.",
+          "feedback": "You added up the letters of the items. length counts the items themselves, whatever their text looks like.",
           "misconception": "length-counts-characters"
         }
       ],
@@ -619,7 +619,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "puzzle:12"
       ]
@@ -646,13 +646,13 @@
         {
           "text": "cod",
           "correct": false,
-          "feedback": "Check which index fish.length refers to when the array has three items.",
+          "feedback": "You took fish.length, 3, as the index of the last item. Length counts the items, so using it as an index does not land on the item you expect.",
           "misconception": "length-is-last-index"
         },
         {
           "text": "Uncaught RangeError",
           "correct": false,
-          "feedback": "Check whether reading an index that does not exist stops the program.",
+          "feedback": "You believed reading a position that has no item stops the program. Reading an array index never throws by itself, so the program keeps running.",
           "misconception": "out-of-range-throws"
         }
       ],
@@ -673,7 +673,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.arrays.length.trace-01",
@@ -699,7 +699,7 @@
         {
           "text": "3",
           "correct": false,
-          "feedback": "That is the length itself. Check what line 2 does with it.",
+          "feedback": "You gave spot the length itself. Line 2 changes that number before storing it in spot.",
           "misconception": "length-is-last-index"
         },
         {
@@ -730,7 +730,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.arrays.length.fill-01",
@@ -951,13 +951,13 @@
         {
           "text": "['orchid', 'fern', 'cactus']",
           "correct": false,
-          "feedback": "Check which end of the array push works on.",
+          "feedback": "You thought push adds at the front. push does not shift the existing items to later positions.",
           "misconception": "ends-confused"
         },
         {
           "text": "Uncaught TypeError",
           "correct": false,
-          "feedback": "Check whether const prevents changing the contents of an array.",
+          "feedback": "You thought const freezes the array, so push throws. const only stops the name from being assigned a different array; it does not lock the contents.",
           "misconception": "const-blocks-push"
         }
       ],
@@ -978,7 +978,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:21"
       ]
@@ -1007,13 +1007,13 @@
         {
           "text": "5\n2",
           "correct": false,
-          "feedback": "Check which end of the array pop works on.",
+          "feedback": "You thought pop removes the first item, 5. pop does not work at the front of an array, so 5 is not what comes back from it.",
           "misconception": "ends-confused"
         },
         {
           "text": "[5, 2]\n2",
           "correct": false,
-          "feedback": "Check what pop returns when it is called inside console.log.",
+          "feedback": "You thought pop returns the array that remains. pop returns the single item it removes, so console.log prints one value there, not a list.",
           "misconception": "pop-returns-rest"
         }
       ],
@@ -1034,7 +1034,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "puzzle:6"
       ]
@@ -1064,13 +1064,13 @@
         {
           "text": "'saw'",
           "correct": false,
-          "feedback": "Check which end of the array pop takes from.",
+          "feedback": "You thought pop takes the first item. pop does not remove from the front, so taken does not hold 'saw'.",
           "misconception": "ends-confused"
         },
         {
           "text": "['saw', 'axe']",
           "correct": false,
-          "feedback": "Check what pop returns.",
+          "feedback": "You thought pop returns the array that is left. pop returns the one item it removes, so taken holds a single value, not a list.",
           "misconception": "pop-returns-rest"
         }
       ],
@@ -1095,7 +1095,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:24"
       ]
@@ -1238,13 +1238,13 @@
         {
           "text": "pop gives back what is left in the array, and push adds an item at the front.",
           "correct": false,
-          "feedback": "Check what gone holds on the last line and where c ends up in stack.",
+          "feedback": "You thought pop returns what remains and push adds at the front. gone is assigned pop's return value, which is a single item, and push does not place c ahead of a.",
           "misconception": "pop-returns-rest"
         },
         {
           "text": "stack is const, so pop and push would stop the program with an error.",
           "correct": false,
-          "feedback": "Check whether the program stops; the last line prints something.",
+          "feedback": "You thought const stops push and pop from changing the array. The last line prints, so the program reaches it; const protects the name from reassignment, not the contents.",
           "misconception": "const-blocks-push"
         }
       ],
@@ -1265,7 +1265,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.arrays.iteration.predict-01",
@@ -1293,13 +1293,13 @@
         {
           "text": "size 0\nsize 1\nsize 2",
           "correct": false,
-          "feedback": "Check whether for...of hands over the items or something else.",
+          "feedback": "You thought for...of counts positions like a counter. This loop declares no counter; every value size takes comes from the array's own contents.",
           "misconception": "of-gives-index"
         },
         {
           "text": "size 1\nsize 2\nsize 3",
           "correct": false,
-          "feedback": "Check whether size is a counter or comes from the array.",
+          "feedback": "You thought size counts the steps starting at 1. No counter is declared in this loop; size takes its values from the array.",
           "misconception": "one-based-index"
         }
       ],
@@ -1320,7 +1320,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.arrays.iteration.predict-02",
@@ -1351,13 +1351,13 @@
         {
           "text": "35",
           "correct": false,
-          "feedback": "That adds all three laps. Check where i starts on line 4.",
+          "feedback": "You counted all three laps, as if i started at 0. Line 4 sets the starting value of i, and that decides which laps are added.",
           "misconception": "one-based-index"
         },
         {
           "text": "21",
           "correct": false,
-          "feedback": "That leaves out the last lap. Check the largest value i takes.",
+          "feedback": "You thought the loop stops before the last lap. The loop runs while i < count, and with three items the last index still passes that test.",
           "misconception": "bound-excludes-last-item"
         }
       ],
@@ -1378,7 +1378,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.arrays.iteration.trace-01",
@@ -1414,7 +1414,7 @@
         {
           "text": "1",
           "correct": false,
-          "feedback": "That adds the indexes 0 and 1. Check what crate holds on each pass.",
+          "feedback": "You added the indexes 0 and 1 instead of the items. for...of gives crate the item itself on each pass, so the sums are made of items.",
           "misconception": "of-gives-index"
         }
       ],
@@ -1439,7 +1439,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.arrays.iteration.fill-01",

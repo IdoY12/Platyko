@@ -1432,13 +1432,13 @@
         {
           "text": "6 6",
           "correct": false,
-          "feedback": "This gives find the same count as forEach. Check whether find keeps calling its callback after the callback returns true.",
+          "feedback": "You thought find keeps calling its callback after the callback returns true, like forEach. find stops as soon as the callback gives a true result.",
           "misconception": "early-exit-confused"
         },
         {
           "text": "3 6",
           "correct": false,
-          "feedback": "This swaps the two counters. Check which of the two methods always calls its callback for every element.",
+          "feedback": "You swapped the two counters, as if find visited every element and forEach stopped early. forEach has no way to stop partway.",
           "misconception": "early-exit-confused"
         }
       ],
@@ -1458,7 +1458,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:17"
       ]

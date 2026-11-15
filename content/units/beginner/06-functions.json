@@ -236,13 +236,13 @@
         {
           "text": "ding\nding\ndone",
           "correct": false,
-          "feedback": "That runs the body twice. Count how many calls the program makes.",
+          "feedback": "You thought the declaration runs the body as well as the call. Writing a declaration only defines the function; the body runs once for each call.",
           "misconception": "declaration-runs-body"
         },
         {
           "text": "done\nding",
           "correct": false,
-          "feedback": "That waits to run the call. Check when a call runs compared with the lines after it.",
+          "feedback": "You thought the call waits until the lines after it have run. A call runs the moment it is reached, before the next line starts.",
           "misconception": "call-deferred"
         }
       ],
@@ -263,7 +263,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.functions.function-declaration.predict-02",
@@ -295,7 +295,7 @@
         {
           "text": "heat\nserve\npour",
           "correct": false,
-          "feedback": "That waits to run pour until brew ends. Check where the call to pour sits inside brew.",
+          "feedback": "You thought the call to pour waits until brew has ended. A call inside a function runs at its own line, before the next line of brew.",
           "misconception": "call-deferred"
         },
         {
@@ -322,7 +322,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.functions.function-declaration.trace-01",
@@ -554,13 +554,13 @@
         {
           "text": "water runs once where it is defined, so watering prints first.",
           "correct": false,
-          "feedback": "Check what a definition does by itself, and look for a line that calls water.",
+          "feedback": "You thought a function runs where it is defined. A definition only stores the function, and nothing in this code asks for its body to run.",
           "misconception": "declaration-runs-body"
         },
         {
           "text": "water runs by itself after the last line, so watering prints last.",
           "correct": false,
-          "feedback": "Check whether any line calls water.",
+          "feedback": "You thought a function runs by itself at the end of the program. A function runs only when a line calls it, and no line here does.",
           "misconception": "call-deferred"
         }
       ],
@@ -581,7 +581,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.functions.parameters-and-arguments.predict-01",
@@ -608,13 +608,13 @@
         {
           "text": "blue-red\nred-blue",
           "correct": false,
-          "feedback": "That swaps the arguments. Check which argument is first in each call.",
+          "feedback": "You thought the arguments are swapped, as if each parameter took the last argument. Each call matches arguments to parameters in the order they are written, one call at a time.",
           "misconception": "argument-order-ignored"
         },
         {
           "text": "red-blue\nred-blue",
           "correct": false,
-          "feedback": "Check which arguments the second call passes in.",
+          "feedback": "You thought a parameter keeps the value from the first call. Each call gets its own fresh values from its own arguments.",
           "misconception": "parameter-keeps-old-value"
         }
       ],
@@ -635,7 +635,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.functions.parameters-and-arguments.predict-02",
@@ -664,13 +664,13 @@
         {
           "text": "4\n4",
           "correct": false,
-          "feedback": "Line 7 prints stock. Check whether line 3 touches stock or only count.",
+          "feedback": "You thought changing count also changes stock, because stock was passed in. count holds a copy of the value, and the assignment on line 3 reaches only count.",
           "misconception": "outer-variable-changed"
         },
         {
           "text": "5\n5",
           "correct": false,
-          "feedback": "Check what line 3 does to count before line 4 prints it.",
+          "feedback": "You thought count keeps its old value when line 4 prints it. Line 3 assigns a new value to count before it is printed.",
           "misconception": "parameter-keeps-old-value"
         }
       ],
@@ -691,7 +691,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.functions.parameters-and-arguments.trace-01",
@@ -725,7 +725,7 @@
         {
           "text": "2",
           "correct": false,
-          "feedback": "That reuses a value from the first call. Check what a and b are at the start of the second call.",
+          "feedback": "You thought a keeps a value from the first call. Each call starts with fresh parameters, so a begins the second call as the first argument of that call.",
           "misconception": "parameter-keeps-old-value"
         }
       ],
@@ -750,7 +750,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.functions.parameters-and-arguments.fill-01",
@@ -973,13 +973,13 @@
         {
           "text": "feeding 2\nfeeding 2",
           "correct": false,
-          "feedback": "A function does not hand back what it last printed. Check what the call gives back when there is no return line.",
+          "feedback": "You thought a function hands back what it last printed. Printing is only output; without a return line, the value the call gives back is a different one.",
           "misconception": "no-return-last-value"
         },
         {
           "text": "feeding 2\n2",
           "correct": false,
-          "feedback": "A function does not hand back its argument by itself. Check what result receives.",
+          "feedback": "You thought a function hands back its argument when nothing is returned. Passing a value in does not make it come back out; only a return line does that.",
           "misconception": "no-return-last-value"
         }
       ],
@@ -1000,7 +1000,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:JUNIOR:28"
       ]
@@ -1031,13 +1031,13 @@
         {
           "text": "shipped\n6",
           "correct": false,
-          "feedback": "Check whether line 3 can run after the return on line 2.",
+          "feedback": "You thought the console.log on line 3 runs before the return. Lines run top to bottom, and return sits on line 2, above it.",
           "misconception": "code-after-return-runs"
         },
         {
           "text": "6\nshipped",
           "correct": false,
-          "feedback": "Check whether line 3 can run once the function has returned.",
+          "feedback": "You thought line 3 still runs after the return. Once a function has returned, it does nothing more, so lines after the return are skipped.",
           "misconception": "code-after-return-runs"
         }
       ],
@@ -1058,7 +1058,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.functions.return-value.trace-01",
@@ -1274,13 +1274,13 @@
         {
           "text": "Both values come back, one after the other.",
           "correct": false,
-          "feedback": "Check how many values a single call can give back.",
+          "feedback": "You thought a call can give back both values, one after the other. A call produces a single result, and it ends when that result is returned.",
           "misconception": "code-after-return-runs"
         },
         {
           "text": "The last return wins, so aisle comes back.",
           "correct": false,
-          "feedback": "Check which return line runs first and whether a later one can run.",
+          "feedback": "You thought a later return replaces an earlier one. A function that has returned is over, so a return below it is never reached.",
           "misconception": "code-after-return-runs"
         }
       ],
@@ -1301,7 +1301,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.functions.function-expressions.predict-01",
@@ -1386,7 +1386,7 @@
         {
           "text": "5",
           "correct": false,
-          "feedback": "Check whether the body between the braces has a return line.",
+          "feedback": "You thought the arrow function gives back a + b on its own. With braces the body is a list of statements, and a statement that is only a sum does not become the result.",
           "misconception": "no-return-last-value"
         },
         {
@@ -1413,7 +1413,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.functions.function-expressions.trace-01",

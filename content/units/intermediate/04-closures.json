@@ -478,7 +478,7 @@
       ],
       "format": "FIX_BUG",
       "difficulty": 3,
-      "prompt": "The program should subtract the current deal, so it prints 12. Tap the line that reads the stale value, then choose its fix.",
+      "prompt": "The program should subtract the current deal, so it prints 12. Tap the line where fare reads the stale value, then choose its fix.",
       "code": [
         "let deal = 5;",
         "const old = deal;",
@@ -521,7 +521,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.closures.closure-captures-variable.write-01",
@@ -833,33 +833,47 @@
       ],
       "format": "PARSONS",
       "difficulty": 3,
-      "prompt": "Put the lines in order so the program prints 1.",
+      "prompt": "Put the lines in order so the program prints 2 1.",
       "code": [
-        "  let left = n;",
-        "take();",
-        "};",
+        "  return () => {",
+        "console.log(take(), take());",
+        "    return n;",
         "const makeShelf = (n) => {",
-        "console.log(take());",
-        "const take = makeShelf(3);",
-        "  return () => (left = left - 1);"
+        "  };",
+        "    n = n - 1;",
+        "};",
+        "const take = makeShelf(3);"
       ],
       "solution": {
         "lineOrder": [
           3,
           0,
-          6,
-          2,
           5,
-          1,
-          4
+          2,
+          4,
+          6,
+          7,
+          1
         ],
-        "expectedOutput": "1"
+        "expectedOutput": "2 1",
+        "acceptedOrders": [
+          [
+            3,
+            0,
+            5,
+            2,
+            6,
+            4,
+            7,
+            1
+          ]
+        ]
       },
-      "explanation": "makeShelf must be defined, with left set before the function that uses it is returned. take comes from calling makeShelf(3). It is called once silently, then once more inside console.log.",
+      "explanation": "makeShelf must be defined first. Inside it, the returned function lowers n before it returns n, so each call hands back the new value. take comes from calling makeShelf(3), and console.log then calls it twice.",
       "hints": [
         "Start with the line that opens makeShelf.",
-        "The state must be created inside makeShelf, then the inner function is returned.",
-        "Call take once on its own before the printed call."
+        "The returned function lowers n first and returns it second.",
+        "Create take from makeShelf(3) before the line that calls it."
       ],
       "reference": {
         "title": "Closures",
@@ -869,7 +883,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-private-state.fix-01",
@@ -884,7 +898,10 @@
       "code": [
         "function makeHits() {",
         "  let hits = 0;",
-        "  return () => hits + 1;",
+        "  function count() {",
+        "    return hits + 1;",
+        "  }",
+        "  return count;",
         "}",
         "const visit = makeHits();",
         "visit();",
@@ -892,28 +909,28 @@
       ],
       "options": [
         {
-          "text": "  return () => (hits = hits + 1);",
+          "text": "    hits = hits + 1;return hits;",
           "correct": true,
-          "feedback": "Right. The result is stored back in hits, so the second call sees 1 and returns 2."
+          "feedback": "Right. The new count is stored in hits and returned, so the second call sees 1 and returns 2."
         },
         {
-          "text": "  return (hits) => hits + 1;",
+          "text": "    let hits = hits + 1;return hits;",
           "correct": false,
-          "feedback": "The parameter hides the private hits. visit() passes nothing, so hits is undefined and the result is NaN."
+          "feedback": "The new let makes a second hits inside count that hides the private one, so reading it on the same line throws an error."
         },
         {
-          "text": "  return () => { hits + 1; };",
+          "text": "    hits = hits + 1;",
           "correct": false,
-          "feedback": "The braces make a body with no return, so the call gives undefined, and hits is still never changed."
+          "feedback": "hits does change, but count has no return, so every call gives undefined."
         }
       ],
       "solution": {
-        "bugLine": 3,
+        "bugLine": 4,
         "expectedOutput": "2"
       },
-      "explanation": "hits + 1 only calculates a number; it never stores it. Assigning the result back to hits updates the private variable, so the next call starts from the new value.",
+      "explanation": "hits + 1 only calculates a number; it never stores it. Assign the result back to hits so the next call starts from the new value, and return it so the call gives the new count.",
       "hints": [
-        "Look at what line 3 does with the result of hits + 1.",
+        "Look at what line 4 does with the result of hits + 1.",
         "Private state changes only when the inner function assigns to it.",
         "The fixed line must change hits and also give the call its result."
       ],
@@ -925,7 +942,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.closures.closure-private-state.write-01",

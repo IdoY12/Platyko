@@ -273,13 +273,13 @@
         {
           "text": "menu\nsoup\nsalad\nbread",
           "correct": false,
-          "feedback": "That follows the order of the lines. Check whether the delay or the line position decides when a timer fires.",
+          "feedback": "You thought timers fire in the order their lines were written. A timer fires according to its delay, wherever its line sits.",
           "misconception": "timers-fire-in-code-order"
         },
         {
           "text": "salad\nbread\nsoup\nmenu",
           "correct": false,
-          "feedback": "Check whether the plain call on line 7 has to wait for the timers.",
+          "feedback": "You thought setTimeout makes the program wait, so the plain call on line 7 prints last. Scheduling a timer does not pause the lines below it.",
           "misconception": "timeout-blocks-code"
         }
       ],
@@ -300,7 +300,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.async-basics.callbacks-and-timers.concept-01",
@@ -328,13 +328,13 @@
         {
           "text": "A delay of 0 makes the callback run immediately, so rest prints second.",
           "correct": false,
-          "feedback": "Compare where rest prints with where line 5 prints: would a direct call give that order?",
+          "feedback": "You thought a delay of 0 runs the callback the moment it is scheduled. A timer callback is not a direct call, whatever its delay.",
           "misconception": "zero-delay-runs-now"
         },
         {
           "text": "setTimeout holds back the lines below it until its callback has run, so rest prints second.",
           "correct": false,
-          "feedback": "Check whether the call on line 2 pauses the lines below it.",
+          "feedback": "You thought setTimeout holds back the lines below it until its callback has run. The call on line 2 only schedules the callback and returns.",
           "misconception": "timeout-blocks-code"
         }
       ],
@@ -355,7 +355,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.async-basics.callbacks-and-timers.trace-01",
@@ -685,13 +685,13 @@
         {
           "text": "desk open\nlent map\ndesk closed",
           "correct": false,
-          "feedback": "That runs the handler at the moment then is called. Check whether a handler can run in the middle of other code.",
+          "feedback": "You thought then runs its handler as soon as it is called, because the promise is already settled. A handler never runs in the middle of other code.",
           "misconception": "then-runs-immediately"
         },
         {
           "text": "lent map\ndesk open\ndesk closed",
           "correct": false,
-          "feedback": "The handler is attached on line 3, after desk open. It cannot print before the code above it has run.",
+          "feedback": "You thought the handler can print before the lines above it. It is attached on line 3, after desk open has already printed.",
           "misconception": "then-runs-immediately"
         }
       ],
@@ -712,7 +712,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.async-basics.promise-basics.concept-01",
@@ -740,13 +740,13 @@
         {
           "text": "After catch has run the chain is finished, so the last then never runs.",
           "correct": false,
-          "feedback": "Check what a catch call returns and whether the next then can still run.",
+          "feedback": "You thought the chain stops after a catch. catch returns a promise just as then does, so a later then still has something to follow.",
           "misconception": "catch-ends-chain"
         },
         {
           "text": "The last then receives the original error, because catch only observes the rejection.",
           "correct": false,
-          "feedback": "Check what the catch handler on line 2 returns and who receives it.",
+          "feedback": "You thought catch only observes the rejection, so the error carries on to the next link. A catch handler's returned value becomes the value of the promise catch returns.",
           "misconception": "chain-value-confusion"
         }
       ],
@@ -767,7 +767,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.async-basics.promise-basics.trace-01",
@@ -806,7 +806,7 @@
         {
           "text": "10",
           "correct": false,
-          "feedback": "That leaves out one of the additions made before line 10.",
+          "feedback": "You thought the addition inside the function given to new Promise has not happened yet. That function runs as soon as the promise is created.",
           "misconception": "wrong-step-value"
         }
       ],
@@ -831,7 +831,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.async-basics.promise-basics.parsons-01",
@@ -1049,13 +1049,13 @@
         {
           "text": "number\n12",
           "correct": false,
-          "feedback": "Check what countRooms() returns on line 4 before typeof sees it.",
+          "feedback": "You thought an async function gives its return value straight back, so typeof sees a number. A call to an async function does not hand over the plain value.",
           "misconception": "async-returns-plain-value"
         },
         {
           "text": "12\nobject",
           "correct": false,
-          "feedback": "The handler on line 6 runs after the current code, so it cannot print before line 5.",
+          "feedback": "You thought the then handler on line 6 runs at once. A then handler waits until the current code has finished.",
           "misconception": "then-runs-immediately"
         }
       ],
@@ -1076,7 +1076,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:20"
       ]
@@ -1088,7 +1088,7 @@
         "promise-basics"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Which statement explains the order in which this code prints?",
       "code": [
         "async function pack() {",
@@ -1108,13 +1108,13 @@
         {
           "text": "await freezes the whole program until the promise settles, so packed prints before truck waiting.",
           "correct": false,
-          "feedback": "Check whether the line after pack() on line 6 has to wait for the function.",
+          "feedback": "You thought await stops the entire program until the promise settles. It pauses only the async function it sits in.",
           "misconception": "await-blocks-program"
         },
         {
           "text": "The promise is already fulfilled, so await continues at once and packed prints before truck waiting.",
           "correct": false,
-          "feedback": "Check when the rest of pack can run once await has been reached.",
+          "feedback": "You thought await carries straight on because the promise is already fulfilled. await always hands the rest of the function over for later.",
           "misconception": "then-runs-immediately"
         }
       ],
@@ -1135,7 +1135,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 4,
       "legacyKeys": [
         "exercise:MID:21"
       ]
@@ -1147,7 +1147,7 @@
         "promise-basics"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Both calls pause at await before they write. What does seats hold right after line 5 runs for the second time?",
       "code": [
         "let seats = 10;",
@@ -1171,7 +1171,7 @@
         {
           "text": "3",
           "correct": false,
-          "feedback": "That treats the calls as one after the other. Check what the second call read before it wrote.",
+          "feedback": "You thought the second reserve call sees the first one's write, as in code with no pauses. await changes what each call has read before it writes.",
           "misconception": "await-blocks-program"
         },
         {
@@ -1202,7 +1202,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "int.async-basics.async-await.fill-01",
@@ -1454,13 +1454,13 @@
         {
           "text": "waitlisted\nrequested",
           "correct": false,
-          "feedback": "Check whether the catch handler can run before line 7.",
+          "feedback": "You thought the catch handler runs the moment it is attached. A handler waits until the current code has finished.",
           "misconception": "then-runs-immediately"
         },
         {
           "text": "Uncaught Error",
           "correct": false,
-          "feedback": "Check what reserve() returns on line 4 when the function throws.",
+          "feedback": "You thought a throw inside an async function escapes at the call, as in a normal function. The throw is turned into a rejection of the returned promise.",
           "misconception": "async-returns-plain-value"
         }
       ],
@@ -1481,7 +1481,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:26"
       ]
@@ -1518,13 +1518,13 @@
         {
           "text": "finally is skipped once catch has handled the error, so only failed prints.",
           "correct": false,
-          "feedback": "Check the code for anything that could keep the finally block from running, and compare with this claim.",
+          "feedback": "You thought finally runs only when no error was handled. finally is meant to run whatever happened in try and catch.",
           "misconception": "finally-skipped-after-error"
         },
         {
           "text": "await does not stop the try block, so saved prints first and failed after it.",
           "correct": false,
-          "feedback": "Check what await does when the promise it waits for is rejected.",
+          "feedback": "You thought the line after a rejected await still runs. A rejected await throws at that point, so later lines of try are skipped.",
           "misconception": "try-continues-after-error"
         }
       ],
@@ -1545,7 +1545,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.async-basics.async-error-handling.trace-01",
@@ -1580,13 +1580,13 @@
         {
           "text": "'declined'",
           "correct": false,
-          "feedback": "That is the value before finally ran. The question asks about the moment after line 9.",
+          "feedback": "You read note as it was when catch ended. The question asks about the moment after the assignment on line 9 has run.",
           "misconception": "finally-skipped-after-error"
         },
         {
           "text": "'paid+log'",
           "correct": false,
-          "feedback": "The line after the rejected await is skipped, so paid is never assigned.",
+          "feedback": "You thought the line after the rejected await still ran before catch. A rejected await throws at that point, so later lines in try are skipped.",
           "misconception": "try-continues-after-error"
         }
       ],
@@ -1611,7 +1611,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.async-basics.async-error-handling.parsons-01",

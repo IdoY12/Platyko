@@ -605,12 +605,13 @@
   "int.objects-in-depth.spread-and-rest.predict-01": {
    "code": [
     "const laps = [52, 47, 49];",
-    "const best = Math.max(...laps);",
-    "const other = Math.max(laps);",
-    "console.log(best, other);"
+    "const count = (...a) => a.length;",
+    "const spread = count(...laps);",
+    "const plain = count(laps);",
+    "console.log(spread, plain);"
    ],
    "output": [
-    "52 NaN"
+    "3 1"
    ],
    "steps": [
     {
@@ -648,14 +649,41 @@
        "value": "[52, 47, 49]"
       },
       {
-       "name": "best",
+       "name": "count",
        "scope": "global",
-       "value": "52"
+       "value": "[Function: count]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "[52, 47, 49]"
+      },
+      {
+       "name": "count",
+       "scope": "global",
+       "value": "[Function: count]"
+      },
+      {
+       "name": "a",
+       "scope": "count",
+       "value": "[52, 47, 49]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "count"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -669,14 +697,77 @@
        "value": "[52, 47, 49]"
       },
       {
-       "name": "best",
+       "name": "count",
        "scope": "global",
-       "value": "52"
+       "value": "[Function: count]"
       },
       {
-       "name": "other",
+       "name": "spread",
        "scope": "global",
-       "value": "NaN"
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "[52, 47, 49]"
+      },
+      {
+       "name": "count",
+       "scope": "global",
+       "value": "[Function: count]"
+      },
+      {
+       "name": "spread",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "a",
+       "scope": "count",
+       "value": "[[52, 47, 49]]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "count"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "laps",
+       "scope": "global",
+       "value": "[52, 47, 49]"
+      },
+      {
+       "name": "count",
+       "scope": "global",
+       "value": "[Function: count]"
+      },
+      {
+       "name": "spread",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "plain",
+       "scope": "global",
+       "value": "1"
       }
      ],
      "outputCount": 0,
@@ -695,14 +786,19 @@
        "value": "[52, 47, 49]"
       },
       {
-       "name": "best",
+       "name": "count",
        "scope": "global",
-       "value": "52"
+       "value": "[Function: count]"
       },
       {
-       "name": "other",
+       "name": "spread",
        "scope": "global",
-       "value": "NaN"
+       "value": "3"
+      },
+      {
+       "name": "plain",
+       "scope": "global",
+       "value": "1"
       }
      ],
      "outputCount": 1,

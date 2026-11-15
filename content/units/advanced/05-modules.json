@@ -267,7 +267,7 @@
         {
           "text": "2 undefined",
           "correct": false,
-          "feedback": "count reads the variable when it is called, not when the module was built. By then add has changed it.",
+          "feedback": "You thought count returns the pens value from when the module was built. count reads pens each time it is called, so an earlier add can change what it returns.",
           "misconception": "snapshot-at-creation"
         }
       ],
@@ -288,7 +288,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.module-scope.concept-01",
@@ -1040,7 +1040,7 @@
         "reference-vs-value"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "getMap stands for a module that is loaded lazily. Which statement about the output is true?",
       "code": [
         "let map;",
@@ -1090,7 +1090,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:15"
       ]
@@ -1468,7 +1468,7 @@
       ],
       "format": "PARSONS",
       "difficulty": 4,
-      "prompt": "Order the lines so the fare module is ready before the leg and quote that use it, and the program prints 9.",
+      "prompt": "Order the lines so every name exists when a line reads it, and the program prints 9.",
       "code": [
         "console.log(quote());",
         "const leg = { cost: base.fare * 2 };",
@@ -1512,7 +1512,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.dependency-direction.fix-01",
@@ -1523,7 +1523,7 @@
       ],
       "format": "FIX_BUG",
       "difficulty": 4,
-      "prompt": "The taxi app should print 8, but it stops with an error on line 2. Tap the buggy line and pick the fix.",
+      "prompt": "The taxi app should print 8, but the call on line 2 throws because fare is not ready yet. Tap the line that declares fare, then pick its replacement.",
       "code": [
         "const app = { run: () => fare(4) };",
         "console.log(app.run());",
@@ -1566,7 +1566,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.dependency-direction.write-01",

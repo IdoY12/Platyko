@@ -71,7 +71,7 @@ this many new items, in this order (PRD 6.4):
 |---|---|---|
 | Beginner | 6 | `PREDICT_OUTPUT`, `PREDICT_OUTPUT`, `TRACE`, `FILL_BLANK`, `PARSONS`, then `CONCEPT_MCQ` in lessons 1 and 3 and `CODE_WRITE` (an expression) in lessons 2 and 4 |
 | Intermediate | 6 | `PREDICT_OUTPUT`, `CONCEPT_MCQ`, `TRACE`, `FILL_BLANK` or `PARSONS` (alternate), `FIX_BUG`, `CODE_WRITE` |
-| Advanced | 5 | `PREDICT_OUTPUT`, `CONCEPT_MCQ`, `FILL_BLANK` or `PARSONS`, `FIX_BUG`, `CODE_WRITE` |
+| Advanced | 5 | `PREDICT_OUTPUT`, `CONCEPT_MCQ`, `FILL_BLANK` or `PARSONS` (either, chosen per lesson; no alternation), `FIX_BUG`, `CODE_WRITE` |
 | Expert | 4 | `PREDICT_OUTPUT`, `CONCEPT_MCQ`, `FIX_BUG`, `CODE_WRITE` or `FILL_BLANK` (alternate) |
 
 Units about asynchronous order (`async-basics`, `promises-in-depth`, `event-loop`) use the

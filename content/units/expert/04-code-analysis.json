@@ -258,13 +258,13 @@
         {
           "text": "16",
           "correct": false,
-          "feedback": "Check whether the inner loop always finishes all its passes.",
+          "feedback": "You thought the inner loop always runs all its passes. A break ends it early, so some rounds make fewer than four checks.",
           "misconception": "inner-loop-break-ignored"
         },
         {
           "text": "10",
           "correct": false,
-          "feedback": "Check where the inner loop starts on each pass of the outer loop.",
+          "feedback": "You thought each pair is visited once, with the inner loop carrying on where it stopped. The inner loop starts over at the first book on every outer pass.",
           "misconception": "pairs-counted-once"
         }
       ],
@@ -285,7 +285,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.code-analysis.complexity-analysis.concept-01",
@@ -316,13 +316,13 @@
         {
           "text": "has() looks at every earlier id, so doubling the ids roughly quadruples the work.",
           "correct": false,
-          "feedback": "Check how a Set finds a value compared with walking through the earlier ids.",
+          "feedback": "You thought has() walks through the earlier ids like includes on an array. A Set finds a value by another route, so its cost does not grow with what it holds.",
           "misconception": "set-lookup-scans"
         },
         {
           "text": "The work depends on the duplicates found, so a list with none costs almost nothing.",
           "correct": false,
-          "feedback": "Check whether the loop reads every id when the list has no duplicates.",
+          "feedback": "You thought the work follows the number of duplicates reported. The loop reads and adds every id whether or not it reports one.",
           "misconception": "cost-follows-output-size"
         }
       ],
@@ -343,7 +343,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.code-analysis.complexity-analysis.fix-01",
@@ -591,13 +591,13 @@
         {
           "text": "[20, 20]",
           "correct": false,
-          "feedback": "Check which setter the second object uses.",
+          "feedback": "You thought the setter written in Box runs for every object in the list. A setter is looked up through the object's own class first, so a subclass can supply a different one.",
           "misconception": "override-ignored"
         },
         {
           "text": "[9, 9]",
           "correct": false,
-          "feedback": "Check which setter the first object uses.",
+          "feedback": "You thought Bin's override also changes how plain Box objects behave. An override lives in the subclass; the parent class is not altered.",
           "misconception": "override-changes-parent"
         }
       ],
@@ -617,7 +617,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:SENIOR:7"
       ]
@@ -649,13 +649,13 @@
         {
           "text": "Both tests reject 0 and undefined alike, so old and ok are equivalent.",
           "correct": false,
-          "feedback": "Check what ok does with the value 0.",
+          "feedback": "You thought 0 and undefined behave the same because both are falsy. A test for truthiness and a test for undefined ask different questions.",
           "misconception": "falsy-equals-undefined"
         },
         {
           "text": "filter removes items from ps, so the second call sees a shorter list.",
           "correct": false,
-          "feedback": "Check whether filter changes ps itself.",
+          "feedback": "You thought filter removes items from ps itself. filter builds a new array and leaves ps as it was.",
           "misconception": "filter-changes-source"
         }
       ],
@@ -675,7 +675,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:SENIOR:2"
       ]
@@ -689,7 +689,7 @@
         "return-value"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "Before a refactor this printed [3, 0]: every log with a km value counts. Now it drops one log. Tap the line that changed the behaviour and pick the fix.",
       "code": [
         "const logs = [{ km: 3 }, { km: 0 }];",
@@ -734,7 +734,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.code-analysis.refactoring-equivalence.fill-01",
@@ -834,13 +834,13 @@
         {
           "text": "{a: 1, b: 2}",
           "correct": false,
-          "feedback": "Check where the key b sits after the second b is written.",
+          "feedback": "You thought the second write of b moves it behind a. Spreading m copies its keys in order first, and only then is [t]: i written.",
           "misconception": "spread-overwrite-misread"
         },
         {
           "text": "{b: 0, a: 1}",
           "correct": false,
-          "feedback": "Check whether the second b changes the value stored for b.",
+          "feedback": "You thought the second b leaves the stored value as it was. In { ...m, [t]: i } the later [t]: i is written after the copied keys, so it takes effect.",
           "misconception": "spread-overwrite-misread"
         }
       ],
@@ -861,7 +861,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.code-analysis.reading-unfamiliar-code.concept-01",
@@ -892,13 +892,13 @@
         {
           "text": "bill has one branch per kind, so pie needs a new branch inside bill.",
           "correct": false,
-          "feedback": "bill has no branches. It maps each key through priceOf, which reads the table.",
+          "feedback": "You thought every kind needs its own branch. bill has none: it maps each key through priceOf, which reads the table.",
           "misconception": "ocp-more-branches-is-open"
         },
         {
           "text": "The program throws for pie, because cost has no pie key.",
           "correct": false,
-          "feedback": "Check what reading a key that is not in an object gives.",
+          "feedback": "You thought reading a missing key throws. Reading a key an object lacks gives a value, and ?? in priceOf then supplies a fallback.",
           "misconception": "missing-key-throws"
         }
       ],
@@ -918,7 +918,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:SENIOR:6"
       ]
@@ -1155,13 +1155,13 @@
         {
           "text": "10 30",
           "correct": false,
-          "feedback": "Check whether sort works on a copy of the list.",
+          "feedback": "You thought sort works on a copy of the list. lowest receives the same array that menu holds, not a duplicate.",
           "misconception": "sort-returns-copy"
         },
         {
           "text": "30 30",
           "correct": false,
-          "feedback": "Check whether the sort really runs on the array.",
+          "feedback": "You thought sort has no effect unless its result is assigned somewhere. sort does its work when it is called, whatever is done with the return value.",
           "misconception": "sort-needs-assignment"
         }
       ],
@@ -1182,7 +1182,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.code-analysis.side-effects-and-purity.concept-01",
@@ -1212,13 +1212,13 @@
         {
           "text": "sort returns a sorted copy, so orders is replaced by that copy.",
           "correct": false,
-          "feedback": "Check whether sort builds a new array or works on the one it is given.",
+          "feedback": "You thought sort builds a sorted copy and replaces orders with it. Nothing in the program assigns a new array to orders.",
           "misconception": "sort-returns-copy"
         },
         {
           "text": "Passing an array to a function copies it, so orders only changes if sum returns the list.",
           "correct": false,
-          "feedback": "Check whether list and orders are two arrays or one.",
+          "feedback": "You thought sum gets a private copy of orders. An array passed to a function is not duplicated.",
           "misconception": "arguments-are-copied"
         }
       ],
@@ -1239,7 +1239,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:SENIOR:5"
       ]
@@ -1252,7 +1252,7 @@
         "reference-vs-value"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "withSize should return a resized copy and leave base alone, so the program prints M XL. Tap the line that changes base and pick the fix.",
       "code": [
         "const base = { size: \"M\" };",
@@ -1296,7 +1296,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.code-analysis.side-effects-and-purity.fill-01",

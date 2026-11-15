@@ -246,13 +246,13 @@
         {
           "text": "1\nAirport",
           "correct": false,
-          "feedback": "You treated both keys as the same text, as an object would. Check whether a Map converts its keys.",
+          "feedback": "You thought a Map turns its keys into text, as an object does, so 7 and \"7\" collide. A Map keeps each key as the value it was given.",
           "misconception": "map-keys-become-strings"
         },
         {
           "text": "2\nAirport",
           "correct": false,
-          "feedback": "Check whether a Map treats 7 and \"7\" as the same key when it looks one up.",
+          "feedback": "You thought get(7) also matches the text \"7\" by loose comparison. A Map lookup does not convert the key it is given.",
           "misconception": "map-lookup-loose-equality"
         }
       ],
@@ -273,7 +273,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:MID:10"
       ]
@@ -302,13 +302,13 @@
         {
           "text": "Object keys are compared by contents, so both lookups find the entry.",
           "correct": false,
-          "feedback": "Then the last line would print 2 as well. Compare that with what the program prints.",
+          "feedback": "You thought a Map compares object keys by what they contain. If it did, the new { id: 4 } would find the entry and the last line would print 2.",
           "misconception": "map-object-keys-by-content"
         },
         {
           "text": "A Map turns object keys into text, so every object becomes the same key.",
           "correct": false,
-          "feedback": "Then both lookups would give 2, but the last line prints something different.",
+          "feedback": "You thought a Map converts object keys to text, so all objects collide. Then both lookups would find the entry, which is not what the program prints.",
           "misconception": "map-keys-become-strings"
         }
       ],
@@ -329,7 +329,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.map-set-weakmap-symbol.map-collection.fill-01",
@@ -608,13 +608,13 @@
         {
           "text": "4",
           "correct": false,
-          "feedback": "You counted every add call. Check whether adding a value that is already there changes the Set.",
+          "feedback": "You thought a Set keeps every value added to it, repeats included. A Set holds each value only once.",
           "misconception": "set-keeps-duplicates"
         },
         {
           "text": "2",
           "correct": false,
-          "feedback": "You removed both copies of lake. Check whether a repeated add removes anything.",
+          "feedback": "You thought adding lake a second time removes lake altogether. A repeated add leaves the Set as it was.",
           "misconception": "set-removes-all-copies"
         }
       ],
@@ -635,7 +635,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:11"
       ]
@@ -663,13 +663,13 @@
         {
           "text": "A Set compares values with ===, so both NaN entries are kept.",
           "correct": false,
-          "feedback": "Then the size would be 3. Compare that with the size the program prints.",
+          "feedback": "You thought a Set uses === to decide what repeats. With === no NaN would match another, and the size here would be different.",
           "misconception": "set-uses-strict-equality"
         },
         {
           "text": "A Set keeps every value you give it, repeats included.",
           "correct": false,
-          "feedback": "Then the size would equal the length of the list. Compare that with the size the program prints.",
+          "feedback": "You thought a Set keeps repeats. If it did, its size would equal the number of values in the list.",
           "misconception": "set-keeps-duplicates"
         }
       ],
@@ -690,7 +690,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.map-set-weakmap-symbol.set-collection.fill-01",
@@ -966,13 +966,13 @@
         {
           "text": "tidy\ndone",
           "correct": false,
-          "feedback": "You treated the WeakMap like a Map that takes any key. Look again at line 5: is its key the same kind of value as on line 3?",
+          "feedback": "You thought a WeakMap accepts any key, like a Map. The key on line 5 is a text value, not the kind of value used on line 3.",
           "misconception": "weakmap-accepts-any-key"
         },
         {
           "text": "undefined\nUncaught TypeError",
           "correct": false,
-          "feedback": "The entry for desk is still there, because desk is in use. A WeakMap does not drop entries right after they are set.",
+          "feedback": "You thought a WeakMap entry vanishes as soon as it is set. An entry lasts as long as its key object can still be reached, and desk can be.",
           "misconception": "weakmap-entries-vanish"
         }
       ],
@@ -993,7 +993,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:MID:19"
       ]
@@ -1005,7 +1005,7 @@
         "map-collection"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "A booking cache uses a WeakMap. Which statement explains why the last line prints undefined?",
       "code": [
         "const cache = new WeakMap();",
@@ -1023,13 +1023,13 @@
         {
           "text": "size is undefined because the entry was already removed from the cache.",
           "correct": false,
-          "feedback": "The line before prints true, so the entry is still there. size is undefined for another reason.",
+          "feedback": "You thought size is undefined because the entry has already vanished. The line before prints true, so the entry is still there.",
           "misconception": "weakmap-entries-vanish"
         },
         {
           "text": "size is a method on a WeakMap, so it must be called as cache.size().",
           "correct": false,
-          "feedback": "If size were a method, line 5 would print a function, not undefined.",
+          "feedback": "You thought size is a method you must call as cache.size(). Read without parentheses, a method would print as a function, not as the value line 5 prints.",
           "misconception": "weak-size-is-a-method"
         }
       ],
@@ -1050,7 +1050,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "adv.map-set-weakmap-symbol.weak-collections.parsons-01",
@@ -1269,13 +1269,13 @@
         {
           "text": "true\nSymbol(locker)",
           "correct": false,
-          "feedback": "The label is only a description for people. Check whether a description decides equality.",
+          "feedback": "You thought two symbols with the same description are one symbol. The description is a label for people and does not decide equality.",
           "misconception": "symbol-description-makes-equal"
         },
         {
           "text": "false\nlocker",
           "correct": false,
-          "feedback": "A symbol is not a string, so it does not print like one.",
+          "feedback": "You thought a symbol prints as its bare description. A symbol is not text, so console.log shows it in a form that marks it as a symbol.",
           "misconception": "symbol-prints-as-description"
         }
       ],
@@ -1296,7 +1296,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:SENIOR:24"
       ]
@@ -1326,13 +1326,13 @@
         {
           "text": "A Symbol key is private, so no code can read it, not even with the symbol.",
           "correct": false,
-          "feedback": "Line 5 reads the property with the symbol and prints a value, so it can be read.",
+          "feedback": "You thought a property under a symbol key can be read by no one. Code that holds the symbol can read it, as line 5 does.",
           "misconception": "symbol-keys-are-private"
         },
         {
           "text": "Object.keys lists Symbol keys too, as the text pin.",
           "correct": false,
-          "feedback": "The list printed on line 4 holds only owner, with no pin in it.",
+          "feedback": "You thought Object.keys lists symbol keys as well. Line 4 prints exactly what Object.keys returned, so it shows which keys are included.",
           "misconception": "keys-list-symbols"
         }
       ],
@@ -1353,7 +1353,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.map-set-weakmap-symbol.symbol-keys.fill-01",
