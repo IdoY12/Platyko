@@ -5,8 +5,8 @@ import { PLACEMENT_GAMES } from "@project/match-engine";
 /**
  * The only way another user leaves the server (PRD 15.7): every social route builds its users
  * here, so blocks and privacy are applied in one place. A block in either direction hides a user
- * completely; a hidden profile keeps only the username and avatar, and only where a friendship
- * or a request already links the two.
+ * completely. A profile the viewer may not see keeps only the username and avatar: a "friends
+ * only" profile everywhere, a "nobody" profile only where a friendship or a request links the two.
  */
 
 export const PUBLIC_USER_SELECT = {
@@ -66,7 +66,8 @@ export async function publicUsersFor(viewerId: string, rows: readonly PublicUser
     if (blocked.has(row.id)) return [];
     const relationship = relationships.get(row.id) ?? "none";
     const visible = canSeeProfile(row, relationship);
-    if (!visible && listing === "discovery") return [];
+    // A "friends only" profile still shows a stranger its username and avatar (PRD 11.2); "nobody" shows nothing.
+    if (!visible && listing === "discovery" && row.profileVisibility === "NOBODY") return [];
     return [
       {
         id: row.id,

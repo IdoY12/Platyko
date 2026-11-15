@@ -78,7 +78,8 @@ export function UserProfileScreen({ route }: Props) {
       </View>
       <Surface style={styles.card}>
         {user.level !== null ? <AppText variant="bodyStrong">{t("profile.level")} {user.level}</AppText> : null}
-        <AppText color={palette.text.secondary}>{user.rating !== null ? `${t("profile.rating")}: ${user.rating}` : t("user.ratingNone")}</AppText>
+        {/* A profile limited to friends shows no level, so it says why instead of "no rating yet". */}
+        <AppText color={palette.text.secondary}>{user.level === null ? t("user.friendsOnly") : user.rating !== null ? `${t("profile.rating")}: ${user.rating}` : t("user.ratingNone")}</AppText>
         {user.bio ? <AppText align="ltr">{user.bio}</AppText> : null}
         {user.githubLogin ? <GitHubLink login={user.githubLogin} /> : null}
       </Surface>

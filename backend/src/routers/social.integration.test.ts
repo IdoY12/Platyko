@@ -53,10 +53,10 @@ describe.skipIf(!RUN)("social routes never expose a blocked or private user", ()
     server.close();
   });
 
-  it("search shows only searchable, visible, unblocked users, and never an email", async () => {
+  it("search shows only searchable, unblocked users not hidden from everyone, and never an email", async () => {
     const result = await call(users.viewer, "GET", `/search?q=${PREFIX}`);
     expect(result.status).toBe(200);
-    expect(usernamesIn(result.json).sort()).toEqual([users.codeonly.username, users.decliner.username]);
+    expect(usernamesIn(result.json).sort()).toEqual([users.codeonly.username, users.decliner.username, users.friendsonly.username].sort());
     expect(result.text).not.toContain("@");
   });
 
@@ -87,12 +87,18 @@ describe.skipIf(!RUN)("social routes never expose a blocked or private user", ()
   });
 
   it("a profile behind a block or privacy reads as missing", async () => {
-    for (const hiddenUser of [users.blocker, users.hidden, users.friendsonly]) {
+    for (const hiddenUser of [users.blocker, users.hidden]) {
       const result = await call(users.viewer, "GET", `/users/${hiddenUser.username}`);
       expect(result.status).toBe(404);
       expect(result.text).not.toContain(hiddenUser.username);
     }
     expect((await call(users.viewer, "GET", `/users/${users.unsearchable.username}`)).status).toBe(200);
+  });
+
+  it("a friends-only profile shows a non-friend only its username and avatar (criterion 20.5)", async () => {
+    const result = await call(users.viewer, "GET", `/users/${users.friendsonly.username}`);
+    expect(result.status).toBe(200);
+    expect(result.json).toMatchObject({ username: users.friendsonly.username, level: null, rating: null, bio: null, githubLogin: null, relationship: "none" });
   });
 
   it("a blocked user cannot reach the blocker by name or by code, and learns nothing", async () => {
