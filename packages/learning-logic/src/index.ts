@@ -11,3 +11,4 @@ export * from "./dailyChallenge.js";
 export * from "./revision.js";
 export * from "./achievements.js";
 export * from "./friendStreak.js";
+export * from "./itemAnalysis.js";

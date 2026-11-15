@@ -12,6 +12,7 @@ import http from "http";
 import { connectDatabase, prisma } from "@project/db";
 import { validateBackendProductionSecuritySettings } from "@project/server-kit/validateBackendSecurity";
 import { app } from "./app.js";
+import { scheduleItemAnalysis } from "./services/content/itemAnalysis.js";
 import { logError, logInfo } from "./utils/logger.js";
 
 process.on("unhandledRejection", (reason) => {
@@ -38,6 +39,7 @@ server.listen(port, host, () => {
     localUrl: `http://localhost:${port}`,
   });
 });
+scheduleItemAnalysis();
 
 /** Stop accepting connections, let in-flight requests finish (10 s cap), then release the DB. */
 async function shutdown() {
