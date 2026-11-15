@@ -21,7 +21,7 @@ after any context reset, then continue from "Current position".
 - **Phases:** 0 nearly done; 1 done; 2: all 604 items authored, verification pass 1
   (`run-20261114-205833`, 329 findings) and pass 2 (`run-20261114-221204`, 123 findings, 70
   of them item defects), pass 3 (`run-20261114-225713`, 57) and pass 4 (`run-20261114-232751`, 44;
-  Gate B clean) pass 5 (`run-20261115-000513`, 20) and pass 6 (`run-20261115-004356`, 55, of which 30 tooling or not defects) resolved and committed; pass 7 next; 3 done apart from server
+  Gate B clean) pass 5 (`run-20261115-000513`, 20) pass 6 (`run-20261115-004356`, 55, of which 30 tooling or not defects) and pass 7 (`run-20261115-012331`, 29) resolved and committed; pass 8 (`run-20261115-184631`) running; 3 done apart from server
   push (H6); 4: profile, privacy, search, friends with presence, played recently, block and
   report, friend and room links done; 5: engine, io `/play`, the Play tab, friends duels with
   invitations, rooms that reopen after a game, leaver cooldown, Bug Hunt and Output Race done and
