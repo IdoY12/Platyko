@@ -22,6 +22,7 @@ import { HomeDailyChallenge } from "./HomeDailyChallenge";
 import { HomeStatsHeader } from "./HomeStatsHeader";
 import { HomeWeekRow } from "./HomeWeekRow";
 import { homeMascotState } from "./homeMascotState";
+import { LeagueCard } from "@/components/league/LeagueCard";
 
 /** The day the mascot last waved, so it greets once per day rather than on every visit. */
 let wavedOnDate: string | null = null;
@@ -114,6 +115,7 @@ export function HomeScreen() {
           </PressableScale>
         </Surface>
       ) : null}
+      <LeagueCard />
       {map ? (
         <HomeDailyChallenge
           todayResult={progress.dailyChallenges.find((result) => result.date === today) ?? null}

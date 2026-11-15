@@ -1,4 +1,4 @@
-import { prisma, runSerializableWithRetry } from "@project/db";
+import { creditLeagueXp, prisma, runSerializableWithRetry } from "@project/db";
 import type { ProgressResponse, SubmitProgressRequest, SubmitProgressResponse } from "@project/api-contract";
 import { applyAttempt, applyDailyChallenge, applyLessonCompletion, levelOf, type AttemptRecord, type ProgressSnapshot } from "@project/learning-logic";
 import { streakOnAppOpen, trustedCalendarDate } from "@project/streak-logic";
@@ -72,6 +72,7 @@ export async function submitProgress(userId: string, request: SubmitProgressRequ
     snapshot = await withPassedJumpTests(tx, userId, snapshot, fresh);
     await saveProgress(tx, userId, stored.snapshot, snapshot, recorded);
     await recordAchievements(tx, userId, snapshot);
+    await creditLeagueXp(tx, userId, xpEarned, today);
     const finishedResume = stored.resume !== null && finishedLessons.some((lesson) => lesson.lessonId === stored.resume?.lessonId);
     if (finishedResume) await tx.lessonResume.delete({ where: { userId } });
     return { ...toResponse({ ...stored, resume: finishedResume ? null : stored.resume }, snapshot), xpEarned };

@@ -58,9 +58,9 @@ after any context reset, then continue from "Current position".
 | 1 | Learning core: lesson player, 7 formats, feedback, code view, execution player, map, Home, onboarding, mascot | Done (Profile, Settings, auth in the new design; EN + HE) |
 | 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); passes 1–4 resolved (329, 123, 57, 44 findings); pass 5 running |
 | 3 | Retention: review (SM-2), daily challenge, revision, weekly goal, freeze, push, achievements | Done except server push (credentials) |
-| 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Done: profile, privacy, search, friends, played recently, presence, invitations inbox, block and report, friend links. Open: Friend Streak, QR code, GitHub (H7), README badge |
+| 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Done: profile, privacy, search, friends, played recently, presence, invitations inbox, block and report, friend links, Friend Streak, QR code, README badge, GitHub sign-in and link (flag off until H7) |
 | 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Done: engine, `/play`, Play tab, friends duels and invitations, presence, reconnect and server-restart recovery, rooms reopening, podium, leaver cooldown, room links, in-game reactions, "how scoring works" screen (examples computed by the engine's own `pointsForAnswer`), `/duel` retired, and a friends duel played between two simulators (iPhone 17 Pro in Hebrew, iPhone 16e in English): same item each round, clocks in step, draw scored as a shared first place. |
-| 6 | Depth: league, extra modes, AI explain, share cards, item analysis | Bug Hunt, Output Race and "explain my mistake" (flag off until H4) done; Reverse (A33), league, share cards, item analysis open |
+| 6 | Depth: league, extra modes, AI explain, share cards, item analysis | Weekly league (A35: Home card, league screen, leave in Settings), Bug Hunt, Output Race and "explain my mistake" (flag off until H4) done; Reverse (A33), share cards, item analysis open |
 
 ## Work log
 
@@ -136,7 +136,7 @@ Done since the first update (all committed):
 
 Open:
 
-- [ ] Full verification loop to three clean passes: pass 1 resolved (211 item fixes or judgements, 118 tooling notes); pass 2 next.
+- [ ] Full verification loop to three clean passes: passes 1–4 resolved (329, 123, 57, 44 findings); pass 5 running.
 - [ ] Server error codes (PRD: "the server keeps returning generic errors and codes"): today the
       app maps the server's English messages to translated text in one place
       (`mobile/src/i18n/localizedMessage.ts`); switching to codes removes the string coupling.
@@ -216,6 +216,7 @@ Tooling notes for the next session:
 | A33 | The Reverse game mode (PRD 11.10) waits for its own item type: it needs authored input/output items that pass every gate, which the bank does not have. Bug Hunt and Output Race ship as variants of the one engine. | Adding an unverified item type would bypass the verification loop. |
 | A34 | "Explain my mistake" uses two configured slots (primary Cloudflare Workers AI, secondary Groq) of an OpenAI-compatible endpoint, is off by default, and is limited per user per day by the route's rate limiter, which answers "no explanation" rather than an error. | PRD 15.9 and D6; configuration only, no provider SDK; in-memory limiting matches PRD 15.10's single-instance backend. |
 | A31 | Before launch, an item id may change when its format must change (pass 1 renamed one FILL_BLANK to PARSONS in `this-and-classes`); after launch ids are frozen. | No learner has progress on the bank yet (it is DRAFT); the format slug is part of the id and the pre-check enforces it. |
+| A35 | The weekly league runs Monday to Sunday by the learner's calendar day; groups of up to 30 are filled per week and activity band (last week's XP: under 150, 600, 1,500, or more). The first XP of the week enrols; leaving takes the learner out of this week's group at once. The game server, which has no learner calendar day, credits match XP by the UTC date; XP merged from a guest snapshot at sign-up does not count. Ranks are shared on equal XP. | PRD 14.5; one shared week boundary is needed for a group to compare like with like; bands follow the XP model (a lesson pays about 100 to 130 XP). |
 
 ## Dependencies added (reason, license)
 

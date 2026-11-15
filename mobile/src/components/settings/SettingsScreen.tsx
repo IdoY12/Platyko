@@ -14,6 +14,7 @@ import { PrivacySection } from "@/components/social/PrivacySection";
 import { AccountDialogs } from "./AccountDialogs";
 import { GitHubSetting } from "./GitHubSetting";
 import { LanguageSwitch } from "./LanguageSwitch";
+import { LeagueSetting } from "./LeagueSetting";
 import { SetPasswordDialog } from "./SetPasswordDialog";
 import { SettingsRow, SettingsSection } from "./SettingsRow";
 
@@ -36,6 +37,7 @@ export function SettingsScreen() {
       </SettingsSection>
       <SettingsSection>
         <SettingsRow icon="bell-outline" label={t("settings.notifications")} detail={t("settings.notificationsHint")} trailing={<Switch value={account.draftNotifications} onValueChange={account.onNotificationsEnabledChange} accessibilityLabel={t("settings.notifications")} trackColor={{ true: palette.brand.primary }} />} />
+        <LeagueSetting />
       </SettingsSection>
       {isGuest ? (
         <SettingsSection title={t("settings.account")}>

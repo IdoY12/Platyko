@@ -1,4 +1,4 @@
-import { prisma, type MatchMode, type MatchVariant } from "@project/db";
+import { creditLeagueXp, prisma, type MatchMode, type MatchVariant } from "@project/db";
 import type { MatchEndEvent } from "@project/api-contract";
 import { standings, updateRating } from "@project/match-engine";
 import { levelForXp, UNRATED_MATCH_XP_GAMES_PER_DAY, XP_REWARDS } from "@project/xp-constants";
@@ -87,6 +87,8 @@ export async function persistMatch(result: MatchResult): Promise<Map<string, Rew
         select: { rating: true, ratedGamesPlayed: true },
       });
       await recordGameAchievements(tx, user.id, updated.rating, updated.ratedGamesPlayed);
+      // The game server has no learner calendar day; the UTC date stands in for the league week.
+      await creditLeagueXp(tx, user.id, rewards.get(user.id)?.xpEarned ?? 0, new Date().toISOString().slice(0, 10));
     }
   });
   return rewards;

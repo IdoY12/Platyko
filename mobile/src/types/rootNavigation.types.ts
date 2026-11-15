@@ -32,6 +32,7 @@ export type RootStackParamList = {
   Friends: { friendCode?: string } | undefined;
   UserProfile: { username: string };
   PlayScoring: undefined;
+  League: undefined;
   /** `jumpPassed` follows a jump test (`lessonId` "jump:<TRACK>"), `challengeGrid` a daily challenge ("daily:<DATE>"). */
   LessonSummary: { lessonId: string; accuracy: number; xpEarned: number; flawless: boolean; concepts: string[]; jumpPassed?: boolean; challengeGrid?: boolean[] };
 };

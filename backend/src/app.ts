@@ -15,6 +15,7 @@ import { resolveExpressCorsOrigin } from "@project/server-kit/cors";
 import { authRouter } from "./routers/auth.js";
 import { codePuzzlesRouter } from "./routers/codePuzzles.js";
 import { contentRouter } from "./routers/content.js";
+import { leagueRouter } from "./routers/league.js";
 import { learningRouter } from "./routers/learning.js";
 import { progressRouter } from "./routers/progress.js";
 import { socialRouter } from "./routers/social.js";
@@ -57,6 +58,7 @@ app.use("/api/code-puzzles", codePuzzlesRouter);
 app.use("/api/content", contentRouter);
 app.use("/api/progress", progressRouter);
 app.use("/api/social", socialRouter);
+app.use("/api/league", leagueRouter);
 app.use("/api/badge", badgeRouter);
 
 app.use(notFoundHandler);
