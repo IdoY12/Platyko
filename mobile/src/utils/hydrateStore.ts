@@ -5,6 +5,8 @@ import { hydrateProfile } from "@/redux/profile-slice";
 import { hydrateXp } from "@/redux/xp-slice";
 import { hydrateStreak } from "@/redux/streak-slice";
 import { hydrateLearning, type LearningState } from "@/redux/learning-slice";
+import { linkOpened } from "@/redux/play-slice";
+import type { AppLink } from "@/config/appLinks";
 import { logAuth, logError } from "@/utils/logger";
 import { EXPIRED_ACCESS_TOKEN } from "@/constants/secureStorageKeyConstants";
 import { readSecureSessionTokens } from "@/utils/secureSessionTokens";
@@ -17,6 +19,7 @@ type PersistedReduxSnapshot = {
   xp?: Record<string, unknown>;
   streak?: Record<string, unknown>;
   learning?: Partial<LearningState>;
+  pendingLink?: AppLink | null;
 };
 
 export async function hydrateStoreFromStorage(dispatch: AppDispatch): Promise<void> {
@@ -34,6 +37,7 @@ export async function hydrateStoreFromStorage(dispatch: AppDispatch): Promise<vo
     if (parsed.xp) dispatch(hydrateXp(parsed.xp as never));
     if (parsed.streak) dispatch(hydrateStreak(parsed.streak as never));
     if (parsed.learning) dispatch(hydrateLearning(parsed.learning));
+    if (parsed.pendingLink) dispatch(linkOpened(parsed.pendingLink));
     let secure = { accessToken: null as string | null, refreshToken: null as string | null };
     try {
       secure = await readSecureSessionTokens();

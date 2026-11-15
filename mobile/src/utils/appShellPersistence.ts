@@ -49,6 +49,9 @@ export function subscribeStoreToHybridStorage(appStore: typeof store): () => voi
       streak: state.streak,
       // The map and opened lessons stay on disk so lessons keep working offline (PRD 16.10).
       learning: state.learning,
+      // A link opened before sign-in survives the restart that adopting the account's language may cause
+      // right after it; a guest's waiting link is not kept, so a later launch does not ask to sign in again.
+      pendingLink: state.session.isAuthenticated ? state.play.pendingLink : null,
     });
     if (snapshot === previousSnapshot) return;
     previousSnapshot = snapshot;
