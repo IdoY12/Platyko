@@ -21,10 +21,14 @@ const PASSING_QUALITY = 3;
 /** How well the concept was recalled, on SM-2's 0 to 5 scale. */
 export type ReviewQuality = 0 | 1 | 2 | 3 | 4 | 5;
 
-/** Maps what happened on an item to SM-2's quality scale. */
+/**
+ * Maps what happened on an item to SM-2's quality scale. A right answer on the second attempt
+ * still began with a wrong one, so it counts as a failed recall: the concept returns the next day
+ * (PRD L7, an item answered wrongly is back in Review within three days).
+ */
 export function reviewQualityOf(result: { correct: boolean; attemptNo: number; usedHint: number }): ReviewQuality {
   if (!result.correct) return 1;
-  if (result.attemptNo > 1) return 3;
+  if (result.attemptNo > 1) return 2;
   return result.usedHint > 0 ? 4 : 5;
 }
 

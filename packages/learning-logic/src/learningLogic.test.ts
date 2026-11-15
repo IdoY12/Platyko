@@ -125,7 +125,13 @@ describe("spaced review (SM-2)", () => {
   it("rates a clean answer above a hinted one above a second attempt", () => {
     expect(reviewQualityOf({ correct: true, attemptNo: 1, usedHint: 0 })).toBe(5);
     expect(reviewQualityOf({ correct: true, attemptNo: 1, usedHint: 2 })).toBe(4);
-    expect(reviewQualityOf({ correct: true, attemptNo: 2, usedHint: 0 })).toBe(3);
+    expect(reviewQualityOf({ correct: true, attemptNo: 2, usedHint: 0 })).toBe(2);
+  });
+
+  it("brings a concept back the next day when its item was right only on the second attempt", () => {
+    const learned = scheduleReview(scheduleReview(INITIAL_REVIEW_STATE, 5), 5);
+    expect(learned.intervalDays).toBe(6);
+    expect(scheduleReview(learned, reviewQualityOf({ correct: true, attemptNo: 2, usedHint: 0 }))).toMatchObject({ repetitions: 0, intervalDays: 1 });
   });
 
   it("crosses a month boundary correctly", () => {
