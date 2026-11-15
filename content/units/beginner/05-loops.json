@@ -516,9 +516,9 @@
           "misconception": "condition-checked-after-body"
         },
         {
-          "text": "The body runs once with n equal to 6, because the update comes first.",
+          "text": "The body runs once with n equal to 6, because the update comes first and no test is made.",
           "correct": false,
-          "feedback": "You thought n++ runs before the first test. Check on the card when the update runs.",
+          "feedback": "You thought n++ runs before the first pass and that the first pass is not tested. Check on the card when the update runs and what is checked before every pass.",
           "misconception": "update-runs-first"
         }
       ],
@@ -539,7 +539,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.loops.while-loop.predict-01",
@@ -830,7 +830,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "A while loop starts with day equal to first, adds 1 to day each pass, and runs while day <= last. Write an expression for the number of passes.",
+      "prompt": "A while loop starts day at first, adds 1 each pass and runs while day <= last, with first <= last. Write an expression for the number of passes.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -897,7 +897,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.loops.loop-accumulator.predict-01",
@@ -910,35 +910,35 @@
       "difficulty": 1,
       "prompt": "What does this code print?",
       "code": [
-        "let points = 0;",
-        "for (let w = 1; w <= 4; w++) {",
+        "let points = 5;",
+        "for (let w = 1; w <= 3; w++) {",
         "  points = points + w * 10;",
         "}",
         "console.log(points);"
       ],
       "options": [
         {
-          "text": "100",
+          "text": "65",
           "correct": true,
-          "feedback": "Right. 10 + 20 + 30 + 40 is 100."
+          "feedback": "Right. 5 + 10 + 20 + 30 is 65."
         },
         {
-          "text": "40",
+          "text": "30",
           "correct": false,
           "feedback": "You thought each pass replaces points with the new amount. Line 3 reads points on its right side, so it starts from the value points already holds.",
           "misconception": "accumulator-overwritten"
         },
         {
-          "text": "60",
+          "text": "35",
           "correct": false,
-          "feedback": "That leaves out the pass where w is 4. With <= the loop also runs when w is 4.",
+          "feedback": "That leaves out the pass where w is 3. With <= the loop also runs when w is 3.",
           "misconception": "bound-off-by-one"
         }
       ],
       "solution": {
-        "expectedOutput": "100"
+        "expectedOutput": "65"
       },
-      "explanation": "points starts at 0. Passes with w from 1 to 4 add 10, 20, 30 and 40, so the total is 100. Each pass adds to what points already holds.",
+      "explanation": "points starts at 5. Passes with w from 1 to 3 add 10, 20 and 30, so the total is 65. Each pass adds to what points already holds.",
       "hints": [
         "Look at what is added on line 3.",
         "The variable keeps its value from pass to pass.",
@@ -952,7 +952,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.loops.loop-accumulator.predict-02",
@@ -1313,8 +1313,8 @@
       "difficulty": 1,
       "prompt": "What does this code print?",
       "code": [
-        "for (let row = 0; row < 5; row++) {",
-        "  if (row === 2) {",
+        "for (let row = 0; row < 3; row++) {",
+        "  if (row === 1) {",
         "    continue;",
         "  }",
         "  console.log(row);",
@@ -1322,29 +1322,29 @@
       ],
       "options": [
         {
-          "text": "0\n1\n3\n4",
+          "text": "0\n2",
           "correct": true,
-          "feedback": "Right. Only the pass for 2 is skipped."
+          "feedback": "Right. Only the pass for 1 is skipped."
         },
         {
-          "text": "0\n1",
+          "text": "0",
           "correct": false,
           "feedback": "You thought continue ends the whole loop, as break does. continue and break do different jobs.",
           "misconception": "break-continue-confused"
         },
         {
-          "text": "0\n1\n2\n3\n4",
+          "text": "0\n1\n2",
           "correct": false,
           "feedback": "You thought continue takes effect only after the rest of the pass has run. It takes effect at once, so later lines of that pass are skipped.",
           "misconception": "break-acts-late"
         }
       ],
       "solution": {
-        "expectedOutput": "0\n1\n3\n4"
+        "expectedOutput": "0\n2"
       },
-      "explanation": "When row is 2 the continue skips the rest of that pass, so 2 is not printed. The loop then moves on to 3 and 4.",
+      "explanation": "When row is 1 the continue skips the rest of that pass, so 1 is not printed. The loop then moves on to 2.",
       "hints": [
-        "Look at what happens when row equals 2.",
+        "Look at what happens when row equals 1.",
         "continue skips the rest of one pass and the loop goes on.",
         "Ask which pass reaches line 3 and what that does to line 5."
       ],
@@ -1356,7 +1356,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:JUNIOR:16"
       ]

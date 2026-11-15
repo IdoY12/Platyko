@@ -172,7 +172,7 @@
       "title": "Promises",
       "conceptCard": {
         "title": "A value that arrives later",
-        "body": "A promise stands for a value that arrives later. then(handler) runs when it is fulfilled, catch(handler) when it is rejected. Both return a new promise, so calls chain and each handler passes its returned value on. Handlers run after the current code. new Promise(fn) runs fn at once and gives it a function that fulfils the promise.",
+        "body": "A promise stands for a value that arrives later. then(handler) runs when it is fulfilled, catch(handler) when it is rejected. Both return a new promise, so calls chain and pass returned values on. Handlers run after the current code. new Promise(fn) runs fn at once, giving it a function that fulfils it. Promise.resolve(v) and Promise.reject(r) make an already settled promise.",
         "code": [
           "Promise.resolve(2)",
           "  .then((n) => n + 1)",
@@ -195,7 +195,7 @@
       "title": "async and await",
       "conceptCard": {
         "title": "Pausing inside a function",
-        "body": "An async function always returns a promise. Inside it, await pauses that function until a promise settles, then gives back the value. Only the async function waits: the code that called it keeps running.",
+        "body": "An async function always returns a promise. Inside it, await pauses that function until a promise settles, then gives back the value. Only the async function waits: the code that called it keeps running. A throw inside an async function does not escape: it rejects the promise the function returns.",
         "code": [
           "const ready = Promise.resolve(2);",
           "async function brew() {",

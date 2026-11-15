@@ -77,10 +77,6 @@
       "description": "Believes hoisting moves the assigned value of a var, not only its name."
     },
     {
-      "id": "function-expression-hoisted-like-declaration",
-      "description": "Believes a function stored in a const can be called before its line, like a function declaration."
-    },
-    {
       "id": "tdz-gives-undefined",
       "description": "Believes reading a let or const before its line gives undefined, like var."
     },
@@ -1037,17 +1033,17 @@
       "prompt": "What does this code print?",
       "code": [
         "console.log(opening(\"bakery\"));",
-        "console.log(closing(\"bakery\"));",
+        "console.log(sign);",
         "function opening(s) {",
         "  return s + \" open\";",
         "}",
-        "var closing = (s) => s + \" shut\";"
+        "var sign = \"shut\";"
       ],
       "options": [
         {
-          "text": "bakery open\nUncaught TypeError",
+          "text": "bakery open\nundefined",
           "correct": true,
-          "feedback": "Right. The declaration is ready from the first line, but closing holds undefined until line 6 has run."
+          "feedback": "Right. The declaration is ready from the first line, but sign holds undefined until line 6 has run."
         },
         {
           "text": "Uncaught ReferenceError",
@@ -1056,20 +1052,20 @@
           "misconception": "declaration-not-hoisted"
         },
         {
-          "text": "bakery open\nbakery shut",
+          "text": "bakery open\nshut",
           "correct": false,
-          "feedback": "You thought a function stored in a var can be called before its line, like a declaration. The var exists early, but its function is stored only when its line runs.",
-          "misconception": "function-expression-hoisted-like-declaration"
+          "feedback": "You thought hoisting also moves the value of a var. Only the name exists early; the value is stored when line 6 runs.",
+          "misconception": "var-hoisted-with-value"
         }
       ],
       "solution": {
-        "expectedOutput": "bakery open\nUncaught TypeError"
+        "expectedOutput": "bakery open\nundefined"
       },
-      "explanation": "A function declaration is hoisted with its body, so line 1 works. closing is a var, so it exists from the start but holds undefined until line 6 runs, and calling undefined on line 2 throws a TypeError.",
+      "explanation": "A function declaration is hoisted with its body, so line 1 works. sign is a var, so it exists from the start but holds undefined until line 6 stores \"shut\" in it.",
       "hints": [
-        "Compare line 1 and line 2: each calls a function defined further down.",
+        "Compare line 1 and line 2: each uses a name that is declared further down.",
         "A function declaration is ready before any line runs; a var name exists early but holds undefined until its line runs.",
-        "Compare what closing holds when line 2 runs with what opening holds on line 1."
+        "Ask what sign holds at the moment line 2 runs."
       ],
       "reference": {
         "title": "Hoisting",
@@ -1079,7 +1075,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7,
+      "version": 8,
       "legacyKeys": [
         "exercise:JUNIOR:20"
       ]

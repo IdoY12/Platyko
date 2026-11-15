@@ -191,15 +191,16 @@
       "title": "undefined and null",
       "conceptCard": {
         "title": "undefined and null",
-        "body": "undefined means no value was stored yet. null is a value you store on purpose to say empty. typeof answers undefined for the first and object for null, a quirk of the language that was never fixed.",
+        "body": "undefined means no value was stored yet. null is a value you store on purpose to say empty. Joined to text with +, each becomes its own word. typeof answers undefined for the first and object for null, a quirk of the language that was never fixed.",
         "code": [
           "let seatNo;",
           "let driver = null;",
           "const route = \"42\";",
           "console.log(seatNo, driver);",
+          "console.log(\"Seat: \" + seatNo);",
           "console.log(typeof driver, route);"
         ],
-        "expectedOutput": "undefined null\nobject 42"
+        "expectedOutput": "undefined null\nSeat: undefined\nobject 42"
       },
       "itemIds": [
         "beg.variables.undefined-and-null.predict-01",

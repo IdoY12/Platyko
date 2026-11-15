@@ -2706,31 +2706,74 @@
  "conceptCards": {
   "functions.lesson-1": {
    "code": [
+    "let calls = 0;",
     "function wave() {",
     "  console.log(\"hello\");",
+    "  calls = calls + 1;",
     "}",
     "wave();",
-    "wave();"
+    "wave();",
+    "console.log(calls);"
    ],
    "output": [
     "hello",
-    "hello"
+    "hello",
+    "2"
    ],
    "steps": [
     {
+     "line": 1,
+     "variables": [],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "calls",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "calls",
+       "scope": "global",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "wave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 4,
-     "variables": [],
-     "outputCount": 0,
-     "callStack": [
-      "global"
+     "variables": [
+      {
+       "name": "calls",
+       "scope": "global",
+       "value": "0"
+      }
      ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [],
-     "outputCount": 0,
+     "outputCount": 1,
      "callStack": [
       "global",
       "wave"
@@ -2739,8 +2782,14 @@
      "microtasks": []
     },
     {
-     "line": 5,
-     "variables": [],
+     "line": 7,
+     "variables": [
+      {
+       "name": "calls",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
      "outputCount": 1,
      "callStack": [
       "global"
@@ -2749,20 +2798,65 @@
      "microtasks": []
     },
     {
-     "line": 2,
-     "variables": [],
+     "line": 3,
+     "variables": [
+      {
+       "name": "calls",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
      "outputCount": 1,
      "callStack": [
       "global",
       "wave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "calls",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global",
+      "wave"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "calls",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
      "line": 0,
-     "variables": [],
-     "outputCount": 2,
+     "variables": [
+      {
+       "name": "calls",
+       "scope": "global",
+       "value": "2"
+      }
+     ],
+     "outputCount": 3,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

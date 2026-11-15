@@ -62,8 +62,8 @@
       "description": "Believes debounce or throttle only delays calls, so every call still runs eventually."
     },
     {
-      "id": "debounce-ignores-gap",
-      "description": "Believes a debounced function runs once after all calls, however long the pauses between them."
+      "id": "first-call-wins",
+      "description": "Believes a debounced function runs the first call and ignores the calls that follow."
     },
     {
       "id": "throttle-waits-for-quiet",
@@ -600,7 +600,7 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 3,
-      "prompt": "A search box logs a query once typing pauses for 200 ms. Calls arrive at 0, 100 and 400 ms. What does this print?",
+      "prompt": "A search box logs a query once typing pauses for 200 ms. Calls arrive at 0 and 100 ms. What does this print?",
       "code": [
         "let t;",
         "const say = (x) => console.log(x);",
@@ -609,36 +609,35 @@
         "  t = setTimeout(() => say(x), 200);",
         "};",
         "setTimeout(() => ping('a'), 0);",
-        "setTimeout(() => ping('b'), 100);",
-        "setTimeout(() => ping('c'), 400);"
+        "setTimeout(() => ping('b'), 100);"
       ],
       "options": [
         {
-          "text": "b\nc",
+          "text": "b",
           "correct": true,
-          "feedback": "Right. The call at 100 cancels a, b runs at 300, and c at 400 starts a new wait that nothing interrupts."
+          "feedback": "Right. The call at 100 cancels the timer of a, which has not fired yet, and b runs at 300."
         },
         {
-          "text": "a\nb\nc",
+          "text": "a\nb",
           "correct": false,
           "feedback": "That lets every call run. Each new call clears the timer of the previous one if it has not fired yet.",
           "misconception": "limit-still-runs-every-call"
         },
         {
-          "text": "c",
+          "text": "a",
           "correct": false,
-          "feedback": "You thought each call cancels all the calls before it. A call only cancels a timer that has not fired yet. Check whether b had already fired when c arrived.",
-          "misconception": "debounce-ignores-gap"
+          "feedback": "You thought the first call wins. A new call clears the timer of the previous one if it has not fired yet. Check when a would have fired.",
+          "misconception": "first-call-wins"
         }
       ],
       "solution": {
-        "expectedOutput": "b\nc"
+        "expectedOutput": "b"
       },
-      "explanation": "Each call clears the pending timer and starts a new 200 ms wait. a is cancelled by b at 100. b waits until 300 and runs because nothing arrives before then. c arrives at 400 and runs at 600.",
+      "explanation": "Each call clears the pending timer and starts a new 200 ms wait. a would fire at 200, but b arrives at 100 and cancels it. b waits until 300 and runs because nothing arrives before then.",
       "hints": [
         "Write down when each call happens and when its timer would fire.",
         "A debounced call is cancelled by any call that arrives before its wait is over.",
-        "Check whether the call at 400 comes before or after the timer of the call at 100."
+        "Check whether the call at 100 comes before or after the timer of the call at 0."
       ],
       "reference": {
         "title": "clearTimeout()",
@@ -647,7 +646,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:13"
       ]

@@ -2423,10 +2423,12 @@
     "let driver = null;",
     "const route = \"42\";",
     "console.log(seatNo, driver);",
+    "console.log(\"Seat: \" + seatNo);",
     "console.log(typeof driver, route);"
    ],
    "output": [
     "undefined null",
+    "Seat: undefined",
     "object 42"
    ],
    "steps": [
@@ -2530,7 +2532,7 @@
      "microtasks": []
     },
     {
-     "line": 0,
+     "line": 6,
      "variables": [
       {
        "name": "seatNo",
@@ -2549,6 +2551,32 @@
       }
      ],
      "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "seatNo",
+       "scope": "global",
+       "value": "undefined"
+      },
+      {
+       "name": "driver",
+       "scope": "global",
+       "value": "null"
+      },
+      {
+       "name": "route",
+       "scope": "global",
+       "value": "'42'"
+      }
+     ],
+     "outputCount": 3,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

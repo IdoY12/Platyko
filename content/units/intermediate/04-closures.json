@@ -1449,7 +1449,7 @@
       "hints": [
         "Which loop keyword gives each pass its own variable?",
         "Push a function that uses the loop variable, then call them after the loop.",
-        "Loop from 1 up to and including count with let."
+        "Start i at 1, and check that the last pass still runs when i equals count."
       ],
       "reference": {
         "title": "let",
@@ -1458,7 +1458,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.closures.closure-factories.predict-01",
@@ -1545,7 +1545,7 @@
           "misconception": "calls-share-one-scope"
         },
         {
-          "text": "m is gone after tag returns, so both calls print only hi.",
+          "text": "m is gone after tag returns, so calling loud or soft fails.",
           "correct": false,
           "feedback": "The returned functions keep m alive. It is not removed when tag returns.",
           "misconception": "variables-die-on-return"
@@ -1568,7 +1568,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-factories.trace-01",

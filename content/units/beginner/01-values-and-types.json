@@ -439,14 +439,14 @@
         "Work out each result, then match it to the prompt's list from left to right."
       ],
       "reference": {
-        "title": "Exponentiation (**)",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Exponentiation",
+        "title": "Remainder (%)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.values-and-types.number-values.concept-01",
@@ -456,36 +456,36 @@
       "difficulty": 2,
       "prompt": "Which statement explains the two lines this program prints?",
       "code": [
-        "console.log(10 / 4);",
-        "console.log(10 % 4);"
+        "console.log(11 / 4);",
+        "console.log(11 % 4);"
       ],
       "options": [
         {
           "text": "/ gives the exact result with its fraction, and % gives the leftover after dividing.",
           "correct": true,
-          "feedback": "Right. 10 / 4 is 2.5, and 10 % 4 is 2 because two whole 4s leave 2."
+          "feedback": "Right. 11 / 4 is 2.75, and 11 % 4 is 3 because two whole 4s use 8 and leave 3."
         },
         {
-          "text": "/ gives a whole number, and % tells you how many times 4 fits into 10.",
+          "text": "/ gives a whole number, and % tells you how many times 4 fits into 11.",
           "correct": false,
           "feedback": "You thought / always gives a whole number, with % counting how many 4s fit. That mixes up what each operator returns.",
           "misconception": "division-gives-whole-number"
         },
         {
-          "text": "/ gives the exact result, and % gives how many times 4 fits into 10.",
+          "text": "/ gives the exact result, and % gives how many times 4 fits into 11.",
           "correct": false,
-          "feedback": "You thought % gives the number of whole 4s in 10. That is a different question from the one % answers.",
+          "feedback": "You thought % gives the number of whole 4s in 11. That is a different question from the one % answers.",
           "misconception": "remainder-is-quotient"
         }
       ],
       "solution": {
-        "expectedOutput": "2.5\n2"
+        "expectedOutput": "2.75\n3"
       },
-      "explanation": "The / sign divides exactly and keeps the fraction, so 10 / 4 is 2.5. The % sign gives the leftover: 4 fits twice into 10, which uses 8, and 2 is left.",
+      "explanation": "The / sign divides exactly and keeps the fraction, so 11 / 4 is 2.75. The % sign gives the leftover: 4 fits twice into 11, which uses 8, and 3 is left.",
       "hints": [
         "Run each line by hand and compare the two results.",
         "One sign keeps the fraction; the other keeps the leftover.",
-        "Check line 2 by hand: how many whole 4s fit into 10, and how much of 10 is left over?"
+        "Check line 2 by hand: how many whole 4s fit into 11, and how much of 11 is left over?"
       ],
       "reference": {
         "title": "Remainder (%)",
@@ -495,7 +495,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 6
     },
     {
       "id": "beg.values-and-types.string-values.predict-01",
@@ -818,7 +818,7 @@
       "hints": [
         "You need a property of the text, not a method call.",
         "A text keeps its character count in a built-in property.",
-        "Use the property the lesson card shows on \"tea\"."
+        "Write that property after the name of the text and a dot; no brackets follow it."
       ],
       "reference": {
         "title": "String: length",
@@ -827,7 +827,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "puzzle:2"
       ]

@@ -1499,12 +1499,10 @@
     "  t = setTimeout(() => say(x), 200);",
     "};",
     "setTimeout(() => ping('a'), 0);",
-    "setTimeout(() => ping('b'), 100);",
-    "setTimeout(() => ping('c'), 400);"
+    "setTimeout(() => ping('b'), 100);"
    ],
    "output": [
-    "b",
-    "c"
+    "b"
    ],
    "steps": [
     {
@@ -1609,35 +1607,6 @@
      "microtasks": []
     },
     {
-     "line": 9,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "global",
-       "value": "undefined"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [
-      "callback (line 7)",
-      "callback (line 8)"
-     ],
-     "microtasks": []
-    },
-    {
      "line": 7,
      "variables": [
       {
@@ -1661,8 +1630,7 @@
       "anonymous"
      ],
      "macrotasks": [
-      "callback (line 8)",
-      "callback (line 9)"
+      "callback (line 8)"
      ],
      "microtasks": []
     },
@@ -1696,8 +1664,7 @@
       "ping"
      ],
      "macrotasks": [
-      "callback (line 8)",
-      "callback (line 9)"
+      "callback (line 8)"
      ],
      "microtasks": []
     },
@@ -1731,8 +1698,7 @@
       "ping"
      ],
      "macrotasks": [
-      "callback (line 8)",
-      "callback (line 9)"
+      "callback (line 8)"
      ],
      "microtasks": []
     },
@@ -1742,7 +1708,7 @@
       {
        "name": "t",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       },
       {
        "name": "say",
@@ -1760,8 +1726,7 @@
       "anonymous"
      ],
      "macrotasks": [
-      "callback (line 5)",
-      "callback (line 9)"
+      "callback (line 5)"
      ],
      "microtasks": []
     },
@@ -1771,7 +1736,7 @@
       {
        "name": "t",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       },
       {
        "name": "say",
@@ -1795,8 +1760,7 @@
       "ping"
      ],
      "macrotasks": [
-      "callback (line 5)",
-      "callback (line 9)"
+      "callback (line 5)"
      ],
      "microtasks": []
     },
@@ -1806,7 +1770,7 @@
       {
        "name": "t",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       },
       {
        "name": "say",
@@ -1829,9 +1793,7 @@
       "anonymous",
       "ping"
      ],
-     "macrotasks": [
-      "callback (line 9)"
-     ],
+     "macrotasks": [],
      "microtasks": []
     },
     {
@@ -1840,7 +1802,7 @@
       {
        "name": "t",
        "scope": "global",
-       "value": "5"
+       "value": "4"
       },
       {
        "name": "say",
@@ -1862,9 +1824,7 @@
      "callStack": [
       "anonymous"
      ],
-     "macrotasks": [
-      "callback (line 9)"
-     ],
+     "macrotasks": [],
      "microtasks": []
     },
     {
@@ -1873,7 +1833,7 @@
       {
        "name": "t",
        "scope": "global",
-       "value": "5"
+       "value": "4"
       },
       {
        "name": "say",
@@ -1892,161 +1852,6 @@
       }
      ],
      "outputCount": 0,
-     "callStack": [
-      "anonymous",
-      "say"
-     ],
-     "macrotasks": [
-      "callback (line 9)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 9,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "global",
-       "value": "5"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "global",
-       "value": "5"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      },
-      {
-       "name": "x",
-       "scope": "ping",
-       "value": "'c'"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "anonymous",
-      "ping"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "global",
-       "value": "5"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      },
-      {
-       "name": "x",
-       "scope": "ping",
-       "value": "'c'"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "anonymous",
-      "ping"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "global",
-       "value": "6"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      },
-      {
-       "name": "x",
-       "scope": "ping",
-       "value": "'c'"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "global",
-       "value": "6"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      },
-      {
-       "name": "x",
-       "scope": "say",
-       "value": "'c'"
-      }
-     ],
-     "outputCount": 1,
      "callStack": [
       "anonymous",
       "say"
@@ -2060,7 +1865,7 @@
       {
        "name": "t",
        "scope": "global",
-       "value": "6"
+       "value": "4"
       },
       {
        "name": "say",
@@ -2073,7 +1878,7 @@
        "value": "[Function: ping]"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

@@ -117,15 +117,18 @@
       "title": "Defining and calling a function",
       "conceptCard": {
         "title": "Defining a function",
-        "body": "A function is a named block of code. Writing it only defines it. The code inside runs each time you call the function with its name and parentheses.",
+        "body": "A function is a named block of code. Writing it only defines it. The code inside runs each time you call the function with its name and parentheses. It can read and change a variable declared outside it.",
         "code": [
+          "let calls = 0;",
           "function wave() {",
           "  console.log(\"hello\");",
+          "  calls = calls + 1;",
           "}",
           "wave();",
-          "wave();"
+          "wave();",
+          "console.log(calls);"
         ],
-        "expectedOutput": "hello\nhello"
+        "expectedOutput": "hello\nhello\n2"
       },
       "itemIds": [
         "beg.functions.function-declaration.predict-01",
@@ -299,9 +302,9 @@
           "misconception": "call-deferred"
         },
         {
-          "text": "pour\nheat\npour\nserve",
+          "text": "pour\nheat\npour\nserve\nheat\npour\nserve",
           "correct": false,
-          "feedback": "That runs pour when it is defined. Defining a function prints nothing; the body runs only on a call.",
+          "feedback": "You thought defining a function runs its body, so both definitions ran before the call. Defining prints nothing; the body runs only on a call.",
           "misconception": "declaration-runs-body"
         }
       ],
@@ -322,7 +325,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.functions.function-declaration.trace-01",

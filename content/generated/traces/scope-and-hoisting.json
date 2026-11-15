@@ -2008,22 +2008,22 @@
   "int.scope-and-hoisting.hoisting.predict-01": {
    "code": [
     "console.log(opening(\"bakery\"));",
-    "console.log(closing(\"bakery\"));",
+    "console.log(sign);",
     "function opening(s) {",
     "  return s + \" open\";",
     "}",
-    "var closing = (s) => s + \" shut\";"
+    "var sign = \"shut\";"
    ],
    "output": [
     "bakery open",
-    "Uncaught TypeError"
+    "undefined"
    ],
    "steps": [
     {
      "line": 1,
      "variables": [
       {
-       "name": "closing",
+       "name": "sign",
        "scope": "global",
        "value": "undefined"
       }
@@ -2039,7 +2039,7 @@
      "line": 4,
      "variables": [
       {
-       "name": "closing",
+       "name": "sign",
        "scope": "global",
        "value": "undefined"
       },
@@ -2061,7 +2061,7 @@
      "line": 2,
      "variables": [
       {
-       "name": "closing",
+       "name": "sign",
        "scope": "global",
        "value": "undefined"
       }
@@ -2074,12 +2074,28 @@
      "microtasks": []
     },
     {
+     "line": 6,
+     "variables": [
+      {
+       "name": "sign",
+       "scope": "global",
+       "value": "undefined"
+      }
+     ],
+     "outputCount": 2,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 0,
      "variables": [
       {
-       "name": "closing",
+       "name": "sign",
        "scope": "global",
-       "value": "undefined"
+       "value": "'shut'"
       }
      ],
      "outputCount": 2,

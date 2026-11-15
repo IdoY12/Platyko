@@ -736,7 +736,7 @@
         ],
         "expectedOutput": "true"
       },
-      "explanation": "typed is text and 25 is a number. Only == converts one side, so the digits match. === and != both give false here.",
+      "explanation": "typed is text and 25 is a number. Only == converts one side, so the digits match. === sees two types and gives false, = stores a value, and + joins the two.",
       "hints": [
         "Look at the type of typed and of 25.",
         "One sign converts the types before comparing.",
@@ -750,7 +750,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.operators-and-comparisons.loose-equality.parsons-01",

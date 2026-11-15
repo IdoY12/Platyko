@@ -157,7 +157,7 @@
       "title": "The DOM tree and selection",
       "conceptCard": {
         "title": "The page is a tree of elements",
-        "body": "The DOM is a tree: every element has children, reached through properties like children, firstElementChild, lastElementChild and nextElementSibling. querySelector returns the first element matching a CSS selector, or null; querySelectorAll returns all matches. getElementById(id) finds one element by its id, document.body is the page body, and textContent is an element's text.",
+        "body": "The DOM is a tree: every element has children, reached through children, firstElementChild, lastElementChild and nextElementSibling. querySelector returns the first element matching a CSS selector, or null; querySelectorAll returns a NodeList of all matches: it has forEach but no map. getElementById(id) finds one element by its id, document.body is the page body, and textContent is an element's text.",
         "code": [
           "const page = {",
           "  tag: 'ul',",
@@ -182,7 +182,7 @@
       "title": "Changing content and classes",
       "conceptCard": {
         "title": "Changing what the page shows",
-        "body": "Assigning textContent replaces everything inside an element, child elements too. classList.add, remove and toggle change one class and leave the others; toggle adds a missing class and removes a present one. classList.contains(name) tests a class, and className is all classes as one text. createElement makes a new element, and appendChild puts it into the page.",
+        "body": "Assigning textContent replaces everything inside an element. classList.add, remove and toggle change one class and leave the others; adding a class already present changes nothing. toggle adds a missing class and removes a present one. classList.contains(name) tests a class, and className is all classes as one text. createElement makes a new element, and appendChild puts it into the page.",
         "code": [
           "const el = {",
           "  text: 'Soup',",
@@ -1266,7 +1266,7 @@
         "property-update"
       ],
       "format": "PARSONS",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "Order the lines so the heading ends as Stew (3)! and the program prints it.",
       "code": [
         "h2.textContent += ' (3)';",
@@ -1338,7 +1338,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.dom-updates.fix-01",
