@@ -1084,7 +1084,7 @@
       "hints": [
         "Count the places that refer to each object after line 5.",
         "Memory is freed only when no reachable reference is left.",
-        "The array was filled before draft changed. What does it still hold?"
+        "The array keeps its own reference to each object it was given, whatever draft is set to later. What does it still hold?"
       ],
       "reference": {
         "title": "Memory management",
@@ -1094,7 +1094,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:16"
       ]

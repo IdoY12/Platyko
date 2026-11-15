@@ -429,7 +429,7 @@
         {
           "text": "It returns only the first matching element",
           "correct": false,
-          "feedback": "You thought querySelectorAll returns a single element. The code reads items.length as a count of matches and calls forEach on the result, which a lone element would not support the same way.",
+          "feedback": "You thought querySelectorAll returns a single element. The first printed line is a count of matches, and a lone element has no length of that kind.",
           "misconception": "query-all-returns-one"
         }
       ],
@@ -450,7 +450,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.dom-and-events.dom-tree-and-selection.trace-01",
@@ -2164,7 +2164,7 @@
         "const ul = document",
         "  .getElementById('bikes');",
         "function pick(e) {",
-        "  got += e.target.closest('li').id;",
+        "  got += e.target.id;",
         "}",
         "ul.addEventListener('click', pick);",
         "const bts = ul",
@@ -2235,18 +2235,18 @@
       },
       "options": [
         {
-          "text": "'roadcity'",
+          "text": "'rent-roadrent-city'",
           "correct": true,
-          "feedback": "Right. The second button is clicked first, so road comes first."
+          "feedback": "Right. The second button is clicked first, so rent-road comes first."
         },
         {
-          "text": "'cityroad'",
+          "text": "'rent-cityrent-road'",
           "correct": false,
           "feedback": "You thought the buttons are handled in page order, the first button first. Events happen in the order the clicks are made, which the two click() calls set.",
           "misconception": "order-follows-code-layout"
         },
         {
-          "text": "'road'",
+          "text": "'rent-road'",
           "correct": false,
           "feedback": "That is the value after the first click. The question asks about the second run of line 5.",
           "misconception": "wrong-step-value"
@@ -2258,12 +2258,12 @@
           "afterLine": 5,
           "visit": 2
         },
-        "expectedOutput": "roadcity"
+        "expectedOutput": "rent-roadrent-city"
       },
-      "explanation": "The handler adds the id of the item that holds the clicked button. The first click hits bts[1], road. The second hits bts[0], city. So got is roadcity.",
+      "explanation": "The one listener on the list hears both clicks, and e.target is the clicked button. The first click hits bts[1], rent-road. The second hits bts[0], rent-city. So got is rent-roadrent-city.",
       "hints": [
         "Work out which button each click line triggers.",
-        "closest('li') climbs from the clicked button to its item. Clicks run in the order of the lines.",
+        "The click bubbles up to the list's listener, and e.target is the button that was clicked. Clicks run in the order of the lines.",
         "The clicks happen in the order bts[1], bts[0], not in page order."
       ],
       "reference": {
@@ -2273,7 +2273,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.dom-and-events.event-propagation.fill-01",

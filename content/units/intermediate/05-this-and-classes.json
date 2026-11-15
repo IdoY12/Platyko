@@ -1553,7 +1553,7 @@
         {
           "text": "twin is copied to every instance, so p.twin is a function.",
           "correct": false,
-          "feedback": "You thought twin is passed on to instances, as an ordinary method is. An ordinary method lives once on the prototype and instances reach it through that link; a static method is not stored there.",
+          "feedback": "You thought every instance receives its own copy of twin. Line 9 reports what typeof finds on p, and that output settles it.",
           "misconception": "static-copied-to-instances"
         },
         {
@@ -1579,7 +1579,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.this-and-classes.class-inheritance.trace-01",

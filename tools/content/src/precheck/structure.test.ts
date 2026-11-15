@@ -90,13 +90,14 @@ describe("unit file rules", () => {
     ["an item that no lesson lists", (unit) => void unit.lessons[0].itemIds.pop(), ["lesson-item-missing"]],
     ["a lesson that lists an unknown item", (unit) => void unit.lessons[0].itemIds.push("beg.fixture-unit.none.predict-09"), ["lesson-item-unknown"]],
     [
-      "a lesson whose difficulty falls",
+      // Two-item lessons: the second item below the first is also the first above the last.
+      "a lesson whose second item is rated below its first",
       (unit) => {
         const [first, second] = unit.lessons[0].itemIds.map((itemId) => unit.items.find((item) => item.id === itemId)!);
         first.difficulty = 2;
         second.difficulty = 1;
       },
-      ["lesson-difficulty-falls"],
+      ["lesson-difficulty-falls", "lesson-difficulty-falls"],
     ],
     ["a retired item still in a lesson", (unit) => void (unit.items[0].retired = true), ["lesson-item-retired", "unit-size"]],
     ["a concept card body of 61 words", (unit) => void (unit.lessons[0].conceptCard.body = words(61)), ["concept-card-body-too-long"]],

@@ -95,15 +95,20 @@ function checkLessons(unit: UnitFile, report: FindingReporter): void {
   for (const item of unit.items) {
     if (!item.retired && !lessonsByItem.has(item.id)) report("lesson-item-missing", `"${item.id}" belongs to no lesson`);
   }
-  // README "Difficulty rises inside a lesson": a rating may stay or rise from one item to the next, never fall.
+  // README "Difficulty rises inside a lesson": nothing below the lesson's first item, and the last item the hardest.
   for (const lesson of unit.lessons) {
     const listed = [...new Set(lesson.itemIds)].flatMap((itemId) => itemsById.get(itemId) ?? []);
-    listed.slice(1).forEach((item, index) => {
-      const before = listed[index];
-      if (item.difficulty < before.difficulty) {
-        report("lesson-difficulty-falls", `${lesson.id}: "${item.id}" is rated ${item.difficulty} after "${before.id}" at ${before.difficulty}; difficulty rises or stays within a lesson`);
+    const [first] = listed;
+    const last = listed.at(-1);
+    if (!first || !last) continue;
+    for (const item of listed) {
+      if (item.difficulty < first.difficulty) {
+        report("lesson-difficulty-falls", `${lesson.id}: "${item.id}" is rated ${item.difficulty}, below the lesson's first item "${first.id}" at ${first.difficulty}`);
       }
-    });
+      if (item.difficulty > last.difficulty) {
+        report("lesson-difficulty-falls", `${lesson.id}: "${item.id}" is rated ${item.difficulty}, above the lesson's last item "${last.id}" at ${last.difficulty}`);
+      }
+    }
   }
 }
 

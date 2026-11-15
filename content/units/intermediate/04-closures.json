@@ -1574,57 +1574,53 @@
       "id": "int.closures.closure-factories.trace-01",
       "concept": "closure-factories",
       "prerequisites": [
-        "closure-private-state",
-        "array-map"
+        "closure-private-state"
       ],
       "format": "TRACE",
       "difficulty": 3,
-      "prompt": "What is the value of used right after line 4 runs for the second time?",
+      "prompt": "What is the value of second right after line 7 has run?",
       "code": [
-        "const limiter = (max) => {",
-        "  let used = 0;",
-        "  return (n) => {",
-        "    used = used + n;",
-        "    return used <= max;",
-        "  };",
+        "const adder = (x) => {",
+        "  return (y) => x + y;",
         "};",
-        "const ok = limiter(5);",
-        "const a = ok(3);",
-        "const b = ok(4);",
-        "console.log(a, b);"
+        "const addTwo = adder(2);",
+        "const addTen = adder(10);",
+        "const first = addTwo(5);",
+        "const second = addTen(first);",
+        "console.log(first, second);"
       ],
       "options": [
         {
-          "text": "7",
+          "text": "17",
           "correct": true,
-          "feedback": "Right. used is 3 after the first call, and the second call adds 4."
+          "feedback": "Right. addTwo(5) gives 7, and addTen remembers its own x, 10, so 7 + 10 is 17."
         },
         {
-          "text": "4",
+          "text": "25",
           "correct": false,
-          "feedback": "That starts again from 0. used is created once by limiter and keeps its value between calls.",
-          "misconception": "state-resets-each-call"
+          "feedback": "You treated x as one shared variable that the second factory call changed. Each adder call makes its own x.",
+          "misconception": "calls-share-one-scope"
         },
         {
-          "text": "3",
+          "text": "7",
           "correct": false,
-          "feedback": "That is the value after the first run of line 4. The question asks about the second run.",
-          "misconception": "trace-wrong-pass"
+          "feedback": "You skipped the number that addTen remembers. The returned function adds its own x to the argument.",
+          "misconception": "inner-ignores-outer-argument"
         }
       ],
       "solution": {
         "probe": {
-          "variable": "used",
-          "afterLine": 4,
-          "visit": 2
+          "variable": "second",
+          "afterLine": 7,
+          "visit": 1
         },
-        "expectedOutput": "true false"
+        "expectedOutput": "7 17"
       },
-      "explanation": "limiter creates used once and returns a function that adds to it. The first call makes it 3, and the second call adds 4 to that.",
+      "explanation": "Each call of adder creates its own x. addTwo remembers 2 and addTen remembers 10. addTwo(5) is 7, and addTen(7) adds its own 10 to give 17.",
       "hints": [
-        "Line 4 runs once for each call of ok.",
-        "used belongs to limiter and survives between calls.",
-        "Add the two amounts passed to ok."
+        "Check which call of adder made addTwo and which made addTen.",
+        "Each call of a factory makes its own remembered argument.",
+        "First work out first with addTwo, then pass it to addTen."
       ],
       "reference": {
         "title": "Closures",
@@ -1633,7 +1629,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-factories.parsons-01",

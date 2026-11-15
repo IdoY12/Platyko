@@ -1031,13 +1031,13 @@
         {
           "text": "shipped\n6",
           "correct": false,
-          "feedback": "You thought the console.log on line 3 runs before the return. Lines run top to bottom, and return sits on line 2, above it.",
+          "feedback": "You thought line 3 still runs when ship(3) is called, so shipped prints before the 6 appears. A function stops at its return, and nothing below it is carried out.",
           "misconception": "code-after-return-runs"
         },
         {
           "text": "6\nshipped",
           "correct": false,
-          "feedback": "You thought line 3 still runs after the return. Once a function has returned, it does nothing more, so lines after the return are skipped.",
+          "feedback": "You thought the function hands back its value and then goes on to run line 3, so shipped prints after the 6. A return ends the function, so it does not go on.",
           "misconception": "code-after-return-runs"
         }
       ],
@@ -1058,7 +1058,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.functions.return-value.trace-01",

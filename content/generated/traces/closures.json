@@ -5584,20 +5584,17 @@
   },
   "int.closures.closure-factories.trace-01": {
    "code": [
-    "const limiter = (max) => {",
-    "  let used = 0;",
-    "  return (n) => {",
-    "    used = used + n;",
-    "    return used <= max;",
-    "  };",
+    "const adder = (x) => {",
+    "  return (y) => x + y;",
     "};",
-    "const ok = limiter(5);",
-    "const a = ok(3);",
-    "const b = ok(4);",
-    "console.log(a, b);"
+    "const addTwo = adder(2);",
+    "const addTen = adder(10);",
+    "const first = addTwo(5);",
+    "const second = addTen(first);",
+    "console.log(first, second);"
    ],
    "output": [
-    "true false"
+    "7 17"
    ],
    "steps": [
     {
@@ -5611,12 +5608,12 @@
      "microtasks": []
     },
     {
-     "line": 8,
+     "line": 4,
      "variables": [
       {
-       "name": "limiter",
+       "name": "adder",
        "scope": "global",
-       "value": "[Function: limiter]"
+       "value": "[Function: adder]"
       }
      ],
      "outputCount": 0,
@@ -5630,61 +5627,34 @@
      "line": 2,
      "variables": [
       {
-       "name": "limiter",
+       "name": "adder",
        "scope": "global",
-       "value": "[Function: limiter]"
+       "value": "[Function: adder]"
       },
       {
-       "name": "max",
-       "scope": "limiter",
-       "value": "5"
+       "name": "x",
+       "scope": "adder",
+       "value": "2"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "limiter"
+      "adder"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 3,
+     "line": 5,
      "variables": [
       {
-       "name": "limiter",
+       "name": "adder",
        "scope": "global",
-       "value": "[Function: limiter]"
+       "value": "[Function: adder]"
       },
       {
-       "name": "max",
-       "scope": "limiter",
-       "value": "5"
-      },
-      {
-       "name": "used",
-       "scope": "limiter",
-       "value": "0"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "limiter"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 9,
-     "variables": [
-      {
-       "name": "limiter",
-       "scope": "global",
-       "value": "[Function: limiter]"
-      },
-      {
-       "name": "ok",
+       "name": "addTwo",
        "scope": "global",
        "value": "[Function (anonymous)]"
       }
@@ -5697,96 +5667,49 @@
      "microtasks": []
     },
     {
-     "line": 4,
+     "line": 2,
      "variables": [
       {
-       "name": "limiter",
+       "name": "adder",
        "scope": "global",
-       "value": "[Function: limiter]"
+       "value": "[Function: adder]"
       },
       {
-       "name": "ok",
+       "name": "addTwo",
        "scope": "global",
        "value": "[Function (anonymous)]"
       },
       {
-       "name": "max",
-       "scope": "limiter",
-       "value": "5"
-      },
-      {
-       "name": "used",
-       "scope": "limiter",
-       "value": "0"
-      },
-      {
-       "name": "n",
-       "scope": "anonymous",
-       "value": "3"
+       "name": "x",
+       "scope": "adder",
+       "value": "10"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "anonymous"
+      "adder"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 6,
      "variables": [
       {
-       "name": "limiter",
+       "name": "adder",
        "scope": "global",
-       "value": "[Function: limiter]"
+       "value": "[Function: adder]"
       },
       {
-       "name": "ok",
+       "name": "addTwo",
        "scope": "global",
        "value": "[Function (anonymous)]"
       },
       {
-       "name": "max",
-       "scope": "limiter",
-       "value": "5"
-      },
-      {
-       "name": "used",
-       "scope": "limiter",
-       "value": "3"
-      },
-      {
-       "name": "n",
-       "scope": "anonymous",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 10,
-     "variables": [
-      {
-       "name": "limiter",
-       "scope": "global",
-       "value": "[Function: limiter]"
-      },
-      {
-       "name": "ok",
+       "name": "addTen",
        "scope": "global",
        "value": "[Function (anonymous)]"
-      },
-      {
-       "name": "a",
-       "scope": "global",
-       "value": "true"
       }
      ],
      "outputCount": 0,
@@ -5797,37 +5720,32 @@
      "microtasks": []
     },
     {
-     "line": 4,
+     "line": 2,
      "variables": [
       {
-       "name": "limiter",
+       "name": "adder",
        "scope": "global",
-       "value": "[Function: limiter]"
+       "value": "[Function: adder]"
       },
       {
-       "name": "ok",
+       "name": "addTwo",
        "scope": "global",
        "value": "[Function (anonymous)]"
       },
       {
-       "name": "a",
+       "name": "addTen",
        "scope": "global",
-       "value": "true"
+       "value": "[Function (anonymous)]"
       },
       {
-       "name": "max",
-       "scope": "limiter",
-       "value": "5"
+       "name": "x",
+       "scope": "adder",
+       "value": "2"
       },
       {
-       "name": "used",
-       "scope": "limiter",
-       "value": "3"
-      },
-      {
-       "name": "n",
+       "name": "y",
        "scope": "anonymous",
-       "value": "4"
+       "value": "5"
       }
      ],
      "outputCount": 0,
@@ -5839,37 +5757,68 @@
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 7,
      "variables": [
       {
-       "name": "limiter",
+       "name": "adder",
        "scope": "global",
-       "value": "[Function: limiter]"
+       "value": "[Function: adder]"
       },
       {
-       "name": "ok",
+       "name": "addTwo",
        "scope": "global",
        "value": "[Function (anonymous)]"
       },
       {
-       "name": "a",
+       "name": "addTen",
        "scope": "global",
-       "value": "true"
+       "value": "[Function (anonymous)]"
       },
       {
-       "name": "max",
-       "scope": "limiter",
-       "value": "5"
+       "name": "first",
+       "scope": "global",
+       "value": "7"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "adder",
+       "scope": "global",
+       "value": "[Function: adder]"
       },
       {
-       "name": "used",
-       "scope": "limiter",
+       "name": "addTwo",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "addTen",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "first",
+       "scope": "global",
        "value": "7"
       },
       {
-       "name": "n",
+       "name": "x",
+       "scope": "adder",
+       "value": "10"
+      },
+      {
+       "name": "y",
        "scope": "anonymous",
-       "value": "4"
+       "value": "7"
       }
      ],
      "outputCount": 0,
@@ -5881,27 +5830,32 @@
      "microtasks": []
     },
     {
-     "line": 11,
+     "line": 8,
      "variables": [
       {
-       "name": "limiter",
+       "name": "adder",
        "scope": "global",
-       "value": "[Function: limiter]"
+       "value": "[Function: adder]"
       },
       {
-       "name": "ok",
+       "name": "addTwo",
        "scope": "global",
        "value": "[Function (anonymous)]"
       },
       {
-       "name": "a",
+       "name": "addTen",
        "scope": "global",
-       "value": "true"
+       "value": "[Function (anonymous)]"
       },
       {
-       "name": "b",
+       "name": "first",
        "scope": "global",
-       "value": "false"
+       "value": "7"
+      },
+      {
+       "name": "second",
+       "scope": "global",
+       "value": "17"
       }
      ],
      "outputCount": 0,
@@ -5915,24 +5869,29 @@
      "line": 0,
      "variables": [
       {
-       "name": "limiter",
+       "name": "adder",
        "scope": "global",
-       "value": "[Function: limiter]"
+       "value": "[Function: adder]"
       },
       {
-       "name": "ok",
+       "name": "addTwo",
        "scope": "global",
        "value": "[Function (anonymous)]"
       },
       {
-       "name": "a",
+       "name": "addTen",
        "scope": "global",
-       "value": "true"
+       "value": "[Function (anonymous)]"
       },
       {
-       "name": "b",
+       "name": "first",
        "scope": "global",
-       "value": "false"
+       "value": "7"
+      },
+      {
+       "name": "second",
+       "scope": "global",
+       "value": "17"
       }
      ],
      "outputCount": 1,

@@ -197,7 +197,7 @@
       "title": "Shallow and deep copies",
       "conceptCard": {
         "title": "Copies one level deep",
-        "body": "Spread makes a new object or array, but only for the top level. Plain values are copied. Nested objects and arrays are still shared between the copy and the original. To change a nested value safely, copy that level too.",
+        "body": "Spread makes a new object or array, but only for the top level. Plain values are copied. Nested objects and arrays are still shared between the copy and the original. A deep copy also copies those nested levels; to change a nested value safely, copy that level too.",
         "code": [
           "const a = { n: 1, ids: [1] };",
           "const b = { ...a, ids: [...a.ids] };",
@@ -476,8 +476,7 @@
         {
           "text": "const [second, first] = lanes;",
           "correct": false,
-          "feedback": "The brackets are right, but the names are swapped. first now gets \"south\", so the output is reversed.",
-          "misconception": "array-pattern-by-name"
+          "feedback": "The names are in the wrong places. The first name receives the item at index 0, so the output order changes."
         },
         {
           "text": "const [first, second] = lanes[0];",
@@ -503,7 +502,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.objects-in-depth.destructuring.write-01",
@@ -1526,7 +1525,7 @@
         },
         "expectedOutput": "{days: 3, stops: ['Rome', 'Pisa']}"
       },
-      "explanation": "copyA spreads plan, so its stops is the same array as plan.stops, and the push of \"Pisa\" shows in plan. Line 5 gives copyB a new stops array, so the push of \"Bari\" stays out of plan.",
+      "explanation": "copyA spreads plan, so its stops is the same array as plan.stops, and the push of \"Pisa\" shows in plan. Line 5 gives copyB its own stops array, a deep copy of that level, so the push of \"Bari\" stays out of plan.",
       "hints": [
         "Check which copy shares stops with plan and which has its own array.",
         "Spreading plan.stops inside [ ] builds a new array.",
@@ -1539,7 +1538,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.objects-in-depth.shallow-copy.parsons-01",

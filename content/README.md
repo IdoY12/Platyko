@@ -81,7 +81,9 @@ Units about asynchronous order (`async-basics`, `promises-in-depth`, `event-loop
 module-pattern code, and the syntax appears only in prose.
 
 Difficulty rises inside a lesson and across a unit: 1 to 2 in Beginner, 2 to 3 in Intermediate,
-3 to 4 in Advanced, 4 to 5 in Expert.
+3 to 4 in Advanced, 4 to 5 in Expert. Inside a lesson, no item is rated below the lesson's first item,
+and the last item is rated at least as high as every other; between them each item is rated for
+itself, so a reading format may sit one step below a harder item just before it.
 
 ### Practical notes for authors
 
