@@ -3,7 +3,8 @@ import { ActivityIndicator, Pressable, StyleSheet, View, type StyleProp, type Vi
 import Animated from "react-native-reanimated";
 import { AppText } from "@/components/common/AppText/AppText";
 import { haptic } from "@/theme/haptics";
-import { LIP_HEIGHT, MIN_TOUCH_TARGET, palette, radii, space, transitions } from "@/theme/tokens";
+import { LIP_HEIGHT, MIN_TOUCH_TARGET, palette, radii, space } from "@/theme/tokens";
+import { usePressTransition } from "../PressableScale/usePressTransition";
 
 type Tone = "primary" | "success" | "danger" | "quiet";
 
@@ -31,6 +32,7 @@ const TONES: Record<Tone, { face: string; lip: string; text: string }> = {
  */
 export function LipButton({ label, onPress, tone = "primary", disabled = false, loading = false, style, accessibilityHint }: Props) {
   const [pressed, setPressed] = useState(false);
+  const pressTransition = usePressTransition();
   const inactive = disabled || loading;
   // A disabled button turns neutral rather than fading its colour, which reads as muddy on navy.
   const colours = disabled ? TONES.quiet : TONES[tone];
@@ -53,7 +55,7 @@ export function LipButton({ label, onPress, tone = "primary", disabled = false, 
       style={[styles.frame, disabled && styles.inactive, style]}
     >
       <View style={[styles.lip, { backgroundColor: colours.lip }]} />
-      <Animated.View style={[styles.face, transitions.press, { backgroundColor: colours.face, transform: [{ translateY: sunk ? LIP_HEIGHT : 0 }] }]}>
+      <Animated.View style={[styles.face, pressTransition, { backgroundColor: colours.face, transform: [{ translateY: sunk ? LIP_HEIGHT : 0 }] }]}>
         {loading ? <ActivityIndicator color={colours.text} /> : <AppText variant="button" color={colours.text} align="center">{label}</AppText>}
       </Animated.View>
     </Pressable>

@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Pressable, type PressableProps, type StyleProp, type ViewStyle } from "react-native";
 import Animated from "react-native-reanimated";
 import { haptic as haptics } from "@/theme/haptics";
-import { PRESS_SCALE, space, transitions } from "@/theme/tokens";
+import { PRESS_SCALE, space } from "@/theme/tokens";
+import { usePressTransition } from "./usePressTransition";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -15,11 +16,12 @@ type Props = Omit<PressableProps, "style"> & {
 /** A pressable that answers the finger at once: it shrinks slightly on press-in and springs back on release. */
 export function PressableScale({ style, haptic, onPressIn, onPressOut, ...pressableProps }: Props) {
   const [pressed, setPressed] = useState(false);
+  const pressTransition = usePressTransition();
   return (
     <AnimatedPressable
       pressRetentionOffset={space.lg}
       {...pressableProps}
-      style={[style, transitions.press, { transform: [{ scale: pressed ? PRESS_SCALE : 1 }] }]}
+      style={[style, pressTransition, { transform: [{ scale: pressed ? PRESS_SCALE : 1 }] }]}
       onPressIn={(event) => {
         setPressed(true);
         if (haptic === "medium") haptics.commit();
