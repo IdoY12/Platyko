@@ -1178,13 +1178,13 @@
         {
           "text": "Line 4 is skipped quietly, so the program prints 2.",
           "correct": false,
-          "feedback": "JavaScript does not skip it. Assigning to a const stops the program with an error.",
+          "feedback": "Look at what happens to the program when line 4 runs: JavaScript does not let it pass unnoticed.",
           "misconception": "const-reassign-allowed"
         },
         {
           "text": "It stops at line 2, because only the first assignment to any variable is allowed.",
           "correct": false,
-          "feedback": "Let variables can be assigned again. Only const names are fixed, and the error is on line 4.",
+          "feedback": "Check line 2 again: it assigns to a variable declared with let, not const.",
           "misconception": "const-wrong-error"
         }
       ],
@@ -1205,7 +1205,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.undefined-and-null.predict-01",

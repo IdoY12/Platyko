@@ -826,7 +826,7 @@
         {
           "text": "=== compares the sign of zero, so it is false for -0 and 0 while Object.is says they match.",
           "correct": false,
-          "feedback": "Check lines 2 and 3 against the output of line 4. The two kinds of comparison are not both blind to the sign, and the division shows which one sees it.",
+          "feedback": "Look at what line 2 prints and what line 3 prints. Only one of the two comparisons reports a difference between -0 and 0.",
           "misconception": "negative-zero-sign-confused"
         },
         {
@@ -853,7 +853,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.type-coercion-and-edge-cases.numeric-edge-cases.fix-01",
@@ -918,7 +918,7 @@
         "number-values"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "Write the body of safeRatio(a, b). Return a divided by b, or null when the result is not a finite number.",
       "solution": {
         "entry": {
@@ -997,7 +997,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.type-coercion-and-edge-cases.operator-coercion.predict-01",

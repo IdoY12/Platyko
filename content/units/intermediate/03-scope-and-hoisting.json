@@ -93,8 +93,8 @@
       "description": "Believes code written above a let declaration can never read it, even if it runs later."
     },
     {
-      "id": "value-copied-at-definition",
-      "description": "Believes a function remembers the values its variables had when the function was written."
+      "id": "initial-value-kept-after-reassign",
+      "description": "Believes a let variable keeps its first value after it is assigned a new one."
     }
   ],
   "sources": [
@@ -530,7 +530,7 @@
       "hints": [
         "Line 6 prints the note declared on line 2. Does line 4 change that one?",
         "A declaration keyword inside braces creates a new variable.",
-        "Keep the assignment, but drop the keyword before note."
+        "Decide which variable line 4 should change: the outer note or a new one."
       ],
       "reference": {
         "title": "Block statement",
@@ -540,7 +540,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.scope-and-hoisting.block-scope.write-01",
@@ -1515,47 +1515,46 @@
       ],
       "format": "TRACE",
       "difficulty": 3,
-      "prompt": "What is the value of revenue right after line 5 runs?",
+      "prompt": "What is the value of revenue right after line 4 runs?",
       "code": [
         "let sold = 2;",
-        "const report = () => sold * price;",
         "sold = sold + 3;",
         "const price = 4;",
-        "const revenue = report();",
+        "const revenue = sold * price;",
         "console.log(revenue);"
       ],
       "options": [
         {
           "text": "20",
           "correct": true,
-          "feedback": "Right. report runs after both sold and price are ready, and it reads the current values: 5 times 4."
+          "feedback": "Right. By line 4 sold is 5 and price is 4, so revenue is 20."
         },
         {
           "text": "8",
           "correct": false,
-          "feedback": "That uses sold = 2. report reads sold when it runs, not when it was written, and sold is 5 by then.",
-          "misconception": "value-copied-at-definition"
+          "feedback": "That uses sold = 2. Line 2 already changed sold to 5 before line 4 runs.",
+          "misconception": "initial-value-kept-after-reassign"
         },
         {
           "text": "NaN",
           "correct": false,
-          "feedback": "That treats price as undefined. By line 5 the const on line 4 has run, so price is 4.",
+          "feedback": "That treats price as undefined. Line 3 runs before line 4, so price is 4 by then.",
           "misconception": "tdz-gives-undefined"
         }
       ],
       "solution": {
         "probe": {
           "variable": "revenue",
-          "afterLine": 5,
+          "afterLine": 4,
           "visit": 1
         },
         "expectedOutput": "20"
       },
-      "explanation": "report runs on line 5, after price is initialised on line 4. It reads the current sold, 5, and price, 4, so revenue is 20.",
+      "explanation": "Line 4 runs after price is initialised on line 3 and after sold became 5 on line 2, so revenue is 5 times 4, which is 20.",
       "hints": [
-        "Find the line where report actually runs.",
-        "A function reads variables when it runs, not when it is defined.",
-        "Use the value sold has on line 5, and the value of price."
+        "Find the line that sets revenue, and check what sold and price hold before it.",
+        "A let variable keeps its latest assigned value; a const is usable once its line has run.",
+        "Use the value sold has after line 2, and the value of price."
       ],
       "reference": {
         "title": "let",
@@ -1564,7 +1563,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.parsons-01",
@@ -1651,7 +1650,7 @@
       "hints": [
         "Line 3 declares a score while also reading score.",
         "The new variable cannot be read until its declaration has finished.",
-        "Update the existing score instead of declaring another."
+        "The loop must change the score from line 1, not make its own."
       ],
       "reference": {
         "title": "ReferenceError: cannot access before initialization",
@@ -1661,7 +1660,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.write-01",

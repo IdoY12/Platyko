@@ -354,43 +354,47 @@
       ],
       "format": "FIX_BUG",
       "difficulty": 4,
-      "prompt": "Looking for id 9 should take 2 steps, but steps counts every item. Tap the buggy line and pick the fix.",
+      "prompt": "The average should be worked out once, so steps should print 5, but it prints 25. Tap the buggy line and pick the fix.",
       "code": [
-        "const ids = [4, 9, 4, 7, 2];",
+        "const ids = [3, 8, 5, 6, 2];",
         "let steps = 0;",
-        "let ok = false;",
+        "const total = (a) => {",
+        "  steps += a.length;",
+        "  return a.reduce((s, v) => s + v);",
+        "};",
+        "let sum = 0, above = 0;",
         "for (const x of ids) {",
-        "  steps++;",
-        "  if (x === 9) ok = true;",
+        "  sum = total(ids);",
+        "  if (x > sum / ids.length) above++;",
         "}",
-        "console.log(ok, steps);"
+        "console.log(above, steps);"
       ],
       "options": [
         {
-          "text": "  if (x === 9) { ok = true; break; }",
+          "text": "  if (!sum) sum = total(ids);",
           "correct": true,
-          "feedback": "Right. Leaving the loop at the match visits only the items up to it."
+          "feedback": "Right. The first pass fills sum, and every later pass reuses it, so the list is summed only once."
         },
         {
-          "text": "  if (x !== 9) { ok = true; break; }",
+          "text": "  if (sum) sum = total(ids);",
           "correct": false,
-          "feedback": "That reacts to the first id that is not 9, so the loop ends on the first pass with the wrong answer."
+          "feedback": "sum starts at 0, so this test is never true: nothing is ever summed and the comparison no longer uses the real total."
         },
         {
-          "text": "  if (x === 9) ok = true; break;",
+          "text": "  sum += total(ids);",
           "correct": false,
-          "feedback": "The break is not part of the if, so the loop always ends on the first pass, before 9 is reached."
+          "feedback": "The list is still summed on every pass, and the running total keeps growing, so the comparison is wrong as well."
         }
       ],
       "solution": {
-        "bugLine": 6,
-        "expectedOutput": "true 2"
+        "bugLine": 9,
+        "expectedOutput": "3 5"
       },
-      "explanation": "The cost of a scan is the number of items visited. Once the match is found, break ends the loop; without it, every remaining item is still visited and counted.",
+      "explanation": "total(ids) walks the whole list, and calling it inside the loop repeats that walk for every item, so the work grows with the list length squared. Filling sum on the first pass only keeps the result the same and walks the list once.",
       "hints": [
-        "Compare the steps printed with the position of 9 in the list.",
-        "The cost of a scan is the number of items it visits, and a loop can end early.",
-        "Make the pass that finds 9 leave the loop."
+        "Compare the steps printed with the length of the list: which work happens again on every pass?",
+        "The value total(ids) returns is the same on every pass, so it only needs to be computed once.",
+        "sum is declared before the loop and starts at 0; decide when the loop should fill it."
       ],
       "reference": {
         "title": "break",
@@ -399,7 +403,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.code-analysis.complexity-analysis.write-01",

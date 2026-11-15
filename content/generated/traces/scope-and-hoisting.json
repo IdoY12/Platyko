@@ -2701,10 +2701,9 @@
   "int.scope-and-hoisting.temporal-dead-zone.trace-01": {
    "code": [
     "let sold = 2;",
-    "const report = () => sold * price;",
     "sold = sold + 3;",
     "const price = 4;",
-    "const revenue = report();",
+    "const revenue = sold * price;",
     "console.log(revenue);"
    ],
    "output": [
@@ -2743,12 +2742,7 @@
       {
        "name": "sold",
        "scope": "global",
-       "value": "2"
-      },
-      {
-       "name": "report",
-       "scope": "global",
-       "value": "[Function: report]"
+       "value": "5"
       }
      ],
      "outputCount": 0,
@@ -2767,9 +2761,9 @@
        "value": "5"
       },
       {
-       "name": "report",
+       "name": "price",
        "scope": "global",
-       "value": "[Function: report]"
+       "value": "4"
       }
      ],
      "outputCount": 0,
@@ -2786,64 +2780,6 @@
        "name": "sold",
        "scope": "global",
        "value": "5"
-      },
-      {
-       "name": "report",
-       "scope": "global",
-       "value": "[Function: report]"
-      },
-      {
-       "name": "price",
-       "scope": "global",
-       "value": "4"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "sold",
-       "scope": "global",
-       "value": "5"
-      },
-      {
-       "name": "report",
-       "scope": "global",
-       "value": "[Function: report]"
-      },
-      {
-       "name": "price",
-       "scope": "global",
-       "value": "4"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "report"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "sold",
-       "scope": "global",
-       "value": "5"
-      },
-      {
-       "name": "report",
-       "scope": "global",
-       "value": "[Function: report]"
       },
       {
        "name": "price",
@@ -2870,11 +2806,6 @@
        "name": "sold",
        "scope": "global",
        "value": "5"
-      },
-      {
-       "name": "report",
-       "scope": "global",
-       "value": "[Function: report]"
       },
       {
        "name": "price",
