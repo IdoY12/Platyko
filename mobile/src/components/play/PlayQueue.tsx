@@ -32,7 +32,7 @@ export function PlayQueue({ queue }: { queue: QueueStatusEvent }) {
       <AppText variant="cardTitle" align="center">
         {t("play.searching")}
       </AppText>
-      <AppText variant="number" align="center" color={palette.text.muted} accessibilityLiveRegion="polite">
+      <AppText variant="bodyStrong" align="center" color={palette.text.muted} accessibilityLiveRegion="polite" style={styles.countdown}>
         {t("play.waited", { seconds: Math.floor(queue.waitedMs / 1000) })}
       </AppText>
       {queue.ghostOffered ? (
@@ -47,6 +47,8 @@ export function PlayQueue({ queue }: { queue: QueueStatusEvent }) {
 }
 
 const styles = StyleSheet.create({
+  // Words in the UI font (the code font has no Hebrew); digits of equal width so the count does not jitter.
+  countdown: { fontVariant: ["tabular-nums"] },
   content: { flex: 1, justifyContent: "center", gap: space.xl },
   card: { gap: space.md },
 });

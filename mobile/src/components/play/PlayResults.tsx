@@ -52,7 +52,7 @@ export function PlayResults({ match, end }: { match: MatchStartEvent; end: Match
         {headline}
       </AppText>
       <Surface style={styles.summary}>
-        <AppText variant="number" align="center">
+        <AppText variant="cardTitle" align="center">
           {t("play.score", { points: own?.points ?? 0 })}
         </AppText>
         <View style={styles.rewards}>

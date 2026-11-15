@@ -26,7 +26,7 @@ export function PlayInviteWaiting({ invite }: { invite: OutgoingInvite }) {
       <AppText variant="cardTitle" align="center">
         {t("play.waitingFor", { name: invite.username })}
       </AppText>
-      <AppText variant="number" align="center" color={palette.text.muted} accessibilityLiveRegion="polite">
+      <AppText variant="bodyStrong" align="center" color={palette.text.muted} accessibilityLiveRegion="polite" style={styles.countdown}>
         {t("play.secondsLeft", { seconds: Math.ceil(remainingMs / 1000) })}
       </AppText>
       <OutlineButton label={t("play.cancelInvite")} onPress={cancel} />
@@ -35,5 +35,7 @@ export function PlayInviteWaiting({ invite }: { invite: OutgoingInvite }) {
 }
 
 const styles = StyleSheet.create({
+  // Words in the UI font (the code font has no Hebrew); digits of equal width so the count does not jitter.
+  countdown: { fontVariant: ["tabular-nums"] },
   content: { flex: 1, justifyContent: "center", gap: space.xl },
 });
