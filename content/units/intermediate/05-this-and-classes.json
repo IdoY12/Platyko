@@ -880,7 +880,7 @@
       "hints": [
         "The line with bind uses two names that must already exist.",
         "bind needs both the function and the object that becomes this.",
-        "Define the object and the function first, then bind, then call."
+        "Start from the console.log line and ask which names each line needs before it can run."
       ],
       "reference": {
         "title": "Function.prototype.bind()",
@@ -890,7 +890,7 @@
       "duelEligible": true,
       "timeLimitSec": 38,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.this-lost-and-bound.fix-01",
@@ -959,7 +959,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write the body of totalKg(boxKg, packingKg). Define a function that reads this.kg and this.packing, then run it with call on an object.",
+      "prompt": "Write the body of totalKg(boxKg, packingKg). Define a function named weigh that reads this.kg and this.packing, run it with call on an object holding both values, and return the result.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1040,7 +1040,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.class-basics.predict-01",
@@ -1553,7 +1553,7 @@
         {
           "text": "twin is copied to every instance, so p.twin is a function.",
           "correct": false,
-          "feedback": "static keeps the method on the class itself. The output shows p has no twin.",
+          "feedback": "That is how an ordinary method behaves, not a static one. Compare what lines 7 and 9 do with twin.",
           "misconception": "static-copied-to-instances"
         },
         {
@@ -1579,7 +1579,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.class-inheritance.trace-01",

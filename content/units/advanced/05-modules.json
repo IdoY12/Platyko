@@ -1228,7 +1228,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of countRuns(names). Each name stands for a module request. A module's body runs only on its first request. Return how many bodies ran.",
+      "prompt": "Write the body of countRuns(names). Each name, any text, is a module request. A module's body runs only on its first request. Return how many bodies ran.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1336,7 +1336,7 @@
       "hints": [
         "Test a name that repeats, but not one after the other.",
         "The module cache remembers what has already been evaluated.",
-        "Keep an object of names seen so far and add 1 only for a new name."
+        "Keep a record of names seen so far and add 1 only for a new one; a name must count as seen only if you recorded it yourself, not because the record type inherits it."
       ],
       "reference": {
         "title": "Object.prototype.hasOwnProperty()",
@@ -1345,7 +1345,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.dependency-direction.predict-01",

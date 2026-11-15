@@ -1466,7 +1466,7 @@
       "hints": [
         "Decide which lines define the generator and which use it.",
         "A generator object must exist before next() is called on it.",
-        "Call next() once without printing, then print the value of the second call."
+        "Each next() call moves the generator one yield further, so count how many calls it takes to reach 9."
       ],
       "reference": {
         "title": "Generator.prototype.next()",
@@ -1476,7 +1476,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.iterators-and-generators.lazy-sequences.fix-01",

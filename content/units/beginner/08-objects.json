@@ -755,7 +755,7 @@
       "difficulty": 2,
       "prompt": "Fill the blanks with bracket notation so the program prints 4 and then 7.",
       "code": [
-        "const pet = { age: 4, \"pet id\": 7 };",
+        "const pet = { age: 4, id: 7 };",
         "console.log(pet___, pet___);"
       ],
       "options": [
@@ -765,9 +765,9 @@
           "feedback": "Right. A quoted key in brackets reads the value under age."
         },
         {
-          "text": "[\"pet id\"]",
+          "text": "[\"id\"]",
           "correct": true,
-          "feedback": "Right. A key with a space needs quotes inside brackets."
+          "feedback": "Right. A quoted key in brackets reads the value under id."
         },
         {
           "text": "[age]",
@@ -776,9 +776,10 @@
           "misconception": "bracket-name-is-literal"
         },
         {
-          "text": ".pet id",
+          "text": "[id]",
           "correct": false,
-          "feedback": "A dot cannot read a key that has a space. The code is not valid and fails."
+          "feedback": "Without quotes, the brackets look for a variable called id. There is none, so the program fails.",
+          "misconception": "bracket-name-is-literal"
         }
       ],
       "solution": {
@@ -787,16 +788,16 @@
             "[\"age\"]"
           ],
           [
-            "[\"pet id\"]"
+            "[\"id\"]"
           ]
         ],
         "expectedOutput": "4 7"
       },
-      "explanation": "A quoted key in square brackets reads the value stored under that key. This works even when the key has a space, which a dot cannot read.",
+      "explanation": "A quoted key in square brackets reads the value stored under that key. Without quotes, the brackets evaluate a variable of that name instead.",
       "hints": [
         "Both blanks sit right after pet.",
         "Brackets with a quoted text read the key with that text.",
-        "The first blank reads age and the second reads the key with a space."
+        "The first blank reads age and the second reads id; both keys are written as text."
       ],
       "reference": {
         "title": "Property accessors",
@@ -806,7 +807,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:0"
       ]

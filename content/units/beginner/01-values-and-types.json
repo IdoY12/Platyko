@@ -56,10 +56,6 @@
       "description": "Believes + always does arithmetic, so mixing a number with text gives a sum or NaN."
     },
     {
-      "id": "trim-removes-one-side",
-      "description": "Believes trim removes spaces from only one end of the text."
-    },
-    {
       "id": "method-result-ignored",
       "description": "Believes a string method has no visible effect unless its result is stored, so ignores the new text it returns."
     },
@@ -68,8 +64,16 @@
       "description": "Believes a boolean joins text as a number or disappears, instead of becoming the word true or false."
     },
     {
-      "id": "null-and-undefined-confused",
-      "description": "Treats null and undefined as the same value, or expects typeof to answer null for them."
+      "id": "method-changes-original",
+      "description": "Believes a string method changes the variable it is called on instead of returning new text."
+    },
+    {
+      "id": "typeof-result-not-text",
+      "description": "Believes typeof gives back the original type name as something other than text, so typeof typeof 5 is not string."
+    },
+    {
+      "id": "decimal-is-separate-type",
+      "description": "Believes numbers with decimals have their own type, such as float or decimal."
     }
   ],
   "sources": [
@@ -180,7 +184,7 @@
       "title": "Finding a value's type with typeof",
       "conceptCard": {
         "title": "Finding a value's type with typeof",
-        "body": "typeof gives the type of a value as text, such as number, string or boolean. Quotation marks make digits a string. Two values are odd: undefined has its own type, and null reports object.",
+        "body": "typeof gives the type of a value as text, such as number, string or boolean. Quotation marks make digits a string. A number with decimals is still a number. Because the answer is text, typeof typeof 5 is string.",
         "code": [
           "console.log(typeof 5);",
           "console.log(typeof \"5\");",
@@ -554,45 +558,47 @@
       "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
-        "console.log(\"  tea  \".trim() + \"!\");"
+        "let cup = \"tea\";",
+        "let big = cup.toUpperCase();",
+        "console.log(big + cup);"
       ],
       "options": [
         {
-          "text": "tea!",
+          "text": "TEAtea",
           "correct": true,
-          "feedback": "Right. Both ends lose their spaces before the ! is joined on."
+          "feedback": "Right. big holds the new capital text, and cup still holds tea."
         },
         {
-          "text": "tea  !",
+          "text": "TEATEA",
           "correct": false,
-          "feedback": "You removed only the spaces at the start. The trim method cleans both ends of the text.",
-          "misconception": "trim-removes-one-side"
+          "feedback": "The method does not change cup. The second part is still the original tea.",
+          "misconception": "method-changes-original"
         },
         {
-          "text": "  tea  !",
+          "text": "teatea",
           "correct": false,
-          "feedback": "You ignored the text trim returns. The method does not change the original, but its result is what gets joined with the !.",
+          "feedback": "You ignored the text toUpperCase returns. That result is stored in big and joined first.",
           "misconception": "method-result-ignored"
         }
       ],
       "solution": {
-        "expectedOutput": "tea!"
+        "expectedOutput": "TEAtea"
       },
-      "explanation": "The trim method returns new text without the spaces at the start and at the end. So the text becomes tea, and the ! is joined on the end.",
+      "explanation": "The toUpperCase method returns new text, TEA, which line 2 stores in big. cup is unchanged, so line 3 joins TEA and tea.",
       "hints": [
-        "Look at the spaces around tea.",
-        "trim removes spaces from both ends of text.",
-        "Remove the spaces, then add the ! to what is left."
+        "Look at what big and cup hold after line 2.",
+        "A string method returns new text and does not change the variable.",
+        "big holds capitals, and cup still holds the original text."
       ],
       "reference": {
-        "title": "String.prototype.trim()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim",
+        "title": "String.prototype.toUpperCase()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:11"
       ]
@@ -658,10 +664,9 @@
       "prerequisites": [],
       "format": "FILL_BLANK",
       "difficulty": 2,
-      "prompt": "Fill the blanks so the program prints BREAD and then roll.",
+      "prompt": "Fill the blank so the program prints BREAD.",
       "code": [
-        "console.log(\"bread\".___());",
-        "console.log(\"ROLL\".___());"
+        "console.log(\"bread\".___());"
       ],
       "options": [
         {
@@ -670,17 +675,17 @@
           "feedback": "Right. This method turns every letter into a capital."
         },
         {
-          "text": "toLowerCase",
-          "correct": true,
-          "feedback": "Right. This method turns every letter into a small letter."
-        },
-        {
-          "text": "trim",
-          "correct": false,
-          "feedback": "This only removes spaces, so the text would print unchanged."
-        },
-        {
           "text": "upper",
+          "correct": false,
+          "feedback": "JavaScript has no method with this name, so the program stops with an error."
+        },
+        {
+          "text": "length",
+          "correct": false,
+          "feedback": "length is a property, not a method, so calling it with () stops the program with an error."
+        },
+        {
+          "text": "toUpper",
           "correct": false,
           "feedback": "JavaScript has no method with this name, so the program stops with an error."
         }
@@ -689,18 +694,15 @@
         "blanks": [
           [
             "toUpperCase"
-          ],
-          [
-            "toLowerCase"
           ]
         ],
-        "expectedOutput": "BREAD\nroll"
+        "expectedOutput": "BREAD"
       },
-      "explanation": "toUpperCase returns the text with every letter in capitals, and toLowerCase returns it with every letter in small letters. Each call returns new text.",
+      "explanation": "toUpperCase returns the text with every letter in capitals. The other chips are not methods of text, or are not called like one, so the program stops with an error.",
       "hints": [
-        "Compare the capital letters in the output with the text in the code.",
-        "One method makes capitals and one makes small letters.",
-        "The first line needs capitals; the second needs small letters."
+        "Compare the letters in the output with the letters in the code.",
+        "A method is called after a dot and has () after its name.",
+        "The name says what it does to the letters: it makes them upper case."
       ],
       "reference": {
         "title": "String.prototype.toUpperCase()",
@@ -710,7 +712,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:10"
       ]
@@ -1132,45 +1134,45 @@
       "difficulty": 1,
       "prompt": "What does this code print?",
       "code": [
-        "console.log(typeof undefined);"
+        "console.log(typeof typeof 5);"
       ],
       "options": [
         {
-          "text": "undefined",
+          "text": "string",
           "correct": true,
-          "feedback": "Right. undefined is its own type, and typeof names it undefined."
+          "feedback": "Right. typeof gives its answer as text, so the type of that answer is string."
         },
         {
-          "text": "null",
+          "text": "number",
           "correct": false,
-          "feedback": "null is a different value. typeof undefined does not give null.",
-          "misconception": "null-and-undefined-confused"
+          "feedback": "The inner typeof gives the text number. The outer typeof then names the type of that text.",
+          "misconception": "typeof-result-not-text"
         },
         {
-          "text": "object",
+          "text": "boolean",
           "correct": false,
-          "feedback": "undefined is not an object. It has a type of its own.",
-          "misconception": "null-and-undefined-confused"
+          "feedback": "The inner typeof gives text, not a boolean, so the outer typeof does not answer boolean.",
+          "misconception": "typeof-result-not-text"
         }
       ],
       "solution": {
-        "expectedOutput": "undefined"
+        "expectedOutput": "string"
       },
-      "explanation": "undefined is a value of its own, and it is the only value of its own type. So typeof gives the text undefined.",
+      "explanation": "typeof 5 gives the text number. The outer typeof then asks for the type of that text, and a text is a string.",
       "hints": [
-        "Look at the word after typeof.",
-        "typeof gives the name of a value's type as text.",
-        "Ask whether undefined belongs to a type that other values share."
+        "Work from the inside out: which typeof runs first?",
+        "typeof gives its answer as text.",
+        "Ask what type the word number is, when it is a text."
       ],
       "reference": {
-        "title": "undefined",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+        "title": "typeof",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 15,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:5"
       ]
@@ -1183,45 +1185,45 @@
       "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
-        "console.log(typeof null);"
+        "console.log(typeof 3.5);"
       ],
       "options": [
         {
-          "text": "object",
+          "text": "number",
           "correct": true,
-          "feedback": "Right. This is a known quirk: typeof null gives object."
+          "feedback": "Right. Numbers with decimals are numbers too."
         },
         {
-          "text": "null",
+          "text": "float",
           "correct": false,
-          "feedback": "It seems logical, but typeof has no null answer.",
-          "misconception": "null-and-undefined-confused"
+          "feedback": "JavaScript has one kind of number, with or without decimals. typeof has no float answer.",
+          "misconception": "decimal-is-separate-type"
         },
         {
-          "text": "undefined",
+          "text": "decimal",
           "correct": false,
-          "feedback": "null and undefined are different values, and typeof does not mix them up.",
-          "misconception": "null-and-undefined-confused"
+          "feedback": "JavaScript has one kind of number, with or without decimals. typeof has no decimal answer.",
+          "misconception": "decimal-is-separate-type"
         }
       ],
       "solution": {
-        "expectedOutput": "object"
+        "expectedOutput": "number"
       },
-      "explanation": "typeof null gives object. This is an old mistake in JavaScript that was never fixed, because fixing it would break old programs. null is not an object.",
+      "explanation": "JavaScript has a single number type for whole numbers and for numbers with decimals, so typeof 3.5 gives number.",
       "hints": [
         "Look at the value after typeof.",
-        "null is a special case that surprises many people.",
-        "The result is a word you would also expect for a list or a record, not for a single plain value."
+        "JavaScript has one kind of number.",
+        "A decimal point does not change the type."
       ],
       "reference": {
-        "title": "null",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+        "title": "Number",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:JUNIOR:0"
       ]
@@ -1301,9 +1303,9 @@
           "feedback": "Right. true is a boolean, so typeof gives boolean."
         },
         {
-          "text": "null",
+          "text": "4.5",
           "correct": false,
-          "feedback": "null is the odd case: typeof reports object for it, not boolean."
+          "feedback": "This is a number with decimals, so the program prints number."
         },
         {
           "text": "\"true\"",
@@ -1324,7 +1326,7 @@
         ],
         "expectedOutput": "boolean"
       },
-      "explanation": "typeof gives boolean for true. A value in quotation marks is text, a digit is a number, and null reports object, so those give other words.",
+      "explanation": "typeof gives boolean for true. A value in quotation marks is text, and 1 and 4.5 are numbers, so those give other words.",
       "hints": [
         "Look at what typeof receives on line 1; quotation marks matter.",
         "A boolean is written as a bare word with only two possible forms.",
@@ -1338,7 +1340,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:8"
       ]
@@ -1349,23 +1351,21 @@
       "prerequisites": [],
       "format": "PARSONS",
       "difficulty": 2,
-      "prompt": "Put the lines in order so the program prints boolean, string, object and number.",
+      "prompt": "Put the lines in order so the program prints boolean, string and number.",
       "code": [
-        "console.log(typeof null);",
         "console.log(typeof 42);",
         "console.log(typeof false);",
         "console.log(typeof \"42\");"
       ],
       "solution": {
         "lineOrder": [
+          1,
           2,
-          3,
-          0,
-          1
+          0
         ],
-        "expectedOutput": "boolean\nstring\nobject\nnumber"
+        "expectedOutput": "boolean\nstring\nnumber"
       },
-      "explanation": "Each line prints one type name. false is a boolean, \"42\" in quotes is a string, null reports object, and 42 is a number. The output follows the line order.",
+      "explanation": "Each line prints one type name. false is a boolean, \"42\" in quotes is a string, and 42 is a number. The output follows the line order.",
       "hints": [
         "Work out what typeof gives for each line.",
         "Quotation marks turn digits into text.",
@@ -1379,7 +1379,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.values-and-types.typeof-operator.write-01",
@@ -1416,9 +1416,9 @@
           },
           {
             "input": {
-              "price": null
+              "price": -3
             },
-            "expected": "object: null"
+            "expected": "number: -3"
           },
           {
             "input": {
@@ -1455,7 +1455,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

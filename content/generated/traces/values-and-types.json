@@ -311,10 +311,12 @@
   },
   "beg.values-and-types.string-values.predict-02": {
    "code": [
-    "console.log(\"  tea  \".trim() + \"!\");"
+    "let cup = \"tea\";",
+    "let big = cup.toUpperCase();",
+    "console.log(big + cup);"
    ],
    "output": [
-    "tea!"
+    "TEAtea"
    ],
    "steps": [
     {
@@ -328,8 +330,56 @@
      "microtasks": []
     },
     {
+     "line": 2,
+     "variables": [
+      {
+       "name": "cup",
+       "scope": "global",
+       "value": "'tea'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "cup",
+       "scope": "global",
+       "value": "'tea'"
+      },
+      {
+       "name": "big",
+       "scope": "global",
+       "value": "'TEA'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 0,
-     "variables": [],
+     "variables": [
+      {
+       "name": "cup",
+       "scope": "global",
+       "value": "'tea'"
+      },
+      {
+       "name": "big",
+       "scope": "global",
+       "value": "'TEA'"
+      }
+     ],
      "outputCount": 1,
      "callStack": [],
      "microtasks": [],
@@ -426,12 +476,10 @@
   },
   "beg.values-and-types.string-values.fill-01": {
    "code": [
-    "console.log(\"bread\".toUpperCase());",
-    "console.log(\"ROLL\".toLowerCase());"
+    "console.log(\"bread\".toUpperCase());"
    ],
    "output": [
-    "BREAD",
-    "roll"
+    "BREAD"
    ],
    "steps": [
     {
@@ -445,19 +493,9 @@
      "microtasks": []
     },
     {
-     "line": 2,
-     "variables": [],
-     "outputCount": 1,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 0,
      "variables": [],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -897,10 +935,10 @@
   },
   "beg.values-and-types.typeof-operator.predict-01": {
    "code": [
-    "console.log(typeof undefined);"
+    "console.log(typeof typeof 5);"
    ],
    "output": [
-    "undefined"
+    "string"
    ],
    "steps": [
     {
@@ -926,10 +964,10 @@
   },
   "beg.values-and-types.typeof-operator.predict-02": {
    "code": [
-    "console.log(typeof null);"
+    "console.log(typeof 3.5);"
    ],
    "output": [
-    "object"
+    "number"
    ],
    "steps": [
     {
@@ -1087,13 +1125,11 @@
    "code": [
     "console.log(typeof false);",
     "console.log(typeof \"42\");",
-    "console.log(typeof null);",
     "console.log(typeof 42);"
    ],
    "output": [
     "boolean",
     "string",
-    "object",
     "number"
    ],
    "steps": [
@@ -1128,19 +1164,9 @@
      "microtasks": []
     },
     {
-     "line": 4,
-     "variables": [],
-     "outputCount": 3,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 0,
      "variables": [],
-     "outputCount": 4,
+     "outputCount": 3,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

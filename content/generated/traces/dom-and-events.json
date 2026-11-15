@@ -2135,15 +2135,15 @@
   "int.dom-and-events.event-listeners.parsons-01": {
    "code": [
     "const page = document.body;",
-    "const btn = page.children[0];",
-    "const more = () => btn.append('!');",
-    "btn.addEventListener('click', more);",
-    "btn.click();",
-    "btn.append('?');",
-    "console.log(btn.textContent);"
+    "const b = page.children[0];",
+    "const up = () => b.textContent += 1;",
+    "b.addEventListener('click', up);",
+    "b.click();",
+    "b.textContent += 2;",
+    "console.log(b.textContent);"
    ],
    "output": [
-    "Book!?"
+    "Book12"
    ],
    "steps": [
     {
@@ -2181,7 +2181,7 @@
        "value": "<body>"
       },
       {
-       "name": "btn",
+       "name": "b",
        "scope": "global",
        "value": "<button#book>"
       }
@@ -2202,14 +2202,14 @@
        "value": "<body>"
       },
       {
-       "name": "btn",
+       "name": "b",
        "scope": "global",
        "value": "<button#book>"
       },
       {
-       "name": "more",
+       "name": "up",
        "scope": "global",
-       "value": "[Function: more]"
+       "value": "[Function: up]"
       }
      ],
      "outputCount": 0,
@@ -2228,14 +2228,14 @@
        "value": "<body>"
       },
       {
-       "name": "btn",
+       "name": "b",
        "scope": "global",
        "value": "<button#book>"
       },
       {
-       "name": "more",
+       "name": "up",
        "scope": "global",
-       "value": "[Function: more]"
+       "value": "[Function: up]"
       }
      ],
      "outputCount": 0,
@@ -2254,20 +2254,20 @@
        "value": "<body>"
       },
       {
-       "name": "btn",
+       "name": "b",
        "scope": "global",
        "value": "<button#book>"
       },
       {
-       "name": "more",
+       "name": "up",
        "scope": "global",
-       "value": "[Function: more]"
+       "value": "[Function: up]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "more"
+      "up"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -2281,14 +2281,14 @@
        "value": "<body>"
       },
       {
-       "name": "btn",
+       "name": "b",
        "scope": "global",
        "value": "<button#book>"
       },
       {
-       "name": "more",
+       "name": "up",
        "scope": "global",
-       "value": "[Function: more]"
+       "value": "[Function: up]"
       }
      ],
      "outputCount": 0,
@@ -2307,14 +2307,14 @@
        "value": "<body>"
       },
       {
-       "name": "btn",
+       "name": "b",
        "scope": "global",
        "value": "<button#book>"
       },
       {
-       "name": "more",
+       "name": "up",
        "scope": "global",
-       "value": "[Function: more]"
+       "value": "[Function: up]"
       }
      ],
      "outputCount": 0,
@@ -2333,14 +2333,14 @@
        "value": "<body>"
       },
       {
-       "name": "btn",
+       "name": "b",
        "scope": "global",
        "value": "<button#book>"
       },
       {
-       "name": "more",
+       "name": "up",
        "scope": "global",
-       "value": "[Function: more]"
+       "value": "[Function: up]"
       }
      ],
      "outputCount": 1,
@@ -3379,16 +3379,17 @@
   },
   "int.dom-and-events.event-propagation.parsons-01": {
    "code": [
+    "const tap = e => log += e.target.id;",
     "const page = document.body;",
     "const ul = page.firstElementChild;",
-    "const del = e => e.target.remove();",
-    "ul.addEventListener('click', del);",
+    "ul.addEventListener('click', tap);",
+    "let log = '';",
     "ul.children[2].click();",
-    "ul.children[1].click();",
-    "console.log(ul.textContent);"
+    "ul.children[0].click();",
+    "console.log(log);"
    ],
    "output": [
-    "CityRent"
+    "trailcity"
    ],
    "steps": [
     {
@@ -3405,9 +3406,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "page",
+       "name": "tap",
        "scope": "global",
-       "value": "<body>"
+       "value": "[Function: tap]"
       }
      ],
      "outputCount": 0,
@@ -3421,14 +3422,14 @@
      "line": 3,
      "variables": [
       {
+       "name": "tap",
+       "scope": "global",
+       "value": "[Function: tap]"
+      },
+      {
        "name": "page",
        "scope": "global",
        "value": "<body>"
-      },
-      {
-       "name": "ul",
-       "scope": "global",
-       "value": "<ul#bikes>"
       }
      ],
      "outputCount": 0,
@@ -3442,6 +3443,11 @@
      "line": 4,
      "variables": [
       {
+       "name": "tap",
+       "scope": "global",
+       "value": "[Function: tap]"
+      },
+      {
        "name": "page",
        "scope": "global",
        "value": "<body>"
@@ -3450,11 +3456,6 @@
        "name": "ul",
        "scope": "global",
        "value": "<ul#bikes>"
-      },
-      {
-       "name": "del",
-       "scope": "global",
-       "value": "[Function: del]"
       }
      ],
      "outputCount": 0,
@@ -3468,6 +3469,11 @@
      "line": 5,
      "variables": [
       {
+       "name": "tap",
+       "scope": "global",
+       "value": "[Function: tap]"
+      },
+      {
        "name": "page",
        "scope": "global",
        "value": "<body>"
@@ -3476,48 +3482,11 @@
        "name": "ul",
        "scope": "global",
        "value": "<ul#bikes>"
-      },
-      {
-       "name": "del",
-       "scope": "global",
-       "value": "[Function: del]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "page",
-       "scope": "global",
-       "value": "<body>"
-      },
-      {
-       "name": "ul",
-       "scope": "global",
-       "value": "<ul#bikes>"
-      },
-      {
-       "name": "del",
-       "scope": "global",
-       "value": "[Function: del]"
-      },
-      {
-       "name": "e",
-       "scope": "del",
-       "value": "Event {type: 'click'}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "del"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3526,6 +3495,11 @@
      "line": 6,
      "variables": [
       {
+       "name": "tap",
+       "scope": "global",
+       "value": "[Function: tap]"
+      },
+      {
        "name": "page",
        "scope": "global",
        "value": "<body>"
@@ -3536,9 +3510,9 @@
        "value": "<ul#bikes>"
       },
       {
-       "name": "del",
+       "name": "log",
        "scope": "global",
-       "value": "[Function: del]"
+       "value": "''"
       }
      ],
      "outputCount": 0,
@@ -3549,8 +3523,13 @@
      "microtasks": []
     },
     {
-     "line": 3,
+     "line": 1,
      "variables": [
+      {
+       "name": "tap",
+       "scope": "global",
+       "value": "[Function: tap]"
+      },
       {
        "name": "page",
        "scope": "global",
@@ -3562,20 +3541,20 @@
        "value": "<ul#bikes>"
       },
       {
-       "name": "del",
+       "name": "log",
        "scope": "global",
-       "value": "[Function: del]"
+       "value": "''"
       },
       {
        "name": "e",
-       "scope": "del",
+       "scope": "tap",
        "value": "Event {type: 'click'}"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "del"
+      "tap"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3584,6 +3563,11 @@
      "line": 7,
      "variables": [
       {
+       "name": "tap",
+       "scope": "global",
+       "value": "[Function: tap]"
+      },
+      {
        "name": "page",
        "scope": "global",
        "value": "<body>"
@@ -3594,9 +3578,77 @@
        "value": "<ul#bikes>"
       },
       {
-       "name": "del",
+       "name": "log",
        "scope": "global",
-       "value": "[Function: del]"
+       "value": "'trail'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "tap",
+       "scope": "global",
+       "value": "[Function: tap]"
+      },
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "log",
+       "scope": "global",
+       "value": "'trail'"
+      },
+      {
+       "name": "e",
+       "scope": "tap",
+       "value": "Event {type: 'click'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "tap"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "tap",
+       "scope": "global",
+       "value": "[Function: tap]"
+      },
+      {
+       "name": "page",
+       "scope": "global",
+       "value": "<body>"
+      },
+      {
+       "name": "ul",
+       "scope": "global",
+       "value": "<ul#bikes>"
+      },
+      {
+       "name": "log",
+       "scope": "global",
+       "value": "'trailcity'"
       }
      ],
      "outputCount": 0,
@@ -3610,6 +3662,11 @@
      "line": 0,
      "variables": [
       {
+       "name": "tap",
+       "scope": "global",
+       "value": "[Function: tap]"
+      },
+      {
        "name": "page",
        "scope": "global",
        "value": "<body>"
@@ -3620,9 +3677,9 @@
        "value": "<ul#bikes>"
       },
       {
-       "name": "del",
+       "name": "log",
        "scope": "global",
-       "value": "[Function: del]"
+       "value": "'trailcity'"
       }
      ],
      "outputCount": 1,

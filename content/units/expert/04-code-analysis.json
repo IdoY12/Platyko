@@ -397,13 +397,13 @@
         "sum is declared before the loop and starts at 0; decide when the loop should fill it."
       ],
       "reference": {
-        "title": "break",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break",
+        "title": "Array.prototype.reduce()",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.code-analysis.complexity-analysis.write-01",
@@ -1286,7 +1286,7 @@
       "hints": [
         "Which object is the first argument of Object.assign?",
         "Object.assign changes its first argument and returns it.",
-        "Start from a new empty object, then add the old values, then the new size."
+        "Compare the options: which argument comes first, and which source wins when two share a key?"
       ],
       "reference": {
         "title": "Object.assign()",
@@ -1296,7 +1296,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.code-analysis.side-effects-and-purity.fill-01",

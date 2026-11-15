@@ -1515,55 +1515,58 @@
       ],
       "format": "TRACE",
       "difficulty": 3,
-      "prompt": "What is the value of revenue right after line 4 runs?",
+      "prompt": "What is the value of total after line 5 runs?",
       "code": [
-        "let sold = 2;",
-        "sold = sold + 3;",
-        "const price = 4;",
-        "const revenue = sold * price;",
-        "console.log(revenue);"
+        "let size = 2;",
+        "let total = 10;",
+        "{",
+        "  total = total + 1;",
+        "  total = total + size;",
+        "  let size = 5;",
+        "}",
+        "console.log(total);"
       ],
       "options": [
         {
-          "text": "20",
+          "text": "11",
           "correct": true,
-          "feedback": "Right. By line 4 sold is 5 and price is 4, so revenue is 20."
+          "feedback": "Right. Line 4 made total 11. Line 5 throws before it can assign, so total stays 11."
         },
         {
-          "text": "8",
+          "text": "13",
           "correct": false,
-          "feedback": "That uses sold = 2. Line 2 already changed sold to 5 before line 4 runs.",
-          "misconception": "initial-value-kept-after-reassign"
+          "feedback": "That adds the outer size of 2. The block declares its own size on line 6, so line 5 does not reach the outer one.",
+          "misconception": "inner-declaration-ignored"
         },
         {
-          "text": "NaN",
+          "text": "16",
           "correct": false,
-          "feedback": "That treats price as undefined. Line 3 runs before line 4, so price is 4 by then.",
-          "misconception": "tdz-gives-undefined"
+          "feedback": "That adds 5 as if size already held its value on line 5. The line that gives it 5 has not run yet.",
+          "misconception": "var-hoisted-with-value"
         }
       ],
       "solution": {
         "probe": {
-          "variable": "revenue",
-          "afterLine": 4,
+          "variable": "total",
+          "afterLine": 5,
           "visit": 1
         },
-        "expectedOutput": "20"
+        "expectedOutput": "Uncaught ReferenceError"
       },
-      "explanation": "Line 4 runs after price is initialised on line 3 and after sold became 5 on line 2, so revenue is 5 times 4, which is 20.",
+      "explanation": "The block declares its own size on line 6, so from the opening brace until that line runs, size is in its temporal dead zone. Line 5 reads it there and throws a ReferenceError, so total keeps the 11 from line 4.",
       "hints": [
-        "Find the line that sets revenue, and check what sold and price hold before it.",
-        "A let variable keeps its latest assigned value; a const is usable once its line has run.",
-        "Use the value sold has after line 2, and the value of price."
+        "Look at line 5 and at which size it reads.",
+        "The block declares its own size, and a let cannot be read before its line has run.",
+        "Decide whether line 5 can finish, and what total holds if it cannot."
       ],
       "reference": {
-        "title": "let",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "title": "let: temporal dead zone",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#temporal_dead_zone_tdz",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.parsons-01",

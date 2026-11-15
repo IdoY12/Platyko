@@ -2700,14 +2700,17 @@
   },
   "int.scope-and-hoisting.temporal-dead-zone.trace-01": {
    "code": [
-    "let sold = 2;",
-    "sold = sold + 3;",
-    "const price = 4;",
-    "const revenue = sold * price;",
-    "console.log(revenue);"
+    "let size = 2;",
+    "let total = 10;",
+    "{",
+    "  total = total + 1;",
+    "  total = total + size;",
+    "  let size = 5;",
+    "}",
+    "console.log(total);"
    ],
    "output": [
-    "20"
+    "Uncaught ReferenceError"
    ],
    "steps": [
     {
@@ -2724,25 +2727,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "sold",
+       "name": "size",
        "scope": "global",
        "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "sold",
-       "scope": "global",
-       "value": "5"
       }
      ],
      "outputCount": 0,
@@ -2756,14 +2743,9 @@
      "line": 4,
      "variables": [
       {
-       "name": "sold",
+       "name": "total",
        "scope": "global",
-       "value": "5"
-      },
-      {
-       "name": "price",
-       "scope": "global",
-       "value": "4"
+       "value": "10"
       }
      ],
      "outputCount": 0,
@@ -2777,19 +2759,9 @@
      "line": 5,
      "variables": [
       {
-       "name": "sold",
+       "name": "total",
        "scope": "global",
-       "value": "5"
-      },
-      {
-       "name": "price",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "revenue",
-       "scope": "global",
-       "value": "20"
+       "value": "11"
       }
      ],
      "outputCount": 0,
@@ -2803,19 +2775,14 @@
      "line": 0,
      "variables": [
       {
-       "name": "sold",
+       "name": "size",
        "scope": "global",
-       "value": "5"
+       "value": "2"
       },
       {
-       "name": "price",
+       "name": "total",
        "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "revenue",
-       "scope": "global",
-       "value": "20"
+       "value": "11"
       }
      ],
      "outputCount": 1,

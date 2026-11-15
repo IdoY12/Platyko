@@ -21,13 +21,13 @@ after any context reset, then continue from "Current position".
 - **Phases:** 0 nearly done; 1 done; 2: all 604 items authored, verification pass 1
   (`run-20261114-205833`, 329 findings) and pass 2 (`run-20261114-221204`, 123 findings, 70
   of them item defects), pass 3 (`run-20261114-225713`, 57) and pass 4 (`run-20261114-232751`, 44;
-  Gate B clean) and pass 5 (`run-20261115-000513`, 20) resolved and committed; pass 6 next; 3 done apart from server
+  Gate B clean) pass 5 (`run-20261115-000513`, 20) and pass 6 (`run-20261115-004356`, 55, of which 30 tooling or not defects) resolved and committed; pass 7 next; 3 done apart from server
   push (H6); 4: profile, privacy, search, friends with presence, played recently, block and
   report, friend and room links done; 5: engine, io `/play`, the Play tab, friends duels with
   invitations, rooms that reopen after a game, leaver cooldown, Bug Hunt and Output Race done and
   played end to end on the simulator against scripted players; 6: "explain my mistake" behind
   its flag done.
-- **Next for the main thread:** passes 1–5 resolved (329, 123, 57, 44 and 20 findings; Gate B clean since pass 4); pass 6 next;
+- **Next for the main thread:** passes 1–6 resolved (329, 123, 57, 44, 20 and 55 findings, pass 6's mostly tooling: one Gate D output missing, re-reviewed); pass 7 next;
   repeat to three consecutive clean passes; meanwhile phase 6 (league, share cards, item
   analysis) and the Hebrew auth screens.
 - **Next for sub-agents:** gate agents for pass 2, then fix agents per batch (briefs written from
@@ -56,7 +56,7 @@ after any context reset, then continue from "Current position".
 |---|---|---|
 | 0 | Item model, attempts, user-level XP, verification pipeline, CI, bug fixes, tokens, fonts, i18n | In progress |
 | 1 | Learning core: lesson player, 7 formats, feedback, code view, execution player, map, Home, onboarding, mascot | Done (Profile, Settings, auth in the new design; EN + HE) |
-| 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); passes 1–5 resolved (329, 123, 57, 44, 20 findings); pass 6 next |
+| 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); passes 1–6 resolved (329, 123, 57, 44, 20, 55 findings); pass 7 next |
 | 3 | Retention: review (SM-2), daily challenge, revision, weekly goal, freeze, push, achievements | Done except server push (credentials) |
 | 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Done: profile, privacy, search, friends, played recently, presence, invitations inbox, block and report, friend links, Friend Streak, QR code, README badge, GitHub sign-in and link (flag off until H7) |
 | 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Done: engine, `/play`, Play tab, friends duels and invitations, presence, reconnect and server-restart recovery, rooms reopening, podium, leaver cooldown, room links, in-game reactions, "how scoring works" screen (examples computed by the engine's own `pointsForAnswer`), `/duel` retired, and a friends duel played between two simulators (iPhone 17 Pro in Hebrew, iPhone 16e in English): same item each round, clocks in step, draw scored as a shared first place. |
@@ -136,7 +136,7 @@ Done since the first update (all committed):
 
 Open:
 
-- [ ] Full verification loop to three clean passes: passes 1–5 resolved (329, 123, 57, 44, 20 findings); pass 6 next.
+- [ ] Full verification loop to three clean passes: passes 1–6 resolved (329, 123, 57, 44, 20, 55 findings); pass 7 next.
 - [ ] Server error codes (PRD: "the server keeps returning generic errors and codes"): today the
       app maps the server's English messages to translated text in one place
       (`mobile/src/i18n/localizedMessage.ts`); switching to codes removes the string coupling.
