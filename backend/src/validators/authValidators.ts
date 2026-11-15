@@ -1,27 +1,18 @@
 import { z } from "zod";
-import { MAX_XP_TOTAL } from "@project/xp-constants";
-import { CALENDAR_DATE_PATTERN } from "@project/streak-logic";
 import { emailField, passwordField, usernameField } from "./credentialFields.js";
 import { LANGUAGES } from "@project/locales";
 
-/** JSON columns on the progress row: a guest can only have touched a few dozen blocks / puzzles. */
-const fewKeys = (record: Record<string, unknown>) => Object.keys(record).length <= 200;
-
-/** Guest local-progress snapshot fields shared by register, Google, and Apple sign-in bodies. */
+/**
+ * The guest's preferences, shared by register, Google, Apple and GitHub sign-up bodies. Progress is
+ * never taken from the client here: the guest's attempts are merged after sign-in and the server
+ * computes XP and streak from them (PRD 10.2, criterion 20.4).
+ */
 export const guestSnapshotShape = {
   experienceLevel: z.enum(["JUNIOR", "MID", "SENIOR"]).optional(),
   goal: z.enum(["JOB", "WORK", "FUN", "PROJECT"]).optional(),
   dailyCommitmentMinutes: z.number().int().refine((v) => v === 10 || v === 15 || v === 25).optional(),
-  blockProgress: z
-    .partialRecord(z.enum(["JUNIOR", "MID", "SENIOR"]), z.record(z.string().max(32), z.number().int().min(0).max(9)).refine(fewKeys))
-    .optional(),
-  xpTotal: z.number().int().min(0).max(MAX_XP_TOTAL).optional(),
-  streakCurrent: z.number().int().min(0).max(365).optional(),
-  streakLastActivityDate: z.string().regex(CALENDAR_DATE_PATTERN).optional(),
-  streakLastCheckedDate: z.string().regex(CALENDAR_DATE_PATTERN).optional(),
   notificationsEnabled: z.boolean().optional(),
   language: z.enum(LANGUAGES).optional(),
-  puzzleXpSolveCounts: z.record(z.string().max(16), z.number().int().min(0)).refine(fewKeys).optional(),
 };
 
 export const registerBodySchema = z.object({

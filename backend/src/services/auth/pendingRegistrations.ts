@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { parsePuzzleXpSolveCounts, prisma, type PendingRegistration, type User } from "@project/db";
+import { prisma, type PendingRegistration, type User } from "@project/db";
 import { EMAIL_TAKEN_MESSAGE, USERNAME_TAKEN_MESSAGE } from "@project/user-credentials";
 import { isUniqueConstraintError, isUsernameTakenError } from "../../utils/dbErrors.js";
 import { hashPassword } from "../../utils/passwordHashing.js";
@@ -64,7 +64,6 @@ export async function consumePendingRegistration(pending: PendingRegistration, c
         activeExperienceLevel: snapshot.experienceLevel ?? "JUNIOR",
         notificationsEnabled: snapshot.notificationsEnabled ?? true,
         language: snapshot.language ?? DEFAULT_LANGUAGE,
-        puzzleXpSolveCounts: parsePuzzleXpSolveCounts(snapshot.puzzleXpSolveCounts ?? null),
       },
     });
     await createProgressRowsFromSnapshot(tx, created.id, snapshot);

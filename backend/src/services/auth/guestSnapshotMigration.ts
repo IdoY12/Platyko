@@ -1,8 +1,6 @@
-import { noLaterThanTomorrow } from "@project/streak-logic";
 import type { ExperienceLevel, Prisma } from "@prisma/client";
-import { levelFromXpTotal } from "@project/xp-constants";
 
-/** Guest local progress carried into a newly created account (email register or Google sign-up). */
+/** The guest's preferences carried into a newly created account; progress arrives through the guest merge. */
 export type GuestSnapshot = {
   experienceLevel?: ExperienceLevel;
   goal?: string;
@@ -10,12 +8,6 @@ export type GuestSnapshot = {
   notificationsEnabled?: boolean;
   /** The UI language the guest chose, kept as the new account's language. */
   language?: string;
-  xpTotal?: number;
-  streakCurrent?: number;
-  streakLastActivityDate?: string;
-  streakLastCheckedDate?: string;
-  blockProgress?: Record<string, Record<string, number>>;
-  puzzleXpSolveCounts?: Record<string, number>;
 };
 
 export async function createProgressRowsFromSnapshot(
@@ -23,29 +15,7 @@ export async function createProgressRowsFromSnapshot(
   userId: string,
   snapshot: GuestSnapshot,
 ): Promise<void> {
-  const level = snapshot.experienceLevel ?? "JUNIOR";
-  const xpTotal = snapshot.xpTotal ?? 0;
-  const sharedPreferences = {
-    dailyCommitmentMinutes: snapshot.dailyCommitmentMinutes ?? 15,
-  };
   await tx.userProgress.create({
-    data: {
-      userId,
-      experienceLevel: level,
-      ...sharedPreferences,
-      goal: snapshot.goal,
-      blockProgress: snapshot.blockProgress?.[level] ?? {},
-      xpTotal,
-      level: levelFromXpTotal(xpTotal),
-      streakCurrent: snapshot.streakCurrent ?? 0,
-      streakLastActivityDate: snapshot.streakLastActivityDate && noLaterThanTomorrow(snapshot.streakLastActivityDate),
-      streakLastCheckedDate: snapshot.streakLastCheckedDate && noLaterThanTomorrow(snapshot.streakLastCheckedDate),
-    },
+    data: { userId, experienceLevel: snapshot.experienceLevel ?? "JUNIOR", dailyCommitmentMinutes: snapshot.dailyCommitmentMinutes ?? 15, goal: snapshot.goal },
   });
-  const otherLevels = Object.keys(snapshot.blockProgress ?? {}).filter((l) => l !== level) as ExperienceLevel[];
-  for (const other of otherLevels) {
-    await tx.userProgress.create({
-      data: { userId, experienceLevel: other, blockProgress: snapshot.blockProgress?.[other] ?? {}, ...sharedPreferences },
-    });
-  }
 }

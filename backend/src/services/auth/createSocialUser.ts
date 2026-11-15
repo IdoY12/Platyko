@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { parsePuzzleXpSolveCounts, prisma, type AuthProvider, type User } from "@project/db";
+import { prisma, type AuthProvider, type User } from "@project/db";
 import { containsBannedWord, USERNAME_MAX_LEN, USERNAME_MIN_LEN } from "@project/user-credentials";
 import { isUsernameTakenError } from "../../utils/dbErrors.js";
 import { createProgressRowsFromSnapshot, type GuestSnapshot } from "./guestSnapshotMigration.js";
@@ -46,7 +46,6 @@ export async function createSocialUserWithProgress(
             activeExperienceLevel: snapshot.experienceLevel ?? "JUNIOR",
             notificationsEnabled: snapshot.notificationsEnabled ?? true,
             language: snapshot.language ?? DEFAULT_LANGUAGE,
-            puzzleXpSolveCounts: parsePuzzleXpSolveCounts(snapshot.puzzleXpSolveCounts ?? null),
           },
         });
         await tx.authIdentity.create({ data: { ...identity, userId: created.id } });
