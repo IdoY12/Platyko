@@ -63,7 +63,7 @@ export function ProfileScreen() {
           <AppText variant="cardTitle">{t("profile.saveProgressTitle")}</AppText>
           <AppText color={palette.text.secondary}>{t("profile.saveProgressBody")}</AppText>
           <LipButton label={t("profile.createAccount")} onPress={() => navigation.navigate("Auth")} />
-          <OutlineButton label={t("profile.signIn")} onPress={() => navigation.navigate("Auth")} />
+          <OutlineButton label={t("profile.signIn")} onPress={() => navigation.navigate("Auth", { signIn: true })} />
         </Surface>
       ) : null}
       <ProfileMeasures progress={progress} rating={record?.rating ?? null} placementGamesLeft={record?.placementGamesLeft ?? null} />

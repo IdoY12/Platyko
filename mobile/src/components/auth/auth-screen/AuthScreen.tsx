@@ -1,5 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppText } from "@/components/common/AppText/AppText";
 import { TextButton } from "@/components/common/LipButton/TextButton";
 import { PRIVACY_POLICY_URL, TERMS_OF_USE_URL } from "@/constants/legalLinks";
@@ -7,6 +8,7 @@ import { useAuthScreen } from "@/hooks/useAuthScreen";
 import { t } from "@/i18n/translate";
 import { useAppDispatch } from "@/redux/hooks";
 import { palette, space } from "@/theme/tokens";
+import type { RootStackParamList } from "@/types/rootNavigation.types";
 import { openExternalUrl } from "@/utils/profileUiAndPreferences";
 import { AuthAppleButton } from "../auth-apple-button/AuthAppleButton";
 import { AuthGitHubButton } from "../auth-github-button/AuthGitHubButton";
@@ -15,10 +17,10 @@ import { AuthGoogleButton } from "../auth-google-button/AuthGoogleButton";
 import { AuthLayout } from "../auth-layout/AuthLayout";
 
 /** Sign in or create an account (PRD 14.3): email and password, or Google, Apple and GitHub. */
-export function AuthScreen() {
+export function AuthScreen({ route }: NativeStackScreenProps<RootStackParamList, "Auth">) {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  const form = useAuthScreen(dispatch);
+  const form = useAuthScreen(dispatch, route.params?.signIn);
   return (
     <AuthLayout title={form.isLogin ? t("auth.signInTitle") : t("auth.registerTitle")} body={form.isLogin ? t("auth.signInBody") : t("auth.registerBody")}>
       <AuthCredentials {...form} />

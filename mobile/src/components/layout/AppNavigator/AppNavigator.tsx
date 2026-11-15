@@ -68,7 +68,7 @@ export const AppNavigator = React.memo(function AppNavigator() {
       onReady={() => {
         if (openSignInWhenReady.current && navigationRef.isReady()) {
           openSignInWhenReady.current = false;
-          navigationRef.navigate("Auth");
+          navigationRef.navigate("Auth", { signIn: true });
         }
         const currentRoute = routeNameRef.current;
         logNav("screen:enter", { screen: currentRoute ?? "Home" });

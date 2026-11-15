@@ -18,7 +18,8 @@ import type { MainTabParamList } from "./mainTab.types";
  */
 export type RootStackParamList = {
   MainTabs: NavigatorScreenParams<MainTabParamList> | undefined;
-  Auth: undefined;
+  /** `signIn`: opens on the sign-in form ("I have an account") instead of account creation. */
+  Auth: { signIn?: boolean } | undefined;
   VerifyEmail: { email: string; registrationToken: string };
   ForgotPassword: { email?: string };
   ResetPassword: { email: string };

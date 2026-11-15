@@ -9,13 +9,13 @@ import { buildGuestLocalState } from "@/services/authGuestState";
 import { useSingleFlight } from "@/hooks/useSingleFlight";
 import { localizedError } from "@/i18n/localizedMessage";
 
-export function useAuthScreen(dispatch: AppDispatch) {
+export function useAuthScreen(dispatch: AppDispatch, startOnSignIn = false) {
   const singleFlight = useSingleFlight();
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(startOnSignIn);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   /** Why the button is disabled, for whichever filled-in field is wrong first; empty fields stay quiet. */
