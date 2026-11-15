@@ -284,3 +284,120 @@ Tooling notes for the next session:
 ## Acceptance criteria evidence (PRD section 20)
 
 Filled in as each criterion is met; every entry cites a test, a log or a screenshot.
+
+From a read-only audit of the code, tests, logs and screenshots on 15 Nov, updated with the fixes made after it. Status: Met, Partly met, Not met, or Blocked (on an H item). Section 20.9 has no pass/fail criteria.
+
+### 20.1 Learning
+
+| Criterion | Status | Evidence |
+|---|---|---|
+| L1: seven formats displayed, answered, checked, screen-reader usable | Partly met | Met: all seven formats render through `mobile/src/components/lesson/ItemAnswerArea.tsx`; checking is tested in `packages/content-model/src/answer.test.ts` (all 7 tests) and `mobile/src/components/lesson/answerDraft.test.ts`; `CODE_WRITE` is judged on the server by `@project/code-sandbox` (`packages/code-sandbox/src/index.test.ts`). Screenshots: `02-concept-card`, `07-fill-blank-with-hint`, `08-parsons`. Not met: no screen-reader run or test; there are roles and labels only (`OptionList.tsx:59-61`, `BlankChips.tsx:43`, `LineOrderBoard.tsx:34`). No component tests in `mobile/`. |
+| L2: first wrong answer shows distractor explanation, hides correct answer | Met | `packages/learning-logic/src/learningLogic.test.ts:34` (retry on first wrong). `mobile/src/components/lesson/lessonAnswerText.ts:31-41` (`feedbackMessage` returns the chosen option's `feedback`; falls back to `hints[0]`). `ItemAnswerArea.tsx:28-36` marks the right option only on `reveal`. `FeedbackSheet.tsx:86` shows the flip card only on `reveal`. Screenshot `03-first-wrong-answer.png`. UI is code only. |
+| L2: second wrong answer reveals answer, full explanation, enters Review | Met | `learningLogic.test.ts:34` (reveal), `:281` (reveal on first and return visit). `packages/learning-logic/src/progress.test.ts:58` (concept due tomorrow after a reveal). `FeedbackSheet.tsx:86`. Screenshot `04-second-wrong-reveal.png`. |
+| L2: three hints on every item; hints cost no XP | Partly met | Met: all 604 bank items have exactly 3 hints (checked in `content/units/*`; rule `tools/content/src/precheck/itemRules.ts:115`); XP unaffected, `learningLogic.test.ts:73`, `progress.test.ts:52`; `HintPanel.tsx`. Not met: `LessonPlayerScreen.tsx:85` hides hints when `isTest` (jump test and daily challenge, `useLessonPlayer.ts:88`), so not "every item". Small. |
+| L3: execution player matches a real execution at every step | Met | Traces come from instrumented execution: `tools/content/src/trace/generateTrace.ts`, 30 tests in `generateTrace.test.ts` (e.g. "gives the same trace every time"). An instrumented run must print what the plain run prints (decision A6). All 604 items and 112 concept cards have a stored trace in `content/generated/traces/`. `runGateA.test.ts:94` detects a stale stored trace. Player shows line, variables, output: `execution-player/ExecutionPlayer.tsx:89-134`; screenshot `05-execution-player.png`. Rendering is code only. |
+| L4: every lesson shows one of five states, updates at once | Met | `packages/learning-logic/src/skillMap.ts:31` (`locked, available, inProgress, completed, mastered`). Tests `learningLogic.test.ts:158,164` ("updates as soon as a lesson ends"), `mobile/src/redux/learning-slice.test.ts:27`. `LessonNode.tsx`. Screenshot `16-skill-map-he-rtl.png`. |
+| L4: "continue" on Home opens next uncompleted item, no screen between | Met | `HomeScreen.tsx:60-99` navigates straight to `LessonPlayer`; resume point in `useLessonPlayer.ts:119,181`. `nextLessonId` tested at `learningLogic.test.ts:196`. Navigation itself is code only. |
+| L5: no snippet needs horizontal scroll at 360 pt | Met | Bank rule `CODE_MAX_LINE_LENGTH = 36` (`packages/content-model/src/item.ts:36`, enforced by `tools/content/src/precheck/codeLimits.ts:6`); longest line in the bank is 36 characters (checked). `mobile/src/components/common/CodeView/codeLayout.test.ts:6` "fits the longest allowed line on a 360-point screen". `CodeView.tsx:47` still wraps a horizontal `ScrollView` as a fallback. |
+| L6: accuracy = first-attempt-correct / total; one mistake never 100% | Met | `learningLogic.test.ts:47` (7 of 8 gives 87, 199 of 200 gives 99), `:253` (flawless lesson). |
+| L7: wrong item in Review within 3 days, different item on same concept | Met | A wrong answer, a reveal and a second-attempt success all score as a failed recall, so the concept is due the next day (`packages/learning-logic/src/spacedReview.ts`, tests `learningLogic.test.ts` "brings a failed concept back the next day" and "…right only on the second attempt"); review picks due, weakest, unseen items on the concept (`learningLogic.test.ts:228`). |
+| No timer on any lesson or review screen | Met | No timer in `components/lesson`, `learn`, `home`; the only timeout is the execution player's auto-play step (`ExecutionPlayer.tsx:80`). `LessonPlayerScreen.tsx:30` states the rule. Code only. |
+| R5: AI off, no provider, quota out or provider failing gives pre-written text, no error | Met | `backend/src/services/content/explainMistake.test.ts:35` (flag off returns null, no provider asked), `:46` (failing provider, then next). Quota: `backend/src/routers/content.ts:14-18` answers `{explanation:null}`, code only. App adds nothing on null: `mobile/src/components/lesson/ExplainMistake.tsx:34-39`. Flag off by default. |
+| R5: AI reply containing the reference solution is rejected and replaced | Met | `explainMistake.test.ts:17` (whole solution or any meaningful line, any spacing), `:46` (reply that gives the solution is dropped); `explainMistake.ts:17-23`. |
+| Mastery, review scheduling, jump tests call no AI model | Met | Code only: `explainMistake` is imported only by `backend/src/controllers/content/contentHandlers.ts`; mastery, SM-2 and jump test live in `packages/learning-logic` (pure) and `backend/src/services/progress/jumpTestPass.ts`. |
+
+### 20.2 Content verification and originality
+
+| Criterion | Status | Evidence |
+|---|---|---|
+| Output differs from stated answer fails Gate A, not loaded LIVE | Met | `tools/content/src/gateA/runGateA.test.ts:40` ("output-mismatch"). Any finding makes the whole bank unreleasable: `runLog.ts:122-136`, tested `runLog.test.ts:62-88`; `backend/prisma/seed/content/seedContent.ts:51` loads LIVE only with a release run. |
+| Zero or more than one correct option fails | Met | Pre-check rule `tools/content/src/precheck/formatRules.ts:72-73`, tested `precheck/structure.test.ts:206-209`; bank has exactly one correct option on every choice item (checked, 304 items). This is the pre-check, not Gate A proper. |
+| Distractor equal to real output fails Gate A | Met | `runGateA.test.ts:44` ("distractor-equals-output"); `gateA/itemChecks.ts:43,96,166`. |
+| Every PARSONS item had every ordering executed | Met | `itemChecks.ts:108-115` runs all permutations; `runGateA.test.ts:58`. Latest run `run-20261115-004356.json` has no Pre-check or Gate A finding (only B, C, D). |
+| Every trace generated by execution | Met | Traces only written by `writeTraces` (`runGateA.ts`); 604 of 604 items have one; hash covers them (`bankHash.test.ts:42`). |
+| Gate B solver receives no answer, correct flag or explanation | Met | `tools/content/src/agentGates/agentGates.test.ts:57`; prompt `content/verification/prompts/gate-b-solver.md`. |
+| Gate C reviewer receives no authoring reasoning or solver output | Met | `agentGates.test.ts:85`; prompt `gate-c-reviewer.md`. |
+| Any fix followed by all gates over the entire bank | Met | A pass records `completeBank` and the bank hash; a changed hash restarts the clean count (`runLog.test.ts:32,142`). All six runs have `completeBank: true`, 604 items. |
+| Final run is the third consecutive full pass with zero findings | Not met | Runs 1-6 have 329, 123, 57, 44, 20 and 55 findings; `consecutiveCleanPasses` is 0 in the latest (`run-20261115-004356.json`: 24 Gate D "not reviewed", 13 Gate C, 1 Gate B). 12 unit files are modified since (uncommitted), so the bank hash has moved again. Gap: large (at least three more full passes, open-ended). |
+| Run logs committed under `content/verification/runs/` | Met | Every pass's log is committed with its fixes (passes 1–6; pass 6 in `df06929`). |
+| Seed refuses LIVE when bank hash differs from latest clean run | Met | `seedContent.ts:21,51` via `releaseStatus`; hash check `runLog.ts:131`, tested `runLog.test.ts:65` ("changed since the latest pass"). The seed script has no test of its own. |
+| Every LIVE item has provenance: author, PASS, run id, reference link 200 | Partly met | Code builds it (`seedContent.ts:44-48`; reference check `precheck/referenceLinks.ts:41`, tested `referenceLinks.test.ts:31`; originality record per item in the run log). No item is LIVE yet, so no end-to-end evidence; the seed has no test. |
+| No source text committed; ledger holds URLs and hashes only | Met | Unit `sources` hold `url`, `retrievedAt`, `sha256` only (e.g. `content/units/beginner/01-values-and-types.json`). Source text goes to `content/.cache/`, ignored (`.gitignore:50`; nothing tracked there). `sourceCache.test.ts:38`. |
+| No snippet contains a construct banned in section 7.3 | Met | `precheck/bannedConstructs.ts`, 10 tests in `bannedConstructs.test.ts`; construct scan `constructScan.test.ts`. Latest run has no Pre-check or construct findings. |
+| Three reports from different users in 7 days remove an item | Met | `backend/src/services/content/itemFeedback.ts:5-26` (one feedback row per user and item, 7-day window, status `FLAGGED`); lessons and the duel pool serve only LIVE in production (`contentCatalog.ts:18`, `io/src/socket/play/playItems.ts:9`, `serveDrafts:false` in `config/production.json`). Code only. |
+| At least 600 items LIVE, at least 200 duelEligible | Partly met | Authored: 604 items, 386 `duelEligible`. LIVE: 0, because no clean release run exists (see the third-pass row). |
+
+### 20.3 Language and direction
+
+| Criterion | Status | Evidence |
+|---|---|---|
+| Every UI string from locale files, none in a component | Partly met | `t()` is used throughout, but English literals remain: `mobile/src/components/app/AppErrorBoundary.tsx:30-33` ("Something went wrong.", "Restart", label), `components/auth/auth-google-button/handleGoogleAuthResponse.ts:13,25` (two alerts). No lint rule enforces it. Small. |
+| English and Hebrew hold same keys; missing key fails build | Met | `packages/locales/src/locales.test.ts:16` (key parity, placeholders, no empty message); CI runs `npm run test:all` (`.github/workflows/ci.yml`); `t` is typed on the dictionary. |
+| Language switch in settings for guests and users, survives restart | Met | `mobile/src/components/settings/LanguageSwitch.tsx`; stored in AsyncStorage and re-applied before first render (`i18n/languagePreference.ts:11-41`); account language adopted on sign-in. Screenshots `18-settings-he-rtl.png`, `10`/`11` onboarding. Code only (language detection tested, switching not). |
+| Hebrew: every screen mirrored, text right-aligned | Met | Owned by the app (`languagePreference.ts:alignLayoutDirection`). Walk-through in progress log; screenshots `11, 12, 13, 14, 15, 16, 17, 18, 19, 20-26, 27, 39-43, 45, 46`. No automated RTL test. |
+| Hebrew: code, player, Parsons, chips, code input left-to-right | Met | `LtrView` pins direction (`common/AppText/LtrView.tsx`), used by `CodeView.tsx:46`, `LineOrderBoard.tsx:54`, `BlankChips.tsx:62`, `CodeWriteAnswer.tsx:95,142`, `ExecutionPlayer.tsx`. Screenshot `15-lesson-wrong-answer-he-rtl.png`. Code only. |
+| Numbers, timers, scores, room codes, usernames read left-to-right | Partly met | Room code pinned (`play/PlayLobby.tsx:40`), code and output pinned. Scores, timer text and usernames (`social/UserRow.tsx:19`, `play/PlayRound.tsx:60-79`) rely on default bidi, not pinned. Screenshots `42-he-lobby`, `43-he-results`. Small. |
+| Hebrew sentence with inline code term keeps punctuation right | Partly met | Only hand-placed marks in 39 Hebrew strings with Latin terms (`packages/locales/he.json`, e.g. `summary.dailyShare` uses U+200F). No isolate or bidi handling in code, no test. Small. |
+| Registered user receives push in chosen language | Blocked | H6 (APNs and EAS credentials). Ready: `PushToken` model (`packages/db/prisma/models/engagement.prisma`), `User.language`, shared locales package (A10), local smart reminders (A27). No token registration or send code exists in `backend/` or `io/`. |
+| No Hebrew outside the locale file; pre-commit rejects one | Met | `node .githooks/scan-repository.cjs` reports "No Hebrew outside the locale file (886 tracked files scanned)". `.githooks/pre-commit`, `.githooks/commit-msg`; CI job `language`. The hook is not unit tested. |
+
+### 20.4 Users and permissions
+
+| Criterion | Status | Evidence |
+|---|---|---|
+| Guest completes lesson, review, daily challenge with no blocking registration request | Met | Content routes are public (`backend/src/routers/content.ts:24-27`); guest paths in `useLessonPlayer.ts` (`isGuest`), `learning-slice.test.ts:27`; no sign-in gate in `AppNavigator.tsx`; guest prompt only after sign-in (`GuestMergePrompt.tsx`). Code only. |
+| Guest who registers or logs in by any method keeps every completed item | Met | Attempts replayed on the server for any method: `backend/src/services/progress/mergeGuestProgress.ts:1-70`, prompt `components/auth/guest-merge/GuestMergePrompt.tsx:34-46` (shown whenever signed in with guest history). Rules tested in `packages/learning-logic/src/progress.test.ts`. No test of the merge endpoint. The learner can decline the prompt. |
+| Guest XP computed on server from item list; client XP number not accepted | Met | The guest merge and submit accept attempts only (`mergeGuestProgress.ts:34-37`); sign-up bodies keep preferences only and drop any progress number (`backend/src/validators/authValidators.ts`, test `authValidators.test.ts`, commit `b4301d6`). |
+| Guest opening a room link reaches the lobby after registering, no retyping | Partly met | `mobile/src/components/play/useOpenedLinks.ts:37-50` keeps `pendingLink`, sends to Auth, joins after sign-in; parser tested `config/appLinks.test.ts`. Flow itself code only. Https invite links need H8 (`platyko.com`, `apple-app-site-association`). |
+
+### 20.5 Social
+
+| Criterion | Status | Evidence |
+|---|---|---|
+| 3-character search returns up to 20; never turned-off or blocking users | Met | `backend/src/routers/social.integration.test.ts:56` (runs in the CI `migrations` job); `SEARCH_MIN_LENGTH=3`, `SEARCH_MAX_RESULTS=20` (`packages/api-contract/src/social.ts:36`), `services/social/socialQueries.ts:7-15`. The 20 cap itself is not asserted. |
+| Blocked user cannot view profile, request, invite, or be matched | Met | `social.integration.test.ts:89,98,107`; invites `io/src/socket/play/gameInvites.ts:21-30` (code only); matchmaking `packages/match-engine/src/matchEngine.test.ts:66`, `io/src/socket/play/rankedQueue.ts:15,56`. |
+| "Friends only" profile returns only username and avatar to non-friend | Partly met | `backend/src/services/social/publicUsers.ts:57-77`: a non-friend gets nothing (404, `social.integration.test.ts:89`); username and avatar only appear where a request already links the two. Stricter than the PRD sentence. Smallest change: edit the criterion, or return username and avatar on the profile route. |
+| Email in no API response about another user | Met | `PUBLIC_USER_SELECT` has no email (`publicUsers.ts:11-21`); contract comment `packages/api-contract/src/social.ts:4`; `social.integration.test.ts:56` asserts no "@" in search. No `email` in `io/src` or league and game services. |
+| Invitation reaches online recipient in 2 s; offline gets push | Partly met | Online delivery by socket (`io/src/socket/play/gameInvites.ts`, screenshot `33-invite-banner.png`); no latency measurement or test. Offline push does not exist: H6. |
+| Deleting account removes user from friends lists; others' games kept | Met | `packages/db/prisma/models/social.prisma:11-12` (`onDelete: Cascade` on both friendship sides); `match.prisma:24,43` (`userId` nullable, `SetNull`). Code only; no deletion test. |
+
+### 20.6 Multiplayer
+
+| Criterion | Status | Evidence |
+|---|---|---|
+| M1: after 5 placement games, rating range starts 100, widens 50 per 5 s | Met | `packages/match-engine/src/ranked.ts:6,15-26`; `matchEngine.test.ts:61` (`[100,100,150,350]`), `:66`. Queue loop `io/src/socket/play/rankedQueue.ts:41-65` is code only. |
+| M3: 2 to 4 join by code or link; starts only when all Ready | Met | `packages/match-engine/src/rooms.ts:6-9` (room 2 to 4); `io/src/socket/play/privateRooms.ts:78-83`; links `useOpenedLinks.ts`. Screenshot `31-play-room.png`. `io/` has no tests. |
+| M3: countdown ends on all devices within 300 ms | Partly met | Server sends one `startsAt` (`io/src/socket/play/liveMatch.ts:73`), but each device restarts a local clock from receipt (`mobile/src/components/play/usePlayClock.ts:11-12`), so skew equals delivery skew. No measurement. Screenshot `44-two-simulators-duel.png` (two simulators, one host). Small: sync to an offset estimate and measure. |
+| M4: shown score = formula on server-measured time | Met | `packages/match-engine/src/match.test.ts:8` (server times from round start), `matchEngine.test.ts:5,14`; points come in the `round:end` payload (`liveMatch.ts:128`); screenshot `35-round-points-time.png`. |
+| M4: equal scores ranked by tie-breakers in order | Met | `matchEngine.test.ts:20`; `scoring.ts:placements` (points, right answers, less correct time, shared place, leaver last). |
+| M5: disconnect and return within 20 s continues the same game | Met | `liveMatch.ts:17,153-165` (20 s grace; full state resent on return). Code only; no `io` tests. Progress log and screenshot `32-play-interrupted.png`. |
+| M5: room of 4, one player leaving does not end the game | Met | `liveMatch.ts:134-142` (ends only when fewer than two remain). Engine tested with two players only (`match.test.ts:29`). |
+| M6: ghost game labelled practice, no rating, not counted in wins | Met | Label: `mobile/src/components/play/PlayMatch.tsx:76`, `locales/en.json` `play.mode.ghost`. Rating only for `ranked` (`io/src/socket/play/persistMatch.ts:38`). Wins exclude `GHOST` (`backend/src/services/play/gameRecord.ts:31`). Code only. |
+| Correct answer in no payload before round ends | Met | `packages/content-model/src/play.test.ts:28` ("send nothing that gives the answer away"); reveal only at `round:end` (`liveMatch.ts:129`). |
+| No item seen in last 20 games while pool allows | Partly met | `io/src/socket/play/playItems.ts:14-22` reads only `20 x players` newest rows across all players together, so one busy player can crowd out the other's history; if too few fresh items it drops the filter for all. Code only. Small: query per player. |
+| Historical solo games not in win statistic | Met | Migration turns self-play into `GHOST` matches (`packages/db/prisma/migrations/20261114000000_redesign_models/migration.sql:4.4`, checked by `backend/src/scripts/verifyRedesignMigration.ts:74`, a manual script not run in CI); wins exclude `GHOST` (`gameRecord.ts:31`). |
+
+### 20.7 Design and mascot
+
+| Criterion | Status | Evidence |
+|---|---|---|
+| No screen uses a colour or font outside the tokens | Partly met | Old `mobile/src/theme/theme.ts` (yellow phosphor, Menlo) still drives `AppErrorBoundary` via `components/app/App.styles.ts` and the navigation theme (`AppNavigator.tsx:15`). Literal colours: `learn/SkillMapScreen/LessonNode.tsx:28` (`#0FA3AE`), `layout/MainNavigator/TabBar.tsx:73,84`, `SkillMapScreen.tsx:44,45,160`, `mascot/MascotScene.tsx:164-174`, `MascotCanvas.tsx:44,45`, `common/Screen/AmbientRiver.tsx:56`. No lint rule. Small. |
+| Every text and background pair meets 4.5:1 | Partly met | `mobile/src/theme/tokens.test.ts` checks 44 token pairs. The literal and wash colours above, and the old theme, are outside it. |
+| Reduce Motion: only fades; mascot static pose per state | Partly met | Mascot loops never start under Reduce Motion (`components/mascot/useMascotRig.ts:96-97`); a pose exists for every state (`mascotStates.test.ts:12`). Pulse and shake are skipped (`LessonNode.tsx:50`, `OptionList.tsx:41`). Flip card, sheet slide and spring presses (`FeedbackSheet.tsx:75`) rely on Reanimated's default reduced-motion handling, with no explicit check or test. |
+| Mascot not shown while solving, in player, or in active game round | Met | `<Mascot>` appears only in Home, FeedbackSheet (after Check, PRD 13.5), LessonSummary and Onboarding (`grep "<Mascot"`); none in `components/play` or the execution player. Caveat: the sheet after a first wrong answer sits above an item the learner will retry, and stays mounted under the execution-player modal (`LessonPlayerScreen.tsx:114-134`). Code only. |
+| Each of the 12 states triggered by its defined trigger | Partly met | Wired: `idle`, `wave` (Home, onboarding), `hide` (Home evening streak risk, onboarding), `sleep` (Home late night) (`HomeScreen/homeMascotState.ts`), `cheer`, `comfort` (`FeedbackSheet.tsx:34`), `glow` (flawless lesson), `victory` (jump test only, `LessonSummaryScreen.tsx:48`). Never triggered: `think`, `sense`, `dive`, `defeat`; `victory` on a game win is not wired (no mascot in `components/play`). Medium. |
+| At rest, mascot pixel-identical to logo; layers recompose the character | Partly met | Layers cut from `splash-icon.png` (`tools/mascot-art/cut_layers.py`, `mobile/assets/mascot/layers/`). Recomposition report `tools/mascot-art/recomposition.json`: mean colour error 0.845, 97.57% of pixels within 2 levels, max error 114.8, so not pixel-identical. The shader adds light on top at rest (`mascotVolumeShader.ts`). |
+| Mascot reads as 3D: depth parallax, light and shadow follow head | Met | `MascotCanvas.tsx:41,151-195` (per-layer parallax), `:226` (`light: [headYaw, headPitch]`), `mascotVolumeShader.ts:52`. Screenshot `00-mascot-twelve-states.png`. Perception is a visual judgment; code only. |
+| `platyko.glb` rendered natively through the same component; layered fallback | Blocked | H10 (rigged GLB from a 3D artist). The fallback holds: `Mascot.tsx` renders layers and `mobile/assets/mascot/` has no `.glb`. The GLB renderer code does not exist (expo-gl and three.js attempt reverted, progress log, 15 Nov). `docs/mascot-3d-model.md` is not in the repo. Medium once a native renderer is chosen. |
+| Mascot interface is 12 state names and two inputs only | Met | `components/mascot/Mascot.tsx:6-15` (props `state`, `streakLength`, `mood`); `mascotStates.test.ts:6`. |
+| 60 fps on reference device: mascot, skill map, Parsons drag, leaderboard | Blocked | H5 (reference device, PRD Q7). Simulator only; no measurement recorded. Ready: Reanimated and Skia animation on the UI thread, loops paused off-screen (`Mascot.tsx` `useAppIsActive`). |
+
+### 20.8 Profile and GitHub
+
+| Criterion | Status | Evidence |
+|---|---|---|
+| Permission request is `read:user` and `user:email` only | Met | `packages/api-contract/src/auth.ts:9` (`GITHUB_SCOPES`), used at `mobile/src/components/auth/auth-github-button/useGitHubAuthorization.ts:20`. Code only. Live OAuth waits on H7; the feature is off by default. |
+| GitHub `client_secret` not in the app bundle | Met | No secret in `mobile/`; code exchange happens on the server (`backend/src/services/auth/githubOAuth.ts:37`, `githubOAuth.test.ts:20` asserts the secret is sent from the server). PKCE in the app. |
+| Disconnecting GitHub deletes all of the user's GitHub data | Met | `backend/src/services/auth/githubAccount.integration.test.ts:17` (identity, login, repos, followers, consent cleared). Refuses when it is the only sign-in, `:28`. |
+| README badge returns 404 unless turned on | Met | `backend/src/routers/badge.ts:18-22` and `services/badge/readmeBadge.ts:15` (`readmeBadgeEnabled: true` in the query; unknown and off both 404). Code only; `badgeSvg.test.ts` tests the image, not the route. |
+
