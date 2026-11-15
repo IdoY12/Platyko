@@ -31,6 +31,15 @@ describe("locale files", () => {
     }
   });
 
+  it("start every Hebrew sentence that opens with a Latin word with a right-to-left mark", () => {
+    // Without it, a line beginning with "Google" or "JavaScript" is laid out left to right and its
+    // punctuation lands on the wrong side (criterion 20.3). Placeholders and isolates do not count.
+    const firstStrong = (message: string) => /[A-Za-z\u0590-\u05FF]/.exec(message.replace(/\{[^}]*\}|\u2066[^\u2069]*\u2069/g, ""))?.[0] ?? "";
+    for (const [key, message] of Object.entries(hebrew)) {
+      if (/[A-Za-z]/.test(firstStrong(message)) && /[\u0590-\u05FF]/.test(message)) expect(message.startsWith("\u200F"), key).toBe(true);
+    }
+  });
+
   it("keep keys sorted by section so diffs stay readable", () => {
     const sections = Object.keys(english).map((key) => key.split(".")[0]);
     const firstSeen = [...new Set(sections)];
