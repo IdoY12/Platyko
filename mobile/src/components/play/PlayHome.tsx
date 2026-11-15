@@ -16,7 +16,7 @@ import { t } from "@/i18n/translate";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { queueStatus } from "@/redux/play-slice";
 import { playService } from "@/services/playSocket";
-import { palette, space, typography } from "@/theme/tokens";
+import { palette, space } from "@/theme/tokens";
 import type { RootNavigation } from "@/types/rootNavigation.types";
 import { InviteCard } from "./InviteCard";
 import { playRequest } from "./playRequest";
@@ -101,7 +101,7 @@ export function PlayHome() {
         <SegmentedChoice options={ROOM_PLAYERS.map((value) => ({ value: String(value), label: String(value) }))} selected={String(maxPlayers)} onSelect={(value) => setMaxPlayers(Number(value))} />
         <OutlineButton label={t("play.create")} disabled={!connected || busy} onPress={() => void run(() => playRequest(() => playService.createRoom({ track, variant, rounds, maxPlayers })))} />
         <View style={styles.codeRow}>
-          <TextField value={code} onChangeText={(text) => setCode(text.toUpperCase())} placeholder={t("play.codePlaceholder")} accessibilityLabel={t("play.codePlaceholder")} autoCapitalize="characters" autoCorrect={false} maxLength={ROOM_CODE_LENGTH} style={styles.codeField} />
+          <TextField value={code} onChangeText={(text) => setCode(text.toUpperCase())} placeholder={t("play.codePlaceholder")} accessibilityLabel={t("play.codePlaceholder")} autoCapitalize="characters" autoCorrect={false} maxLength={ROOM_CODE_LENGTH} code style={styles.codeField} />
           <OutlineButton label={t("play.join")} disabled={!connected || busy || !isRoomCode(code)} onPress={() => void run(() => playRequest(() => playService.joinRoom(code)))} />
         </View>
       </Surface>
@@ -116,5 +116,5 @@ const styles = StyleSheet.create({
   group: { gap: space.sm },
   card: { gap: space.md },
   codeRow: { flexDirection: "row", gap: space.md, alignItems: "center" },
-  codeField: { flex: 1, ...typography.code, letterSpacing: 2 },
+  codeField: { flex: 1 },
 });

@@ -464,13 +464,13 @@
         {
           "text": "/ gives a whole number, and % tells you how many times 4 fits into 10.",
           "correct": false,
-          "feedback": "Neither half is true. The / sign keeps the fraction, and % gives the leftover, not the count of times.",
+          "feedback": "Run line 1 by hand: 10 / 4 does not print a whole number, so the first half cannot be right.",
           "misconception": "division-gives-whole-number"
         },
         {
           "text": "/ gives the exact result, and % gives how many times 4 fits into 10.",
           "correct": false,
-          "feedback": "The first half is right, but % does not count. It gives what is left after the whole 4s are taken out.",
+          "feedback": "Check the second half against line 2: if % counted how many 4s fit into 10, would it print what line 2 prints?",
           "misconception": "remainder-is-quotient"
         }
       ],
@@ -491,7 +491,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.values-and-types.string-values.predict-01",

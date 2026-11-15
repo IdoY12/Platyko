@@ -59,10 +59,6 @@
       "description": "Believes a Set limits how often its stored functions can be called."
     },
     {
-      "id": "strategy-replaces-body",
-      "description": "Believes a passed-in function replaces the whole body of the function that calls it, including the code around the call."
-    },
-    {
       "id": "composition-needs-hierarchy",
       "description": "Believes combining several abilities in one object needs a class hierarchy with extends."
     },
@@ -93,6 +89,14 @@
     {
       "id": "dependency-hardwired",
       "description": "Believes a function that receives a helper still uses its own fixed one, so the passed function cannot change the result."
+    },
+    {
+      "id": "composition-order-irrelevant",
+      "description": "Believes joining rules in a different order gives the same result."
+    },
+    {
+      "id": "chain-runs-last-first",
+      "description": "Believes a joined function runs its last rule first."
     }
   ],
   "sources": [
@@ -548,47 +552,49 @@
       "id": "exp.patterns-and-architecture.strategy-and-composition.predict-01",
       "concept": "strategy-and-composition",
       "prerequisites": [
-        "function-expressions"
+        "function-expressions",
+        "closure-factories"
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 4,
-      "prompt": "The ferry fare is computed by a rule passed to total. What does this program print?",
+      "prompt": "chain joins two rules into one. What does this program print?",
       "code": [
         "const half = (n) => n / 2;",
         "const minus = (n) => n - 5;",
-        "const total = (price, rule) => {",
-        "  return rule(price) + 3;",
+        "const chain = (first, second) => {",
+        "  return (n) => second(first(n));",
         "};",
-        "console.log(total(50, half));",
-        "console.log(total(50, minus));"
+        "const price = 50;",
+        "console.log(chain(half, minus)(price));",
+        "console.log(chain(minus, half)(price));"
       ],
       "options": [
         {
-          "text": "28\n48",
+          "text": "20\n22.5",
           "correct": true,
-          "feedback": "Right. Each call applies the rule it receives, then adds the fixed 3 that total always adds."
+          "feedback": "Right. chain runs its first rule, then hands the result to its second rule, so swapping the arguments swaps the order."
         },
         {
-          "text": "28\n28",
+          "text": "20\n20",
           "correct": false,
-          "feedback": "The second call passes a different rule. total applies whichever rule it receives, so the calls do not repeat each other.",
-          "misconception": "only-one-function-runs"
+          "feedback": "The order matters here: dividing then subtracting is not the same as subtracting then dividing.",
+          "misconception": "composition-order-irrelevant"
         },
         {
-          "text": "25\n45",
+          "text": "22.5\n20",
           "correct": false,
-          "feedback": "The + 3 on line 4 still runs. A passed-in rule replaces only the step it is called for, not the code around the call.",
-          "misconception": "strategy-replaces-body"
+          "feedback": "chain applies first to the number before second, so each call starts with the rule it received first.",
+          "misconception": "chain-runs-last-first"
         }
       ],
       "solution": {
-        "expectedOutput": "28\n48"
+        "expectedOutput": "20\n22.5"
       },
-      "explanation": "total applies the given rule to the price and then adds 3. With half the result is 25 + 3 = 28. With minus it is 45 + 3 = 48. Only the rule changes between calls; the surrounding code stays the same.",
+      "explanation": "chain returns a function that applies first, then second to that result. chain(half, minus) gives 50 / 2 = 25, then 25 - 5 = 20. chain(minus, half) gives 50 - 5 = 45, then 45 / 2 = 22.5.",
       "hints": [
-        "Work out each call separately, starting with the rule it passes.",
-        "The strategy changes one step; the code around it still runs.",
-        "Apply the rule to 50, then add the fixed amount from line 4."
+        "Work out each call separately, starting with the rule it receives first.",
+        "chain applies its first rule to the number and its second rule to that result, so the argument order sets the step order.",
+        "In the first call half runs before minus; in the second call minus runs before half."
       ],
       "reference": {
         "title": "First-class function",
@@ -598,7 +604,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.concept-01",
@@ -664,41 +670,45 @@
       ],
       "format": "FIX_BUG",
       "difficulty": 4,
-      "prompt": "cost('taxi', 3) should print 27 by looking up the rule for the mode. Tap the buggy line and pick the fix.",
+      "prompt": "pick should return the rule stored under the mode, and the bus rule for an unknown mode, so the program prints 27 and 6. Tap the buggy line and pick the fix.",
       "code": [
         "const fare = {",
         "  bus: (km) => km * 2,",
         "  taxi: (km) => km * 9,",
         "};",
-        "const cost = (m, km) => fare.m(km);",
-        "console.log(cost('taxi', 3));"
+        "const pick = (m) => {",
+        "  return fare.m || fare.bus;",
+        "};",
+        "const cost = (m, km) => pick(m)(km);",
+        "console.log(cost('taxi', 3));",
+        "console.log(cost('boat', 3));"
       ],
       "options": [
         {
-          "text": "const cost = (m, km) => fare(m)(km);",
+          "text": "  return fare.bus || fare[m];",
           "correct": false,
-          "feedback": "fare is an object, not a function, so calling it fails before any rule is found."
+          "feedback": "fare.bus always exists, so || never looks at fare[m] and every mode gets the same rule."
         },
         {
-          "text": "const cost = (m, km) => fare[m];",
+          "text": "  return fare[m] && fare.bus;",
           "correct": false,
-          "feedback": "This returns the rule itself instead of calling it, so the program prints a function rather than a number."
+          "feedback": "&& keeps the right side whenever the left side exists, so a known mode would be replaced by the bus rule."
         },
         {
-          "text": "const cost = (m, km) => fare[m](km);",
+          "text": "  return fare[m] || fare.bus;",
           "correct": true,
-          "feedback": "Right. The brackets read the key from the variable m, and the parentheses call the rule that was found."
+          "feedback": "Right. The brackets read the key stored in m, and || falls back to the bus rule when that key is missing."
         }
       ],
       "solution": {
-        "bugLine": 5,
-        "expectedOutput": "27"
+        "bugLine": 6,
+        "expectedOutput": "27\n6"
       },
-      "explanation": "fare.m looks for a property literally named m, finds nothing, and calling undefined throws. Square brackets use the value of the variable m as the key, so fare[m] finds the taxi rule, which is then called with km.",
+      "explanation": "fare.m looks for a property literally named m, which does not exist, so || always falls back to the bus rule. Square brackets use the value of m as the key, so fare[m] finds the taxi rule, and || still covers an unknown mode.",
       "hints": [
-        "Look at how line 5 finds the rule inside fare.",
+        "Look at how line 6 finds the rule inside fare.",
         "A dot reads a fixed name; square brackets read a name stored in a variable.",
-        "The key must come from the parameter m, and the rule must then be called."
+        "The key must come from the parameter m, and the bus rule must stay as the fallback."
       ],
       "reference": {
         "title": "Property accessors",
@@ -708,7 +718,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.fill-01",
@@ -1196,45 +1206,51 @@
       "id": "exp.patterns-and-architecture.dependency-inversion.fix-01",
       "concept": "dependency-inversion",
       "prerequisites": [
-        "parameters-and-arguments"
+        "parameters-and-arguments",
+        "class-basics"
       ],
       "format": "FIX_BUG",
       "difficulty": 4,
-      "prompt": "notify should use the send function it receives, so the program prints fake ann. Tap the buggy line and pick the fix.",
+      "prompt": "Alert should use the send function it receives, so the program prints fake ann. Tap the buggy line and pick the fix.",
       "code": [
         "const mail = (to) => 'mail ' + to;",
         "const fake = (to) => 'fake ' + to;",
-        "const notify = (user, send) => {",
-        "  return mail(user);",
-        "};",
-        "console.log(notify('ann', fake));"
+        "class Alert {",
+        "  constructor(send = mail) {",
+        "    this.send = mail;",
+        "  }",
+        "  fire(user) {",
+        "    return this.send(user);",
+        "  }",
+        "}",
+        "console.log(new Alert(fake).fire('ann'));"
       ],
       "options": [
         {
-          "text": "  return send(mail(user));",
+          "text": "    this.send = mail || send;",
           "correct": false,
-          "feedback": "mail still runs first and its text is passed on, so the output starts with fake mail rather than fake ann."
+          "feedback": "mail is a function, so it is always truthy and || never reaches send."
         },
         {
-          "text": "  return mail(send(user));",
+          "text": "    this.send = send(mail);",
           "correct": false,
-          "feedback": "mail still runs last and wraps the result, so the output starts with mail rather than fake."
+          "feedback": "This calls send once with mail as its argument and stores the text it returns, not a function."
         },
         {
-          "text": "  return send(user);",
+          "text": "    this.send = send;",
           "correct": true,
-          "feedback": "Right. notify now calls the function it was given instead of a fixed one."
+          "feedback": "Right. The object now keeps the function it was given, and the default mail applies only when nothing is passed."
         }
       ],
       "solution": {
-        "bugLine": 4,
+        "bugLine": 5,
         "expectedOutput": "fake ann"
       },
-      "explanation": "Line 4 calls mail directly, so the send parameter is never used and the caller cannot swap the behaviour. A function that depends on an abstraction must call what it receives; then fake takes effect.",
+      "explanation": "The constructor takes send but stores mail, so the injected function is never kept and fire always uses the fixed helper. Storing the parameter lets the caller choose the behaviour, and the default still covers a missing argument.",
       "hints": [
-        "Compare the name called on line 4 with the parameter names on line 3.",
-        "A dependency passed in is useless unless the function calls it.",
-        "The function should call the parameter and nothing else."
+        "Compare what line 5 stores with the parameter declared on line 4.",
+        "A dependency passed in is useless unless the object keeps and uses it.",
+        "The constructor should store the value it received, not a fixed helper."
       ],
       "reference": {
         "title": "Functions",
@@ -1244,24 +1260,27 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.patterns-and-architecture.dependency-inversion.fill-01",
       "concept": "dependency-inversion",
       "prerequisites": [
-        "function-expressions"
+        "function-expressions",
+        "this-lost-and-bound"
       ],
       "format": "FILL_BLANK",
       "difficulty": 4,
-      "prompt": "report receives a clock and a mark function. Fill both blanks so the program prints *9.",
+      "prompt": "report receives a clock, a mark function and an out function. Fill all three blanks so the program prints *9.",
       "code": [
-        "const report = (clock, mark) => {",
-        "  return mark(clock());",
+        "const report = (clock, mark, out) => {",
+        "  out(mark(clock()));",
         "};",
         "const fixedClock = () => 9;",
         "const star = (n) => '*' + n;",
-        "console.log(report(___, ___));"
+        "const lines = [];",
+        "report(___, ___, ___);",
+        "console.log(lines[0]);"
       ],
       "options": [
         {
@@ -1272,17 +1291,22 @@
         {
           "text": "star",
           "correct": true,
-          "feedback": "Right. The second parameter receives the clock's result and adds the star."
+          "feedback": "Right. The second parameter receives the clock result and adds the star."
+        },
+        {
+          "text": "(s) => lines.push(s)",
+          "correct": true,
+          "feedback": "Right. The wrapper keeps lines as the array the push is called on."
+        },
+        {
+          "text": "lines.push",
+          "correct": false,
+          "feedback": "push is detached from lines here, so it has no array to add to when out calls it."
         },
         {
           "text": "fixedClock()",
           "correct": false,
           "feedback": "This passes the number 9, and report then tries to call a number, which fails."
-        },
-        {
-          "text": "9",
-          "correct": false,
-          "feedback": "A number cannot be called, so report fails when it runs clock()."
         }
       ],
       "solution": {
@@ -1292,15 +1316,18 @@
           ],
           [
             "star"
+          ],
+          [
+            "(s) => lines.push(s)"
           ]
         ],
         "expectedOutput": "*9"
       },
-      "explanation": "report calls its first argument to get a value and passes that value to its second argument. Passing fixedClock and star, the functions themselves, lets report print *9 without knowing either by name.",
+      "explanation": "report calls its first argument for a value, passes that to its second, and hands the result to its third. Passing the functions themselves works, but lines.push alone loses its array, so the third needs a wrapper.",
       "hints": [
         "Look at which parameter is called with no arguments on line 2.",
-        "Pass the functions themselves, not the results of calling them.",
-        "The first blank gives a value; the second blank changes that value."
+        "Pass functions, not their results, and remember a method taken from an object loses that object.",
+        "The first blank gives a value, the second changes it, and the third must still reach lines."
       ],
       "reference": {
         "title": "First-class function",
@@ -1310,7 +1337,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

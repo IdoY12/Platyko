@@ -2522,26 +2522,23 @@
   "adv.prototypes-and-inheritance.class-as-prototype-sugar.write-01": {
    "code": [
     "function rushTotals(prices) {",
-    "class Fee {",
-    "  constructor(a) { this.a = a; }",
-    "  cost() { return this.a; }",
+    "class Pet {",
+    "  constructor(n) { this.name = n; }",
     "}",
-    "class Rush extends Fee {",
-    "  cost() {",
-    "    return super.cost() * 2;",
-    "  }",
+    "const all = names.map((n) => new Pet(n));",
+    "Pet.prototype.hello = function () {",
+    "  return 'hi ' + this.name;",
+    "};",
+    "return all.map((g) => g.hello());",
     "}",
-    "const r = (p) => new Rush(p).cost();",
-    "return prices.map(r);",
-    "}",
-    "console.log(rushTotals([1,2,3]));"
+    "console.log(rushTotals([\"ann\",\"bo\"]));"
    ],
    "output": [
-    "[2, 4, 6]"
+    "Uncaught ReferenceError"
    ],
    "steps": [
     {
-     "line": 14,
+     "line": 11,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -2551,358 +2548,18 @@
      "microtasks": []
     },
     {
-     "line": 11,
+     "line": 5,
      "variables": [
       {
        "name": "prices",
        "scope": "rushTotals",
-       "value": "[1, 2, 3]"
+       "value": "['ann', 'bo']"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
       "rushTotals"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 12,
-     "variables": [
-      {
-       "name": "prices",
-       "scope": "rushTotals",
-       "value": "[1, 2, 3]"
-      },
-      {
-       "name": "r",
-       "scope": "rushTotals",
-       "value": "[Function: r]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rushTotals"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 11,
-     "variables": [
-      {
-       "name": "prices",
-       "scope": "rushTotals",
-       "value": "[1, 2, 3]"
-      },
-      {
-       "name": "r",
-       "scope": "rushTotals",
-       "value": "[Function: r]"
-      },
-      {
-       "name": "p",
-       "scope": "r",
-       "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rushTotals",
-      "r"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "prices",
-       "scope": "rushTotals",
-       "value": "[1, 2, 3]"
-      },
-      {
-       "name": "r",
-       "scope": "rushTotals",
-       "value": "[Function: r]"
-      },
-      {
-       "name": "a",
-       "scope": "constructor",
-       "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rushTotals",
-      "r",
-      "constructor"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 8,
-     "variables": [
-      {
-       "name": "prices",
-       "scope": "rushTotals",
-       "value": "[1, 2, 3]"
-      },
-      {
-       "name": "r",
-       "scope": "rushTotals",
-       "value": "[Function: r]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rushTotals",
-      "r",
-      "cost"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "prices",
-       "scope": "rushTotals",
-       "value": "[1, 2, 3]"
-      },
-      {
-       "name": "r",
-       "scope": "rushTotals",
-       "value": "[Function: r]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rushTotals",
-      "r",
-      "cost",
-      "cost"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 11,
-     "variables": [
-      {
-       "name": "prices",
-       "scope": "rushTotals",
-       "value": "[1, 2, 3]"
-      },
-      {
-       "name": "r",
-       "scope": "rushTotals",
-       "value": "[Function: r]"
-      },
-      {
-       "name": "p",
-       "scope": "r",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rushTotals",
-      "r"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "prices",
-       "scope": "rushTotals",
-       "value": "[1, 2, 3]"
-      },
-      {
-       "name": "r",
-       "scope": "rushTotals",
-       "value": "[Function: r]"
-      },
-      {
-       "name": "a",
-       "scope": "constructor",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rushTotals",
-      "r",
-      "constructor"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 8,
-     "variables": [
-      {
-       "name": "prices",
-       "scope": "rushTotals",
-       "value": "[1, 2, 3]"
-      },
-      {
-       "name": "r",
-       "scope": "rushTotals",
-       "value": "[Function: r]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rushTotals",
-      "r",
-      "cost"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "prices",
-       "scope": "rushTotals",
-       "value": "[1, 2, 3]"
-      },
-      {
-       "name": "r",
-       "scope": "rushTotals",
-       "value": "[Function: r]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rushTotals",
-      "r",
-      "cost",
-      "cost"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 11,
-     "variables": [
-      {
-       "name": "prices",
-       "scope": "rushTotals",
-       "value": "[1, 2, 3]"
-      },
-      {
-       "name": "r",
-       "scope": "rushTotals",
-       "value": "[Function: r]"
-      },
-      {
-       "name": "p",
-       "scope": "r",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rushTotals",
-      "r"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "prices",
-       "scope": "rushTotals",
-       "value": "[1, 2, 3]"
-      },
-      {
-       "name": "r",
-       "scope": "rushTotals",
-       "value": "[Function: r]"
-      },
-      {
-       "name": "a",
-       "scope": "constructor",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rushTotals",
-      "r",
-      "constructor"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 8,
-     "variables": [
-      {
-       "name": "prices",
-       "scope": "rushTotals",
-       "value": "[1, 2, 3]"
-      },
-      {
-       "name": "r",
-       "scope": "rushTotals",
-       "value": "[Function: r]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rushTotals",
-      "r",
-      "cost"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "prices",
-       "scope": "rushTotals",
-       "value": "[1, 2, 3]"
-      },
-      {
-       "name": "r",
-       "scope": "rushTotals",
-       "value": "[Function: r]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rushTotals",
-      "r",
-      "cost",
-      "cost"
      ],
      "macrotasks": [],
      "microtasks": []

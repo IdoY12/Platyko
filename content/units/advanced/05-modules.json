@@ -705,7 +705,7 @@
       "explanation": "A default export is one value, and the importing side chooses its name. Here tag and makeLabel are two names for the same function, so the comparison is true. Named exports are matched by name.",
       "hints": [
         "Look at what the last two lines print.",
-        "Named values are found by name. A single unnamed value is found by position, as the only one.",
+        "Compare how a named export and a default export get matched to the name an importer uses.",
         "Which statement stays true even if tag were called anything else?"
       ],
       "reference": {
@@ -716,7 +716,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.exports-and-imports.parsons-01",
@@ -819,7 +819,7 @@
       },
       "explanation": "Destructuring only finds properties that the module returned. ids was declared inside but never listed in the returned object, so the import gave undefined and calling it threw a TypeError.",
       "hints": [
-        "Compare the ids on line 7 with the ids on line 5.",
+        "Compare the names taken on line 7 with the object returned on line 5.",
         "An importer can only take what the module exported.",
         "Add the missing function to the returned object and keep the one that already works."
       ],
@@ -831,7 +831,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.modules.exports-and-imports.write-01",

@@ -966,7 +966,7 @@
         {
           "text": "tidy\ndone",
           "correct": false,
-          "feedback": "You treated the WeakMap like a Map that takes any key. A WeakMap key must be an object (or a non-registered symbol), so line 5 throws.",
+          "feedback": "You treated the WeakMap like a Map that takes any key. A WeakMap is stricter about what it accepts as a key.",
           "misconception": "weakmap-accepts-any-key"
         },
         {
@@ -982,7 +982,7 @@
       "explanation": "Line 3 stores a note under an object, and get returns it. A string is not an object, so line 5 throws a TypeError and done never prints.",
       "hints": [
         "Check what kind of value is the key on line 5.",
-        "A WeakMap key must be an object (or a non-registered symbol).",
+        "A WeakMap key must be an object.",
         "The first log works; look at what happens at line 5, and whether line 6 is reached."
       ],
       "reference": {
@@ -993,7 +993,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:19"
       ]
@@ -1060,7 +1060,7 @@
         "reference-vs-value"
       ],
       "format": "PARSONS",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Order the lines so the attic is marked as visited, checked, and then a fresh empty object is checked. It should print true, then false.",
       "code": [
         "console.log(seen.has(room));",
@@ -1102,7 +1102,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.map-set-weakmap-symbol.weak-collections.fix-01",

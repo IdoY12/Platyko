@@ -98,6 +98,10 @@
     {
       "id": "in-gives-values",
       "description": "Believes for...in gives the values of an object instead of its keys."
+    },
+    {
+      "id": "wrong-key-read",
+      "description": "Reads a different key of the object than the one the code names, such as the id instead of the value asked for."
     }
   ],
   "sources": [
@@ -1362,7 +1366,7 @@
           "text": "3",
           "correct": false,
           "feedback": "You added the ids. The loop adds cabin.beds, the number stored under beds.",
-          "misconception": "object-has-position"
+          "misconception": "wrong-key-read"
         }
       ],
       "solution": {
@@ -1381,7 +1385,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.iteration.trace-01",

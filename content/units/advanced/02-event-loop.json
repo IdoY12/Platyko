@@ -647,7 +647,7 @@
       "hints": [
         "Which lines run while the program is still on the stack?",
         "Even with a delay of 0, a timer callback is queued, not called.",
-        "Both plain say calls come before the callback in the printed order."
+        "Decide where the timer callback's output falls relative to the two plain say calls."
       ],
       "reference": {
         "title": "setTimeout()",
@@ -657,7 +657,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:25"
       ]
@@ -1326,7 +1326,7 @@
         "async-await"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "A kiln routine pauses at await, and a plain line follows its call. What does this code print?",
       "code": [
         "async function fireKiln() {",
@@ -1373,7 +1373,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.event-loop.await-scheduling.concept-01",

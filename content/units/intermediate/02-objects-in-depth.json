@@ -695,7 +695,7 @@
       "explanation": "A rest parameter written with ... gathers every argument that has no name of its own into one array. label takes \"quiz\", and scores becomes [4, 7], so its length is 2 and the function returns \"quiz2\".",
       "hints": [
         "Look at the parameter list of tally.",
-        "The ... in a parameter list collects arguments into an array.",
+        "A parameter written with three dots behaves differently from a normal parameter.",
         "The call passes three arguments; the first goes to label. Where do the others go?"
       ],
       "reference": {
@@ -706,7 +706,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:15"
       ]
@@ -1059,7 +1059,7 @@
       "explanation": "=== on two objects is true only when both names refer to the very same object. cardA and cardB were created separately, so the result is false even though their contents match. cardC is a second name for cardA, so that comparison is true.",
       "hints": [
         "Notice which two objects were created with braces and which was not.",
-        "=== on objects compares where they live, not what they hold.",
+        "=== treats objects differently from numbers and strings. Ask what it checks for objects.",
         "cardC was never given braces of its own."
       ],
       "reference": {
@@ -1070,7 +1070,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.trace-01",

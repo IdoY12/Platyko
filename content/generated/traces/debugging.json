@@ -3585,10 +3585,12 @@
   "exp.debugging.reading-a-stack-of-calls.fill-02": {
    "code": [
     "const log = [];",
-    "Promise.reject(new TypeError())",
-    "  .then(() => log.push(\"A\"))",
-    "  .catch(() => log.push(\"B\"))",
-    "  .then(() => console.log(log));"
+    "const load = () => Promise.reject(new TypeError());",
+    "const run = () =>",
+    "  load()",
+    "    .then(() => log.push(\"A\"))",
+    "    .catch(() => log.push(\"B\"));",
+    "run().then(() => console.log(log));"
    ],
    "output": [
     "['B']"
@@ -3621,12 +3623,124 @@
      "microtasks": []
     },
     {
+     "line": 3,
+     "variables": [
+      {
+       "name": "log",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "log",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "[Function: run]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 4,
      "variables": [
       {
        "name": "log",
        "scope": "global",
        "value": "[]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "[Function: run]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "run"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "log",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "[Function: run]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "run",
+      "load"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "log",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "[Function: run]"
       }
      ],
      "outputCount": 0,
@@ -3637,12 +3751,22 @@
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 7,
      "variables": [
       {
        "name": "log",
        "scope": "global",
        "value": "['B']"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "[Function: run]"
       }
      ],
      "outputCount": 0,
@@ -3659,6 +3783,16 @@
        "name": "log",
        "scope": "global",
        "value": "['B']"
+      },
+      {
+       "name": "load",
+       "scope": "global",
+       "value": "[Function: load]"
+      },
+      {
+       "name": "run",
+       "scope": "global",
+       "value": "[Function: run]"
       }
      ],
      "outputCount": 1,

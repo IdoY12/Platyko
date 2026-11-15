@@ -63,7 +63,7 @@ export function PlayRound({ match, round }: { match: MatchStartEvent; round: Rou
       <View style={styles.seats}>
         {match.seats.map((seat) => (
           <View key={seat.userId} style={[styles.seat, answered.has(seat.userId) && styles.seatAnswered]}>
-            <AppText variant="label" align="ltr" numberOfLines={1} color={answered.has(seat.userId) ? palette.text.primary : palette.text.muted}>
+            <AppText variant="label" numberOfLines={1} color={answered.has(seat.userId) ? palette.text.primary : palette.text.muted}>
               {seat.username}
             </AppText>
             {answered.has(seat.userId) ? <AppText variant="label" color={palette.brand.glow}>{t("play.answered")}</AppText> : null}

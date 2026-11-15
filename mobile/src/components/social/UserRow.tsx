@@ -14,8 +14,8 @@ export function UserRow({ user, onOpen, actions }: { user: Pick<PublicUser, "use
       <PressableScale onPress={onOpen} disabled={!onOpen} accessibilityRole={onOpen ? "button" : undefined} accessibilityLabel={user.username} style={styles.identity}>
         <ProfileAvatar name={user.username} avatarUrl={user.avatarUrl} size={40} />
         <View style={styles.text}>
-          {/* A username is user data: it reads left to right whatever the UI language. */}
-          <AppText variant="bodyStrong" align="ltr" numberOfLines={1}>
+          {/* Beside the photo, at the start of the row; the name itself reads in its own script's direction. */}
+          <AppText variant="bodyStrong" numberOfLines={1}>
             {user.username}
           </AppText>
           {user.level !== null ? (

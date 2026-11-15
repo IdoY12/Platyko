@@ -342,7 +342,7 @@
         "class-basics"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "The shipping total should print 12, but prints 5 kg7 kg. Tap the buggy line and pick the fix.",
       "code": [
         "class Crate {",
@@ -393,7 +393,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.type-coercion-and-edge-cases.to-primitive-conversion.write-01",
@@ -826,7 +826,7 @@
         {
           "text": "=== compares the sign of zero, so it is false for -0 and 0 while Object.is says they match.",
           "correct": false,
-          "feedback": "It is the other way round. === says they are equal, and Object.is is the one that separates them.",
+          "feedback": "Check lines 2 and 3 against the output of line 4. The two kinds of comparison are not both blind to the sign, and the division shows which one sees it.",
           "misconception": "negative-zero-sign-confused"
         },
         {
@@ -853,7 +853,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.type-coercion-and-edge-cases.numeric-edge-cases.fix-01",

@@ -86,7 +86,7 @@ function Countdown({ match }: { match: MatchStartEvent }) {
               avatarUrl={seat.avatarUrl}
               size={64}
             />
-            <AppText variant="bodyStrong" align="ltr" numberOfLines={1}>
+            <AppText variant="bodyStrong" numberOfLines={1}>
               {seat.username}
             </AppText>
             <View style={styles.reaction}>

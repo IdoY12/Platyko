@@ -746,7 +746,7 @@
       "explanation": "Every call of makeJar creates a new coins variable, and the returned function keeps its own one. Calling a never changes the coins that b uses.",
       "hints": [
         "Count how many times makeJar runs and how many times each jar is called.",
-        "A new call of the outer function creates new variables.",
+        "Think about when the line let coins = 0 runs.",
         "Compare the number of calls of a with the number of calls of b."
       ],
       "reference": {
@@ -757,7 +757,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.closures.closure-private-state.trace-01",

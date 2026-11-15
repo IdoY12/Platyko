@@ -1062,7 +1062,7 @@
         "error-types"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "An oven error travels up through two callers. What does this program print?",
       "code": [
         "const log = [];",
@@ -1113,7 +1113,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.concept-01",
@@ -1238,13 +1238,15 @@
       ],
       "format": "FILL_BLANK",
       "difficulty": 4,
-      "prompt": "A job starts rejected and one step should recover from it. Fill the two blanks so the program prints ['B'].",
+      "prompt": "A loader starts rejected and the caller should recover from it. Fill the two blanks so the program prints ['B'].",
       "code": [
         "const log = [];",
-        "Promise.___(new TypeError())",
-        "  .then(() => log.push(\"A\"))",
-        "  .___(() => log.push(\"B\"))",
-        "  .then(() => console.log(log));"
+        "const load = () => Promise.___(new TypeError());",
+        "const run = () =>",
+        "  load()",
+        "    .then(() => log.push(\"A\"))",
+        "    .___(() => log.push(\"B\"));",
+        "run().then(() => console.log(log));"
       ],
       "options": [
         {
@@ -1260,17 +1262,17 @@
         {
           "text": "resolve",
           "correct": false,
-          "feedback": "The chain would start fulfilled, so A is pushed and the recovery step is skipped, which prints ['A']."
+          "feedback": "The loader would give a fulfilled promise, so A is pushed and the recovery step is skipped, which prints ['A']."
         },
         {
           "text": "then",
           "correct": false,
-          "feedback": "A success step is skipped for a rejection, so the rejection stays unhandled and nothing is printed."
+          "feedback": "A success step is skipped for a rejection, so the rejection stays unhandled and the log is never printed."
         },
         {
           "text": "finally",
           "correct": false,
-          "feedback": "finally runs but passes the rejection on, so the last step is skipped and nothing is printed."
+          "feedback": "finally runs but passes the rejection on, so the last step is skipped and the log is never printed."
         }
       ],
       "solution": {
@@ -1284,9 +1286,9 @@
         ],
         "expectedOutput": "['B']"
       },
-      "explanation": "A rejected promise skips success steps. Only a step made for failures runs, and after it the chain is fulfilled again, so the last step prints. A fulfilled start would skip the recovery step.",
+      "explanation": "A rejected promise skips success steps all the way out of load and run. Only a step made for failures runs, and after it the chain is fulfilled again, so the last step prints.",
       "hints": [
-        "Follow the first step down the chain with each choice.",
+        "Follow the promise from load through run, step by step, with each choice.",
         "Decide how the promise starts, then which step may react to it.",
         "The second blank must run for a failure and let the chain continue."
       ],
@@ -1298,7 +1300,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

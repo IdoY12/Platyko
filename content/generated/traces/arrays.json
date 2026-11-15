@@ -1927,7 +1927,7 @@
     "const crates = [4, 2, 6, 3];",
     "let total = 0;",
     "for (const crate of crates) {",
-    "  total += crate;",
+    "  total = total + crate;",
     "}",
     "console.log(total);"
    ],
@@ -2399,7 +2399,7 @@
     "const count = notes.length;",
     "let song = notes[0];",
     "for (let i = 1; i < count; i++) {",
-    "  song += \"-\" + notes[i];",
+    "  song = song + \"-\" + notes[i];",
     "}",
     "console.log(song);"
    ],

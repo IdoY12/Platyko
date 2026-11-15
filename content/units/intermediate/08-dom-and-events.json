@@ -230,7 +230,7 @@
       "title": "Bubbling and delegation",
       "conceptCard": {
         "title": "Events travel up the tree",
-        "body": "An event starts at its target, then bubbles up through every ancestor, calling their listeners. Delegation uses this: one listener on a parent handles all its children. event.target is the element that started the event; target.matches(selector) tests it, and target.closest(selector) returns its nearest ancestor that matches.",
+        "body": "An event starts at its target, then bubbles up through every ancestor, calling their listeners. Delegation uses this: one listener on a parent handles all its children. event.target is the element that started the event; target.matches(selector) tests it, and target.closest(selector) returns the element itself or its nearest ancestor that matches.",
         "code": [
           "const path = ['button', 'li', 'ul'];",
           "path.forEach((name) => {",
@@ -1649,8 +1649,8 @@
       },
       "explanation": "Listeners on one element run in the order they were added: two, then one. Each click adds BA. The bar is added between the clicks, so order is BA|BA.",
       "hints": [
-        "Listeners fire in registration order, which is not the order of the function definitions.",
-        "Both listeners stay registered, so the second click runs them again.",
+        "Look at lines 6 and 7: which function is registered first?",
+        "Listeners fire in registration order, not in the order the functions are written, and both stay registered for the second click.",
         "Each click adds the same two letters. The bar separates the clicks."
       ],
       "reference": {
@@ -1660,7 +1660,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.event-listeners.fill-01",

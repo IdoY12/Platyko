@@ -3221,24 +3221,21 @@
   },
   "int.scope-and-hoisting.temporal-dead-zone.write-01": {
    "code": [
-    "function average(values) {",
-    "if (values.length === 0) {",
-    "  return 0;",
+    "function scaled(values) {",
+    "function scale(n) {",
+    "  return n * factor;",
     "}",
-    "let sum = 0;",
-    "for (const v of values) {",
-    "  sum += v;",
+    "let factor = 3;",
+    "return values.map(scale);",
     "}",
-    "return sum / values.length;",
-    "}",
-    "console.log(average([2,4,6]));"
+    "console.log(scaled([1,2]));"
    ],
    "output": [
-    "4"
+    "[3, 6]"
    ],
    "steps": [
     {
-     "line": 11,
+     "line": 8,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -3248,35 +3245,18 @@
      "microtasks": []
     },
     {
-     "line": 2,
-     "variables": [
-      {
-       "name": "values",
-       "scope": "average",
-       "value": "[2, 4, 6]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "average"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 5,
      "variables": [
       {
        "name": "values",
-       "scope": "average",
-       "value": "[2, 4, 6]"
+       "scope": "scaled",
+       "value": "[1, 2]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "average"
+      "scaled"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3286,203 +3266,75 @@
      "variables": [
       {
        "name": "values",
-       "scope": "average",
-       "value": "[2, 4, 6]"
+       "scope": "scaled",
+       "value": "[1, 2]"
       },
       {
-       "name": "sum",
-       "scope": "average",
-       "value": "0"
+       "name": "factor",
+       "scope": "scaled",
+       "value": "3"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "average"
+      "scaled"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 3,
      "variables": [
       {
        "name": "values",
-       "scope": "average",
-       "value": "[2, 4, 6]"
+       "scope": "scaled",
+       "value": "[1, 2]"
       },
       {
-       "name": "sum",
-       "scope": "average",
-       "value": "0"
+       "name": "factor",
+       "scope": "scaled",
+       "value": "3"
       },
       {
-       "name": "v",
-       "scope": "average",
+       "name": "n",
+       "scope": "scale",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "scaled",
+      "scale"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "values",
+       "scope": "scaled",
+       "value": "[1, 2]"
+      },
+      {
+       "name": "factor",
+       "scope": "scaled",
+       "value": "3"
+      },
+      {
+       "name": "n",
+       "scope": "scale",
        "value": "2"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "average"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 7,
-     "variables": [
-      {
-       "name": "values",
-       "scope": "average",
-       "value": "[2, 4, 6]"
-      },
-      {
-       "name": "sum",
-       "scope": "average",
-       "value": "0"
-      },
-      {
-       "name": "v",
-       "scope": "average",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "average"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "values",
-       "scope": "average",
-       "value": "[2, 4, 6]"
-      },
-      {
-       "name": "sum",
-       "scope": "average",
-       "value": "2"
-      },
-      {
-       "name": "v",
-       "scope": "average",
-       "value": "4"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "average"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 7,
-     "variables": [
-      {
-       "name": "values",
-       "scope": "average",
-       "value": "[2, 4, 6]"
-      },
-      {
-       "name": "sum",
-       "scope": "average",
-       "value": "2"
-      },
-      {
-       "name": "v",
-       "scope": "average",
-       "value": "4"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "average"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "values",
-       "scope": "average",
-       "value": "[2, 4, 6]"
-      },
-      {
-       "name": "sum",
-       "scope": "average",
-       "value": "6"
-      },
-      {
-       "name": "v",
-       "scope": "average",
-       "value": "6"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "average"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 7,
-     "variables": [
-      {
-       "name": "values",
-       "scope": "average",
-       "value": "[2, 4, 6]"
-      },
-      {
-       "name": "sum",
-       "scope": "average",
-       "value": "6"
-      },
-      {
-       "name": "v",
-       "scope": "average",
-       "value": "6"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "average"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 9,
-     "variables": [
-      {
-       "name": "values",
-       "scope": "average",
-       "value": "[2, 4, 6]"
-      },
-      {
-       "name": "sum",
-       "scope": "average",
-       "value": "12"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "average"
+      "scaled",
+      "scale"
      ],
      "macrotasks": [],
      "microtasks": []

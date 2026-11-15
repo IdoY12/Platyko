@@ -1395,7 +1395,7 @@
         "const crates = [4, 2, 6, 3];",
         "let total = 0;",
         "for (const crate of crates) {",
-        "  total += crate;",
+        "  total = total + crate;",
         "}",
         "console.log(total);"
       ],
@@ -1439,7 +1439,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.arrays.iteration.fill-01",
@@ -1527,7 +1527,7 @@
         "for (let i = 1; i < count; i++) {",
         "console.log(song);",
         "const count = notes.length;",
-        "  song += \"-\" + notes[i];",
+        "  song = song + \"-\" + notes[i];",
         "const notes = [\"do\", \"re\", \"mi\"];",
         "}",
         "let song = notes[0];"
@@ -1569,7 +1569,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.arrays.iteration.write-01",

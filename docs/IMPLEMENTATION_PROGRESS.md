@@ -143,7 +143,8 @@ Open:
 - [ ] Server push through Expo (register tokens, send in the stored language) once APNs and EAS
       credentials exist (H6); the smart local reminder covers guests and accounts meanwhile.
 - [ ] Hebrew RTL walk-through of every screen (done: Home, lesson, map, onboarding, Profile,
-      Settings).
+      Settings, Play home, how scoring works, Friends, another learner's profile; open: lobby,
+      match and results).
 - [ ] `npm audit`: critical shell-quote, postcss and source-map-js patched by overrides; Prisma 7 and
       Metro image-size remain (H13).
 - [ ] Docker image builds with the new sandbox package (registry timeouts earlier).

@@ -1132,7 +1132,7 @@
       "explanation": "Hoisting sets up the var name at the top of its scope with the value undefined. The assignment stays on its own line, so line 1 prints undefined and line 3 prints 5.",
       "hints": [
         "Compare the two printed values.",
-        "Hoisting moves the declaration, not the assignment.",
+        "Think about what the name holds before the line with = has run.",
         "Ask what value riders has before line 2 has run."
       ],
       "reference": {
@@ -1143,7 +1143,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.scope-and-hoisting.hoisting.trace-01",
@@ -1215,7 +1215,7 @@
         "function-expressions"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Fill the blank so the program prints undefined and then 12.",
       "code": [
         "console.log(boxes);",
@@ -1261,7 +1261,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.scope-and-hoisting.hoisting.fix-01",
@@ -1672,11 +1672,11 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write the body of average(values). Return the mean of the numbers, or 0 for an empty array.",
+      "prompt": "Write the body of scaled(values). Declare function scale(n) first, reading a let factor (3) declared after it, and return values mapped by scale.",
       "solution": {
         "entry": {
           "kind": "function",
-          "name": "average",
+          "name": "scaled",
           "params": [
             "values"
           ]
@@ -1685,86 +1685,90 @@
           {
             "input": [
               [
-                2,
-                4,
-                6
+                1,
+                2
               ]
             ],
-            "expected": 4
+            "expected": [
+              3,
+              6
+            ]
           },
           {
             "input": [
               []
             ],
-            "expected": 0
+            "expected": []
           },
           {
             "input": [
               [
+                0,
                 5
               ]
             ],
-            "expected": 5
+            "expected": [
+              0,
+              15
+            ]
           },
           {
             "input": [
               [
-                1,
-                2
+                -1
               ]
             ],
-            "expected": 1.5
+            "expected": [
+              -3
+            ]
           }
         ],
         "reference": [
-          "if (values.length === 0) {",
-          "  return 0;",
+          "function scale(n) {",
+          "  return n * factor;",
           "}",
-          "let sum = 0;",
-          "for (const v of values) {",
-          "  sum += v;",
-          "}",
-          "return sum / values.length;"
+          "let factor = 3;",
+          "return values.map(scale);"
         ],
         "wrongSolutions": [
           [
-            "const mean = sum / values.length;",
-            "let sum = 0;",
-            "for (const v of values) {",
-            "  sum += v;",
+            "function scale(n) {",
+            "  return n * factor;",
             "}",
-            "return mean;"
+            "const out = values.map(scale);",
+            "let factor = 3;",
+            "return out;"
           ],
           [
-            "let sum = 0;",
-            "for (const v of values) {",
-            "  sum += v;",
+            "function scale(n) {",
+            "  return n * factor;",
             "}",
-            "return sum / values.length;"
+            "let factor = 2;",
+            "return values.map(scale);"
           ],
           [
-            "for (const v of values) {",
-            "  let sum = 0;",
-            "  sum += v;",
+            "function scale(n) {",
+            "  return n * factor;",
             "}",
-            "return sum / values.length;"
+            "let factor = 3;",
+            "return values;"
           ]
         ]
       },
-      "explanation": "Check the empty case first, then declare and fill sum before you divide. Reading sum before its let line, or declaring it inside the loop body, fails.",
+      "explanation": "A let variable cannot be read until its declaration line has run. scale may be declared first, but it must be called after let factor, or the read throws a ReferenceError.",
       "hints": [
-        "Which values must exist before the division runs?",
-        "A let variable must be declared and set before you read it, in a scope the return can see.",
-        "Declare sum before the loop, add each value, then divide by the length."
+        "Which line must run before scale is called?",
+        "A let variable cannot be read before its declaration line has run.",
+        "Declare scale, then let factor = 3, and only then map values with scale."
       ],
       "reference": {
-        "title": "let",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+        "title": "let: temporal dead zone",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#temporal_dead_zone_tdz",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     }
   ]
 }

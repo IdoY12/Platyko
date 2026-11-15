@@ -1452,7 +1452,7 @@
         {
           "text": "prototype",
           "correct": true,
-          "feedback": "Right. A class method is stored on Bike.prototype, and bike finds the same function there through the chain."
+          "feedback": "Right. A class method is stored on Bike.prototype, and b finds the same function there through the chain."
         },
         {
           "text": "constructor",
@@ -1478,9 +1478,9 @@
         ],
         "expectedOutput": "true"
       },
-      "explanation": "A class is syntax over prototypes: the method go is stored on Bike.prototype. bike has no own go, so its lookup finds the same function there, and both reads give the same function.",
+      "explanation": "A class is syntax over prototypes: the method go is stored on Bike.prototype. b has no own go, so its lookup finds the same function there, and both reads give the same function.",
       "hints": [
-        "Line 7 compares the method found through bike with the one on the class function.",
+        "Line 7 compares the method found through b with the one on the class function.",
         "Where does a class keep the methods its instances share?",
         "The class function has a property that holds that shared object; its name says what it is for."
       ],
@@ -1492,7 +1492,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.fix-01",
@@ -1557,11 +1557,11 @@
       "concept": "class-as-prototype-sugar",
       "prerequisites": [
         "constructor-functions",
-        "class-inheritance"
+        "class-basics"
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of rushTotals(prices). Declare Fee (constructor stores an amount, cost() returns it) and Rush extending Fee, whose cost() doubles super.cost(). Return the Rush cost for each price.",
+      "prompt": "Write the body of lateGreetings(names). Declare class Pet whose constructor stores its name in this.name. Create one Pet per name first. Only then add hello() to Pet.prototype, returning 'hi ' followed by the pet's name. Return each pet's hello() result, in the order of names.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1574,15 +1574,13 @@
           {
             "input": [
               [
-                1,
-                2,
-                3
+                "ann",
+                "bo"
               ]
             ],
             "expected": [
-              2,
-              4,
-              6
+              "hi ann",
+              "hi bo"
             ]
           },
           {
@@ -1594,93 +1592,81 @@
           {
             "input": [
               [
-                0
+                "x"
               ]
             ],
             "expected": [
-              0
+              "hi x"
             ]
           },
           {
             "input": [
               [
-                2.5
+                ""
               ]
             ],
             "expected": [
-              5
+              "hi "
             ]
           }
         ],
         "reference": [
-          "class Fee {",
-          "  constructor(a) { this.a = a; }",
-          "  cost() { return this.a; }",
+          "class Pet {",
+          "  constructor(n) { this.name = n; }",
           "}",
-          "class Rush extends Fee {",
-          "  cost() {",
-          "    return super.cost() * 2;",
-          "  }",
-          "}",
-          "const r = (p) => new Rush(p).cost();",
-          "return prices.map(r);"
+          "const all = names.map((n) => new Pet(n));",
+          "Pet.prototype.hello = function () {",
+          "  return 'hi ' + this.name;",
+          "};",
+          "return all.map((g) => g.hello());"
         ],
         "wrongSolutions": [
           [
-            "class Fee {",
-            "  constructor(a) { this.a = a; }",
-            "  cost() { return this.a; }",
+            "class Pet {",
+            "  constructor(n) { this.name = n; }",
             "}",
-            "class Rush extends Fee {",
-            "  cost() {",
-            "    return super.cost() * 2;",
-            "  }",
-            "}",
-            "const r = (p) => new Fee(p).cost();",
-            "return prices.map(r);"
+            "const all = names.map((n) => new Pet(n));",
+            "Pet.hello = function () {",
+            "  return 'hi ' + this.name;",
+            "};",
+            "return all.map((g) => g.hello());"
           ],
           [
-            "class Fee {",
-            "  constructor(a) { this.a = a; }",
-            "  cost() { return this.a; }",
+            "class Pet {",
+            "  constructor(n) { this.name = n; }",
             "}",
-            "class Rush extends Fee {",
-            "  cost() {",
-            "    return super.cost() + 2;",
-            "  }",
-            "}",
-            "const r = (p) => new Rush(p).cost();",
-            "return prices.map(r);"
+            "const all = names.map((n) => new Pet(n));",
+            "Pet.prototype.hello = () => {",
+            "  return 'hi ' + this.name;",
+            "};",
+            "return all.map((g) => g.hello());"
           ],
           [
-            "class Fee {",
-            "  constructor(a) { this.a = a; }",
-            "  cost() { return this.a; }",
+            "class Pet {",
+            "  constructor(n) { this.name = n; }",
             "}",
-            "class Rush extends Fee {",
-            "  cost() {",
-            "    return super.cost() * 2;",
-            "  }",
-            "}",
-            "const r = (p) => new Rush(p);",
-            "return prices.map(r);"
+            "const all = names.map((n) => new Pet(n));",
+            "Pet.prototype.hello = function () {",
+            "  return 'hi ' + this.name;",
+            "};",
+            "return all.map((g) => g.hello);"
           ]
         ]
       },
-      "explanation": "Fee stores the amount and returns it from cost(). Rush extends Fee and calls super.cost() to reach the parent version, then doubles it. map builds one Rush per price and collects its cost.",
+      "explanation": "Class methods live on the prototype, and an instance looks a method up there when it is called. So hello, added to Pet.prototype after the pets exist, is still found by every pet, with this set to that pet.",
       "hints": [
-        "The subclass method must reach the parent method.",
-        "super.cost() calls the version defined on Fee.",
-        "Build a Rush for each price and call cost() on it, not on Fee."
+        "The pets are created before hello exists.",
+        "An instance looks a method up on its prototype at call time, so a method added later to the class's prototype is still found.",
+        "Assign a regular function to Pet.prototype.hello after creating the pets, and read this.name inside it."
       ],
       "reference": {
-        "title": "super",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+        "title": "Inheritance and the prototype chain",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

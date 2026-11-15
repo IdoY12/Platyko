@@ -22,8 +22,7 @@ export function PlayStandings({ standings, seats, selfId, roundPoints }: Props) 
             </AppText>
             <ProfileAvatar name={name} avatarUrl={seat?.avatarUrl ?? null} size={32} />
             <View style={styles.name}>
-              {/* A username is user data: it reads left to right whatever the UI language. */}
-              <AppText variant="bodyStrong" align="ltr" numberOfLines={1}>
+              <AppText variant="bodyStrong" numberOfLines={1}>
                 {name}
               </AppText>
               {standing.left ? (

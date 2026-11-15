@@ -3394,15 +3394,16 @@
    "code": [
     "const half = (n) => n / 2;",
     "const minus = (n) => n - 5;",
-    "const total = (price, rule) => {",
-    "  return rule(price) + 3;",
+    "const chain = (first, second) => {",
+    "  return (n) => second(first(n));",
     "};",
-    "console.log(total(50, half));",
-    "console.log(total(50, minus));"
+    "const price = 50;",
+    "console.log(chain(half, minus)(price));",
+    "console.log(chain(minus, half)(price));"
    ],
    "output": [
-    "28",
-    "48"
+    "20",
+    "22.5"
    ],
    "steps": [
     {
@@ -3466,84 +3467,14 @@
        "value": "[Function: minus]"
       },
       {
-       "name": "total",
+       "name": "chain",
        "scope": "global",
-       "value": "[Function: total]"
+       "value": "[Function: chain]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "half",
-       "scope": "global",
-       "value": "[Function: half]"
-      },
-      {
-       "name": "minus",
-       "scope": "global",
-       "value": "[Function: minus]"
-      },
-      {
-       "name": "total",
-       "scope": "global",
-       "value": "[Function: total]"
-      },
-      {
-       "name": "price",
-       "scope": "total",
-       "value": "50"
-      },
-      {
-       "name": "rule",
-       "scope": "total",
-       "value": "[Function: half]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "total"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 1,
-     "variables": [
-      {
-       "name": "half",
-       "scope": "global",
-       "value": "[Function: half]"
-      },
-      {
-       "name": "minus",
-       "scope": "global",
-       "value": "[Function: minus]"
-      },
-      {
-       "name": "total",
-       "scope": "global",
-       "value": "[Function: total]"
-      },
-      {
-       "name": "n",
-       "scope": "half",
-       "value": "50"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "total",
-      "half"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3562,9 +3493,210 @@
        "value": "[Function: minus]"
       },
       {
-       "name": "total",
+       "name": "chain",
        "scope": "global",
-       "value": "[Function: total]"
+       "value": "[Function: chain]"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "50"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "half",
+       "scope": "global",
+       "value": "[Function: half]"
+      },
+      {
+       "name": "minus",
+       "scope": "global",
+       "value": "[Function: minus]"
+      },
+      {
+       "name": "chain",
+       "scope": "global",
+       "value": "[Function: chain]"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "50"
+      },
+      {
+       "name": "first",
+       "scope": "chain",
+       "value": "[Function: half]"
+      },
+      {
+       "name": "second",
+       "scope": "chain",
+       "value": "[Function: minus]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "chain"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "half",
+       "scope": "global",
+       "value": "[Function: half]"
+      },
+      {
+       "name": "minus",
+       "scope": "global",
+       "value": "[Function: minus]"
+      },
+      {
+       "name": "chain",
+       "scope": "global",
+       "value": "[Function: chain]"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "50"
+      },
+      {
+       "name": "first",
+       "scope": "chain",
+       "value": "[Function: half]"
+      },
+      {
+       "name": "second",
+       "scope": "chain",
+       "value": "[Function: minus]"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "50"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "half",
+       "scope": "global",
+       "value": "[Function: half]"
+      },
+      {
+       "name": "minus",
+       "scope": "global",
+       "value": "[Function: minus]"
+      },
+      {
+       "name": "chain",
+       "scope": "global",
+       "value": "[Function: chain]"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "50"
+      },
+      {
+       "name": "n",
+       "scope": "half",
+       "value": "50"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous",
+      "half"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "half",
+       "scope": "global",
+       "value": "[Function: half]"
+      },
+      {
+       "name": "minus",
+       "scope": "global",
+       "value": "[Function: minus]"
+      },
+      {
+       "name": "chain",
+       "scope": "global",
+       "value": "[Function: chain]"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "50"
+      },
+      {
+       "name": "n",
+       "scope": "minus",
+       "value": "25"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous",
+      "minus"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "half",
+       "scope": "global",
+       "value": "[Function: half]"
+      },
+      {
+       "name": "minus",
+       "scope": "global",
+       "value": "[Function: minus]"
+      },
+      {
+       "name": "chain",
+       "scope": "global",
+       "value": "[Function: chain]"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "50"
       }
      ],
      "outputCount": 1,
@@ -3588,25 +3720,77 @@
        "value": "[Function: minus]"
       },
       {
-       "name": "total",
+       "name": "chain",
        "scope": "global",
-       "value": "[Function: total]"
+       "value": "[Function: chain]"
       },
       {
        "name": "price",
-       "scope": "total",
+       "scope": "global",
        "value": "50"
       },
       {
-       "name": "rule",
-       "scope": "total",
+       "name": "first",
+       "scope": "chain",
        "value": "[Function: minus]"
+      },
+      {
+       "name": "second",
+       "scope": "chain",
+       "value": "[Function: half]"
       }
      ],
      "outputCount": 1,
      "callStack": [
       "global",
-      "total"
+      "chain"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "half",
+       "scope": "global",
+       "value": "[Function: half]"
+      },
+      {
+       "name": "minus",
+       "scope": "global",
+       "value": "[Function: minus]"
+      },
+      {
+       "name": "chain",
+       "scope": "global",
+       "value": "[Function: chain]"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "50"
+      },
+      {
+       "name": "first",
+       "scope": "chain",
+       "value": "[Function: minus]"
+      },
+      {
+       "name": "second",
+       "scope": "chain",
+       "value": "[Function: half]"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "50"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "anonymous"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3625,9 +3809,14 @@
        "value": "[Function: minus]"
       },
       {
-       "name": "total",
+       "name": "chain",
        "scope": "global",
-       "value": "[Function: total]"
+       "value": "[Function: chain]"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "50"
       },
       {
        "name": "n",
@@ -3638,8 +3827,46 @@
      "outputCount": 1,
      "callStack": [
       "global",
-      "total",
+      "anonymous",
       "minus"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 1,
+     "variables": [
+      {
+       "name": "half",
+       "scope": "global",
+       "value": "[Function: half]"
+      },
+      {
+       "name": "minus",
+       "scope": "global",
+       "value": "[Function: minus]"
+      },
+      {
+       "name": "chain",
+       "scope": "global",
+       "value": "[Function: chain]"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "50"
+      },
+      {
+       "name": "n",
+       "scope": "half",
+       "value": "45"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "anonymous",
+      "half"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3658,9 +3885,14 @@
        "value": "[Function: minus]"
       },
       {
-       "name": "total",
+       "name": "chain",
        "scope": "global",
-       "value": "[Function: total]"
+       "value": "[Function: chain]"
+      },
+      {
+       "name": "price",
+       "scope": "global",
+       "value": "50"
       }
      ],
      "outputCount": 2,
@@ -4050,11 +4282,16 @@
     "  bus: (km) => km * 2,",
     "  taxi: (km) => km * 9,",
     "};",
-    "const cost = (m, km) => fare[m](km);",
-    "console.log(cost('taxi', 3));"
+    "const pick = (m) => {",
+    "  return fare[m] || fare.bus;",
+    "};",
+    "const cost = (m, km) => pick(m)(km);",
+    "console.log(cost('taxi', 3));",
+    "console.log(cost('boat', 3));"
    ],
    "output": [
-    "27"
+    "27",
+    "6"
    ],
    "steps": [
     {
@@ -4084,12 +4321,38 @@
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 8,
      "variables": [
       {
        "name": "fare",
        "scope": "global",
        "value": "{bus: [Function: bus], taxi: [Function: taxi]}"
+      },
+      {
+       "name": "pick",
+       "scope": "global",
+       "value": "[Function: pick]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 9,
+     "variables": [
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "{bus: [Function: bus], taxi: [Function: taxi]}"
+      },
+      {
+       "name": "pick",
+       "scope": "global",
+       "value": "[Function: pick]"
       },
       {
        "name": "cost",
@@ -4105,12 +4368,17 @@
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 8,
      "variables": [
       {
        "name": "fare",
        "scope": "global",
        "value": "{bus: [Function: bus], taxi: [Function: taxi]}"
+      },
+      {
+       "name": "pick",
+       "scope": "global",
+       "value": "[Function: pick]"
       },
       {
        "name": "cost",
@@ -4137,12 +4405,50 @@
      "microtasks": []
     },
     {
+     "line": 6,
+     "variables": [
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "{bus: [Function: bus], taxi: [Function: taxi]}"
+      },
+      {
+       "name": "pick",
+       "scope": "global",
+       "value": "[Function: pick]"
+      },
+      {
+       "name": "cost",
+       "scope": "global",
+       "value": "[Function: cost]"
+      },
+      {
+       "name": "m",
+       "scope": "pick",
+       "value": "'taxi'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "cost",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 3,
      "variables": [
       {
        "name": "fare",
        "scope": "global",
        "value": "{bus: [Function: bus], taxi: [Function: taxi]}"
+      },
+      {
+       "name": "pick",
+       "scope": "global",
+       "value": "[Function: pick]"
       },
       {
        "name": "cost",
@@ -4165,12 +4471,17 @@
      "microtasks": []
     },
     {
-     "line": 0,
+     "line": 10,
      "variables": [
       {
        "name": "fare",
        "scope": "global",
        "value": "{bus: [Function: bus], taxi: [Function: taxi]}"
+      },
+      {
+       "name": "pick",
+       "scope": "global",
+       "value": "[Function: pick]"
       },
       {
        "name": "cost",
@@ -4179,6 +4490,135 @@
       }
      ],
      "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "{bus: [Function: bus], taxi: [Function: taxi]}"
+      },
+      {
+       "name": "pick",
+       "scope": "global",
+       "value": "[Function: pick]"
+      },
+      {
+       "name": "cost",
+       "scope": "global",
+       "value": "[Function: cost]"
+      },
+      {
+       "name": "m",
+       "scope": "cost",
+       "value": "'boat'"
+      },
+      {
+       "name": "km",
+       "scope": "cost",
+       "value": "3"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "cost"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "{bus: [Function: bus], taxi: [Function: taxi]}"
+      },
+      {
+       "name": "pick",
+       "scope": "global",
+       "value": "[Function: pick]"
+      },
+      {
+       "name": "cost",
+       "scope": "global",
+       "value": "[Function: cost]"
+      },
+      {
+       "name": "m",
+       "scope": "pick",
+       "value": "'boat'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "cost",
+      "pick"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "{bus: [Function: bus], taxi: [Function: taxi]}"
+      },
+      {
+       "name": "pick",
+       "scope": "global",
+       "value": "[Function: pick]"
+      },
+      {
+       "name": "cost",
+       "scope": "global",
+       "value": "[Function: cost]"
+      },
+      {
+       "name": "km",
+       "scope": "bus",
+       "value": "3"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "cost",
+      "bus"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "fare",
+       "scope": "global",
+       "value": "{bus: [Function: bus], taxi: [Function: taxi]}"
+      },
+      {
+       "name": "pick",
+       "scope": "global",
+       "value": "[Function: pick]"
+      },
+      {
+       "name": "cost",
+       "scope": "global",
+       "value": "[Function: cost]"
+      }
+     ],
+     "outputCount": 2,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -6264,10 +6704,15 @@
    "code": [
     "const mail = (to) => 'mail ' + to;",
     "const fake = (to) => 'fake ' + to;",
-    "const notify = (user, send) => {",
-    "  return send(user);",
-    "};",
-    "console.log(notify('ann', fake));"
+    "class Alert {",
+    "  constructor(send = mail) {",
+    "    this.send = send;",
+    "  }",
+    "  fire(user) {",
+    "    return this.send(user);",
+    "  }",
+    "}",
+    "console.log(new Alert(fake).fire('ann'));"
    ],
    "output": [
     "fake ann"
@@ -6300,7 +6745,7 @@
      "microtasks": []
     },
     {
-     "line": 3,
+     "line": 11,
      "variables": [
       {
        "name": "mail",
@@ -6321,7 +6766,7 @@
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 5,
      "variables": [
       {
        "name": "mail",
@@ -6332,53 +6777,44 @@
        "name": "fake",
        "scope": "global",
        "value": "[Function: fake]"
-      },
-      {
-       "name": "notify",
-       "scope": "global",
-       "value": "[Function: notify]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "mail",
-       "scope": "global",
-       "value": "[Function: mail]"
-      },
-      {
-       "name": "fake",
-       "scope": "global",
-       "value": "[Function: fake]"
-      },
-      {
-       "name": "notify",
-       "scope": "global",
-       "value": "[Function: notify]"
-      },
-      {
-       "name": "user",
-       "scope": "notify",
-       "value": "'ann'"
       },
       {
        "name": "send",
-       "scope": "notify",
+       "scope": "constructor",
        "value": "[Function: fake]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "notify"
+      "constructor"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "mail",
+       "scope": "global",
+       "value": "[Function: mail]"
+      },
+      {
+       "name": "fake",
+       "scope": "global",
+       "value": "[Function: fake]"
+      },
+      {
+       "name": "user",
+       "scope": "fire",
+       "value": "'ann'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "fire"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -6397,11 +6833,6 @@
        "value": "[Function: fake]"
       },
       {
-       "name": "notify",
-       "scope": "global",
-       "value": "[Function: notify]"
-      },
-      {
        "name": "to",
        "scope": "fake",
        "value": "'ann'"
@@ -6410,7 +6841,7 @@
      "outputCount": 0,
      "callStack": [
       "global",
-      "notify",
+      "fire",
       "fake"
      ],
      "macrotasks": [],
@@ -6428,11 +6859,6 @@
        "name": "fake",
        "scope": "global",
        "value": "[Function: fake]"
-      },
-      {
-       "name": "notify",
-       "scope": "global",
-       "value": "[Function: notify]"
       }
      ],
      "outputCount": 1,
@@ -6445,12 +6871,14 @@
   },
   "exp.patterns-and-architecture.dependency-inversion.fill-01": {
    "code": [
-    "const report = (clock, mark) => {",
-    "  return mark(clock());",
+    "const report = (clock, mark, out) => {",
+    "  out(mark(clock()));",
     "};",
     "const fixedClock = () => 9;",
     "const star = (n) => '*' + n;",
-    "console.log(report(fixedClock, star));"
+    "const lines = [];",
+    "report(fixedClock, star, (s) => lines.push(s));",
+    "console.log(lines[0]);"
    ],
    "output": [
     "*9"
@@ -6530,6 +6958,37 @@
      "microtasks": []
     },
     {
+     "line": 7,
+     "variables": [
+      {
+       "name": "report",
+       "scope": "global",
+       "value": "[Function: report]"
+      },
+      {
+       "name": "fixedClock",
+       "scope": "global",
+       "value": "[Function: fixedClock]"
+      },
+      {
+       "name": "star",
+       "scope": "global",
+       "value": "[Function: star]"
+      },
+      {
+       "name": "lines",
+       "scope": "global",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 2,
      "variables": [
       {
@@ -6548,6 +7007,11 @@
        "value": "[Function: star]"
       },
       {
+       "name": "lines",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
        "name": "clock",
        "scope": "report",
        "value": "[Function: fixedClock]"
@@ -6556,6 +7020,11 @@
        "name": "mark",
        "scope": "report",
        "value": "[Function: star]"
+      },
+      {
+       "name": "out",
+       "scope": "report",
+       "value": "[Function (anonymous)]"
       }
      ],
      "outputCount": 0,
@@ -6583,6 +7052,11 @@
        "name": "star",
        "scope": "global",
        "value": "[Function: star]"
+      },
+      {
+       "name": "lines",
+       "scope": "global",
+       "value": "[]"
       }
      ],
      "outputCount": 0,
@@ -6613,6 +7087,11 @@
        "value": "[Function: star]"
       },
       {
+       "name": "lines",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
        "name": "n",
        "scope": "star",
        "value": "9"
@@ -6623,6 +7102,75 @@
       "global",
       "report",
       "star"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "report",
+       "scope": "global",
+       "value": "[Function: report]"
+      },
+      {
+       "name": "fixedClock",
+       "scope": "global",
+       "value": "[Function: fixedClock]"
+      },
+      {
+       "name": "star",
+       "scope": "global",
+       "value": "[Function: star]"
+      },
+      {
+       "name": "lines",
+       "scope": "global",
+       "value": "[]"
+      },
+      {
+       "name": "s",
+       "scope": "anonymous",
+       "value": "'*9'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "report",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "report",
+       "scope": "global",
+       "value": "[Function: report]"
+      },
+      {
+       "name": "fixedClock",
+       "scope": "global",
+       "value": "[Function: fixedClock]"
+      },
+      {
+       "name": "star",
+       "scope": "global",
+       "value": "[Function: star]"
+      },
+      {
+       "name": "lines",
+       "scope": "global",
+       "value": "['*9']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -6644,6 +7192,11 @@
        "name": "star",
        "scope": "global",
        "value": "[Function: star]"
+      },
+      {
+       "name": "lines",
+       "scope": "global",
+       "value": "['*9']"
       }
      ],
      "outputCount": 1,

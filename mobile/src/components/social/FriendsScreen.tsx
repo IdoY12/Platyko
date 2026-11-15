@@ -101,7 +101,7 @@ export function FriendsScreen() {
           {t("friends.addByCode")}
         </AppText>
         <View style={styles.codeRow}>
-          <TextField value={code} onChangeText={(text) => setCode(text.toUpperCase())} placeholder={t("friends.codePlaceholder")} accessibilityLabel={t("friends.addByCode")} autoCapitalize="characters" autoCorrect={false} maxLength={8} style={styles.codeField} />
+          <TextField value={code} onChangeText={(text) => setCode(text.toUpperCase())} placeholder={t("friends.codePlaceholder")} accessibilityLabel={t("friends.addByCode")} autoCapitalize="characters" autoCorrect={false} maxLength={8} code style={styles.codeField} />
           <OutlineButton label={t("friends.add")} disabled={code.length !== 8} onPress={() => void act(async () => {
             const outcome = await new SocialService().sendRequest({ friendCode: code });
             setCode("");
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   code: { ...typography.code, fontSize: 28, lineHeight: 36, letterSpacing: 4, color: palette.brand.js },
   qr: { alignSelf: "center", borderRadius: space.sm, overflow: "hidden" },
   codeRow: { flexDirection: "row", gap: space.md, alignItems: "center" },
-  codeField: { flex: 1, ...typography.code },
+  codeField: { flex: 1 },
   actions: { flexDirection: "row", alignItems: "center", gap: space.sm },
   streak: { flexDirection: "row", alignItems: "center", gap: 2 },
 });

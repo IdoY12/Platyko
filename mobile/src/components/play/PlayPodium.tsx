@@ -24,7 +24,7 @@ export function PlayPodium({ standings, seats }: { standings: Standing[]; seats:
         return (
           <View key={standing.userId} style={styles.column}>
             <ProfileAvatar name={seat?.username ?? ""} avatarUrl={seat?.avatarUrl ?? null} size={standing.place === 1 ? 64 : 48} />
-            <AppText variant="label" align="ltr" numberOfLines={1}>
+            <AppText variant="label" align="center" numberOfLines={1}>
               {seat?.username ?? ""}
             </AppText>
             <View style={[styles.step, { height: STEP_HEIGHT[standing.place], backgroundColor: STEP_COLOUR[standing.place] }]}>

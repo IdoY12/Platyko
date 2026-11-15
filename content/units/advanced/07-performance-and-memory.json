@@ -1108,7 +1108,7 @@
         "closure-captures-variable"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Each stored callback keeps its data array reachable. Fill the blank so every stored callback is released and the program prints 0.",
       "code": [
         "const jobs = [];",
@@ -1166,7 +1166,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:SENIOR:18"
       ]
@@ -1242,7 +1242,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of stillRunning(events); each event is 'start name' or 'stop name'. Return running names by first start. Repeated starts and idle stops change nothing.",
+      "prompt": "Write the body of stillRunning(events), each 'start name' or 'stop name'. Return running names ordered by when their current run began. Repeated starts and idle stops change nothing.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1324,6 +1324,20 @@
               "a",
               "b"
             ]
+          },
+          {
+            "input": [
+              [
+                "start a",
+                "start b",
+                "stop a",
+                "start a"
+              ]
+            ],
+            "expected": [
+              "b",
+              "a"
+            ]
           }
         ],
         "reference": [
@@ -1370,11 +1384,11 @@
           ]
         ]
       },
-      "explanation": "A timer that was stopped no longer runs. Keep the names of running timers: add on start, remove that exact name on stop, and return what is left in order of first start.",
+      "explanation": "A timer that was stopped no longer runs. Keep the names of running timers: add on start, remove that exact name on stop, and return what is left in order of when each current run started.",
       "hints": [
         "Decide what to keep while reading the events.",
         "A stop must remove the timer it names, not just any timer.",
-        "A set keeps insertion order and ignores a repeated add, so spreading it gives the order of first start."
+        "A set keeps insertion order and ignores a repeated add, so spreading it gives the names in the order their current runs began."
       ],
       "reference": {
         "title": "Set.prototype.delete()",
@@ -1383,7 +1397,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.performance-and-memory.algorithmic-cost.predict-01",
@@ -1418,13 +1432,13 @@
         {
           "text": "6 6",
           "correct": false,
-          "feedback": "find stops at the first stop that makes its callback return true. It never visits the stops after the 3.",
+          "feedback": "This gives find the same count as forEach. Check whether find keeps calling its callback after the callback returns true.",
           "misconception": "early-exit-confused"
         },
         {
           "text": "3 6",
           "correct": false,
-          "feedback": "This swaps the two. forEach always runs for every element, and it is find that quits early.",
+          "feedback": "This swaps the two counters. Check which of the two methods always calls its callback for every element.",
           "misconception": "early-exit-confused"
         }
       ],
@@ -1444,7 +1458,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:17"
       ]

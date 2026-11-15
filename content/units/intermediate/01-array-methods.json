@@ -335,7 +335,7 @@
       "explanation": "map builds a new array from the callback results and leaves the array it was called on unchanged. Printing both shows the new true and false values next to the original numbers.",
       "hints": [
         "Compare the two arrays printed on lines 5 and 6.",
-        "map returns a new array and does not edit the original.",
+        "Think about where the callback results end up, and what happens to the source array.",
         "Ask which of the two arrays still holds the numbers."
       ],
       "reference": {
@@ -346,7 +346,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.array-methods.array-map.trace-01",
@@ -727,7 +727,7 @@
       "explanation": "filter keeps each element whose callback result is truthy and returns those elements. Here the callback returns the element itself, so the two zeros, which are falsy, are dropped.",
       "hints": [
         "Look at what the callback on line 3 returns.",
-        "filter keeps an element when the callback result is truthy.",
+        "filter uses each callback result as a test. Ask which of the numbers pass it.",
         "Think about which of the five numbers are falsy."
       ],
       "reference": {
@@ -738,7 +738,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.array-methods.array-filter.trace-01",
@@ -1453,7 +1453,7 @@
         {
           "text": "12 null",
           "correct": false,
-          "feedback": "find does not return null. When nothing matches it returns undefined.",
+          "feedback": "find does not return null. Look again at what the second call returns when no element passes.",
           "misconception": "no-match-gives-null"
         }
       ],
@@ -1474,7 +1474,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:27"
       ]
@@ -1513,7 +1513,7 @@
         {
           "text": "some gives null and filter gives an empty array.",
           "correct": false,
-          "feedback": "some returns a boolean, so it gives false. No array method in this code gives null.",
+          "feedback": "some never returns null. It gives a plain true or false answer, and no array method in this code gives null.",
           "misconception": "no-match-gives-null"
         }
       ],
@@ -1534,7 +1534,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:16"
       ]

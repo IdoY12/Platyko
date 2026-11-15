@@ -72,7 +72,7 @@ export function UserProfileScreen({ route }: Props) {
       <ScreenHeader title="" />
       <View style={styles.identity}>
         <ProfileAvatar name={user.username} avatarUrl={user.avatarUrl} />
-        <AppText variant="screenTitle" align="ltr" numberOfLines={1} style={styles.name}>
+        <AppText variant="screenTitle" numberOfLines={1} style={styles.name}>
           {user.username}
         </AppText>
       </View>
