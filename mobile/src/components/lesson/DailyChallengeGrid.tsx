@@ -1,6 +1,7 @@
-import { Share, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { TextButton } from "@/components/common/LipButton/TextButton";
 import { LtrView } from "@/components/common/AppText/LtrView";
+import { shareCard } from "@/components/share/shareCard";
 import { t } from "@/i18n/translate";
 import { palette, radii, space } from "@/theme/tokens";
 
@@ -10,13 +11,13 @@ const SQUARE_TEXT = { right: "\u{1F7E9}", wrong: "\u{1F7E5}" };
 /**
  * A daily challenge as a row of squares, right in green and wrong in red, in the order played;
  * it shows how it went without showing a question (PRD 14.4). The order is time, so it is not
- * mirrored in Hebrew. `date` adds a button that shares the squares through the system sheet.
+ * mirrored in Hebrew. `date` adds a button that shares the squares as an image card.
  */
 export function DailyChallengeGrid({ grid, date }: { grid: readonly boolean[]; date?: string }) {
   const right = grid.filter(Boolean).length;
   const share = (day: string) => {
     const squares = grid.map((correct) => (correct ? SQUARE_TEXT.right : SQUARE_TEXT.wrong)).join("");
-    void Share.share({ message: t("summary.dailyShare", { date: day, right, total: grid.length, squares }) });
+    void shareCard({ title: t("home.dailyTitle"), subtitle: `${day} · ${t("home.dailyScore", { right, total: grid.length })}`, squares: [...grid] }, t("summary.dailyShare", { date: day, right, total: grid.length, squares }));
   };
   return (
     <View style={styles.wrapper}>

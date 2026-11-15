@@ -1,16 +1,19 @@
 import { StyleSheet, View } from "react-native";
 import { ACHIEVEMENT_GROUPS, ACHIEVEMENTS } from "@project/learning-logic";
 import type { MessageKey } from "@project/locales";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AppText } from "@/components/common/AppText/AppText";
+import { PressableScale } from "@/components/common/PressableScale/PressableScale";
 import { Screen } from "@/components/common/Screen/Screen";
 import { ScreenHeader } from "@/components/common/Screen/ScreenHeader";
 import { Surface } from "@/components/common/Surface/Surface";
+import { shareCard } from "@/components/share/shareCard";
 import { t } from "@/i18n/translate";
 import { palette, space } from "@/theme/tokens";
 import { BadgeEmblem } from "./BadgeEmblem";
 import { useEarnedAchievements } from "./useEarnedAchievements";
 
-/** Every badge by group: earned ones in colour, the rest as silhouettes with how to earn them (PRD 14.2). */
+/** Every badge by group: earned ones in colour with a share button (PRD 14.4), the rest as silhouettes with how to earn them (PRD 14.2). */
 export function AchievementsScreen() {
   const earned = useEarnedAchievements();
   return (
@@ -37,6 +40,11 @@ export function AchievementsScreen() {
                     {isEarned ? t("achievements.earned") : rule}
                   </AppText>
                 </View>
+                {isEarned ? (
+                  <PressableScale accessibilityRole="button" accessibilityLabel={`${t("summary.share")}: ${title}`} hitSlop={space.sm} onPress={() => void shareCard({ title, subtitle: rule }, t("achievements.share", { title }))}>
+                    <MaterialCommunityIcons name="share-variant" size={22} color={palette.brand.primary} />
+                  </PressableScale>
+                ) : null}
               </Surface>
             );
           })}
