@@ -242,13 +242,13 @@
         {
           "text": "Ana 3 none",
           "correct": false,
-          "feedback": "A default applies only when the value is undefined. tip holds 0, which is not undefined, so it keeps its own value.",
+          "feedback": "tip holds 0 in bill. Check when a default is used.",
           "misconception": "default-always-applies"
         },
         {
           "text": "Ana 0 undefined",
           "correct": false,
-          "feedback": "note is missing from bill, and that is exactly when a destructuring default is used. It does not stay undefined.",
+          "feedback": "note is missing from bill. Check what a default does for a missing property.",
           "misconception": "default-skipped-when-missing"
         }
       ],
@@ -269,7 +269,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 5,
       "legacyKeys": [
         "duel:7"
       ]
@@ -297,13 +297,13 @@
         {
           "text": "Each name is looked up as a property of the array, so silver is undefined.",
           "correct": false,
-          "feedback": "That is how an object pattern works. An array pattern ignores the spelling of the names and uses positions.",
+          "feedback": "Check whether the array board has properties called gold or silver.",
           "misconception": "array-pattern-by-name"
         },
         {
           "text": "The names are matched against the element values, so silver is undefined.",
           "correct": false,
-          "feedback": "Values are never compared with names. The pattern only decides which position each name reads.",
+          "feedback": "Check what role the element values play when names are matched.",
           "misconception": "array-pattern-by-name"
         }
       ],
@@ -324,7 +324,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:13"
       ]
@@ -354,13 +354,13 @@
         {
           "text": "7",
           "correct": false,
-          "feedback": "The default 6 is used only when lo is missing. lo exists, so it holds 2 when hi's default runs.",
+          "feedback": "7 would mean lo holds 6. Check whether lo is missing from bag.",
           "misconception": "default-always-applies"
         },
         {
           "text": "undefined",
           "correct": false,
-          "feedback": "hi is missing from bag, and that is exactly when its default is used.",
+          "feedback": "Check what a default does for a property that bag lacks.",
           "misconception": "default-skipped-when-missing"
         }
       ],
@@ -385,7 +385,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 4,
       "legacyKeys": [
         "duel:9"
       ]
@@ -623,7 +623,7 @@
         {
           "text": "52 52",
           "correct": false,
-          "feedback": "Math.max works on separate numbers. A whole array as one argument is not converted into its largest element.",
+          "feedback": "Check what Math.max receives on line 3, where the array is not spread.",
           "misconception": "spread-array-not-needed"
         },
         {
@@ -650,7 +650,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:12"
       ]
@@ -679,13 +679,13 @@
         {
           "text": "scores holds only the next argument after label.",
           "correct": false,
-          "feedback": "A rest parameter does not stop after one value. It takes all remaining arguments and puts them in an array.",
+          "feedback": "Check how many arguments the call passes after \"quiz\" and where they go.",
           "misconception": "rest-takes-one-argument"
         },
         {
           "text": "scores holds only the last argument that is passed.",
           "correct": false,
-          "feedback": "A rest parameter collects every remaining argument, not just the final one, and always as an array.",
+          "feedback": "Check what scores holds when three arguments are passed.",
           "misconception": "rest-takes-one-argument"
         }
       ],
@@ -706,7 +706,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 4,
       "legacyKeys": [
         "exercise:MID:15"
       ]
@@ -737,7 +737,7 @@
         {
           "text": "['Bonn', ['Ayr']]",
           "correct": false,
-          "feedback": "That would happen without the ... before leg. Spread puts the elements of leg into route, not leg itself.",
+          "feedback": "That would happen without the ... before leg. Check what ... does to leg inside [ ].",
           "misconception": "spread-nests-array"
         },
         {
@@ -768,7 +768,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.objects-in-depth.spread-and-rest.parsons-01",
@@ -809,7 +809,7 @@
       "hints": [
         "Find the line that uses both small objects and put it after them.",
         "When two spreads share a key, the later one wins.",
-        "The two small objects come first, the merged one next, and the prints last."
+        "Both prints read drink, so they come after it."
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -819,7 +819,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.objects-in-depth.spread-and-rest.fix-01",
@@ -989,13 +989,13 @@
         {
           "text": "red blue",
           "correct": false,
-          "feedback": "That needs two separate objects. Line 2 does not copy the object; it gives it a second name.",
+          "feedback": "That needs two separate objects. Check how many objects line 2 creates.",
           "misconception": "copy-by-assignment"
         },
         {
           "text": "red red",
           "correct": false,
-          "feedback": "Line 3 does run, and it changes the object that both names share, so neither name still sees red.",
+          "feedback": "Line 3 does run. Check which name or names it changes.",
           "misconception": "copy-by-assignment"
         }
       ],
@@ -1016,7 +1016,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.concept-01",
@@ -1043,13 +1043,13 @@
         {
           "text": "=== compares properties, so both comparisons are true.",
           "correct": false,
-          "feedback": "For objects, === does not look inside. Two separate objects with equal contents are still different.",
+          "feedback": "Check whether === looks at the contents of objects, using cardA and cardB.",
           "misconception": "equal-content-equal-identity"
         },
         {
           "text": "cardC is a copy of cardA, so both comparisons are false.",
           "correct": false,
-          "feedback": "Line 3 gives the existing object a second name. It does not create a copy, so that comparison is true.",
+          "feedback": "Check whether line 3 creates a new object or something else.",
           "misconception": "copy-by-assignment"
         }
       ],
@@ -1070,7 +1070,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.trace-01",
@@ -1101,13 +1101,13 @@
         {
           "text": "{n: 5}",
           "correct": false,
-          "feedback": "The function does not get a copy of the object. Changing obj.n changes box itself.",
+          "feedback": "Check what bump does to obj.n and whose property that is.",
           "misconception": "argument-copy"
         },
         {
           "text": "{n: 6}",
           "correct": false,
-          "feedback": "The second call works on the same object as the first, and does not start from 5 again.",
+          "feedback": "Count how many calls to bump have run by line 8.",
           "misconception": "argument-copy"
         }
       ],
@@ -1132,7 +1132,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.fill-01",
@@ -1355,7 +1355,7 @@
       "hints": [
         "reverse changes the array it is called on.",
         "Make a copy of songs before you reverse it.",
-        "Spread songs into a new array, reverse that array, and return both in one object."
+        "Reverse the copy, never songs itself."
       ],
       "reference": {
         "title": "Array.prototype.reverse()",
@@ -1364,7 +1364,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:7"
       ]
@@ -1396,13 +1396,13 @@
         {
           "text": "2 2",
           "correct": false,
-          "feedback": "Spread does create a new object, so assigning copy.id does not reach shop.",
+          "feedback": "Check whether assigning copy.id on line 4 can reach shop.",
           "misconception": "copy-by-assignment"
         },
         {
           "text": "1 1",
           "correct": false,
-          "feedback": "Spread copies only the top level. The tags array inside is still shared, so the push is visible in shop.",
+          "feedback": "Check whether the push on line 5 reaches the array that shop holds.",
           "misconception": "shallow-is-deep"
         }
       ],
@@ -1423,7 +1423,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "int.objects-in-depth.shallow-copy.concept-01",
@@ -1450,13 +1450,13 @@
         {
           "text": "Spread copies nested arrays too, so menu.sides still has length 1.",
           "correct": false,
-          "feedback": "A spread is a shallow copy. Nested arrays and objects are shared, so the length is not 1.",
+          "feedback": "Check what draft.sides refers to after line 3.",
           "misconception": "shallow-is-deep"
         },
         {
           "text": "Spread makes draft the same object as menu, so every change is shared.",
           "correct": false,
-          "feedback": "draft is a new object. A new top-level property or a changed dish would stay in draft; only nested values are shared.",
+          "feedback": "Check whether a changed top-level property of draft would show in menu.",
           "misconception": "copy-by-assignment"
         }
       ],
@@ -1477,7 +1477,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "int.objects-in-depth.shallow-copy.trace-01",
@@ -1507,13 +1507,13 @@
         {
           "text": "{days: 3, stops: ['Rome']}",
           "correct": false,
-          "feedback": "copyA is a shallow copy, so its stops is the same array as plan.stops, and \"Pisa\" is added to it.",
+          "feedback": "Check whether copyA.stops is a separate array from plan.stops.",
           "misconception": "shallow-is-deep"
         },
         {
           "text": "{days: 3, stops: ['Rome', 'Pisa', 'Bari']}",
           "correct": false,
-          "feedback": "copyB gets its own stops array on line 5, so \"Bari\" never reaches plan.",
+          "feedback": "Check which array the push on line 7 changes.",
           "misconception": "copy-by-assignment"
         }
       ],
@@ -1538,7 +1538,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "int.objects-in-depth.shallow-copy.parsons-01",
@@ -1640,114 +1640,158 @@
       "id": "int.objects-in-depth.shallow-copy.write-01",
       "concept": "shallow-copy",
       "prerequisites": [
-        "array-index"
+        "reference-vs-value",
+        "spread-and-rest"
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write the body of dropFirstStop(stops). Return an array of two items: a new array without the first stop, and stops itself, unchanged.",
+      "prompt": "Write the body of addTag(shop, tag). shop has an id and a tags array. Return [copy, shop]: a copy whose tags also end with tag, and shop unchanged.",
       "solution": {
         "entry": {
           "kind": "function",
-          "name": "dropFirstStop",
+          "name": "addTag",
           "params": [
-            "stops"
+            "shop",
+            "tag"
           ]
         },
         "tests": [
           {
             "input": [
-              [
-                "Mill",
-                "Park",
-                "Dock"
-              ]
+              {
+                "id": 1,
+                "tags": [
+                  "sale"
+                ]
+              },
+              "new"
             ],
             "expected": [
-              [
-                "Park",
-                "Dock"
-              ],
-              [
-                "Mill",
-                "Park",
-                "Dock"
-              ]
+              {
+                "id": 1,
+                "tags": [
+                  "sale",
+                  "new"
+                ]
+              },
+              {
+                "id": 1,
+                "tags": [
+                  "sale"
+                ]
+              }
             ]
           },
           {
             "input": [
-              [
-                "Solo"
-              ]
+              {
+                "id": 2,
+                "tags": []
+              },
+              "x"
             ],
             "expected": [
-              [],
-              [
-                "Solo"
-              ]
+              {
+                "id": 2,
+                "tags": [
+                  "x"
+                ]
+              },
+              {
+                "id": 2,
+                "tags": []
+              }
             ]
           },
           {
             "input": [
-              []
+              {
+                "id": 3,
+                "tags": [
+                  "a",
+                  "b"
+                ]
+              },
+              "c"
             ],
             "expected": [
-              [],
-              []
+              {
+                "id": 3,
+                "tags": [
+                  "a",
+                  "b",
+                  "c"
+                ]
+              },
+              {
+                "id": 3,
+                "tags": [
+                  "a",
+                  "b"
+                ]
+              }
             ]
           },
           {
             "input": [
-              [
-                "A",
-                "B"
-              ]
+              {
+                "id": 4,
+                "tags": [
+                  "a"
+                ]
+              },
+              "a"
             ],
             "expected": [
-              [
-                "B"
-              ],
-              [
-                "A",
-                "B"
-              ]
+              {
+                "id": 4,
+                "tags": [
+                  "a",
+                  "a"
+                ]
+              },
+              {
+                "id": 4,
+                "tags": [
+                  "a"
+                ]
+              }
             ]
           }
         ],
         "reference": [
-          "const [, ...rest] = stops;",
-          "return [rest, stops];"
+          "const tags = [...shop.tags, tag];",
+          "return [{ ...shop, tags }, shop];"
         ],
         "wrongSolutions": [
           [
-            "stops.shift();",
-            "return [stops, stops];"
+            "return [{ ...shop }, shop];"
           ],
           [
-            "const rest = stops;",
-            "rest.shift();",
-            "return [rest, stops];"
+            "const copy = { ...shop };",
+            "copy.tags.push(tag);",
+            "return [copy, shop];"
           ],
           [
-            "const rest = stops.slice(1);",
-            "return [rest, rest];"
+            "const tags = [tag];",
+            "return [{ ...shop, tags }, shop];"
           ]
         ]
       },
-      "explanation": "slice(1) returns a new array that starts at index 1 and leaves stops untouched. Methods like shift remove the first element in place, which would also change the second item of the result.",
+      "explanation": "A spread copy shares its tags array with shop, so pushing onto it would also change shop. Building a new array with [...shop.tags, tag] and putting it in the copy leaves shop unchanged.",
       "hints": [
-        "shift removes the first element but changes the array it is called on.",
-        "Leave stops alone and build a new array from it.",
-        "Copy only the part of the array that starts at the second position, and return stops itself as the second item."
+        "Look at what happens to shop.tags if you push onto it.",
+        "A spread copy shares nested arrays with the original, so give the copy its own tags array.",
+        "Build a new array from shop.tags plus tag, and put it in the copy."
       ],
       "reference": {
-        "title": "Array.prototype.slice()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice",
+        "title": "Spread syntax (...)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:17"
       ]

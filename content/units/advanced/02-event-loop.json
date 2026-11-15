@@ -261,13 +261,13 @@
         {
           "text": "lens in\nlens out\nlamp\ndone",
           "correct": false,
-          "feedback": "A called function does not wait for its caller to finish. It runs at once, at the line of the call.",
+          "feedback": "Check where lampOn is called inside checkLens.",
           "misconception": "call-waits-for-caller"
         },
         {
           "text": "lens in\nlens out\ndone\nlamp",
           "correct": false,
-          "feedback": "Nothing here is delayed. Every call runs immediately and finishes before the next line of its caller.",
+          "feedback": "Check whether anything in this program is delayed.",
           "misconception": "call-waits-for-caller"
         }
       ],
@@ -288,7 +288,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "adv.event-loop.call-stack.concept-01",
@@ -318,13 +318,13 @@
         {
           "text": "The callback interrupts the loop once the timer is due, so ding can print before n is 3.",
           "correct": false,
-          "feedback": "JavaScript never stops running code to start a callback. The loop and the lines after it finish first.",
+          "feedback": "Check whether a callback can start while the loop is still running.",
           "misconception": "callback-interrupts-code"
         },
         {
           "text": "A delay of 0 puts the callback ahead of the loop, so ding prints first.",
           "correct": false,
-          "feedback": "A zero delay does not run the callback at once. It only asks for it to run as soon as the stack is free.",
+          "feedback": "Check what a delay of 0 does to the callback's place in the queue.",
           "misconception": "deferred-code-runs-now"
         }
       ],
@@ -345,7 +345,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "adv.event-loop.call-stack.fill-01",
@@ -630,13 +630,13 @@
         {
           "text": "doors open\ncurtain\nseats filled",
           "correct": false,
-          "feedback": "A delay of 0 does not run the callback at the call. It goes to the queue and waits for the stack to empty.",
+          "feedback": "Check where the callback runs relative to the plain line after the timer.",
           "misconception": "deferred-code-runs-now"
         },
         {
           "text": "curtain\ndoors open\nseats filled",
           "correct": false,
-          "feedback": "Timers do not jump ahead of plain code. The callback runs only after every plain line has finished.",
+          "feedback": "Check whether a timer callback can run before the plain lines have finished.",
           "misconception": "timer-callbacks-run-first"
         }
       ],
@@ -657,7 +657,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 5,
       "legacyKeys": [
         "exercise:MID:25"
       ]
@@ -686,13 +686,13 @@
         {
           "text": "Timers fire in the order of their lines, so tea prints first.",
           "correct": false,
-          "feedback": "Line order matters only between equal delays. A shorter delay leaves the queue earlier.",
+          "feedback": "Check the delay numbers, not only the line order.",
           "misconception": "timer-order-by-code"
         },
         {
           "text": "Each setTimeout call pauses the program for its delay before the next line runs.",
           "correct": false,
-          "feedback": "setTimeout never pauses. All three timers are set at once and then count down together.",
+          "feedback": "Check whether setTimeout stops the program before the next line.",
           "misconception": "timeout-blocks-program"
         }
       ],
@@ -713,7 +713,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "adv.event-loop.macrotask-queue.fill-01",
@@ -981,13 +981,13 @@
         {
           "text": "paper in\npaper out\ndried\ncut",
           "correct": false,
-          "feedback": "The loop empties the microtask queue before it takes the next timer, even when the timer was set first.",
+          "feedback": "Check which queue the loop empties first after the plain code.",
           "misconception": "micro-after-macro"
         },
         {
           "text": "paper in\ncut\npaper out\ndried",
           "correct": false,
-          "feedback": "queueMicrotask does not call the function at once. The callback waits until the plain code has finished.",
+          "feedback": "Check whether queueMicrotask calls its callback at once.",
           "misconception": "deferred-code-runs-now"
         }
       ],
@@ -998,7 +998,7 @@
       "hints": [
         "Which lines run before the stack is empty?",
         "Microtasks run right after the current code, before any timer task.",
-        "The microtask comes before the timer, although the timer line is above it."
+        "Both deferred callbacks wait for the plain lines; only one of them goes first."
       ],
       "reference": {
         "title": "queueMicrotask()",
@@ -1008,7 +1008,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 4,
       "legacyKeys": [
         "exercise:SENIOR:11"
       ]
@@ -1041,13 +1041,13 @@
         {
           "text": "The new handler waits for the next task, so horn prints between scan and stamp.",
           "correct": false,
-          "feedback": "A handler queued by a handler joins the same microtask queue. It runs before any timer task.",
+          "feedback": "Check which queue a handler added during a handler joins.",
           "misconception": "new-microtask-waits-for-next-task"
         },
         {
           "text": "Timers always run first, because their line comes first in the program.",
           "correct": false,
-          "feedback": "Line order does not decide this. Promise handlers are microtasks and run before timer tasks.",
+          "feedback": "Check whether line order decides when a timer callback runs compared with promise handlers.",
           "misconception": "micro-after-macro"
         }
       ],
@@ -1068,7 +1068,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "adv.event-loop.microtask-queue.parsons-01",
@@ -1346,13 +1346,13 @@
         {
           "text": "heat\ncool\nunload",
           "correct": false,
-          "feedback": "await always pauses its function, even when the awaited value is ready. The caller continues first.",
+          "feedback": "Check whether the caller waits for fireKiln at the await.",
           "misconception": "deferred-code-runs-now"
         },
         {
           "text": "unload\nheat\ncool",
           "correct": false,
-          "feedback": "The body of an async function starts running at once, up to its first await.",
+          "feedback": "Check when the body of an async function starts.",
           "misconception": "async-body-deferred"
         }
       ],
@@ -1373,7 +1373,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "adv.event-loop.await-scheduling.concept-01",
@@ -1403,13 +1403,13 @@
         {
           "text": "await blocks the whole program until it resumes, so nothing else can run in between.",
           "correct": false,
-          "feedback": "await pauses only its own function. The rest of the program keeps running.",
+          "feedback": "Check whether the rest of the program can run while hang is paused.",
           "misconception": "await-blocks-program"
         },
         {
           "text": "It resumes as a timer task, so bell prints first because its timer was set first.",
           "correct": false,
-          "feedback": "Code after await resumes as a microtask, not as a timer task. Microtasks run before the next timer.",
+          "feedback": "Check which queue the code after an await joins.",
           "misconception": "await-after-timer"
         }
       ],
@@ -1430,7 +1430,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "adv.event-loop.await-scheduling.parsons-01",

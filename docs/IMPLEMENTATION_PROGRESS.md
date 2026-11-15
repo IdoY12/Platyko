@@ -27,7 +27,7 @@ after any context reset, then continue from "Current position".
   invitations, rooms that reopen after a game, leaver cooldown, Bug Hunt and Output Race done and
   played end to end on the simulator against scripted players; 6: "explain my mistake" behind
   its flag done.
-- **Next for the main thread:** pass 7 running (`run-20261115-012331`); after it, fix and repeat to three consecutive clean passes. Acceptance evidence is in the last section: the gaps left are the clean passes (and with them LIVE items), the mascot rest-pose rims, and the items blocked on H5, H6, H8 and H10.
+- **Next for the main thread:** pass 8; fix and repeat to three consecutive clean passes. Acceptance evidence is in the last section: the gaps left are the clean passes (and with them LIVE items), the mascot rest-pose rims, and the items blocked on H5, H6, H8 and H10.
 - **Next for sub-agents:** gate agents for pass 2, then fix agents per batch (briefs written from
   the pass's findings; see pass 1's `scratchpad/fix1/brief-N.md` for the shape).
 - **Owner rules added mid-run:** at most two sub-agents at a time; sub-agents default to Sonnet
@@ -54,7 +54,7 @@ after any context reset, then continue from "Current position".
 |---|---|---|
 | 0 | Item model, attempts, user-level XP, verification pipeline, CI, bug fixes, tokens, fonts, i18n | In progress |
 | 1 | Learning core: lesson player, 7 formats, feedback, code view, execution player, map, Home, onboarding, mascot | Done (Profile, Settings, auth in the new design; EN + HE) |
-| 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); passes 1–6 resolved (329, 123, 57, 44, 20, 55 findings); pass 7 next |
+| 2 | 604-item bank, legacy migration, full verification loop | Bank authored (604 items); passes 1–7 resolved (329, 123, 57, 44, 20, 55, 29 findings); pass 8 next |
 | 3 | Retention: review (SM-2), daily challenge, revision, weekly goal, freeze, push, achievements | Done except server push (credentials) |
 | 4 | Social: profile, privacy, search, friends, block/report, presence, GitHub, badge | Done: profile, privacy, search, friends, played recently, presence, invitations inbox, block and report, friend links, Friend Streak, QR code, README badge, GitHub sign-in and link (flag off until H7) |
 | 5 | Multiplayer: contract, N-player engine, scoring, Glicko-2, ghost, rooms, reconnect | Done: engine, `/play`, Play tab, friends duels and invitations, presence, reconnect and server-restart recovery, rooms reopening, podium, leaver cooldown, room links, in-game reactions, "how scoring works" screen (examples computed by the engine's own `pointsForAnswer`), `/duel` retired, and a friends duel played between two simulators (iPhone 17 Pro in Hebrew, iPhone 16e in English): same item each round, clocks in step, draw scored as a shared first place. |
@@ -134,7 +134,7 @@ Done since the first update (all committed):
 
 Open:
 
-- [ ] Full verification loop to three clean passes: passes 1–6 resolved (329, 123, 57, 44, 20, 55 findings); pass 7 next.
+- [ ] Full verification loop to three clean passes: passes 1–7 resolved (329, 123, 57, 44, 20, 55, 29 findings); pass 8 next. Pass 7's fix agents also swept every item of the 18 units they touched for answer-revealing feedback and hints.
 - [ ] Server error codes (PRD: "the server keeps returning generic errors and codes"): today the
       app maps the server's English messages to translated text in one place
       (`mobile/src/i18n/localizedMessage.ts`); switching to codes removes the string coupling.

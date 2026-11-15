@@ -273,13 +273,13 @@
         {
           "text": "menu\nsoup\nsalad\nbread",
           "correct": false,
-          "feedback": "That follows the order of the lines. Timers fire by their delay, not by where they were written.",
+          "feedback": "That follows the order of the lines. Check whether the delay or the line position decides when a timer fires.",
           "misconception": "timers-fire-in-code-order"
         },
         {
           "text": "salad\nbread\nsoup\nmenu",
           "correct": false,
-          "feedback": "setTimeout does not hold up the program. The line say('menu') does not wait for any timer.",
+          "feedback": "Check whether the plain call on line 7 has to wait for the timers.",
           "misconception": "timeout-blocks-code"
         }
       ],
@@ -290,7 +290,7 @@
       "hints": [
         "Which line is not inside a setTimeout?",
         "A timer callback runs after its delay, and the delay decides the order, not the line number.",
-        "Print the plain call first, then sort the three dishes by their numbers."
+        "Separate the plain call from the three timers, then order the timers by their numbers."
       ],
       "reference": {
         "title": "setTimeout()",
@@ -300,7 +300,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.async-basics.callbacks-and-timers.concept-01",
@@ -328,13 +328,13 @@
         {
           "text": "A delay of 0 makes the callback run immediately, so rest prints second.",
           "correct": false,
-          "feedback": "A delay of 0 is a request to run as soon as possible, after the current code. It is not a direct call.",
+          "feedback": "Compare where rest prints with where line 5 prints: would a direct call give that order?",
           "misconception": "zero-delay-runs-now"
         },
         {
           "text": "setTimeout holds back the lines below it until its callback has run, so rest prints second.",
           "correct": false,
-          "feedback": "The lines below setTimeout do not wait. The call returns at once and the program goes on.",
+          "feedback": "Check whether the call on line 2 pauses the lines below it.",
           "misconception": "timeout-blocks-code"
         }
       ],
@@ -355,7 +355,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.async-basics.callbacks-and-timers.trace-01",
@@ -513,7 +513,7 @@
         {
           "text": "setTimeout(200, showArrival);",
           "correct": false,
-          "feedback": "The arguments are swapped. setTimeout needs the function first and the delay second."
+          "feedback": "Here setTimeout receives the number 200 where it expects a function."
         },
         {
           "text": "setTimeout(() => showArrival, 200);",
@@ -529,7 +529,7 @@
       "hints": [
         "Look at what stands before the comma on line 4.",
         "Parentheses after a function name call it right now.",
-        "Remove the call and pass the function by its name."
+        "Hand setTimeout the function itself rather than the result of calling it."
       ],
       "reference": {
         "title": "Callback function",
@@ -539,7 +539,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.async-basics.callbacks-and-timers.write-01",
@@ -685,7 +685,7 @@
         {
           "text": "desk open\nlent map\ndesk closed",
           "correct": false,
-          "feedback": "That runs the handler at the moment then is called. A handler always waits for the running code to end.",
+          "feedback": "That runs the handler at the moment then is called. Check whether a handler can run in the middle of other code.",
           "misconception": "then-runs-immediately"
         },
         {
@@ -712,7 +712,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.async-basics.promise-basics.concept-01",
@@ -740,13 +740,13 @@
         {
           "text": "After catch has run the chain is finished, so the last then never runs.",
           "correct": false,
-          "feedback": "catch returns a promise too. When its handler returns a value, the next then runs with that value.",
+          "feedback": "Check what a catch call returns and whether the next then can still run.",
           "misconception": "catch-ends-chain"
         },
         {
           "text": "The last then receives the original error, because catch only observes the rejection.",
           "correct": false,
-          "feedback": "The value of the next link is what the catch handler returns, here the text waitlist, not the old error.",
+          "feedback": "Check what the catch handler on line 2 returns and who receives it.",
           "misconception": "chain-value-confusion"
         }
       ],
@@ -767,7 +767,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.async-basics.promise-basics.trace-01",
@@ -806,7 +806,7 @@
         {
           "text": "10",
           "correct": false,
-          "feedback": "That skips the function given to new Promise. It runs immediately, so the 1 is already added.",
+          "feedback": "That leaves out one of the additions made before line 10.",
           "misconception": "wrong-step-value"
         }
       ],
@@ -831,7 +831,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.async-basics.promise-basics.parsons-01",
@@ -938,7 +938,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write the body of labelStock(item), a then handler for {name, left}. Return the name, a colon, a space and low when left is below 3, otherwise ok.",
+      "prompt": "Write the body of labelStock(item), a then handler for {name, left}. Return name + ': low' when left is below 3, otherwise name + ': ok'.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1021,7 +1021,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.async-basics.async-await.predict-01",
@@ -1049,7 +1049,7 @@
         {
           "text": "number\n12",
           "correct": false,
-          "feedback": "The call returns a promise, not the number. The 12 only arrives inside the then handler.",
+          "feedback": "Check what countRooms() returns on line 4 before typeof sees it.",
           "misconception": "async-returns-plain-value"
         },
         {
@@ -1076,7 +1076,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:20"
       ]
@@ -1108,13 +1108,13 @@
         {
           "text": "await freezes the whole program until the promise settles, so packed prints before truck waiting.",
           "correct": false,
-          "feedback": "await pauses only the async function it is in. The caller goes on with the next line.",
+          "feedback": "Check whether the line after pack() on line 6 has to wait for the function.",
           "misconception": "await-blocks-program"
         },
         {
           "text": "The promise is already fulfilled, so await continues at once and packed prints before truck waiting.",
           "correct": false,
-          "feedback": "Even for a fulfilled promise, the rest of the function is queued and runs after the current code.",
+          "feedback": "Check when the rest of pack can run once await has been reached.",
           "misconception": "then-runs-immediately"
         }
       ],
@@ -1135,7 +1135,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:21"
       ]
@@ -1171,7 +1171,7 @@
         {
           "text": "3",
           "correct": false,
-          "feedback": "That treats the calls as one after the other. The second call already read 10 while the first was paused.",
+          "feedback": "That treats the calls as one after the other. Check what the second call read before it wrote.",
           "misconception": "await-blocks-program"
         },
         {
@@ -1202,7 +1202,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.async-basics.async-await.fill-01",
@@ -1415,7 +1415,7 @@
       "hints": [
         "booking is a plain object, so read its two properties.",
         "Compute the difference first, then deal with a negative result.",
-        "Return 0 when the difference is below 0, otherwise the difference."
+        "Think about which difference needs special handling, and what to return then."
       ],
       "reference": {
         "title": "await",
@@ -1424,7 +1424,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.async-basics.async-error-handling.predict-01",
@@ -1454,13 +1454,13 @@
         {
           "text": "waitlisted\nrequested",
           "correct": false,
-          "feedback": "The handler is queued and runs after the current code, so requested prints first.",
+          "feedback": "Check whether the catch handler can run before line 7.",
           "misconception": "then-runs-immediately"
         },
         {
           "text": "Uncaught Error",
           "correct": false,
-          "feedback": "Inside an async function a throw does not escape at the call. It rejects the returned promise, which catch handles.",
+          "feedback": "Check what reserve() returns on line 4 when the function throws.",
           "misconception": "async-returns-plain-value"
         }
       ],
@@ -1471,7 +1471,7 @@
       "hints": [
         "Look at what reserve() returns on line 4.",
         "An error inside an async function rejects its promise.",
-        "The catch handler runs after the plain console.log line."
+        "Decide which of the two logging lines runs first."
       ],
       "reference": {
         "title": "Promise.prototype.catch()",
@@ -1481,7 +1481,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:26"
       ]
@@ -1518,13 +1518,13 @@
         {
           "text": "finally is skipped once catch has handled the error, so only failed prints.",
           "correct": false,
-          "feedback": "finally runs whether or not an error happened and whether or not catch ran.",
+          "feedback": "Check the code for anything that could keep the finally block from running, and compare with this claim.",
           "misconception": "finally-skipped-after-error"
         },
         {
           "text": "await does not stop the try block, so saved prints first and failed after it.",
           "correct": false,
-          "feedback": "When the awaited promise rejects, await throws and the rest of try is skipped.",
+          "feedback": "Check what await does when the promise it waits for is rejected.",
           "misconception": "try-continues-after-error"
         }
       ],
@@ -1545,7 +1545,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.async-basics.async-error-handling.trace-01",
@@ -1637,7 +1637,7 @@
       "explanation": "The plain calls print first. The rejection skips the first then handler and catch handles it. catch returns normally, so the last then runs after it. The first then never prints.",
       "hints": [
         "Start with the lines that are not inside a handler.",
-        "A rejection passes over then and reaches the first catch.",
+        "A rejection skips handlers until it meets one made for rejections.",
         "After catch handles the rejection, the chain continues to the next then."
       ],
       "reference": {
@@ -1648,7 +1648,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.async-basics.async-error-handling.fix-01",
@@ -1699,7 +1699,7 @@
       "hints": [
         "Look at line 6: does anything wait for the promise?",
         "try/catch only sees errors thrown while the try block is running.",
-        "Make the rejection throw inside try by waiting for the promise."
+        "Something on line 6 has to make the function wait before the try block ends."
       ],
       "reference": {
         "title": "try...catch",
@@ -1709,7 +1709,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.async-basics.async-error-handling.write-01",
@@ -1790,7 +1790,7 @@
       "hints": [
         "Look at what the handler receives: reason, an object with a code.",
         "A catch handler is a plain function of the rejection value; it can branch and return like any function.",
-        "Test reason.code against 'timeout' first, then build the other text with reason.code."
+        "Decide the one special value of reason.code, then build the general case from reason.code."
       ],
       "reference": {
         "title": "Promise.prototype.catch()",
@@ -1799,7 +1799,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

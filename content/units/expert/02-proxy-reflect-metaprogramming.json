@@ -242,13 +242,13 @@
         {
           "text": "4\nundefined",
           "correct": false,
-          "feedback": "That is what the plain object would give. The trap runs for every read of the proxy, also for a key that does not exist.",
+          "feedback": "That is what the plain object would give. Check whether the proxy changes the result for the key that does not exist.",
           "misconception": "trap-skipped-for-missing-keys"
         },
         {
           "text": "0\n0",
           "correct": false,
-          "feedback": "The trap checks the key first. fig is in the target, so its stored value is returned, and only a missing key gets the fallback.",
+          "feedback": "You gave both reads the same result. Look at the test k in t in the trap.",
           "misconception": "trap-answers-every-key-the-same"
         }
       ],
@@ -269,7 +269,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:25"
       ]
@@ -299,13 +299,13 @@
         {
           "text": "A proxy copies the target, so writing to the proxy leaves the target unchanged",
           "correct": false,
-          "feedback": "A proxy does not copy anything. It stands in front of the target, and a write with no trap lands on the target itself.",
+          "feedback": "Line 4 prints raw.sold. Check whether it still holds the original number.",
           "misconception": "proxy-copies-target"
         },
         {
           "text": "A proxy with an empty handler is the same object as its target",
           "correct": false,
-          "feedback": "The proxy wraps the target but is a separate object, so comparing the two with === gives false.",
+          "feedback": "Check what the second value printed on line 4 says about view and raw.",
           "misconception": "proxy-is-target"
         }
       ],
@@ -326,7 +326,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.proxy-traps.fix-01",
@@ -373,7 +373,7 @@
       "hints": [
         "Check which object line 3 reads from.",
         "A read on the proxy runs the get trap, even when the trap does it.",
-        "Read from the first parameter of the trap, using the key variable."
+        "One of the trap's own parameters is the raw data the proxy wraps."
       ],
       "reference": {
         "title": "Proxy handler get()",
@@ -383,7 +383,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.proxy-traps.write-01",
@@ -581,13 +581,13 @@
         {
           "text": "['title', 'year']\n['title', 'year']",
           "correct": false,
-          "feedback": "Reflect.ownKeys is not the same as Object.keys. It also lists symbol keys.",
+          "feedback": "Check whether ownKeys skips the key added on line 3.",
           "misconception": "reflect-ownkeys-like-keys"
         },
         {
           "text": "[Symbol(id), 'title', 'year']\n['title', 'year']",
           "correct": false,
-          "feedback": "The list has the right members, but string keys come before symbols in own-key order, whenever the symbol was added.",
+          "feedback": "The list has the right members. Check how own keys are ordered when the symbol is added before year.",
           "misconception": "symbols-listed-first"
         }
       ],
@@ -597,8 +597,8 @@
       "explanation": "Reflect.ownKeys returns all own keys, string keys first in creation order, then symbol keys. Object.keys keeps only the enumerable string keys, so the symbol is missing from the second line.",
       "hints": [
         "Compare what the two calls on lines 5 and 6 list.",
-        "ownKeys includes symbol keys; keys does not.",
-        "Strings come first in the list, symbols last."
+        "Reflect.ownKeys and Object.keys do not always list the same kinds of key.",
+        "Own keys come in a fixed order by kind, not by the time they were added."
       ],
       "reference": {
         "title": "Reflect.ownKeys()",
@@ -608,7 +608,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:29"
       ]
@@ -636,13 +636,13 @@
         {
           "text": "Reflect.set returns the value it assigned",
           "correct": false,
-          "feedback": "The value 9 is stored in row, but the call returns a success flag, not the value or the object.",
+          "feedback": "The value 9 is stored in row, but compare the first value printed on line 3 with the 9 that was assigned.",
           "misconception": "reflect-set-returns-value"
         },
         {
           "text": "Reflect.set only checks whether a write would be allowed, and changes nothing",
           "correct": false,
-          "feedback": "It really writes: row.n is 9 afterwards. The boolean reports the outcome of that write.",
+          "feedback": "It really writes: row.n is 9 afterwards.",
           "misconception": "reflect-set-returns-value"
         }
       ],
@@ -653,7 +653,7 @@
       "hints": [
         "Look at both values printed on line 3.",
         "Reflect functions do the default job and return plain results.",
-        "The first printed value says whether the write worked."
+        "Compare the first printed value with the value 9 that line 2 passes."
       ],
       "reference": {
         "title": "Reflect.set()",
@@ -663,7 +663,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.reflect-api.fix-01",
@@ -694,7 +694,7 @@
         {
           "text": "return Reflect.set(t, k);",
           "correct": false,
-          "feedback": "No value is passed, so glass is stored as undefined. The write must carry the value too.",
+          "feedback": "No value is passed to Reflect.set here, so glass is stored as undefined.",
           "misconception": "reflect-fits-any-trap"
         },
         {
@@ -721,7 +721,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.reflect-api.fill-01",
@@ -823,13 +823,13 @@
         {
           "text": "300\n[]",
           "correct": false,
-          "feedback": "The flags default to false, not true. writable is false, so the assignment on line 5 changes nothing.",
+          "feedback": "You expected the assignment on line 5 to change the value. Check whether the descriptor on lines 2 to 4 allows that.",
           "misconception": "descriptor-flags-default-true"
         },
         {
           "text": "250\n['ml']",
           "correct": false,
-          "feedback": "enumerable also defaults to false with defineProperty, so Object.keys does not list ml.",
+          "feedback": "Check whether the descriptor on lines 2 to 4 makes ml show up in a list of keys.",
           "misconception": "descriptor-flags-default-true"
         }
       ],
@@ -850,7 +850,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.property-descriptors.concept-01",
@@ -880,13 +880,13 @@
         {
           "text": "A property created by plain assignment has all three flags set to false",
           "correct": false,
-          "feedback": "Assignment makes an ordinary open property: writable, enumerable and configurable are all true.",
+          "feedback": "Check the three values printed on lines 5 to 7 against this claim.",
           "misconception": "assigned-properties-lack-flags"
         },
         {
           "text": "Only properties made by defineProperty have flags, so these are undefined",
           "correct": false,
-          "feedback": "Every property has the flags. The descriptor reports them for an assigned property too.",
+          "feedback": "The program prints a value for every flag, so none of them is undefined.",
           "misconception": "assigned-properties-lack-flags"
         }
       ],
@@ -907,7 +907,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.property-descriptors.fix-01",
@@ -1119,13 +1119,13 @@
         {
           "text": "[object Object]\nobject",
           "correct": false,
-          "feedback": "The default text uses the tag when a Symbol.toStringTag property exists, so the word after object is Crate.",
+          "feedback": "The object has a Symbol.toStringTag property on line 2. Check whether String(crate) ignores it.",
           "misconception": "tostringtag-confusion"
         },
         {
           "text": "[object Crate]\nCrate",
           "correct": false,
-          "feedback": "typeof never reads the tag. It reports the kind of value, and every plain object is object.",
+          "feedback": "Check what typeof looks at: the value itself or a property on it.",
           "misconception": "tostringtag-confusion"
         }
       ],
@@ -1136,7 +1136,7 @@
       "hints": [
         "Compare what line 4 and line 5 each ask for.",
         "Symbol.toStringTag only changes the tag in the default object text.",
-        "typeof does not look at symbol keys."
+        "One line reads a property under the tag symbol; the other reports the kind of the value."
       ],
       "reference": {
         "title": "Symbol.toStringTag",
@@ -1146,7 +1146,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.concept-01",
@@ -1178,13 +1178,13 @@
         {
           "text": "The first spread uses the object up, so the second spread prints an empty array",
           "correct": false,
-          "feedback": "The object stores no position. Each spread asks for a new iterator, and this method builds one from names every time.",
+          "feedback": "The object stores no position of its own, so nothing in it can be used up.",
           "misconception": "protocol-hook-confusion"
         },
         {
           "text": "The Symbol.iterator method runs once when trail is created, and spread reads its stored result",
           "correct": false,
-          "feedback": "The method runs when spread asks for an iterator, not at creation, so the second spread can run it again.",
+          "feedback": "Nothing in the code calls the method when trail is created. Look at which lines ask for the iterator.",
           "misconception": "protocol-hook-confusion"
         }
       ],
@@ -1205,7 +1205,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.fix-01",
@@ -1253,7 +1253,7 @@
       "hints": [
         "Look at how line 2 names the method.",
         "instanceof looks up one well-known symbol, as a static member.",
-        "The key must be that symbol written in square brackets, with static kept."
+        "The method keeps its parameter and static; only its name changes."
       ],
       "reference": {
         "title": "Symbol.hasInstance",
@@ -1263,7 +1263,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.fill-01",

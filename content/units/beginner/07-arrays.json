@@ -247,7 +247,7 @@
         "number-values"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 1,
+      "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
         "const stops = [\"Oak\", \"Bay\", \"Elm\"];",
@@ -262,13 +262,13 @@
         {
           "text": "Oak Elm",
           "correct": false,
-          "feedback": "You counted from 1. The first item has index 0, so index 1 is the second item.",
+          "feedback": "You counted from 1. Check which item has index 0.",
           "misconception": "one-based-index"
         },
         {
           "text": "Bay Elm",
           "correct": false,
-          "feedback": "Three items use the indexes 0, 1 and 2. Index 3 is past the last item, so it does not read an item.",
+          "feedback": "Check how many items the array has and which indexes they use.",
           "misconception": "length-is-last-index"
         }
       ],
@@ -289,7 +289,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:26"
       ]
@@ -318,13 +318,13 @@
         {
           "text": "undefined",
           "correct": false,
-          "feedback": "You counted from 1, so index 0 looked empty. Counting starts at 0, and index 0 holds the first item.",
+          "feedback": "You counted from 1, so index 0 looked empty. Check which index the first item has.",
           "misconception": "one-based-index"
         },
         {
           "text": "oat",
           "correct": false,
-          "feedback": "That is the item at index 1, the second one. The first item is at index 0.",
+          "feedback": "That is the item at index 1. Check which index line 2 reads.",
           "misconception": "one-based-index"
         }
       ],
@@ -345,7 +345,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:1"
       ]
@@ -381,7 +381,7 @@
         {
           "text": "undefined",
           "correct": false,
-          "feedback": "You counted from 1, so index 0 looked empty. Index 0 holds the first item.",
+          "feedback": "You counted from 1, so index 0 looked empty. Check which item hike[0] reads.",
           "misconception": "one-based-index"
         }
       ],
@@ -406,7 +406,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.arrays.index.fill-01",
@@ -505,7 +505,7 @@
       "hints": [
         "Look for the line that uses no name made by another line.",
         "A name must be created before another line uses it.",
-        "The array comes first and the print comes last; the two lines between them follow the chain of names."
+        "Each line after the first uses a name made by an earlier line; follow the chain."
       ],
       "reference": {
         "title": "Property accessors",
@@ -515,7 +515,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.arrays.index.concept-01",
@@ -541,13 +541,13 @@
         {
           "text": "The first item has index 1, so seats[0] is empty.",
           "correct": false,
-          "feedback": "The code prints A for seats[0]. Counting starts at 0, not at 1.",
+          "feedback": "Check what line 2 prints.",
           "misconception": "one-based-index"
         },
         {
           "text": "The last of four items has index 4, so seats[3] is the third item.",
           "correct": false,
-          "feedback": "Four items use the indexes 0 to 3. There is no index 4, and seats[3] is the fourth item.",
+          "feedback": "Check which item seats[3] prints on line 3.",
           "misconception": "length-is-last-index"
         }
       ],
@@ -568,7 +568,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.arrays.length.predict-01",
@@ -592,13 +592,13 @@
         {
           "text": "n: 2",
           "correct": false,
-          "feedback": "That is the last index, not the length. Three items have the indexes 0, 1 and 2, but length counts the items.",
+          "feedback": "That is the last index, not what length gives. Check what length measures.",
           "misconception": "length-is-last-index"
         },
         {
           "text": "n: 10",
           "correct": false,
-          "feedback": "That adds up the letters of the items. length counts the items, not their characters.",
+          "feedback": "That adds up the letters of the items. Check what length counts.",
           "misconception": "length-counts-characters"
         }
       ],
@@ -619,7 +619,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:12"
       ]
@@ -646,13 +646,13 @@
         {
           "text": "cod",
           "correct": false,
-          "feedback": "The last item has index fish.length - 1. fish.length itself is one index past it.",
+          "feedback": "Check which index fish.length refers to when the array has three items.",
           "misconception": "length-is-last-index"
         },
         {
           "text": "Uncaught RangeError",
           "correct": false,
-          "feedback": "Reading an index that does not exist does not stop the program. It gives undefined.",
+          "feedback": "Check whether reading an index that does not exist stops the program.",
           "misconception": "out-of-range-throws"
         }
       ],
@@ -673,7 +673,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.arrays.length.trace-01",
@@ -699,7 +699,7 @@
         {
           "text": "3",
           "correct": false,
-          "feedback": "That is the length itself. Line 2 subtracts 1 to get the last index.",
+          "feedback": "That is the length itself. Check what line 2 does with it.",
           "misconception": "length-is-last-index"
         },
         {
@@ -730,7 +730,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.arrays.length.fill-01",
@@ -827,7 +827,7 @@
       "hints": [
         "Which line creates the array?",
         "A value must exist before a line can use it.",
-        "The array comes first and the print comes last; the two lines between them follow the chain of names."
+        "Each line after the first uses a name made by an earlier line; follow the chain."
       ],
       "reference": {
         "title": "Array: length",
@@ -837,7 +837,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.arrays.length.write-01",
@@ -951,13 +951,13 @@
         {
           "text": "['orchid', 'fern', 'cactus']",
           "correct": false,
-          "feedback": "push adds at the end, not the front. The new item comes last.",
+          "feedback": "Check which end of the array push works on.",
           "misconception": "ends-confused"
         },
         {
           "text": "Uncaught TypeError",
           "correct": false,
-          "feedback": "const stops the name from pointing to a new array, but the array itself can still grow.",
+          "feedback": "Check whether const prevents changing the contents of an array.",
           "misconception": "const-blocks-push"
         }
       ],
@@ -968,7 +968,7 @@
       "hints": [
         "Look at line 2.",
         "push adds an item to one end of an array.",
-        "The new item goes after the existing ones."
+        "Ask whether the new item goes before or after the existing ones."
       ],
       "reference": {
         "title": "Array.prototype.push()",
@@ -978,7 +978,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:21"
       ]
@@ -1007,13 +1007,13 @@
         {
           "text": "5\n2",
           "correct": false,
-          "feedback": "pop takes the item from the other end of the array.",
+          "feedback": "Check which end of the array pop works on.",
           "misconception": "ends-confused"
         },
         {
           "text": "[5, 2]\n2",
           "correct": false,
-          "feedback": "pop returns the item it removed, not the array that is left.",
+          "feedback": "Check what pop returns when it is called inside console.log.",
           "misconception": "pop-returns-rest"
         }
       ],
@@ -1024,7 +1024,7 @@
       "hints": [
         "Look at what line 2 prints.",
         "pop removes one item from one end of the array and returns it.",
-        "The printed value is the removed item; the second line counts what is left."
+        "Line 2 prints what pop gives back; line 3 prints a number."
       ],
       "reference": {
         "title": "Array.prototype.pop()",
@@ -1034,7 +1034,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:6"
       ]
@@ -1064,13 +1064,13 @@
         {
           "text": "'saw'",
           "correct": false,
-          "feedback": "pop works on the last item, not the first.",
+          "feedback": "Check which end of the array pop takes from.",
           "misconception": "ends-confused"
         },
         {
           "text": "['saw', 'axe']",
           "correct": false,
-          "feedback": "That is what is left in the array. pop returns the removed item, not the rest.",
+          "feedback": "Check what pop returns.",
           "misconception": "pop-returns-rest"
         }
       ],
@@ -1095,7 +1095,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:24"
       ]
@@ -1238,13 +1238,13 @@
         {
           "text": "pop gives back what is left in the array, and push adds an item at the front.",
           "correct": false,
-          "feedback": "pop returns the removed item, not the rest. push adds at the end, not the front.",
+          "feedback": "Check what gone holds on the last line and where c ends up in stack.",
           "misconception": "pop-returns-rest"
         },
         {
           "text": "stack is const, so pop and push would stop the program with an error.",
           "correct": false,
-          "feedback": "const stops reassignment only. The array itself may be changed, and the program runs.",
+          "feedback": "Check whether the program stops; the last line prints something.",
           "misconception": "const-blocks-push"
         }
       ],
@@ -1265,7 +1265,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.arrays.iteration.predict-01",
@@ -1293,13 +1293,13 @@
         {
           "text": "size 0\nsize 1\nsize 2",
           "correct": false,
-          "feedback": "for...of gives each item, not its index.",
+          "feedback": "Check whether for...of hands over the items or something else.",
           "misconception": "of-gives-index"
         },
         {
           "text": "size 1\nsize 2\nsize 3",
           "correct": false,
-          "feedback": "for...of gives the items, not a counter that starts at 1.",
+          "feedback": "Check whether size is a counter or comes from the array.",
           "misconception": "one-based-index"
         }
       ],
@@ -1320,7 +1320,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.arrays.iteration.predict-02",
@@ -1351,13 +1351,13 @@
         {
           "text": "35",
           "correct": false,
-          "feedback": "That adds all three laps. The loop starts at index 1, but the first lap has index 0.",
+          "feedback": "That adds all three laps. Check where i starts on line 4.",
           "misconception": "one-based-index"
         },
         {
           "text": "21",
           "correct": false,
-          "feedback": "That leaves out the last lap. i < count still allows i to be 2, the last index.",
+          "feedback": "That leaves out the last lap. Check the largest value i takes.",
           "misconception": "bound-excludes-last-item"
         }
       ],
@@ -1378,7 +1378,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.arrays.iteration.trace-01",
@@ -1414,7 +1414,7 @@
         {
           "text": "1",
           "correct": false,
-          "feedback": "That adds the indexes 0 and 1. for...of gives the items, not their indexes.",
+          "feedback": "That adds the indexes 0 and 1. Check what crate holds on each pass.",
           "misconception": "of-gives-index"
         }
       ],
@@ -1439,7 +1439,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.arrays.iteration.fill-01",

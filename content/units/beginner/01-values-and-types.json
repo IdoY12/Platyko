@@ -7,7 +7,7 @@
   "concepts": [
     {
       "id": "number-values",
-      "title": "Numbers and arithmetic",
+      "title": "Numbers, arithmetic and storing a value",
       "prerequisites": []
     },
     {
@@ -111,9 +111,9 @@
   "lessons": [
     {
       "id": "values-and-types.lesson-1",
-      "title": "Numbers and arithmetic",
+      "title": "Numbers, arithmetic and storing a value",
       "conceptCard": {
-        "title": "Numbers and arithmetic",
+        "title": "Numbers, arithmetic and storing a value",
         "body": "JavaScript has one kind of number, with or without decimals. The signs + - * / work as in maths, and * and / go before + and -. The % sign gives the leftover after dividing. A let line stores a value under a name, and a later line can replace it.",
         "code": [
           "console.log(6 + 4 * 2);",
@@ -270,13 +270,13 @@
         {
           "text": "4",
           "correct": false,
-          "feedback": "You dropped the fraction. The / sign does not round down; the decimal part stays in the result.",
+          "feedback": "You dropped the fraction. Check whether / throws away part of the result.",
           "misconception": "division-gives-whole-number"
         },
         {
           "text": "5",
           "correct": false,
-          "feedback": "You rounded to the nearest whole number. The / sign never rounds; it gives the exact value.",
+          "feedback": "You rounded to the nearest whole number. Check whether / rounds anything.",
           "misconception": "division-gives-whole-number"
         }
       ],
@@ -297,7 +297,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "beg.values-and-types.number-values.trace-01",
@@ -436,7 +436,7 @@
       "hints": [
         "Work out what each line prints before you move it.",
         "** raises a number to a power, and % gives a remainder.",
-        "Start with the line that prints the biggest number."
+        "Work out each result, then match it to the prompt's list from left to right."
       ],
       "reference": {
         "title": "Exponentiation (**)",
@@ -446,7 +446,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.values-and-types.number-values.concept-01",
@@ -518,13 +518,13 @@
         {
           "text": "11",
           "correct": false,
-          "feedback": "You added the numbers. The quotation marks make 7 text, and + then joins instead of adding.",
+          "feedback": "You added the numbers. Look at the quotation marks around the 7: is it still a number?",
           "misconception": "plus-always-adds"
         },
         {
           "text": "NaN",
           "correct": false,
-          "feedback": "JavaScript does not fail here. A + with text on one side simply joins the two values.",
+          "feedback": "JavaScript does not fail here; + accepts a number and text together.",
           "misconception": "plus-always-adds"
         }
       ],
@@ -545,7 +545,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:7"
       ]
@@ -571,13 +571,13 @@
         {
           "text": "TEATEA",
           "correct": false,
-          "feedback": "The method does not change cup. The second part is still the original tea.",
+          "feedback": "You changed cup as well. Check whether toUpperCase alters the variable it is called on.",
           "misconception": "method-changes-original"
         },
         {
           "text": "teatea",
           "correct": false,
-          "feedback": "You ignored the text toUpperCase returns. That result is stored in big and joined first.",
+          "feedback": "You ignored what toUpperCase returns. Line 2 stores that result in big.",
           "misconception": "method-result-ignored"
         }
       ],
@@ -598,7 +598,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 4,
       "legacyKeys": [
         "puzzle:11"
       ]
@@ -740,8 +740,8 @@
       "explanation": "Each line prints one text, and the output follows the order of the lines. The greeting comes first, then the order line with the number joined in, then the thanks.",
       "hints": [
         "Read each line to see which text it prints.",
-        "A greeting comes before the rest of a letter.",
-        "The thanks line ends the letter."
+        "The output follows the order of the lines, so the lines must read like a letter.",
+        "A letter has an opening, a middle and a closing; find each one."
       ],
       "reference": {
         "title": "Addition (+)",
@@ -751,7 +751,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.values-and-types.string-values.write-01",
@@ -853,13 +853,13 @@
         {
           "text": "lamp-1\ntrue",
           "correct": false,
-          "feedback": "A boolean does not turn into a number when it is joined to text. It becomes a word.",
+          "feedback": "A boolean does not turn into a number when it is joined to text.",
           "misconception": "boolean-joins-wrong"
         },
         {
           "text": "lamp-\ntrue",
           "correct": false,
-          "feedback": "The boolean does not vanish when it is joined. Its word is added after the dash.",
+          "feedback": "The boolean does not vanish when it is joined. It still adds something after the dash.",
           "misconception": "boolean-joins-wrong"
         }
       ],
@@ -880,7 +880,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "beg.values-and-types.boolean-values.predict-02",
@@ -901,13 +901,13 @@
         {
           "text": "[0]",
           "correct": false,
-          "feedback": "A boolean does not become a number when it is joined to text. It becomes the word.",
+          "feedback": "A boolean does not turn into a number when it is joined to text.",
           "misconception": "boolean-joins-wrong"
         },
         {
           "text": "[]",
           "correct": false,
-          "feedback": "False does not disappear when it is joined. It becomes the word false.",
+          "feedback": "Joining does not remove the boolean. Something still ends up between the brackets.",
           "misconception": "boolean-joins-wrong"
         }
       ],
@@ -918,7 +918,7 @@
       "hints": [
         "Look at what is between the + signs.",
         "A boolean joined to text turns into a word.",
-        "The text between the brackets is a word, not a number."
+        "Ask what a boolean looks like once it has been joined into text."
       ],
       "reference": {
         "title": "Addition (+)",
@@ -928,7 +928,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.values-and-types.boolean-values.trace-01",
@@ -958,7 +958,7 @@
         {
           "text": "'open: 1'",
           "correct": false,
-          "feedback": "A boolean is joined as the word true or false, never as a number.",
+          "feedback": "A boolean does not become a number when it is joined to text.",
           "misconception": "boolean-joins-wrong"
         }
       ],
@@ -983,7 +983,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.values-and-types.boolean-values.fill-01",
@@ -1097,13 +1097,13 @@
         {
           "text": "Without quotes, true is the number 1, so the first line prints 1.",
           "correct": false,
-          "feedback": "A boolean is not a number. It prints as the word true, just like the text does.",
+          "feedback": "A boolean is not a number, so the first line cannot print 1.",
           "misconception": "boolean-joins-wrong"
         },
         {
           "text": "Only the quoted line prints a word, because a boolean prints nothing on its own.",
           "correct": false,
-          "feedback": "A boolean prints on its own. It shows as the word true or false.",
+          "feedback": "A boolean prints on its own; console.log shows every value it is given.",
           "misconception": "boolean-joins-wrong"
         }
       ],
@@ -1124,7 +1124,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.values-and-types.typeof-operator.predict-01",
@@ -1132,57 +1132,6 @@
       "prerequisites": [],
       "format": "PREDICT_OUTPUT",
       "difficulty": 1,
-      "prompt": "What does this code print?",
-      "code": [
-        "console.log(typeof typeof 5);"
-      ],
-      "options": [
-        {
-          "text": "string",
-          "correct": true,
-          "feedback": "Right. typeof gives its answer as text, so the type of that answer is string."
-        },
-        {
-          "text": "number",
-          "correct": false,
-          "feedback": "The inner typeof gives the text number. The outer typeof then names the type of that text.",
-          "misconception": "typeof-result-not-text"
-        },
-        {
-          "text": "boolean",
-          "correct": false,
-          "feedback": "The inner typeof gives text, not a boolean, so the outer typeof does not answer boolean.",
-          "misconception": "typeof-result-not-text"
-        }
-      ],
-      "solution": {
-        "expectedOutput": "string"
-      },
-      "explanation": "typeof 5 gives the text number. The outer typeof then asks for the type of that text, and a text is a string.",
-      "hints": [
-        "Work from the inside out: which typeof runs first?",
-        "typeof gives its answer as text.",
-        "Ask what type the word number is, when it is a text."
-      ],
-      "reference": {
-        "title": "typeof",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
-        "source": "MDN"
-      },
-      "duelEligible": true,
-      "timeLimitSec": 15,
-      "author": "claude-fable-5-2/unit-author",
-      "version": 3,
-      "legacyKeys": [
-        "exercise:JUNIOR:5"
-      ]
-    },
-    {
-      "id": "beg.values-and-types.typeof-operator.predict-02",
-      "concept": "typeof-operator",
-      "prerequisites": [],
-      "format": "PREDICT_OUTPUT",
-      "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
         "console.log(typeof 3.5);"
@@ -1196,13 +1145,13 @@
         {
           "text": "float",
           "correct": false,
-          "feedback": "JavaScript has one kind of number, with or without decimals. typeof has no float answer.",
+          "feedback": "typeof answers with a fixed set of names such as string or boolean, and float is not one of them.",
           "misconception": "decimal-is-separate-type"
         },
         {
           "text": "decimal",
           "correct": false,
-          "feedback": "JavaScript has one kind of number, with or without decimals. typeof has no decimal answer.",
+          "feedback": "typeof answers with a fixed set of names such as string or boolean, and decimal is not one of them.",
           "misconception": "decimal-is-separate-type"
         }
       ],
@@ -1221,11 +1170,62 @@
         "source": "MDN"
       },
       "duelEligible": true,
-      "timeLimitSec": 20,
+      "timeLimitSec": 15,
       "author": "claude-fable-5-2/unit-author",
       "version": 4,
       "legacyKeys": [
         "exercise:JUNIOR:0"
+      ]
+    },
+    {
+      "id": "beg.values-and-types.typeof-operator.predict-02",
+      "concept": "typeof-operator",
+      "prerequisites": [],
+      "format": "PREDICT_OUTPUT",
+      "difficulty": 2,
+      "prompt": "What does this code print?",
+      "code": [
+        "console.log(typeof typeof 5);"
+      ],
+      "options": [
+        {
+          "text": "string",
+          "correct": true,
+          "feedback": "Right. typeof gives its answer as text, so the type of that answer is string."
+        },
+        {
+          "text": "number",
+          "correct": false,
+          "feedback": "You stopped after the inner typeof. The outer typeof still has to run on what the inner one gave.",
+          "misconception": "typeof-result-not-text"
+        },
+        {
+          "text": "boolean",
+          "correct": false,
+          "feedback": "A boolean would come from a comparison, and there is none here. Check what the inner typeof gives first.",
+          "misconception": "typeof-result-not-text"
+        }
+      ],
+      "solution": {
+        "expectedOutput": "string"
+      },
+      "explanation": "typeof 5 gives the text number. The outer typeof then asks for the type of that text, and a text is a string.",
+      "hints": [
+        "Work from the inside out: which typeof runs first?",
+        "typeof gives its answer as text.",
+        "Ask what type the word number is, when it is a text."
+      ],
+      "reference": {
+        "title": "typeof",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
+        "source": "MDN"
+      },
+      "duelEligible": true,
+      "timeLimitSec": 20,
+      "author": "claude-fable-5-2/unit-author",
+      "version": 5,
+      "legacyKeys": [
+        "exercise:JUNIOR:5"
       ]
     },
     {
@@ -1369,7 +1369,7 @@
       "hints": [
         "Work out what typeof gives for each line.",
         "Quotation marks turn digits into text.",
-        "Start with the line about false."
+        "Work out each line's type, then match them to the order in the prompt."
       ],
       "reference": {
         "title": "typeof",
@@ -1379,7 +1379,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.values-and-types.typeof-operator.write-01",

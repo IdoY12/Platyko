@@ -1740,11 +1740,14 @@
   },
   "beg.functions.function-expressions.predict-01": {
    "code": [
-    "const triple = n => n * 3;",
-    "console.log(triple(5));"
+    "const double = function (n) {",
+    "  return n * 2;",
+    "};",
+    "const twice = double;",
+    "console.log(twice(4));"
    ],
    "output": [
-    "15"
+    "8"
    ],
    "steps": [
     {
@@ -1758,12 +1761,12 @@
      "microtasks": []
     },
     {
-     "line": 2,
+     "line": 4,
      "variables": [
       {
-       "name": "triple",
+       "name": "double",
        "scope": "global",
-       "value": "[Function: triple]"
+       "value": "[Function: double]"
       }
      ],
      "outputCount": 0,
@@ -1774,23 +1777,49 @@
      "microtasks": []
     },
     {
-     "line": 1,
+     "line": 5,
      "variables": [
       {
-       "name": "triple",
+       "name": "double",
        "scope": "global",
-       "value": "[Function: triple]"
+       "value": "[Function: double]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: double]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "double",
+       "scope": "global",
+       "value": "[Function: double]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: double]"
       },
       {
        "name": "n",
-       "scope": "triple",
-       "value": "5"
+       "scope": "double",
+       "value": "4"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "triple"
+      "double"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -1799,9 +1828,14 @@
      "line": 0,
      "variables": [
       {
-       "name": "triple",
+       "name": "double",
        "scope": "global",
-       "value": "[Function: triple]"
+       "value": "[Function: double]"
+      },
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: double]"
       }
      ],
      "outputCount": 1,

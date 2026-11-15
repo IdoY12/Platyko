@@ -2816,14 +2816,14 @@
   },
   "int.objects-in-depth.shallow-copy.write-01": {
    "code": [
-    "function dropFirstStop(stops) {",
-    "const [, ...rest] = stops;",
-    "return [rest, stops];",
+    "function addTag(shop, tag) {",
+    "const tags = [...shop.tags, tag];",
+    "return [{ ...shop, tags }, shop];",
     "}",
-    "console.log(dropFirstStop([\"Mill\",\"Park\",\"Dock\"]));"
+    "console.log(addTag({\"id\":1,\"tags\":[\"sale\"]}, \"new\"));"
    ],
    "output": [
-    "[['Park', 'Dock'], ['Mill', 'Park', 'Dock']]"
+    "[{id: 1, tags: ['sale', 'new']}, {id: 1, tags: ['sale']}]"
    ],
    "steps": [
     {
@@ -2840,15 +2840,20 @@
      "line": 2,
      "variables": [
       {
-       "name": "stops",
-       "scope": "dropFirstStop",
-       "value": "['Mill', 'Park', 'Dock']"
+       "name": "shop",
+       "scope": "addTag",
+       "value": "{id: 1, tags: ['sale']}"
+      },
+      {
+       "name": "tag",
+       "scope": "addTag",
+       "value": "'new'"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "dropFirstStop"
+      "addTag"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -2857,20 +2862,25 @@
      "line": 3,
      "variables": [
       {
-       "name": "stops",
-       "scope": "dropFirstStop",
-       "value": "['Mill', 'Park', 'Dock']"
+       "name": "shop",
+       "scope": "addTag",
+       "value": "{id: 1, tags: ['sale']}"
       },
       {
-       "name": "rest",
-       "scope": "dropFirstStop",
-       "value": "['Park', 'Dock']"
+       "name": "tag",
+       "scope": "addTag",
+       "value": "'new'"
+      },
+      {
+       "name": "tags",
+       "scope": "addTag",
+       "value": "['sale', 'new']"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "dropFirstStop"
+      "addTag"
      ],
      "macrotasks": [],
      "microtasks": []

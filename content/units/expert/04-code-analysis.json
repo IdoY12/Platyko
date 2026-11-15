@@ -258,13 +258,13 @@
         {
           "text": "16",
           "correct": false,
-          "feedback": "You counted four full passes of four. The break ends the inner loop early for one book, so fewer checks run.",
+          "feedback": "Check whether the inner loop always finishes all its passes.",
           "misconception": "inner-loop-break-ignored"
         },
         {
           "text": "10",
           "correct": false,
-          "feedback": "That total fits a loop that visits each pair once. This inner loop starts from the first book every time.",
+          "feedback": "Check where the inner loop starts on each pass of the outer loop.",
           "misconception": "pairs-counted-once"
         }
       ],
@@ -285,7 +285,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "exp.code-analysis.complexity-analysis.concept-01",
@@ -316,13 +316,13 @@
         {
           "text": "has() looks at every earlier id, so doubling the ids roughly quadruples the work.",
           "correct": false,
-          "feedback": "That describes searching an array with includes. A Set jumps straight to the value instead of scanning.",
+          "feedback": "Check how a Set finds a value compared with walking through the earlier ids.",
           "misconception": "set-lookup-scans"
         },
         {
           "text": "The work depends on the duplicates found, so a list with none costs almost nothing.",
           "correct": false,
-          "feedback": "Every id is still read and added, duplicates or not. The size of the output does not set the cost of the loop.",
+          "feedback": "Check whether the loop reads every id when the list has no duplicates.",
           "misconception": "cost-follows-output-size"
         }
       ],
@@ -343,7 +343,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "exp.code-analysis.complexity-analysis.fix-01",
@@ -591,13 +591,13 @@
         {
           "text": "[20, 20]",
           "correct": false,
-          "feedback": "You ran the parent setter for both, as before the refactor. A subclass setter takes over for its own objects.",
+          "feedback": "Check which setter the second object uses.",
           "misconception": "override-ignored"
         },
         {
           "text": "[9, 9]",
           "correct": false,
-          "feedback": "The override belongs to Bin only. Box objects still run the setter written in Box.",
+          "feedback": "Check which setter the first object uses.",
           "misconception": "override-changes-parent"
         }
       ],
@@ -617,7 +617,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 4,
       "legacyKeys": [
         "exercise:SENIOR:7"
       ]
@@ -649,13 +649,13 @@
         {
           "text": "Both tests reject 0 and undefined alike, so old and ok are equivalent.",
           "correct": false,
-          "feedback": "Only undefined is rejected by ok. 0 is falsy but is not undefined, so it passes that test.",
+          "feedback": "Check what ok does with the value 0.",
           "misconception": "falsy-equals-undefined"
         },
         {
           "text": "filter removes items from ps, so the second call sees a shorter list.",
           "correct": false,
-          "feedback": "filter builds a new array and leaves ps unchanged, so both calls see the same three values.",
+          "feedback": "Check whether filter changes ps itself.",
           "misconception": "filter-changes-source"
         }
       ],
@@ -675,7 +675,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 5,
       "legacyKeys": [
         "exercise:SENIOR:2"
       ]
@@ -815,7 +815,7 @@
         "spread-and-rest"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "A garden shop labels its plant tags with a dense reducer. What does this program print?",
       "code": [
         "const lastAt = (...tags) =>",
@@ -834,13 +834,13 @@
         {
           "text": "{a: 1, b: 2}",
           "correct": false,
-          "feedback": "Keys keep their first position when overwritten. The second b does not move to the end.",
+          "feedback": "Check where the key b sits after the second b is written.",
           "misconception": "spread-overwrite-misread"
         },
         {
           "text": "{b: 0, a: 1}",
           "correct": false,
-          "feedback": "The later write wins: the second b replaces the 0 with its index.",
+          "feedback": "Check whether the second b changes the value stored for b.",
           "misconception": "spread-overwrite-misread"
         }
       ],
@@ -861,7 +861,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 4
     },
     {
       "id": "exp.code-analysis.reading-unfamiliar-code.concept-01",
@@ -898,7 +898,7 @@
         {
           "text": "The program throws for pie, because cost has no pie key.",
           "correct": false,
-          "feedback": "Reading a missing key does not throw. It gives undefined, which the ?? operator replaces.",
+          "feedback": "Check what reading a key that is not in an object gives.",
           "misconception": "missing-key-throws"
         }
       ],
@@ -918,7 +918,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:SENIOR:6"
       ]
@@ -1119,7 +1119,7 @@
       "hints": [
         "Work out f on a list that starts with 0.",
         "f compares each score with the largest score kept, never below 0.",
-        "Keep a top that starts at 0 and update it when a score is above it."
+        "You only need one extra number besides the output array."
       ],
       "reference": {
         "title": "Array.prototype.reduce()",
@@ -1128,7 +1128,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.code-analysis.side-effects-and-purity.predict-01",
@@ -1155,13 +1155,13 @@
         {
           "text": "10 30",
           "correct": false,
-          "feedback": "sort does not make a copy. It reorders the original array too.",
+          "feedback": "Check whether sort works on a copy of the list.",
           "misconception": "sort-returns-copy"
         },
         {
           "text": "30 30",
           "correct": false,
-          "feedback": "The sort really runs on the array, so the cheapest comes first in both reads.",
+          "feedback": "Check whether the sort really runs on the array.",
           "misconception": "sort-needs-assignment"
         }
       ],
@@ -1182,7 +1182,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "exp.code-analysis.side-effects-and-purity.concept-01",
@@ -1212,13 +1212,13 @@
         {
           "text": "sort returns a sorted copy, so orders is replaced by that copy.",
           "correct": false,
-          "feedback": "sort changes the array it runs on and returns that same array. Nothing is copied or replaced.",
+          "feedback": "Check whether sort builds a new array or works on the one it is given.",
           "misconception": "sort-returns-copy"
         },
         {
           "text": "Passing an array to a function copies it, so orders only changes if sum returns the list.",
           "correct": false,
-          "feedback": "The parameter refers to the same array, not a copy, so changes made inside are visible outside.",
+          "feedback": "Check whether list and orders are two arrays or one.",
           "misconception": "arguments-are-copied"
         }
       ],
@@ -1239,7 +1239,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 4,
       "legacyKeys": [
         "exercise:SENIOR:5"
       ]

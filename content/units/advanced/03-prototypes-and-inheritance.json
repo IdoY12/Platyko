@@ -286,13 +286,13 @@
         {
           "text": "true\ntrue\nA4",
           "correct": false,
-          "feedback": "hasOwnProperty looks only at the object itself. id lives on the prototype, so the second call is false.",
+          "feedback": "Check whether hasOwnProperty looks beyond the object it is called on.",
           "misconception": "own-check-includes-inherited"
         },
         {
           "text": "true\nfalse\nundefined",
           "correct": false,
-          "feedback": "A read does not stop at the object. When s has no id, the lookup continues in the prototype and finds it.",
+          "feedback": "Check whether a read of s.id looks anywhere besides s itself.",
           "misconception": "lookup-stops-early"
         }
       ],
@@ -313,7 +313,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:MID:7"
       ]
@@ -345,13 +345,13 @@
         {
           "text": "It changes hours on Shop.prototype, so both objects now say ten.",
           "correct": false,
-          "feedback": "Assignment never climbs the chain to edit the object that holds the old value. It writes on stall.",
+          "feedback": "Compare the value printed on line 5 with the one assigned on line 4.",
           "misconception": "write-changes-prototype"
         },
         {
           "text": "It fails, because an inherited property cannot be overwritten.",
           "correct": false,
-          "feedback": "A normal inherited property can be hidden by writing on the child. Only a read-only one refuses.",
+          "feedback": "Line 6 prints a value, so check whether the assignment on line 4 had any effect on stall.",
           "misconception": "inherited-read-only"
         }
       ],
@@ -372,7 +372,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.prototypes-and-inheritance.prototype-chain.fill-01",
@@ -664,9 +664,9 @@
           "misconception": "methods-copied-into-objects"
         },
         {
-          "text": "Due: Emma Due: Emma\ntrue",
+          "text": "Due: undefined Due: undefined\ntrue",
           "correct": false,
-          "feedback": "this is the object before the dot, not the prototype. a.tag() reads a's own title.",
+          "feedback": "That makes this the prototype, which stores no t. Check which object this refers to when a.tag() runs.",
           "misconception": "delegation-this-is-prototype"
         }
       ],
@@ -687,7 +687,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.constructor-functions.concept-01",
@@ -715,13 +715,13 @@
         {
           "text": "The prototype of s is the function Seed itself.",
           "correct": false,
-          "feedback": "The function and its prototype property are two different objects. Only the property is linked.",
+          "feedback": "Compare the result printed for line 5 with this claim.",
           "misconception": "prototype-is-constructor"
         },
         {
           "text": "s has no prototype until a method is added to Seed.prototype.",
           "correct": false,
-          "feedback": "A constructor function has a prototype object from the start, and new links to it even when it is empty.",
+          "feedback": "Check whether anything is added to Seed.prototype in this program, and what line 4 prints.",
           "misconception": "prototype-created-late"
         }
       ],
@@ -742,7 +742,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.prototypes-and-inheritance.constructor-functions.fill-01",
@@ -1024,13 +1024,13 @@
         {
           "text": "1 1 1",
           "correct": false,
-          "feedback": "this is the object before the dot, not the object that holds the method. visits is never changed.",
+          "feedback": "Check which object this is when add runs, and which object receives the write.",
           "misconception": "delegation-this-is-prototype"
         },
         {
           "text": "0 0 0",
           "correct": false,
-          "feedback": "The write is not ignored. Reading n through a gives 0, adding 1 and writing it back on a.",
+          "feedback": "Check whether the assignment inside add has any effect.",
           "misconception": "inherited-read-only"
         }
       ],
@@ -1051,7 +1051,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.object-create-and-delegation.concept-01",
@@ -1079,13 +1079,13 @@
         {
           "text": "day got a copy of soup when it was created, so the later change is not visible.",
           "correct": false,
-          "feedback": "Nothing is copied. The read goes to menu each time, so the new value shows.",
+          "feedback": "Compare the value printed on line 4 with the one assigned on line 3.",
           "misconception": "create-copies-properties"
         },
         {
           "text": "Object.keys counts soup, because day can read it.",
           "correct": false,
-          "feedback": "Object.keys lists own properties only. day owns none.",
+          "feedback": "Check what line 6 prints and which properties Object.keys looks at.",
           "misconception": "own-check-includes-inherited"
         }
       ],
@@ -1106,7 +1106,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.object-create-and-delegation.parsons-01",
@@ -1343,13 +1343,13 @@
         {
           "text": "object\ntrue\n0",
           "correct": false,
-          "feedback": "A class is a function underneath, so typeof says function.",
+          "feedback": "Check what typeof reports for a class declaration.",
           "misconception": "class-is-not-function"
         },
         {
           "text": "function\nfalse\n1",
           "correct": false,
-          "feedback": "The method is not copied onto each instance. c finds the single function on Cup.prototype and owns no keys.",
+          "feedback": "Check whether each instance gets its own copy of fill and whether c owns any keys.",
           "misconception": "methods-copied-into-objects"
         }
       ],
@@ -1370,7 +1370,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.concept-01",
@@ -1400,13 +1400,13 @@
         {
           "text": "extends copies Boat's methods into Canoe.prototype when the class is declared.",
           "correct": false,
-          "feedback": "Nothing is copied. A method added to Boat.prototype later is still found by a Canoe.",
+          "feedback": "Check whether anything in the program copies methods, then look at what line 6 compares.",
           "misconception": "methods-copied-into-objects"
         },
         {
           "text": "c instanceof Boat is true only because Boat is the direct parent.",
           "correct": false,
-          "feedback": "instanceof checks the whole chain, so a grandchild class would also count.",
+          "feedback": "The program has one level of inheritance, so it cannot show this. Look at what line 6 compares instead.",
           "misconception": "lookup-stops-early"
         }
       ],
@@ -1427,7 +1427,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.fill-01",
@@ -1540,7 +1540,7 @@
       "hints": [
         "Look at how line 6 calls Pot.",
         "A class is a function, but a stricter one.",
-        "One keyword in front of the call fixes it."
+        "Look for the keyword that creates an object from a constructor."
       ],
       "reference": {
         "title": "Classes",
@@ -1550,7 +1550,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.prototypes-and-inheritance.class-as-prototype-sugar.write-01",

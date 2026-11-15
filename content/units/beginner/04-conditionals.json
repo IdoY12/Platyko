@@ -232,13 +232,13 @@
         {
           "text": "done",
           "correct": false,
-          "feedback": "You skipped the block. The block runs when the condition is true, and this condition is true.",
+          "feedback": "You skipped the block. Work out the condition on line 2 again before deciding.",
           "misconception": "condition-direction-flipped"
         },
         {
           "text": "refill",
           "correct": false,
-          "feedback": "You stopped after the block. The line after the closing brace still runs.",
+          "feedback": "You stopped after the block. Check whether the last line is part of the block.",
           "misconception": "rest-skipped-after-block"
         }
       ],
@@ -259,7 +259,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "beg.conditionals.if-statement.predict-02",
@@ -287,13 +287,13 @@
         {
           "text": "fine due\nreturned",
           "correct": false,
-          "feedback": "You ran the block without checking the condition. The condition is false, so JavaScript skips the braces.",
+          "feedback": "You ran the block without checking the condition. The condition decides whether the braces run.",
           "misconception": "block-ignores-condition"
         },
         {
           "text": "fine due",
           "correct": false,
-          "feedback": "You ran the block and dropped the last line. When the condition is false the block is skipped, and the last line still runs.",
+          "feedback": "You ran the block and dropped the last line. Check which lines sit inside the braces and which do not.",
           "misconception": "block-ignores-condition"
         }
       ],
@@ -314,7 +314,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "beg.conditionals.if-statement.trace-01",
@@ -349,7 +349,7 @@
         {
           "text": "15",
           "correct": false,
-          "feedback": "You skipped the block. The condition is true, so the block runs and line 3 changes battery.",
+          "feedback": "You skipped the block. Check the condition on line 2 again.",
           "misconception": "condition-direction-flipped"
         }
       ],
@@ -374,7 +374,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.if-statement.fill-01",
@@ -423,7 +423,7 @@
       "hints": [
         "Look at the numbers on line 2.",
         "The condition must be true for 31 and 30.",
-        "You need a sign that asks which number is bigger."
+        "Try each chip with temp holding 31 and keep the one that makes the condition true."
       ],
       "reference": {
         "title": "Greater than (>)",
@@ -433,7 +433,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.if-statement.parsons-01",
@@ -520,13 +520,13 @@
         {
           "text": "The block runs whatever the condition says, so long prints too.",
           "correct": false,
-          "feedback": "The condition decides. 40 > 50 is false, so long never prints.",
+          "feedback": "The condition decides whether the block runs; it is not ignored.",
           "misconception": "block-ignores-condition"
         },
         {
           "text": "The block runs when the condition is false, so long prints.",
           "correct": false,
-          "feedback": "It is the other way round. A block runs when its condition is true, and here it is false.",
+          "feedback": "You reversed the rule. Work out what 40 > 50 gives, and which result a block needs.",
           "misconception": "condition-direction-flipped"
         }
       ],
@@ -547,7 +547,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "beg.conditionals.else-branches.predict-01",
@@ -575,13 +575,13 @@
         {
           "text": "on time",
           "correct": false,
-          "feedback": "You took the else block. else runs only when the condition is false, and this one is true.",
+          "feedback": "You took the else block. Check whether the condition on line 2 is true or false before choosing.",
           "misconception": "condition-direction-flipped"
         },
         {
           "text": "late\non time",
           "correct": false,
-          "feedback": "You ran both blocks. else is an alternative: when the if block runs, else is skipped.",
+          "feedback": "You ran both blocks. Think about whether two alternatives can both run.",
           "misconception": "else-runs-too"
         }
       ],
@@ -602,7 +602,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "beg.conditionals.else-branches.predict-02",
@@ -632,13 +632,13 @@
         {
           "text": "master\nregular",
           "correct": false,
-          "feedback": "You tested every condition. A chain stops at the first true one, so the else if is never checked.",
+          "feedback": "You tested every condition. Think about what happens to the rest of the chain once a branch has run.",
           "misconception": "chain-checks-all"
         },
         {
           "text": "regular",
           "correct": false,
-          "feedback": "You picked a later branch. JavaScript checks from the top and stops at the first true condition, and that comes first here.",
+          "feedback": "You picked a later branch. Check which condition JavaScript tests first.",
           "misconception": "chain-order-ignored"
         }
       ],
@@ -649,7 +649,7 @@
       "hints": [
         "Start at line 2 and move down.",
         "Checking stops at the first true condition.",
-        "Is 9 at least 8? If so, nothing below runs."
+        "Test the first condition with 9, then decide whether the later ones are checked."
       ],
       "reference": {
         "title": "if...else",
@@ -659,7 +659,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 4
     },
     {
       "id": "beg.conditionals.else-branches.trace-01",
@@ -696,7 +696,7 @@
         {
           "text": "8",
           "correct": false,
-          "feedback": "You ran the else block as well. After the if block runs, else is skipped.",
+          "feedback": "You ran the else block as well. Check whether both blocks can run in one pass.",
           "misconception": "else-runs-too"
         }
       ],
@@ -721,7 +721,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.else-branches.fill-01",
@@ -955,7 +955,7 @@
         {
           "text": "no",
           "correct": false,
-          "feedback": "You took the value after the colon. That one is used only when the condition is false.",
+          "feedback": "You took the value after the colon. Check whether the condition is true or false first.",
           "misconception": "condition-direction-flipped"
         },
         {
@@ -982,7 +982,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:13"
       ]
@@ -1009,7 +1009,7 @@
         {
           "text": "1",
           "correct": false,
-          "feedback": "You took the first value. It is used only when the condition is true, and 7 > 9 is false.",
+          "feedback": "You took the first value. Work out 7 > 9 before choosing a side of the colon.",
           "misconception": "condition-direction-flipped"
         },
         {
@@ -1036,7 +1036,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.ternary-operator.trace-01",
@@ -1119,20 +1119,17 @@
         {
           "text": ":",
           "correct": false,
-          "feedback": "The colon separates the two values. It cannot follow the condition, so this fails.",
-          "misconception": "ternary-returns-condition"
+          "feedback": "The colon separates the two values. It cannot follow the condition, so this fails."
         },
         {
           "text": "&&",
           "correct": false,
-          "feedback": "This is not a ternary and the colon then has no meaning, so the code fails.",
-          "misconception": "ternary-returns-condition"
+          "feedback": "This is not a ternary and the colon then has no meaning, so the code fails."
         },
         {
           "text": "||",
           "correct": false,
-          "feedback": "This is not a ternary and the colon then has no meaning, so the code fails.",
-          "misconception": "ternary-returns-condition"
+          "feedback": "This is not a ternary and the colon then has no meaning, so the code fails."
         }
       ],
       "solution": {
@@ -1157,7 +1154,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.ternary-operator.parsons-01",
@@ -1185,7 +1182,7 @@
       "hints": [
         "Which variable does another line need?",
         "A line can only use variables created before it.",
-        "Start with the line that needs no other variable, and finish with the print."
+        "Start with the line that needs no other variable."
       ],
       "reference": {
         "title": "Conditional (ternary) operator",
@@ -1195,7 +1192,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.conditionals.ternary-operator.concept-01",
@@ -1221,13 +1218,13 @@
         {
           "text": "A ternary gives back true or false, the result of its condition.",
           "correct": false,
-          "feedback": "Line 3 prints a text, not true. Only the plain comparison on line 4 gives true or false.",
+          "feedback": "Compare what line 3 prints with the result of the plain condition on line 4.",
           "misconception": "ternary-returns-condition"
         },
         {
           "text": "A ternary gives the second value when the condition is true.",
           "correct": false,
-          "feedback": "It is the other way round. A true condition picks the value before the colon.",
+          "feedback": "Look at which text line 3 prints for temp -2, and which side of the colon it sits on.",
           "misconception": "condition-direction-flipped"
         }
       ],
@@ -1248,7 +1245,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "beg.conditionals.condition-truthiness.predict-01",
@@ -1277,7 +1274,7 @@
         {
           "text": "empty",
           "correct": false,
-          "feedback": "You read the text 0 as the number 0. Only the empty text is falsy; any other text is truthy.",
+          "feedback": "You read the text 0 as the number 0. Look at the quotes on line 1: this value is text.",
           "misconception": "text-counts-by-meaning"
         },
         {
@@ -1304,7 +1301,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.conditionals.condition-truthiness.predict-02",
@@ -1333,13 +1330,13 @@
         {
           "text": "full",
           "correct": false,
-          "feedback": "You treated 3 as not true. A condition does not have to be exactly true: any truthy value passes.",
+          "feedback": "You treated 3 as not passing. Ask whether a condition has to be exactly the value true.",
           "misconception": "only-true-passes"
         },
         {
           "text": "open\nfull",
           "correct": false,
-          "feedback": "You ran both blocks. When the if block runs, else is skipped.",
+          "feedback": "You ran both blocks. Think about whether two alternatives can both run.",
           "misconception": "else-runs-too"
         }
       ],
@@ -1360,7 +1357,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "beg.conditionals.condition-truthiness.trace-01",
@@ -1401,7 +1398,7 @@
         {
           "text": "'full'",
           "correct": false,
-          "feedback": "You treated the empty text as passing. The empty text is falsy, so the if block is skipped.",
+          "feedback": "You treated the empty text as passing. Check what an empty text counts as in a test.",
           "misconception": "text-counts-by-meaning"
         }
       ],
@@ -1426,7 +1423,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.conditionals.condition-truthiness.fill-01",

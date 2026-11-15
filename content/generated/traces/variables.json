@@ -82,11 +82,12 @@
   },
   "beg.variables.let-declaration.predict-02": {
    "code": [
-    "let petName;",
-    "console.log(petName);"
+    "let first = 3;",
+    "let second = first + 4;",
+    "console.log(second);"
    ],
    "output": [
-    "undefined"
+    "7"
    ],
    "steps": [
     {
@@ -103,9 +104,30 @@
      "line": 2,
      "variables": [
       {
-       "name": "petName",
+       "name": "first",
        "scope": "global",
-       "value": "undefined"
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "first",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "second",
+       "scope": "global",
+       "value": "7"
       }
      ],
      "outputCount": 0,
@@ -119,9 +141,14 @@
      "line": 0,
      "variables": [
       {
-       "name": "petName",
+       "name": "first",
        "scope": "global",
-       "value": "undefined"
+       "value": "3"
+      },
+      {
+       "name": "second",
+       "scope": "global",
+       "value": "7"
       }
      ],
      "outputCount": 1,

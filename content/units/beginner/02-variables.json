@@ -122,7 +122,7 @@
       "title": "Naming a value with let",
       "conceptCard": {
         "title": "Naming a value with let",
-        "body": "let creates a variable, a name that holds a value. Write let, a name, = and the value. Use the name without quotes to read the value. Quotes make plain text instead. A let with no value holds undefined until you store one.",
+        "body": "let creates a variable, a name that holds a value. Write let, a name, = and the value. Use the name without quotes to read the value. Quotes make plain text instead.",
         "code": [
           "let boats = 3;",
           "let sail = \"red\";",
@@ -236,13 +236,13 @@
         {
           "text": "trail km",
           "correct": false,
-          "feedback": "You printed the names. In code, a name without quotes stands for the value it holds.",
+          "feedback": "You printed the names. Check what an unquoted name stands for.",
           "misconception": "name-printed-as-text"
         },
         {
           "text": "Pine Ridge km",
           "correct": false,
-          "feedback": "The first name was read as a value, but km is also a variable. Its stored value is printed, not its name.",
+          "feedback": "The first name was read as a value, but km is also a variable. Check what km stands for.",
           "misconception": "name-printed-as-text"
         }
       ],
@@ -263,7 +263,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "beg.variables.let-declaration.predict-02",
@@ -276,36 +276,37 @@
       "difficulty": 1,
       "prompt": "What does this code print?",
       "code": [
-        "let petName;",
-        "console.log(petName);"
+        "let first = 3;",
+        "let second = first + 4;",
+        "console.log(second);"
       ],
       "options": [
         {
-          "text": "undefined",
+          "text": "7",
           "correct": true,
-          "feedback": "Right. A variable declared without a value exists, but it holds undefined until you store something."
+          "feedback": "Right. first holds 3, so line 2 stores 3 + 4 in second."
         },
         {
-          "text": "0",
+          "text": "3",
           "correct": false,
-          "feedback": "A new variable does not start at zero. Zero is a number, and nothing was stored here.",
-          "misconception": "unset-let-is-zero"
+          "feedback": "You printed first. The program prints second, which holds the result of line 2.",
+          "misconception": "mixes-up-variables"
         },
         {
-          "text": "Uncaught ReferenceError",
+          "text": "first + 4",
           "correct": false,
-          "feedback": "The name was declared on line 1, so JavaScript knows it. A declared name with no value can be read without an error.",
-          "misconception": "unset-let-is-zero"
+          "feedback": "You printed the expression as text. A name in code is replaced by the value it holds, and the sum is worked out.",
+          "misconception": "name-printed-as-text"
         }
       ],
       "solution": {
-        "expectedOutput": "undefined"
+        "expectedOutput": "7"
       },
-      "explanation": "Line 1 creates the variable but stores no value. Reading it gives the special value that means nothing has been stored yet.",
+      "explanation": "Line 2 reads first, which holds 3, adds 4 and stores 7 in second. Line 3 prints the value of second.",
       "hints": [
-        "Look at line 1: is there an = sign?",
-        "A variable with no stored value still exists.",
-        "Reading a name that holds no value does not crash; it gives the special value for nothing stored yet."
+        "Look at which variable line 3 prints.",
+        "A variable can be given a value worked out from another variable.",
+        "Replace first by its value on line 2, then add."
       ],
       "reference": {
         "title": "let",
@@ -315,7 +316,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.variables.let-declaration.trace-01",
@@ -461,7 +462,7 @@
       "hints": [
         "Ask which line needs no other variable.",
         "A name must hold a value before a later line reads it.",
-        "Each line after the first uses the name from the line before."
+        "Find the line that needs no other variable, then the line that needs only that one."
       ],
       "reference": {
         "title": "let",
@@ -471,7 +472,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.let-declaration.concept-01",
@@ -497,13 +498,13 @@
         {
           "text": "Both lines print calm, because quotes do not change what a name means.",
           "correct": false,
-          "feedback": "Quotes turn the letters into plain text. They are no longer a name, so the stored value is not read.",
+          "feedback": "Check what the quotes on line 3 do to the word mood.",
           "misconception": "name-printed-as-text"
         },
         {
           "text": "Both lines print mood, because console.log shows the name of a variable.",
           "correct": false,
-          "feedback": "console.log shows values, not names. The unquoted mood is replaced by the value stored under it.",
+          "feedback": "Check what console.log shows for the unquoted name on line 2.",
           "misconception": "name-printed-as-text"
         }
       ],
@@ -524,7 +525,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "beg.variables.reassignment.predict-01",
@@ -602,7 +603,7 @@
         {
           "text": "30",
           "correct": false,
-          "feedback": "You expected area to follow width. A variable stores a result, not the rule that made it.",
+          "feedback": "You expected area to follow width. Check when area gets its value.",
           "misconception": "stays-linked"
         },
         {
@@ -629,7 +630,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.reassignment.trace-01",
@@ -655,7 +656,7 @@
         {
           "text": "9",
           "correct": false,
-          "feedback": "You treated the two names as one box. Line 2 copied the value, so the names are independent.",
+          "feedback": "You treated the two names as one box. Check what line 2 copies.",
           "misconception": "stays-linked"
         },
         {
@@ -686,7 +687,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:9"
       ]
@@ -782,7 +783,7 @@
       "hints": [
         "Which line must come before all the others?",
         "Each line works on the value the earlier line left behind.",
-        "Try the doubling line before the adding line."
+        "Run the two changes in both orders and see which gives 27."
       ],
       "reference": {
         "title": "Assignment (=)",
@@ -792,7 +793,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.reassignment.write-01",
@@ -971,7 +972,7 @@
         {
           "text": "Uncaught TypeError",
           "correct": false,
-          "feedback": "Reading a const is fine, and price is never assigned again. Only count is changed, and it uses let.",
+          "feedback": "Check whether any line assigns to price again, and which name line 3 changes.",
           "misconception": "const-wrong-error"
         }
       ],
@@ -992,7 +993,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.const-declaration.trace-01",
@@ -1178,13 +1179,13 @@
         {
           "text": "Line 4 is skipped quietly, so the program prints 2.",
           "correct": false,
-          "feedback": "Look at what happens to the program when line 4 runs: JavaScript does not let it pass unnoticed.",
+          "feedback": "Look at what the program does when line 4 runs.",
           "misconception": "const-reassign-allowed"
         },
         {
           "text": "It stops at line 2, because only the first assignment to any variable is allowed.",
           "correct": false,
-          "feedback": "Check line 2 again: it assigns to a variable declared with let, not const.",
+          "feedback": "Check line 2 again and the keyword its variable was declared with.",
           "misconception": "const-wrong-error"
         }
       ],
@@ -1205,7 +1206,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "beg.variables.undefined-and-null.predict-01",
@@ -1284,13 +1285,13 @@
         {
           "text": "undefined\nnull",
           "correct": false,
-          "feedback": "typeof never answers null. For the value null it gives a different word, an old quirk of the language.",
+          "feedback": "Check again what typeof reports for the value null.",
           "misconception": "null-typeof-null"
         },
         {
           "text": "object\nobject",
           "correct": false,
-          "feedback": "The two values are not the same. One is a variable with nothing stored, and it has its own type name.",
+          "feedback": "Check whether the two values have the same type.",
           "misconception": "undefined-null-same"
         }
       ],
@@ -1311,7 +1312,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "beg.variables.undefined-and-null.trace-01",
@@ -1460,7 +1461,7 @@
       "hints": [
         "Which line declares the name?",
         "The first print must happen while ticket has no value.",
-        "The assignment sits between the two print lines."
+        "Decide which print can run before ticket gets 7."
       ],
       "reference": {
         "title": "undefined",
@@ -1470,7 +1471,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.variables.undefined-and-null.write-02",

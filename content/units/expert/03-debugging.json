@@ -262,13 +262,13 @@
         {
           "text": "[3, -2, 4]",
           "correct": false,
-          "feedback": "You expected the extra pass to add nothing. The loop still runs for the last day, and the missing next day gives NaN, which is pushed.",
+          "feedback": "Check how many passes the loop makes and what the last one pushes.",
           "misconception": "out-of-range-read-skipped"
         },
         {
           "text": "Uncaught TypeError",
           "correct": false,
-          "feedback": "Reading an index that does not exist on an array does not throw. It gives undefined, and the loop carries on.",
+          "feedback": "Check whether reading an index past the end of an array throws.",
           "misconception": "out-of-range-read-throws"
         }
       ],
@@ -289,7 +289,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.off-by-one-and-boundaries.concept-01",
@@ -314,13 +314,13 @@
         {
           "text": "The end index is included, so slice(1, 3) should return three items and the output is wrong.",
           "correct": false,
-          "feedback": "The output is real. The end index marks where slicing stops and that slot is not taken.",
+          "feedback": "Count the items in the first printed array and compare with this claim.",
           "misconception": "slice-end-inclusive"
         },
         {
           "text": "The second number counts items, so slice(1, 3) takes three items from index 1.",
           "correct": false,
-          "feedback": "The second number is a position, not a count. Taking three items from index 1 would give a different result.",
+          "feedback": "Count how many items the first printed array holds and compare that with 3.",
           "misconception": "slice-end-inclusive"
         }
       ],
@@ -340,7 +340,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.off-by-one-and-boundaries.fix-01",
@@ -368,7 +368,7 @@
         {
           "text": "const start = page * size - 1;",
           "correct": false,
-          "feedback": "That starts at index 5, which is the sixth row. Page 2 begins at the fourth, so the slice shows the wrong rows.",
+          "feedback": "That starts at index 5, which is the sixth row, so the slice shows the wrong rows.",
           "misconception": "page-number-as-offset"
         },
         {
@@ -386,7 +386,7 @@
       "hints": [
         "Work out the index of row 4 and compare it with start.",
         "Page 1 must start at index 0.",
-        "The start index is the number of pages before this one, times size."
+        "Count how many whole pages come before page 2."
       ],
       "reference": {
         "title": "Array.prototype.slice()",
@@ -396,7 +396,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.debugging.off-by-one-and-boundaries.write-01",
@@ -529,7 +529,7 @@
       "hints": [
         "Think of one page per step of the loop.",
         "slice excludes its end index and tolerates an end past the array.",
-        "Move i forward by n each time and slice from i to i plus n."
+        "Use an index that moves forward by a fixed step, and take a slice at each step."
       ],
       "reference": {
         "title": "Array.prototype.slice()",
@@ -538,7 +538,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.mutation-bugs.predict-01",
@@ -568,13 +568,13 @@
         {
           "text": "herbs [3, 5]",
           "correct": false,
-          "feedback": "You expected spread to copy the inner array too. It copies one level, so both objects share the same pots array.",
+          "feedback": "You expected the push to affect only the copy. Check whether spread duplicates what pots points to.",
           "misconception": "spread-copies-deeply"
         },
         {
           "text": "spices [3, 5, 8]",
           "correct": false,
-          "feedback": "The name is a text value, copied into the new object. Assigning a new name to the copy leaves the original name alone.",
+          "feedback": "Check whether assigning copy.name on line 7 can change shelf.name.",
           "misconception": "spread-copies-deeply"
         }
       ],
@@ -585,7 +585,7 @@
       "hints": [
         "Compare what the two lines before the print change.",
         "A shallow copy duplicates the top level only.",
-        "One property is copied by value and one is shared."
+        "Ask for each property whether the copy holds its own value or the same one as the original."
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -595,7 +595,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.mutation-bugs.concept-01",
@@ -622,13 +622,13 @@
         {
           "text": "sort returns a new sorted array and leaves prices in its original order.",
           "correct": false,
-          "feedback": "That would print the original order. sort works in place, so prices is already sorted.",
+          "feedback": "Compare the first printed line with the original order of prices.",
           "misconception": "in-place-method-returns-copy"
         },
         {
           "text": "sort reorders prices but returns a separate copy, so the two names are different arrays.",
           "correct": false,
-          "feedback": "The returned value is the same array, not a copy, so comparing the two names gives a different result.",
+          "feedback": "Check the result of the comparison printed on line 5.",
           "misconception": "in-place-method-returns-copy"
         }
       ],
@@ -648,7 +648,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.mutation-bugs.fix-01",
@@ -696,7 +696,7 @@
       "hints": [
         "Which object does o refer to on line 3?",
         "map copies the array, not the objects inside it.",
-        "Build a fresh object from o with the new kg."
+        "The callback should return something new, not the object it was given."
       ],
       "reference": {
         "title": "Array.prototype.map()",
@@ -706,7 +706,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.mutation-bugs.fill-01",
@@ -763,7 +763,7 @@
       "hints": [
         "Look at which array push changes.",
         "A copy is a new array, not another name for the bin.",
-        "Only one chip builds a new array; the others share bin, change it in place, empty it or fail."
+        "The right chip leaves bin with all three items and gives sort a separate array to work on."
       ],
       "reference": {
         "title": "Array.prototype.splice()",
@@ -773,7 +773,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.debugging.async-ordering-bugs.predict-01",
@@ -803,13 +803,13 @@
         {
           "text": "start\nend\nnext job",
           "correct": false,
-          "feedback": "You expected the call to finish before the next line. await pauses the function, so the caller moves on first.",
+          "feedback": "Check whether the caller waits for print to finish.",
           "misconception": "async-runs-to-completion"
         },
         {
           "text": "next job\nstart\nend",
           "correct": false,
-          "feedback": "The body of an async function starts right away, up to its first await. Only the part after the await is delayed.",
+          "feedback": "Check when the body of an async function starts running.",
           "misconception": "async-call-defers-whole-body"
         }
       ],
@@ -820,7 +820,7 @@
       "hints": [
         "Find which line pauses print.",
         "The code before the first await is not delayed.",
-        "The call returns at the await, before the last line of print."
+        "Decide which line of print runs before the call returns."
       ],
       "reference": {
         "title": "await",
@@ -830,7 +830,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.async-ordering-bugs.concept-01",
@@ -863,13 +863,13 @@
         {
           "text": "The second call waits for the first call to finish, so the stock only goes down once.",
           "correct": false,
-          "feedback": "Calls do not queue behind each other. The second call starts as soon as the first one pauses.",
+          "feedback": "Check whether the second call has to wait for the first to finish.",
           "misconception": "await-serializes-calls"
         },
         {
           "text": "await makes each call finish before the next starts, so the stock should reach 3 but a bug skips one.",
           "correct": false,
-          "feedback": "await pauses only its own function. The second call begins while the first is paused, so nothing is skipped by a bug.",
+          "feedback": "Check whether anything in the code makes the second call wait, and what the stock would be if so.",
           "misconception": "await-serializes-calls"
         }
       ],
@@ -889,7 +889,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.async-ordering-bugs.fix-01",
@@ -940,7 +940,7 @@
       "hints": [
         "Line 7 starts brew; what makes serve wait for it?",
         "An async call returns a promise that serve must wait on.",
-        "Put the keyword that pauses serve in front of the call."
+        "Use the keyword that makes serve wait for a promise."
       ],
       "reference": {
         "title": "Using promises",
@@ -949,7 +949,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.async-ordering-bugs.write-02",
@@ -1043,7 +1043,7 @@
       "hints": [
         "Think about which i each function reads when it runs.",
         "A let loop variable is a new binding on every pass.",
-        "Declare the loop counter inside the for statement and call the functions after the loop."
+        "Decide where the loop counter must be declared so that every function gets its own."
       ],
       "reference": {
         "title": "Closures",
@@ -1052,7 +1052,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.predict-01",
@@ -1087,13 +1087,13 @@
         {
           "text": "['bake', 'a', 'b', 'RangeError']",
           "correct": false,
-          "feedback": "After a throw nothing else in that block runs, so line 7 never reaches the push of a.",
+          "feedback": "Check whether the push of a on line 7 can run after bake throws.",
           "misconception": "code-continues-after-throw"
         },
         {
           "text": "['bake', 'RangeError']",
           "correct": false,
-          "feedback": "finally runs whether the try block finished or threw, even when the error continues up to a caller.",
+          "feedback": "Check whether the finally block on line 8 runs when bake throws.",
           "misconception": "finally-skipped-on-throw"
         }
       ],
@@ -1113,7 +1113,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.concept-01",
@@ -1143,13 +1143,13 @@
         {
           "text": "The rejection skips the next then, but the chain stays rejected, so after is never printed.",
           "correct": false,
-          "feedback": "A catch that returns normally turns the chain back to fulfilled, so the following then does run.",
+          "feedback": "Check what state the chain is in after the catch handler returns.",
           "misconception": "catch-keeps-chain-rejected"
         },
         {
           "text": "A throw does not stop the chain, so ran is printed before the catch runs.",
           "correct": false,
-          "feedback": "A throw inside a then rejects its promise, and a then step with no rejection handler is passed over.",
+          "feedback": "Check whether the then on line 6 can run after the throw on line 5.",
           "misconception": "code-continues-after-throw"
         }
       ],
@@ -1170,7 +1170,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.fix-02",
@@ -1219,7 +1219,7 @@
       "hints": [
         "Follow line 2's error: who gets it first?",
         "A catch ends the failure unless it throws again.",
-        "The inner catch should pass the same error on."
+        "The inner catch has to do something with e so that the outer try can see it."
       ],
       "reference": {
         "title": "throw",
@@ -1228,7 +1228,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.fill-02",

@@ -548,7 +548,7 @@
         {
           "text": "false",
           "correct": false,
-          "feedback": "You thought a number and a text can never be equal. The == sign converts one side first, so the digits can match.",
+          "feedback": "You thought a number and a text can never be equal. == does not require the same type on both sides.",
           "misconception": "loose-needs-same-type"
         },
         {
@@ -575,7 +575,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:11"
       ]
@@ -603,7 +603,7 @@
         {
           "text": "false",
           "correct": false,
-          "feedback": "You thought a boolean and a number can never be equal. == converts both sides to numbers here, and false becomes 0.",
+          "feedback": "You thought a boolean and a number can never be equal. == does not require the same type on both sides; it converts them before comparing.",
           "misconception": "loose-needs-same-type"
         },
         {
@@ -630,7 +630,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.operators-and-comparisons.loose-equality.trace-01",
@@ -781,7 +781,7 @@
       "hints": [
         "Work out what each print shows for the text '3'.",
         "== converts, + joins text, === compares the types too.",
-        "The line that creates answer comes first; true is printed before 33."
+        "The line that creates answer comes first."
       ],
       "reference": {
         "title": "Equality (==)",
@@ -791,7 +791,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.operators-and-comparisons.loose-equality.write-01",
@@ -902,13 +902,13 @@
         {
           "text": "false\nfalse",
           "correct": false,
-          "feedback": "You read >= as strictly greater. It is also true when both sides are equal.",
+          "feedback": "You read >= as strictly greater. Check what >= does when both sides are equal.",
           "misconception": "equal-boundary-wrong"
         },
         {
           "text": "true\ntrue",
           "correct": false,
-          "feedback": "You read > as including equal. It is false when both sides are equal.",
+          "feedback": "You read > as including equal. Check what > does when both sides are equal.",
           "misconception": "equal-boundary-wrong"
         }
       ],
@@ -929,7 +929,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.predict-02",
@@ -954,7 +954,7 @@
         {
           "text": "false",
           "correct": false,
-          "feedback": "You compared 10 and 9 as numbers. Two texts are compared character by character, and '1' comes before '9'.",
+          "feedback": "You compared 10 and 9 as numbers. Both values are text, and text is not compared by its numeric value.",
           "misconception": "text-compared-as-number"
         },
         {
@@ -981,7 +981,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.trace-01",
@@ -1203,7 +1203,7 @@
         "undefined-and-null"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 1,
+      "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
         "let comment = '';",
@@ -1220,13 +1220,13 @@
         {
           "text": "true\ntrue",
           "correct": false,
-          "feedback": "You treated a text with only a space as empty. Any text with at least one character is truthy, even a space.",
+          "feedback": "You treated the text with only a space as empty. Look again at what spacer holds.",
           "misconception": "falsy-by-meaning"
         },
         {
           "text": "false\nfalse",
           "correct": false,
-          "feedback": "You treated any text as truthy. Only the empty text '' is falsy.",
+          "feedback": "You gave comment the same result as spacer. Compare what the two texts hold.",
           "misconception": "falsy-by-meaning"
         }
       ],
@@ -1247,7 +1247,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:2"
       ]
@@ -1260,7 +1260,7 @@
         "undefined-and-null"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 1,
+      "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
         "let city = 'Lima';",
@@ -1275,7 +1275,7 @@
         {
           "text": "unknown",
           "correct": false,
-          "feedback": "You used the right-hand value. || keeps the left side when it is truthy and only moves on when it is falsy.",
+          "feedback": "You used the right-hand value. Check the left side of ||; it decides whether the right side is used.",
           "misconception": "logical-operand-misread"
         },
         {
@@ -1302,7 +1302,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:19"
       ]
