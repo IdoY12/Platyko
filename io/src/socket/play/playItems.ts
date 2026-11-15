@@ -9,15 +9,14 @@ function servedStatuses(): ItemStatus[] {
   return config.get<boolean>("content.serveDrafts") ? ["LIVE", "DRAFT"] : ["LIVE"];
 }
 
-/** Items the given players met in their last games. */
+/** Items each of the given players met in their own last games: one busy player never crowds out another's history. */
 async function recentItemIds(userIds: string[]): Promise<Set<string>> {
-  const recent = await prisma.matchParticipant.findMany({
-    where: { userId: { in: userIds } },
-    orderBy: { match: { endedAt: "desc" } },
-    take: RECENT_GAMES * userIds.length,
-    select: { match: { select: { itemIds: true } } },
-  });
-  return new Set(recent.flatMap((row) => row.match.itemIds));
+  const perPlayer = await Promise.all(
+    userIds.map((userId) =>
+      prisma.matchParticipant.findMany({ where: { userId }, orderBy: { match: { endedAt: "desc" } }, take: RECENT_GAMES, select: { match: { select: { itemIds: true } } } }),
+    ),
+  );
+  return new Set(perPlayer.flat().flatMap((row) => row.match.itemIds));
 }
 
 /**
@@ -29,10 +28,9 @@ export async function pickPlayItems(track: Track, count: number, userIds: string
     prisma.item.findMany({ where: { track, duelEligible: true, status: { in: servedStatuses() }, ...(format ? { format } : {}) }, select: { id: true } }),
     recentItemIds(userIds),
   ]);
-  const fresh = rows.filter((row) => !seen.has(row.id));
-  // A small bank or a very active player may run out of unseen items: fall back to any of them.
-  const pool = fresh.length >= count ? fresh : rows;
-  const chosen = pool.map((row) => ({ id: row.id, order: Math.random() })).sort((left, right) => left.order - right.order).slice(0, count);
+  const shuffled = (list: { id: string }[]) => list.map((row) => ({ id: row.id, order: Math.random() })).sort((left, right) => left.order - right.order);
+  // Unseen items first; only when the pool runs short (a small bank, a very active player) do seen ones fill the rest.
+  const chosen = [...shuffled(rows.filter((row) => !seen.has(row.id))), ...shuffled(rows.filter((row) => seen.has(row.id)))].slice(0, count);
   const items = await loadPlayItems(chosen.map((row) => row.id));
   return chosen.flatMap((row) => items.filter((item) => item.id === row.id));
 }
