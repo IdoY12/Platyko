@@ -699,12 +699,10 @@
    "code": [
     "const slot = [];",
     "const flag = false;",
-    "console.log(slot == flag);",
-    "console.log(slot == !slot);",
+    "console.log(slot == 0);",
     "console.log(null == flag);"
    ],
    "output": [
-    "true",
     "true",
     "false"
    ],
@@ -778,27 +776,6 @@
      "microtasks": []
     },
     {
-     "line": 5,
-     "variables": [
-      {
-       "name": "slot",
-       "scope": "global",
-       "value": "[]"
-      },
-      {
-       "name": "flag",
-       "scope": "global",
-       "value": "false"
-      }
-     ],
-     "outputCount": 2,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 0,
      "variables": [
       {
@@ -812,7 +789,7 @@
        "value": "false"
       }
      ],
-     "outputCount": 3,
+     "outputCount": 2,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -1480,14 +1457,12 @@
     "const drift = -0;",
     "console.log(drift === 0);",
     "console.log(Object.is(drift, 0));",
-    "console.log(1 / drift);",
-    "console.log(String(drift));"
+    "console.log(1 / drift);"
    ],
    "output": [
     "true",
     "false",
-    "-Infinity",
-    "0"
+    "-Infinity"
    ],
    "steps": [
     {
@@ -1549,22 +1524,6 @@
      "microtasks": []
     },
     {
-     "line": 5,
-     "variables": [
-      {
-       "name": "drift",
-       "scope": "global",
-       "value": "-0"
-      }
-     ],
-     "outputCount": 3,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 0,
      "variables": [
       {
@@ -1573,7 +1532,7 @@
        "value": "-0"
       }
      ],
-     "outputCount": 4,
+     "outputCount": 3,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -1893,15 +1852,11 @@
   },
   "exp.type-coercion-and-edge-cases.operator-coercion.concept-01": {
    "code": [
-    "const seat = { valueOf: () => 2 };",
-    "console.log(seat + 3 + \"x\");",
-    "console.log(\"x\" + seat + 3);",
-    "console.log(\"x\" + (seat + 3));"
+    "const cost = 5;",
+    "console.log(\"kg\" + (cost + 2));"
    ],
    "output": [
-    "5x",
-    "x23",
-    "x5"
+    "kg7"
    ],
    "steps": [
     {
@@ -1918,97 +1873,14 @@
      "line": 2,
      "variables": [
       {
-       "name": "seat",
+       "name": "cost",
        "scope": "global",
-       "value": "{valueOf: [Function: valueOf]}"
+       "value": "5"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 1,
-     "variables": [
-      {
-       "name": "seat",
-       "scope": "global",
-       "value": "{valueOf: [Function: valueOf]}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "valueOf"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "seat",
-       "scope": "global",
-       "value": "{valueOf: [Function: valueOf]}"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 1,
-     "variables": [
-      {
-       "name": "seat",
-       "scope": "global",
-       "value": "{valueOf: [Function: valueOf]}"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global",
-      "valueOf"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "seat",
-       "scope": "global",
-       "value": "{valueOf: [Function: valueOf]}"
-      }
-     ],
-     "outputCount": 2,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 1,
-     "variables": [
-      {
-       "name": "seat",
-       "scope": "global",
-       "value": "{valueOf: [Function: valueOf]}"
-      }
-     ],
-     "outputCount": 2,
-     "callStack": [
-      "global",
-      "valueOf"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -2017,12 +1889,12 @@
      "line": 0,
      "variables": [
       {
-       "name": "seat",
+       "name": "cost",
        "scope": "global",
-       "value": "{valueOf: [Function: valueOf]}"
+       "value": "5"
       }
      ],
-     "outputCount": 3,
+     "outputCount": 1,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -2032,7 +1904,7 @@
   },
   "exp.type-coercion-and-edge-cases.operator-coercion.fix-01": {
    "code": [
-    "const bays = [\"9\", \"10\", \"75\", \"8\"];",
+    "const bays = [\"9\", \"10\", \"75\"];",
     "let hi = bays[0];",
     "for (const n of bays) {",
     "  if (+n > +hi) hi = n;",
@@ -2059,7 +1931,7 @@
       {
        "name": "bays",
        "scope": "global",
-       "value": "['9', '10', '75', '8']"
+       "value": "['9', '10', '75']"
       }
      ],
      "outputCount": 0,
@@ -2075,7 +1947,7 @@
       {
        "name": "bays",
        "scope": "global",
-       "value": "['9', '10', '75', '8']"
+       "value": "['9', '10', '75']"
       },
       {
        "name": "hi",
@@ -2096,7 +1968,7 @@
       {
        "name": "bays",
        "scope": "global",
-       "value": "['9', '10', '75', '8']"
+       "value": "['9', '10', '75']"
       },
       {
        "name": "hi",
@@ -2122,7 +1994,7 @@
       {
        "name": "bays",
        "scope": "global",
-       "value": "['9', '10', '75', '8']"
+       "value": "['9', '10', '75']"
       },
       {
        "name": "hi",
@@ -2148,7 +2020,7 @@
       {
        "name": "bays",
        "scope": "global",
-       "value": "['9', '10', '75', '8']"
+       "value": "['9', '10', '75']"
       },
       {
        "name": "hi",
@@ -2174,7 +2046,7 @@
       {
        "name": "bays",
        "scope": "global",
-       "value": "['9', '10', '75', '8']"
+       "value": "['9', '10', '75']"
       },
       {
        "name": "hi",
@@ -2200,7 +2072,7 @@
       {
        "name": "bays",
        "scope": "global",
-       "value": "['9', '10', '75', '8']"
+       "value": "['9', '10', '75']"
       },
       {
        "name": "hi",
@@ -2226,7 +2098,7 @@
       {
        "name": "bays",
        "scope": "global",
-       "value": "['9', '10', '75', '8']"
+       "value": "['9', '10', '75']"
       },
       {
        "name": "hi",
@@ -2237,58 +2109,6 @@
        "name": "n",
        "scope": "global",
        "value": "'75'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "bays",
-       "scope": "global",
-       "value": "['9', '10', '75', '8']"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "'75'"
-      },
-      {
-       "name": "n",
-       "scope": "global",
-       "value": "'8'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "bays",
-       "scope": "global",
-       "value": "['9', '10', '75', '8']"
-      },
-      {
-       "name": "hi",
-       "scope": "global",
-       "value": "'75'"
-      },
-      {
-       "name": "n",
-       "scope": "global",
-       "value": "'8'"
       }
      ],
      "outputCount": 0,
@@ -2304,7 +2124,7 @@
       {
        "name": "bays",
        "scope": "global",
-       "value": "['9', '10', '75', '8']"
+       "value": "['9', '10', '75']"
       },
       {
        "name": "hi",
@@ -2325,7 +2145,7 @@
       {
        "name": "bays",
        "scope": "global",
-       "value": "['9', '10', '75', '8']"
+       "value": "['9', '10', '75']"
       },
       {
        "name": "hi",

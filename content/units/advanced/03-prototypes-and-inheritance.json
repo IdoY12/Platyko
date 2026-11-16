@@ -98,62 +98,62 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "e64ea056869b1d151cf14a9fd6605a007ea8ee189917ccf47fd13e4d154c9243"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "23a0aaf6cad6a08a8934aaeb47de9d7d77ee94c45a148904bd4c9ca4e2a41063"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "087df612716479da4fd15855f251e1a94c88728859155b6693631a8187711113"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "5b93adc85e5bb9584bea4dc30965221031631b8907d6e039f53c065a33864dad"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "3bf614374d3d9052025cf9460791d48508829ddafba34c9f8d148ecdf6f28249"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "8dbea0e3df0d9f524b09b828302298d1dc5a5fe57981dcd186fd854769934d3a"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "dedc8c6fcb5bc6ab75458cf6febed2c7db6ea2a2124b8565a1f75a83ee45785b"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "00842d5bc9e5ab5d884204d1551c8be1b6609e9790f5ccf12f394e7d0ba9e230"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "0b4a76d07fe15c317e13753baac9f067b9ca4eda590588f821d6295332fd2023"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "c794dbf1f91a453e33eb99fa7aa88b8e517bc0d482a5acffeab366747184fe4d"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "3044dcbf9d48e690a18f3c78ca080ffb08160b624a97003d0b267fce64a94a98"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "82de563c85b1f879e6b59f0be2c663317bc5780b709cea92fa27299f2af0fd13"
     }
   ],
@@ -446,7 +446,7 @@
         "class-basics"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The program should print can open, but it prints nothing. Tap the buggy line and pick the fix.",
       "code": [
         "class Shop {",
@@ -494,7 +494,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.prototypes-and-inheritance.prototype-chain.write-01",
@@ -639,7 +639,7 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 3,
-      "prompt": "Two loans are built by the same constructor. What does this code print?",
+      "prompt": "A loan is built by a constructor. What does this code print?",
       "code": [
         "function Loan(t) { this.t = t; }",
         "Loan.prototype.tag = function () {",
@@ -647,36 +647,36 @@
         "};",
         "const a = new Loan('Dune');",
         "const b = new Loan('Emma');",
-        "console.log(a.tag(), b.tag());",
+        "console.log(a.tag());",
         "console.log(a.tag === b.tag);"
       ],
       "options": [
         {
-          "text": "Due: Dune Due: Emma\ntrue",
+          "text": "Due: Dune\ntrue",
           "correct": true,
-          "feedback": "Right. Each call uses its own this, and both objects share the one function stored on the prototype."
+          "feedback": "Right. The call uses the loan before the dot as this, and both loans reach the one function stored on the prototype."
         },
         {
-          "text": "Due: Dune Due: Emma\nfalse",
+          "text": "Due: Dune\nfalse",
           "correct": false,
-          "feedback": "You thought each object gets its own copy of tag. Ask how many times line 2 stores a function.",
+          "feedback": "You thought each object gets its own copy of tag, so the two loans hold different functions. Ask how many times line 2 stores a function, and where.",
           "misconception": "methods-copied-into-objects"
         },
         {
-          "text": "Due: undefined Due: undefined\ntrue",
+          "text": "Due: undefined\ntrue",
           "correct": false,
-          "feedback": "You thought this inside tag is the prototype that stores the method. Ask which object stands before the dot in each call.",
+          "feedback": "You thought this inside tag is the prototype that stores the method. Ask which object stands before the dot in the call.",
           "misconception": "delegation-this-is-prototype"
         }
       ],
       "solution": {
-        "expectedOutput": "Due: Dune Due: Emma\ntrue"
+        "expectedOutput": "Due: Dune\ntrue"
       },
-      "explanation": "The method sits once on Loan.prototype. Both loans reach it through the chain, so the two properties are the same function. Each call sets this to the loan before the dot, so the titles differ.",
+      "explanation": "The method sits once on Loan.prototype, so both loans reach the same function. The call sets this to the loan before the dot, so the title is Dune.",
       "hints": [
         "Where is tag defined, and how many times does line 2 run?",
         "A shared prototype method gets this from the object it is called on.",
-        "Compare what each loan stores with what both loans reach through the prototype."
+        "Line 8 compares the tag of a with the tag of b: ask whether they are one function or two."
       ],
       "reference": {
         "title": "new operator",
@@ -686,7 +686,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 6
     },
     {
       "id": "adv.prototypes-and-inheritance.constructor-functions.concept-01",
@@ -1059,7 +1059,7 @@
         "prototype-chain"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Which statement does this program demonstrate about Object.create?",
       "code": [
         "const menu = { soup: 'leek' };",
@@ -1105,7 +1105,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.prototypes-and-inheritance.object-create-and-delegation.parsons-01",
@@ -1156,7 +1156,7 @@
         "prototype-chain"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The program should print 4 2, but it prints 2 2. Tap the buggy line and pick the fix.",
       "code": [
         "const rack = { books: 4 };",
@@ -1200,7 +1200,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.prototypes-and-inheritance.object-create-and-delegation.write-01",

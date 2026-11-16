@@ -878,17 +878,15 @@
    "code": [
     "const club = {",
     "  name: 'Chess',",
-    "  members: ['Ana', 'Bo'],",
     "  list() {",
-    "    return this.members.map(",
-    "      (m) => m + ' @ ' + this.name",
-    "    );",
+    "    const hi = () => this.name;",
+    "    return hi();",
     "  }",
     "};",
     "console.log(club.list());"
    ],
    "output": [
-    "['Ana @ Chess', 'Bo @ Chess']"
+    "Chess"
    ],
    "steps": [
     {
@@ -902,12 +900,12 @@
      "microtasks": []
     },
     {
-     "line": 10,
+     "line": 8,
      "variables": [
       {
        "name": "club",
        "scope": "global",
-       "value": "{name: 'Chess', members: ['Ana', 'Bo'], list: [Function: list]}"
+       "value": "{name: 'Chess', list: [Function: list]}"
       }
      ],
      "outputCount": 0,
@@ -918,12 +916,12 @@
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 4,
      "variables": [
       {
        "name": "club",
        "scope": "global",
-       "value": "{name: 'Chess', members: ['Ana', 'Bo'], list: [Function: list]}"
+       "value": "{name: 'Chess', list: [Function: list]}"
       }
      ],
      "outputCount": 0,
@@ -935,47 +933,46 @@
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 5,
      "variables": [
       {
        "name": "club",
        "scope": "global",
-       "value": "{name: 'Chess', members: ['Ana', 'Bo'], list: [Function: list]}"
+       "value": "{name: 'Chess', list: [Function: list]}"
       },
       {
-       "name": "m",
-       "scope": "anonymous",
-       "value": "'Ana'"
+       "name": "hi",
+       "scope": "list",
+       "value": "[Function: hi]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "list",
-      "anonymous"
+      "list"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 4,
      "variables": [
       {
        "name": "club",
        "scope": "global",
-       "value": "{name: 'Chess', members: ['Ana', 'Bo'], list: [Function: list]}"
+       "value": "{name: 'Chess', list: [Function: list]}"
       },
       {
-       "name": "m",
-       "scope": "anonymous",
-       "value": "'Bo'"
+       "name": "hi",
+       "scope": "list",
+       "value": "[Function: hi]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
       "list",
-      "anonymous"
+      "hi"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -986,7 +983,7 @@
       {
        "name": "club",
        "scope": "global",
-       "value": "{name: 'Chess', members: ['Ana', 'Bo'], list: [Function: list]}"
+       "value": "{name: 'Chess', list: [Function: list]}"
       }
      ],
      "outputCount": 1,

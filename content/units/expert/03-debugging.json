@@ -110,42 +110,42 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "ffb801d3747e1ec50a5f79bfa8f14149461725e78c737c5577c965d1d88c6df0"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "3b5eb96e87b38462b813db533102618706c6561ce532ab16e4a2ce80f8090497"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "1e1d0c5980a7e42979a5a0d85b2a86715439dfc79f730e1403a5ece019bf3a7f"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "19d84358b27f9406d2d4ce0beec3623cc0bf49c3b31afde94106a3239f929c5f"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "f855c7e94df74174f68b186558c5b4019b59544bee251e4b3d6512bd9994c1b2"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "de117a0890a33a86fafc6c86d8619639f834b7b70cd13585cfa86d8c476dec0b"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "d0bb1e15cd9bc4a284b58a621c9d981a4667f1f5180dc58b975b8e23957a28ce"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "2fd98bfc1984170f119a9b7224e3113395f519ab395da872a9984032c9fe78d2"
     }
   ],
@@ -251,9 +251,9 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 4,
-      "prompt": "A weather log stores four daily temperatures. The loop records the change from each day to the next. What does this program print?",
+      "prompt": "A weather log stores three daily temperatures. The loop records the change from each day to the next. What does this program print?",
       "code": [
-        "const temps = [4, 7, 5, 9];",
+        "const temps = [4, 7, 5];",
         "const days = temps.length;",
         "const out = [];",
         "for (let i = 0; i < days; i++) {",
@@ -263,14 +263,14 @@
       ],
       "options": [
         {
-          "text": "[3, -2, 4, NaN]",
+          "text": "[3, -2, NaN]",
           "correct": true,
-          "feedback": "Right. On the last pass temps[4] does not exist, so undefined - 9 is NaN, and push adds it."
+          "feedback": "Right. On the last pass temps[3] does not exist, so undefined - 5 is NaN, and push adds it."
         },
         {
-          "text": "[3, -2, 4]",
+          "text": "[3, -2]",
           "correct": false,
-          "feedback": "You thought a read past the end adds nothing, so the result would be one value short. The loop runs four passes, and every pass pushes whatever the subtraction gives.",
+          "feedback": "You thought a read past the end adds nothing, so the result would be one value short. The loop runs three passes, and every pass pushes whatever the subtraction gives.",
           "misconception": "out-of-range-read-skipped"
         },
         {
@@ -281,9 +281,9 @@
         }
       ],
       "solution": {
-        "expectedOutput": "[3, -2, 4, NaN]"
+        "expectedOutput": "[3, -2, NaN]"
       },
-      "explanation": "Four temperatures have indexes 0 to 3. On the last pass temps[i + 1] is temps[4], which does not exist, so undefined - 9 is NaN and push adds it. The loop should stop one pass earlier.",
+      "explanation": "Three temperatures have indexes 0 to 2. On the last pass temps[i + 1] is temps[3], which does not exist, so undefined - 5 is NaN and push adds it. The loop should stop one pass earlier.",
       "hints": [
         "Look at line 5: which two indexes does it read on the last pass?",
         "The last valid index is one less than the length, and i + 1 reaches one further.",
@@ -297,7 +297,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.debugging.off-by-one-and-boundaries.concept-01",
@@ -851,7 +851,7 @@
         "await-scheduling"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "Two sales start at the same moment on a stock of 5. Which statement explains the printed 4?",
       "code": [
         "let qty = 5;",
@@ -900,7 +900,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.debugging.async-ordering-bugs.fix-01",
@@ -1164,7 +1164,7 @@
         "error-types"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "An oven error travels up through two callers. What does this program print?",
       "code": [
         "const log = [];",
@@ -1215,7 +1215,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.concept-01",
@@ -1224,7 +1224,7 @@
         "promise-rejection-flow"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "A failure starts in read and passes through two more functions. Which statement explains the printed line?",
       "code": [
         "const read = () =>",
@@ -1274,7 +1274,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.fix-02",
@@ -1284,7 +1284,7 @@
         "error-types"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "The caller should print TypeError, but the inner function hides the failure. Tap the buggy line and pick the fix.",
       "code": [
         "const parseQty = (text) => {",
@@ -1332,7 +1332,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.fill-02",
@@ -1341,7 +1341,7 @@
         "promise-rejection-flow"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "A loader starts rejected and the caller should recover from it. Fill the two blanks so the program prints ['B'].",
       "code": [
         "const log = [];",
@@ -1405,7 +1405,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     }
   ]
 }

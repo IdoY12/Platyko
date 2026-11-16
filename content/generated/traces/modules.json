@@ -3272,12 +3272,10 @@
     "  catch (e) { return e.name; }",
     "};",
     "console.log(read());",
-    "const jar = { id: 'J' };",
-    "console.log(read());"
+    "const jar = { id: 'J' };"
    ],
    "output": [
-    "ReferenceError",
-    "J"
+    "ReferenceError"
    ],
    "steps": [
     {
@@ -3421,87 +3419,6 @@
      "microtasks": []
     },
     {
-     "line": 8,
-     "variables": [
-      {
-       "name": "gas",
-       "scope": "global",
-       "value": "{on: [Function: on]}"
-      },
-      {
-       "name": "read",
-       "scope": "global",
-       "value": "[Function: read]"
-      },
-      {
-       "name": "jar",
-       "scope": "global",
-       "value": "{id: 'J'}"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "gas",
-       "scope": "global",
-       "value": "{on: [Function: on]}"
-      },
-      {
-       "name": "read",
-       "scope": "global",
-       "value": "[Function: read]"
-      },
-      {
-       "name": "jar",
-       "scope": "global",
-       "value": "{id: 'J'}"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global",
-      "read"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 1,
-     "variables": [
-      {
-       "name": "gas",
-       "scope": "global",
-       "value": "{on: [Function: on]}"
-      },
-      {
-       "name": "read",
-       "scope": "global",
-       "value": "[Function: read]"
-      },
-      {
-       "name": "jar",
-       "scope": "global",
-       "value": "{id: 'J'}"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global",
-      "read",
-      "on"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 0,
      "variables": [
       {
@@ -3520,7 +3437,7 @@
        "value": "{id: 'J'}"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -3907,22 +3824,25 @@
   },
   "adv.modules.dependency-direction.write-01": {
    "code": [
-    "function mutualDependency(deps, first, second) {",
-    "const a = deps[first] || [];",
-    "const b = deps[second] || [];",
-    "if (!a.includes(second)) {",
-    "  return false;",
+    "function hasMutualPair(deps) {",
+    "for (const from in deps) {",
+    "  for (const to of deps[from]) {",
+    "    const back = deps[to] || [];",
+    "    if (back.includes(from)) {",
+    "      return true;",
+    "    }",
+    "  }",
     "}",
-    "return b.includes(first);",
+    "return false;",
     "}",
-    "console.log(mutualDependency({\"a\":[\"b\"],\"b\":[\"a\"]}, \"a\", \"b\"));"
+    "console.log(hasMutualPair({\"a\":[\"b\"],\"b\":[\"a\"]}));"
    ],
    "output": [
     "true"
    ],
    "steps": [
     {
-     "line": 9,
+     "line": 12,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -3936,24 +3856,36 @@
      "variables": [
       {
        "name": "deps",
-       "scope": "mutualDependency",
+       "scope": "hasMutualPair",
        "value": "{a: ['b'], b: ['a']}"
-      },
-      {
-       "name": "first",
-       "scope": "mutualDependency",
-       "value": "'a'"
-      },
-      {
-       "name": "second",
-       "scope": "mutualDependency",
-       "value": "'b'"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "mutualDependency"
+      "hasMutualPair"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "deps",
+       "scope": "hasMutualPair",
+       "value": "{a: ['b'], b: ['a']}"
+      },
+      {
+       "name": "from",
+       "scope": "hasMutualPair",
+       "value": "'a'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "hasMutualPair"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3963,29 +3895,46 @@
      "variables": [
       {
        "name": "deps",
-       "scope": "mutualDependency",
+       "scope": "hasMutualPair",
        "value": "{a: ['b'], b: ['a']}"
       },
       {
-       "name": "first",
-       "scope": "mutualDependency",
+       "name": "from",
+       "scope": "hasMutualPair",
        "value": "'a'"
-      },
-      {
-       "name": "second",
-       "scope": "mutualDependency",
-       "value": "'b'"
-      },
-      {
-       "name": "a",
-       "scope": "mutualDependency",
-       "value": "['b']"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "mutualDependency"
+      "hasMutualPair"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "deps",
+       "scope": "hasMutualPair",
+       "value": "{a: ['b'], b: ['a']}"
+      },
+      {
+       "name": "from",
+       "scope": "hasMutualPair",
+       "value": "'a'"
+      },
+      {
+       "name": "to",
+       "scope": "hasMutualPair",
+       "value": "'b'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "hasMutualPair"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3995,71 +3944,88 @@
      "variables": [
       {
        "name": "deps",
-       "scope": "mutualDependency",
+       "scope": "hasMutualPair",
        "value": "{a: ['b'], b: ['a']}"
       },
       {
-       "name": "first",
-       "scope": "mutualDependency",
+       "name": "from",
+       "scope": "hasMutualPair",
        "value": "'a'"
       },
       {
-       "name": "second",
-       "scope": "mutualDependency",
+       "name": "to",
+       "scope": "hasMutualPair",
        "value": "'b'"
-      },
-      {
-       "name": "a",
-       "scope": "mutualDependency",
-       "value": "['b']"
-      },
-      {
-       "name": "b",
-       "scope": "mutualDependency",
-       "value": "['a']"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "mutualDependency"
+      "hasMutualPair"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 7,
+     "line": 5,
      "variables": [
       {
        "name": "deps",
-       "scope": "mutualDependency",
+       "scope": "hasMutualPair",
        "value": "{a: ['b'], b: ['a']}"
       },
       {
-       "name": "first",
-       "scope": "mutualDependency",
+       "name": "from",
+       "scope": "hasMutualPair",
        "value": "'a'"
       },
       {
-       "name": "second",
-       "scope": "mutualDependency",
+       "name": "to",
+       "scope": "hasMutualPair",
        "value": "'b'"
       },
       {
-       "name": "a",
-       "scope": "mutualDependency",
-       "value": "['b']"
-      },
-      {
-       "name": "b",
-       "scope": "mutualDependency",
+       "name": "back",
+       "scope": "hasMutualPair",
        "value": "['a']"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "mutualDependency"
+      "hasMutualPair"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "deps",
+       "scope": "hasMutualPair",
+       "value": "{a: ['b'], b: ['a']}"
+      },
+      {
+       "name": "from",
+       "scope": "hasMutualPair",
+       "value": "'a'"
+      },
+      {
+       "name": "to",
+       "scope": "hasMutualPair",
+       "value": "'b'"
+      },
+      {
+       "name": "back",
+       "scope": "hasMutualPair",
+       "value": "['a']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "hasMutualPair"
      ],
      "macrotasks": [],
      "microtasks": []

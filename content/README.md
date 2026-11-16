@@ -92,6 +92,8 @@ A track's two levels are told apart by what the item asks, not by its format:
 | Lower (1 Beginner, 2 Intermediate, 3 Advanced, 4 Expert) | applies its lesson's concept directly: one idea, and at most three changes of state to follow before the answer shows |
 | Upper (2 Beginner, 3 Intermediate, 4 Advanced, 5 Expert) | combines the concept with a second idea (an earlier concept, or a second rule of the same one), or needs four or more changes of state (loop turns, calls, queued callbacks, coercion steps) |
 
+How to count. A **second idea** is one the learner must get right for the answer and that is not yet a basic tool: a concept of an earlier lesson of the unit or of an earlier unit of the same track, or a second rule of the item's own concept. Material of an earlier track (loops, conditions and functions in Intermediate, for example) is a basic tool and does not count. A **change of state** is one step the learner must follow to reach the answer: a loop turn counts once, with everything it does; outside loops, each call, each assignment to a value the answer depends on, each queued callback that runs and each coercion step counts once. A jump into `catch` or out of a function by `throw` counts once. Lines that only declare or print a value already known do not count, and nothing after the answer is reached counts.
+
 ### Practical notes for authors
 
 - **Legacy items** keep their concept, not their suggested format: when a lesson has no free slot

@@ -103,27 +103,27 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "77e411d01ed0b13b3a624c706e56932752400c2ba031b2aee8531be453df52e8"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "1baba9f6962a7b475edc672abea0abefee9583088fe0f6fe60ebad660c715933"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "a81fa27a3d10eb9d035d13790eab68271ca593ddc6cc4c4cadd644a0e2af608e"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "dde54fb7049391222dca4481b2822f185ed5f2a30774e3f4aa74f19052f1f87a"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "e0e315fbac1da22c718632362b6b9e56f8f156e121179a8810c8e37bb1ed68c6"
     }
   ],
@@ -180,7 +180,7 @@
       "title": "Generators and yield",
       "conceptCard": {
         "title": "A generator pauses at yield",
-        "body": "Calling a function* returns a generator, and its body does not run yet. Each next() runs the body up to the next yield and hands that value out. The generator then pauses until next() is called again.",
+        "body": "Calling a function* returns a generator, and its body does not run yet. Each next() runs the body up to the next yield and hands that value out. The generator then pauses until next() is called again. A return value comes out once, with done: true, and spread leaves it out.",
         "code": [
           "function* gate() {",
           "  console.log('open');",
@@ -466,13 +466,14 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of firstTwo(items). Read the iterator of items with next() and return up to two values in an array. A short list gives fewer values.",
+      "prompt": "Write the body of takeUpTo(items, limit). Read the iterator of items with next() and return up to limit values in an array. A short list gives fewer values.",
       "solution": {
         "entry": {
           "kind": "function",
-          "name": "firstTwo",
+          "name": "takeUpTo",
           "params": [
-            "items"
+            "items",
+            "limit"
           ]
         },
         "tests": [
@@ -481,19 +482,25 @@
               [
                 "a",
                 "b",
-                "c"
-              ]
+                "c",
+                "d",
+                "e"
+              ],
+              4
             ],
             "expected": [
               "a",
-              "b"
+              "b",
+              "c",
+              "d"
             ]
           },
           {
             "input": [
               [
                 "a"
-              ]
+              ],
+              3
             ],
             "expected": [
               "a"
@@ -501,7 +508,8 @@
           },
           {
             "input": [
-              []
+              [],
+              2
             ],
             "expected": []
           },
@@ -510,12 +518,26 @@
               [
                 0,
                 0,
-                5
-              ]
+                5,
+                7
+              ],
+              3
             ],
             "expected": [
               0,
-              0
+              0,
+              5
+            ]
+          },
+          {
+            "input": [
+              "hello",
+              3
+            ],
+            "expected": [
+              "h",
+              "e",
+              "l"
             ]
           },
           {
@@ -523,7 +545,8 @@
               [
                 "x",
                 "y"
-              ]
+              ],
+              5
             ],
             "expected": [
               "x",
@@ -534,7 +557,7 @@
         "reference": [
           "const it = items[Symbol.iterator]();",
           "const out = [];",
-          "for (let n = 0; n < 2; n++) {",
+          "for (let n = 0; n < limit; n++) {",
           "  const step = it.next();",
           "  if (!step.done) {",
           "    out.push(step.value);",
@@ -545,21 +568,37 @@
         "wrongSolutions": [
           [
             "const it = items[Symbol.iterator]();",
-            "const a = it.next().value;",
-            "const b = it.next().value;",
-            "return [a, b];"
+            "const out = [];",
+            "for (let n = 0; n < limit; n++) {",
+            "  out.push(it.next().value);",
+            "}",
+            "return out;"
           ],
           [
             "const it = items[Symbol.iterator]();",
-            "return [it.next().value];"
+            "const out = [];",
+            "for (let n = 1; n < limit; n++) {",
+            "  const step = it.next();",
+            "  if (!step.done) {",
+            "    out.push(step.value);",
+            "  }",
+            "}",
+            "return out;"
           ],
           [
             "const it = items[Symbol.iterator]();",
-            "return [it.next(), it.next()];"
+            "const out = [];",
+            "for (let n = 0; n < limit; n++) {",
+            "  const step = it.next();",
+            "  if (!step.done) {",
+            "    out.push(step);",
+            "  }",
+            "}",
+            "return out;"
           ]
         ]
       },
-      "explanation": "Call next() up to two times and keep step.value only while done is false. Ignoring done adds undefined for short lists; one call or the raw result objects give the wrong data.",
+      "explanation": "Call next() up to limit times and keep step.value only while done is false. Ignoring done adds undefined for short lists; stopping one call early or keeping the raw result objects gives the wrong data.",
       "hints": [
         "Start with the iterator from items[Symbol.iterator]().",
         "Each next() returns an object; only value belongs in the result.",
@@ -572,7 +611,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.iterators-and-generators.custom-iterables.predict-01",
@@ -1027,7 +1066,7 @@
         "iteration-protocol"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "The shift generator ends with a return. Which statement about that return value is true?",
       "code": [
         "function* shifts() {",
@@ -1075,7 +1114,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.iterators-and-generators.generator-functions.fill-01",

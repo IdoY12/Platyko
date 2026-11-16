@@ -100,47 +100,47 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "31106eb015a895d005e8b49573283f604208c8c810ae4cea7db69ec0bc8d8014"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "3b5eb96e87b38462b813db533102618706c6561ce532ab16e4a2ce80f8090497"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "8e0477a0434a22bb9443b70ebd7d2c94ccebf6314fadbdbc2959b379e0417031"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "8e345db87c54e90f4e7055e504719c7c4c7d74e2a4d73b955d373d4afd53b8aa"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "e0cd4f6f5729209666199379b87abd5bc6e99f30c7cab22d8d19d4ddd34493f5"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "d11d65d5641a7e4519030d89dd57c1f0d741f4179653408fc212f69ba0cdcee2"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "32ad202d28d867b6331e778929fa0e834346cfaa3b3531116e709d2731e909d7"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "00842d5bc9e5ab5d884204d1551c8be1b6609e9790f5ccf12f394e7d0ba9e230"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "c794dbf1f91a453e33eb99fa7aa88b8e517bc0d482a5acffeab366747184fe4d"
     }
   ],
@@ -374,7 +374,7 @@
         "if-statement"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "What does packed hold right after line 9 runs?",
       "code": [
         "const stock = [3, 2, 0, 4];",
@@ -428,7 +428,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.errors.throw-and-try-catch.fill-01",
@@ -515,7 +515,7 @@
         "if-statement"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "A group of nine should end up in the catch block. Tap the line that fails to send it there, then pick the fix.",
       "code": [
         "function seatsFor(group) {",
@@ -565,7 +565,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.errors.throw-and-try-catch.write-01",
@@ -844,7 +844,7 @@
         "temporal-dead-zone"
       ],
       "format": "PARSONS",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Order the lines so the program prints TypeError: ready > open.",
       "code": [
         "  console.log(e.name + ': ' + step);",
@@ -905,7 +905,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.error-types.fix-01",
@@ -916,7 +916,7 @@
         "temporal-dead-zone"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "A volume above 10 should be reported as an out-of-range error, and catch prints its name. Tap the line that names the wrong type, then pick the fix.",
       "code": [
         "function setVolume(level) {",
@@ -965,7 +965,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.error-types.write-01",
@@ -1069,7 +1069,7 @@
         "return-value"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
         "function open() {",
@@ -1117,7 +1117,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.finally-block.concept-01",
@@ -1127,7 +1127,7 @@
         "return-value"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Which statement about this loop is true?",
       "code": [
         "for (const fail of [false, true]) {",
@@ -1175,7 +1175,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.errors.finally-block.trace-01",
@@ -1488,7 +1488,7 @@
         "class-inheritance"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
         "class StockError extends Error {}",
@@ -1507,13 +1507,13 @@
         {
           "text": "StockError",
           "correct": false,
-          "feedback": "You expected the class name to become name. A subclass does not rename itself; name comes from Error unless you assign one.",
+          "feedback": "You expected the class name to be copied into name. Writing a class does not set name by itself.",
           "misconception": "subclass-name-automatic"
         },
         {
           "text": "undefined",
           "correct": false,
-          "feedback": "name does exist on every error, including subclasses. It is inherited from Error.",
+          "feedback": "Every error object has a name, so reading it never gives undefined.",
           "misconception": "subclass-name-automatic"
         }
       ],
@@ -1534,7 +1534,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.custom-errors.concept-01",

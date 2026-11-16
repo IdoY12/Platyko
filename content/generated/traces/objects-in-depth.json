@@ -523,7 +523,9 @@
   "int.objects-in-depth.destructuring.write-01": {
    "code": [
     "function receiptLine(item) {",
-    "const { name, price, qty } = item;",
+    "const {",
+    "  name, price, qty = 1,",
+    "} = item;",
     "return `${name}: ${price * qty}`;",
     "}",
     "console.log(receiptLine({\"name\":\"tea\",\"price\":3,\"qty\":2}));"
@@ -533,7 +535,7 @@
    ],
    "steps": [
     {
-     "line": 5,
+     "line": 7,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -560,7 +562,7 @@
      "microtasks": []
     },
     {
-     "line": 3,
+     "line": 5,
      "variables": [
       {
        "name": "item",
@@ -1322,17 +1324,21 @@
   },
   "int.objects-in-depth.spread-and-rest.write-01": {
    "code": [
-    "function tallestPlant(heights) {",
-    "return Math.max(...heights);",
+    "function withDefaults(saved) {",
+    "return {",
+    "  volume: 5,",
+    "  muted: false,",
+    "  ...saved,",
+    "};",
     "}",
-    "console.log(tallestPlant([12,30,18]));"
+    "console.log(withDefaults({}));"
    ],
    "output": [
-    "30"
+    "{volume: 5, muted: false}"
    ],
    "steps": [
     {
-     "line": 4,
+     "line": 8,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -1345,15 +1351,15 @@
      "line": 2,
      "variables": [
       {
-       "name": "heights",
-       "scope": "tallestPlant",
-       "value": "[12, 30, 18]"
+       "name": "saved",
+       "scope": "withDefaults",
+       "value": "{}"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "tallestPlant"
+      "withDefaults"
      ],
      "macrotasks": [],
      "microtasks": []

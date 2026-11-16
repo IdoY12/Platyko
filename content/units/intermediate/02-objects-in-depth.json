@@ -103,32 +103,32 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "d9a8a3488f5f825fda11d685f645aa22ce2bcb3213e60695311f6b3ded139d44"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "2fd98bfc1984170f119a9b7224e3113395f519ab395da872a9984032c9fe78d2"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Rest_parameters",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "ec302e8ccbd56323a75da1f5a3792941cf0c8f4c37d095b02d3ac46b52a315ef"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "cb4c64b4906572733ee171dab71967c36ac21a7ed1124b13dac58386f33ba953"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_assignment",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "db41975eaa3e351f334fc8484fd9f34201baf7b1064119bf77f8640fffb0b4d4"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/Shallow_copy",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "19ab835824e1bfad62d83de8e25ab399681f4ef5a2d3b215d23243b9a3252e68"
     }
   ],
@@ -161,7 +161,7 @@
       "title": "Spread and rest",
       "conceptCard": {
         "title": "Spread out, rest in",
-        "body": "The three dots mean two things. In a call or a literal, spread expands an array or object into separate pieces. In a parameter list or a pattern, rest collects the remaining pieces into an array, or into an object for an object pattern. With two spread objects, the later one wins. Math.max returns the largest of its arguments.",
+        "body": "The three dots mean two things. Spread expands an array in a call or array literal, and an object in an object literal. In a parameter list or a pattern, rest collects the remaining pieces into an array, or into an object for an object pattern. When a key appears twice, the later one wins.",
         "code": [
           "const base = { a: 1, b: 2 };",
           "const next = { ...base, b: 9 };",
@@ -524,7 +524,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write the body of receiptLine(item). item has name, price and qty. Return the name, a colon and a space, then price times qty, as one text.",
+      "prompt": "Write the body of receiptLine(item). item has name, price and maybe qty (missing means 1). Return name, colon, space, then price times qty, as one text.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -558,8 +558,7 @@
             "input": [
               {
                 "name": "cup",
-                "price": 5,
-                "qty": 1
+                "price": 5
               }
             ],
             "expected": "cup: 5"
@@ -576,7 +575,9 @@
           }
         ],
         "reference": [
-          "const { name, price, qty } = item;",
+          "const {",
+          "  name, price, qty = 1,",
+          "} = item;",
           "return `${name}: ${price * qty}`;"
         ],
         "wrongSolutions": [
@@ -589,16 +590,17 @@
             "return `${name}: ${price * qty}`;"
           ],
           [
-            "const { name, price, qty } = item;",
-            "return `${name}: ${price + qty}`;"
+            "const { name, price } = item;",
+            "const qty = item.qty || 1;",
+            "return `${name}: ${price * qty}`;"
           ]
         ]
       },
-      "explanation": "Destructuring item gives name, price and qty as variables. The line total is price * qty, and a template literal joins it to the name. Using price alone forgets the quantity.",
+      "explanation": "Destructuring item gives name, price and qty as variables, and the default 1 is used only when qty is missing. The line total is price * qty, and a template literal joins it to the name. A qty of 0 stays 0.",
       "hints": [
-        "Pull the three properties out of item first.",
-        "An object pattern lists the property names between curly braces.",
-        "Build the text with a template literal: the name, a colon and space, then the line total."
+        "Pull the properties out of item first.",
+        "An object pattern lists the property names between curly braces, and = gives a value for a missing property.",
+        "Give the property that may be missing a default in the pattern, then build the text with a template literal."
       ],
       "reference": {
         "title": "Destructuring assignment",
@@ -607,7 +609,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.objects-in-depth.spread-and-rest.predict-01",
@@ -730,7 +732,7 @@
         "array-iteration"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What value does route hold right after line 4 has run for the first time?",
       "code": [
         "let route = [\"Bonn\"];",
@@ -780,7 +782,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.objects-in-depth.spread-and-rest.parsons-01",
@@ -894,84 +896,102 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write the body of tallestPlant(heights). Return the largest number in the array heights.",
+      "prompt": "Write the body of withDefaults(saved). Return a new object that starts from volume 5 and muted false, with every property of saved on top of those.",
       "solution": {
         "entry": {
           "kind": "function",
-          "name": "tallestPlant",
+          "name": "withDefaults",
           "params": [
-            "heights"
+            "saved"
           ]
         },
         "tests": [
           {
             "input": [
-              [
-                12,
-                30,
-                18
-              ]
+              {}
             ],
-            "expected": 30
+            "expected": {
+              "volume": 5,
+              "muted": false
+            }
           },
           {
             "input": [
-              [
-                -4,
-                -9,
-                -2
-              ]
+              {
+                "volume": 8
+              }
             ],
-            "expected": -2
+            "expected": {
+              "volume": 8,
+              "muted": false
+            }
           },
           {
             "input": [
-              [
-                7
-              ]
+              {
+                "muted": true,
+                "volume": 2
+              }
             ],
-            "expected": 7
+            "expected": {
+              "volume": 2,
+              "muted": true
+            }
           },
           {
             "input": [
-              [
-                5,
-                5,
-                2
-              ]
+              {
+                "theme": "dark"
+              }
             ],
-            "expected": 5
+            "expected": {
+              "volume": 5,
+              "muted": false,
+              "theme": "dark"
+            }
           }
         ],
         "reference": [
-          "return Math.max(...heights);"
+          "return {",
+          "  volume: 5,",
+          "  muted: false,",
+          "  ...saved,",
+          "};"
         ],
         "wrongSolutions": [
           [
-            "return Math.max(heights);"
+            "return {",
+            "  ...saved,",
+            "  volume: 5,",
+            "  muted: false,",
+            "};"
           ],
           [
-            "return heights[0];"
+            "return saved;"
           ],
           [
-            "return Math.min(...heights);"
+            "return {",
+            "  volume: 5,",
+            "  muted: false,",
+            "  saved,",
+            "};"
           ]
         ]
       },
-      "explanation": "Math.max takes separate numbers, so the array must be spread into its call. Passing the array itself gives NaN, and reading an element by index only finds the largest number by luck.",
+      "explanation": "Spread copies every property of saved into the new object. When a key appears twice, the later one wins, so saved must come after the defaults to override them. Spreading it first lets the defaults win.",
       "hints": [
-        "Math.max needs the numbers as separate arguments.",
-        "The ... operator expands an array into separate arguments.",
-        "Math.max(3, 8, 5) works on separate numbers; make heights arrive that way."
+        "The new object holds the defaults and the properties of saved.",
+        "Spread puts every property of an object into a new one. When a key repeats, the later one wins.",
+        "Decide which of the two sources must come later in the literal."
       ],
       "reference": {
-        "title": "Math.max()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max",
+        "title": "Spread syntax",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:8"
       ]

@@ -110,47 +110,47 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "a69265c8b8343ea02df4b2d6e8cdea42898100c6ffd478da0a69ac7eaa58caab"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/Callback_function",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "7d713a4bbd56705747421ed65b77a7024d692f0e87489a8ecbbb98c52361ee9d"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "f855c7e94df74174f68b186558c5b4019b59544bee251e4b3d6512bd9994c1b2"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "6b09b2c5d522f3bd68d1c0389abe52b4a77394250fe4d9bfae713523e8610603"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "8301d690cae99ff27609d11321c93bf71a3eb72de816d555209deb4e5504a971"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "1e1d0c5980a7e42979a5a0d85b2a86715439dfc79f730e1403a5ece019bf3a7f"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "3b5eb96e87b38462b813db533102618706c6561ce532ab16e4a2ce80f8090497"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "e0a3ab6b1575fa94f8c316192304b9aced42b02837b06ad9c4ae392277cbe4db"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/finally",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "f0af1f8cecc230ba7d32d45fc029b53a6aa1c038e1a5dee1c9fd0e6643ff29f7"
     }
   ],
@@ -950,81 +950,143 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write the body of labelStock(item), a then handler for {name, left}. Return name + ': low' when left is below 3, otherwise name + ': ok'.",
+      "prompt": "Write labelStock(items), a then handler. items is an array of {name, left}. Return an array of labels: name + ': low' if left < 3, else name + ': ok'.",
       "solution": {
         "entry": {
           "kind": "function",
           "name": "labelStock",
           "params": [
-            "item"
+            "items"
           ]
         },
         "tests": [
           {
             "input": [
-              {
-                "name": "ink",
-                "left": 2
-              }
+              [
+                {
+                  "name": "ink",
+                  "left": 2
+                },
+                {
+                  "name": "pens",
+                  "left": 3
+                },
+                {
+                  "name": "glue",
+                  "left": 0
+                },
+                {
+                  "name": "paper",
+                  "left": 10
+                }
+              ]
             ],
-            "expected": "ink: low"
+            "expected": [
+              "ink: low",
+              "pens: ok",
+              "glue: low",
+              "paper: ok"
+            ]
           },
           {
             "input": [
-              {
-                "name": "pens",
-                "left": 3
-              }
+              []
             ],
-            "expected": "pens: ok"
+            "expected": []
           },
           {
             "input": [
-              {
-                "name": "glue",
-                "left": 0
-              }
+              [
+                {
+                  "name": "tape",
+                  "left": 5
+                },
+                {
+                  "name": "cups",
+                  "left": 1
+                }
+              ]
             ],
-            "expected": "glue: low"
+            "expected": [
+              "tape: ok",
+              "cups: low"
+            ]
           },
           {
             "input": [
-              {
-                "name": "paper",
-                "left": 10
-              }
+              [
+                {
+                  "name": "pins",
+                  "left": 3
+                },
+                {
+                  "name": "clips",
+                  "left": 2
+                },
+                {
+                  "name": "cord",
+                  "left": 4
+                },
+                {
+                  "name": "wax",
+                  "left": 1
+                }
+              ]
             ],
-            "expected": "paper: ok"
+            "expected": [
+              "pins: ok",
+              "clips: low",
+              "cord: ok",
+              "wax: low"
+            ]
           }
         ],
         "reference": [
-          "if (item.left < 3) {",
-          "  return item.name + ': low';",
+          "const out = [];",
+          "for (const row of items) {",
+          "  if (row.left < 3) {",
+          "    out.push(row.name + ': low');",
+          "  } else {",
+          "    out.push(row.name + ': ok');",
+          "  }",
           "}",
-          "return item.name + ': ok';"
+          "return out;"
         ],
         "wrongSolutions": [
           [
-            "const low = item.left < 3;",
-            "const text = item.name;",
-            "text + (low ? ': low' : ': ok');"
+            "return items.map(",
+            "  (row) => row.name + ': ok'",
+            ");"
           ],
           [
-            "if (item.left <= 3) {",
-            "  return item.name + ': low';",
+            "const out = [];",
+            "for (const row of items) {",
+            "  if (row.left <= 3) {",
+            "    out.push(row.name + ': low');",
+            "  } else {",
+            "    out.push(row.name + ': ok');",
+            "  }",
             "}",
-            "return item.name + ': ok';"
+            "return out;"
           ],
           [
-            "return item.name + ': ok';"
+            "const out = [];",
+            "for (const row of items) {",
+            "  if (row.left < 3) {",
+            "    out.unshift(row.name + ': low');",
+            "  } else {",
+            "    out.unshift(row.name + ': ok');",
+            "  }",
+            "}",
+            "return out;"
           ]
         ]
       },
-      "explanation": "A then handler hands its returned value to the next link, so the label must be returned, not just computed. The check is strictly below 3, so a stock of exactly 3 is still ok.",
+      "explanation": "A then handler hands its returned value to the next link, so the finished list must be returned, not just built. Each stock is checked strictly below 3, so a stock of exactly 3 is still ok, and the input order is kept.",
       "hints": [
         "The next link receives only what the function returns.",
-        "Use an if on item.left and return in both outcomes.",
-        "Decide whether a left of exactly 3 counts as low."
+        "Go through the items one at a time and build a list of labels.",
+        "Decide whether a left of exactly 3 counts as low, and what an empty list should give."
       ],
       "reference": {
         "title": "Promise.prototype.then()",
@@ -1033,7 +1095,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 6
     },
     {
       "id": "int.async-basics.async-await.predict-01",
@@ -1353,81 +1415,125 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "In async code, booking is what await loadBooking() gave back: {nights, used}. Write the body of nightsLeft(booking). Return nights minus used, never below 0.",
+      "prompt": "bookings is what await loadBookings() gave back: an array of {nights, used}. Write nightsLeft(bookings): the sum over bookings of nights minus used, counting a booking that overused as 0.",
       "solution": {
         "entry": {
           "kind": "function",
           "name": "nightsLeft",
           "params": [
-            "booking"
+            "bookings"
           ]
         },
         "tests": [
           {
             "input": [
-              {
-                "nights": 7,
-                "used": 3
-              }
+              [
+                {
+                  "nights": 7,
+                  "used": 3
+                },
+                {
+                  "nights": 2,
+                  "used": 2
+                },
+                {
+                  "nights": 3,
+                  "used": 5
+                },
+                {
+                  "nights": 10,
+                  "used": 0
+                }
+              ]
+            ],
+            "expected": 14
+          },
+          {
+            "input": [
+              []
+            ],
+            "expected": 0
+          },
+          {
+            "input": [
+              [
+                {
+                  "nights": 5,
+                  "used": 1
+                }
+              ]
             ],
             "expected": 4
           },
           {
             "input": [
-              {
-                "nights": 2,
-                "used": 2
-              }
+              [
+                {
+                  "nights": 4,
+                  "used": 6
+                },
+                {
+                  "nights": 1,
+                  "used": 0
+                },
+                {
+                  "nights": 2,
+                  "used": 1
+                },
+                {
+                  "nights": 9,
+                  "used": 3
+                },
+                {
+                  "nights": 0,
+                  "used": 0
+                }
+              ]
             ],
-            "expected": 0
-          },
-          {
-            "input": [
-              {
-                "nights": 3,
-                "used": 5
-              }
-            ],
-            "expected": 0
-          },
-          {
-            "input": [
-              {
-                "nights": 10,
-                "used": 0
-              }
-            ],
-            "expected": 10
+            "expected": 8
           }
         ],
         "reference": [
-          "const { nights, used } = booking;",
-          "const left = nights - used;",
-          "if (left < 0) {",
-          "  return 0;",
+          "let total = 0;",
+          "for (const stay of bookings) {",
+          "  const { nights, used } = stay;",
+          "  const left = nights - used;",
+          "  if (left > 0) total += left;",
           "}",
-          "return left;"
+          "return total;"
         ],
         "wrongSolutions": [
           [
-            "const { nights, used } = booking;",
-            "return nights - used;"
+            "let total = 0;",
+            "for (const stay of bookings) {",
+            "  const { nights, used } = stay;",
+            "  total += nights - used;",
+            "}",
+            "return total;"
           ],
           [
-            "const { nights, used } = booking;",
-            "return used - nights;"
+            "let total = 0;",
+            "for (const stay of bookings) {",
+            "  total += stay.nights;",
+            "}",
+            "return total;"
           ],
           [
-            "const { nights } = booking;",
-            "return nights;"
+            "let total = 0;",
+            "for (const stay of bookings) {",
+            "  const { nights, used } = stay;",
+            "  const left = used - nights;",
+            "  if (left > 0) total += left;",
+            "}",
+            "return total;"
           ]
         ]
       },
-      "explanation": "After await, booking is an ordinary object, so you read its properties directly. Subtract used from nights and return 0 when the result would be negative.",
+      "explanation": "After await, bookings is an ordinary array, so you loop over it directly. For each booking, subtract used from nights, add the result to one running total, and add nothing when the result is below zero.",
       "hints": [
-        "booking is a plain object, so read its two properties.",
-        "Compute the difference first, then deal with a negative result.",
-        "Think about which difference needs special handling, and what to return then."
+        "bookings is a plain array of plain objects.",
+        "Loop over the bookings and keep a running total.",
+        "Decide which bookings should add nothing to the total."
       ],
       "reference": {
         "title": "await",
@@ -1436,7 +1542,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "int.async-basics.async-error-handling.predict-01",
@@ -1731,78 +1837,111 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write the body of handleRejection(reason), a .catch() handler: return 'retry' when reason.code is 'timeout'; otherwise return 'stop: ' followed by reason.code.",
+      "prompt": "reasons holds rejection values, each {code}. Write describeFailures(reasons). Return an array, in order: 'retry' for each code 'timeout', else 'stop: ' plus the code.",
       "solution": {
         "entry": {
           "kind": "function",
-          "name": "handleRejection",
+          "name": "describeFailures",
           "params": [
-            "reason"
+            "reasons"
           ]
         },
         "tests": [
           {
             "input": [
-              {
-                "code": "timeout"
-              }
+              [
+                {
+                  "code": "timeout"
+                },
+                {
+                  "code": "denied"
+                },
+                {
+                  "code": "full"
+                },
+                {
+                  "code": "Timeout"
+                }
+              ]
             ],
-            "expected": "retry"
+            "expected": [
+              "retry",
+              "stop: denied",
+              "stop: full",
+              "stop: Timeout"
+            ]
           },
           {
             "input": [
-              {
-                "code": "denied"
-              }
+              []
             ],
-            "expected": "stop: denied"
+            "expected": []
           },
           {
             "input": [
-              {
-                "code": "full"
-              }
+              [
+                {
+                  "code": "timeout"
+                },
+                {
+                  "code": "timeout"
+                }
+              ]
             ],
-            "expected": "stop: full"
+            "expected": [
+              "retry",
+              "retry"
+            ]
           },
           {
             "input": [
-              {
-                "code": "Timeout"
-              }
+              [
+                {
+                  "code": "full"
+                }
+              ]
             ],
-            "expected": "stop: Timeout"
+            "expected": [
+              "stop: full"
+            ]
           }
         ],
         "reference": [
-          "if (reason.code === 'timeout') {",
-          "  return 'retry';",
+          "const plans = [];",
+          "for (const why of reasons) {",
+          "  if (why.code === 'timeout') {",
+          "    plans.push('retry');",
+          "  } else {",
+          "    plans.push('stop: ' + why.code);",
+          "  }",
           "}",
-          "return 'stop: ' + reason.code;"
+          "return plans;"
         ],
         "wrongSolutions": [
           [
-            "return 'retry';"
+            "return reasons.map(() => 'retry');"
           ],
           [
-            "if (reason.code === 'timeout') {",
-            "  return 'retry';",
-            "}",
-            "return 'stop';"
+            "return reasons.map(() => 'stop');"
           ],
           [
-            "if (reason.code !== 'timeout') {",
-            "  return 'retry';",
+            "const plans = [];",
+            "for (const why of reasons) {",
+            "  if (why.code !== 'timeout') {",
+            "    plans.push('retry');",
+            "  } else {",
+            "    plans.push('stop: ' + why.code);",
+            "  }",
             "}",
-            "return 'stop: ' + reason.code;"
+            "return plans;"
           ]
         ]
       },
-      "explanation": "A catch handler receives the rejection value as its argument, so the body is ordinary logic on reason. Compare the code exactly, return 'retry' for a timeout, and build the stop text from the code otherwise.",
+      "explanation": "A catch handler receives the rejection value as its argument, so the logic is ordinary code on each reason. Compare the code exactly, give 'retry' for a timeout and build the stop text from the code otherwise.",
       "hints": [
-        "Look at what the handler receives: reason, an object with a code.",
+        "Look at what each reason holds: an object with a code.",
         "A catch handler is a plain function of the rejection value; it can branch and return like any function.",
-        "Decide the one special value of reason.code, then build the general case from reason.code."
+        "Decide the one special value of the code, then build the general case from the code."
       ],
       "reference": {
         "title": "Promise.prototype.catch()",
@@ -1811,7 +1950,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 5
     }
   ]
 }

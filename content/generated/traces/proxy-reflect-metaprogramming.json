@@ -4,11 +4,11 @@
   "exp.proxy-reflect-metaprogramming.proxy-traps.predict-01": {
    "code": [
     "const stock = { fig: 4 };",
-    "const rack = (o) => new Proxy(o, {",
+    "const rack = new Proxy(stock, {",
     "  get: (t, k) => k in t ? t[k] : 0,",
     "});",
-    "console.log(rack(stock).fig);",
-    "console.log(rack(stock).pear);"
+    "console.log(rack.fig);",
+    "console.log(rack.pear);"
    ],
    "output": [
     "4",
@@ -52,39 +52,12 @@
       {
        "name": "rack",
        "scope": "global",
-       "value": "[Function: rack]"
+       "value": "Proxy"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "stock",
-       "scope": "global",
-       "value": "{fig: 4}"
-      },
-      {
-       "name": "rack",
-       "scope": "global",
-       "value": "[Function: rack]"
-      },
-      {
-       "name": "o",
-       "scope": "rack",
-       "value": "{fig: 4}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "rack"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -100,12 +73,7 @@
       {
        "name": "rack",
        "scope": "global",
-       "value": "[Function: rack]"
-      },
-      {
-       "name": "o",
-       "scope": "rack",
-       "value": "{fig: 4}"
+       "value": "Proxy"
       },
       {
        "name": "t",
@@ -137,39 +105,12 @@
       {
        "name": "rack",
        "scope": "global",
-       "value": "[Function: rack]"
+       "value": "Proxy"
       }
      ],
      "outputCount": 1,
      "callStack": [
       "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "stock",
-       "scope": "global",
-       "value": "{fig: 4}"
-      },
-      {
-       "name": "rack",
-       "scope": "global",
-       "value": "[Function: rack]"
-      },
-      {
-       "name": "o",
-       "scope": "rack",
-       "value": "{fig: 4}"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global",
-      "rack"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -185,12 +126,7 @@
       {
        "name": "rack",
        "scope": "global",
-       "value": "[Function: rack]"
-      },
-      {
-       "name": "o",
-       "scope": "rack",
-       "value": "{fig: 4}"
+       "value": "Proxy"
       },
       {
        "name": "t",
@@ -222,7 +158,7 @@
       {
        "name": "rack",
        "scope": "global",
-       "value": "[Function: rack]"
+       "value": "Proxy"
       }
      ],
      "outputCount": 2,
@@ -1181,19 +1117,13 @@
   "exp.proxy-reflect-metaprogramming.reflect-api.predict-01": {
    "code": [
     "const bin = { n: 1 };",
-    "const spy = new Proxy(bin, {",
-    "  set(t, k, v) {",
-    "    return Reflect.set(t, k, v * 2);",
-    "  },",
-    "});",
-    "spy.n = 5;",
-    "console.log(bin.n);",
-    "const ok = Reflect.set(bin, \"n\", 7);",
-    "console.log(ok);"
+    "Reflect.set(bin, \"m\", 2);",
+    "console.log(Reflect.has(bin, \"m\"));",
+    "console.log(Reflect.ownKeys(bin));"
    ],
    "output": [
-    "10",
-    "true"
+    "true",
+    "['n', 'm']"
    ],
    "steps": [
     {
@@ -1223,17 +1153,12 @@
      "microtasks": []
     },
     {
-     "line": 7,
+     "line": 3,
      "variables": [
       {
        "name": "bin",
        "scope": "global",
-       "value": "{n: 1}"
-      },
-      {
-       "name": "spy",
-       "scope": "global",
-       "value": "Proxy"
+       "value": "{n: 1, m: 2}"
       }
      ],
      "outputCount": 0,
@@ -1249,96 +1174,7 @@
       {
        "name": "bin",
        "scope": "global",
-       "value": "{n: 1}"
-      },
-      {
-       "name": "spy",
-       "scope": "global",
-       "value": "Proxy"
-      },
-      {
-       "name": "t",
-       "scope": "set",
-       "value": "{n: 1}"
-      },
-      {
-       "name": "k",
-       "scope": "set",
-       "value": "'n'"
-      },
-      {
-       "name": "v",
-       "scope": "set",
-       "value": "5"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "set"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 8,
-     "variables": [
-      {
-       "name": "bin",
-       "scope": "global",
-       "value": "{n: 10}"
-      },
-      {
-       "name": "spy",
-       "scope": "global",
-       "value": "Proxy"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 9,
-     "variables": [
-      {
-       "name": "bin",
-       "scope": "global",
-       "value": "{n: 10}"
-      },
-      {
-       "name": "spy",
-       "scope": "global",
-       "value": "Proxy"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 10,
-     "variables": [
-      {
-       "name": "bin",
-       "scope": "global",
-       "value": "{n: 7}"
-      },
-      {
-       "name": "spy",
-       "scope": "global",
-       "value": "Proxy"
-      },
-      {
-       "name": "ok",
-       "scope": "global",
-       "value": "true"
+       "value": "{n: 1, m: 2}"
       }
      ],
      "outputCount": 1,
@@ -1354,17 +1190,7 @@
       {
        "name": "bin",
        "scope": "global",
-       "value": "{n: 7}"
-      },
-      {
-       "name": "spy",
-       "scope": "global",
-       "value": "Proxy"
-      },
-      {
-       "name": "ok",
-       "scope": "global",
-       "value": "true"
+       "value": "{n: 1, m: 2}"
       }
      ],
      "outputCount": 2,

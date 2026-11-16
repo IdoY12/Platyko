@@ -3376,19 +3376,25 @@
   },
   "adv.event-loop.await-scheduling.write-01": {
    "code": [
-    "function beforeFirstAwait(steps) {",
-    "const cut = steps.indexOf('await');",
-    "if (cut === -1) return steps;",
-    "return steps.slice(0, cut);",
+    "function runOrder(fn, caller) {",
+    "const cut = fn.indexOf('await');",
+    "if (cut === -1) {",
+    "  return [...fn, ...caller];",
     "}",
-    "console.log(beforeFirstAwait([\"a\",\"await\",\"b\"]));"
+    "return [",
+    "  ...fn.slice(0, cut),",
+    "  ...caller,",
+    "  ...fn.slice(cut + 1),",
+    "];",
+    "}",
+    "console.log(runOrder([\"a\",\"await\",\"b\"], [\"c\"]));"
    ],
    "output": [
-    "['a']"
+    "['a', 'c', 'b']"
    ],
    "steps": [
     {
-     "line": 6,
+     "line": 12,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -3401,15 +3407,20 @@
      "line": 2,
      "variables": [
       {
-       "name": "steps",
-       "scope": "beforeFirstAwait",
+       "name": "fn",
+       "scope": "runOrder",
        "value": "['a', 'await', 'b']"
+      },
+      {
+       "name": "caller",
+       "scope": "runOrder",
+       "value": "['c']"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "beforeFirstAwait"
+      "runOrder"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3418,42 +3429,52 @@
      "line": 3,
      "variables": [
       {
-       "name": "steps",
-       "scope": "beforeFirstAwait",
+       "name": "fn",
+       "scope": "runOrder",
        "value": "['a', 'await', 'b']"
       },
       {
+       "name": "caller",
+       "scope": "runOrder",
+       "value": "['c']"
+      },
+      {
        "name": "cut",
-       "scope": "beforeFirstAwait",
+       "scope": "runOrder",
        "value": "1"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "beforeFirstAwait"
+      "runOrder"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 4,
+     "line": 6,
      "variables": [
       {
-       "name": "steps",
-       "scope": "beforeFirstAwait",
+       "name": "fn",
+       "scope": "runOrder",
        "value": "['a', 'await', 'b']"
       },
       {
+       "name": "caller",
+       "scope": "runOrder",
+       "value": "['c']"
+      },
+      {
        "name": "cut",
-       "scope": "beforeFirstAwait",
+       "scope": "runOrder",
        "value": "1"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "beforeFirstAwait"
+      "runOrder"
      ],
      "macrotasks": [],
      "microtasks": []

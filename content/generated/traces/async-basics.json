@@ -1606,20 +1606,25 @@
   },
   "int.async-basics.promise-basics.write-01": {
    "code": [
-    "function labelStock(item) {",
-    "if (item.left < 3) {",
-    "  return item.name + ': low';",
+    "function labelStock(items) {",
+    "const out = [];",
+    "for (const row of items) {",
+    "  if (row.left < 3) {",
+    "    out.push(row.name + ': low');",
+    "  } else {",
+    "    out.push(row.name + ': ok');",
+    "  }",
     "}",
-    "return item.name + ': ok';",
+    "return out;",
     "}",
-    "console.log(labelStock({\"name\":\"ink\",\"left\":2}));"
+    "console.log(labelStock([{\"name\":\"ink\",\"left\":2},{\"name\":\"pens\",\"left\":3},{\"name\":\"glue\",\"left\":0},{\"name\":\"paper\",\"left\":10}]));"
    ],
    "output": [
-    "ink: low"
+    "['ink: low', 'pens: ok', 'glue: low', 'paper: ok']"
    ],
    "steps": [
     {
-     "line": 7,
+     "line": 12,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -1632,7 +1637,110 @@
      "line": 2,
      "variables": [
       {
-       "name": "item",
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "[]"
+      },
+      {
+       "name": "row",
+       "scope": "labelStock",
+       "value": "{name: 'ink', left: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "[]"
+      },
+      {
+       "name": "row",
+       "scope": "labelStock",
+       "value": "{name: 'ink', left: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "[]"
+      },
+      {
+       "name": "row",
        "scope": "labelStock",
        "value": "{name: 'ink', left: 2}"
       }
@@ -1649,9 +1757,257 @@
      "line": 3,
      "variables": [
       {
-       "name": "item",
+       "name": "items",
        "scope": "labelStock",
-       "value": "{name: 'ink', left: 2}"
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "['ink: low']"
+      },
+      {
+       "name": "row",
+       "scope": "labelStock",
+       "value": "{name: 'pens', left: 3}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "['ink: low']"
+      },
+      {
+       "name": "row",
+       "scope": "labelStock",
+       "value": "{name: 'pens', left: 3}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "['ink: low']"
+      },
+      {
+       "name": "row",
+       "scope": "labelStock",
+       "value": "{name: 'pens', left: 3}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "['ink: low', 'pens: ok']"
+      },
+      {
+       "name": "row",
+       "scope": "labelStock",
+       "value": "{name: 'glue', left: 0}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "['ink: low', 'pens: ok']"
+      },
+      {
+       "name": "row",
+       "scope": "labelStock",
+       "value": "{name: 'glue', left: 0}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "['ink: low', 'pens: ok']"
+      },
+      {
+       "name": "row",
+       "scope": "labelStock",
+       "value": "{name: 'glue', left: 0}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "['ink: low', 'pens: ok', 'glue: low']"
+      },
+      {
+       "name": "row",
+       "scope": "labelStock",
+       "value": "{name: 'paper', left: 10}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "['ink: low', 'pens: ok', 'glue: low']"
+      },
+      {
+       "name": "row",
+       "scope": "labelStock",
+       "value": "{name: 'paper', left: 10}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "['ink: low', 'pens: ok', 'glue: low']"
+      },
+      {
+       "name": "row",
+       "scope": "labelStock",
+       "value": "{name: 'paper', left: 10}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "labelStock"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "labelStock",
+       "value": "[{name: 'ink', left: 2}, {name: 'pens', left: 3}, {name: 'glue', left: 0}, {name: 'paper', left: 10}]"
+      },
+      {
+       "name": "out",
+       "scope": "labelStock",
+       "value": "['ink: low', 'pens: ok', 'glue: low', 'paper: ok']"
       }
      ],
      "outputCount": 0,
@@ -2306,22 +2662,23 @@
   },
   "int.async-basics.async-await.write-01": {
    "code": [
-    "function nightsLeft(booking) {",
-    "const { nights, used } = booking;",
-    "const left = nights - used;",
-    "if (left < 0) {",
-    "  return 0;",
+    "function nightsLeft(bookings) {",
+    "let total = 0;",
+    "for (const stay of bookings) {",
+    "  const { nights, used } = stay;",
+    "  const left = nights - used;",
+    "  if (left > 0) total += left;",
     "}",
-    "return left;",
+    "return total;",
     "}",
-    "console.log(nightsLeft({\"nights\":7,\"used\":3}));"
+    "console.log(nightsLeft([{\"nights\":7,\"used\":3},{\"nights\":2,\"used\":2},{\"nights\":3,\"used\":5},{\"nights\":10,\"used\":0}]));"
    ],
    "output": [
-    "4"
+    "14"
    ],
    "steps": [
     {
-     "line": 9,
+     "line": 10,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -2334,9 +2691,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "booking",
+       "name": "bookings",
        "scope": "nightsLeft",
-       "value": "{nights: 7, used: 3}"
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
       }
      ],
      "outputCount": 0,
@@ -2351,19 +2708,41 @@
      "line": 3,
      "variables": [
       {
-       "name": "booking",
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "0"
+      },
+      {
+       "name": "stay",
        "scope": "nightsLeft",
        "value": "{nights: 7, used: 3}"
-      },
-      {
-       "name": "nights",
-       "scope": "nightsLeft",
-       "value": "7"
-      },
-      {
-       "name": "used",
-       "scope": "nightsLeft",
-       "value": "3"
       }
      ],
      "outputCount": 0,
@@ -2378,7 +2757,81 @@
      "line": 4,
      "variables": [
       {
-       "name": "booking",
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "0"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 7, used: 3}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "0"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 7, used: 3}"
+      },
+      {
+       "name": "nights",
+       "scope": "nightsLeft",
+       "value": "7"
+      },
+      {
+       "name": "used",
+       "scope": "nightsLeft",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "0"
+      },
+      {
+       "name": "stay",
        "scope": "nightsLeft",
        "value": "{nights: 7, used: 3}"
       },
@@ -2407,27 +2860,416 @@
      "microtasks": []
     },
     {
-     "line": 7,
+     "line": 3,
      "variables": [
       {
-       "name": "booking",
+       "name": "bookings",
        "scope": "nightsLeft",
-       "value": "{nights: 7, used: 3}"
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "4"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 2, used: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "4"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 2, used: 2}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "4"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 2, used: 2}"
       },
       {
        "name": "nights",
        "scope": "nightsLeft",
-       "value": "7"
+       "value": "2"
       },
       {
        "name": "used",
        "scope": "nightsLeft",
-       "value": "3"
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "4"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 2, used: 2}"
+      },
+      {
+       "name": "nights",
+       "scope": "nightsLeft",
+       "value": "2"
+      },
+      {
+       "name": "used",
+       "scope": "nightsLeft",
+       "value": "2"
       },
       {
        "name": "left",
        "scope": "nightsLeft",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
        "value": "4"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 3, used: 5}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "4"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 3, used: 5}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "4"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 3, used: 5}"
+      },
+      {
+       "name": "nights",
+       "scope": "nightsLeft",
+       "value": "3"
+      },
+      {
+       "name": "used",
+       "scope": "nightsLeft",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "4"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 3, used: 5}"
+      },
+      {
+       "name": "nights",
+       "scope": "nightsLeft",
+       "value": "3"
+      },
+      {
+       "name": "used",
+       "scope": "nightsLeft",
+       "value": "5"
+      },
+      {
+       "name": "left",
+       "scope": "nightsLeft",
+       "value": "-2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "4"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 10, used: 0}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "4"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 10, used: 0}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "4"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 10, used: 0}"
+      },
+      {
+       "name": "nights",
+       "scope": "nightsLeft",
+       "value": "10"
+      },
+      {
+       "name": "used",
+       "scope": "nightsLeft",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "4"
+      },
+      {
+       "name": "stay",
+       "scope": "nightsLeft",
+       "value": "{nights: 10, used: 0}"
+      },
+      {
+       "name": "nights",
+       "scope": "nightsLeft",
+       "value": "10"
+      },
+      {
+       "name": "used",
+       "scope": "nightsLeft",
+       "value": "0"
+      },
+      {
+       "name": "left",
+       "scope": "nightsLeft",
+       "value": "10"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "nightsLeft"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 8,
+     "variables": [
+      {
+       "name": "bookings",
+       "scope": "nightsLeft",
+       "value": "[{nights: 7, used: 3}, {nights: 2, used: 2}, {nights: 3, used: 5}, {nights: 10, used: 0}]"
+      },
+      {
+       "name": "total",
+       "scope": "nightsLeft",
+       "value": "14"
       }
      ],
      "outputCount": 0,
@@ -2965,20 +3807,25 @@
   },
   "int.async-basics.async-error-handling.write-01": {
    "code": [
-    "function handleRejection(reason) {",
-    "if (reason.code === 'timeout') {",
-    "  return 'retry';",
+    "function describeFailures(reasons) {",
+    "const plans = [];",
+    "for (const why of reasons) {",
+    "  if (why.code === 'timeout') {",
+    "    plans.push('retry');",
+    "  } else {",
+    "    plans.push('stop: ' + why.code);",
+    "  }",
     "}",
-    "return 'stop: ' + reason.code;",
+    "return plans;",
     "}",
-    "console.log(handleRejection({\"code\":\"timeout\"}));"
+    "console.log(describeFailures([{\"code\":\"timeout\"},{\"code\":\"denied\"},{\"code\":\"full\"},{\"code\":\"Timeout\"}]));"
    ],
    "output": [
-    "retry"
+    "['retry', 'stop: denied', 'stop: full', 'stop: Timeout']"
    ],
    "steps": [
     {
-     "line": 7,
+     "line": 12,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -2991,15 +3838,15 @@
      "line": 2,
      "variables": [
       {
-       "name": "reason",
-       "scope": "handleRejection",
-       "value": "{code: 'timeout'}"
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "handleRejection"
+      "describeFailures"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3008,15 +3855,366 @@
      "line": 3,
      "variables": [
       {
-       "name": "reason",
-       "scope": "handleRejection",
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeFailures"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "[]"
+      },
+      {
+       "name": "why",
+       "scope": "describeFailures",
        "value": "{code: 'timeout'}"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "handleRejection"
+      "describeFailures"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "[]"
+      },
+      {
+       "name": "why",
+       "scope": "describeFailures",
+       "value": "{code: 'timeout'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeFailures"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "[]"
+      },
+      {
+       "name": "why",
+       "scope": "describeFailures",
+       "value": "{code: 'timeout'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeFailures"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "['retry']"
+      },
+      {
+       "name": "why",
+       "scope": "describeFailures",
+       "value": "{code: 'denied'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeFailures"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "['retry']"
+      },
+      {
+       "name": "why",
+       "scope": "describeFailures",
+       "value": "{code: 'denied'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeFailures"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "['retry']"
+      },
+      {
+       "name": "why",
+       "scope": "describeFailures",
+       "value": "{code: 'denied'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeFailures"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "['retry', 'stop: denied']"
+      },
+      {
+       "name": "why",
+       "scope": "describeFailures",
+       "value": "{code: 'full'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeFailures"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "['retry', 'stop: denied']"
+      },
+      {
+       "name": "why",
+       "scope": "describeFailures",
+       "value": "{code: 'full'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeFailures"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "['retry', 'stop: denied']"
+      },
+      {
+       "name": "why",
+       "scope": "describeFailures",
+       "value": "{code: 'full'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeFailures"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "['retry', 'stop: denied', 'stop: full']"
+      },
+      {
+       "name": "why",
+       "scope": "describeFailures",
+       "value": "{code: 'Timeout'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeFailures"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "['retry', 'stop: denied', 'stop: full']"
+      },
+      {
+       "name": "why",
+       "scope": "describeFailures",
+       "value": "{code: 'Timeout'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeFailures"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "['retry', 'stop: denied', 'stop: full']"
+      },
+      {
+       "name": "why",
+       "scope": "describeFailures",
+       "value": "{code: 'Timeout'}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeFailures"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "reasons",
+       "scope": "describeFailures",
+       "value": "[{code: 'timeout'}, {code: 'denied'}, {code: 'full'}, {code: 'Timeout'}]"
+      },
+      {
+       "name": "plans",
+       "scope": "describeFailures",
+       "value": "['retry', 'stop: denied', 'stop: full', 'stop: Timeout']"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "describeFailures"
      ],
      "macrotasks": [],
      "microtasks": []

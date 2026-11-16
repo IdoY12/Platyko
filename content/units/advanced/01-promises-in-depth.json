@@ -106,47 +106,47 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "f855c7e94df74174f68b186558c5b4019b59544bee251e4b3d6512bd9994c1b2"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "6b09b2c5d522f3bd68d1c0389abe52b4a77394250fe4d9bfae713523e8610603"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "ab187086098cef51a4fdcaaf473765f6ff07a1a1592dfb91c557543b84037307"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "19d84358b27f9406d2d4ce0beec3623cc0bf49c3b31afde94106a3239f929c5f"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "4edd269d7a899237eaa0ed6bb553444000d45c13664bf9df2569574e6edae5be"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "a1fd16ea4c0dde2bc72941653750369662aa454cbdd489dbeb48ae47367529a0"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/any",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "7d0da90e1ec147af06ba3ff5a0194e486a46f707dce5c2aa36244ec71b690ce3"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "77daa49758890903bf6844d91be4746f81f1bc318af040cff0309d5d1a0554fe"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/Promise",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "2dc00f4266e3378ef979147ab92716867db15de77a8cfba7c14d03d20a37a739"
     }
   ],
@@ -488,7 +488,7 @@
         "promise-basics"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Write the body of delayTrip(trip), a then handler. trip is {stop, minutes}. Return a new object with the same stop and minutes plus 10, never above 60.",
       "solution": {
         "entry": {
@@ -580,7 +580,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.promises-in-depth.promise-combinators.predict-01",
@@ -650,7 +650,7 @@
         "array-map"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Which statement is true about this code?",
       "code": [
         "Promise.any([",
@@ -695,7 +695,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.promises-in-depth.promise-combinators.parsons-01",
@@ -925,36 +925,35 @@
         "    throw new Error('wilted');",
         "  })",
         "  .then(() => console.log('potted'))",
-        "  .catch((e) => console.log(e.name))",
-        "  .then(() => console.log('open'));"
+        "  .catch((e) => console.log(e.name))"
       ],
       "options": [
         {
-          "text": "Error\nopen",
-          "correct": true,
-          "feedback": "Right. The throw rejects the chain, catch handles it, and the chain fulfills again."
-        },
-        {
           "text": "Error",
-          "correct": false,
-          "feedback": "You thought the chain stops at catch. catch returns a promise of its own, like then.",
-          "misconception": "catch-ends-chain"
+          "correct": true,
+          "feedback": "Right. The throw rejects the chain, the next then is skipped, and catch handles it."
         },
         {
-          "text": "potted\nError\nopen",
+          "text": "potted\nError",
           "correct": false,
           "feedback": "You thought every handler in the chain runs after the throw. A then handler runs only for a fulfilled promise.",
           "misconception": "then-runs-after-throw"
+        },
+        {
+          "text": "Uncaught (in promise) Error",
+          "correct": false,
+          "feedback": "You thought a throw inside a then handler cannot be caught later. It rejects the promise that then returned, and later links can handle that.",
+          "misconception": "throw-escapes-promise"
         }
       ],
       "solution": {
-        "expectedOutput": "Error\nopen"
+        "expectedOutput": "Error"
       },
-      "explanation": "The throw makes the promise from the first then reject. The rejection skips the next then and reaches catch, which prints the name. catch returns undefined, so the chain fulfills and the last handler runs.",
+      "explanation": "The throw makes the promise from the first then reject. The rejection skips the next then, because a then handler runs only for a fulfilled promise, and reaches catch, which prints the name.",
       "hints": [
         "Find the line that throws.",
         "A rejection skips every then until the first catch.",
-        "After catch finishes, ask whether the chain is rejected or fulfilled."
+        "Ask which of lines 5 and 6 can still run once the promise has rejected."
       ],
       "reference": {
         "title": "Promise.prototype.catch()",
@@ -964,7 +963,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:MID:22"
       ]
@@ -1036,28 +1035,27 @@
       ],
       "format": "FILL_BLANK",
       "difficulty": 3,
-      "prompt": "Fill the blanks so the program prints Error!",
+      "prompt": "Fill the blank so the program prints Error.",
       "code": [
         "Promise.reject(new Error('empty'))",
-        "  .then(() => 'stock')",
-        "  .___((e) => e.name + '!')",
-        "  .___((v) => console.log(v));"
+        "  .then(() => console.log('stock'))",
+        "  .___((e) => console.log(e.name));"
       ],
       "options": [
         {
           "text": "catch",
           "correct": true,
-          "feedback": "Right. catch handles the rejection, and its return value is passed on."
+          "feedback": "Right. catch handles the rejection and receives the error."
         },
         {
           "text": "then",
-          "correct": true,
-          "feedback": "Right. After the catch the chain is fulfilled, so then receives the text."
+          "correct": false,
+          "feedback": "You thought a then handler also runs for a rejection. A then handler runs only when its promise is fulfilled, and this one is rejected."
         },
         {
           "text": "finally",
           "correct": false,
-          "feedback": "You thought finally can stand in for a handler. It receives no value, so a chain that needs the rejection or its result gets nothing."
+          "feedback": "You thought finally can stand in for a handler. It receives no value, so e would have nothing to read."
         },
         {
           "text": "all",
@@ -1069,18 +1067,15 @@
         "blanks": [
           [
             "catch"
-          ],
-          [
-            "then"
           ]
         ],
-        "expectedOutput": "Error!"
+        "expectedOutput": "Error"
       },
-      "explanation": "The rejection skips line 2 and needs a catch to be handled. Once catch has returned the text, the chain is fulfilled, and a then on the last line receives it. finally gets no value.",
+      "explanation": "The rejection skips the then on line 2, because a then handler runs only for a fulfilled promise. Only catch reacts to the rejection, so it receives the error and prints its name. finally gets no value.",
       "hints": [
         "Look at what happens to the rejection on line 2.",
-        "Only one kind of handler reacts to a rejection; the last link must receive the value it returns.",
-        "Line 3 follows a link that rejected; line 4 follows a link that returned text."
+        "Only one kind of handler reacts to a rejection.",
+        "Line 3 follows a link that rejected, and its handler reads the error."
       ],
       "reference": {
         "title": "Promise.prototype.catch()",
@@ -1090,7 +1085,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "adv.promises-in-depth.promise-rejection-flow.fix-01",
@@ -1160,7 +1155,7 @@
         "async-error-handling"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Write the body of recover(failure), a catch handler: failure is {item, code}. If code is 'busy', return the item plus ': retry' ('bread: retry'); otherwise the item plus ': skip'.",
       "solution": {
         "entry": {
@@ -1244,7 +1239,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.promises-in-depth.promise-construction.predict-01",
@@ -1409,7 +1404,7 @@
         "callbacks-and-timers"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "loadAsync(4) should print 4 after the delay, but it prints undefined and then crashes. Tap the buggy line and pick the fix.",
       "code": [
         "const load = (id, done) => {",
@@ -1457,7 +1452,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.promises-in-depth.promise-construction.write-01",
@@ -1468,87 +1463,158 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of outcome(error, data), the core of a callback wrapper. Return {ok: false, error} when error is not null, else {ok: true, data}.",
+      "prompt": "Write the body of outcomes(pairs), the core of wrapping callbacks. Each pair is [error, data]. In order, return {ok: false, error} when error is not null, else {ok: true, data}.",
       "solution": {
         "entry": {
           "kind": "function",
-          "name": "outcome",
+          "name": "outcomes",
           "params": [
-            "error",
-            "data"
+            "pairs"
           ]
         },
         "tests": [
           {
             "input": [
-              null,
-              "ok"
+              [
+                [
+                  null,
+                  "ok"
+                ],
+                [
+                  "timeout",
+                  null
+                ],
+                [
+                  null,
+                  0
+                ],
+                [
+                  "bad",
+                  5
+                ]
+              ]
             ],
-            "expected": {
-              "ok": true,
-              "data": "ok"
-            }
+            "expected": [
+              {
+                "ok": true,
+                "data": "ok"
+              },
+              {
+                "ok": false,
+                "error": "timeout"
+              },
+              {
+                "ok": true,
+                "data": 0
+              },
+              {
+                "ok": false,
+                "error": "bad"
+              }
+            ]
           },
           {
             "input": [
-              "timeout",
-              null
+              []
             ],
-            "expected": {
-              "ok": false,
-              "error": "timeout"
-            }
+            "expected": []
           },
           {
             "input": [
-              null,
-              0
+              [
+                [
+                  null,
+                  "a"
+                ]
+              ]
             ],
-            "expected": {
-              "ok": true,
-              "data": 0
-            }
+            "expected": [
+              {
+                "ok": true,
+                "data": "a"
+              }
+            ]
           },
           {
             "input": [
-              "bad",
-              5
+              [
+                [
+                  "x",
+                  1
+                ],
+                [
+                  null,
+                  2
+                ],
+                [
+                  null,
+                  3
+                ]
+              ]
             ],
-            "expected": {
-              "ok": false,
-              "error": "bad"
-            }
+            "expected": [
+              {
+                "ok": false,
+                "error": "x"
+              },
+              {
+                "ok": true,
+                "data": 2
+              },
+              {
+                "ok": true,
+                "data": 3
+              }
+            ]
           }
         ],
         "reference": [
-          "if (error !== null) {",
-          "  return { ok: false, error };",
+          "const list = [];",
+          "for (const [error, data] of pairs) {",
+          "  if (error !== null) {",
+          "    list.push({ ok: false, error });",
+          "  } else {",
+          "    list.push({ ok: true, data });",
+          "  }",
           "}",
-          "return { ok: true, data };"
+          "return list;"
         ],
         "wrongSolutions": [
           [
-            "return { ok: true, data };"
+            "return pairs.map(([, data]) => ({",
+            "  ok: true,",
+            "  data,",
+            "}));"
           ],
           [
-            "if (data) {",
-            "  return { ok: true, data };",
+            "const list = [];",
+            "for (const [error, data] of pairs) {",
+            "  if (data) {",
+            "    list.push({ ok: true, data });",
+            "  } else {",
+            "    list.push({ ok: false, error });",
+            "  }",
             "}",
-            "return { ok: false, error };"
+            "return list;"
           ],
           [
-            "if (error === null) {",
-            "  return { ok: false, error };",
+            "const list = [];",
+            "for (const [error, data] of pairs) {",
+            "  if (error === null) {",
+            "    list.push({ ok: false, error });",
+            "  } else {",
+            "    list.push({ ok: true, data });",
+            "  }",
             "}",
-            "return { ok: true, data };"
+            "return list;"
           ]
         ]
       },
-      "explanation": "A wrapper rejects when the callback reports an error and fulfills with the data otherwise. Test the error against null, not the data: a data value such as 0 is still a success.",
+      "explanation": "A wrapper rejects when the callback reports an error and fulfills with the data otherwise. For each pair, test the error against null, not the data: a data value such as 0 is still a success.",
       "hints": [
-        "Decide the outcome from the error first.",
-        "Compare error with null, and build the matching object in each case.",
-        "The first branch tests error; data is never tested."
+        "Decide each outcome from the error first.",
+        "Go through the pairs in order and compare each error with null.",
+        "Only the error is tested; data is never tested."
       ],
       "reference": {
         "title": "Promise() constructor",
@@ -1557,7 +1623,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

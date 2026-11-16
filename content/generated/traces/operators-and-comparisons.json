@@ -916,9 +916,9 @@
   "beg.operators-and-comparisons.loose-equality.write-01": {
    "code": [
     "let typed = \"12\";",
-    "let target = 12;",
+    "let target = 120;",
     "console.log(",
-    "typed == target",
+    "typed + \"0\" == target",
     ");"
    ],
    "output": [
@@ -962,7 +962,7 @@
       {
        "name": "target",
        "scope": "global",
-       "value": "12"
+       "value": "120"
       }
      ],
      "outputCount": 0,
@@ -983,7 +983,7 @@
       {
        "name": "target",
        "scope": "global",
-       "value": "12"
+       "value": "120"
       }
      ],
      "outputCount": 1,
@@ -2262,12 +2262,14 @@
    "code": [
     "console.log(!0);",
     "console.log(0 && 'x');",
-    "console.log(0 || 'x');"
+    "console.log(0 || 'x');",
+    "console.log('Mo' || 'guest');"
    ],
    "output": [
     "true",
     "0",
-    "x"
+    "x",
+    "Mo"
    ],
    "steps": [
     {
@@ -2301,9 +2303,19 @@
      "microtasks": []
     },
     {
-     "line": 0,
+     "line": 4,
      "variables": [],
      "outputCount": 3,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [],
+     "outputCount": 4,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

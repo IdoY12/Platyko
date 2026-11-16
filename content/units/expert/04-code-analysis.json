@@ -101,42 +101,42 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "19ab797b925b1d7a42b590f866c68b61bba0b1a35623c73c7bcd3f24577f23f2"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/has",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "2819661fbd47a4335d05534ddb236b9778341f0bbd5f259a39dc7c9589fadd34"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "ff55a45d086fead937a04282242e3a029c3f21bf7df86033b820a68e0bb7ffd4"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "2fd98bfc1984170f119a9b7224e3113395f519ab395da872a9984032c9fe78d2"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "220fafc36d645e977ce9a387d234278bfbe70c8730fb99ba6f6a20651550c3ca"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "de117a0890a33a86fafc6c86d8619639f834b7b70cd13585cfa86d8c476dec0b"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "3044dcbf9d48e690a18f3c78ca080ffb08160b624a97003d0b267fce64a94a98"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "d0bb1e15cd9bc4a284b58a621c9d981a4667f1f5180dc58b975b8e23957a28ce"
     }
   ],
@@ -239,7 +239,7 @@
       "difficulty": 4,
       "prompt": "A library clerk hunts for two books whose page counts add up to 20. What does this program print?",
       "code": [
-        "const shelf = [4, 8, 15, 16];",
+        "const shelf = [4, 16];",
         "let checks = 0;",
         "for (const a of shelf) {",
         "  for (const b of shelf) {",
@@ -251,31 +251,31 @@
       ],
       "options": [
         {
-          "text": "13",
+          "text": "3",
           "correct": true,
-          "feedback": "Right. The inner loop ends early only for the 16, and the counter keeps every pass made before each break."
+          "feedback": "Right. The inner loop ends early at the break: two checks for the 4 and one for the 16."
         },
         {
-          "text": "16",
+          "text": "4",
           "correct": false,
-          "feedback": "You thought the inner loop always runs all its passes. A break ends it early, so some rounds make fewer than four checks.",
+          "feedback": "You thought the inner loop always runs all its passes. A break ends the inner loop early, so not every outer pass makes the full count.",
           "misconception": "inner-loop-break-ignored"
         },
         {
-          "text": "10",
+          "text": "1",
           "correct": false,
-          "feedback": "You thought each pair is visited once, with the inner loop carrying on where it stopped. The inner loop starts over at the first book on every outer pass.",
+          "feedback": "You thought each pair is visited once. The inner loop starts over at the first book on every outer pass, and a book may pair with itself.",
           "misconception": "pairs-counted-once"
         }
       ],
       "solution": {
-        "expectedOutput": "13"
+        "expectedOutput": "3"
       },
-      "explanation": "break ends only the inner loop. The first three books each scan all four items; the last book matches on its first pass. That is 4 + 4 + 4 + 1 checks.",
+      "explanation": "break ends only the inner loop. The 4 scans 4 + 4 and then 4 + 16, which is 2 checks; the 16 matches on its first pass, which is 1 check. That is 2 + 1 checks.",
       "hints": [
         "Look at what break stops: the inner loop or the outer one.",
         "Count the inner passes separately for each book in the outer loop.",
-        "Does the inner loop finish all four passes for every book?"
+        "Does the inner loop finish all its passes for every book?"
       ],
       "reference": {
         "title": "break",
@@ -285,7 +285,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 6
     },
     {
       "id": "exp.code-analysis.complexity-analysis.concept-01",
@@ -353,7 +353,7 @@
         "array-reduce"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "The average should be worked out once, so steps should print 5, but it prints 25. Tap the buggy line and pick the fix.",
       "code": [
         "const ids = [3, 8, 5, 6, 2];",
@@ -403,7 +403,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.code-analysis.complexity-analysis.write-01",
@@ -815,7 +815,7 @@
         "spread-and-rest"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "A garden shop labels its plant tags with a dense reducer. What does this program print?",
       "code": [
         "const lastAt = (...tags) =>",
@@ -861,7 +861,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.code-analysis.reading-unfamiliar-code.concept-01",
@@ -872,7 +872,7 @@
         "spread-and-rest"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "Read the program from the inside out. Which statement explains why pie adds nothing, and how a new kind would get a price?",
       "code": [
         "const cost = { tea: 3, cake: 5 };",
@@ -918,7 +918,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6,
+      "version": 7,
       "legacyKeys": [
         "exercise:SENIOR:6"
       ]
@@ -932,7 +932,7 @@
         "spread-and-rest"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "Two door counters should count separately and print 3 1, but the program prints 3 4. Tap the buggy line and pick the fix.",
       "code": [
         "const mk = (step) => {",
@@ -979,7 +979,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.code-analysis.reading-unfamiliar-code.write-01",

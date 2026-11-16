@@ -88,10 +88,6 @@
       "description": "Believes that in a cycle, or in a file, a name is usable before the line that creates it has run."
     },
     {
-      "id": "failed-read-stays-failed",
-      "description": "Believes a read that failed once will keep failing, even after the name has been created."
-    },
-    {
       "id": "unready-reads-undefined",
       "description": "Believes a name read too early gives undefined for any declaration, so a call fails differently than it does."
     },
@@ -103,37 +99,37 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "b2ffe36e7616d4d834c01bec9ca417a1063bd2678480fe17a8b9835a9c36febe"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "aa5a93342a2bb8ea0718993930dc19dd04e3ec73347848aa013a4743fdca3ef9"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "0513342108df668f347675fb329511896f2e7a8c4a4bef52d31df818a88f587c"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "9df8111aa71c89cbcc3c669bd8f4de4ff1ae3569a0d41b436e1dbeaa50414080"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "d0bb1e15cd9bc4a284b58a621c9d981a4667f1f5180dc58b975b8e23957a28ce"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/IIFE",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "633e81f68bb43bd9ce69120c9cb188843cd22711771623a4304002e4892c5abe"
     },
     {
       "url": "https://tc39.es/ecma262/#sec-modules",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "7c67049076faafb9f473c7e888e8f84cb6144e1187210f9c08e581155355ccc6"
     }
   ],
@@ -143,7 +139,7 @@
       "title": "Module scope and encapsulation",
       "conceptCard": {
         "title": "A module keeps its names to itself",
-        "body": "A module is a file with its own scope. Names declared inside stay inside, and only what the module exports is visible outside. Before module files, code gave the same effect with a function that runs at once and returns an object of shared names. Everything else stays private.",
+        "body": "A module is a file with its own scope. Names declared inside stay inside, and only what the module exports is visible outside. Everything else stays private. Before module files, a function that runs at once and returns an object of shared names did the same. A getter, written get name() { ... }, runs on every read.",
         "code": [
           "const jar = (() => {",
           "  let coins = 5;",
@@ -423,7 +419,7 @@
         "block-scope"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The museum gate should print 1 after one visitor enters, but it prints 0. Tap the buggy line and pick the fix.",
       "code": [
         "const gate = (() => {",
@@ -473,7 +469,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.module-scope.write-01",
@@ -1174,7 +1170,7 @@
         "reference-vs-value"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Both pages should show 2 tickets sold, but the second page shows 0. Tap the buggy line and pick the fix.",
       "code": [
         "const box = (() => ({ sold: 0 }))();",
@@ -1220,7 +1216,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.modules.module-singletons.write-01",
@@ -1358,7 +1354,7 @@
         "hoisting"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The gas module reads the jar module, which is declared later. What does this code print?",
       "code": [
         "const gas = { on: () => jar.id };",
@@ -1367,36 +1363,35 @@
         "  catch (e) { return e.name; }",
         "};",
         "console.log(read());",
-        "const jar = { id: 'J' };",
-        "console.log(read());"
+        "const jar = { id: 'J' };"
       ],
       "options": [
         {
-          "text": "ReferenceError\nJ",
+          "text": "ReferenceError",
           "correct": true,
-          "feedback": "Right. The first call runs before jar is ready and fails. The second call runs after, and works."
+          "feedback": "Right. The call runs before jar is ready, so the read fails and the catch returns the error's name."
         },
         {
-          "text": "J\nJ",
+          "text": "J",
           "correct": false,
           "feedback": "You thought a later declaration is already available. Ask whether the line that creates jar has run at line 6.",
           "misconception": "cycle-values-ready"
         },
         {
-          "text": "ReferenceError\nReferenceError",
+          "text": "undefined",
           "correct": false,
-          "feedback": "You thought a failed read stays failed. Ask what changed between the two calls.",
-          "misconception": "failed-read-stays-failed"
+          "feedback": "You thought a name read too early just gives undefined. Ask what a const holds before its line has run.",
+          "misconception": "unready-reads-undefined"
         }
       ],
       "solution": {
-        "expectedOutput": "ReferenceError\nJ"
+        "expectedOutput": "ReferenceError"
       },
-      "explanation": "A const cannot be read before its line has run. The first read of jar happens at line 6, too early, so it throws a ReferenceError that is caught. After line 7, the same read finds J.",
+      "explanation": "A const cannot be read before its line has run. The read of jar happens at line 6, too early, so it throws a ReferenceError, which the catch turns into its name.",
       "hints": [
-        "Compare the line where jar is created with the line of the first call.",
+        "Compare the line where jar is created with the line of the call.",
         "A name used before its declaration has run cannot be read yet.",
-        "The two calls are identical. What changed between them?"
+        "Line 4 returns the name of whatever error line 3 caught."
       ],
       "reference": {
         "title": "let",
@@ -1406,7 +1401,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.modules.dependency-direction.concept-01",
@@ -1525,7 +1520,7 @@
         "hoisting"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The taxi app should print 8, but the call on line 2 throws because fare is not ready yet. Tap the line that declares fare, then pick its replacement.",
       "code": [
         "const app = { run: () => fare(4) };",
@@ -1569,7 +1564,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.dependency-direction.write-01",
@@ -1580,15 +1575,13 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of mutualDependency(deps, first, second). deps maps a module to the list it imports. Return true when each of the two modules imports the other, otherwise false.",
+      "prompt": "Write the body of hasMutualPair(deps). deps maps a module to the list it imports; no module imports itself. Return true when two modules import each other, else false.",
       "solution": {
         "entry": {
           "kind": "function",
-          "name": "mutualDependency",
+          "name": "hasMutualPair",
           "params": [
-            "deps",
-            "first",
-            "second"
+            "deps"
           ]
         },
         "tests": [
@@ -1601,9 +1594,7 @@
                 "b": [
                   "a"
                 ]
-              },
-              "a",
-              "b"
+              }
             ],
             "expected": true
           },
@@ -1614,9 +1605,7 @@
                   "b"
                 ],
                 "b": []
-              },
-              "a",
-              "b"
+              }
             ],
             "expected": false
           },
@@ -1626,9 +1615,7 @@
                 "a": [
                   "b"
                 ]
-              },
-              "a",
-              "b"
+              }
             ],
             "expected": false
           },
@@ -1640,65 +1627,105 @@
                   "b"
                 ],
                 "b": [
-                  "a"
+                  "d"
                 ],
-                "c": []
-              },
-              "a",
-              "b"
+                "c": [],
+                "d": [
+                  "b"
+                ]
+              }
             ],
             "expected": true
           },
           {
             "input": [
               {
-                "a": [],
+                "a": [
+                  "b"
+                ],
                 "b": [
+                  "c"
+                ],
+                "c": [
+                  "d"
+                ],
+                "d": []
+              }
+            ],
+            "expected": false
+          },
+          {
+            "input": [
+              {
+                "a": [
+                  "b"
+                ],
+                "b": [
+                  "c"
+                ],
+                "c": [
                   "a"
                 ]
-              },
-              "a",
-              "b"
+              }
+            ],
+            "expected": false
+          },
+          {
+            "input": [
+              {}
             ],
             "expected": false
           }
         ],
         "reference": [
-          "const a = deps[first] || [];",
-          "const b = deps[second] || [];",
-          "if (!a.includes(second)) {",
-          "  return false;",
+          "for (const from in deps) {",
+          "  for (const to of deps[from]) {",
+          "    const back = deps[to] || [];",
+          "    if (back.includes(from)) {",
+          "      return true;",
+          "    }",
+          "  }",
           "}",
-          "return b.includes(first);"
+          "return false;"
         ],
         "wrongSolutions": [
           [
-            "const a = deps[first] || [];",
-            "return a.includes(second);"
+            "for (const from in deps) {",
+            "  if (deps[from].length > 0) {",
+            "    return true;",
+            "  }",
+            "}",
+            "return false;"
           ],
           [
-            "const a = deps[first] || [];",
-            "const b = deps[second] || [];",
-            "if (a.includes(second)) {",
-            "  return true;",
+            "for (const from in deps) {",
+            "  for (const to of deps[from]) {",
+            "    const back = deps[to];",
+            "    if (back.includes(from)) {",
+            "      return true;",
+            "    }",
+            "  }",
             "}",
-            "return b.includes(first);"
+            "return false;"
           ],
           [
-            "const a = deps[first];",
-            "const b = deps[second];",
-            "if (!a.includes(second)) {",
-            "  return false;",
+            "for (const from in deps) {",
+            "  for (const to of deps[from]) {",
+            "    const back = deps[to] || [];",
+            "    if (back.length > 0) {",
+            "      return true;",
+            "    }",
+            "  }",
             "}",
-            "return b.includes(first);"
+            "return false;"
           ]
         ]
       },
-      "explanation": "A cycle needs both directions. Read each module's import list, using an empty list for a module that is not listed, and require that first imports second and second imports first.",
+      "explanation": "A cycle needs both directions. For every module and each module it imports, read the imported module's own list, using an empty list when it is not listed, and look for the first module there.",
       "hints": [
-        "Test a module that is missing from deps and a one-way dependency.",
+        "Test a module that is missing from deps and a one-way chain.",
         "A circular import needs an arrow in both directions.",
-        "Both directions must hold: look up each module's list in deps, using an empty list when it is missing."
+        "For each import, look up the imported module's list and see whether it points back."
       ],
       "reference": {
         "title": "JavaScript modules",
@@ -1707,7 +1734,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

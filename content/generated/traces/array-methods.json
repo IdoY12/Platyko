@@ -994,14 +994,14 @@
   },
   "int.array-methods.array-filter.predict-01": {
    "code": [
-    "const due = [1, 4, 2, 6, 3];",
+    "const due = [1, 4, 6];",
     "const late = due.filter(",
     "  (d) => d > 3",
     ");",
     "console.log(late, due);"
    ],
    "output": [
-    "[4, 6] [1, 4, 2, 6, 3]"
+    "[4, 6] [1, 4, 6]"
    ],
    "steps": [
     {
@@ -1020,7 +1020,7 @@
       {
        "name": "due",
        "scope": "global",
-       "value": "[1, 4, 2, 6, 3]"
+       "value": "[1, 4, 6]"
       }
      ],
      "outputCount": 0,
@@ -1036,7 +1036,7 @@
       {
        "name": "due",
        "scope": "global",
-       "value": "[1, 4, 2, 6, 3]"
+       "value": "[1, 4, 6]"
       },
       {
        "name": "d",
@@ -1058,7 +1058,7 @@
       {
        "name": "due",
        "scope": "global",
-       "value": "[1, 4, 2, 6, 3]"
+       "value": "[1, 4, 6]"
       },
       {
        "name": "d",
@@ -1080,29 +1080,7 @@
       {
        "name": "due",
        "scope": "global",
-       "value": "[1, 4, 2, 6, 3]"
-      },
-      {
-       "name": "d",
-       "scope": "anonymous",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "due",
-       "scope": "global",
-       "value": "[1, 4, 2, 6, 3]"
+       "value": "[1, 4, 6]"
       },
       {
        "name": "d",
@@ -1119,34 +1097,12 @@
      "microtasks": []
     },
     {
-     "line": 3,
-     "variables": [
-      {
-       "name": "due",
-       "scope": "global",
-       "value": "[1, 4, 2, 6, 3]"
-      },
-      {
-       "name": "d",
-       "scope": "anonymous",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 5,
      "variables": [
       {
        "name": "due",
        "scope": "global",
-       "value": "[1, 4, 2, 6, 3]"
+       "value": "[1, 4, 6]"
       },
       {
        "name": "late",
@@ -1167,7 +1123,7 @@
       {
        "name": "due",
        "scope": "global",
-       "value": "[1, 4, 2, 6, 3]"
+       "value": "[1, 4, 6]"
       },
       {
        "name": "late",
@@ -1185,14 +1141,14 @@
   },
   "int.array-methods.array-filter.concept-01": {
    "code": [
-    "const tickets = [3, 0, 7, 0, 2];",
+    "const tickets = [3, 0, 7];",
     "const used = tickets.filter(",
     "  (t) => t",
     ");",
     "console.log(used);"
    ],
    "output": [
-    "[3, 7, 2]"
+    "[3, 7]"
    ],
    "steps": [
     {
@@ -1211,7 +1167,7 @@
       {
        "name": "tickets",
        "scope": "global",
-       "value": "[3, 0, 7, 0, 2]"
+       "value": "[3, 0, 7]"
       }
      ],
      "outputCount": 0,
@@ -1227,7 +1183,7 @@
       {
        "name": "tickets",
        "scope": "global",
-       "value": "[3, 0, 7, 0, 2]"
+       "value": "[3, 0, 7]"
       },
       {
        "name": "t",
@@ -1249,7 +1205,7 @@
       {
        "name": "tickets",
        "scope": "global",
-       "value": "[3, 0, 7, 0, 2]"
+       "value": "[3, 0, 7]"
       },
       {
        "name": "t",
@@ -1271,7 +1227,7 @@
       {
        "name": "tickets",
        "scope": "global",
-       "value": "[3, 0, 7, 0, 2]"
+       "value": "[3, 0, 7]"
       },
       {
        "name": "t",
@@ -1288,61 +1244,17 @@
      "microtasks": []
     },
     {
-     "line": 3,
-     "variables": [
-      {
-       "name": "tickets",
-       "scope": "global",
-       "value": "[3, 0, 7, 0, 2]"
-      },
-      {
-       "name": "t",
-       "scope": "anonymous",
-       "value": "0"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "tickets",
-       "scope": "global",
-       "value": "[3, 0, 7, 0, 2]"
-      },
-      {
-       "name": "t",
-       "scope": "anonymous",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 5,
      "variables": [
       {
        "name": "tickets",
        "scope": "global",
-       "value": "[3, 0, 7, 0, 2]"
+       "value": "[3, 0, 7]"
       },
       {
        "name": "used",
        "scope": "global",
-       "value": "[3, 7, 2]"
+       "value": "[3, 7]"
       }
      ],
      "outputCount": 0,
@@ -1358,12 +1270,12 @@
       {
        "name": "tickets",
        "scope": "global",
-       "value": "[3, 0, 7, 0, 2]"
+       "value": "[3, 0, 7]"
       },
       {
        "name": "used",
        "scope": "global",
-       "value": "[3, 7, 2]"
+       "value": "[3, 7]"
       }
      ],
      "outputCount": 1,
@@ -2448,16 +2360,18 @@
    "code": [
     "function evenSpaces(spaces) {",
     "const isEven = (n) => n % 2 === 0;",
-    "return spaces.filter(isEven);",
+    "return spaces",
+    "  .filter(isEven)",
+    "  .map((n) => n / 2);",
     "}",
     "console.log(evenSpaces([1,2,3,4]));"
    ],
    "output": [
-    "[2, 4]"
+    "[1, 2]"
    ],
    "steps": [
     {
-     "line": 5,
+     "line": 7,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -2613,6 +2527,62 @@
       "global",
       "evenSpaces",
       "isEven"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "spaces",
+       "scope": "evenSpaces",
+       "value": "[1, 2, 3, 4]"
+      },
+      {
+       "name": "isEven",
+       "scope": "evenSpaces",
+       "value": "[Function: isEven]"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "evenSpaces",
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "spaces",
+       "scope": "evenSpaces",
+       "value": "[1, 2, 3, 4]"
+      },
+      {
+       "name": "isEven",
+       "scope": "evenSpaces",
+       "value": "[Function: isEven]"
+      },
+      {
+       "name": "n",
+       "scope": "anonymous",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "evenSpaces",
+      "anonymous"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -3835,17 +3805,14 @@
   },
   "int.array-methods.array-find-and-search.predict-01": {
    "code": [
-    "const delays = [3, 12, 7, 20];",
+    "const delays = [3, 12, 7];",
     "const late = delays.find(",
-    "  (d) => d > 5",
-    ");",
-    "const none = delays.find(",
     "  (d) => d > 50",
     ");",
-    "console.log(late, none);"
+    "console.log(late);"
    ],
    "output": [
-    "12 undefined"
+    "undefined"
    ],
    "steps": [
     {
@@ -3864,7 +3831,7 @@
       {
        "name": "delays",
        "scope": "global",
-       "value": "[3, 12, 7, 20]"
+       "value": "[3, 12, 7]"
       }
      ],
      "outputCount": 0,
@@ -3880,7 +3847,7 @@
       {
        "name": "delays",
        "scope": "global",
-       "value": "[3, 12, 7, 20]"
+       "value": "[3, 12, 7]"
       },
       {
        "name": "d",
@@ -3902,7 +3869,7 @@
       {
        "name": "delays",
        "scope": "global",
-       "value": "[3, 12, 7, 20]"
+       "value": "[3, 12, 7]"
       },
       {
        "name": "d",
@@ -3919,92 +3886,12 @@
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 3,
      "variables": [
       {
        "name": "delays",
        "scope": "global",
-       "value": "[3, 12, 7, 20]"
-      },
-      {
-       "name": "late",
-       "scope": "global",
-       "value": "12"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "delays",
-       "scope": "global",
-       "value": "[3, 12, 7, 20]"
-      },
-      {
-       "name": "late",
-       "scope": "global",
-       "value": "12"
-      },
-      {
-       "name": "d",
-       "scope": "anonymous",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "delays",
-       "scope": "global",
-       "value": "[3, 12, 7, 20]"
-      },
-      {
-       "name": "late",
-       "scope": "global",
-       "value": "12"
-      },
-      {
-       "name": "d",
-       "scope": "anonymous",
-       "value": "12"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "delays",
-       "scope": "global",
-       "value": "[3, 12, 7, 20]"
-      },
-      {
-       "name": "late",
-       "scope": "global",
-       "value": "12"
+       "value": "[3, 12, 7]"
       },
       {
        "name": "d",
@@ -4021,47 +3908,15 @@
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 5,
      "variables": [
       {
        "name": "delays",
        "scope": "global",
-       "value": "[3, 12, 7, 20]"
+       "value": "[3, 12, 7]"
       },
       {
        "name": "late",
-       "scope": "global",
-       "value": "12"
-      },
-      {
-       "name": "d",
-       "scope": "anonymous",
-       "value": "20"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 8,
-     "variables": [
-      {
-       "name": "delays",
-       "scope": "global",
-       "value": "[3, 12, 7, 20]"
-      },
-      {
-       "name": "late",
-       "scope": "global",
-       "value": "12"
-      },
-      {
-       "name": "none",
        "scope": "global",
        "value": "undefined"
       }
@@ -4079,15 +3934,10 @@
       {
        "name": "delays",
        "scope": "global",
-       "value": "[3, 12, 7, 20]"
+       "value": "[3, 12, 7]"
       },
       {
        "name": "late",
-       "scope": "global",
-       "value": "12"
-      },
-      {
-       "name": "none",
        "scope": "global",
        "value": "undefined"
       }

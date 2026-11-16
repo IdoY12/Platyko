@@ -99,42 +99,42 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "08140557e1ee1c0464fe6165f3308f2804a501dad07d6b8e514326f695dc42c2"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "5ad5f8672bcffc2eeda0ccce3c014eaea75ebc09d4bd9d7a4b2850b196488395"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "0aa75a29bfe2024854659b8e390fdd1e7c590782a389a023ea3124d923103066"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "cc84d41db2795cf4bf2f8aa3e655cf58f41a68c875cb8e112a3b65e9c672a0b8"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "8dbea0e3df0d9f524b09b828302298d1dc5a5fe57981dcd186fd854769934d3a"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "789e4e8e7ff6e732c3292d10ed859a858b9bdcb87264a02acc213254b5d20857"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "de3ab15359f06c36da05c6f063e22fdb6ee09e37d94b020b585464a203b951a9"
     },
     {
       "url": "https://tc39.es/ecma262/#sec-object-type",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "7c67049076faafb9f473c7e888e8f84cb6144e1187210f9c08e581155355ccc6"
     }
   ],
@@ -352,7 +352,7 @@
         "string-values"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What does total hold right after line 2 has run?",
       "code": [
         "const crate = { figs: 4, pears: 9 };",
@@ -400,7 +400,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.properties.fill-01",
@@ -410,7 +410,7 @@
         "string-values"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blanks to build the object and print 14.",
       "code": [
         "const club = ___ size: 14 ___;",
@@ -471,7 +471,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:9"
       ]
@@ -684,7 +684,7 @@
         "array-index"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What does eta hold right after line 3 has run?",
       "code": [
         "const mins = { A: 12, B: 8, C: 35 };",
@@ -734,7 +734,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.objects.access.fill-01",
@@ -744,7 +744,7 @@
         "array-index"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blanks with bracket notation so the program prints 4 and then 7.",
       "code": [
         "const pet = { age: 4, id: 7 };",
@@ -799,7 +799,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:MID:0"
       ]
@@ -854,7 +854,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "Write an expression that gives the price in prices stored under the key held in item.",
+      "prompt": "Write an expression that adds the tea price in prices (the key tea) to the price stored under the key held in item.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -872,7 +872,7 @@
               },
               "item": "cake"
             },
-            "expected": 5
+            "expected": 8
           },
           {
             "input": {
@@ -882,48 +882,49 @@
               },
               "item": "tea"
             },
-            "expected": 3
+            "expected": 6
           },
           {
             "input": {
               "prices": {
                 "iced tea": 4,
-                "cake": 5
+                "tea": 3
               },
               "item": "iced tea"
             },
-            "expected": 4
+            "expected": 7
           },
           {
             "input": {
               "prices": {
-                "a": 0
+                "tea": 0,
+                "a": 2
               },
               "item": "a"
             },
-            "expected": 0
+            "expected": 2
           }
         ],
         "reference": [
-          "prices[item]"
+          "prices.tea + prices[item]"
         ],
         "wrongSolutions": [
           [
-            "prices.item"
+            "prices.tea + prices.item"
           ],
           [
-            "prices[\"item\"]"
+            "prices.tea + prices[\"item\"]"
           ],
           [
-            "item"
+            "prices.tea + item"
           ]
         ]
       },
-      "explanation": "Square brackets with a variable use the variable's value as the key, so prices[item] works for any key. prices.item and prices[\"item\"] look for a key named item.",
+      "explanation": "A dot reads the fixed key tea. Square brackets with a variable use its value as the key, so prices[item] works for any key. prices.item and prices[\"item\"] look for a key named item.",
       "hints": [
-        "The key is held in a variable, not written out.",
+        "One key is written out and the other is held in a variable.",
         "A dot reads a fixed name. Brackets can use a variable.",
-        "The prompt says which variable holds the key. Brackets can read a key from it."
+        "Add two reads: one with a dot and one with brackets around the variable."
       ],
       "reference": {
         "title": "Property accessors",
@@ -932,7 +933,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.objects.update.predict-01",
@@ -1049,7 +1050,7 @@
         "const-declaration"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What does before hold right after line 4 has run?",
       "code": [
         "const score = { home: 2, away: 1 };",
@@ -1098,7 +1099,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.objects.update.fill-01",

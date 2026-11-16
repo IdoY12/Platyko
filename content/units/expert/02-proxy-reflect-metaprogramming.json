@@ -90,27 +90,31 @@
     {
       "id": "assignment-always-overwrites",
       "description": "Believes an assignment to an existing property always changes its value, whatever its flags say."
+    },
+    {
+      "id": "reflect-ownkeys-lists-values",
+      "description": "Believes Reflect.ownKeys returns the values of an object instead of its keys."
     }
   ],
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "d781b92ba55fb7fb7b20d2ccfd794a146b3744160d709a04d969c8872a638c72"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "e6442cfee6573a35829a46e551b6f6f13aa14426d859155f727f25f8a3d02aa5"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "5f48027d150ad0d63c891b1ea577e434b17726486984871cc93fa45fc3e5ae8f"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toStringTag",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "e02c9edb1c684c1e874c46bd0e4ce15766e3e46c8fa45528a2836e3d133f30db"
     }
   ],
@@ -223,11 +227,11 @@
       "prompt": "A pantry shelf wraps its stock in a proxy. What does this code print?",
       "code": [
         "const stock = { fig: 4 };",
-        "const rack = (o) => new Proxy(o, {",
+        "const rack = new Proxy(stock, {",
         "  get: (t, k) => k in t ? t[k] : 0,",
         "});",
-        "console.log(rack(stock).fig);",
-        "console.log(rack(stock).pear);"
+        "console.log(rack.fig);",
+        "console.log(rack.pear);"
       ],
       "options": [
         {
@@ -265,7 +269,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:SENIOR:25"
       ]
@@ -554,51 +558,43 @@
     {
       "id": "exp.proxy-reflect-metaprogramming.reflect-api.predict-01",
       "concept": "reflect-api",
-      "prerequisites": [
-        "proxy-traps"
-      ],
+      "prerequisites": [],
       "format": "PREDICT_OUTPUT",
       "difficulty": 4,
-      "prompt": "A bin counter is wrapped in a proxy whose set trap forwards the write with Reflect. What does this code print?",
+      "prompt": "A bin counter gets a new field through Reflect. What does this code print?",
       "code": [
         "const bin = { n: 1 };",
-        "const spy = new Proxy(bin, {",
-        "  set(t, k, v) {",
-        "    return Reflect.set(t, k, v * 2);",
-        "  },",
-        "});",
-        "spy.n = 5;",
-        "console.log(bin.n);",
-        "const ok = Reflect.set(bin, \"n\", 7);",
-        "console.log(ok);"
+        "Reflect.set(bin, \"m\", 2);",
+        "console.log(Reflect.has(bin, \"m\"));",
+        "console.log(Reflect.ownKeys(bin));"
       ],
       "options": [
         {
-          "text": "10\ntrue",
+          "text": "true\n['n', 'm']",
           "correct": true,
-          "feedback": "Right. The trap forwards the doubled value, so bin.n becomes 10, and a direct Reflect.set reports success with a boolean."
+          "feedback": "Right. Reflect.set wrote the new property, so has finds it and ownKeys lists both keys in creation order."
         },
         {
-          "text": "5\ntrue",
+          "text": "false\n['n']",
           "correct": false,
-          "feedback": "You thought the trap stores the value unchanged. Look at the third argument of Reflect.set on line 4: it is not v.",
-          "misconception": "reflect-fits-any-trap"
-        },
-        {
-          "text": "10\n7",
-          "correct": false,
-          "feedback": "You thought Reflect.set returns the value it assigned. The card says what Reflect.set gives back.",
+          "feedback": "You thought Reflect.set only checks and changes nothing. It carries out the write, so the property m exists afterwards.",
           "misconception": "reflect-set-returns-value"
+        },
+        {
+          "text": "true\n[1, 2]",
+          "correct": false,
+          "feedback": "You thought ownKeys lists the values. It lists the keys of the object.",
+          "misconception": "reflect-ownkeys-lists-values"
         }
       ],
       "solution": {
-        "expectedOutput": "10\ntrue"
+        "expectedOutput": "true\n['n', 'm']"
       },
-      "explanation": "The set trap forwards through Reflect.set with v * 2, so writing 5 stores 10 in bin. The direct Reflect.set on line 9 writes 7 and returns true, the boolean that reports success.",
+      "explanation": "Reflect.set performs the default write, so bin gets the key m. Reflect.has then reports true, and Reflect.ownKeys returns the keys n and m in creation order.",
       "hints": [
-        "Look at what the set trap passes as the third argument to Reflect.set.",
-        "Reflect.set does the default write on the target and returns a boolean.",
-        "Line 7 writes through the proxy; line 9 calls Reflect.set on bin directly."
+        "Look at what line 2 does to bin before lines 3 and 4 read it.",
+        "Reflect functions do the default job of an operation and return plain results.",
+        "Line 3 asks whether m exists; line 4 lists keys, not values."
       ],
       "reference": {
         "title": "Reflect.set()",
@@ -608,7 +604,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:SENIOR:29"
       ]
@@ -672,7 +668,7 @@
         "proxy-traps"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "The recycling bin should print ['glass'] 3, but prints ['glass'] undefined. Tap the buggy line and pick the fix.",
       "code": [
         "const seen = [];",
@@ -721,7 +717,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.reflect-api.fill-01",
@@ -730,7 +726,7 @@
         "proxy-traps"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "A garden seed log forwards two operations to the default behaviour. Fill both blanks so the program prints true, false and 0 on separate lines.",
       "code": [
         "const seeds = { basil: 0 };",
@@ -793,7 +789,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.property-descriptors.predict-01",
@@ -1216,7 +1212,7 @@
         "iteration-protocol"
       ],
       "format": "FIX_BUG",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "The check should print true, but prints false. Tap the buggy line and pick the fix.",
       "code": [
         "class Even {",
@@ -1263,7 +1259,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.fill-01",
@@ -1274,7 +1270,7 @@
         "iteration-protocol"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 5,
+      "difficulty": 4,
       "prompt": "A tag list is array-like. Fill both blanks so concat adds its items and the program prints ['x', 'a', 'b'].",
       "code": [
         "const tags = { 0: \"a\", 1: \"b\" };",
@@ -1333,7 +1329,7 @@
       },
       "duelEligible": true,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "timeLimitSec": 35
     }
   ]

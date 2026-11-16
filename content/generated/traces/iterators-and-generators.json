@@ -813,10 +813,10 @@
   },
   "adv.iterators-and-generators.iteration-protocol.write-01": {
    "code": [
-    "function firstTwo(items) {",
+    "function takeUpTo(items, limit) {",
     "const it = items[Symbol.iterator]();",
     "const out = [];",
-    "for (let n = 0; n < 2; n++) {",
+    "for (let n = 0; n < limit; n++) {",
     "  const step = it.next();",
     "  if (!step.done) {",
     "    out.push(step.value);",
@@ -824,10 +824,10 @@
     "}",
     "return out;",
     "}",
-    "console.log(firstTwo([\"a\",\"b\",\"c\"]));"
+    "console.log(takeUpTo([\"a\",\"b\",\"c\",\"d\",\"e\"], 4));"
    ],
    "output": [
-    "['a', 'b']"
+    "['a', 'b', 'c', 'd']"
    ],
    "steps": [
     {
@@ -845,14 +845,19 @@
      "variables": [
       {
        "name": "items",
-       "scope": "firstTwo",
-       "value": "['a', 'b', 'c']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "firstTwo"
+      "takeUpTo"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -862,19 +867,24 @@
      "variables": [
       {
        "name": "items",
-       "scope": "firstTwo",
-       "value": "['a', 'b', 'c']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
       },
       {
        "name": "it",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "Iterator {}"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "firstTwo"
+      "takeUpTo"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -884,24 +894,29 @@
      "variables": [
       {
        "name": "items",
-       "scope": "firstTwo",
-       "value": "['a', 'b', 'c']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
       },
       {
        "name": "it",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "Iterator {}"
       },
       {
        "name": "out",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "[]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "firstTwo"
+      "takeUpTo"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -911,29 +926,34 @@
      "variables": [
       {
        "name": "items",
-       "scope": "firstTwo",
-       "value": "['a', 'b', 'c']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
       },
       {
        "name": "it",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "Iterator {}"
       },
       {
        "name": "out",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "[]"
       },
       {
        "name": "n",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "0"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "firstTwo"
+      "takeUpTo"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -943,29 +963,34 @@
      "variables": [
       {
        "name": "items",
-       "scope": "firstTwo",
-       "value": "['a', 'b', 'c']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
       },
       {
        "name": "it",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "Iterator {}"
       },
       {
        "name": "out",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "[]"
       },
       {
        "name": "n",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "0"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "firstTwo"
+      "takeUpTo"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -975,34 +1000,39 @@
      "variables": [
       {
        "name": "items",
-       "scope": "firstTwo",
-       "value": "['a', 'b', 'c']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
       },
       {
        "name": "it",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "Iterator {}"
       },
       {
        "name": "out",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "[]"
       },
       {
        "name": "n",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "0"
       },
       {
        "name": "step",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "{value: 'a', done: false}"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "firstTwo"
+      "takeUpTo"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -1012,34 +1042,39 @@
      "variables": [
       {
        "name": "items",
-       "scope": "firstTwo",
-       "value": "['a', 'b', 'c']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
       },
       {
        "name": "it",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "Iterator {}"
       },
       {
        "name": "out",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "[]"
       },
       {
        "name": "n",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "0"
       },
       {
        "name": "step",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "{value: 'a', done: false}"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "firstTwo"
+      "takeUpTo"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -1049,29 +1084,34 @@
      "variables": [
       {
        "name": "items",
-       "scope": "firstTwo",
-       "value": "['a', 'b', 'c']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
       },
       {
        "name": "it",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "Iterator {}"
       },
       {
        "name": "out",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "['a']"
       },
       {
        "name": "n",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "1"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "firstTwo"
+      "takeUpTo"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -1081,29 +1121,34 @@
      "variables": [
       {
        "name": "items",
-       "scope": "firstTwo",
-       "value": "['a', 'b', 'c']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
       },
       {
        "name": "it",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "Iterator {}"
       },
       {
        "name": "out",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "['a']"
       },
       {
        "name": "n",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "1"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "firstTwo"
+      "takeUpTo"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -1113,34 +1158,39 @@
      "variables": [
       {
        "name": "items",
-       "scope": "firstTwo",
-       "value": "['a', 'b', 'c']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
       },
       {
        "name": "it",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "Iterator {}"
       },
       {
        "name": "out",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "['a']"
       },
       {
        "name": "n",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "1"
       },
       {
        "name": "step",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "{value: 'b', done: false}"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "firstTwo"
+      "takeUpTo"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -1150,34 +1200,39 @@
      "variables": [
       {
        "name": "items",
-       "scope": "firstTwo",
-       "value": "['a', 'b', 'c']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
       },
       {
        "name": "it",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "Iterator {}"
       },
       {
        "name": "out",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "['a']"
       },
       {
        "name": "n",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "1"
       },
       {
        "name": "step",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "{value: 'b', done: false}"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "firstTwo"
+      "takeUpTo"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -1187,29 +1242,350 @@
      "variables": [
       {
        "name": "items",
-       "scope": "firstTwo",
-       "value": "['a', 'b', 'c']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
       },
       {
        "name": "it",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "Iterator {}"
       },
       {
        "name": "out",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "['a', 'b']"
       },
       {
        "name": "n",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "2"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "firstTwo"
+      "takeUpTo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
+      },
+      {
+       "name": "it",
+       "scope": "takeUpTo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "takeUpTo",
+       "value": "['a', 'b']"
+      },
+      {
+       "name": "n",
+       "scope": "takeUpTo",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "takeUpTo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
+      },
+      {
+       "name": "it",
+       "scope": "takeUpTo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "takeUpTo",
+       "value": "['a', 'b']"
+      },
+      {
+       "name": "n",
+       "scope": "takeUpTo",
+       "value": "2"
+      },
+      {
+       "name": "step",
+       "scope": "takeUpTo",
+       "value": "{value: 'c', done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "takeUpTo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
+      },
+      {
+       "name": "it",
+       "scope": "takeUpTo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "takeUpTo",
+       "value": "['a', 'b']"
+      },
+      {
+       "name": "n",
+       "scope": "takeUpTo",
+       "value": "2"
+      },
+      {
+       "name": "step",
+       "scope": "takeUpTo",
+       "value": "{value: 'c', done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "takeUpTo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
+      },
+      {
+       "name": "it",
+       "scope": "takeUpTo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "n",
+       "scope": "takeUpTo",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "takeUpTo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
+      },
+      {
+       "name": "it",
+       "scope": "takeUpTo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "n",
+       "scope": "takeUpTo",
+       "value": "3"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "takeUpTo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
+      },
+      {
+       "name": "it",
+       "scope": "takeUpTo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "n",
+       "scope": "takeUpTo",
+       "value": "3"
+      },
+      {
+       "name": "step",
+       "scope": "takeUpTo",
+       "value": "{value: 'd', done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "takeUpTo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
+      },
+      {
+       "name": "it",
+       "scope": "takeUpTo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c']"
+      },
+      {
+       "name": "n",
+       "scope": "takeUpTo",
+       "value": "3"
+      },
+      {
+       "name": "step",
+       "scope": "takeUpTo",
+       "value": "{value: 'd', done: false}"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "takeUpTo"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "items",
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
+      },
+      {
+       "name": "it",
+       "scope": "takeUpTo",
+       "value": "Iterator {}"
+      },
+      {
+       "name": "out",
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd']"
+      },
+      {
+       "name": "n",
+       "scope": "takeUpTo",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "takeUpTo"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -1219,24 +1595,29 @@
      "variables": [
       {
        "name": "items",
-       "scope": "firstTwo",
-       "value": "['a', 'b', 'c']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd', 'e']"
+      },
+      {
+       "name": "limit",
+       "scope": "takeUpTo",
+       "value": "4"
       },
       {
        "name": "it",
-       "scope": "firstTwo",
+       "scope": "takeUpTo",
        "value": "Iterator {}"
       },
       {
        "name": "out",
-       "scope": "firstTwo",
-       "value": "['a', 'b']"
+       "scope": "takeUpTo",
+       "value": "['a', 'b', 'c', 'd']"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "firstTwo"
+      "takeUpTo"
      ],
      "macrotasks": [],
      "microtasks": []

@@ -77,37 +77,41 @@
     {
       "id": "function-name-is-call",
       "description": "Believes a function name without parentheses runs the function, or the reverse."
+    },
+    {
+      "id": "copy-not-callable",
+      "description": "Believes a second name given to a function is only a label that cannot be called."
     }
   ],
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "a8cbb5e801744d585f5ffa16c3994b4a5a31ac78b5c450b8443f9a5643f8e6b9"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "0a4e757bbf254098f5625184589f5c142c39ad4667be10525fbc338aa9d2c28a"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "1790eda3d17f0173ad4474c557fec928f0dce8da00f12e1151e367db7c8eb0bb"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "3ea3c76dbe2e79a4168ca42aa0b24b15d34b480eafbbb7cc8bdb85ba7f990853"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "668431d102be3a050660e5387b2dd8fbadcaf5e4e42f475b8867e7a207df3ec5"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "dce1302caa090fdea77b8d1e7605a1f3d79087acb9a366c372b2e26bb37194c3"
     }
   ],
@@ -276,7 +280,7 @@
         "for-loop"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What does this code print?",
       "code": [
         "function pour() {",
@@ -325,7 +329,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.functions.function-declaration.trace-01",
@@ -397,7 +401,7 @@
         "for-loop"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Complete the code so that it prints hey.",
       "code": [
         "___ shout() {",
@@ -457,7 +461,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.functions.function-declaration.parsons-01",
@@ -703,7 +707,7 @@
         "function-declaration"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What does a hold right after line 2 has run for the second time?",
       "code": [
         "function tally(a, b) {",
@@ -753,7 +757,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.functions.parameters-and-arguments.fill-01",
@@ -762,7 +766,7 @@
         "function-declaration"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Complete the call so that the program prints 5.",
       "code": [
         "function climb(top, base) {",
@@ -817,7 +821,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.functions.parameters-and-arguments.parsons-01",
@@ -826,7 +830,7 @@
         "function-declaration"
       ],
       "format": "PARSONS",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Put the lines in order so that the program calls a function with a price and prints a total.",
       "code": [
         "receipt(50);",
@@ -871,7 +875,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.functions.parameters-and-arguments.write-01",
@@ -1134,7 +1138,7 @@
         "if-statement"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Complete the code so that the program prints 12.",
       "code": [
         "function fee(days) {",
@@ -1194,7 +1198,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.functions.return-value.parsons-01",
@@ -1204,7 +1208,7 @@
         "if-statement"
       ],
       "format": "PARSONS",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Put the lines in order so that the program builds a label and prints it.",
       "code": [
         "console.log(pack(\"jam\"));",
@@ -1249,7 +1253,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.functions.return-value.concept-01",
@@ -1336,10 +1340,10 @@
           "misconception": "function-name-is-call"
         },
         {
-          "text": "4",
+          "text": "Uncaught TypeError",
           "correct": false,
-          "feedback": "You printed the argument. The function body returns something else.",
-          "misconception": "no-return-last-value"
+          "feedback": "You thought twice is only a label and not a function. Line 4 stores the function value itself under the new name.",
+          "misconception": "copy-not-callable"
         }
       ],
       "solution": {
@@ -1359,7 +1363,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:22"
       ]
@@ -1487,7 +1491,7 @@
         "const-declaration"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Complete the code so that the program prints 40.",
       "code": [
         "const scale = (n) ___ n * 10;",
@@ -1545,7 +1549,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.functions.function-expressions.parsons-01",
@@ -1555,7 +1559,7 @@
         "const-declaration"
       ],
       "format": "PARSONS",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Put the lines in order so that the program raises a price twice with the same arrow function.",
       "code": [
         "const second = markUp(first);",
@@ -1586,7 +1590,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.functions.function-expressions.write-01",

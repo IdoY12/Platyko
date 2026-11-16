@@ -92,42 +92,42 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "d0bb1e15cd9bc4a284b58a621c9d981a4667f1f5180dc58b975b8e23957a28ce"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/Closure",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "2606e2ab5c4219e2774399051ec79adbaef957ccfedc9adc1ff11680564cf20f"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/Scope",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "c0c0e7bcec58284a055a77d19359f10987b33db1b8a5c03c5608284aa60b563f"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "297164f1691eadf5f0fa540c894a61797a86a7b13014162d7a3fc0ca43574fd9"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "e2eee42d821d3a8aa2c87be70b2d1c823804d414f9a2443a0dfb06cbbf489b24"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "bd446ea1461039b4dfb2b0221afa60cdcdcf84b660a25c5291dce899588ddf92"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "0a4e757bbf254098f5625184589f5c142c39ad4667be10525fbc338aa9d2c28a"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "3ea3c76dbe2e79a4168ca42aa0b24b15d34b480eafbbb7cc8bdb85ba7f990853"
     }
   ],
@@ -641,7 +641,7 @@
         "return-value"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
         "function makeGate() {",
@@ -653,17 +653,16 @@
         "}",
         "const gate = makeGate();",
         "gate.pass();",
-        "gate.pass();",
         "console.log(gate.get(), gate.count);"
       ],
       "options": [
         {
-          "text": "2 undefined",
+          "text": "1 undefined",
           "correct": true,
-          "feedback": "Right. get reads the private count, which is 2. The object has no property named count."
+          "feedback": "Right. get reads the private count, which is 1. The object has no property named count."
         },
         {
-          "text": "2 2",
+          "text": "1 1",
           "correct": false,
           "feedback": "gate.count looks for a property on the object. count is a variable inside makeGate, so the property does not exist.",
           "misconception": "private-looks-like-property"
@@ -671,16 +670,16 @@
         {
           "text": "0 undefined",
           "correct": false,
-          "feedback": "get reads count when it is called, not when makeGate ran. Both pass calls changed it first.",
+          "feedback": "get reads count when it is called, not when makeGate ran. The pass call changed it first.",
           "misconception": "closure-copies-value"
         }
       ],
       "solution": {
-        "expectedOutput": "2 undefined"
+        "expectedOutput": "1 undefined"
       },
-      "explanation": "count lives inside makeGate and only pass and get can reach it. Two passes make it 2, and get reads that. Outside code has no property named count, so it gets undefined.",
+      "explanation": "count lives inside makeGate and only pass and get can reach it. One pass makes it 1, and get reads that. Outside code has no property named count, so it gets undefined.",
       "hints": [
-        "Look at the two values printed on line 11.",
+        "Look at the two values printed on line 10.",
         "Only the functions written inside makeGate can see count.",
         "Check whether count is a property of the object that makeGate returns."
       ],
@@ -692,7 +691,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:9"
       ]
@@ -767,7 +766,7 @@
         "return-value"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What is the value of cash right after line 4 runs for the second time?",
       "code": [
         "function makeWallet(start) {",
@@ -822,7 +821,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.closures.closure-private-state.parsons-01",
@@ -832,7 +831,7 @@
         "return-value"
       ],
       "format": "PARSONS",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Put the lines in order so the program prints 2 1.",
       "code": [
         "  return () => {",
@@ -883,7 +882,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.closures.closure-private-state.fix-01",
@@ -893,7 +892,7 @@
         "return-value"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "A hit counter returns 1 on its second call instead of 2. Tap the line that stops it counting, then pick the fix.",
       "code": [
         "function makeHits() {",
@@ -909,30 +908,30 @@
       ],
       "options": [
         {
-          "text": "    hits = hits + 1;return hits;",
+          "text": "    return (hits = hits + 1);",
           "correct": true,
-          "feedback": "Right. The new count is stored in hits and returned, so the second call sees 1 and returns 2."
+          "feedback": "Right. The assignment stores the new count in hits, and the value it gives back is returned, so the second call returns 2."
         },
         {
-          "text": "    let hits = hits + 1;return hits;",
+          "text": "    hits + 1;",
           "correct": false,
-          "feedback": "The new let makes a second hits inside count that hides the private one, so reading it on the same line throws an error."
+          "feedback": "This line gives nothing back, and it still only calculates a sum without storing it in hits."
         },
         {
-          "text": "    hits = hits + 1;",
+          "text": "    return hits = 1;",
           "correct": false,
-          "feedback": "hits does change, but count has no return, so every call gives undefined."
+          "feedback": "This stores something in hits, but the same value on every call, so the count never grows."
         }
       ],
       "solution": {
         "bugLine": 4,
         "expectedOutput": "2"
       },
-      "explanation": "hits + 1 only calculates a number; it never stores it. Assign the result back to hits so the next call starts from the new value, and return it so the call gives the new count.",
+      "explanation": "hits + 1 only calculates a number; it never stores it. Assigning hits = hits + 1 stores the new count in hits, and the assignment gives that value back, so the next call starts from it.",
       "hints": [
         "Look at what line 4 does with the result of hits + 1.",
         "Private state changes only when the inner function assigns to it.",
-        "Check both what line 4 changes and what the call returns."
+        "Check which option both stores the sum in hits and returns it."
       ],
       "reference": {
         "title": "Closures",
@@ -942,7 +941,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 6
     },
     {
       "id": "int.closures.closure-private-state.write-01",

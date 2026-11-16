@@ -1249,11 +1249,10 @@
     "}",
     "const gate = makeGate();",
     "gate.pass();",
-    "gate.pass();",
     "console.log(gate.get(), gate.count);"
    ],
    "output": [
-    "2 undefined"
+    "1 undefined"
    ],
    "steps": [
     {
@@ -1349,44 +1348,6 @@
      "microtasks": []
     },
     {
-     "line": 4,
-     "variables": [
-      {
-       "name": "gate",
-       "scope": "global",
-       "value": "{pass: [Function: pass], get: [Function: get]}"
-      },
-      {
-       "name": "count",
-       "scope": "makeGate",
-       "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "pass"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 11,
-     "variables": [
-      {
-       "name": "gate",
-       "scope": "global",
-       "value": "{pass: [Function: pass], get: [Function: get]}"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 5,
      "variables": [
       {
@@ -1397,7 +1358,7 @@
       {
        "name": "count",
        "scope": "makeGate",
-       "value": "2"
+       "value": "1"
       }
      ],
      "outputCount": 0,
@@ -2381,7 +2342,7 @@
     "function makeHits() {",
     "  let hits = 0;",
     "  function count() {",
-    "    hits = hits + 1;return hits;",
+    "    return (hits = hits + 1);",
     "  }",
     "  return count;",
     "}",
@@ -2470,28 +2431,6 @@
      "microtasks": []
     },
     {
-     "line": 4,
-     "variables": [
-      {
-       "name": "visit",
-       "scope": "global",
-       "value": "[Function: count]"
-      },
-      {
-       "name": "hits",
-       "scope": "makeHits",
-       "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "count"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 10,
      "variables": [
       {
@@ -2519,28 +2458,6 @@
        "name": "hits",
        "scope": "makeHits",
        "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "count"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "visit",
-       "scope": "global",
-       "value": "[Function: count]"
-      },
-      {
-       "name": "hits",
-       "scope": "makeHits",
-       "value": "2"
       }
      ],
      "outputCount": 0,

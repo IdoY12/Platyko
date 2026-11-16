@@ -2335,13 +2335,13 @@
   },
   "beg.loops.loop-accumulator.trace-01": {
    "code": [
-    "let best = 0;",
-    "for (let n = 1; n <= 4; n++) {",
-    "  if (n * n < 10) {",
-    "    best = n * n;",
+    "let oddSum = 0;",
+    "for (let n = 1; n <= 5; n++) {",
+    "  if (n % 2 === 1) {",
+    "    oddSum = oddSum + n;",
     "  }",
     "}",
-    "console.log(best);"
+    "console.log(oddSum);"
    ],
    "output": [
     "9"
@@ -2361,7 +2361,7 @@
      "line": 2,
      "variables": [
       {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
        "value": "0"
       }
@@ -2377,7 +2377,7 @@
      "line": 2,
      "variables": [
       {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
        "value": "0"
       },
@@ -2398,7 +2398,7 @@
      "line": 3,
      "variables": [
       {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
        "value": "0"
       },
@@ -2419,7 +2419,7 @@
      "line": 4,
      "variables": [
       {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
        "value": "0"
       },
@@ -2440,7 +2440,7 @@
      "line": 2,
      "variables": [
       {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
        "value": "1"
       },
@@ -2461,28 +2461,7 @@
      "line": 3,
      "variables": [
       {
-       "name": "best",
-       "scope": "global",
-       "value": "1"
-      },
-      {
-       "name": "n",
-       "scope": "global",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
        "value": "1"
       },
@@ -2503,9 +2482,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
-       "value": "4"
+       "value": "1"
       },
       {
        "name": "n",
@@ -2524,9 +2503,9 @@
      "line": 3,
      "variables": [
       {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
-       "value": "4"
+       "value": "1"
       },
       {
        "name": "n",
@@ -2545,9 +2524,9 @@
      "line": 4,
      "variables": [
       {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
-       "value": "4"
+       "value": "1"
       },
       {
        "name": "n",
@@ -2566,9 +2545,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
-       "value": "9"
+       "value": "4"
       },
       {
        "name": "n",
@@ -2587,9 +2566,9 @@
      "line": 3,
      "variables": [
       {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
-       "value": "9"
+       "value": "4"
       },
       {
        "name": "n",
@@ -2608,9 +2587,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
-       "value": "9"
+       "value": "4"
       },
       {
        "name": "n",
@@ -2626,10 +2605,73 @@
      "microtasks": []
     },
     {
+     "line": 3,
+     "variables": [
+      {
+       "name": "oddSum",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "oddSum",
+       "scope": "global",
+       "value": "4"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 2,
+     "variables": [
+      {
+       "name": "oddSum",
+       "scope": "global",
+       "value": "9"
+      },
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "6"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 7,
      "variables": [
       {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
        "value": "9"
       }
@@ -2645,7 +2687,7 @@
      "line": 0,
      "variables": [
       {
-       "name": "best",
+       "name": "oddSum",
        "scope": "global",
        "value": "9"
       }
@@ -3290,12 +3332,13 @@
     "for (let n = 1; n <= 3; n++) {",
     "  let total = 0;",
     "  total = total + n;",
-    "  console.log(total);",
+    "  if (n !== 2) {",
+    "    console.log(total);",
+    "  }",
     "}"
    ],
    "output": [
     "1",
-    "2",
     "3"
    ],
    "steps": [
@@ -3384,6 +3427,27 @@
      "microtasks": []
     },
     {
+     "line": 5,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "1"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
      "line": 1,
      "variables": [
       {
@@ -3466,7 +3530,7 @@
        "value": "3"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [
       "global"
      ],
@@ -3482,7 +3546,7 @@
        "value": "3"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [
       "global"
      ],
@@ -3503,7 +3567,7 @@
        "value": "0"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [
       "global"
      ],
@@ -3524,7 +3588,28 @@
        "value": "3"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "n",
+       "scope": "global",
+       "value": "3"
+      },
+      {
+       "name": "total",
+       "scope": "global",
+       "value": "3"
+      }
+     ],
+     "outputCount": 1,
      "callStack": [
       "global"
      ],
@@ -3540,7 +3625,7 @@
        "value": "4"
       }
      ],
-     "outputCount": 3,
+     "outputCount": 2,
      "callStack": [
       "global"
      ],
@@ -3550,7 +3635,7 @@
     {
      "line": 0,
      "variables": [],
-     "outputCount": 3,
+     "outputCount": 2,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

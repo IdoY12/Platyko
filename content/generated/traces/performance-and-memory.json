@@ -2865,18 +2865,18 @@
    "code": [
     "let ticks = 0;",
     "const tick = () => ticks++;",
-    "const id = setInterval(tick, 100);",
+    "const id = setInterval(tick, 200);",
     "let poll = id;",
     "setTimeout(() => {",
     "  poll = null;",
-    "}, 250);",
+    "}, 50);",
     "setTimeout(() => {",
     "  console.log(ticks);",
     "  clearInterval(id);",
-    "}, 350);"
+    "}, 300);"
    ],
    "output": [
-    "3"
+    "1"
    ],
    "steps": [
     {
@@ -3016,76 +3016,8 @@
       "global"
      ],
      "macrotasks": [
-      "tick",
-      "callback (line 5)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "ticks",
-       "scope": "global",
-       "value": "0"
-      },
-      {
-       "name": "tick",
-       "scope": "global",
-       "value": "[Function: tick]"
-      },
-      {
-       "name": "id",
-       "scope": "global",
-       "value": "1"
-      },
-      {
-       "name": "poll",
-       "scope": "global",
-       "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "tick"
-     ],
-     "macrotasks": [
       "callback (line 5)",
-      "callback (line 8)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "ticks",
-       "scope": "global",
-       "value": "1"
-      },
-      {
-       "name": "tick",
-       "scope": "global",
-       "value": "[Function: tick]"
-      },
-      {
-       "name": "id",
-       "scope": "global",
-       "value": "1"
-      },
-      {
-       "name": "poll",
-       "scope": "global",
-       "value": "1"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
       "tick"
-     ],
-     "macrotasks": [
-      "callback (line 5)",
-      "callback (line 8)"
      ],
      "microtasks": []
     },
@@ -3095,7 +3027,7 @@
       {
        "name": "ticks",
        "scope": "global",
-       "value": "2"
+       "value": "0"
       },
       {
        "name": "tick",
@@ -3129,7 +3061,7 @@
       {
        "name": "ticks",
        "scope": "global",
-       "value": "2"
+       "value": "0"
       },
       {
        "name": "tick",
@@ -3162,7 +3094,7 @@
       {
        "name": "ticks",
        "scope": "global",
-       "value": "3"
+       "value": "1"
       },
       {
        "name": "tick",
@@ -3195,7 +3127,7 @@
       {
        "name": "ticks",
        "scope": "global",
-       "value": "3"
+       "value": "1"
       },
       {
        "name": "tick",
@@ -3228,7 +3160,7 @@
       {
        "name": "ticks",
        "scope": "global",
-       "value": "3"
+       "value": "1"
       },
       {
        "name": "tick",

@@ -109,37 +109,37 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/Memoization",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "f584ba7e00a1956a9882b94fc33846a92e3973abba8c58e982120f800af96941"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Memory_management",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "fd4a1036184b0ac9b50632cea74d1b76f82074e41e937c9c3a4ffaee2340a280"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "a69265c8b8343ea02df4b2d6e8cdea42898100c6ffd478da0a69ac7eaa58caab"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "bb9fca1eba664a6cefd3ffde034bf13a5a6d516c3f7882a29877f166715e5032"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "7d71f9f6a40dc8df979db43f64c8f853b2651071338655ccf42e7e52feeaa580"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "79aff8ca33b59664e28768cddad791040859083337e682016bdc215d8267de63"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "c7f247484f4da7488313fa4901170cf5563351256861873dde533b3b1a0e4bf8"
     }
   ],
@@ -667,7 +667,7 @@
         "closure-private-state"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "Four calls arrive at the times in the array, and only two lines print. Which statement does this code demonstrate?",
       "code": [
         "let lastRun = -1000;",
@@ -715,7 +715,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.performance-and-memory.debounce-and-throttle.fill-01",
@@ -995,47 +995,47 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 3,
-      "prompt": "The page sets poll to null at 250 ms and logs the tick count at 350 ms. What does this program print?",
+      "prompt": "The page sets poll to null at 50 ms and logs the tick count at 300 ms. What does this program print?",
       "code": [
         "let ticks = 0;",
         "const tick = () => ticks++;",
-        "const id = setInterval(tick, 100);",
+        "const id = setInterval(tick, 200);",
         "let poll = id;",
         "setTimeout(() => {",
         "  poll = null;",
-        "}, 250);",
+        "}, 50);",
         "setTimeout(() => {",
         "  console.log(ticks);",
         "  clearInterval(id);",
-        "}, 350);"
+        "}, 300);"
       ],
       "options": [
         {
-          "text": "3",
+          "text": "1",
           "correct": true,
-          "feedback": "Right. The interval was never cleared, so it still fires at 100, 200 and 300 before the log."
+          "feedback": "Right. The interval was never cleared, so it still fires at 200 before the log at 300."
+        },
+        {
+          "text": "0",
+          "correct": false,
+          "feedback": "That assumes setting poll to null at 50 stopped the interval. The timer system holds the interval, not the variable, so the tick at 200 still runs.",
+          "misconception": "null-cancels-existing"
         },
         {
           "text": "2",
           "correct": false,
-          "feedback": "That assumes setting poll to null stopped the interval at 250. The timer system holds the interval, not the variable, so it keeps firing.",
-          "misconception": "null-cancels-existing"
-        },
-        {
-          "text": "4",
-          "correct": false,
-          "feedback": "That counts a tick at 0. An interval waits one full period before its first run, so the first tick is at 100.",
+          "feedback": "That counts a tick at 0. An interval waits one full period before its first run, so the first tick is at 200.",
           "misconception": "interval-fires-immediately"
         }
       ],
       "solution": {
-        "expectedOutput": "3"
+        "expectedOutput": "1"
       },
-      "explanation": "Only clearInterval stops an interval. Assigning null to poll just loses the id, so the interval fires at 100, 200 and 300. The log at 350 sees three ticks.",
+      "explanation": "Only clearInterval stops an interval. Assigning null to poll just loses the id, so the interval still fires at 200. The log at 300 sees one tick.",
       "hints": [
         "List the times at which the interval fires.",
         "Changing a variable does not change a timer that was already started.",
-        "Count the interval ticks that happen before 350 ms."
+        "Count the interval ticks that happen before 300 ms."
       ],
       "reference": {
         "title": "clearInterval()",
@@ -1044,7 +1044,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.performance-and-memory.memory-leaks.concept-01",
@@ -1187,7 +1187,7 @@
         "closure-captures-variable"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The tick listener should be removed before the event fires, so hits stays 0. Tap the buggy line and pick the fix.",
       "code": [
         "const listeners = new Set();",
@@ -1234,7 +1234,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:12"
       ]
@@ -1415,7 +1415,7 @@
         "set-collection"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "forEach and find both look at the stops. The counters record how many stops each one visits. What does this print?",
       "code": [
         "const stops = [5, 8, 3, 9, 2, 7];",
@@ -1465,7 +1465,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:SENIOR:17"
       ]
@@ -1479,7 +1479,7 @@
         "set-collection"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "This program prints 16. Which statement about nested loops does it demonstrate?",
       "code": [
         "let steps = 0;",
@@ -1526,7 +1526,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.performance-and-memory.algorithmic-cost.fill-01",
@@ -1537,7 +1537,7 @@
         "set-collection"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "Fill the blank so the loop counts ids it has already seen without rescanning a list. The program should print 1.",
       "code": [
         "const ids = [4, 7, 4, 9];",
@@ -1589,7 +1589,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.performance-and-memory.algorithmic-cost.fix-01",
@@ -1600,7 +1600,7 @@
         "set-collection"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "The search should stop at room b and print 2, but it keeps going. Tap the buggy line and pick the fix.",
       "code": [
         "let steps = 0;",
@@ -1647,7 +1647,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.performance-and-memory.algorithmic-cost.write-01",

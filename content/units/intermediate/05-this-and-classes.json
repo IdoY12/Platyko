@@ -97,57 +97,57 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "82de563c85b1f879e6b59f0be2c663317bc5780b709cea92fa27299f2af0fd13"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Method_definitions",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "8facc6c600a4d15151c94cc90a774714d8aec8c63276fe6f78032ae0436cc75a"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "9fe1bb997fb67a0887336555db7fd1d9816ca80e1a95ca7b5c077118e87a510b"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "0b4a76d07fe15c317e13753baac9f067b9ca4eda590588f821d6295332fd2023"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "3ea3c76dbe2e79a4168ca42aa0b24b15d34b480eafbbb7cc8bdb85ba7f990853"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "dedc8c6fcb5bc6ab75458cf6febed2c7db6ea2a2124b8565a1f75a83ee45785b"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "2f8895a066b7a58776de381a4d813a688fc95f1b4aa977c8d8dc8921bc24f93c"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "3bf614374d3d9052025cf9460791d48508829ddafba34c9f8d148ecdf6f28249"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "00842d5bc9e5ab5d884204d1551c8be1b6609e9790f5ccf12f394e7d0ba9e230"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "c794dbf1f91a453e33eb99fa7aa88b8e517bc0d482a5acffeab366747184fe4d"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "61c99382c8f4921888f47d3fb87a33feb077bd97a4d9baaea40d51144c6945cb"
     }
   ],
@@ -507,7 +507,7 @@
         "function-expressions"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "The program should print 7. Tap the buggy line, then choose its fix.",
       "code": [
         "const seats = {",
@@ -554,7 +554,7 @@
       "duelEligible": true,
       "timeLimitSec": 44,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.this-and-classes.this-in-methods.write-01",
@@ -564,7 +564,7 @@
         "function-expressions"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Write the body of totalCost(price, qty). Build an object with a total() method that uses this, call it and return the result.",
       "solution": {
         "entry": {
@@ -645,7 +645,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.this-lost-and-bound.predict-01",
@@ -655,7 +655,7 @@
         "closure-captures-variable"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
         "const lamp = {",
@@ -704,7 +704,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:SENIOR:27"
       ]
@@ -717,16 +717,14 @@
         "closure-captures-variable"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Which statement is true about this code?",
       "code": [
         "const club = {",
         "  name: 'Chess',",
-        "  members: ['Ana', 'Bo'],",
         "  list() {",
-        "    return this.members.map(",
-        "      (m) => m + ' @ ' + this.name",
-        "    );",
+        "    const hi = () => this.name;",
+        "    return hi();",
         "  }",
         "};",
         "console.log(club.list());"
@@ -738,24 +736,24 @@
           "feedback": "Right. this.name inside the arrow is the same this as in list, which is club."
         },
         {
-          "text": "The callback gets its own this, so this.name is undefined.",
+          "text": "The arrow function gets its own this, so this.name is undefined.",
           "correct": false,
-          "feedback": "A regular function would get its own this, but an arrow function does not. It uses the one around it.",
+          "feedback": "You gave the arrow function a this of its own, which then points at nothing useful. Check whether an arrow function makes a this at all.",
           "misconception": "arrow-gets-own-this"
         },
         {
-          "text": "this inside the arrow is the current member m.",
+          "text": "this inside the arrow is the arrow function itself.",
           "correct": false,
-          "feedback": "The member is the parameter m. this is not a parameter, and it does not change with the element.",
-          "misconception": "this-is-not-the-object"
+          "feedback": "this does not mean the function it is written in. Ask where an arrow function gets its this from.",
+          "misconception": "this-is-function-itself"
         }
       ],
       "solution": {
-        "expectedOutput": "['Ana @ Chess', 'Bo @ Chess']"
+        "expectedOutput": "Chess"
       },
-      "explanation": "An arrow function takes this from the code around it. Inside list, this is club, so the arrow reads club.name for every member.",
+      "explanation": "An arrow function takes this from the code around it. Inside list, this is club, so the arrow reads club.name.",
       "hints": [
-        "Look at this.name on line 6, inside the arrow.",
+        "Look at this.name on line 4, inside the arrow.",
         "An arrow function does not create its own this.",
         "Ask which this the code around the arrow has."
       ],
@@ -766,7 +764,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "int.this-and-classes.this-lost-and-bound.trace-01",
@@ -776,7 +774,7 @@
         "closure-captures-variable"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What is the value of second right after line 10 runs?",
       "code": [
         "const jar = {",
@@ -831,7 +829,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.this-and-classes.this-lost-and-bound.parsons-01",
@@ -841,7 +839,7 @@
         "closure-captures-variable"
       ],
       "format": "PARSONS",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Put the lines in order so the program prints 20.",
       "code": [
         "const check = count.bind(bus);",
@@ -886,7 +884,7 @@
       "duelEligible": true,
       "timeLimitSec": 38,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.this-and-classes.this-lost-and-bound.fix-01",
@@ -896,7 +894,7 @@
         "closure-captures-variable"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "The program should print 300 ml. Tap the buggy line, then choose its fix.",
       "code": [
         "const mug = {",
@@ -944,7 +942,7 @@
       "duelEligible": true,
       "timeLimitSec": 44,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.this-and-classes.this-lost-and-bound.write-01",
@@ -954,7 +952,7 @@
         "closure-captures-variable"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Write the body of totalKg(boxKg, packingKg). Define a function named weigh that reads this.kg and this.packing, run it with call on an object holding both values, and return the result.",
       "solution": {
         "entry": {
@@ -1036,7 +1034,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.this-and-classes.class-basics.predict-01",
@@ -1302,7 +1300,7 @@
         "this-in-methods"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "The program should print 14. Tap the buggy line, then choose its fix.",
       "code": [
         "class Ticket {",
@@ -1348,7 +1346,7 @@
       "duelEligible": true,
       "timeLimitSec": 41,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.this-and-classes.class-basics.write-01",
@@ -1357,7 +1355,7 @@
         "this-in-methods"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Write the body of waterLevel(start, pours). Use a class with a pour method, add every amount in pours, and return the final level.",
       "solution": {
         "entry": {
@@ -1459,7 +1457,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.this-and-classes.class-inheritance.predict-01",

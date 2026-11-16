@@ -88,47 +88,47 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "297164f1691eadf5f0fa540c894a61797a86a7b13014162d7a3fc0ca43574fd9"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "8703a6b25c295aef649b482d6837f92f67a8b0cf14ba2393179b23b969ca4c07"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "e2eee42d821d3a8aa2c87be70b2d1c823804d414f9a2443a0dfb06cbbf489b24"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "fb4a1f9df75a158980f8fab1d8e0b95e39b98507c9dafcd1360e28caf058250d"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "a8cbb5e801744d585f5ffa16c3994b4a5a31ac78b5c450b8443f9a5643f8e6b9"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "b1ec3e186f13ce472d9c128c9062abbca121b42f4e32f1124fef6009e9ff6447"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/Hoisting",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "aea49b20974efa81b05d6da749a92c87fd0d87d912a9b3fe4ef98c358a61c172"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/Scope",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "c0c0e7bcec58284a055a77d19359f10987b33db1b8a5c03c5608284aa60b563f"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Cant_access_lexical_declaration_before_init",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "f0f7fcfd5cc9f4a106ac178b7742b4c7156a3ede594864799d122c06d910b235"
     }
   ],
@@ -190,7 +190,7 @@
       "title": "Hoisting of declarations",
       "conceptCard": {
         "title": "Declarations are set up first",
-        "body": "Before a scope runs, JavaScript sets up its declarations. A function declaration is ready to call from the first line. A var exists too, but holds undefined until its own line runs.",
+        "body": "Before a scope runs, JavaScript sets up its declarations. A function declaration is ready to call from the first line. A var exists too, but holds undefined until its own line runs. A let or const cannot be read before its line has run; doing so throws a ReferenceError.",
         "code": [
           "console.log(twice(4));",
           "console.log(tag);",
@@ -483,7 +483,7 @@
         "for-loop"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "The program should print ready. Tap the buggy line, then choose its fix.",
       "code": [
         "const cart = [3, 1];",
@@ -528,7 +528,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.block-scope.write-01",
@@ -539,7 +539,7 @@
         "for-loop"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Write the body of lastOver(prices, limit). Return the last price above limit, or -1 if none is above it.",
       "solution": {
         "entry": {
@@ -655,7 +655,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.predict-01",
@@ -777,7 +777,7 @@
         "function-declaration"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What is the value of outer right after line 7 runs?",
       "code": [
         "var cups = 2;",
@@ -829,7 +829,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.parsons-01",
@@ -839,7 +839,7 @@
         "function-expressions"
       ],
       "format": "PARSONS",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Put the lines in order so the program prints big.",
       "code": [
         "  return label;",
@@ -873,7 +873,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.fix-01",
@@ -883,7 +883,7 @@
         "function-declaration"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "The program should print 16. Tap the buggy line, then choose its fix.",
       "code": [
         "function measure() {",
@@ -928,7 +928,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.function-scope-and-var.write-01",
@@ -938,7 +938,7 @@
         "function-declaration"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Write the body of labelDistance(km). Return \"far\" when km is above 10, otherwise \"near\". Declare one variable before the if and return it.",
       "solution": {
         "entry": {
@@ -1019,7 +1019,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.hoisting.predict-01",
@@ -1141,7 +1141,7 @@
         "function-expressions"
       ],
       "format": "TRACE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "What is the value of result right after line 7 runs?",
       "code": [
         "var taken = 4;",
@@ -1193,7 +1193,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "int.scope-and-hoisting.hoisting.fill-01",
@@ -1259,7 +1259,7 @@
         "function-expressions"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "The program should print 10. Tap the buggy line, then choose its fix.",
       "code": [
         "const rides = 5;",
@@ -1301,7 +1301,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.hoisting.write-01",
@@ -1311,7 +1311,7 @@
         "function-expressions"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Write the body of shout(word). Return word in capital letters plus \"!\". Declare the helper decorate(w) after the return line and call it.",
       "solution": {
         "entry": {
@@ -1381,7 +1381,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.predict-01",

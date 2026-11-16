@@ -102,37 +102,37 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "e0a3ab6b1575fa94f8c316192304b9aced42b02837b06ad9c4ae392277cbe4db"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/Call_stack",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "ef9a1541f0f9e4a1545aa06bf2676d255d4c407ef6a6e1e252953f76f3350a1b"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "a69265c8b8343ea02df4b2d6e8cdea42898100c6ffd478da0a69ac7eaa58caab"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "8ba3f089ee2c97da0d4f496aa35a5b2433015142dd85562c4d8a8b3bc6aac036"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/queueMicrotask",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "3d4426c2405b3e4c00ac8dee8333f44f1b3b554d01ed726859a296ae7797c109"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "1e1d0c5980a7e42979a5a0d85b2a86715439dfc79f730e1403a5ece019bf3a7f"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "8301d690cae99ff27609d11321c93bf71a3eb72de816d555209deb4e5504a971"
     }
   ],
@@ -168,7 +168,7 @@
       "title": "Timers and the task queue",
       "conceptCard": {
         "title": "Timers wait in the task queue",
-        "body": "setTimeout does not pause the program. It hands the callback to the queue and the code carries on. When the delay is over, the event loop runs the callback, but only once the call stack is empty. Smaller delays leave the queue first.",
+        "body": "setTimeout does not pause the program. It hands the callback to the queue and the code carries on. When the delay is over, the event loop runs the callback, but only once the call stack is empty. Smaller delays leave the queue first, and equal delays leave in the order they were set.",
         "code": [
           "const say = (t) => console.log(t);",
           "setTimeout(() => say('later'), 0);",
@@ -302,7 +302,7 @@
         "callbacks-and-timers"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "A timer is set, then a loop runs for a while. Which statement about the timer callback is true?",
       "code": [
         "const say = (t) => console.log(t);",
@@ -349,7 +349,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "adv.event-loop.call-stack.fill-01",
@@ -1123,7 +1123,7 @@
         "promise-chaining"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "The print shop should log job 1, clean, job 2, but clean prints last. Tap the buggy line and pick the fix.",
       "code": [
         "const say = (t) => console.log(t);",
@@ -1169,7 +1169,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.event-loop.microtask-queue.write-01",
@@ -1543,13 +1543,14 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of beforeFirstAwait(steps). steps lists an async function's lines; 'await' marks the pause. Return the steps before the first pause, or all steps if none.",
+      "prompt": "Write the body of runOrder(fn, caller). fn lists an async function's lines, with at most one 'await'; caller lists the lines after its call. Return the run order without 'await'.",
       "solution": {
         "entry": {
           "kind": "function",
-          "name": "beforeFirstAwait",
+          "name": "runOrder",
           "params": [
-            "steps"
+            "fn",
+            "caller"
           ]
         },
         "tests": [
@@ -1559,10 +1560,15 @@
                 "a",
                 "await",
                 "b"
+              ],
+              [
+                "c"
               ]
             ],
             "expected": [
-              "a"
+              "a",
+              "c",
+              "b"
             ]
           },
           {
@@ -1570,11 +1576,15 @@
               [
                 "a",
                 "b"
+              ],
+              [
+                "c"
               ]
             ],
             "expected": [
               "a",
-              "b"
+              "b",
+              "c"
             ]
           },
           {
@@ -1582,67 +1592,109 @@
               [
                 "await",
                 "a"
+              ],
+              [
+                "c",
+                "d"
               ]
             ],
-            "expected": []
+            "expected": [
+              "c",
+              "d",
+              "a"
+            ]
           },
           {
             "input": [
               [
                 "x",
-                "await",
-                "y",
-                "await",
-                "z"
+                "await"
+              ],
+              [
+                "c"
               ]
             ],
             "expected": [
-              "x"
+              "x",
+              "c"
             ]
           },
           {
             "input": [
+              [],
+              [
+                "c"
+              ]
+            ],
+            "expected": [
+              "c"
+            ]
+          },
+          {
+            "input": [
+              [
+                "a",
+                "await",
+                "b",
+                "d"
+              ],
               []
             ],
-            "expected": []
+            "expected": [
+              "a",
+              "b",
+              "d"
+            ]
           }
         ],
         "reference": [
-          "const cut = steps.indexOf('await');",
-          "if (cut === -1) return steps;",
-          "return steps.slice(0, cut);"
+          "const cut = fn.indexOf('await');",
+          "if (cut === -1) {",
+          "  return [...fn, ...caller];",
+          "}",
+          "return [",
+          "  ...fn.slice(0, cut),",
+          "  ...caller,",
+          "  ...fn.slice(cut + 1),",
+          "];"
         ],
         "wrongSolutions": [
           [
-            "const cut = steps.indexOf('await');",
-            "return steps.slice(0, cut);"
+            "const cut = fn.indexOf('await');",
+            "return [",
+            "  ...fn.slice(0, cut),",
+            "  ...caller,",
+            "  ...fn.slice(cut + 1),",
+            "];"
           ],
           [
-            "const cut = steps.indexOf('await');",
-            "if (cut === -1) return steps;",
-            "return steps.slice(cut + 1);"
+            "const steps = fn.filter(",
+            "  (s) => s !== 'await'",
+            ");",
+            "return [...caller, ...steps];"
           ],
           [
-            "const cut = steps.indexOf('await');",
-            "if (cut === -1) return steps;",
-            "return steps.slice(0, cut + 1);"
+            "const steps = fn.filter(",
+            "  (s) => s !== 'await'",
+            ");",
+            "return [...steps, ...caller];"
           ]
         ]
       },
-      "explanation": "Code before the first await runs at once. Find the first pause with indexOf, return all steps when there is none, and otherwise slice up to that position.",
+      "explanation": "Code before the first await runs at once, then the caller carries on, and the rest of the function resumes later. Find the pause with indexOf, then join the steps before it, the caller's steps and the steps after it.",
       "hints": [
-        "Find where the first await is.",
-        "indexOf returns -1 when the value is missing, and slice with -1 would drop the last step.",
-        "Slice takes an end position; check what indexOf gives when 'await' is absent."
+        "Find where the 'await' sits in fn.",
+        "await pauses only its own function, so the caller's lines get to run in the meantime.",
+        "indexOf gives -1 when there is no pause; check what slice does with that."
       ],
       "reference": {
-        "title": "Array.prototype.slice()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice",
+        "title": "await",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
         "source": "MDN"
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

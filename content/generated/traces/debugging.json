@@ -3,7 +3,7 @@
  "items": {
   "exp.debugging.off-by-one-and-boundaries.predict-01": {
    "code": [
-    "const temps = [4, 7, 5, 9];",
+    "const temps = [4, 7, 5];",
     "const days = temps.length;",
     "const out = [];",
     "for (let i = 0; i < days; i++) {",
@@ -12,7 +12,7 @@
     "console.log(out);"
    ],
    "output": [
-    "[3, -2, 4, NaN]"
+    "[3, -2, NaN]"
    ],
    "steps": [
     {
@@ -31,7 +31,7 @@
       {
        "name": "temps",
        "scope": "global",
-       "value": "[4, 7, 5, 9]"
+       "value": "[4, 7, 5]"
       }
      ],
      "outputCount": 0,
@@ -47,12 +47,12 @@
       {
        "name": "temps",
        "scope": "global",
-       "value": "[4, 7, 5, 9]"
+       "value": "[4, 7, 5]"
       },
       {
        "name": "days",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       }
      ],
      "outputCount": 0,
@@ -68,12 +68,12 @@
       {
        "name": "temps",
        "scope": "global",
-       "value": "[4, 7, 5, 9]"
+       "value": "[4, 7, 5]"
       },
       {
        "name": "days",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       },
       {
        "name": "out",
@@ -94,12 +94,12 @@
       {
        "name": "temps",
        "scope": "global",
-       "value": "[4, 7, 5, 9]"
+       "value": "[4, 7, 5]"
       },
       {
        "name": "days",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       },
       {
        "name": "out",
@@ -125,12 +125,12 @@
       {
        "name": "temps",
        "scope": "global",
-       "value": "[4, 7, 5, 9]"
+       "value": "[4, 7, 5]"
       },
       {
        "name": "days",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       },
       {
        "name": "out",
@@ -156,12 +156,12 @@
       {
        "name": "temps",
        "scope": "global",
-       "value": "[4, 7, 5, 9]"
+       "value": "[4, 7, 5]"
       },
       {
        "name": "days",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       },
       {
        "name": "out",
@@ -187,12 +187,12 @@
       {
        "name": "temps",
        "scope": "global",
-       "value": "[4, 7, 5, 9]"
+       "value": "[4, 7, 5]"
       },
       {
        "name": "days",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       },
       {
        "name": "out",
@@ -218,12 +218,12 @@
       {
        "name": "temps",
        "scope": "global",
-       "value": "[4, 7, 5, 9]"
+       "value": "[4, 7, 5]"
       },
       {
        "name": "days",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       },
       {
        "name": "out",
@@ -249,12 +249,12 @@
       {
        "name": "temps",
        "scope": "global",
-       "value": "[4, 7, 5, 9]"
+       "value": "[4, 7, 5]"
       },
       {
        "name": "days",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       },
       {
        "name": "out",
@@ -280,84 +280,22 @@
       {
        "name": "temps",
        "scope": "global",
-       "value": "[4, 7, 5, 9]"
+       "value": "[4, 7, 5]"
       },
       {
        "name": "days",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       },
       {
        "name": "out",
        "scope": "global",
-       "value": "[3, -2, 4]"
+       "value": "[3, -2, NaN]"
       },
       {
        "name": "i",
        "scope": "global",
        "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "temps",
-       "scope": "global",
-       "value": "[4, 7, 5, 9]"
-      },
-      {
-       "name": "days",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "out",
-       "scope": "global",
-       "value": "[3, -2, 4]"
-      },
-      {
-       "name": "i",
-       "scope": "global",
-       "value": "3"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "temps",
-       "scope": "global",
-       "value": "[4, 7, 5, 9]"
-      },
-      {
-       "name": "days",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "out",
-       "scope": "global",
-       "value": "[3, -2, 4, NaN]"
-      },
-      {
-       "name": "i",
-       "scope": "global",
-       "value": "4"
       }
      ],
      "outputCount": 0,
@@ -373,17 +311,17 @@
       {
        "name": "temps",
        "scope": "global",
-       "value": "[4, 7, 5, 9]"
+       "value": "[4, 7, 5]"
       },
       {
        "name": "days",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       },
       {
        "name": "out",
        "scope": "global",
-       "value": "[3, -2, 4, NaN]"
+       "value": "[3, -2, NaN]"
       }
      ],
      "outputCount": 0,
@@ -399,17 +337,17 @@
       {
        "name": "temps",
        "scope": "global",
-       "value": "[4, 7, 5, 9]"
+       "value": "[4, 7, 5]"
       },
       {
        "name": "days",
        "scope": "global",
-       "value": "4"
+       "value": "3"
       },
       {
        "name": "out",
        "scope": "global",
-       "value": "[3, -2, 4, NaN]"
+       "value": "[3, -2, NaN]"
       }
      ],
      "outputCount": 1,

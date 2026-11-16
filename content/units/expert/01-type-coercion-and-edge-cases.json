@@ -100,42 +100,42 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Numbers_and_strings",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "e4f22aad7f4a4992fe22695b46230db2ad40f53122a9c675a23d913d149d9466"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "42cef1b7c22ab90c4ab7c847c32099f8c2df2f697a9c6660bce1048db5570ff6"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "01647f0c6198312cc5115bbc512aed8b4d050203cebc5ad8e2d6528b0a7c14a0"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "185b805fda8e647e7b383722d676236d35a29f0414d37a7b85e33b130e8c4673"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toPrimitive",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "89a6991256a72768a8bdc23325c7a72afb5ad5b8a78417a1d7323aadf5b416a6"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isNaN",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "2f21b5da799188ad2ea153c2d468df59e48e10a25fc0386b6c7d8c8136620d1f"
     },
     {
       "url": "https://tc39.es/ecma262/#sec-islooselyequal",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "7c67049076faafb9f473c7e888e8f84cb6144e1187210f9c08e581155355ccc6"
     },
     {
       "url": "https://tc39.es/ecma262/#sec-toprimitive",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "7c67049076faafb9f473c7e888e8f84cb6144e1187210f9c08e581155355ccc6"
     }
   ],
@@ -190,7 +190,7 @@
       "title": "NaN, -0, Infinity and floating point",
       "conceptCard": {
         "title": "NaN, -0, Infinity and floating point",
-        "body": "NaN is the only value not strictly equal to itself: use Number.isNaN. indexOf misses NaN; includes finds it. A zero can have a sign: === sees -0 and 0 as equal, Object.is does not. A positive number divided by zero gives Infinity, a negative one -Infinity, and 0 / 0 gives NaN; Number.isFinite rejects all three. Decimal sums are rounded.",
+        "body": "NaN is the only value not strictly equal to itself: use Number.isNaN. indexOf misses NaN; includes finds it. A zero has a sign: Object.is tells -0 from 0, === does not. Dividing by zero gives Infinity or -Infinity, by the signs of the number and the zero; 0 / 0 gives NaN. Number.isFinite rejects those. Decimal sums are rounded.",
         "code": [
           "console.log(NaN === NaN);",
           "console.log(Number.isNaN(NaN));",
@@ -519,41 +519,40 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 4,
-      "prompt": "A packing list is an empty array. What do these three comparisons print?",
+      "prompt": "A packing list is an empty array. What do these two comparisons print?",
       "code": [
         "const slot = [];",
         "const flag = false;",
-        "console.log(slot == flag);",
-        "console.log(slot == !slot);",
+        "console.log(slot == 0);",
         "console.log(null == flag);"
       ],
       "options": [
         {
-          "text": "true\ntrue\nfalse",
+          "text": "true\nfalse",
           "correct": true,
-          "feedback": "Right. The array becomes an empty text and then 0, equal to false as 0. null equals only undefined, so the last line is false."
+          "feedback": "Right. The array becomes an empty text and then 0, equal to 0. null equals only undefined, so the last line is false."
         },
         {
-          "text": "false\nfalse\nfalse",
+          "text": "false\nfalse",
           "correct": false,
-          "feedback": "You thought == judges the array by truthiness, so an array that is truthy cannot equal false. == does not use truthiness; it converts values by its own steps.",
+          "feedback": "You thought == judges the array by truthiness, so an array that is truthy cannot equal 0. == does not use truthiness; it converts values by its own steps.",
           "misconception": "loose-equality-by-truthiness"
         },
         {
-          "text": "true\ntrue\ntrue",
+          "text": "true\ntrue",
           "correct": false,
           "feedback": "You thought null is loosely equal to false, as another falsy value would be. == has a special rule for null that does not treat it like 0 or an empty text.",
           "misconception": "loose-equality-by-truthiness"
         }
       ],
       "solution": {
-        "expectedOutput": "true\ntrue\nfalse"
+        "expectedOutput": "true\nfalse"
       },
-      "explanation": "With a boolean, == turns it into a number. The array becomes \"\" and then 0, and false becomes 0, so line 3 is true. Line 4 compares with !slot, which is false. null == false is false.",
+      "explanation": "An array compared with a number becomes a primitive: \"\" and then 0, which equals 0, so line 3 is true. null == false is false because null equals only undefined.",
       "hints": [
-        "Line 3 compares an object with a boolean; line 5 involves null.",
-        "== converts a boolean to a number, then an object to a primitive.",
-        "Line 3 applies the boolean rule and then the object rule; line 4 is the same case."
+        "Line 3 compares an object with a number; line 4 involves null.",
+        "== turns an object into a primitive when the other side is a primitive.",
+        "Line 3 converts the array to text and then to a number; null has a rule of its own."
       ],
       "reference": {
         "title": "Equality comparisons and sameness",
@@ -563,7 +562,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6,
+      "version": 7,
       "legacyKeys": [
         "duel:3"
       ]
@@ -575,7 +574,7 @@
         "to-primitive-conversion"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "Two objects with the same valueOf result are compared with ==. Which statement explains the last line?",
       "code": [
         "const a = { valueOf: () => 8 };",
@@ -620,7 +619,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.fix-01",
@@ -629,7 +628,7 @@
         "loose-equality"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "The survey should count 2 missing scores, but prints 1. Tap the buggy line and pick the fix.",
       "code": [
         "const marks = [0, null, 5];",
@@ -677,7 +676,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.fill-01",
@@ -822,8 +821,7 @@
         "const drift = -0;",
         "console.log(drift === 0);",
         "console.log(Object.is(drift, 0));",
-        "console.log(1 / drift);",
-        "console.log(String(drift));"
+        "console.log(1 / drift);"
       ],
       "options": [
         {
@@ -845,9 +843,9 @@
         }
       ],
       "solution": {
-        "expectedOutput": "true\nfalse\n-Infinity\n0"
+        "expectedOutput": "true\nfalse\n-Infinity"
       },
-      "explanation": "=== treats -0 and 0 as equal. Object.is compares the sign too, and dividing by -0 gives -Infinity. String turns -0 into the text 0, so printing text hides the sign.",
+      "explanation": "=== treats -0 and 0 as equal. Object.is compares the sign too, and dividing by -0 gives -Infinity.",
       "hints": [
         "Look at lines 2 and 4 together.",
         "A number can be zero and still carry a sign.",
@@ -861,7 +859,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7
+      "version": 8
     },
     {
       "id": "exp.type-coercion-and-edge-cases.numeric-edge-cases.fix-01",
@@ -1067,44 +1065,42 @@
       "id": "exp.type-coercion-and-edge-cases.operator-coercion.concept-01",
       "concept": "operator-coercion",
       "prerequisites": [
-        "to-primitive-conversion"
+        "relational-operators"
       ],
       "format": "CONCEPT_MCQ",
       "difficulty": 4,
-      "prompt": "A seat chart joins a seat object, a number and text with +. Which statement explains the three results?",
+      "prompt": "A label joins text and numbers with +. Which statement explains the printed line?",
       "code": [
-        "const seat = { valueOf: () => 2 };",
-        "console.log(seat + 3 + \"x\");",
-        "console.log(\"x\" + seat + 3);",
-        "console.log(\"x\" + (seat + 3));"
+        "const cost = 5;",
+        "console.log(\"kg\" + (cost + 2));"
       ],
       "options": [
         {
-          "text": "Each + turns the object into 2, then works left to right: it adds two numbers, but joins as soon as one side is text.",
+          "text": "The brackets run first, so + adds the two numbers and then joins the result to the text.",
           "correct": true,
           "feedback": "Right. Each + decides by the two values it has at that moment."
         },
         {
-          "text": "+ joins text everywhere as soon as one string appears in the expression, so line 2 prints 23x.",
+          "text": "+ joins text everywhere as soon as one string appears in the expression, so it prints kg52.",
           "correct": false,
-          "feedback": "You thought one string anywhere makes every + join. Check line 2: which two values does the first + see?",
+          "feedback": "You thought one string anywhere makes every + join. Ask which two values the + inside the brackets sees.",
           "misconception": "plus-order-and-grouping-confused"
         },
         {
-          "text": "Brackets do not change +, so the last line prints x23.",
+          "text": "+ adds all the numbers first and joins the text last, so it prints 7kg.",
           "correct": false,
-          "feedback": "You thought brackets leave + unchanged. On line 4, ask which + runs first and which two values it sees.",
+          "feedback": "You thought + adds every number before it joins any text. Each + works on one pair of values, and the text stays on the left.",
           "misconception": "plus-order-and-grouping-confused"
         }
       ],
       "solution": {
-        "expectedOutput": "5x\nx23\nx5"
+        "expectedOutput": "kg7"
       },
-      "explanation": "Each + works on one pair, left to right, after the object becomes the primitive 2. 2 + 3 adds to 5 and then joins with the text. In the second line the text comes first, so every later value is joined. Brackets run first.",
+      "explanation": "The brackets run first. Inside them both values are numbers, so + adds them to 7. The outer + then sees text and a number, so it joins them as kg7.",
       "hints": [
-        "Work out the pairs one + at a time on lines 2 and 3.",
-        "The object becomes a primitive first; then the type of the two values on each + decides adding or joining.",
-        "On line 4, find which + runs first, then what its two values are."
+        "Find which + runs first.",
+        "Brackets run first; then the type of the two values on each + decides adding or joining.",
+        "Inside the brackets both values are numbers; ask what the outer + sees."
       ],
       "reference": {
         "title": "Addition (+)",
@@ -1114,7 +1110,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7,
+      "version": 8,
       "legacyKeys": [
         "duel:1"
       ]
@@ -1129,7 +1125,7 @@
       "difficulty": 4,
       "prompt": "The program should print the largest bay number, 75, but it prints 9. Tap the buggy line and pick the fix.",
       "code": [
-        "const bays = [\"9\", \"10\", \"75\", \"8\"];",
+        "const bays = [\"9\", \"10\", \"75\"];",
         "let hi = bays[0];",
         "for (const n of bays) {",
         "  if (n > hi) hi = n;",
@@ -1164,14 +1160,14 @@
         "Line 4 compares n and hi: check whether each is text or a number at that moment."
       ],
       "reference": {
-        "title": "parseInt()",
-        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt",
+        "title": "Greater than (>)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Greater_than",
         "source": "MDN"
       },
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 5,
       "legacyKeys": [
         "duel:2"
       ]

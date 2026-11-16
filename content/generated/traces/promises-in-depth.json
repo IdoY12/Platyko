@@ -1055,12 +1055,10 @@
     "    throw new Error('wilted');",
     "  })",
     "  .then(() => console.log('potted'))",
-    "  .catch((e) => console.log(e.name))",
-    "  .then(() => console.log('open'));"
+    "  .catch((e) => console.log(e.name))"
    ],
    "output": [
-    "Error",
-    "open"
+    "Error"
    ],
    "steps": [
     {
@@ -1106,19 +1104,9 @@
      "microtasks": []
     },
     {
-     "line": 7,
-     "variables": [],
-     "outputCount": 1,
-     "callStack": [
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
      "line": 0,
      "variables": [],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []
@@ -1191,12 +1179,11 @@
   "adv.promises-in-depth.promise-rejection-flow.fill-01": {
    "code": [
     "Promise.reject(new Error('empty'))",
-    "  .then(() => 'stock')",
-    "  .catch((e) => e.name + '!')",
-    "  .then((v) => console.log(v));"
+    "  .then(() => console.log('stock'))",
+    "  .catch((e) => console.log(e.name));"
    ],
    "output": [
-    "Error!"
+    "Error"
    ],
    "steps": [
     {
@@ -1216,22 +1203,6 @@
        "name": "e",
        "scope": "anonymous",
        "value": "Error"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "v",
-       "scope": "anonymous",
-       "value": "'Error!'"
       }
      ],
      "outputCount": 0,
@@ -2179,20 +2150,25 @@
   },
   "adv.promises-in-depth.promise-construction.write-01": {
    "code": [
-    "function outcome(error, data) {",
-    "if (error !== null) {",
-    "  return { ok: false, error };",
+    "function outcomes(pairs) {",
+    "const list = [];",
+    "for (const [error, data] of pairs) {",
+    "  if (error !== null) {",
+    "    list.push({ ok: false, error });",
+    "  } else {",
+    "    list.push({ ok: true, data });",
+    "  }",
     "}",
-    "return { ok: true, data };",
+    "return list;",
     "}",
-    "console.log(outcome(null, \"ok\"));"
+    "console.log(outcomes([[null,\"ok\"],[\"timeout\",null],[null,0],[\"bad\",5]]));"
    ],
    "output": [
-    "{ok: true, data: 'ok'}"
+    "[{ok: true, data: 'ok'}, {ok: false, error: 'timeout'}, {ok: true, data: 0}, {ok: false, error: 'bad'}]"
    ],
    "steps": [
     {
-     "line": 7,
+     "line": 12,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -2205,20 +2181,197 @@
      "line": 2,
      "variables": [
       {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outcomes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outcomes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[]"
+      },
+      {
        "name": "error",
-       "scope": "outcome",
+       "scope": "outcomes",
        "value": "null"
       },
       {
        "name": "data",
-       "scope": "outcome",
+       "scope": "outcomes",
        "value": "'ok'"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "outcome"
+      "outcomes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[]"
+      },
+      {
+       "name": "error",
+       "scope": "outcomes",
+       "value": "null"
+      },
+      {
+       "name": "data",
+       "scope": "outcomes",
+       "value": "'ok'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outcomes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[]"
+      },
+      {
+       "name": "error",
+       "scope": "outcomes",
+       "value": "null"
+      },
+      {
+       "name": "data",
+       "scope": "outcomes",
+       "value": "'ok'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outcomes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[{ok: true, data: 'ok'}]"
+      },
+      {
+       "name": "error",
+       "scope": "outcomes",
+       "value": "'timeout'"
+      },
+      {
+       "name": "data",
+       "scope": "outcomes",
+       "value": "null"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outcomes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[{ok: true, data: 'ok'}]"
+      },
+      {
+       "name": "error",
+       "scope": "outcomes",
+       "value": "'timeout'"
+      },
+      {
+       "name": "data",
+       "scope": "outcomes",
+       "value": "null"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outcomes"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -2227,20 +2380,244 @@
      "line": 5,
      "variables": [
       {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[{ok: true, data: 'ok'}]"
+      },
+      {
        "name": "error",
-       "scope": "outcome",
-       "value": "null"
+       "scope": "outcomes",
+       "value": "'timeout'"
       },
       {
        "name": "data",
-       "scope": "outcome",
-       "value": "'ok'"
+       "scope": "outcomes",
+       "value": "null"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "outcome"
+      "outcomes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[{ok: true, data: 'ok'}, {ok: false, error: 'timeout'}]"
+      },
+      {
+       "name": "error",
+       "scope": "outcomes",
+       "value": "null"
+      },
+      {
+       "name": "data",
+       "scope": "outcomes",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outcomes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[{ok: true, data: 'ok'}, {ok: false, error: 'timeout'}]"
+      },
+      {
+       "name": "error",
+       "scope": "outcomes",
+       "value": "null"
+      },
+      {
+       "name": "data",
+       "scope": "outcomes",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outcomes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[{ok: true, data: 'ok'}, {ok: false, error: 'timeout'}]"
+      },
+      {
+       "name": "error",
+       "scope": "outcomes",
+       "value": "null"
+      },
+      {
+       "name": "data",
+       "scope": "outcomes",
+       "value": "0"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outcomes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 3,
+     "variables": [
+      {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[{ok: true, data: 'ok'}, {ok: false, error: 'timeout'}, {ok: true, data: 0}]"
+      },
+      {
+       "name": "error",
+       "scope": "outcomes",
+       "value": "'bad'"
+      },
+      {
+       "name": "data",
+       "scope": "outcomes",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outcomes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[{ok: true, data: 'ok'}, {ok: false, error: 'timeout'}, {ok: true, data: 0}]"
+      },
+      {
+       "name": "error",
+       "scope": "outcomes",
+       "value": "'bad'"
+      },
+      {
+       "name": "data",
+       "scope": "outcomes",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outcomes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[{ok: true, data: 'ok'}, {ok: false, error: 'timeout'}, {ok: true, data: 0}]"
+      },
+      {
+       "name": "error",
+       "scope": "outcomes",
+       "value": "'bad'"
+      },
+      {
+       "name": "data",
+       "scope": "outcomes",
+       "value": "5"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outcomes"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 10,
+     "variables": [
+      {
+       "name": "pairs",
+       "scope": "outcomes",
+       "value": "[[null, 'ok'], ['timeout', null], [null, 0], ['bad', 5]]"
+      },
+      {
+       "name": "list",
+       "scope": "outcomes",
+       "value": "[{ok: true, data: 'ok'}, {ok: false, error: 'timeout'}, {ok: true, data: 0}, {ok: false, error: 'bad'}]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "outcomes"
      ],
      "macrotasks": [],
      "microtasks": []

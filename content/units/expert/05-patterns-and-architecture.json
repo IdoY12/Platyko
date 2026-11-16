@@ -106,37 +106,37 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/First-class_Function",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "a61120aee64583db1c58bdedacaa067e03390ed4d7c5a17b2d60df1c87c67328"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/Callback_function",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "7d713a4bbd56705747421ed65b77a7024d692f0e87489a8ecbbb98c52361ee9d"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "7d71f9f6a40dc8df979db43f64c8f853b2651071338655ccf42e7e52feeaa580"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "c7f247484f4da7488313fa4901170cf5563351256861873dde533b3b1a0e4bf8"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "ff55a45d086fead937a04282242e3a029c3f21bf7df86033b820a68e0bb7ffd4"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "2f8895a066b7a58776de381a4d813a688fc95f1b4aa977c8d8dc8921bc24f93c"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "d0bb1e15cd9bc4a284b58a621c9d981a4667f1f5180dc58b975b8e23957a28ce"
     }
   ],
@@ -242,7 +242,7 @@
         "closure-private-state"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "A hand-written emitter notifies its listeners. What does this program print?",
       "code": [
         "const subs = [];",
@@ -290,7 +290,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:SENIOR:1"
       ]
@@ -302,7 +302,7 @@
         "set-collection"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "Which statement explains why the second send prints bb and no plain b?",
       "code": [
         "const subs = new Set();",
@@ -353,14 +353,14 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.patterns-and-architecture.observer-pattern.fix-01",
       "concept": "observer-pattern",
       "prerequisites": [],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "off(bell) should remove only the bell listener, so the program prints L. Tap the buggy line and pick the fix.",
       "code": [
         "let fns = [];",
@@ -411,7 +411,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.patterns-and-architecture.observer-pattern.write-01",
@@ -560,7 +560,7 @@
         "closure-factories"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "chain joins two rules into one. What does this program print?",
       "code": [
         "const half = (n) => n / 2;",
@@ -608,7 +608,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.concept-01",
@@ -617,7 +617,7 @@
         "class-inheritance"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "Which statement explains how duck gets both of its moves?",
       "code": [
         "const swim = () => 'paddle';",
@@ -664,7 +664,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.fix-01",
@@ -673,7 +673,7 @@
         "parameters-and-arguments"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "pick returns the rule for a mode, or the bus rule if unknown, so the program prints 27 and 6. Tap the buggy line and pick the fix.",
       "code": [
         "const fare = {",
@@ -722,7 +722,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.fill-01",
@@ -731,7 +731,7 @@
         "closure-factories"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "compose(f, g) should run g first and then f. Complete line 2 so the program prints 7.",
       "code": [
         "const compose = (f, g) => (x) => {",
@@ -788,7 +788,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.patterns-and-architecture.factory-and-singleton.predict-01",
@@ -857,7 +857,7 @@
         "class-basics"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "Which statement about make is correct for this program?",
       "code": [
         "class Bike {",
@@ -906,7 +906,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:SENIOR:4"
       ]
@@ -918,7 +918,7 @@
         "closure-private-state"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "getJar should create the jar once and then reuse it, so the program prints 2. Tap the buggy line and pick the fix.",
       "code": [
         "let jar = null;",
@@ -965,7 +965,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.patterns-and-architecture.factory-and-singleton.write-01",
@@ -974,7 +974,7 @@
         "map-collection"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "Write the body of firstOrRepeat(keys). A key's instance is built once. Return an array with one answer per key, in order: 'new' for its first request, 'same' for later ones.",
       "solution": {
         "entry": {
@@ -1083,7 +1083,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.patterns-and-architecture.dependency-inversion.predict-01",
@@ -1154,7 +1154,7 @@
         "strategy-and-composition"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "Which statement explains the two printed lines?",
       "code": [
         "const flat = () => 5;",
@@ -1200,7 +1200,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:SENIOR:8"
       ]

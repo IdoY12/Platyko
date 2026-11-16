@@ -82,37 +82,37 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "34081d44927a4b54f9f65cb2e2e9284ddf321d8ed4550f4d1e57696bdc4872e3"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "297164f1691eadf5f0fa540c894a61797a86a7b13014162d7a3fc0ca43574fd9"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "8703a6b25c295aef649b482d6837f92f67a8b0cf14ba2393179b23b969ca4c07"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "55344e5b05f77a09887690f7b42613c5268054ddbb739d455ee484f628d24990"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/null",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "86ae177090e6619dc84a22f83825058cb72df844977b44db2125badcec2cb7fb"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "efe33acf90c815d62875681f582c312e62f569bd0a46ce859f9b7666a43fb461"
     },
     {
       "url": "https://tc39.es/ecma262/#sec-let-and-const-declarations",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "7c67049076faafb9f473c7e888e8f84cb6144e1187210f9c08e581155355ccc6"
     }
   ],
@@ -226,13 +226,13 @@
       "code": [
         "let trail = \"Pine Ridge\";",
         "let km = 8;",
-        "console.log(trail + \" \" + km);"
+        "console.log(trail, km);"
       ],
       "options": [
         {
           "text": "Pine Ridge 8",
           "correct": true,
-          "feedback": "Right. Each name is replaced by the value stored under it, so the text and the number are joined."
+          "feedback": "Right. Each name is replaced by the value stored under it, so console.log shows the text and then the number."
         },
         {
           "text": "trail km",
@@ -243,18 +243,18 @@
         {
           "text": "Pine Ridge km",
           "correct": false,
-          "feedback": "You read trail as a value but km as a word. Every unquoted name in the expression stands for its stored value, not only the first.",
+          "feedback": "You read trail as a value but km as a word. Every unquoted name in the call stands for its stored value, not only the first.",
           "misconception": "name-printed-as-text"
         }
       ],
       "solution": {
         "expectedOutput": "Pine Ridge 8"
       },
-      "explanation": "A variable name stands for the value stored under it. So trail gives the text Pine Ridge and km gives 8. The + joins them with a space between.",
+      "explanation": "A variable name stands for the value stored under it. So trail gives the text Pine Ridge and km gives 8. console.log prints its two values with a space between them.",
       "hints": [
-        "Look at the two variable names in the last line, and at what sits between them.",
+        "Look at the two variable names inside console.log on line 3.",
         "A name without quotes is replaced by the value it holds.",
-        "Replace trail and km by their values, then join them."
+        "Replace trail and km by their values, then print them in order."
       ],
       "reference": {
         "title": "let",
@@ -264,7 +264,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.variables.let-declaration.predict-02",
@@ -442,7 +442,7 @@
         "string-values"
       ],
       "format": "PARSONS",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Put the lines in order so the program prints 11.",
       "code": [
         "console.log(bags);",
@@ -473,7 +473,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.variables.let-declaration.concept-01",
@@ -1483,66 +1483,66 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "driver holds a name or null. Write an expression that gives Driver: and a space, then the value of driver. For null it gives Driver: null.",
+      "prompt": "slot holds a name or null. Write an expression that joins Slot:, slot and the word typeof gives for it, with single spaces. For null it gives Slot: null object.",
       "solution": {
         "entry": {
           "kind": "expression",
           "variables": [
-            "driver"
+            "slot"
           ]
         },
         "tests": [
           {
             "input": {
-              "driver": null
+              "slot": null
             },
-            "expected": "Driver: null"
+            "expected": "Slot: null object"
           },
           {
             "input": {
-              "driver": "Ana"
+              "slot": "Ana"
             },
-            "expected": "Driver: Ana"
+            "expected": "Slot: Ana string"
           },
           {
             "input": {
-              "driver": 12
+              "slot": 12
             },
-            "expected": "Driver: 12"
+            "expected": "Slot: 12 number"
           },
           {
             "input": {
-              "driver": true
+              "slot": true
             },
-            "expected": "Driver: true"
+            "expected": "Slot: true boolean"
           },
           {
             "input": {
-              "driver": ""
+              "slot": ""
             },
-            "expected": "Driver: "
+            "expected": "Slot:  string"
           }
         ],
         "reference": [
-          "\"Driver: \" + driver"
+          "\"Slot: \" + slot + \" \" + typeof slot"
         ],
         "wrongSolutions": [
           [
-            "\"Driver: \" + typeof driver"
+            "\"Slot: \" + slot"
           ],
           [
-            "\"Driver: \" + \"driver\""
+            "\"Slot: \" + typeof slot + \" \" + slot"
           ],
           [
-            "driver + \" Driver:\""
+            "\"Slot: \" + slot + typeof slot"
           ]
         ]
       },
-      "explanation": "null is a real value, and joined to text with + it becomes the word null. So the label and driver join into Driver: null. typeof would give the type name object instead of the value.",
+      "explanation": "null is a real value, and joined to text with + it becomes the word null. typeof slot gives the type name as text, which is object for null. Joining the label, the value, a space and that name builds the line.",
       "hints": [
-        "You need the value of driver itself, not its type.",
-        "The + sign joins texts, and a null joined to text shows as the word null.",
-        "The label is text, so it needs quotation marks; driver itself does not."
+        "You need two parts of slot: its value and its type name, with a space between.",
+        "The + sign joins texts and turns null into the word null, and typeof gives the type name as text.",
+        "Build it from left to right: the label, the value, a space, then the type name."
       ],
       "reference": {
         "title": "null",
@@ -1551,7 +1551,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     }
   ]
 }

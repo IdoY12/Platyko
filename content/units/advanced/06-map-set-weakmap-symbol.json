@@ -99,32 +99,32 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "c7f247484f4da7488313fa4901170cf5563351256861873dde533b3b1a0e4bf8"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "7d71f9f6a40dc8df979db43f64c8f853b2651071338655ccf42e7e52feeaa580"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "23dd7e8cd8f63749730c39d32da8aa2450ab2bb24a81fcd7eab63163838a8557"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "c8702b4253d16595fde21ef02f3227ed85052908a40fc2b3f16bfa9851221937"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "1cbe1a02544d5337123d8a0291f85a96bd9d3369b8e947caeafcd1bad909e17b"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "09520f8b0bd9fa38db64c0b54d04992a40378ac44a52b2dd5d5008c78270edc5"
     }
   ],
@@ -338,7 +338,7 @@
         "object-properties"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 3,
+      "difficulty": 4,
       "prompt": "A fruit stall restocks plums, then lists the Map. Fill the blanks so it prints plum 6 and then fig 9.",
       "code": [
         "const shop = new Map([[\"plum\", 4]]);",
@@ -400,7 +400,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.map-set-weakmap-symbol.map-collection.fix-01",
@@ -596,32 +596,31 @@
         "visited.add(\"lake\");",
         "visited.add(\"ridge\");",
         "visited.add(\"lake\");",
-        "visited.add(\"pass\");",
         "console.log(visited.size);"
       ],
       "options": [
         {
-          "text": "3",
+          "text": "2",
           "correct": true,
-          "feedback": "Right. The second add of lake does nothing, so the Set holds lake, ridge and pass."
+          "feedback": "Right. The second add of lake does nothing, so the Set holds lake and ridge."
         },
         {
-          "text": "4",
+          "text": "3",
           "correct": false,
           "feedback": "You thought a Set keeps every value added to it, repeats included. A Set holds each value only once.",
           "misconception": "set-keeps-duplicates"
         },
         {
-          "text": "2",
+          "text": "1",
           "correct": false,
           "feedback": "You thought adding lake a second time removes lake altogether. A repeated add leaves the Set as it was.",
           "misconception": "set-removes-all-copies"
         }
       ],
       "solution": {
-        "expectedOutput": "3"
+        "expectedOutput": "2"
       },
-      "explanation": "A Set keeps each value once. Adding \"lake\" a second time changes nothing, so the three different names give a size of 3.",
+      "explanation": "A Set keeps each value once. Adding \"lake\" a second time changes nothing, so the two different names give a size of 2.",
       "hints": [
         "Look at which names appear more than once.",
         "Adding a value that is already in a Set has no effect.",
@@ -635,7 +634,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:MID:11"
       ]
@@ -647,7 +646,7 @@
         "map-collection"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "A sensor sends NaN twice. Which statement explains the two lines this program prints?",
       "code": [
         "const r = [NaN, 5, NaN];",
@@ -690,7 +689,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "adv.map-set-weakmap-symbol.set-collection.fill-01",
@@ -1163,7 +1162,7 @@
         "map-collection"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 4,
+      "difficulty": 3,
       "prompt": "Write the body of canBeKey(value). Return true when value can be used as a WeakMap key and false when setting it throws. Use try and catch.",
       "solution": {
         "entry": {
@@ -1243,7 +1242,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.map-set-weakmap-symbol.symbol-keys.predict-01",
@@ -1342,7 +1341,7 @@
       "explanation": "Object.keys returns only string-named keys, so the symbol key is missing from the list. Reading card[secret] works for any code that has the symbol.",
       "hints": [
         "Compare what line 4 lists with what line 5 reads.",
-        "Symbol keys are skipped by listing functions, not by property access.",
+        "This is about how a Symbol key behaves under Object.keys and under a read that uses the symbol.",
         "Reading with the symbol and listing keys are two different operations; compare lines 4 and 5."
       ],
       "reference": {
@@ -1353,7 +1352,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "adv.map-set-weakmap-symbol.symbol-keys.fill-01",

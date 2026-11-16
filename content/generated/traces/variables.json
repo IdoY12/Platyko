@@ -5,7 +5,7 @@
    "code": [
     "let trail = \"Pine Ridge\";",
     "let km = 8;",
-    "console.log(trail + \" \" + km);"
+    "console.log(trail, km);"
    ],
    "output": [
     "Pine Ridge 8"
@@ -2059,13 +2059,13 @@
   },
   "beg.variables.undefined-and-null.write-02": {
    "code": [
-    "let driver = null;",
+    "let slot = null;",
     "console.log(",
-    "\"Driver: \" + driver",
+    "\"Slot: \" + slot + \" \" + typeof slot",
     ");"
    ],
    "output": [
-    "Driver: null"
+    "Slot: null object"
    ],
    "steps": [
     {
@@ -2082,7 +2082,7 @@
      "line": 2,
      "variables": [
       {
-       "name": "driver",
+       "name": "slot",
        "scope": "global",
        "value": "null"
       }
@@ -2098,7 +2098,7 @@
      "line": 0,
      "variables": [
       {
-       "name": "driver",
+       "name": "slot",
        "scope": "global",
        "value": "null"
       }

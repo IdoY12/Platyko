@@ -90,47 +90,47 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "0143f34d5428a4bb2fc70a361352784c86b728eb617117a29bdcf5e29d9407b7"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "bb28011cafa94299a064f0a0965c93ceccaf782cbc308f15a92089075f000f11"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "220fafc36d645e977ce9a387d234278bfbe70c8730fb99ba6f6a20651550c3ca"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "79aff8ca33b59664e28768cddad791040859083337e682016bdc215d8267de63"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "d2d988d1888e8543d53840e2ba6a7942cb5b9c49979056f61a8f26b2d9904902"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "8bb101150d9603dcccfff90b337b798caf725a09b6755498db33df2a10e75c0a"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "ae0e28f666a4731e882f2badd7c04d4060e836bfd11513f0a50fbdf4dcad9680"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "85b0e80355b3910abea285b187d939d7cdb10f0546dc2f5870fa3119cf489f5b"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Indexed_collections",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "ee91abf1a52f3393ca8f153b1109a6761576575ce74ab787721b0e87a1c091fb"
     }
   ],
@@ -187,7 +187,7 @@
       "title": "Folding with reduce",
       "conceptCard": {
         "title": "reduce folds to one value",
-        "body": "reduce folds an array into one value. The callback gets the running result and the current element, and returns the next running result. The second argument is the starting result; without it, the first element is used.",
+        "body": "reduce folds an array into one value. The callback gets the running result and the current element, and returns the next running result. The second argument is the starting result; without it, the first element is the starting result and the callback starts from the second element.",
         "code": [
           "const parts = [1, 2, 3];",
           "const total = parts.reduce(",
@@ -481,7 +481,7 @@
         "function-expressions"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "The program should print the temperatures raised by 5. Tap the buggy line, then choose its fix.",
       "code": [
         "let temps = [20, 24, 18];",
@@ -524,7 +524,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.array-methods.array-map.write-01",
@@ -534,7 +534,7 @@
         "function-expressions"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "Write the body of doubleRecipe(amounts). Return a new array with every amount doubled.",
       "solution": {
         "entry": {
@@ -622,7 +622,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:3"
       ]
@@ -638,7 +638,7 @@
       "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
-        "const due = [1, 4, 2, 6, 3];",
+        "const due = [1, 4, 6];",
         "const late = due.filter(",
         "  (d) => d > 3",
         ");",
@@ -646,29 +646,29 @@
       ],
       "options": [
         {
-          "text": "[4, 6] [1, 4, 2, 6, 3]",
+          "text": "[4, 6] [1, 4, 6]",
           "correct": true,
-          "feedback": "Right. Only 4 and 6 pass the test, and due keeps all five values."
+          "feedback": "Right. Only 4 and 6 pass the test, and due keeps all three values."
         },
         {
           "text": "[4, 6] [4, 6]",
           "correct": false,
-          "feedback": "filter does not remove elements from the array it is called on. due still holds all five values.",
+          "feedback": "filter does not remove elements from the array it is called on. due still holds all three values.",
           "misconception": "iteration-method-mutates-original"
         },
         {
-          "text": "[false, true, false, true, false] [1, 4, 2, 6, 3]",
+          "text": "[false, true, true] [1, 4, 6]",
           "correct": false,
           "feedback": "That treats the result as one true or false per element. filter returns the elements that passed, so the result is shorter.",
           "misconception": "filter-returns-callback-results"
         }
       ],
       "solution": {
-        "expectedOutput": "[4, 6] [1, 4, 2, 6, 3]"
+        "expectedOutput": "[4, 6] [1, 4, 6]"
       },
       "explanation": "filter keeps the elements whose callback result is truthy, so late holds 4 and 6. It builds a new array and leaves due as it was.",
       "hints": [
-        "Look at line 2: which values are greater than 3?",
+        "Look at line 3: which values are greater than 3?",
         "filter returns the elements that pass, not true or false values.",
         "Two arrays are printed: the new one, then the original."
       ],
@@ -680,7 +680,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:JUNIOR:23"
       ]
@@ -696,7 +696,7 @@
       "difficulty": 2,
       "prompt": "Which statement is true about this code?",
       "code": [
-        "const tickets = [3, 0, 7, 0, 2];",
+        "const tickets = [3, 0, 7];",
         "const used = tickets.filter(",
         "  (t) => t",
         ");",
@@ -706,7 +706,7 @@
         {
           "text": "filter keeps the elements whose callback result is truthy.",
           "correct": true,
-          "feedback": "Right. 3, 7 and 2 are truthy and stay; the zeros are falsy and are left out."
+          "feedback": "Right. 3 and 7 are truthy and stay; the zero is falsy and is left out."
         },
         {
           "text": "filter stores the callback results, so used holds the values the callback returned.",
@@ -717,18 +717,18 @@
         {
           "text": "filter removes the falsy elements from tickets itself.",
           "correct": false,
-          "feedback": "filter never edits the array it is called on. used is a new array and tickets still has five elements.",
+          "feedback": "filter never edits the array it is called on. used is a new array and tickets still has three elements.",
           "misconception": "iteration-method-mutates-original"
         }
       ],
       "solution": {
-        "expectedOutput": "[3, 7, 2]"
+        "expectedOutput": "[3, 7]"
       },
-      "explanation": "filter keeps each element whose callback result is truthy and returns those elements. Here the callback returns the element itself, so the two zeros, which are falsy, are dropped.",
+      "explanation": "filter keeps each element whose callback result is truthy and returns those elements. Here the callback returns the element itself, so the zero, which is falsy, is dropped.",
       "hints": [
         "Look at what the callback on line 3 returns.",
         "filter uses each callback result as a test. Ask which of the numbers pass it.",
-        "Think about which of the five numbers are falsy."
+        "Think about which of the three numbers is falsy."
       ],
       "reference": {
         "title": "Array.prototype.filter()",
@@ -738,7 +738,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.array-methods.array-filter.trace-01",
@@ -919,7 +919,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write the body of evenSpaces(spaces). Return a new array with only the even numbers.",
+      "prompt": "Write the body of evenSpaces(spaces). Return a new array that holds half of each even number in spaces, in the same order.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -939,8 +939,8 @@
               ]
             ],
             "expected": [
-              2,
-              4
+              1,
+              2
             ]
           },
           {
@@ -968,17 +968,21 @@
             ],
             "expected": [
               0,
-              -2
+              -1
             ]
           }
         ],
         "reference": [
           "const isEven = (n) => n % 2 === 0;",
-          "return spaces.filter(isEven);"
+          "return spaces",
+          "  .filter(isEven)",
+          "  .map((n) => n / 2);"
         ],
         "wrongSolutions": [
           [
-            "return spaces.filter((s) => s % 2);"
+            "return spaces",
+            "  .filter((s) => s % 2)",
+            "  .map((s) => s / 2);"
           ],
           [
             "return spaces.map(",
@@ -987,15 +991,15 @@
           ],
           [
             "const isEven = (n) => n % 2 === 0;",
-            "return spaces.filter(isEven)[0];"
+            "return spaces.filter(isEven);"
           ]
         ]
       },
-      "explanation": "filter keeps the elements for which the test is true. A number is even when its remainder after dividing by 2 is 0, so the test compares the remainder with 0.",
+      "explanation": "filter keeps the even numbers: a number is even when its remainder after dividing by 2 is 0. map then builds a new array that holds half of each kept number.",
       "hints": [
-        "Which array method keeps only some of the elements?",
-        "An even number leaves a remainder of 0 when divided by 2.",
-        "Build the test from hint 2, hand it to the method from hint 1, and return the outcome."
+        "Two steps are needed: choose some elements, then change each one.",
+        "filter keeps the elements that pass a test, and map builds a new array from every element.",
+        "Test the remainder after dividing by 2, hand the test to filter, then halve each kept number with map."
       ],
       "reference": {
         "title": "Array.prototype.filter()",
@@ -1004,7 +1008,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:4"
       ]
@@ -1274,7 +1278,7 @@
         "loop-accumulator"
       ],
       "format": "FIX_BUG",
-      "difficulty": 3,
+      "difficulty": 2,
       "prompt": "The program should print the product of the rolls. Tap the buggy line, then choose its fix.",
       "code": [
         "const rolls = [2, 3, 4];",
@@ -1319,7 +1323,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.array-methods.array-reduce.write-01",
@@ -1429,42 +1433,39 @@
       "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
-        "const delays = [3, 12, 7, 20];",
+        "const delays = [3, 12, 7];",
         "const late = delays.find(",
-        "  (d) => d > 5",
-        ");",
-        "const none = delays.find(",
         "  (d) => d > 50",
         ");",
-        "console.log(late, none);"
+        "console.log(late);"
       ],
       "options": [
         {
-          "text": "12 undefined",
+          "text": "undefined",
           "correct": true,
-          "feedback": "Right. find stops at the first match, 12, and gives undefined when nothing matches."
+          "feedback": "Right. No delay passes the test, so find returns undefined."
         },
         {
-          "text": "[12, 7, 20] []",
+          "text": "[]",
           "correct": false,
-          "feedback": "That is what filter would give. find returns only the first matching element, not an array.",
+          "feedback": "That is what filter gives when nothing passes. find returns a single element, never an array.",
           "misconception": "search-method-returns-array"
         },
         {
-          "text": "12 null",
+          "text": "null",
           "correct": false,
           "feedback": "You thought find answers null when nothing matches. find has its own value for no match, and it is not null.",
           "misconception": "no-match-gives-null"
         }
       ],
       "solution": {
-        "expectedOutput": "12 undefined"
+        "expectedOutput": "undefined"
       },
-      "explanation": "find returns the first element that passes the test, which is 12, not an array. When no element passes, it returns undefined.",
+      "explanation": "find returns the first element that passes the test. No delay is above 50, so find returns undefined, not null and not an empty array.",
       "hints": [
-        "Compare the two tests on lines 2 and 5.",
+        "Look at the test on line 3: do any of the delays pass it?",
         "find returns one element, or a special value when nothing matches.",
-        "Work out which delays pass the test on line 3, then which pass the test on line 6."
+        "Check each of the three delays against the test, then think about what find gives when none passes."
       ],
       "reference": {
         "title": "Array.prototype.find()",
@@ -1474,7 +1475,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:JUNIOR:27"
       ]
@@ -1486,7 +1487,7 @@
         "array-filter"
       ],
       "format": "CONCEPT_MCQ",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "Which statement is true when no balance is negative?",
       "code": [
         "const balances = [40, 15, 90];",
@@ -1534,7 +1535,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "puzzle:16"
       ]
@@ -1606,7 +1607,7 @@
         "array-filter"
       ],
       "format": "PARSONS",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "Put the lines in order so the program prints 11, then true.",
       "code": [
         "console.log(km.includes(far));",
@@ -1637,7 +1638,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.array-methods.array-find-and-search.fix-01",

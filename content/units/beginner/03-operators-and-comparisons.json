@@ -82,37 +82,37 @@
   "sources": [
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "185b805fda8e647e7b383722d676236d35a29f0414d37a7b85e33b130e8c4673"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "6f1adea8f05163cfef8b2b93611d9509a8eb60a29f215e6bf7359f0da735f444"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Equality",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "01647f0c6198312cc5115bbc512aed8b4d050203cebc5ad8e2d6528b0a7c14a0"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Less_than",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "9892dcb6fb2fa5b4fc9ac521fb785d2e6c27043f85079e00136c6ee05e44b2f7"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Glossary/Falsy",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "54efa451e68ab19de0ae7edbfc6a136b86e4dc894ae643c99b1ee2748c24c3f2"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "670cfbb3cc4f393f141cbe09907d83fb5bd3c9e40b125dfc7f6590e0f6c234b2"
     },
     {
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_OR",
-      "retrievedAt": "2026-11-15",
+      "retrievedAt": "2026-11-16",
       "sha256": "5d42892bb06b0332d116aef079cbc9a5790b7e55a6e0b872ede21a2c24140bb8"
     }
   ],
@@ -189,13 +189,14 @@
       "title": "Truthy, falsy and the logical operators",
       "conceptCard": {
         "title": "Truthy, falsy and the logical operators",
-        "body": "In a test, every value counts as true or false. The falsy values you will meet most are false, 0, the empty text, null and undefined. Nearly every other value is truthy. ! flips a value. && and || give back one of their two operands.",
+        "body": "Every value counts as true or false. The falsy ones you will meet most are false, 0, the empty text, null and undefined. Nearly every other value is truthy. ! flips a value. a && b gives back a if a is falsy, else b. a || b gives back a if a is truthy, else b.",
         "code": [
           "console.log(!0);",
           "console.log(0 && 'x');",
-          "console.log(0 || 'x');"
+          "console.log(0 || 'x');",
+          "console.log('Mo' || 'guest');"
         ],
-        "expectedOutput": "true\n0\nx"
+        "expectedOutput": "true\n0\nx\nMo"
       },
       "itemIds": [
         "beg.operators-and-comparisons.truthy-and-falsy.predict-01",
@@ -588,7 +589,7 @@
         "string-values"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What does this code print?",
       "code": [
         "let lightOn = false;",
@@ -630,7 +631,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.operators-and-comparisons.loose-equality.trace-01",
@@ -802,7 +803,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "Write an expression that is true when typed and target match after JavaScript converts them to a common type. Either may be text or a number.",
+      "prompt": "typed is digit text. Write an expression that is true when typed with a 0 joined onto its end matches the number target after conversion.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -815,7 +816,28 @@
           {
             "input": {
               "typed": "12",
+              "target": 120
+            },
+            "expected": true
+          },
+          {
+            "input": {
+              "typed": "12",
               "target": 12
+            },
+            "expected": false
+          },
+          {
+            "input": {
+              "typed": "1",
+              "target": 10
+            },
+            "expected": true
+          },
+          {
+            "input": {
+              "typed": "9",
+              "target": 90
             },
             "expected": true
           },
@@ -825,49 +847,28 @@
               "target": 13
             },
             "expected": false
-          },
-          {
-            "input": {
-              "typed": "0",
-              "target": 0
-            },
-            "expected": true
-          },
-          {
-            "input": {
-              "typed": "abc",
-              "target": 0
-            },
-            "expected": false
-          },
-          {
-            "input": {
-              "typed": "12",
-              "target": "12"
-            },
-            "expected": true
           }
         ],
         "reference": [
-          "typed == target"
+          "typed + \"0\" == target"
         ],
         "wrongSolutions": [
           [
-            "typed === target"
+            "typed == target"
           ],
           [
-            "typed = target"
+            "typed + \"0\" === target"
           ],
           [
-            "typed != target"
+            "typed + \"0\" != target"
           ]
         ]
       },
-      "explanation": "The == sign converts the text to a number before comparing, so '12' matches 12. === would stay false because the types differ.",
+      "explanation": "The + joins typed and the text 0 first, because + is worked out before ==. Then == converts the joined text to a number, so '120' matches 120. === would stay false because the types differ.",
       "hints": [
-        "You need an operator that compares two values.",
-        "One equality operator converts the types first.",
-        "Put typed on the left and target on the right, with the sign the card shows for comparing after conversion."
+        "First build the longer text, then compare it with target.",
+        "The + sign joins the texts, and == converts the text to a number before comparing.",
+        "Put the joined text on the left of the equality sign that converts types, and target on the right."
       ],
       "reference": {
         "title": "Equality (==)",
@@ -876,7 +877,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.predict-01",
@@ -990,7 +991,7 @@
         "strict-equality"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What value does canContinue hold right after line 4 has run?",
       "code": [
         "let water = 3;",
@@ -1039,7 +1040,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.fill-01",
@@ -1203,7 +1204,7 @@
         "undefined-and-null"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What does this code print?",
       "code": [
         "let comment = '';",
@@ -1247,7 +1248,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:JUNIOR:2"
       ]
@@ -1260,7 +1261,7 @@
         "undefined-and-null"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What does this code print?",
       "code": [
         "let city = 'Lima';",
@@ -1302,7 +1303,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:JUNIOR:19"
       ]
@@ -1315,7 +1316,7 @@
         "undefined-and-null"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "What value does discount hold right after line 2 has run?",
       "code": [
         "let coupon = 0;",
@@ -1364,7 +1365,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:JUNIOR:17"
       ]
@@ -1377,7 +1378,7 @@
         "undefined-and-null"
       ],
       "format": "FILL_BLANK",
-      "difficulty": 2,
+      "difficulty": 1,
       "prompt": "Fill the blank so the program prints 0.",
       "code": [
         "let bonus = ___;",
@@ -1428,7 +1429,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:6"
       ]
