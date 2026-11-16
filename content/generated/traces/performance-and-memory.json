@@ -4,7 +4,7 @@
   "adv.performance-and-memory.memoization.predict-01": {
    "code": [
     "let calls = 0;",
-    "const cache = new Map();",
+    "const cache = new Map([[2, 8]]);",
     "const price = (kg) => {",
     "  if (!cache.has(kg)) {",
     "    calls++;",
@@ -16,7 +16,7 @@
     "console.log(calls);"
    ],
    "output": [
-    "2"
+    "1"
    ],
    "steps": [
     {
@@ -56,7 +56,7 @@
       {
        "name": "cache",
        "scope": "global",
-       "value": "Map(0) {}"
+       "value": "Map(1) {2 => 8}"
       }
      ],
      "outputCount": 0,
@@ -77,7 +77,7 @@
       {
        "name": "cache",
        "scope": "global",
-       "value": "Map(0) {}"
+       "value": "Map(1) {2 => 8}"
       },
       {
        "name": "price",
@@ -103,71 +103,7 @@
       {
        "name": "cache",
        "scope": "global",
-       "value": "Map(0) {}"
-      },
-      {
-       "name": "price",
-       "scope": "global",
-       "value": "[Function: price]"
-      },
-      {
-       "name": "kg",
-       "scope": "price",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "price"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "calls",
-       "scope": "global",
-       "value": "0"
-      },
-      {
-       "name": "cache",
-       "scope": "global",
-       "value": "Map(0) {}"
-      },
-      {
-       "name": "price",
-       "scope": "global",
-       "value": "[Function: price]"
-      },
-      {
-       "name": "kg",
-       "scope": "price",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "price"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "calls",
-       "scope": "global",
-       "value": "1"
-      },
-      {
-       "name": "cache",
-       "scope": "global",
-       "value": "Map(0) {}"
+       "value": "Map(1) {2 => 8}"
       },
       {
        "name": "price",
@@ -194,7 +130,7 @@
       {
        "name": "calls",
        "scope": "global",
-       "value": "1"
+       "value": "0"
       },
       {
        "name": "cache",
@@ -226,7 +162,7 @@
       {
        "name": "calls",
        "scope": "global",
-       "value": "1"
+       "value": "0"
       },
       {
        "name": "cache",
@@ -252,7 +188,7 @@
       {
        "name": "calls",
        "scope": "global",
-       "value": "1"
+       "value": "0"
       },
       {
        "name": "cache",
@@ -284,7 +220,7 @@
       {
        "name": "calls",
        "scope": "global",
-       "value": "1"
+       "value": "0"
       },
       {
        "name": "cache",
@@ -316,7 +252,7 @@
       {
        "name": "calls",
        "scope": "global",
-       "value": "2"
+       "value": "1"
       },
       {
        "name": "cache",
@@ -348,7 +284,7 @@
       {
        "name": "calls",
        "scope": "global",
-       "value": "2"
+       "value": "1"
       },
       {
        "name": "cache",
@@ -380,7 +316,7 @@
       {
        "name": "calls",
        "scope": "global",
-       "value": "2"
+       "value": "1"
       },
       {
        "name": "cache",
@@ -406,7 +342,7 @@
       {
        "name": "calls",
        "scope": "global",
-       "value": "2"
+       "value": "1"
       },
       {
        "name": "cache",
@@ -438,7 +374,7 @@
       {
        "name": "calls",
        "scope": "global",
-       "value": "2"
+       "value": "1"
       },
       {
        "name": "cache",
@@ -470,7 +406,7 @@
       {
        "name": "calls",
        "scope": "global",
-       "value": "2"
+       "value": "1"
       },
       {
        "name": "cache",
@@ -496,7 +432,7 @@
       {
        "name": "calls",
        "scope": "global",
-       "value": "2"
+       "value": "1"
       },
       {
        "name": "cache",
@@ -1492,14 +1428,11 @@
   },
   "adv.performance-and-memory.debounce-and-throttle.predict-01": {
    "code": [
-    "let t;",
-    "const say = (x) => console.log(x);",
-    "const ping = (x) => {",
-    "  clearTimeout(t);",
-    "  t = setTimeout(() => say(x), 200);",
-    "};",
-    "setTimeout(() => ping('a'), 0);",
-    "setTimeout(() => ping('b'), 100);"
+    "const sayA = () => console.log('a');",
+    "const sayB = () => console.log('b');",
+    "let t = setTimeout(sayA, 200);",
+    "clearTimeout(t);",
+    "t = setTimeout(sayB, 200);"
    ],
    "output": [
     "b"
@@ -1519,9 +1452,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "t",
+       "name": "sayA",
        "scope": "global",
-       "value": "undefined"
+       "value": "[Function: sayA]"
       }
      ],
      "outputCount": 0,
@@ -1535,14 +1468,14 @@
      "line": 3,
      "variables": [
       {
-       "name": "t",
+       "name": "sayA",
        "scope": "global",
-       "value": "undefined"
+       "value": "[Function: sayA]"
       },
       {
-       "name": "say",
+       "name": "sayB",
        "scope": "global",
-       "value": "[Function: say]"
+       "value": "[Function: sayB]"
       }
      ],
      "outputCount": 0,
@@ -1550,121 +1483,33 @@
       "global"
      ],
      "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 7,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "global",
-       "value": "undefined"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 8,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "global",
-       "value": "undefined"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [
-      "callback (line 7)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 7,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "global",
-       "value": "undefined"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "anonymous"
-     ],
-     "macrotasks": [
-      "callback (line 8)"
-     ],
      "microtasks": []
     },
     {
      "line": 4,
      "variables": [
       {
+       "name": "sayA",
+       "scope": "global",
+       "value": "[Function: sayA]"
+      },
+      {
+       "name": "sayB",
+       "scope": "global",
+       "value": "[Function: sayB]"
+      },
+      {
        "name": "t",
        "scope": "global",
-       "value": "undefined"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      },
-      {
-       "name": "x",
-       "scope": "ping",
-       "value": "'a'"
+       "value": "1"
       }
      ],
      "outputCount": 0,
      "callStack": [
-      "anonymous",
-      "ping"
+      "global"
      ],
      "macrotasks": [
-      "callback (line 8)"
+      "sayA"
      ],
      "microtasks": []
     },
@@ -1672,157 +1517,24 @@
      "line": 5,
      "variables": [
       {
+       "name": "sayA",
+       "scope": "global",
+       "value": "[Function: sayA]"
+      },
+      {
+       "name": "sayB",
+       "scope": "global",
+       "value": "[Function: sayB]"
+      },
+      {
        "name": "t",
        "scope": "global",
-       "value": "undefined"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      },
-      {
-       "name": "x",
-       "scope": "ping",
-       "value": "'a'"
+       "value": "1"
       }
      ],
      "outputCount": 0,
      "callStack": [
-      "anonymous",
-      "ping"
-     ],
-     "macrotasks": [
-      "callback (line 8)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 8,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "anonymous"
-     ],
-     "macrotasks": [
-      "callback (line 5)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      },
-      {
-       "name": "x",
-       "scope": "ping",
-       "value": "'b'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "anonymous",
-      "ping"
-     ],
-     "macrotasks": [
-      "callback (line 5)"
-     ],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      },
-      {
-       "name": "x",
-       "scope": "ping",
-       "value": "'b'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "anonymous",
-      "ping"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      },
-      {
-       "name": "x",
-       "scope": "ping",
-       "value": "'b'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "anonymous"
+      "global"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -1831,30 +1543,24 @@
      "line": 2,
      "variables": [
       {
+       "name": "sayA",
+       "scope": "global",
+       "value": "[Function: sayA]"
+      },
+      {
+       "name": "sayB",
+       "scope": "global",
+       "value": "[Function: sayB]"
+      },
+      {
        "name": "t",
        "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
-      },
-      {
-       "name": "x",
-       "scope": "say",
-       "value": "'b'"
+       "value": "2"
       }
      ],
      "outputCount": 0,
      "callStack": [
-      "anonymous",
-      "say"
+      "sayB"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -1863,19 +1569,19 @@
      "line": 0,
      "variables": [
       {
+       "name": "sayA",
+       "scope": "global",
+       "value": "[Function: sayA]"
+      },
+      {
+       "name": "sayB",
+       "scope": "global",
+       "value": "[Function: sayB]"
+      },
+      {
        "name": "t",
        "scope": "global",
-       "value": "4"
-      },
-      {
-       "name": "say",
-       "scope": "global",
-       "value": "[Function: say]"
-      },
-      {
-       "name": "ping",
-       "scope": "global",
-       "value": "[Function: ping]"
+       "value": "2"
       }
      ],
      "outputCount": 1,

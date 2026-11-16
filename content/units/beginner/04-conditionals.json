@@ -46,6 +46,10 @@
       "description": "Believes a block, or the first value of a ternary, is used when the condition is false."
     },
     {
+      "id": "if-block-ends-program",
+      "description": "Believes the block after an if always runs and that the program stops at its closing brace."
+    },
+    {
       "id": "rest-skipped-after-block",
       "description": "Believes the lines after an if block are skipped once the block has run."
     },
@@ -293,8 +297,8 @@
         {
           "text": "fine due",
           "correct": false,
-          "feedback": "You ran the block and dropped the last line. Check which lines sit inside the braces and which do not.",
-          "misconception": "block-ignores-condition"
+          "feedback": "You thought the block always runs and the program stops at its closing brace. The condition decides whether the braces run, and the last line sits outside them.",
+          "misconception": "if-block-ends-program"
         }
       ],
       "solution": {
@@ -314,7 +318,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.conditionals.if-statement.trace-01",

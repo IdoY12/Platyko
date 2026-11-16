@@ -47,7 +47,7 @@
     },
     {
       "id": "cache-ignores-argument",
-      "description": "Believes that after the first call every later call is served from the cache, whatever the argument."
+      "description": "Believes that once the cache holds anything, every call is served from it, whatever the argument."
     },
     {
       "id": "fresh-cache-each-call",
@@ -257,10 +257,10 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 3,
-      "prompt": "A fruit stall caches its prices by weight. What does this program print?",
+      "prompt": "A fruit stall caches its prices by weight, and the price of 2 kg is already stored. What does this program print?",
       "code": [
         "let calls = 0;",
-        "const cache = new Map();",
+        "const cache = new Map([[2, 8]]);",
         "const price = (kg) => {",
         "  if (!cache.has(kg)) {",
         "    calls++;",
@@ -273,9 +273,9 @@
       ],
       "options": [
         {
-          "text": "2",
+          "text": "1",
           "correct": true,
-          "feedback": "Right. The body runs for 2 and for 3. The second call for 2 finds the stored price and skips the counter line."
+          "feedback": "Right. The weight 2 is already stored, so both calls for it skip the counter line. Only the new weight 3 runs the body."
         },
         {
           "text": "3",
@@ -284,20 +284,20 @@
           "misconception": "memo-reruns-body"
         },
         {
-          "text": "1",
+          "text": "0",
           "correct": false,
-          "feedback": "That treats every call after the first as a hit. The cache is keyed by weight, so the new weight 3 is a miss.",
+          "feedback": "That treats every call as a hit because the cache holds something. The cache is keyed by weight and holds only 2, so the new weight 3 is a miss.",
           "misconception": "cache-ignores-argument"
         }
       ],
       "solution": {
-        "expectedOutput": "2"
+        "expectedOutput": "1"
       },
-      "explanation": "The counter sits inside the if, so it only runs on a cache miss. Weights 2 and 3 are misses; the repeated 2 is a hit and returns the stored price. That makes two runs of the body.",
+      "explanation": "The counter sits inside the if, so it only runs on a cache miss. The cache starts with weight 2, so both calls for 2 are hits. Weight 3 is a miss and runs the body once.",
       "hints": [
         "Look at which line increases calls, and when line 4 lets it run.",
         "A memoized function runs its real work only for an input it has not seen.",
-        "Compare the three weights: one of them has already been stored by the time it is asked again."
+        "Compare the three weights: which of them is already in the cache before it is asked?"
       ],
       "reference": {
         "title": "Memoization",
@@ -306,7 +306,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:SENIOR:14"
       ]
@@ -608,44 +608,41 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 3,
-      "prompt": "A search box logs a query once typing pauses for 200 ms. Calls arrive at 0 and 100 ms. What does this print?",
+      "prompt": "A search box schedules a log 200 ms after each keystroke and cancels the earlier one. What does this print?",
       "code": [
-        "let t;",
-        "const say = (x) => console.log(x);",
-        "const ping = (x) => {",
-        "  clearTimeout(t);",
-        "  t = setTimeout(() => say(x), 200);",
-        "};",
-        "setTimeout(() => ping('a'), 0);",
-        "setTimeout(() => ping('b'), 100);"
+        "const sayA = () => console.log('a');",
+        "const sayB = () => console.log('b');",
+        "let t = setTimeout(sayA, 200);",
+        "clearTimeout(t);",
+        "t = setTimeout(sayB, 200);"
       ],
       "options": [
         {
           "text": "b",
           "correct": true,
-          "feedback": "Right. The call at 100 cancels the timer of a, which has not fired yet, and b runs at 300."
+          "feedback": "Right. clearTimeout cancels the timer of a before it can fire, and nothing cancels the timer of b."
         },
         {
           "text": "a\nb",
           "correct": false,
-          "feedback": "That lets every call run. Each new call clears the timer of the previous one if it has not fired yet.",
+          "feedback": "That lets every call run. A timer that is cleared before it fires never runs.",
           "misconception": "limit-still-runs-every-call"
         },
         {
           "text": "a",
           "correct": false,
-          "feedback": "You thought the first call wins. A new call clears the timer of the previous one if it has not fired yet. Check when a would have fired.",
+          "feedback": "You thought the first call wins. clearTimeout cancels the timer of a, and the timer of b is the one left running.",
           "misconception": "first-call-wins"
         }
       ],
       "solution": {
         "expectedOutput": "b"
       },
-      "explanation": "Each call clears the pending timer and starts a new 200 ms wait. a would fire at 200, but b arrives at 100 and cancels it. b waits until 300 and runs because nothing arrives before then.",
+      "explanation": "The first timer is created for a and cleared at once, so it never fires. The second timer for b is never cleared, so after 200 ms b is logged.",
       "hints": [
-        "Write down when each call happens and when its timer would fire.",
+        "Find which timer is cleared and which is left running.",
         "A debounced call is cancelled by any call that arrives before its wait is over.",
-        "Check whether the call at 100 comes before or after the timer of the call at 0."
+        "Check whether the timer of a is cleared before or after it could fire."
       ],
       "reference": {
         "title": "clearTimeout()",
@@ -654,7 +651,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:SENIOR:13"
       ]

@@ -630,7 +630,7 @@
         "    return {",
         "      next() {",
         "        seat++;",
-        "        return { done: seat > 2 };",
+        "        return { done: seat > 1 };",
         "      },",
         "    };",
         "  }",
@@ -639,12 +639,12 @@
       ],
       "options": [
         {
-          "text": "2",
+          "text": "1",
           "correct": true,
-          "feedback": "Right. next() reports done on its third call, and the value that comes with done: true is not part of the spread."
+          "feedback": "Right. next() reports done on its second call, and the value that comes with done: true is not part of the spread."
         },
         {
-          "text": "3",
+          "text": "2",
           "correct": false,
           "feedback": "You thought the result with done: true is collected too. Ask what spread does when it reads done: true.",
           "misconception": "done-value-included"
@@ -657,13 +657,13 @@
         }
       ],
       "solution": {
-        "expectedOutput": "2"
+        "expectedOutput": "1"
       },
-      "explanation": "Spread calls [Symbol.iterator] on the instance and then next() until done is true. The first two calls give done: false, so two values are collected. The third call ends the loop and adds nothing.",
+      "explanation": "Spread calls [Symbol.iterator] on the instance and then next() until done is true. The first call gives done: false, so one value is collected. The second call ends the loop and adds nothing.",
       "hints": [
         "Follow seat through the calls to next().",
         "Spread collects values until a call reports done: true.",
-        "Line 7 decides done on each call: note seat and done for calls 1, 2 and 3."
+        "Line 7 decides done on each call: note seat and done for calls 1 and 2."
       ],
       "reference": {
         "title": "Iteration protocols",
@@ -672,7 +672,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.iterators-and-generators.custom-iterables.concept-01",

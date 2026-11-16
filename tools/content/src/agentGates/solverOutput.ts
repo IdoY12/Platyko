@@ -86,8 +86,15 @@ function judgeBugFix(item: Item, { bugLine, fixText }: z.infer<typeof bugFixAnsw
  */
 const UNDEFINED_PRINTED_FORM = /\[Function|\[class|Promise|<[a-z]|NodeList|Iterator|^\{\}$|\b[A-Z]\w*(\(\d+\))? \{|^Proxy$|Symbol\(/;
 
-/** A text global compares by its characters: whether the solver wrote the quotes is not a finding. */
-const unquoted = (value: string | undefined) => value?.trim().replace(/^'(.*)'$/s, "$1");
+/**
+ * A global compares by what it is, not by how it was written: quotes around a whole text value, and
+ * around an object key (`{'1': 0}` and `{1: 0}` are the same object), are not a finding.
+ */
+const unquoted = (value: string | undefined) =>
+  value
+    ?.trim()
+    .replace(/^'(.*)'$/s, "$1")
+    .replace(/(['"])([A-Za-z_$][\w$]*|\d+)\1(?=\s*:)/g, "$2");
 
 function finalGlobalsOf(trace: ItemTrace): Map<string, string> {
   const finalVariables = trace.steps.at(-1)?.variables ?? [];

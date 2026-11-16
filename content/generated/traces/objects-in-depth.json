@@ -606,14 +606,16 @@
   },
   "int.objects-in-depth.spread-and-rest.predict-01": {
    "code": [
-    "const laps = [52, 47, 49];",
-    "const count = (...a) => a.length;",
-    "const spread = count(...laps);",
-    "const plain = count(laps);",
-    "console.log(spread, plain);"
+    "const extra = [49, 50];",
+    "const joined = [];",
+    "joined.push(...extra);",
+    "const boxed = [];",
+    "boxed.push(extra);",
+    "console.log(joined.length,",
+    "  boxed.length);"
    ],
    "output": [
-    "3 1"
+    "2 1"
    ],
    "steps": [
     {
@@ -630,9 +632,9 @@
      "line": 2,
      "variables": [
       {
-       "name": "laps",
+       "name": "extra",
        "scope": "global",
-       "value": "[52, 47, 49]"
+       "value": "[49, 50]"
       }
      ],
      "outputCount": 0,
@@ -646,46 +648,19 @@
      "line": 3,
      "variables": [
       {
-       "name": "laps",
+       "name": "extra",
        "scope": "global",
-       "value": "[52, 47, 49]"
+       "value": "[49, 50]"
       },
       {
-       "name": "count",
+       "name": "joined",
        "scope": "global",
-       "value": "[Function: count]"
+       "value": "[]"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 2,
-     "variables": [
-      {
-       "name": "laps",
-       "scope": "global",
-       "value": "[52, 47, 49]"
-      },
-      {
-       "name": "count",
-       "scope": "global",
-       "value": "[Function: count]"
-      },
-      {
-       "name": "a",
-       "scope": "count",
-       "value": "[52, 47, 49]"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "count"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -694,19 +669,14 @@
      "line": 4,
      "variables": [
       {
-       "name": "laps",
+       "name": "extra",
        "scope": "global",
-       "value": "[52, 47, 49]"
+       "value": "[49, 50]"
       },
       {
-       "name": "count",
+       "name": "joined",
        "scope": "global",
-       "value": "[Function: count]"
-      },
-      {
-       "name": "spread",
-       "scope": "global",
-       "value": "3"
+       "value": "[49, 50]"
       }
      ],
      "outputCount": 0,
@@ -717,59 +687,48 @@
      "microtasks": []
     },
     {
-     "line": 2,
+     "line": 5,
      "variables": [
       {
-       "name": "laps",
+       "name": "extra",
        "scope": "global",
-       "value": "[52, 47, 49]"
+       "value": "[49, 50]"
       },
       {
-       "name": "count",
+       "name": "joined",
        "scope": "global",
-       "value": "[Function: count]"
+       "value": "[49, 50]"
       },
       {
-       "name": "spread",
+       "name": "boxed",
        "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "a",
-       "scope": "count",
-       "value": "[[52, 47, 49]]"
+       "value": "[]"
       }
      ],
      "outputCount": 0,
      "callStack": [
-      "global",
-      "count"
+      "global"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 6,
      "variables": [
       {
-       "name": "laps",
+       "name": "extra",
        "scope": "global",
-       "value": "[52, 47, 49]"
+       "value": "[49, 50]"
       },
       {
-       "name": "count",
+       "name": "joined",
        "scope": "global",
-       "value": "[Function: count]"
+       "value": "[49, 50]"
       },
       {
-       "name": "spread",
+       "name": "boxed",
        "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "plain",
-       "scope": "global",
-       "value": "1"
+       "value": "[[49, 50]]"
       }
      ],
      "outputCount": 0,
@@ -783,24 +742,19 @@
      "line": 0,
      "variables": [
       {
-       "name": "laps",
+       "name": "extra",
        "scope": "global",
-       "value": "[52, 47, 49]"
+       "value": "[49, 50]"
       },
       {
-       "name": "count",
+       "name": "joined",
        "scope": "global",
-       "value": "[Function: count]"
+       "value": "[49, 50]"
       },
       {
-       "name": "spread",
+       "name": "boxed",
        "scope": "global",
-       "value": "3"
-      },
-      {
-       "name": "plain",
-       "scope": "global",
-       "value": "1"
+       "value": "[[49, 50]]"
       }
      ],
      "outputCount": 1,

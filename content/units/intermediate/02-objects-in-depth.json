@@ -622,20 +622,22 @@
       "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
-        "const laps = [52, 47, 49];",
-        "const count = (...a) => a.length;",
-        "const spread = count(...laps);",
-        "const plain = count(laps);",
-        "console.log(spread, plain);"
+        "const extra = [49, 50];",
+        "const joined = [];",
+        "joined.push(...extra);",
+        "const boxed = [];",
+        "boxed.push(extra);",
+        "console.log(joined.length,",
+        "  boxed.length);"
       ],
       "options": [
         {
-          "text": "3 1",
+          "text": "2 1",
           "correct": true,
           "feedback": "Right. Only the spread call passes the numbers one by one; the plain call passes one array."
         },
         {
-          "text": "3 3",
+          "text": "2 2",
           "correct": false,
           "feedback": "You thought a plain array argument arrives as its elements. Without ..., a call receives the array as a single value.",
           "misconception": "spread-array-not-needed"
@@ -648,13 +650,13 @@
         }
       ],
       "solution": {
-        "expectedOutput": "3 1"
+        "expectedOutput": "2 1"
       },
-      "explanation": "count(...laps) spreads the three numbers into three arguments, so a has length 3. count(laps) passes one array, so a has length 1.",
+      "explanation": "joined.push(...extra) spreads the array into two arguments, so joined gets two values. boxed.push(extra) passes one array, so boxed gets one value.",
       "hints": [
-        "Compare the two calls to count on lines 3 and 4.",
+        "Compare the two push calls on lines 3 and 5.",
         "Spread turns an array into separate arguments; without it the array is one argument.",
-        "a.length counts how many arguments arrived, whatever they hold."
+        "push adds one value for each argument it receives."
       ],
       "reference": {
         "title": "Spread syntax (...)",
@@ -664,7 +666,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:MID:12"
       ]

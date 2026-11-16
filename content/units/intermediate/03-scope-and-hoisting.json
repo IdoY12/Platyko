@@ -83,6 +83,10 @@
     {
       "id": "tdz-depends-on-position",
       "description": "Believes code written above a let declaration can never read it, even if it runs later."
+    },
+    {
+      "id": "function-reads-value-where-written",
+      "description": "Believes a function reads a variable as it stands at the line where the function is written, not when it is called."
     }
   ],
   "sources": [
@@ -939,7 +943,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "Write the body of labelDistance(km). Return \"far\" when km is above 10, otherwise \"near\". Declare one variable before the if and return it.",
+      "prompt": "Write the body of labelDistance(km). Return \"far\" when km is above 10, otherwise \"near\". Declare label inside the if and the else, and return it after both.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -975,9 +979,10 @@
           }
         ],
         "reference": [
-          "var label = \"near\";",
           "if (km > 10) {",
-          "  label = \"far\";",
+          "  var label = \"far\";",
+          "} else {",
+          "  var label = \"near\";",
           "}",
           "return label;"
         ],
@@ -1006,11 +1011,11 @@
           ]
         ]
       },
-      "explanation": "Declare label before the if so that it is in scope at the return, give it the default \"near\", and replace it when km is above 10. Declaring with let inside the branches would hide it from the return.",
+      "explanation": "A var declared inside a branch belongs to the whole function, so label can be returned after the if and else. Declared with let in the branches, it would be hidden at the return.",
       "hints": [
-        "Where must the variable be declared to be visible at the return line?",
-        "Give the variable its default value first, then change it in the if.",
-        "Think about the default result first, then the only case that changes it."
+        "Which lines declare label, and which line reads it?",
+        "A var inside braces still belongs to the whole function.",
+        "Declare label in each branch, then return it after both."
       ],
       "reference": {
         "title": "var",
@@ -1019,7 +1024,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.scope-and-hoisting.hoisting.predict-01",
@@ -1541,8 +1546,8 @@
         {
           "text": "NaN",
           "correct": false,
-          "feedback": "This reads price as undefined, the way a var reads before its line. A let has no undefined phase: before its line runs, any read of it throws.",
-          "misconception": "tdz-gives-undefined"
+          "feedback": "You read price as it stood where bill is written, before line 5 gave it 4. bill reads price when line 6 calls it.",
+          "misconception": "function-reads-value-where-written"
         }
       ],
       "solution": {
@@ -1566,7 +1571,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.parsons-01",

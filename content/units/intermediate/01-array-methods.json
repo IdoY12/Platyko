@@ -64,7 +64,7 @@
     },
     {
       "id": "reduce-initial-added-each-pass",
-      "description": "Believes the starting value of reduce is added again on every pass."
+      "description": "Believes the starting value of reduce is added to the total on every pass instead of being the first total."
     },
     {
       "id": "reduce-no-start-uses-zero",
@@ -1044,7 +1044,7 @@
         {
           "text": "69",
           "correct": false,
-          "feedback": "That adds 20 on every pass. The starting value is used once, before the first element.",
+          "feedback": "That adds 20 on every pass, so it is counted three times. The starting value is used once, as the first total.",
           "misconception": "reduce-initial-added-each-pass"
         }
       ],
@@ -1065,7 +1065,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "duel:6"
       ]

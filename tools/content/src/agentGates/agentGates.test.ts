@@ -155,6 +155,11 @@ describe("gate B ingest", () => {
     expect(globals[0].message).toContain("total: the solver has 10, the execution ends with 9");
     // Quotes around a value are a writing slip, not a different value.
     expect(await ingest((outputs) => (solutionOf(outputs, "predict-01").finalGlobals = { total: "'9'" }))).toEqual([]);
+    // Quotes around an object key are notation too: {'sum': 1} is the object {sum: 1}.
+    const cart = traces.items[itemNamed("fix-01").id].steps.at(-1)!.variables.find((variable) => variable.name === "cart")!.value;
+    const quotedKeys = cart.replace(/(\w+):/g, "'$1':");
+    expect(quotedKeys).not.toEqual(cart);
+    expect(await ingest((outputs) => (solutionOf(outputs, "fix-01").finalGlobals = { cart: quotedKeys }))).toEqual([]);
     // A binding the solver leaves out is not compared: it may skip one it cannot be sure of.
     expect(await ingest((outputs) => (solutionOf(outputs, "predict-01").finalGlobals = {}))).toEqual([]);
   });

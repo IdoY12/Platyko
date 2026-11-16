@@ -1116,17 +1116,14 @@
   },
   "adv.promises-in-depth.promise-rejection-flow.concept-01": {
    "code": [
-    "Promise.resolve('ticket')",
+    "Promise.reject(new Error('void'))",
     "  .then(",
-    "    (t) => {",
-    "      throw new Error('void');",
-    "    },",
+    "    () => console.log('stamped'),",
     "    () => console.log('handled')",
-    "  )",
-    "  .catch(() => console.log('late'));"
+    "  );"
    ],
    "output": [
-    "late"
+    "handled"
    ],
    "steps": [
     {
@@ -1141,22 +1138,6 @@
     },
     {
      "line": 4,
-     "variables": [
-      {
-       "name": "t",
-       "scope": "anonymous",
-       "value": "'ticket'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "anonymous"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 8,
      "variables": [],
      "outputCount": 0,
      "callStack": [

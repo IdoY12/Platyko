@@ -71,12 +71,16 @@
       "description": "Believes the next then still runs after a handler has thrown."
     },
     {
-      "id": "second-argument-covers-first",
-      "description": "Believes the second function of a then also handles an error thrown by the first function of the same then."
-    },
-    {
       "id": "throw-escapes-promise",
       "description": "Believes an error thrown inside a then handler cannot be caught by a later catch."
+    },
+    {
+      "id": "then-first-function-always-runs",
+      "description": "Believes a then always runs its first function, whatever state the promise before it is in."
+    },
+    {
+      "id": "rejection-needs-catch",
+      "description": "Believes only catch can handle a rejection, so the second function of a then does nothing."
     },
     {
       "id": "executor-runs-later",
@@ -979,42 +983,39 @@
       "difficulty": 3,
       "prompt": "Which statement explains what this code prints?",
       "code": [
-        "Promise.resolve('ticket')",
+        "Promise.reject(new Error('void'))",
         "  .then(",
-        "    (t) => {",
-        "      throw new Error('void');",
-        "    },",
+        "    () => console.log('stamped'),",
         "    () => console.log('handled')",
-        "  )",
-        "  .catch(() => console.log('late'));"
+        "  );"
       ],
       "options": [
         {
-          "text": "The second argument of then does not handle errors from the first one, so catch prints late.",
+          "text": "The promise before then is rejected, so only the second function runs and handled prints.",
           "correct": true,
-          "feedback": "Right. Both functions of one then only react to the promise before it."
+          "feedback": "Right. A then with two functions picks one by the state of the promise before it."
         },
         {
-          "text": "The second argument of then handles the throw, so handled prints.",
+          "text": "A then always runs its first function, so stamped prints.",
           "correct": false,
-          "feedback": "You thought the second function of then catches a throw from the first. It reacts to the promise before then, not to this then.",
-          "misconception": "second-argument-covers-first"
+          "feedback": "You thought then always runs its first function. Which state is the promise before this then in?",
+          "misconception": "then-first-function-always-runs"
         },
         {
-          "text": "A throw inside then cannot be caught later, so nothing prints.",
+          "text": "Only catch can handle a rejection, so nothing prints.",
           "correct": false,
-          "feedback": "You thought a throw inside then cannot be caught later. Look at what the throw does to the promise that then returns.",
-          "misconception": "throw-escapes-promise"
+          "feedback": "You thought the second function of then does nothing. It is a handler for a rejection of the promise before then.",
+          "misconception": "rejection-needs-catch"
         }
       ],
       "solution": {
-        "expectedOutput": "late"
+        "expectedOutput": "handled"
       },
-      "explanation": "The earlier promise fulfills, so only the first function of then runs. When it throws, the promise returned by that then rejects. The second function does not cover it, but the later catch does.",
+      "explanation": "The promise before then is rejected, so then skips its first function and runs its second one, which prints handled.",
       "hints": [
         "Is the promise before this then fulfilled or rejected?",
         "A then with two functions picks one by the state of the earlier promise.",
-        "Find which link after the then can still see the error thrown in the first function."
+        "The first function is for a fulfilled promise and the second for a rejected one: match line 1 to one of them."
       ],
       "reference": {
         "title": "Promise.prototype.then()",
@@ -1024,7 +1025,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.promises-in-depth.promise-rejection-flow.fill-01",
@@ -1385,7 +1386,7 @@
       "hints": [
         "Start with the logs that are not inside a handler.",
         "Each promise settles when its timer fires, and the shorter delay fires first.",
-        "Compare the two numbers on lines 2 and 5, not the order of lines 8 to 10."
+        "Compare the two numbers on lines 2 and 5, not the order of lines 8 to 11."
       ],
       "reference": {
         "title": "setTimeout()",
@@ -1394,7 +1395,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.promises-in-depth.promise-construction.fix-01",

@@ -1884,9 +1884,10 @@
   "int.scope-and-hoisting.function-scope-and-var.write-01": {
    "code": [
     "function labelDistance(km) {",
-    "var label = \"near\";",
     "if (km > 10) {",
-    "  label = \"far\";",
+    "  var label = \"far\";",
+    "} else {",
+    "  var label = \"near\";",
     "}",
     "return label;",
     "}",
@@ -1897,7 +1898,7 @@
    ],
    "steps": [
     {
-     "line": 8,
+     "line": 9,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -1939,7 +1940,7 @@
       {
        "name": "label",
        "scope": "labelDistance",
-       "value": "'near'"
+       "value": "undefined"
       }
      ],
      "outputCount": 0,
@@ -1951,29 +1952,7 @@
      "microtasks": []
     },
     {
-     "line": 4,
-     "variables": [
-      {
-       "name": "km",
-       "scope": "labelDistance",
-       "value": "25"
-      },
-      {
-       "name": "label",
-       "scope": "labelDistance",
-       "value": "'near'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "labelDistance"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
+     "line": 7,
      "variables": [
       {
        "name": "km",

@@ -1381,9 +1381,9 @@
           "misconception": "cycle-values-ready"
         },
         {
-          "text": "undefined",
+          "text": "TypeError",
           "correct": false,
-          "feedback": "You thought a name read too early just gives undefined. Ask what a const holds before its line has run.",
+          "feedback": "You thought a name read too early just gives undefined, so jar.id would fail as reading a property of undefined. Ask what a const holds before its line has run.",
           "misconception": "unready-reads-undefined"
         }
       ],
@@ -1404,7 +1404,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.modules.dependency-direction.concept-01",

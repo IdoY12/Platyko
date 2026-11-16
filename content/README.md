@@ -94,6 +94,8 @@ A track's two levels are told apart by what the item asks, not by its format:
 
 How to count. A **second idea** is one the learner must get right for the answer and that is not yet a basic tool: a concept of an earlier lesson of the unit or of an earlier unit of the same track, or a second rule of the item's own concept. Material of an earlier track (loops, conditions and functions in Intermediate, for example) is a basic tool and does not count. A **change of state** is one step the learner must follow to reach the answer: a loop turn counts once, with everything it does; outside loops, each call, each assignment to a value the answer depends on, each queued callback that runs and each coercion step counts once. A jump into `catch` or out of a function by `throw` counts once. Lines that only declare or print a value already known do not count, and nothing after the answer is reached counts.
 
+**Near the boundary either step is right.** Counts of changes of state differ by one between careful readers, so an item with no second idea and three or four changes of state may sit at either step. A rating is wrong only when the counts are clearly in the other row: the lower step with a second idea or five or more changes of state, or the upper step with no second idea and at most two.
+
 ### Practical notes for authors
 
 - **Legacy items** keep their concept, not their suggested format: when a lesson has no free slot

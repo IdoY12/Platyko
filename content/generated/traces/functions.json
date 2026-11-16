@@ -3026,14 +3026,19 @@
   },
   "functions.lesson-4": {
    "code": [
+    "const twice = function (n) {",
+    "  return n * 2;",
+    "};",
     "const add = (a, b) => a + b;",
     "const show = (n) => {",
     "  return n + 1;",
     "};",
-    "console.log(add(2, 3), show(1));"
+    "console.log(twice(4), add(2, 3));",
+    "console.log(show(1));"
    ],
    "output": [
-    "5 2"
+    "8 5",
+    "2"
    ],
    "steps": [
     {
@@ -3047,8 +3052,29 @@
      "microtasks": []
     },
     {
-     "line": 2,
+     "line": 4,
      "variables": [
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
       {
        "name": "add",
        "scope": "global",
@@ -3063,8 +3089,13 @@
      "microtasks": []
     },
     {
-     "line": 5,
+     "line": 8,
      "variables": [
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
       {
        "name": "add",
        "scope": "global",
@@ -3084,8 +3115,45 @@
      "microtasks": []
     },
     {
-     "line": 1,
+     "line": 2,
      "variables": [
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
+       "name": "add",
+       "scope": "global",
+       "value": "[Function: add]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      },
+      {
+       "name": "n",
+       "scope": "twice",
+       "value": "4"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "twice"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
       {
        "name": "add",
        "scope": "global",
@@ -3116,8 +3184,39 @@
      "microtasks": []
     },
     {
-     "line": 3,
+     "line": 9,
      "variables": [
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
+       "name": "add",
+       "scope": "global",
+       "value": "[Function: add]"
+      },
+      {
+       "name": "show",
+       "scope": "global",
+       "value": "[Function: show]"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 6,
+     "variables": [
+      {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
       {
        "name": "add",
        "scope": "global",
@@ -3134,7 +3233,7 @@
        "value": "1"
       }
      ],
-     "outputCount": 0,
+     "outputCount": 1,
      "callStack": [
       "global",
       "show"
@@ -3146,6 +3245,11 @@
      "line": 0,
      "variables": [
       {
+       "name": "twice",
+       "scope": "global",
+       "value": "[Function: twice]"
+      },
+      {
        "name": "add",
        "scope": "global",
        "value": "[Function: add]"
@@ -3156,7 +3260,7 @@
        "value": "[Function: show]"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 2,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

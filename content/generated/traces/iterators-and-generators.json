@@ -1641,7 +1641,7 @@
     "    return {",
     "      next() {",
     "        seat++;",
-    "        return { done: seat > 2 };",
+    "        return { done: seat > 1 };",
     "      },",
     "    };",
     "  }",
@@ -1649,7 +1649,7 @@
     "console.log([...new Row()].length);"
    ],
    "output": [
-    "2"
+    "1"
    ],
    "steps": [
     {
@@ -1748,40 +1748,6 @@
        "name": "seat",
        "scope": "anonymous",
        "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "next"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 6,
-     "variables": [
-      {
-       "name": "seat",
-       "scope": "anonymous",
-       "value": "2"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "next"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 7,
-     "variables": [
-      {
-       "name": "seat",
-       "scope": "anonymous",
-       "value": "3"
       }
      ],
      "outputCount": 0,

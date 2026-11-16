@@ -196,15 +196,19 @@
       "title": "Functions as values and arrow functions",
       "conceptCard": {
         "title": "Functions as values",
-        "body": "A function can be stored in a const. An arrow function uses =>. Without braces its expression is returned automatically; with braces you need return.",
+        "body": "A function is a value: it can be stored in a const, copied to another name, and written with the word function or as an arrow function that uses =>. Without braces an arrow function returns its expression automatically; with braces you need return.",
         "code": [
+          "const twice = function (n) {",
+          "  return n * 2;",
+          "};",
           "const add = (a, b) => a + b;",
           "const show = (n) => {",
           "  return n + 1;",
           "};",
-          "console.log(add(2, 3), show(1));"
+          "console.log(twice(4), add(2, 3));",
+          "console.log(show(1));"
         ],
-        "expectedOutput": "5 2"
+        "expectedOutput": "8 5\n2"
       },
       "itemIds": [
         "beg.functions.function-expressions.predict-01",
