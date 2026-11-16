@@ -1141,7 +1141,7 @@
         "function-expressions"
       ],
       "format": "TRACE",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "What is the value of result right after line 7 runs?",
       "code": [
         "var taken = 4;",
@@ -1193,7 +1193,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7
+      "version": 8
     },
     {
       "id": "int.scope-and-hoisting.hoisting.fill-01",
@@ -1311,12 +1311,12 @@
         "function-expressions"
       ],
       "format": "CODE_WRITE",
-      "difficulty": 2,
-      "prompt": "Write the body of shout(word). Return word in capital letters plus \"!\". Declare the helper decorate(w) after the return line and call it.",
+      "difficulty": 3,
+      "prompt": "Write the body of ends(word). Return an array with the first and the last letter of word, using helpers first(w) and last(w) that you declare after the return line.",
       "solution": {
         "entry": {
           "kind": "function",
-          "name": "shout",
+          "name": "ends",
           "params": [
             "word"
           ]
@@ -1324,55 +1324,68 @@
         "tests": [
           {
             "input": [
-              "hey"
+              "sun"
             ],
-            "expected": "HEY!"
+            "expected": [
+              "s",
+              "n"
+            ]
           },
           {
             "input": [
-              ""
+              "a"
             ],
-            "expected": "!"
+            "expected": [
+              "a",
+              "a"
+            ]
           },
           {
             "input": [
-              "Go"
+              "tide"
             ],
-            "expected": "GO!"
+            "expected": [
+              "t",
+              "e"
+            ]
           }
         ],
         "reference": [
-          "return decorate(word);",
-          "function decorate(w) {",
-          "  return w.toUpperCase() + \"!\";",
+          "return [first(word), last(word)];",
+          "function first(w) {",
+          "  return w[0];",
+          "}",
+          "function last(w) {",
+          "  return w[w.length - 1];",
           "}"
         ],
         "wrongSolutions": [
           [
-            "return decorate(word);",
-            "const decorate = (w) => {",
-            "  return w.toUpperCase() + \"!\";",
-            "};"
+            "return [first(word), last(word)];",
+            "const first = (w) => w[0];",
+            "const last = (w) => w[w.length - 1];"
           ],
           [
-            "return decorate(word);",
-            "var decorate = (w) => {",
-            "  return w.toUpperCase() + \"!\";",
-            "};"
+            "return [first(word), last(word)];",
+            "var first = (w) => w[0];",
+            "var last = (w) => w[w.length - 1];"
           ],
           [
-            "return decorate(word);",
-            "function decorate(w) {",
-            "  return w + \"!\";",
+            "return [first(word), last(word)];",
+            "function first(w) {",
+            "  return w[0];",
+            "}",
+            "function last(w) {",
+            "  return w[0];",
             "}"
           ]
         ]
       },
-      "explanation": "A function declaration is hoisted, so decorate can be called from the line above it. A const or var arrow function placed after the return would not be ready, and the helper must also change the case.",
+      "explanation": "A function declaration is hoisted with its body, so first and last can be called from the line above them. A const or var arrow function placed after the return would not be ready, and last must read the final letter.",
       "hints": [
-        "The return line runs before the helper line. Which declaration form is ready that early?",
+        "The return line runs before the helper lines. Which declaration form is ready that early?",
         "Function declarations are hoisted with their bodies.",
-        "Only one declaration form may sit below the line that calls it; the helper must also change the case."
+        "Only one declaration form may sit below the line that calls it; last must read the final letter."
       ],
       "reference": {
         "title": "function declaration",
@@ -1381,7 +1394,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.predict-01",

@@ -87,6 +87,10 @@
     {
       "id": "inner-ignores-outer-argument",
       "description": "Believes the function returned by a factory uses only its own argument and not the one given to the outer call."
+    },
+    {
+      "id": "self-assignment-counts",
+      "description": "Believes assigning a variable to itself updates it."
     }
   ],
   "sources": [
@@ -893,14 +897,14 @@
       ],
       "format": "FIX_BUG",
       "difficulty": 2,
-      "prompt": "A hit counter returns 1 on its second call instead of 2. Tap the line that stops it counting, then pick the fix.",
+      "prompt": "A hit counter prints 0 on its second call instead of 2. Tap the line that stops it counting, then pick the fix.",
       "code": [
         "function makeHits() {",
         "  let hits = 0;",
-        "  function count() {",
-        "    return hits + 1;",
-        "  }",
-        "  return count;",
+        "  return () => {",
+        "    hits + 1;",
+        "    return hits;",
+        "  };",
         "}",
         "const visit = makeHits();",
         "visit();",
@@ -908,30 +912,32 @@
       ],
       "options": [
         {
-          "text": "    return (hits = hits + 1);",
+          "text": "    hits = hits + 1;",
           "correct": true,
-          "feedback": "Right. The assignment stores the new count in hits, and the value it gives back is returned, so the second call returns 2."
+          "feedback": "Right. The line now stores hits + 1 back in hits, so the second call returns 2."
         },
         {
-          "text": "    hits + 1;",
+          "text": "    hits = 1;",
           "correct": false,
-          "feedback": "This line gives nothing back, and it still only calculates a sum without storing it in hits."
+          "feedback": "This stores 1 on every call, so the count starts over each time instead of growing.",
+          "misconception": "state-resets-each-call"
         },
         {
-          "text": "    return hits = 1;",
+          "text": "    hits = hits;",
           "correct": false,
-          "feedback": "This stores something in hits, but the same value on every call, so the count never grows."
+          "feedback": "This stores hits back into itself, so its value never changes.",
+          "misconception": "self-assignment-counts"
         }
       ],
       "solution": {
         "bugLine": 4,
         "expectedOutput": "2"
       },
-      "explanation": "hits + 1 only calculates a number; it never stores it. Assigning hits = hits + 1 stores the new count in hits, and the assignment gives that value back, so the next call starts from it.",
+      "explanation": "hits + 1 only calculates a number; it never stores it, so hits stays 0. Assigning hits = hits + 1 stores the new count in the captured variable, and the next call starts from it.",
       "hints": [
         "Look at what line 4 does with the result of hits + 1.",
         "Private state changes only when the inner function assigns to it.",
-        "Check which option both stores the sum in hits and returns it."
+        "Pick the line that stores a larger number in hits than it holds now."
       ],
       "reference": {
         "title": "Closures",
@@ -941,7 +947,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "int.closures.closure-private-state.write-01",

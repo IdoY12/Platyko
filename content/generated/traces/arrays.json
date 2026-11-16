@@ -2749,12 +2749,14 @@
     "const days = [\"Mon\", \"Tue\", \"Wed\"];",
     "console.log(days[0]);",
     "console.log(days[2]);",
-    "console.log(days[3]);"
+    "console.log(days[3]);",
+    "console.log(days);"
    ],
    "output": [
     "Mon",
     "Wed",
-    "undefined"
+    "undefined",
+    "['Mon', 'Tue', 'Wed']"
    ],
    "steps": [
     {
@@ -2816,7 +2818,7 @@
      "microtasks": []
     },
     {
-     "line": 0,
+     "line": 5,
      "variables": [
       {
        "name": "days",
@@ -2825,6 +2827,22 @@
       }
      ],
      "outputCount": 3,
+     "callStack": [
+      "global"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 0,
+     "variables": [
+      {
+       "name": "days",
+       "scope": "global",
+       "value": "['Mon', 'Tue', 'Wed']"
+      }
+     ],
+     "outputCount": 4,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

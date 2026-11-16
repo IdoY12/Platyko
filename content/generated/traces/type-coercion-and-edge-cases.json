@@ -1764,15 +1764,11 @@
   },
   "exp.type-coercion-and-edge-cases.operator-coercion.predict-01": {
    "code": [
-    "const gates = [12, 3, 25, 100];",
-    "console.log(\"12\" < \"3\");",
-    "console.log(12 < \"3\");",
+    "const gates = [9, 80, 10];",
     "console.log(gates.sort());"
    ],
    "output": [
-    "true",
-    "false",
-    "[100, 12, 25, 3]"
+    "[10, 80, 9]"
    ],
    "steps": [
     {
@@ -1791,42 +1787,10 @@
       {
        "name": "gates",
        "scope": "global",
-       "value": "[12, 3, 25, 100]"
+       "value": "[9, 80, 10]"
       }
      ],
      "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 3,
-     "variables": [
-      {
-       "name": "gates",
-       "scope": "global",
-       "value": "[12, 3, 25, 100]"
-      }
-     ],
-     "outputCount": 1,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "gates",
-       "scope": "global",
-       "value": "[12, 3, 25, 100]"
-      }
-     ],
-     "outputCount": 2,
      "callStack": [
       "global"
      ],
@@ -1839,10 +1803,10 @@
       {
        "name": "gates",
        "scope": "global",
-       "value": "[100, 12, 25, 3]"
+       "value": "[10, 80, 9]"
       }
      ],
-     "outputCount": 3,
+     "outputCount": 1,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

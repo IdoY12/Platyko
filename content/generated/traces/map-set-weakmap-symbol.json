@@ -4,8 +4,8 @@
   "adv.map-set-weakmap-symbol.map-collection.predict-01": {
    "code": [
     "const platforms = new Map();",
-    "platforms.set(7, \"Harbor\");",
     "platforms.set(\"7\", \"Airport\");",
+    "platforms.set(7, \"Harbor\");",
     "console.log(platforms.size);",
     "console.log(platforms.get(7));"
    ],
@@ -46,7 +46,7 @@
       {
        "name": "platforms",
        "scope": "global",
-       "value": "Map(1) {7 => 'Harbor'}"
+       "value": "Map(1) {'7' => 'Airport'}"
       }
      ],
      "outputCount": 0,
@@ -62,7 +62,7 @@
       {
        "name": "platforms",
        "scope": "global",
-       "value": "Map(2) {7 => 'Harbor', '7' => 'Airport'}"
+       "value": "Map(2) {'7' => 'Airport', 7 => 'Harbor'}"
       }
      ],
      "outputCount": 0,
@@ -78,7 +78,7 @@
       {
        "name": "platforms",
        "scope": "global",
-       "value": "Map(2) {7 => 'Harbor', '7' => 'Airport'}"
+       "value": "Map(2) {'7' => 'Airport', 7 => 'Harbor'}"
       }
      ],
      "outputCount": 1,
@@ -94,7 +94,7 @@
       {
        "name": "platforms",
        "scope": "global",
-       "value": "Map(2) {7 => 'Harbor', '7' => 'Airport'}"
+       "value": "Map(2) {'7' => 'Airport', 7 => 'Harbor'}"
       }
      ],
      "outputCount": 2,

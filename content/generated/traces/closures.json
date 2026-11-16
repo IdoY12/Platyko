@@ -2341,10 +2341,10 @@
    "code": [
     "function makeHits() {",
     "  let hits = 0;",
-    "  function count() {",
-    "    return (hits = hits + 1);",
-    "  }",
-    "  return count;",
+    "  return () => {",
+    "    hits = hits + 1;",
+    "    return hits;",
+    "  };",
     "}",
     "const visit = makeHits();",
     "visit();",
@@ -2376,7 +2376,7 @@
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 3,
      "variables": [
       {
        "name": "hits",
@@ -2398,7 +2398,7 @@
       {
        "name": "visit",
        "scope": "global",
-       "value": "[Function: count]"
+       "value": "[Function (anonymous)]"
       }
      ],
      "outputCount": 0,
@@ -2414,7 +2414,7 @@
       {
        "name": "visit",
        "scope": "global",
-       "value": "[Function: count]"
+       "value": "[Function (anonymous)]"
       },
       {
        "name": "hits",
@@ -2425,7 +2425,29 @@
      "outputCount": 0,
      "callStack": [
       "global",
-      "count"
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "visit",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "hits",
+       "scope": "makeHits",
+       "value": "1"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -2436,7 +2458,7 @@
       {
        "name": "visit",
        "scope": "global",
-       "value": "[Function: count]"
+       "value": "[Function (anonymous)]"
       }
      ],
      "outputCount": 0,
@@ -2452,7 +2474,7 @@
       {
        "name": "visit",
        "scope": "global",
-       "value": "[Function: count]"
+       "value": "[Function (anonymous)]"
       },
       {
        "name": "hits",
@@ -2463,7 +2485,29 @@
      "outputCount": 0,
      "callStack": [
       "global",
-      "count"
+      "anonymous"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 5,
+     "variables": [
+      {
+       "name": "visit",
+       "scope": "global",
+       "value": "[Function (anonymous)]"
+      },
+      {
+       "name": "hits",
+       "scope": "makeHits",
+       "value": "2"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "anonymous"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -2474,7 +2518,7 @@
       {
        "name": "visit",
        "scope": "global",
-       "value": "[Function: count]"
+       "value": "[Function (anonymous)]"
       }
      ],
      "outputCount": 1,

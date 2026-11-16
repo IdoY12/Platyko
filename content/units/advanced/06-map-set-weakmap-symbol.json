@@ -232,8 +232,8 @@
       "prompt": "A bus station labels platforms in a Map. What does this program print?",
       "code": [
         "const platforms = new Map();",
-        "platforms.set(7, \"Harbor\");",
         "platforms.set(\"7\", \"Airport\");",
+        "platforms.set(7, \"Harbor\");",
         "console.log(platforms.size);",
         "console.log(platforms.get(7));"
       ],
@@ -241,25 +241,25 @@
         {
           "text": "2\nHarbor",
           "correct": true,
-          "feedback": "Right. The number 7 and the text \"7\" are different keys, so the Map holds two entries and get(7) finds the first."
+          "feedback": "Right. The number 7 and the text \"7\" are different keys, so the Map holds two entries and get(7) finds the one stored under the number."
         },
         {
-          "text": "1\nAirport",
+          "text": "1\nHarbor",
           "correct": false,
-          "feedback": "You thought a Map turns its keys into text, as an object does, so 7 and \"7\" collide. A Map keeps each key as the value it was given.",
+          "feedback": "You thought a Map turns its keys into text, as an object does, so 7 and \"7\" collide and the later value replaces the earlier one. A Map keeps each key as the value it was given.",
           "misconception": "map-keys-become-strings"
         },
         {
           "text": "2\nAirport",
           "correct": false,
-          "feedback": "You thought get(7) also matches the text \"7\" by loose comparison. A Map lookup does not convert the key it is given.",
+          "feedback": "You thought get(7) also matches the text \"7\" by loose comparison and finds the first entry. A Map lookup does not convert the key it is given.",
           "misconception": "map-lookup-loose-equality"
         }
       ],
       "solution": {
         "expectedOutput": "2\nHarbor"
       },
-      "explanation": "A Map compares keys by value and type, so 7 and \"7\" are two keys. The size is 2, and get(7) returns the entry stored under the number.",
+      "explanation": "A Map compares keys by value and type, so \"7\" and 7 are two keys. The size is 2, and get(7) returns the entry stored under the number, not the one under the text.",
       "hints": [
         "Compare the two keys on lines 2 and 3.",
         "A Map does not convert keys to text the way an object does.",
@@ -273,7 +273,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:MID:10"
       ]

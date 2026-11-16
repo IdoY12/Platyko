@@ -151,14 +151,15 @@
       "title": "Reading by index",
       "conceptCard": {
         "title": "Arrays and indexes",
-        "body": "An array is an ordered list. Each item has an index, a number that starts at 0. Write the array name and the index in square brackets to read an item. An index with no item gives undefined.",
+        "body": "An array is an ordered list. Each item has an index, a number that starts at 0. Write the array name and the index in square brackets to read an item. An index with no item gives undefined. console.log shows an array in square brackets, items separated by a comma and a space, text items in single quotes.",
         "code": [
           "const days = [\"Mon\", \"Tue\", \"Wed\"];",
           "console.log(days[0]);",
           "console.log(days[2]);",
-          "console.log(days[3]);"
+          "console.log(days[3]);",
+          "console.log(days);"
         ],
-        "expectedOutput": "Mon\nWed\nundefined"
+        "expectedOutput": "Mon\nWed\nundefined\n['Mon', 'Tue', 'Wed']"
       },
       "itemIds": [
         "beg.arrays.index.predict-01",

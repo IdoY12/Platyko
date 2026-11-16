@@ -81,10 +81,6 @@
       "description": "Believes sort with no function orders numbers by value."
     },
     {
-      "id": "mixed-comparison-stringifies",
-      "description": "Believes < compares as text whenever one side is text, instead of converting to numbers."
-    },
-    {
       "id": "plus-order-and-grouping-confused",
       "description": "Believes + adds all numbers first or joins everything once a string appears, and that brackets do not matter."
     },
@@ -95,6 +91,10 @@
     {
       "id": "equality-ignores-valueof",
       "description": "Believes == never converts an object through valueOf, so it compares text forms instead."
+    },
+    {
+      "id": "default-sort-leaves-order",
+      "description": "Believes sort with no function leaves numbers in their original order."
     }
   ],
   "sources": [
@@ -1013,40 +1013,38 @@
       ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 4,
-      "prompt": "A turnstile log mixes number sizes and text. What do these three lines print?",
+      "prompt": "A turnstile log holds gate numbers. What does this program print?",
       "code": [
-        "const gates = [12, 3, 25, 100];",
-        "console.log(\"12\" < \"3\");",
-        "console.log(12 < \"3\");",
+        "const gates = [9, 80, 10];",
         "console.log(gates.sort());"
       ],
       "options": [
         {
-          "text": "true\nfalse\n[100, 12, 25, 3]",
+          "text": "[10, 80, 9]",
           "correct": true,
-          "feedback": "Right. Two texts compare character by character; a number and a text compare as numbers; sort with no function compares as text."
+          "feedback": "Right. With no function, sort compares the items as text, character by character."
         },
         {
-          "text": "false\nfalse\n[3, 12, 25, 100]",
+          "text": "[9, 10, 80]",
           "correct": false,
-          "feedback": "You treated 12 and 3 as numbers in every line. Line 2 compares two texts and line 4 gives sort no compare function; ask how those compare.",
+          "feedback": "You treated the items as numbers. With no compare function, sort does not compare numeric values; ask what it compares instead.",
           "misconception": "default-sort-is-numeric"
         },
         {
-          "text": "true\ntrue\n[100, 12, 25, 3]",
+          "text": "[9, 80, 10]",
           "correct": false,
-          "feedback": "You thought < compares characters whenever one side is text. Check line 3: one of its sides is a number.",
-          "misconception": "mixed-comparison-stringifies"
+          "feedback": "You thought sort needs a compare function before it reorders anything. It always reorders; the function only changes how items are compared.",
+          "misconception": "default-sort-leaves-order"
         }
       ],
       "solution": {
-        "expectedOutput": "true\nfalse\n[100, 12, 25, 3]"
+        "expectedOutput": "[10, 80, 9]"
       },
-      "explanation": "Two strings compare by character code, so \"12\" < \"3\". With a number on one side, < converts to numbers. The default sort converts items to text, so 100 and 12 come before 25 and 3.",
+      "explanation": "Without a compare function, sort turns each item into text and compares characters. The text \"10\" starts with 1, \"80\" with 8 and \"9\" with 9, so the order is 10, 80, 9.",
       "hints": [
-        "Compare the operands on lines 2 and 3.",
-        "< compares as text only when both sides are text.",
-        "The default sort treats every item as text."
+        "Look at what sort is given on line 2.",
+        "Sort with no function compares the items as text.",
+        "Write each number as text and compare the first characters."
       ],
       "reference": {
         "title": "Array.prototype.sort()",
@@ -1056,7 +1054,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "duel:0"
       ]

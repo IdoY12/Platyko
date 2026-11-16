@@ -2491,20 +2491,23 @@
   },
   "int.scope-and-hoisting.hoisting.write-01": {
    "code": [
-    "function shout(word) {",
-    "return decorate(word);",
-    "function decorate(w) {",
-    "  return w.toUpperCase() + \"!\";",
+    "function ends(word) {",
+    "return [first(word), last(word)];",
+    "function first(w) {",
+    "  return w[0];",
+    "}",
+    "function last(w) {",
+    "  return w[w.length - 1];",
     "}",
     "}",
-    "console.log(shout(\"hey\"));"
+    "console.log(ends(\"sun\"));"
    ],
    "output": [
-    "HEY!"
+    "['s', 'n']"
    ],
    "steps": [
     {
-     "line": 7,
+     "line": 10,
      "variables": [],
      "outputCount": 0,
      "callStack": [
@@ -2518,14 +2521,14 @@
      "variables": [
       {
        "name": "word",
-       "scope": "shout",
-       "value": "'hey'"
+       "scope": "ends",
+       "value": "'sun'"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "shout"
+      "ends"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -2535,20 +2538,43 @@
      "variables": [
       {
        "name": "word",
-       "scope": "shout",
-       "value": "'hey'"
+       "scope": "ends",
+       "value": "'sun'"
       },
       {
        "name": "w",
-       "scope": "decorate",
-       "value": "'hey'"
+       "scope": "first",
+       "value": "'sun'"
       }
      ],
      "outputCount": 0,
      "callStack": [
       "global",
-      "shout",
-      "decorate"
+      "ends",
+      "first"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 7,
+     "variables": [
+      {
+       "name": "word",
+       "scope": "ends",
+       "value": "'sun'"
+      },
+      {
+       "name": "w",
+       "scope": "last",
+       "value": "'sun'"
+      }
+     ],
+     "outputCount": 0,
+     "callStack": [
+      "global",
+      "ends",
+      "last"
      ],
      "macrotasks": [],
      "microtasks": []
