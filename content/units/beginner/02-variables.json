@@ -1483,7 +1483,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "slot holds a name or null. Write an expression that joins Slot:, slot and the word typeof gives for it, with single spaces. For null it gives Slot: null object.",
+      "prompt": "slot holds text, a number, a boolean or null. Write an expression that joins Slot:, slot and its typeof word, with single spaces. For null it gives Slot: null object.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -1540,9 +1540,9 @@
       },
       "explanation": "null is a real value, and joined to text with + it becomes the word null. typeof slot gives the type name as text, which is object for null. Joining the label, the value, a space and that name builds the line.",
       "hints": [
-        "You need two parts of slot: its value and its type name, with a space between.",
+        "Look at the example for null: its output has a part from the label, a part from slot and a part from typeof.",
         "The + sign joins texts and turns null into the word null, and typeof gives the type name as text.",
-        "Build it from left to right: the label, the value, a space, then the type name."
+        "Chain the pieces with +, and decide which piece carries each of the two spaces."
       ],
       "reference": {
         "title": "null",
@@ -1551,7 +1551,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     }
   ]
 }

@@ -101,6 +101,9 @@ How to count. A **second idea** is one the learner must get right for the answer
 - **Parsons orderings.** Gate A runs every ordering, so lines that print the same thing, or
   independent declarations, create extra valid orders. Give each printed line a distinct value
   and make each line depend on the one before it; otherwise record the extra orders.
+- **A code-ordering prompt names its output.** The learner sees only the shuffled lines, so a
+  `PARSONS` prompt (not `ORDER_OUTPUT`) states every printed line ("…so that it prints y and then
+  ['x']"); a prompt that only describes the output can fit another order. The pre-check enforces it.
 - **Function declarations are hoisted**, so a one-line declaration may sit anywhere in a Parsons
   program; prefer `const name = (…) => …` or programs where order is forced by data.
 - **TRACE probes** may sit on a line that calls a function: a call returning to the line is not a

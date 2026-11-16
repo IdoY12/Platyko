@@ -190,7 +190,7 @@
       "title": "Reading dense, unfamiliar code",
       "conceptCard": {
         "title": "Reading from the inside out",
-        "body": "Dense code is easier to read in small parts. Find what each function returns, then what each argument is on the first call. Evaluate the innermost call first and work outward. A factory returns a function that remembers its outer variables; a lookup table replaces a chain of ifs.",
+        "body": "Dense code is easier to read in small parts. Find what each function returns, then what each argument is on the first call. Evaluate the innermost call first and work outward. A factory returns a function that remembers its outer variables; a lookup table replaces a chain of ifs. A repeated key in an object keeps its first place.",
         "code": [
           "const scale = (k) => (x) => x * k;",
           "const double = scale(2);",
@@ -969,7 +969,7 @@
       "hints": [
         "Evaluate line 5 from the inside out: how many times is mk called?",
         "A closure keeps the variables of the call that created it, and fill copies one value into every slot.",
-        "Each counter needs a call of its own."
+        "Count how many times mk runs on line 5 in each replacement."
       ],
       "reference": {
         "title": "Closures",
@@ -979,7 +979,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.code-analysis.reading-unfamiliar-code.write-01",
@@ -1336,7 +1336,7 @@
         {
           "text": "s.apples += n",
           "correct": false,
-          "feedback": "This writes the new count back to the stock object, so both lines print 7."
+          "feedback": "This writes the new count back to the stock object, so both numbers print 7."
         },
         {
           "text": "s.apples++ + n",
@@ -1366,7 +1366,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     }
   ]
 }

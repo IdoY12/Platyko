@@ -86,6 +86,7 @@ describe("unit file rules", () => {
     ["a concept id that is not kebab-case", (unit) => void unit.concepts.push({ id: "Bad_Id", title: "Bad", prerequisites: [] }), ["id-format"]],
     ["a misconception declared twice", (unit) => void unit.misconceptions.push(unit.misconceptions[0]), ["misconception-duplicate"]],
     ["a misconception without a description", (unit) => void (unit.misconceptions[0].description = ""), ["text-empty"]],
+    ["a code-ordering prompt that only describes its output", (unit) => void (itemOf(unit, PARSONS).prompt = "Put the lines in order so that the program prints the count and the last item."), ["parsons-output-unnamed"]],
     ["a misconception no option names", (unit) => void unit.misconceptions.push({ id: "never-named", description: "Nobody holds this." }), ["misconception-unused"]],
     ["a source without a hash", (unit) => void unit.sources.push({ url: "https://sources.example/a", retrievedAt: "2026-11-14", sha256: "" }), ["source-ledger-entry"]],
     ["a source with a malformed date", (unit) => void unit.sources.push({ url: "https://sources.example/a", retrievedAt: "14/11/2026", sha256: "a".repeat(64) }), ["source-ledger-entry"]],
@@ -230,7 +231,7 @@ describe("per-format rules", () => {
     ["a probe variable that is not a name", "trace-01", (item) => void (item.solution.probe!.variable = "stock - 1"), ["trace-probe-variable"]],
     ["PARSONS without lineOrder", PARSONS, (item) => void delete item.solution.lineOrder, ["field-missing"]],
     ["PARSONS with options", PARSONS, (item, unit) => void (item.options = itemOf(unit, "fix-01").options), ["field-forbidden"]],
-    ["PARSONS with nine lines", PARSONS, (item) => Object.assign(item, { code: Array.from({ length: 9 }, (_, index) => `step${index}();`), solution: { lineOrder: [8, 7, 6, 5, 4, 3, 2, 1, 0], expectedOutput: "1" } }), ["parsons-too-many-lines"]],
+    ["PARSONS with nine lines", PARSONS, (item) => Object.assign(item, { code: Array.from({ length: 9 }, (_, index) => `step${index}();`), solution: { lineOrder: [8, 7, 6, 5, 4, 3, 2, 1, 0], expectedOutput: "3" } }), ["parsons-too-many-lines"]],
     ["a lineOrder that skips a line", PARSONS, (item) => void (item.solution.lineOrder = [2, 4, 1, 3]), ["parsons-line-order"]],
     ["a lineOrder that repeats a line", PARSONS, (item) => void (item.solution.lineOrder = [2, 4, 1, 3, 3]), ["parsons-line-order"]],
     ["a lineOrder with an index out of range", PARSONS, (item) => void (item.solution.lineOrder = [2, 4, 1, 3, 5]), ["parsons-line-order"]],
@@ -294,7 +295,7 @@ describe("per-format rules", () => {
       checksAfter((unit) => {
         const item = itemOf(unit, PARSONS);
         item.code = Array.from({ length: 8 }, (_, index) => `step${index}();`);
-        item.solution = { lineOrder: [7, 6, 5, 4, 3, 2, 1, 0], expectedOutput: "1" };
+        item.solution = { lineOrder: [7, 6, 5, 4, 3, 2, 1, 0], expectedOutput: "3" };
       }),
     ).toEqual([]);
   });

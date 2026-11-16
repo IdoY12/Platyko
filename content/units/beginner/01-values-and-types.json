@@ -723,7 +723,7 @@
       "prerequisites": [],
       "format": "PARSONS",
       "difficulty": 1,
-      "prompt": "Put the lines in order so the program prints a short letter: greeting, order line, thanks.",
+      "prompt": "Put the lines in order so the program prints Dear Sam, then Order 12 up, then Thanks!",
       "code": [
         "console.log(\"Order \" + 12 + \" up\");",
         "console.log(\"Thanks\" + \"!\");",
@@ -751,7 +751,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.values-and-types.string-values.write-01",
@@ -1047,7 +1047,7 @@
       "prerequisites": [],
       "format": "PARSONS",
       "difficulty": 1,
-      "prompt": "Put the lines in order so the program prints the lamp line, then the door line, then the gate line.",
+      "prompt": "Put the lines in order so the program prints lamp: true, then door: false, then gate: true.",
       "code": [
         "console.log(\"gate: \" + true);",
         "console.log(\"lamp: \" + true);",
@@ -1065,7 +1065,7 @@
       "hints": [
         "Each line starts with a label; find the three labels.",
         "A boolean joined to text becomes the word true or false.",
-        "Read the prompt's order of labels and find where each label appears in the code."
+        "Read the prompt's lines in order and find which line of code prints each one."
       ],
       "reference": {
         "title": "Boolean",
@@ -1075,7 +1075,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.values-and-types.boolean-values.concept-01",

@@ -990,15 +990,13 @@
     "  const stops = ['Mill', 'Dock'];",
     "  const first = () => stops[0];",
     "  const last = () => stops[1];",
-    "  return { first, last };",
+    "  return { last, first };",
     "})();",
     "const { first: head, last } = bus;",
-    "console.log(head(), last());",
-    "console.log(typeof stops);"
+    "console.log(head(), last());"
    ],
    "output": [
-    "Mill Dock",
-    "undefined"
+    "Mill Dock"
    ],
    "steps": [
     {
@@ -1094,7 +1092,7 @@
       {
        "name": "bus",
        "scope": "global",
-       "value": "{first: [Function: first], last: [Function: last]}"
+       "value": "{last: [Function: last], first: [Function: first]}"
       }
      ],
      "outputCount": 0,
@@ -1110,7 +1108,7 @@
       {
        "name": "bus",
        "scope": "global",
-       "value": "{first: [Function: first], last: [Function: last]}"
+       "value": "{last: [Function: last], first: [Function: first]}"
       },
       {
        "name": "head",
@@ -1136,7 +1134,7 @@
       {
        "name": "bus",
        "scope": "global",
-       "value": "{first: [Function: first], last: [Function: last]}"
+       "value": "{last: [Function: last], first: [Function: first]}"
       },
       {
        "name": "head",
@@ -1173,7 +1171,7 @@
       {
        "name": "bus",
        "scope": "global",
-       "value": "{first: [Function: first], last: [Function: last]}"
+       "value": "{last: [Function: last], first: [Function: first]}"
       },
       {
        "name": "head",
@@ -1205,12 +1203,12 @@
      "microtasks": []
     },
     {
-     "line": 9,
+     "line": 0,
      "variables": [
       {
        "name": "bus",
        "scope": "global",
-       "value": "{first: [Function: first], last: [Function: last]}"
+       "value": "{last: [Function: last], first: [Function: first]}"
       },
       {
        "name": "head",
@@ -1224,32 +1222,6 @@
       }
      ],
      "outputCount": 1,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 0,
-     "variables": [
-      {
-       "name": "bus",
-       "scope": "global",
-       "value": "{first: [Function: first], last: [Function: last]}"
-      },
-      {
-       "name": "head",
-       "scope": "global",
-       "value": "[Function: first]"
-      },
-      {
-       "name": "last",
-       "scope": "global",
-       "value": "[Function: last]"
-      }
-     ],
-     "outputCount": 2,
      "callStack": [],
      "microtasks": [],
      "macrotasks": []

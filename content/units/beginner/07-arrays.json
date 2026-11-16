@@ -82,6 +82,10 @@
     {
       "id": "start-value-ignored",
       "description": "Believes a for loop visits every item whatever its start value, as if it began at index 0."
+    },
+    {
+      "id": "length-minus-one-skipped",
+      "description": "Reads length - 1 as the length itself, as if the subtraction were not there."
     }
   ],
   "sources": [
@@ -699,8 +703,8 @@
         {
           "text": "3",
           "correct": false,
-          "feedback": "You stored the length itself in spot. Look at what line 2 does to the length before storing it.",
-          "misconception": "length-is-last-index"
+          "feedback": "You stored the length and passed over the - 1 on line 2. The subtraction runs before the value is stored in spot.",
+          "misconception": "length-minus-one-skipped"
         },
         {
           "text": "1",
@@ -730,7 +734,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "beg.arrays.length.fill-01",
@@ -807,7 +811,7 @@
       ],
       "format": "PARSONS",
       "difficulty": 2,
-      "prompt": "Arrange the lines so that the program reports the last mug and the number of mugs.",
+      "prompt": "Arrange the lines so that the program prints tan of 3, the last mug and the number of mugs.",
       "code": [
         "console.log(last + \" of \" + count);",
         "const count = mugs.length;",
@@ -837,7 +841,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.arrays.length.write-01",
@@ -1181,7 +1185,7 @@
       ],
       "format": "PARSONS",
       "difficulty": 2,
-      "prompt": "Reorder the lines so that the program shows the removed item and then what is left.",
+      "prompt": "Reorder the lines so that the program prints y and then ['x'], the removed item and what is left.",
       "code": [
         "console.log(lane);",
         "lane.push(\"y\");",
@@ -1211,7 +1215,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.arrays.push-pop.concept-01",
@@ -1522,7 +1526,7 @@
       ],
       "format": "PARSONS",
       "difficulty": 2,
-      "prompt": "Arrange the lines so that the program joins the notes into one song with dashes.",
+      "prompt": "Arrange the lines so that the program prints do-re-mi, the notes joined into one song with dashes.",
       "code": [
         "for (let i = 1; i < count; i++) {",
         "console.log(song);",
@@ -1569,7 +1573,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.arrays.iteration.write-01",

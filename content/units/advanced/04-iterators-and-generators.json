@@ -466,7 +466,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of takeUpTo(items, limit). Read the iterator of items with next() and return up to limit values in an array. A short list gives fewer values.",
+      "prompt": "Write the body of takeUpTo(items, limit). items is an array or a string. Call next() on its iterator and return up to limit values in an array.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -611,7 +611,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.iterators-and-generators.custom-iterables.predict-01",
@@ -1352,8 +1352,8 @@
       "explanation": "A function* with a loop that steps two indexes at a time yields items[i] for each position. Spreading the generator collects the values. Yielding i, starting at 1 or using return gives wrong data.",
       "hints": [
         "Write a function* inside the body and spread it at the end.",
-        "Loop with i += 2 and hand out items[i] with yield.",
-        "The spread at the end collects what the generator yields; the loop bounds use the length of items."
+        "A generator hands out one value per yield, and a loop inside it can step through the indexes of items.",
+        "Pick the loop's start and step so only every second position is visited; its bound is the length of items."
       ],
       "reference": {
         "title": "Generator",
@@ -1362,7 +1362,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.iterators-and-generators.lazy-sequences.predict-01",

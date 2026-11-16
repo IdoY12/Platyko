@@ -51,8 +51,8 @@
       "description": "Reads the value a variable has at the end of the program for every earlier step."
     },
     {
-      "id": "visit-counted-from-zero",
-      "description": "Counts the first run of a line as run zero."
+      "id": "previous-run-value",
+      "description": "Takes the value left by the previous run as the value after the run the question names."
     },
     {
       "id": "argument-order-ignored",
@@ -360,8 +360,8 @@
         {
           "text": "1",
           "correct": false,
-          "feedback": "That counts the first call as call zero. The first run of line 3 is the first time.",
-          "misconception": "visit-counted-from-zero"
+          "feedback": "That is the value left by the first call. The question asks for the value after the second run of line 3.",
+          "misconception": "previous-run-value"
         },
         {
           "text": "3",
@@ -391,7 +391,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.functions.function-declaration.fill-01",
@@ -630,7 +630,7 @@
       },
       "explanation": "Parameters get their values from the arguments of each call, in order. The first call sets a to red and b to blue. The second call sets them the other way round.",
       "hints": [
-        "Compare the order of the arguments in each call.",
+        "Compare the order of the arguments on lines 4 and 5.",
         "Arguments fill the parameters by position, from left to right.",
         "Write a and b for each call before you read line 2."
       ],
@@ -642,7 +642,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.functions.parameters-and-arguments.predict-02",
@@ -727,7 +727,7 @@
           "text": "7",
           "correct": false,
           "feedback": "That is the value after the first run of line 2. The question asks about the second run.",
-          "misconception": "visit-counted-from-zero"
+          "misconception": "previous-run-value"
         },
         {
           "text": "2",
@@ -748,7 +748,7 @@
       "hints": [
         "Find which call makes line 2 run the second time.",
         "Every call gives the parameters new values from its arguments.",
-        "Use 20 and 5, not the numbers from the first call."
+        "Use the arguments of the second call only."
       ],
       "reference": {
         "title": "Parameter",
@@ -757,7 +757,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.functions.parameters-and-arguments.fill-01",
@@ -831,7 +831,7 @@
       ],
       "format": "PARSONS",
       "difficulty": 1,
-      "prompt": "Put the lines in order so that the program calls a function with a price and prints a total.",
+      "prompt": "Put the lines in order so that the program calls receipt with a price of 50 and prints 55.",
       "code": [
         "receipt(50);",
         "function receipt(price) {",
@@ -875,7 +875,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.functions.parameters-and-arguments.write-01",
@@ -1098,7 +1098,7 @@
           "text": "2",
           "correct": false,
           "feedback": "That is the value after the first pass. The question asks about the second pass of the loop.",
-          "misconception": "visit-counted-from-zero"
+          "misconception": "previous-run-value"
         },
         {
           "text": "12",
@@ -1128,7 +1128,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.functions.return-value.fill-01",
@@ -1209,7 +1209,7 @@
       ],
       "format": "PARSONS",
       "difficulty": 1,
-      "prompt": "Put the lines in order so that the program builds a label and prints it.",
+      "prompt": "Put the lines in order so that the program builds a label from jam and prints [jam].",
       "code": [
         "console.log(pack(\"jam\"));",
         "function pack(item) {",
@@ -1253,7 +1253,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.functions.return-value.concept-01",
@@ -1451,7 +1451,7 @@
           "text": "2",
           "correct": false,
           "feedback": "That is the value after the first pass. The question asks about the second run of line 5.",
-          "misconception": "visit-counted-from-zero"
+          "misconception": "previous-run-value"
         },
         {
           "text": "6",
@@ -1472,7 +1472,7 @@
       "hints": [
         "Find the second pass of the loop.",
         "step adds 2 to whatever it receives.",
-        "Start at 0, add 2 twice."
+        "Write level after each run of line 5 and stop at the second."
       ],
       "reference": {
         "title": "Arrow function expressions",
@@ -1481,7 +1481,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.functions.function-expressions.fill-01",
@@ -1560,7 +1560,7 @@
       ],
       "format": "PARSONS",
       "difficulty": 1,
-      "prompt": "Put the lines in order so that the program raises a price twice with the same arrow function.",
+      "prompt": "Put the lines in order so that the program raises a price of 10 twice with one arrow function and prints 20.",
       "code": [
         "const second = markUp(first);",
         "const markUp = (price) => price + 5;",
@@ -1590,7 +1590,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.functions.function-expressions.write-01",

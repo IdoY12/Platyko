@@ -909,7 +909,7 @@
         "await-scheduling"
       ],
       "format": "FIX_BUG",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "The log should show the latte before served, but it shows only served. Tap the buggy line and pick the fix.",
       "code": [
         "const steps = [];",
@@ -960,7 +960,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.debugging.async-ordering-bugs.write-02",
@@ -971,7 +971,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 5,
-      "prompt": "Write interleave(jobs): each job is [name, steps], at least one step. Jobs take turns, one step each, like awaiting calls. Return the steps in order, like 'a1'.",
+      "prompt": "Write interleave(jobs): each job is [name, steps] with steps >= 1. Jobs take turns, one step each. Return labels in run order, like 'a1'. No jobs gives [].",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1154,7 +1154,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.predict-01",
@@ -1225,7 +1225,7 @@
       ],
       "format": "CONCEPT_MCQ",
       "difficulty": 5,
-      "prompt": "A failure starts in read and passes through two more functions. Which statement explains the printed line?",
+      "prompt": "A failure starts in read, and parse and load each build on the promise before them. Which statement explains the printed line?",
       "code": [
         "const read = () =>",
         "  Promise.reject(new RangeError());",
@@ -1274,7 +1274,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.fix-02",
@@ -1285,7 +1285,7 @@
       ],
       "format": "FIX_BUG",
       "difficulty": 5,
-      "prompt": "The caller should print TypeError, but the inner function hides the failure. Tap the buggy line and pick the fix.",
+      "prompt": "The caller should print TypeError, but readQty hides the failure. Tap the buggy line and pick the fix.",
       "code": [
         "const parseQty = (text) => {",
         "  if (!text) throw new TypeError();",
@@ -1322,7 +1322,7 @@
       "explanation": "A catch that returns a value handles the error and ends the failure there. Callers never learn of it. To let a caller decide, rethrow the error from the catch.",
       "hints": [
         "Follow line 2's error: who gets it first?",
-        "A catch ends the failure unless it throws again.",
+        "A catch that handles an error ends the failure for its callers.",
         "The inner catch has to do something with e so that the outer try can see it."
       ],
       "reference": {
@@ -1332,7 +1332,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.fill-02",

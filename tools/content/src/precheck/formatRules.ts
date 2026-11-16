@@ -103,6 +103,14 @@ function checkParsons(item: AuthoredItem, report: FindingReporter): void {
   if (lineCount > PARSONS_MAX_LINES) {
     report("parsons-too-many-lines", `has ${lineCount} lines; PARSONS has at most ${PARSONS_MAX_LINES}`);
   }
+  // The learner sees no expected output beside the lines, so the prompt names it: a prompt that only
+  // describes the output can fit another order that prints something else.
+  const unnamedLines = normaliseOutput(item.solution.expectedOutput ?? "")
+    .split("\n")
+    .filter((line) => !item.prompt.includes(line.replace(/^Uncaught /, "")));
+  if (unnamedLines.length > 0) {
+    report("parsons-output-unnamed", `the prompt does not name the printed line(s) ${unnamedLines.map((line) => `"${line}"`).join(", ")}`);
+  }
   if (!lineOrder) return;
   if (!isPermutation(lineOrder, lineCount)) {
     report("parsons-line-order", `lineOrder must use every line index 0 to ${lineCount - 1} exactly once`);

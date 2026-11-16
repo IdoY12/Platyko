@@ -1050,7 +1050,7 @@
         "const-declaration"
       ],
       "format": "TRACE",
-      "difficulty": 1,
+      "difficulty": 2,
       "prompt": "What does before hold right after line 4 has run?",
       "code": [
         "const score = { home: 2, away: 1 };",
@@ -1099,7 +1099,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.objects.update.fill-01",
@@ -1237,7 +1237,7 @@
         {
           "text": "const makes the object read-only, so the new values are ignored.",
           "correct": false,
-          "feedback": "const does not lock the properties inside the object. It only stops the name order from being assigned a new object.",
+          "feedback": "You expected const to lock the contents of the object. Compare the output with the values on lines 1 to 3: do the new values show?",
           "misconception": "const-blocks-changes"
         },
         {
@@ -1264,7 +1264,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.objects.iteration.predict-01",
@@ -1526,7 +1526,7 @@
       ],
       "format": "PARSONS",
       "difficulty": 2,
-      "prompt": "Order the lines to print how many properties cart has.",
+      "prompt": "Order the lines so that the program prints Items: 2, the number of properties cart has.",
       "code": [
         "console.log(\"Items: \" + count);",
         "  count = count + 1;",
@@ -1570,7 +1570,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.objects.iteration.write-01",

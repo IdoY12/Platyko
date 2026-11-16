@@ -1385,7 +1385,7 @@
       "hints": [
         "Start with the logs that are not inside a handler.",
         "Each promise settles when its timer fires, and the shorter delay fires first.",
-        "Compare the two numbers on lines 2 and 5, not the order of lines 8 to 11."
+        "Compare the two numbers on lines 2 and 5, not the order of lines 8 to 10."
       ],
       "reference": {
         "title": "setTimeout()",
@@ -1394,7 +1394,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.promises-in-depth.promise-construction.fix-01",
@@ -1463,7 +1463,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of outcomes(pairs), the core of wrapping callbacks. Each pair is [error, data]. In order, return {ok: false, error} when error is not null, else {ok: true, data}.",
+      "prompt": "Write the body of outcomes(pairs). Each pair is [error, data]. Return an array, one object per pair: {ok: false, error} if error is not null, else {ok: true, data}.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1623,7 +1623,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     }
   ]
 }

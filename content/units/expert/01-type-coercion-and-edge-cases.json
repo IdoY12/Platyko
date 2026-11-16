@@ -145,7 +145,7 @@
       "title": "How objects become primitives",
       "conceptCard": {
         "title": "How objects become primitives",
-        "body": "An object turns into a primitive with a hint. The default and number hints call valueOf first; the string hint calls toString first. A template literal and String() use the string hint, unary + and - the number hint, binary + the default. A Symbol.toPrimitive method replaces both and receives the hint.",
+        "body": "Objects convert with a hint. The default and number hints call valueOf first, the string hint toString first; a result that is still an object is skipped. Template literals and String() use the string hint; arithmetic such as - and unary + the number hint; binary + the default. Symbol.toPrimitive replaces both and receives the hint: \"number\", \"string\" or \"default\".",
         "code": [
           "const jar = {",
           "  valueOf: () => 7,",
@@ -518,7 +518,7 @@
         "loose-equality"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 4,
+      "difficulty": 5,
       "prompt": "A packing list is an empty array. What do these two comparisons print?",
       "code": [
         "const slot = [];",
@@ -562,7 +562,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7,
+      "version": 8,
       "legacyKeys": [
         "duel:3"
       ]

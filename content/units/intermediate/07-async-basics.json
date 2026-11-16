@@ -233,7 +233,7 @@
       "title": "Errors in async code",
       "conceptCard": {
         "title": "Catching a rejection",
-        "body": "When an awaited promise rejects, await throws, so a try/catch around it works. finally runs afterwards in every case. Without await, try/catch cannot see a rejection that happens later: attach .catch() to the promise instead.",
+        "body": "When an awaited promise rejects, await throws, so a try/catch around it works. finally runs afterwards in every case. A rejection skips each then handler after it until it reaches a catch. Without await, try/catch cannot see a rejection that happens later: attach .catch() to the promise instead.",
         "code": [
           "async function run() {",
           "  try {",
@@ -291,7 +291,7 @@
         {
           "text": "salad\nbread\nsoup\nmenu",
           "correct": false,
-          "feedback": "You thought setTimeout makes the program wait, so the plain call on line 7 prints last. Scheduling a timer does not pause the lines below it.",
+          "feedback": "You thought the program waits for its timers before reaching line 7, so menu prints last. Scheduling a timer does not pause the lines below it.",
           "misconception": "timeout-blocks-code"
         }
       ],
@@ -312,7 +312,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.async-basics.callbacks-and-timers.concept-01",
@@ -950,7 +950,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write labelStock(items), a then handler. items is an array of {name, left}. Return an array of labels: name + ': low' if left < 3, else name + ': ok'.",
+      "prompt": "Write labelStock(items), a then handler. items holds {name, left}. Return labels in order: name + ': low' if left < 3, else name + ': ok'.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1095,7 +1095,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "int.async-basics.async-await.predict-01",

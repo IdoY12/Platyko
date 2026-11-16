@@ -161,7 +161,7 @@
       "title": "Spread and rest",
       "conceptCard": {
         "title": "Spread out, rest in",
-        "body": "The three dots mean two things. Spread expands an array in a call or array literal, and an object in an object literal. In a parameter list or a pattern, rest collects the remaining pieces into an array, or into an object for an object pattern. When a key appears twice, the later one wins.",
+        "body": "Three dots, two jobs. Spread expands an array in a call or array literal, and an object in an object literal. In a parameter list or a pattern, rest collects the remaining pieces into an array, or an object for an object pattern. A repeated key keeps its later value. In objects, { saved } means { saved: saved }.",
         "code": [
           "const base = { a: 1, b: 2 };",
           "const next = { ...base, b: 9 };",
@@ -600,7 +600,7 @@
       "hints": [
         "Pull the properties out of item first.",
         "An object pattern lists the property names between curly braces, and = gives a value for a missing property.",
-        "Give the property that may be missing a default in the pattern, then build the text with a template literal."
+        "Only one of the three properties may be missing; decide how the pattern should treat it."
       ],
       "reference": {
         "title": "Destructuring assignment",
@@ -609,7 +609,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.objects-in-depth.spread-and-rest.predict-01",
@@ -708,7 +708,7 @@
       },
       "explanation": "A rest parameter written with ... gathers every argument that has no name of its own into one array. label takes \"quiz\", and scores becomes [4, 7], so its length is 2 and the function returns \"quiz2\".",
       "hints": [
-        "Look at the parameter list of tally.",
+        "Look at the parameter list of tally on line 1.",
         "A parameter written with three dots behaves differently from a normal parameter.",
         "The call passes three arguments; the first goes to label. Where do the others go?"
       ],
@@ -720,7 +720,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:MID:15"
       ]
@@ -1090,7 +1090,7 @@
       },
       "explanation": "=== on two objects is true only when both names refer to the very same object. cardA and cardB were created separately, so the result is false even though their contents match. cardC is a second name for cardA, so that comparison is true.",
       "hints": [
-        "Notice which two objects were created with braces and which was not.",
+        "Look at lines 1 to 3: which names were given braces, and which was not?",
         "=== treats objects differently from numbers and strings. Ask what it checks for objects.",
         "Count how many pairs of braces create an object in lines 1 to 3."
       ],
@@ -1102,7 +1102,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7
+      "version": 8
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.trace-01",
@@ -1153,7 +1153,7 @@
       },
       "explanation": "box is an object, so both calls to bump change the very same object: n goes 5, then 6, then 7. The number visits is copied into num, so changing num never affects visits. After line 8 box is {n: 7}.",
       "hints": [
-        "Check what each call to bump can change.",
+        "Look at lines 7 and 8: what can each call to bump change?",
         "A function receives the same object, but a plain number is copied.",
         "Count the calls that have run by line 8 and what line 5 does in each."
       ],
@@ -1164,7 +1164,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7
+      "version": 8
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.fill-01",
@@ -1386,8 +1386,8 @@
       "explanation": "reverse reverses an array in place and returns that same array. Calling it on songs would also reverse original. Copying first with [...songs] leaves songs untouched, and the object holds both arrays.",
       "hints": [
         "reverse changes the array it is called on.",
-        "Make a copy of songs before you reverse it.",
-        "Reverse the copy, never songs itself."
+        "reverse works in place, so every name that reaches the array sees the new order.",
+        "Build a separate array from songs first, then reverse that one."
       ],
       "reference": {
         "title": "Array.prototype.reverse()",
@@ -1396,7 +1396,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:7"
       ]
@@ -1497,7 +1497,7 @@
       },
       "explanation": "Spread copies each top-level property. For sides that value is a reference to an array, so draft.sides and menu.sides lead to one array. The push on line 4 therefore changes both, and menu.sides has length 2.",
       "hints": [
-        "Look at what sides holds in menu and in draft.",
+        "Look at lines 2 and 3: what does sides hold in menu and in draft?",
         "A spread copies each property value; for an array, the value is a reference.",
         "Ask whether the copy on line 3 made a second sides array or only a second reference to one array."
       ],
@@ -1509,7 +1509,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.objects-in-depth.shallow-copy.trace-01",
@@ -1559,7 +1559,7 @@
       },
       "explanation": "copyA spreads plan, so its stops is the same array as plan.stops, and the push of \"Pisa\" shows in plan. Line 5 gives copyB a new copy of that array, so the push of \"Bari\" stays out of plan.",
       "hints": [
-        "Check which copy shares stops with plan and which has its own array.",
+        "Look at lines 3 to 5: what does each copy hold for stops?",
         "Spreading plan.stops inside [ ] builds a new array.",
         "Follow which array each push acts on, after line 5 has run."
       ],
@@ -1570,7 +1570,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7
+      "version": 8
     },
     {
       "id": "int.objects-in-depth.shallow-copy.parsons-01",
@@ -1676,7 +1676,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write the body of addTag(shop, tag). shop has an id and a tags array. Return [copy, shop]: a copy whose tags also end with tag, and shop unchanged.",
+      "prompt": "Write the body of addTag(shop, tag). shop has an id and a tags array. Return [copy, shop]: copy is shop with tag appended to its tags; shop is unchanged.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1822,7 +1822,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "puzzle:17"
       ]

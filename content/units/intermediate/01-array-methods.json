@@ -140,7 +140,7 @@
       "title": "Transforming with map",
       "conceptCard": {
         "title": "map builds a new array",
-        "body": "map calls a function on every element and collects the returned values in a new array of the same length. The original array is not changed. The function must return a value, or the new array holds undefined.",
+        "body": "map calls a function on every element and collects the returned values in a new array of the same length. The original array is not changed. The function must return a value, or the new array holds undefined. forEach also calls the function on every element, but collects nothing: it returns undefined.",
         "code": [
           "const cups = [1, 2, 3];",
           "const ml = cups.map((c) => c * 250);",
@@ -456,7 +456,7 @@
       },
       "explanation": "map calls the function on each element and collects the returned values in a new array. An arrow function with no braces returns its expression, so b * 10 gives 30, 10 and 40.",
       "hints": [
-        "Look at what the function inside map( ) returns.",
+        "Look at line 2: what does the function inside map( ) return?",
         "map builds a new array from the value the callback returns for each element.",
         "Look at the first bag and its result: how does the callback turn 3 into 30?"
       ],
@@ -468,7 +468,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "puzzle:20"
       ]
@@ -501,9 +501,9 @@
           "misconception": "iteration-method-mutates-original"
         },
         {
-          "text": "temps.forEach((t) => t + 5);",
+          "text": "temps = temps.map((t) => t > 5);",
           "correct": false,
-          "feedback": "forEach returns nothing and does not store the callback results, so temps keeps its old values."
+          "feedback": "The callback returns true or false for each temperature, so temps would hold booleans."
         }
       ],
       "solution": {
@@ -524,7 +524,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.array-methods.array-map.write-01",
@@ -603,9 +603,9 @@
             ");"
           ],
           [
-            "return amounts.forEach(",
-            "  (a) => a * 2",
-            ");"
+            "return amounts.map((a) => {",
+            "  a * 2;",
+            "});"
           ]
         ]
       },
@@ -622,7 +622,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "puzzle:3"
       ]
@@ -896,7 +896,7 @@
       },
       "explanation": "The remainder of 3 divided by 3 is 0, which is falsy, so the test keeps the numbers that are not multiples. The test must compare the remainder with 0.",
       "hints": [
-        "Check which numbers make n % 3 truthy.",
+        "Look at line 2: which numbers make n % 3 truthy?",
         "filter keeps an element when the test is truthy, and 0 is falsy.",
         "Check what the callback returns for 3 and for 4, then compare it with what filter needs."
       ],
@@ -908,7 +908,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.array-methods.array-filter.write-01",
@@ -999,7 +999,7 @@
       "hints": [
         "Two steps are needed: choose some elements, then change each one.",
         "filter keeps the elements that pass a test, and map builds a new array from every element.",
-        "Test the remainder after dividing by 2, hand the test to filter, then halve each kept number with map."
+        "Decide which of filter and map must run first, and what test an even number passes."
       ],
       "reference": {
         "title": "Array.prototype.filter()",
@@ -1008,7 +1008,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "puzzle:4"
       ]
@@ -1115,7 +1115,7 @@
       },
       "explanation": "Without a starting value, reduce uses the first element as the starting total and calls the callback from the second element. That is why calls holds only 8 and 2.",
       "hints": [
-        "Look at what calls holds when the program ends.",
+        "Look at line 9: what does calls hold when the program ends?",
         "Reduce needs a starting total, and it has a rule for the case where you give none.",
         "Compare the elements in calls with the elements of bags to see which one is missing."
       ],
@@ -1127,7 +1127,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.array-methods.array-reduce.trace-01",
@@ -1253,7 +1253,7 @@
       },
       "explanation": "The callback must return the running total plus the current element, and the total must start at 0. Then reduce adds 12, 8 and 15 one after another and returns 35.",
       "hints": [
-        "Look at what the callback must return and at the second argument of reduce.",
+        "Look at the blanks on lines 3 and 4: the callback result and the second argument of reduce.",
         "The callback returns the next running total; the second argument is where it starts.",
         "Try each chip in blank 1 on the first pot: which one carries the running total forward?"
       ],
@@ -1265,7 +1265,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:5"
       ]
@@ -1311,7 +1311,7 @@
       },
       "explanation": "The starting value of a product must not change the result when multiplied, and that value is 1. Starting from 0 makes every product 0.",
       "hints": [
-        "Look at the last argument of reduce.",
+        "Look at line 4, the last argument of reduce.",
         "Every step multiplies the running value by the next roll, starting from the starting value.",
         "Look at what the starting value 0 does to every product it takes part in."
       ],
@@ -1323,7 +1323,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.array-methods.array-reduce.write-01",
@@ -1334,7 +1334,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 3,
-      "prompt": "Write the body of lowestPrice(prices). Use reduce to return the smallest number.",
+      "prompt": "Write the body of lowestPrice(prices). prices holds at least one number. Use reduce to return the smallest number.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1418,7 +1418,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "puzzle:9"
       ]
@@ -1587,7 +1587,7 @@
       },
       "explanation": "some stops as soon as one element passes. The callback runs for 4, 2 and then 9, which passes, so checks is 3 and the remaining elements are never tested.",
       "hints": [
-        "Does the callback run for every element of queue?",
+        "Look at line 3: does the callback run for every element of queue?",
         "some stops at the first element that passes the test.",
         "Find the first number above 5 and count the elements up to it."
       ],
@@ -1598,7 +1598,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.array-methods.array-find-and-search.parsons-01",
@@ -1679,7 +1679,7 @@
       },
       "explanation": "some answers whether at least one element passes, so it prints true here. To test that all elements pass, use every, which is false as soon as one reading fails.",
       "hints": [
-        "Does the question ask about one reading or about every reading?",
+        "Look at line 2: which method is called on readings, and what does it ask?",
         "some needs one passing element; every needs all of them.",
         "Only the method name on line 2 needs to change; the test on line 3 is fine."
       ],
@@ -1691,7 +1691,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:15"
       ]

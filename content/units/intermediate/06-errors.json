@@ -352,7 +352,7 @@
       },
       "explanation": "A throw ends the try block immediately and passes its value to catch. Line 4 never runs, and catch prints c7.",
       "hints": [
-        "Compare which lines print and which are skipped.",
+        "Look at line 3 and at the lines on either side of it.",
         "throw jumps out of try right away.",
         "Check whether b can print once line 3 has run."
       ],
@@ -364,7 +364,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.errors.throw-and-try-catch.trace-01",
@@ -417,7 +417,7 @@
       },
       "explanation": "The loop adds 3 and 2, then meets 0 and throws. The loop ends, and catch sees packed as 5, since earlier changes stay.",
       "hints": [
-        "Follow the loop pass by pass until the throw.",
+        "Look at lines 4 to 7 and follow the loop pass by pass until the throw.",
         "A throw leaves the whole try block, loop included.",
         "Check what line 5 does for the number 0."
       ],
@@ -428,7 +428,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.errors.throw-and-try-catch.fill-01",
@@ -552,10 +552,10 @@
         "bugLine": 3,
         "expectedOutput": "table full"
       },
-      "explanation": "return gives a normal result, so the caller carries on and prints seated. Only throw jumps to catch, whatever value it sends.",
+      "explanation": "return gives a normal result, so the caller carries on and prints seated. A throw jumps to catch, whatever value it sends.",
       "hints": [
         "Look at what line 3 does when the group is too big.",
-        "A returned value is a normal result. Only throw triggers catch.",
+        "A returned value is a normal result. To send a problem to catch, use throw.",
         "Decide which statement hands a problem to catch."
       ],
       "reference": {
@@ -565,7 +565,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.errors.throw-and-try-catch.write-01",
@@ -735,7 +735,7 @@
         {
           "text": "basket is declared, so reading it gives undefined. crate was never declared, so reading it throws a ReferenceError.",
           "correct": true,
-          "feedback": "Right. Only a name that does not exist at all causes a ReferenceError."
+          "feedback": "Right. basket exists, so reading it gives undefined. crate does not exist, so reading it throws."
         },
         {
           "text": "crate is read as undefined, like basket, so no error is thrown.",
@@ -767,7 +767,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.error-types.trace-01",
@@ -1105,7 +1105,7 @@
       },
       "explanation": "A return inside try still runs finally on the way out. C prints first, then the call open() produces B for the outer console.log.",
       "hints": [
-        "Look at what happens between the return and the end of the call.",
+        "Look at lines 3 and 5, and at what happens between the return and the end of the call.",
         "finally runs even when try returns.",
         "Decide which line prints first: the one in finally or the outer one."
       ],
@@ -1117,7 +1117,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.errors.finally-block.concept-01",
@@ -1164,7 +1164,7 @@
       },
       "explanation": "The first pass throws nothing, so only finally prints. The second throws, so catch prints and finally follows it.",
       "hints": [
-        "Write down what prints for the first pass and for the second.",
+        "Look at lines 3 to 8 and write down what prints for the first pass and for the second.",
         "finally is not tied to an error.",
         "Check whether finally appears after a pass without a throw."
       ],
@@ -1175,7 +1175,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.finally-block.trace-01",
@@ -1228,7 +1228,7 @@
       },
       "explanation": "continue leaves try early, but finally still runs. So line 7 runs for n = 1 and again for n = 2, giving 1f then 1ff before n = 3 is reached.",
       "hints": [
-        "Follow n = 2 through the try block.",
+        "Look at lines 4 to 8 and follow n = 2 through the try block.",
         "finally also runs when continue leaves the try block.",
         "Count the f letters after the second run of line 7."
       ],
@@ -1239,7 +1239,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.errors.finally-block.fill-01",
@@ -1360,7 +1360,7 @@
       },
       "explanation": "A return inside finally overrides the value returned from try. Replacing it with a print leaves the return of line 3 in charge.",
       "hints": [
-        "Which line decides what readLine hands back?",
+        "Look at lines 2 to 6: the try block and the finally block of readLine.",
         "finally runs last and can replace a return from try.",
         "Compare what lines 3 and 5 hand back, and which one wins."
       ],
@@ -1372,7 +1372,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.finally-block.write-01",

@@ -193,7 +193,7 @@
       "title": "Well-known symbols",
       "conceptCard": {
         "title": "Symbols the language looks up",
-        "body": "Well-known symbols are built-in keys that the language looks up on your objects. Symbol.iterator feeds spread and for-of, Symbol.toStringTag changes the tag in the default text, and Symbol.hasInstance customizes instanceof. Symbol.isConcatSpreadable set to true makes concat add an array-like's items. Define a method or value under the symbol to hook in.",
+        "body": "Well-known symbols are built-in keys the language looks up on your objects. Symbol.iterator feeds spread and for-of. Symbol.toStringTag sets the tag in the default text. instanceof calls Symbol.hasInstance on its right operand, so a class defines it as static. Symbol.isConcatSpreadable set to true makes concat add an array-like's items.",
         "code": [
           "const walk = {",
           "  [Symbol.toStringTag]: \"Walk\",",
@@ -394,7 +394,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 5,
-      "prompt": "Write the body of logWrites(target, pairs). Wrap target in a proxy that records each written key and stores the value. Assign every pair through it. Return [keys, target].",
+      "prompt": "Write the body of logWrites(target, pairs). Proxy target to record every written key, repeats included, and store the value. Assign each pair through it. Return [keys, target].",
       "solution": {
         "entry": {
           "kind": "function",
@@ -553,12 +553,14 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.reflect-api.predict-01",
       "concept": "reflect-api",
-      "prerequisites": [],
+      "prerequisites": [
+        "proxy-traps"
+      ],
       "format": "PREDICT_OUTPUT",
       "difficulty": 4,
       "prompt": "A bin counter gets a new field through Reflect. What does this code print?",
@@ -604,7 +606,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6,
+      "version": 7,
       "legacyKeys": [
         "exercise:SENIOR:29"
       ]
@@ -779,7 +781,7 @@
       "explanation": "Each trap should forward to the Reflect function with the same name as its operation: has for the in operator and get for reading a property. The results then match the plain target.",
       "hints": [
         "Look at the names of the two traps.",
-        "Reflect has one function for every trap, named like the trap.",
+        "Reflect has one function for every trap, doing that operation's default work.",
         "Line 3 forwards the in operator and line 4 forwards a property read; neither should change the target."
       ],
       "reference": {
@@ -789,7 +791,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.property-descriptors.predict-01",
@@ -972,7 +974,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 5,
-      "prompt": "Write the body of readOnlyField(key, value). Make an object with a read-only, listed property key holding value. Return [keys, result of Reflect.set(obj, key, 0), obj[key]].",
+      "prompt": "Write the body of readOnlyField(key, value). Make an object obj with a read-only property key holding value that Object.keys lists. Return [Object.keys(obj), Reflect.set(obj, key, 0), obj[key]].",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1086,7 +1088,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.predict-01",

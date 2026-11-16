@@ -866,9 +866,9 @@
       },
       "explanation": "The + joins typed and the text 0 first, because + is worked out before ==. Then == converts the joined text to a number, so '120' matches 120. === would stay false because the types differ.",
       "hints": [
-        "First build the longer text, then compare it with target.",
+        "Look at the two variables: typed holds text and target holds a number.",
         "The + sign joins the texts, and == converts the text to a number before comparing.",
-        "Put the joined text on the left of the equality sign that converts types, and target on the right."
+        "The longer text, not typed itself, is what must match target."
       ],
       "reference": {
         "title": "Equality (==)",
@@ -877,7 +877,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.predict-01",

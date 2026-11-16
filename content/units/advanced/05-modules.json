@@ -60,6 +60,10 @@
       "description": "Believes that in { exported: local } the new name is on the left and the exported name on the right."
     },
     {
+      "id": "destructuring-by-position",
+      "description": "Believes object destructuring takes properties by their place in the object instead of by name."
+    },
+    {
       "id": "default-name-fixed",
       "description": "Believes the importer must use the same name for a default export as the module used."
     },
@@ -618,23 +622,22 @@
         "  const stops = ['Mill', 'Dock'];",
         "  const first = () => stops[0];",
         "  const last = () => stops[1];",
-        "  return { first, last };",
+        "  return { last, first };",
         "})();",
         "const { first: head, last } = bus;",
-        "console.log(head(), last());",
-        "console.log(typeof stops);"
+        "console.log(head(), last());"
       ],
       "options": [
         {
-          "text": "Mill Dock\nundefined",
+          "text": "Mill Dock",
           "correct": true,
-          "feedback": "Right. head is first under a new name, last keeps its name, and stops was never returned."
+          "feedback": "Right. head is first under a new name, and last keeps its name, whatever order the object lists them in."
         },
         {
-          "text": "Mill Dock\nobject",
+          "text": "Dock Mill",
           "correct": false,
-          "feedback": "You thought importing brings the module's private names along. Ask which names the returned object lists.",
-          "misconception": "unexported-accessible"
+          "feedback": "You thought destructuring takes the properties by their place in the object. Ask what each name on line 7 is matched against.",
+          "misconception": "destructuring-by-position"
         },
         {
           "text": "Uncaught ReferenceError",
@@ -644,13 +647,13 @@
         }
       ],
       "solution": {
-        "expectedOutput": "Mill Dock\nundefined"
+        "expectedOutput": "Mill Dock"
       },
-      "explanation": "In { first: head }, the module's property first is stored in a variable called head. last keeps its name. stops was not returned, so no name stops exists outside and typeof says undefined.",
+      "explanation": "In { first: head }, the module's property first is stored in a variable called head. last keeps its name. Destructuring matches properties by name, so the order in the returned object does not matter.",
       "hints": [
         "Look at line 7: which side of the colon is the exported name?",
         "Destructuring takes the property on the left and names the variable on the right.",
-        "Trace line 7 name by name, then ask whether line 9 names something that was returned."
+        "Match each name on line 7 to a property of bus by its name, then call the two functions."
       ],
       "reference": {
         "title": "Destructuring",
@@ -660,7 +663,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.modules.exports-and-imports.concept-01",
@@ -727,7 +730,7 @@
       ],
       "format": "PARSONS",
       "difficulty": 3,
-      "prompt": "Order the lines so the harbour module is built, its boats are taken out under the name fleet, and the count is printed.",
+      "prompt": "Order the lines so the harbour module is built, its boats are taken out under the name fleet, and the program prints 3.",
       "code": [
         "console.log(fleet);",
         "})();",
@@ -771,7 +774,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.exports-and-imports.fix-01",
@@ -1227,7 +1230,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of countRuns(names). Each name, any text, is a module request. A module's body runs only on its first request. Return how many bodies ran.",
+      "prompt": "Write the body of countRuns(names). Each name, a word of letters, is a module request. A module's body runs only on its first request. Return how many bodies ran.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1344,7 +1347,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.modules.dependency-direction.predict-01",
@@ -1542,7 +1545,7 @@
         {
           "text": "let fare = (km) => km * 2;",
           "correct": false,
-          "feedback": "let is not ready before its line either, so the call fails the same way.",
+          "feedback": "A let name cannot be read before its line has run, so the call on line 2 still fails.",
           "misconception": "cycle-values-ready"
         }
       ],
@@ -1564,7 +1567,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.modules.dependency-direction.write-01",

@@ -48,8 +48,8 @@
       "description": "Believes the update part of a for loop runs before the first pass."
     },
     {
-      "id": "visit-counted-from-zero",
-      "description": "Counts the first pass through a loop as pass zero."
+      "id": "previous-run-value",
+      "description": "Takes the value left by the previous run as the value after the run the question names."
     },
     {
       "id": "final-value-at-every-step",
@@ -345,8 +345,8 @@
         {
           "text": "2",
           "correct": false,
-          "feedback": "That counts the first pass as pass zero. The question counts the first run of line 3 as the first time.",
-          "misconception": "visit-counted-from-zero"
+          "feedback": "That is the value left by the second pass. The question asks for the value after the third.",
+          "misconception": "previous-run-value"
         },
         {
           "text": "4",
@@ -376,7 +376,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:JUNIOR:14"
       ]
@@ -459,7 +459,7 @@
       ],
       "format": "PARSONS",
       "difficulty": 1,
-      "prompt": "Put the lines in order so that the program counts down and then prints liftoff.",
+      "prompt": "Put the lines in order so that the program counts down and prints 3, 2 and 1, then liftoff.",
       "code": [
         "}",
         "console.log(\"liftoff\");",
@@ -489,7 +489,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.loops.for-loop.concept-01",
@@ -585,7 +585,7 @@
       },
       "explanation": "seeds goes 3, 2, 1 while the loop runs. The condition seeds > 0 is true for those three values and false at 0, so the body runs three times.",
       "hints": [
-        "Look at the line that changes seeds.",
+        "Look at line 4, the line that changes seeds.",
         "A while loop repeats as long as its condition is true.",
         "Write down seeds before each check, until it is no longer above 0."
       ],
@@ -597,7 +597,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "beg.loops.while-loop.predict-02",
@@ -639,7 +639,7 @@
       },
       "explanation": "n goes 10, 6, 2. At 10 and at 6 the condition n > 3 is true, so 4 is taken away. At 2 the condition is false, so the loop ends and 2 is printed.",
       "hints": [
-        "Look at what the loop subtracts.",
+        "Look at line 3, which changes n.",
         "The condition is checked before each pass, with the current value of n.",
         "Write down n after each pass until the condition fails."
       ],
@@ -651,7 +651,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7
+      "version": 8
     },
     {
       "id": "beg.loops.while-loop.trace-01",
@@ -679,7 +679,7 @@
           "text": "2",
           "correct": false,
           "feedback": "That is the value after the first pass. The question asks about the second time line 3 runs.",
-          "misconception": "visit-counted-from-zero"
+          "misconception": "previous-run-value"
         },
         {
           "text": "6",
@@ -700,7 +700,7 @@
       "hints": [
         "Count the runs of line 3.",
         "Each pass adds 2 to seats.",
-        "Start from 0 and add 2 twice."
+        "Write seats after each run of line 3 and stop at the second."
       ],
       "reference": {
         "title": "while statement",
@@ -709,7 +709,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:JUNIOR:18"
       ]
@@ -1042,7 +1042,7 @@
           "text": "1",
           "correct": false,
           "feedback": "That is the value after the first run. The question asks about the second run.",
-          "misconception": "visit-counted-from-zero"
+          "misconception": "previous-run-value"
         },
         {
           "text": "9",
@@ -1063,7 +1063,7 @@
       "hints": [
         "Line 4 does not run on every pass.",
         "The if lets only odd values of n reach line 4, and each run adds n to the old total.",
-        "The second run of line 4 belongs to the second odd n, and oddSum already holds the first."
+        "Find which n makes line 4 run the second time, and what oddSum held before it."
       ],
       "reference": {
         "title": "Loops and iteration",
@@ -1072,7 +1072,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.loops.loop-accumulator.fill-01",
@@ -1398,7 +1398,7 @@
           "text": "14",
           "correct": false,
           "feedback": "That is the value after the first pass. The question asks about the second run of line 3.",
-          "misconception": "visit-counted-from-zero"
+          "misconception": "previous-run-value"
         },
         {
           "text": "2",
@@ -1419,7 +1419,7 @@
       "hints": [
         "Count the runs of line 3.",
         "Each pass takes 6 away from money.",
-        "Take 6 away from 20 two times."
+        "Write money after each run of line 3 and stop at the second."
       ],
       "reference": {
         "title": "break statement",
@@ -1428,7 +1428,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.loops.break-and-continue.fill-01",
@@ -1507,7 +1507,7 @@
       ],
       "format": "PARSONS",
       "difficulty": 2,
-      "prompt": "Put the lines in order so that the program prints the total of the numbers before 4.",
+      "prompt": "Put the lines in order so that the program prints 6, the total of the numbers before 4.",
       "code": [
         "  total = total + n;",
         "console.log(total);",
@@ -1541,7 +1541,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.loops.break-and-continue.write-01",
