@@ -138,7 +138,7 @@
       "title": "Destructuring",
       "conceptCard": {
         "title": "Taking values out of arrays and objects",
-        "body": "Destructuring reads several values in one line. An array pattern with square brackets matches by position. An object pattern with braces matches by property name. A default after = is used when the value is undefined, such as a missing property, and may use names set earlier. { key: name } stores it under another name.",
+        "body": "Destructuring reads several values. Brackets match an array by position; braces match an object by property name. A default after = is used when the value is undefined, and may use names set earlier. { key: name } renames. ?? returns its right side only when the left is null or undefined; || also skips 0 and \"\".",
         "code": [
           "const trip = { days: 3, stops: 2 };",
           "const { days, stops: count } = trip;",

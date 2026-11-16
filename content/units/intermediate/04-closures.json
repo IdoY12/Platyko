@@ -625,7 +625,7 @@
       "explanation": "The variable previous must live outside the callback so it survives from one call to the next. The callback compares each word with it, then stores the current word for the next call.",
       "hints": [
         "The callback needs to remember something between calls.",
-        "A variable declared outside the callback keeps its value from call to call.",
+        "A closure lets a function keep using a variable from outside it between calls.",
         "Decide when previous must be updated so the next call compares with the right word."
       ],
       "reference": {
@@ -635,7 +635,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.closures.closure-private-state.predict-01",
@@ -1050,8 +1050,8 @@
       "explanation": "count must be declared outside nextId so that every call continues from the previous one. nextId raises it first, then builds the label, so the first label ends in 1.",
       "hints": [
         "Where should the counter live so each call continues from the last?",
-        "Declare it outside the inner function and add 1 inside it.",
-        "Check what the label needs from count each time it is built."
+        "A closure keeps a variable private to the function that created it.",
+        "Decide which function creates the counter, and check what the label needs from count each time it is built."
       ],
       "reference": {
         "title": "Closures",
@@ -1060,7 +1060,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.closures.closure-in-loops.predict-01",
@@ -1824,8 +1824,8 @@
       "explanation": "The factory call returns a function that remembers the markup and takes one cost. Passing that returned function to map applies it to every cost. Passing the factory itself would make functions instead of numbers.",
       "hints": [
         "Which function should map receive: the factory or what it returns?",
-        "Call the factory once with markup, then give the result to map.",
-        "Write the factory first: it takes markup, and what it returns takes one cost."
+        "A factory is a function that returns another function, which remembers the factory's argument.",
+        "Decide what the factory takes and what the function it returns takes."
       ],
       "reference": {
         "title": "Array.prototype.map()",
@@ -1834,7 +1834,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     }
   ]
 }

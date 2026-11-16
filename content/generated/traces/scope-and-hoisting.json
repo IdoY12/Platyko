@@ -1986,52 +1986,24 @@
   },
   "int.scope-and-hoisting.hoisting.predict-01": {
    "code": [
-    "console.log(opening(\"bakery\"));",
-    "console.log(sign);",
-    "function opening(s) {",
-    "  return s + \" open\";",
+    "function inspect() {",
+    "  console.log(sign);",
+    "  var sign = \"shut\";",
+    "  console.log(sign);",
     "}",
-    "var sign = \"shut\";"
+    "inspect();"
    ],
    "output": [
-    "bakery open",
-    "undefined"
+    "undefined",
+    "shut"
    ],
    "steps": [
     {
-     "line": 1,
-     "variables": [
-      {
-       "name": "sign",
-       "scope": "global",
-       "value": "undefined"
-      }
-     ],
+     "line": 6,
+     "variables": [],
      "outputCount": 0,
      "callStack": [
       "global"
-     ],
-     "macrotasks": [],
-     "microtasks": []
-    },
-    {
-     "line": 4,
-     "variables": [
-      {
-       "name": "sign",
-       "scope": "global",
-       "value": "undefined"
-      },
-      {
-       "name": "s",
-       "scope": "opening",
-       "value": "'bakery'"
-      }
-     ],
-     "outputCount": 0,
-     "callStack": [
-      "global",
-      "opening"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -2041,42 +2013,55 @@
      "variables": [
       {
        "name": "sign",
-       "scope": "global",
+       "scope": "inspect",
        "value": "undefined"
       }
      ],
-     "outputCount": 1,
+     "outputCount": 0,
      "callStack": [
-      "global"
+      "global",
+      "inspect"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
-     "line": 6,
+     "line": 3,
      "variables": [
       {
        "name": "sign",
-       "scope": "global",
+       "scope": "inspect",
        "value": "undefined"
       }
      ],
-     "outputCount": 2,
+     "outputCount": 1,
      "callStack": [
-      "global"
+      "global",
+      "inspect"
+     ],
+     "macrotasks": [],
+     "microtasks": []
+    },
+    {
+     "line": 4,
+     "variables": [
+      {
+       "name": "sign",
+       "scope": "inspect",
+       "value": "'shut'"
+      }
+     ],
+     "outputCount": 1,
+     "callStack": [
+      "global",
+      "inspect"
      ],
      "macrotasks": [],
      "microtasks": []
     },
     {
      "line": 0,
-     "variables": [
-      {
-       "name": "sign",
-       "scope": "global",
-       "value": "'shut'"
-      }
-     ],
+     "variables": [],
      "outputCount": 2,
      "callStack": [],
      "microtasks": [],

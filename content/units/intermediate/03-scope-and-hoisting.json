@@ -1037,39 +1037,39 @@
       "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
-        "console.log(opening(\"bakery\"));",
-        "console.log(sign);",
-        "function opening(s) {",
-        "  return s + \" open\";",
+        "function inspect() {",
+        "  console.log(sign);",
+        "  var sign = \"shut\";",
+        "  console.log(sign);",
         "}",
-        "var sign = \"shut\";"
+        "inspect();"
       ],
       "options": [
         {
-          "text": "bakery open\nundefined",
+          "text": "undefined\nshut",
           "correct": true,
-          "feedback": "Right. The declaration is ready from the first line, but sign holds undefined until line 6 has run."
+          "feedback": "Right. The var name exists from the start of the function, but it holds undefined until line 3 has run."
         },
         {
           "text": "Uncaught ReferenceError",
           "correct": false,
-          "feedback": "You thought a function declaration is not ready until its line is reached, so line 1 fails with an unknown name. A function declaration is set up before any line runs.",
+          "feedback": "You thought sign does not exist until the line that writes it has run, so line 2 fails with an unknown name. A var name is set up before any line of its function runs.",
           "misconception": "declaration-not-hoisted"
         },
         {
-          "text": "bakery open\nshut",
+          "text": "shut\nshut",
           "correct": false,
-          "feedback": "You thought hoisting also moves the value of a var. Only the name exists early; the value is stored when line 6 runs.",
+          "feedback": "You thought hoisting also moves the value of a var. Only the name exists early; the value is stored when line 3 runs.",
           "misconception": "var-hoisted-with-value"
         }
       ],
       "solution": {
-        "expectedOutput": "bakery open\nundefined"
+        "expectedOutput": "undefined\nshut"
       },
-      "explanation": "A function declaration is hoisted with its body, so line 1 works. sign is a var, so it exists from the start but holds undefined until line 6 stores \"shut\" in it.",
+      "explanation": "sign is a var, so it exists from the start of inspect but holds undefined until line 3 stores \"shut\" in it. Line 2 therefore prints undefined, and line 4 prints shut.",
       "hints": [
-        "Compare line 1 and line 2: each uses a name that is declared further down.",
-        "A function declaration is ready before any line runs; a var name exists early but holds undefined until its line runs.",
+        "Compare line 2 with line 3: the name is read before the line that writes it.",
+        "A var name exists early in its function but holds undefined until its own line runs.",
         "Ask what sign holds at the moment line 2 runs."
       ],
       "reference": {
@@ -1080,7 +1080,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 8,
+      "version": 9,
       "legacyKeys": [
         "exercise:JUNIOR:20"
       ]

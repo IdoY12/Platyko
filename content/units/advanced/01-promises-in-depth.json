@@ -723,11 +723,11 @@
       "solution": {
         "expectedOutput": "pie\nroll\nwon"
       },
-      "explanation": "Both promises are already fulfilled, so each handler is queued in the order it was attached: pie, then roll. race attached its own handler to a before b, so it settles with pie and its handler prints won last. race does not cancel b, whose own handler still prints roll.",
+      "explanation": "Both promises are already fulfilled, so the handlers on lines 3 and 4 are queued first: pie, then roll. race attaches its own handlers afterwards, behind those two. Its promise settles only when one of them runs, and only then is the won handler queued, so won prints last. race does not cancel b.",
       "hints": [
         "Both promises are already fulfilled, so handlers run in the order they were attached.",
         "race settles with the first promise to settle, but the others keep running.",
-        "Line 5 attaches the race handler: compare when it was attached with lines 3 and 4."
+        "Line 5 attaches race's handlers after lines 3 and 4, and the race promise settles only when one of them runs."
       ],
       "reference": {
         "title": "Promise.race()",
@@ -736,7 +736,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:SENIOR:21"
       ]

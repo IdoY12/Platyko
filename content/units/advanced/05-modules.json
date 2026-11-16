@@ -1724,10 +1724,10 @@
           ]
         ]
       },
-      "explanation": "A cycle needs both directions. For every module and each module it imports, read the imported module's own list, using an empty list when it is not listed, and look for the first module there.",
+      "explanation": "A mutual pair needs an import in both directions. For every module and each module it imports, read the imported module's own list, using an empty list when it is not listed, and look for the first module there.",
       "hints": [
         "Test a module that is missing from deps and a one-way chain.",
-        "A circular import needs an arrow in both directions.",
+        "Two modules that import each other each have the other in their own list.",
         "For each import, look up the imported module's list and see whether it points back."
       ],
       "reference": {
@@ -1737,7 +1737,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     }
   ]
 }

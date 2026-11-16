@@ -105,6 +105,10 @@
     {
       "id": "rejected-await-ignored",
       "description": "Believes a rejected await does not throw, so the try block finishes and catch never runs."
+    },
+    {
+      "id": "strict-equal-unwraps-promise",
+      "description": "Believes === looks inside a promise and compares the value it will hold."
     }
   ],
   "sources": [
@@ -1111,36 +1115,36 @@
         "  return 12;",
         "}",
         "const rooms = countRooms();",
-        "rooms.then((n) => console.log(n));",
-        "console.log(typeof rooms);"
+        "console.log(typeof rooms);",
+        "console.log(rooms === 12);"
       ],
       "options": [
         {
-          "text": "object\n12",
+          "text": "object\nfalse",
           "correct": true,
-          "feedback": "Right. An async function returns a promise, which is an object, and then reads its value later."
+          "feedback": "Right. An async function returns a promise, which is an object and never equal to the number it was returned with."
         },
         {
-          "text": "number\n12",
+          "text": "number\ntrue",
           "correct": false,
           "feedback": "You thought an async function gives its return value straight back, so typeof sees a number. A call to an async function does not hand over the plain value.",
           "misconception": "async-returns-plain-value"
         },
         {
-          "text": "12\nobject",
+          "text": "object\ntrue",
           "correct": false,
-          "feedback": "You thought the then handler on line 5 runs at once. A then handler waits until the current code has finished.",
-          "misconception": "then-runs-immediately"
+          "feedback": "You saw that rooms is a promise but thought === looks inside it and compares the value it will hold. === compares the promise object itself with the number.",
+          "misconception": "strict-equal-unwraps-promise"
         }
       ],
       "solution": {
-        "expectedOutput": "object\n12"
+        "expectedOutput": "object\nfalse"
       },
-      "explanation": "An async function always returns a promise, even for a plain return value. typeof reports object right away. The 12 reaches the then handler after the current code has finished.",
+      "explanation": "An async function always returns a promise, even for a plain return value. A promise is an object, so typeof reports object, and it is not the number 12, so the comparison gives false.",
       "hints": [
         "Look at what countRooms() gives back on line 4.",
         "An async function always wraps its result in a promise.",
-        "Line 6 prints at once; the handler runs later."
+        "Ask whether a promise can equal the number inside it."
       ],
       "reference": {
         "title": "async function",
@@ -1150,7 +1154,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 6,
       "legacyKeys": [
         "exercise:MID:20"
       ]
@@ -1552,7 +1556,7 @@
         "finally-block"
       ],
       "format": "PREDICT_OUTPUT",
-      "difficulty": 2,
+      "difficulty": 3,
       "prompt": "reserve is an async function that throws. What does this code print?",
       "code": [
         "const reserve = async () => {",
@@ -1599,7 +1603,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:MID:26"
       ]

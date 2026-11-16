@@ -1408,7 +1408,7 @@
       "explanation": "reduce keeps one running value, the lowest seen so far. Each call returns the smaller of the running value and the current element. A starting value of 0 would beat every positive price, so none is given.",
       "hints": [
         "Which method turns a whole array into one value?",
-        "The callback returns the smaller of the running value and the current element.",
+        "A reduce callback gets the running result and the current element, and returns the next running result.",
         "Do not give reduce a starting value that could already be smaller than every price."
       ],
       "reference": {
@@ -1418,7 +1418,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "puzzle:9"
       ]

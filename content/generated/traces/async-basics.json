@@ -2035,12 +2035,12 @@
     "  return 12;",
     "}",
     "const rooms = countRooms();",
-    "rooms.then((n) => console.log(n));",
-    "console.log(typeof rooms);"
+    "console.log(typeof rooms);",
+    "console.log(rooms === 12);"
    ],
    "output": [
     "object",
-    "12"
+    "false"
    ],
    "steps": [
     {
@@ -2089,32 +2089,9 @@
        "value": "Promise {<fulfilled>: 12}"
       }
      ],
-     "outputCount": 0,
-     "callStack": [
-      "global"
-     ],
-     "macrotasks": [],
-     "microtasks": [
-      "callback (line 5)"
-     ]
-    },
-    {
-     "line": 5,
-     "variables": [
-      {
-       "name": "rooms",
-       "scope": "global",
-       "value": "Promise {<fulfilled>: 12}"
-      },
-      {
-       "name": "n",
-       "scope": "anonymous",
-       "value": "12"
-      }
-     ],
      "outputCount": 1,
      "callStack": [
-      "anonymous"
+      "global"
      ],
      "macrotasks": [],
      "microtasks": []
@@ -2134,7 +2111,7 @@
      "macrotasks": []
     }
    ],
-   "usesEventLoop": true
+   "usesEventLoop": false
   },
   "int.async-basics.async-await.concept-01": {
    "code": [
