@@ -557,7 +557,7 @@
       "explanation": "An object stores each value under a key. room.floor finds the value under floor, which is 3. There is no window key, so room.window gives undefined.",
       "hints": [
         "Look at what each console.log line prints.",
-        "A value is found by its key. A key that is not there gives undefined.",
+        "Think about what an object uses to find a value, and what happens when that is missing.",
         "Compare how each claim says a read finds its value."
       ],
       "reference": {
@@ -568,7 +568,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.objects.access.predict-01",
@@ -663,8 +663,8 @@
       "explanation": "After a dot, the name is the key itself, so bin.part looks for a key called part and finds none. Brackets with a variable use its value, so bin[part] reads the key ink.",
       "hints": [
         "Compare the two reads on line 3.",
-        "A dot uses the name as written. Brackets use the value of a variable.",
-        "One read looks for part, the other looks for ink."
+        "Think about how a dot and square brackets each decide which key to read.",
+        "For each read, decide whether the key is the name as written or the text a variable holds, then look that key up on line 1."
       ],
       "reference": {
         "title": "Property accessors",
@@ -674,7 +674,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "beg.objects.access.trace-01",
@@ -788,8 +788,8 @@
       "explanation": "A quoted key in square brackets reads the value stored under that key. Without quotes, the brackets evaluate a variable of that name instead.",
       "hints": [
         "Both blanks sit right after pet.",
-        "Brackets with a quoted text read the key with that text.",
-        "Look at line 1 for the spelling of each key."
+        "Think about what brackets do with a name that has quotes around it and with one that has none.",
+        "For each chip, ask whether the brackets read a key or look for a variable of that name."
       ],
       "reference": {
         "title": "Property accessors",
@@ -799,7 +799,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 7,
       "legacyKeys": [
         "exercise:MID:0"
       ]
@@ -923,8 +923,8 @@
       "explanation": "A dot reads the fixed key tea. Square brackets with a variable use its value as the key, so prices[item] works for any key. prices.item and prices[\"item\"] look for a key named item.",
       "hints": [
         "One key is written out and the other is held in a variable.",
-        "A dot reads a fixed name. Brackets can use a variable.",
-        "Add two reads: one with a dot and one with brackets around the variable."
+        "Think about how a dot and square brackets each decide which key to read.",
+        "Check your expression with item equal to \"tea\": it must give 6."
       ],
       "reference": {
         "title": "Property accessors",
@@ -933,7 +933,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 6
     },
     {
       "id": "beg.objects.update.predict-01",
@@ -1029,7 +1029,7 @@
       "explanation": "Assigning to a new name adds a key, so tv is added. delete removes a key completely, so reading pc gives undefined.",
       "hints": [
         "Follow the object line by line: line 2, then line 3.",
-        "Assignment can add a key. delete removes one. Reading a missing key gives undefined.",
+        "Think about what each of lines 2 and 3 does to the keys of kit, then what reading a removed key gives.",
         "After both lines, check which of the two keys the object still has."
       ],
       "reference": {
@@ -1040,7 +1040,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 5
     },
     {
       "id": "beg.objects.update.trace-01",
@@ -1253,7 +1253,7 @@
       "explanation": "const stops the name from being assigned a new object, but it does not freeze the object. Assigning to a key replaces its value, and a new name adds a key.",
       "hints": [
         "Look at what the program prints.",
-        "const protects the name, not the properties inside the object.",
+        "Ask what const stops: assigning a new object to the name, or changing what the object holds.",
         "Compare the output with the starting object."
       ],
       "reference": {
@@ -1264,7 +1264,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.objects.iteration.predict-01",
@@ -1307,8 +1307,8 @@
       "explanation": "A for...in loop visits the keys of an object in the order they were written, and puts each one in part. The loop prints the two keys, not the values.",
       "hints": [
         "Look at the loop header on line 2.",
-        "for...in hands you one key of the object per pass.",
-        "The printed values are texts, and there are two of them."
+        "A for...in loop runs once for each property of the object.",
+        "Line 3 prints whatever part holds on each pass. Check the card's for...in example to see what its loop variable holds."
       ],
       "reference": {
         "title": "for...in",
@@ -1318,7 +1318,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:6"
       ]
@@ -1504,7 +1504,7 @@
       "explanation": "for...in gives one key per pass, as text. To get the value, put that key in square brackets after the object: zoo[animal].",
       "hints": [
         "The first blank is a word on the for line. The second is a read of one value.",
-        "for...in visits keys. A variable key needs brackets.",
+        "Read the card: one loop form visits the keys of an object, and a key held in a variable has its own way to read a value.",
         "Line 4 must add a number, not the key text itself."
       ],
       "reference": {
@@ -1515,7 +1515,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.objects.iteration.parsons-01",
@@ -1663,7 +1663,7 @@
       },
       "explanation": "cabins[1] is the second object, because indexes start at 0, and .beds reads its beds property. cabins[0].beds reads the first cabin, and cabins.beds looks for a property on the array itself.",
       "hints": [
-        "First pick the object from the array, then read its property.",
+        "Look at the shape of the input: an array whose items are objects.",
         "Indexes start at 0, so the second cabin is not at index 2.",
         "Read one item of cabins first, then one key of that item."
       ],
@@ -1674,7 +1674,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "puzzle:19"
       ]

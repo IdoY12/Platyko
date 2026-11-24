@@ -465,7 +465,7 @@
       "explanation": "Plain assignment updates the outer shown. A declaration keyword would create a new variable that ends with the block. Passes with n = 2 and n = 3 set shown to 4, then 9.",
       "hints": [
         "Look at the blank on line 5 and at what line 8 prints.",
-        "Writing let or const creates a new variable; leaving it out reuses an existing one.",
+        "Writing let or const before a name creates a new variable in the current block.",
         "Check which chips would create a new variable inside the if block."
       ],
       "reference": {
@@ -476,7 +476,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.scope-and-hoisting.block-scope.fix-01",
@@ -1389,7 +1389,7 @@
       "explanation": "A function declaration is hoisted with its body, so first and last can be called from the line above them. A const or var arrow function placed after the return would not be ready, and last must read the final letter.",
       "hints": [
         "The return line runs before the helper lines. Which declaration form is ready that early?",
-        "Function declarations are hoisted with their bodies.",
+        "Some declaration forms are set up with their value before the first line runs; others are not.",
         "Only one declaration form may sit below the line that calls it; last must read the final letter."
       ],
       "reference": {
@@ -1399,7 +1399,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.scope-and-hoisting.temporal-dead-zone.predict-01",

@@ -357,8 +357,8 @@
       "explanation": "A regular function gets its this when it is called. kai.hi() uses kai, and mia.hi() uses mia, even though both calls run the same function.",
       "hints": [
         "Compare the two calls on line 7.",
-        "this depends on the call, not on where the function was written.",
-        "Look at which object stands before the dot in each call."
+        "A regular function works out its this at one particular moment.",
+        "Check what line 6 changes, and whether each statement still fits both calls on line 7."
       ],
       "reference": {
         "title": "this",
@@ -368,7 +368,7 @@
       "duelEligible": true,
       "timeLimitSec": 41,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.this-and-classes.this-in-methods.trace-01",
@@ -543,8 +543,8 @@
       "explanation": "free and taken are properties, not variables. Inside a method they are reached through this, so this.free - this.taken reads them from seats.",
       "hints": [
         "Line 5 uses two names. Are they variables?",
-        "Properties of the object are read through this inside a method.",
-        "Check which names on line 5 are properties of seats, and how a method reaches them."
+        "A method does not see its object's properties as variables.",
+        "Check each option twice: is every name on the line reachable, and does the subtraction give the number the prompt asks for?"
       ],
       "reference": {
         "title": "Method definitions",
@@ -554,7 +554,7 @@
       "duelEligible": true,
       "timeLimitSec": 44,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.this-and-classes.this-in-methods.write-01",
@@ -636,7 +636,7 @@
       "hints": [
         "Which object will hold price, qty and the method?",
         "Inside the method, properties are read with this.",
-        "Return the result of calling the method on your object."
+        "Test (4, 3): the object must hold price and qty before total() reads them, and the result must combine them as the prompt says."
       ],
       "reference": {
         "title": "this",
@@ -645,7 +645,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.this-and-classes.this-lost-and-bound.predict-01",
@@ -754,8 +754,8 @@
       "explanation": "An arrow function takes this from the code around it. Inside list, this is club, so the arrow reads club.name.",
       "hints": [
         "Look at this.name on line 4, inside the arrow.",
-        "An arrow function does not create its own this.",
-        "Ask which this the code around the arrow has."
+        "An arrow function and a regular function get their this in different ways.",
+        "Check each statement against the card: where does it say an arrow function gets this?"
       ],
       "reference": {
         "title": "Arrow function expressions",
@@ -764,7 +764,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.this-and-classes.this-lost-and-bound.trace-01",
@@ -932,7 +932,7 @@
       "hints": [
         "Line 8 calls pour with nothing before the dot.",
         "A method copied into a variable loses the object it came from.",
-        "Line 7 must give pour a version of fill whose this cannot change."
+        "For each option, check what pour holds on line 7 (a function or something else) and which object this is when pour() runs."
       ],
       "reference": {
         "title": "Function.prototype.bind()",
@@ -942,7 +942,7 @@
       "duelEligible": true,
       "timeLimitSec": 44,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.this-and-classes.this-lost-and-bound.write-01",
@@ -1025,7 +1025,7 @@
       "hints": [
         "Which method runs a function with a chosen this?",
         "call takes the object to use as this as its first argument.",
-        "Build an object with kg and packing, then call weigh with it."
+        "Test (10, 2): when weigh runs, this must hold both values as properties."
       ],
       "reference": {
         "title": "Function.prototype.call()",
@@ -1034,7 +1034,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.this-and-classes.class-basics.predict-01",
@@ -1142,8 +1142,8 @@
       "explanation": "new creates an empty object that uses the class, runs the constructor with this set to that object, and returns it. The printed object shows the field the constructor set.",
       "hints": [
         "Look at what line 8 prints.",
-        "new makes the object, and the constructor fills it in.",
-        "The field belongs to the object that new returned."
+        "A class is a description; something has to build the object from it.",
+        "Check where each statement says the field is stored: on the class or on the object that line 6 creates."
       ],
       "reference": {
         "title": "new operator",
@@ -1153,7 +1153,7 @@
       "duelEligible": true,
       "timeLimitSec": 44,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1,
+      "version": 2,
       "legacyKeys": [
         "exercise:MID:4"
       ]
@@ -1320,7 +1320,7 @@
         {
           "text": "const t = Ticket.new(14);",
           "correct": false,
-          "feedback": "A class has no method called new. new is an operator written before the class name."
+          "feedback": "A class has no method called new, so Ticket.new is not a function and the call throws an error."
         },
         {
           "text": "const t = new Ticket;",
@@ -1336,7 +1336,7 @@
       "hints": [
         "Line 6 creates the ticket.",
         "Classes are used to make instances with a special keyword.",
-        "Check how line 6 differs from the way a class makes an instance."
+        "Check each option for the keyword's position and for whether 14 still reaches the constructor."
       ],
       "reference": {
         "title": "new operator",
@@ -1346,7 +1346,7 @@
       "duelEligible": true,
       "timeLimitSec": 41,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 5
     },
     {
       "id": "int.this-and-classes.class-basics.write-01",
@@ -1447,8 +1447,8 @@
       "explanation": "The constructor stores the starting level on the instance. Each pour adds to this.level, so looping over pours accumulates every amount before the level is returned.",
       "hints": [
         "Look at where the starting level comes in: the class constructor must receive start.",
-        "pour must add to the stored level, not replace it.",
-        "Think how to apply pour once for each amount in pours, and what to return afterwards."
+        "An object keeps its field values between method calls.",
+        "Test (5, [1, 2]): every amount must reach the level, and each one must build on the level left by the one before."
       ],
       "reference": {
         "title": "Classes",
@@ -1457,7 +1457,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.this-and-classes.class-inheritance.predict-01",
@@ -1563,7 +1563,7 @@
       "explanation": "static methods are called on the class, as in Pair.twin(3). Instances do not inherit them, so typeof p.twin is undefined.",
       "hints": [
         "Compare line 7, which calls twin on Pair, with line 9.",
-        "static puts a method on the class, not on its instances.",
+        "Where a method is stored decides what can call it.",
         "Check what typeof reports for the method on p."
       ],
       "reference": {
@@ -1573,7 +1573,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.this-and-classes.class-inheritance.trace-01",
@@ -1670,7 +1670,7 @@
       },
       "explanation": "Pet is declared first, then Dog extends it. Dog's id adds 1 to super.id(), which is 7. The instance is created from Dog and printed, giving 8.",
       "hints": [
-        "Start with the line that declares the parent class.",
+        "Look at the lines that mention Pet and Dog.",
         "A class must exist before another class extends it or an instance is made from it.",
         "Find which lines open and close Dog, and what belongs between them."
       ],
@@ -1682,7 +1682,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "exercise:MID:2"
       ]
@@ -1734,8 +1734,8 @@
       "explanation": "A subclass constructor must call super() before it uses this. Line 8 touches this first and throws. super(2) runs the parent constructor, which sets wheels.",
       "hints": [
         "Line 8 uses this inside the Bike constructor.",
-        "In a subclass constructor, this does not exist until super() has run.",
-        "Check what the Bike constructor must do before it may use this."
+        "A subclass constructor has a step it must complete before this is available.",
+        "For each option, ask whether it can run at that point and whether it gets 2 stored on the new object."
       ],
       "reference": {
         "title": "super",
@@ -1744,7 +1744,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.this-and-classes.class-inheritance.write-01",

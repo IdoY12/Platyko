@@ -190,7 +190,7 @@
       "title": "NaN, -0, Infinity and floating point",
       "conceptCard": {
         "title": "NaN, -0, Infinity and floating point",
-        "body": "NaN is the only value not strictly equal to itself: use Number.isNaN. indexOf misses NaN; includes finds it. A zero has a sign: Object.is tells -0 from 0, === does not. Dividing by zero gives Infinity or -Infinity, by the signs of the number and the zero; 0 / 0 gives NaN. Number.isFinite rejects those. Decimal sums are rounded.",
+        "body": "NaN is the only value not strictly equal to itself: use Number.isNaN. indexOf misses NaN; includes finds it. A zero has a sign: Object.is tells -0 from 0, === does not. Dividing by zero gives Infinity or -Infinity, by the signs; 0 / 0 gives NaN. Number.isFinite rejects those. Decimal sums are rounded: compare them within a small tolerance.",
         "code": [
           "console.log(NaN === NaN);",
           "console.log(Number.isNaN(NaN));",
@@ -499,7 +499,7 @@
       "explanation": "The method gets the hint, so it can return n for the number hint and text for the others. A method that ignores the hint returns one kind of value for every conversion, and a plain valueOf leaves the string hint to toString, which gives '[object Object]'.",
       "hints": [
         "Look at the three conversions in the array that is returned.",
-        "A Symbol.toPrimitive method receives the hint and replaces valueOf and toString.",
+        "One conversion method on the card receives the hint and replaces the other two; a method that never sees the hint cannot answer differently for each conversion.",
         "The method receives one argument; decide which of its values selects the number."
       ],
       "reference": {
@@ -509,7 +509,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.type-coercion-and-edge-cases.abstract-equality-algorithm.predict-01",
@@ -1097,7 +1097,7 @@
       "explanation": "The brackets run first. Inside them both values are numbers, so + adds them to 7. The outer + then sees text and a number, so it joins them as kg7.",
       "hints": [
         "Find which + runs first.",
-        "Brackets run first; then the type of the two values on each + decides adding or joining.",
+        "Each + is decided by the types of its own two values, not by the whole expression.",
         "Inside the brackets both values are numbers; ask what the outer + sees."
       ],
       "reference": {
@@ -1108,7 +1108,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 8,
+      "version": 9,
       "legacyKeys": [
         "duel:1"
       ]
@@ -1223,7 +1223,7 @@
       "hints": [
         "Look at what the comparison function must return.",
         "- always works on numbers, so it converts its operands.",
-        "The result must be negative when a belongs first; test each chip with a = \"8\" and b = \"9\"."
+        "The result must be negative when a belongs first; test each chip with a = \"10\" and b = \"8\"."
       ],
       "reference": {
         "title": "Array.prototype.sort()",
@@ -1233,7 +1233,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     }
   ]
 }

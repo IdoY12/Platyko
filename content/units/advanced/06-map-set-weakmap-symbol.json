@@ -318,7 +318,7 @@
       "explanation": "A Map compares object keys by identity. The literal on the last line is a new object, so no entry matches it, and get returns undefined.",
       "hints": [
         "Look at what is passed to get on lines 3 and 4.",
-        "Two objects are equal only when they are the same object.",
+        "A Map finds an entry by checking the key you pass against the keys it stored, so what counts as the same key decides the result.",
         "Ask whether line 4 passes the stored object or a fresh one."
       ],
       "reference": {
@@ -329,7 +329,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.map-set-weakmap-symbol.map-collection.fill-01",
@@ -390,7 +390,7 @@
       "hints": [
         "Line 3 changes an existing entry; line 4 chooses what to loop over.",
         "Maps are iterable and produce [key, value] pairs.",
-        "Blank 1 is the same kind of call as line 2; blank 2 must hand the loop one [key, value] pair per entry."
+        "Blank 1 must replace a value that is already stored. Blank 2 must hand the loop one [key, value] pair per entry, which the brackets on line 4 unpack."
       ],
       "reference": {
         "title": "Map.prototype.set()",
@@ -400,7 +400,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.map-set-weakmap-symbol.map-collection.fix-01",
@@ -465,7 +465,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of countKinds(items). Use a Map to count each value and return the counts as an array of [value, count] pairs in first-seen order.",
+      "prompt": "Write the body of countKinds(items), a list of strings and numbers where 1 and \"1\" differ. Use a Map to return [value, count] pairs in first-seen order.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -580,7 +580,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.map-set-weakmap-symbol.set-collection.predict-01",
@@ -971,7 +971,7 @@
         {
           "text": "undefined\nUncaught TypeError",
           "correct": false,
-          "feedback": "You thought a WeakMap entry vanishes as soon as it is set. An entry lasts as long as its key object can still be reached, and desk can be.",
+          "feedback": "You saw that line 5 throws, but thought the entry from line 3 is already gone at line 4. An entry lasts as long as its key object can still be reached, and desk can be.",
           "misconception": "weakmap-entries-vanish"
         }
       ],
@@ -992,7 +992,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6,
+      "version": 7,
       "legacyKeys": [
         "exercise:MID:19"
       ]
@@ -1341,7 +1341,7 @@
       "explanation": "Object.keys returns only string-named keys, so the symbol key is missing from the list. Reading card[secret] works for any code that has the symbol.",
       "hints": [
         "Compare what line 4 lists with what line 5 reads.",
-        "This is about how a Symbol key behaves under Object.keys and under a read that uses the symbol.",
+        "A property stored under a symbol is a real property. Some operations list it and some do not.",
         "Reading with the symbol and listing keys are two different operations; compare lines 4 and 5."
       ],
       "reference": {
@@ -1352,7 +1352,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7
+      "version": 8
     },
     {
       "id": "adv.map-set-weakmap-symbol.symbol-keys.fill-01",

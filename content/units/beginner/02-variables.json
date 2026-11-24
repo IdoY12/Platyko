@@ -515,8 +515,8 @@
       "explanation": "An unquoted name is read as the variable and gives its stored value, calm. Text in quotes is just text, so line 3 prints the word mood.",
       "hints": [
         "Compare line 2 with line 3.",
-        "Quotes make plain text instead of a name.",
-        "One line reads the variable. The other line does not."
+        "The card says what a name means with quotes around it and without.",
+        "Decide whether the two lines can print the same thing, given that one has quotes and the other does not."
       ],
       "reference": {
         "title": "Grammar and types: variables",
@@ -526,7 +526,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "beg.variables.reassignment.predict-01",
@@ -1100,8 +1100,8 @@
       "explanation": "A name declared with const cannot get a new value, so line 4 throws a TypeError and the print line never runs. With let, line 4 works and the program prints 20.",
       "hints": [
         "Look at line 4: boxWeight gets a new value.",
-        "One keyword locks a name to its first value and stops the program when it is assigned again.",
-        "Line 3 changes a let name without trouble. Ask what the other keyword does when a line like line 4 reaches it."
+        "The keyword in front of a name decides whether the name can get a new value later.",
+        "Test each chip as the keyword on line 2 and ask whether line 4 still runs; the card names the real keywords."
       ],
       "reference": {
         "title": "const",
@@ -1111,7 +1111,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.variables.const-declaration.parsons-02",
@@ -1483,7 +1483,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "slot holds text, a number, a boolean or null. Write an expression that joins Slot:, slot and its typeof word, with single spaces. For null it gives Slot: null object.",
+      "prompt": "slot is text (maybe empty), a number, a boolean or null. Write an expression joining 'Slot:', slot and its typeof word, one space between each. For null: 'Slot: null object'.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -1551,7 +1551,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 7
     }
   ]
 }

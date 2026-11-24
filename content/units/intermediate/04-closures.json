@@ -626,7 +626,7 @@
       "hints": [
         "The callback needs to remember something between calls.",
         "A closure lets a function keep using a variable from outside it between calls.",
-        "Decide when previous must be updated so the next call compares with the right word."
+        "Decide when the remembered word must be updated so the next call compares with the right word."
       ],
       "reference": {
         "title": "Array.prototype.filter()",
@@ -635,7 +635,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.closures.closure-private-state.predict-01",
@@ -1051,7 +1051,7 @@
       "hints": [
         "Where should the counter live so each call continues from the last?",
         "A closure keeps a variable private to the function that created it.",
-        "Decide which function creates the counter, and check what the label needs from count each time it is built."
+        "Decide which function creates the counter, and check what the label needs from the counter each time it is built."
       ],
       "reference": {
         "title": "Closures",
@@ -1060,7 +1060,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.closures.closure-in-loops.predict-01",
@@ -1348,7 +1348,7 @@
       "hints": [
         "Look at the keyword in the loop header on line 2.",
         "The functions all share one variable when the loop uses var.",
-        "Compare how var and let behave in a loop header."
+        "Changing the start and end values on line 2 does not change how many n variables exist. A const cannot change when n++ runs."
       ],
       "reference": {
         "title": "let",
@@ -1358,7 +1358,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "int.closures.closure-in-loops.write-01",
@@ -1562,8 +1562,8 @@
       "explanation": "Every call of tag creates its own m and returns a function that keeps it. loud keeps \"!\" and soft keeps \"~\", so the two results differ.",
       "hints": [
         "Compare the two strings printed on line 4.",
-        "Each call of the factory makes new variables.",
-        "Ask which mark each returned function was created with."
+        "A factory returns a function. Think about what m is for each call of tag.",
+        "Line 2 and line 3 are separate calls of tag. Ask whether the second call can touch the m that loud uses."
       ],
       "reference": {
         "title": "Closures",
@@ -1573,7 +1573,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "int.closures.closure-factories.trace-01",

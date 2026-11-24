@@ -701,7 +701,7 @@
       "explanation": "A throttle remembers when it last ran. A call runs only if enough time has passed since then, otherwise it is dropped. So 0 and 300 run, and the calls at 100 and 250 do nothing.",
       "hints": [
         "Follow lastRun as each time in the array is checked.",
-        "A throttle caps how often the function runs; it does not queue the extra calls.",
+        "Debounce and throttle differ in when the function runs and in what happens to the calls that arrive in between.",
         "Compare t - lastRun on line 3 for each time in the array."
       ],
       "reference": {
@@ -712,7 +712,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.performance-and-memory.debounce-and-throttle.fill-01",
@@ -1160,7 +1160,7 @@
       "hints": [
         "Look at what line 3 puts into the list.",
         "Data stays reachable while a stored callback that uses it is still reachable.",
-        "Only one chip removes the callback from the list; the others add entries or leave the list as it is."
+        "Line 7 prints the length of jobs, so the chip must change that length. Check what each chip does to the list."
       ],
       "reference": {
         "title": "Array.prototype.pop()",
@@ -1170,7 +1170,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:SENIOR:18"
       ]
@@ -1512,8 +1512,8 @@
       "explanation": "A loop inside a loop restarts for every pass of the outer loop. With 4 outer passes and 4 inner passes each, the body runs 4 times 4 = 16 times. Count body runs, not loops.",
       "hints": [
         "Count how many times line 4 runs for one value of a.",
-        "The inner loop starts over on each outer pass.",
-        "The outer loop has four passes; count how many inner passes happen inside each one."
+        "Cost is the number of times the body runs, and that depends on how the loops sit inside each other.",
+        "Work out what each statement predicts for these two lists of four, and keep the one that matches the printed 16."
       ],
       "reference": {
         "title": "for statement",
@@ -1523,7 +1523,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "adv.performance-and-memory.algorithmic-cost.fill-01",

@@ -145,7 +145,11 @@ How to count. A **second idea** is one the learner must get right for the answer
   calculation carried through to the end.
 - Hint 1 points at a place ("Look at line 3"). Hint 2 states the concept. Hint 3 narrows the
   choice without naming the answer: it may point at the exact line or the rule to apply there,
-  but not state the result, the chip or line to use, or the text of an option.
+  but not state the result, the chip or line to use, or the text of an option. Hints 1 and 2
+  read together must not give the answer either. In a `CONCEPT_MCQ` the options are rules, so
+  hint 2 names the topic only and hint 3 points at the part of the code that decides between
+  them; neither paraphrases an option. In a `FIX_BUG` or `FILL_BLANK`, no hint names the keyword
+  or value the fix uses.
 - **Taught means on a card or in an earlier unit.** Every operator, built-in method or rule an
   item needs is the item's own concept, a declared prerequisite, the subject of an earlier unit,
   or stated on the concept card of its lesson or an earlier lesson of the unit. A hint or an

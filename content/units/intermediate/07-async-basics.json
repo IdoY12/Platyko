@@ -360,8 +360,8 @@
       "explanation": "setTimeout only schedules the callback. The current code runs to its end first, so reach summit prints before rest, even though the delay is 0.",
       "hints": [
         "Compare the order of the lines with the order of the output.",
-        "A callback passed to setTimeout runs only when the current code is finished.",
-        "Ask whether any line below setTimeout can run before the callback."
+        "A timer hands its callback over to be run later; it does not call it.",
+        "Check each statement against the output: does the call on line 2 pause line 5, and does a delay of 0 make the callback a direct call?"
       ],
       "reference": {
         "title": "Event loop",
@@ -371,7 +371,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.async-basics.callbacks-and-timers.trace-01",
@@ -491,7 +491,7 @@
       "hints": [
         "Look at what setTimeout expects as its first argument.",
         "A callback is a function that is handed over, not a function that has already been called.",
-        "Only one of the four chips hands over a function that does the printing when called."
+        "Check each chip: is it a function, and does calling it run the printing line?"
       ],
       "reference": {
         "title": "setTimeout()",
@@ -501,7 +501,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.async-basics.callbacks-and-timers.fix-01",
@@ -544,7 +544,7 @@
       "explanation": "showArrival() calls the function on the spot and hands its result, undefined, to setTimeout. Passing showArrival without parentheses hands over the function so the timer can call it later.",
       "hints": [
         "Look at what stands before the comma on line 4.",
-        "Parentheses after a function name call it right now.",
+        "A function name and a call to that function are different values.",
         "Only line 4 changes; ask what setTimeout receives as its first argument there."
       ],
       "reference": {
@@ -555,7 +555,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.async-basics.callbacks-and-timers.write-01",
@@ -663,7 +663,7 @@
       "hints": [
         "The list must exist outside the callback so every call can reach it.",
         "forEach takes a function and calls it for each element.",
-        "Declare the list, define the callback, call delays.forEach with the callback, return the list."
+        "Run [3, 8, 5, 12] through your code: 5 must not appear, and both 8 and 12 must still be in the list at the end."
       ],
       "reference": {
         "title": "Array.prototype.forEach()",
@@ -672,7 +672,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.async-basics.promise-basics.predict-01",
@@ -772,7 +772,7 @@
       "explanation": "catch is like then for rejections and also returns a promise. Its handler returns waitlist without throwing, so that promise is fulfilled with waitlist and the last then prints it.",
       "hints": [
         "Follow the value from the first line to the last.",
-        "Every link in a chain, catch included, returns a new promise.",
+        "The state of a chain after a link depends on what that link's handler does.",
         "What does the catch handler return, and who receives it?"
       ],
       "reference": {
@@ -783,7 +783,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.async-basics.promise-basics.trace-01",
@@ -932,8 +932,8 @@
       "explanation": "A handler with a body in braces needs return to hand a value on. Line 3 computes the double and throws it away, so the next link receives undefined. return passes it along.",
       "hints": [
         "Follow what the first handler gives to the second.",
-        "A handler in braces returns undefined unless it uses return.",
-        "Line 3 computes a value that nothing sends to the next link."
+        "What one handler passes to the next link is what its function gives back.",
+        "For each option, check what the second handler receives as total."
       ],
       "reference": {
         "title": "Promise.prototype.then()",
@@ -943,7 +943,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.async-basics.promise-basics.write-01",
@@ -1090,7 +1090,7 @@
       "hints": [
         "The next link receives only what the function returns.",
         "Go through the items one at a time and build a list of labels.",
-        "Decide whether a left of exactly 3 counts as low, and what an empty list should give."
+        "Test ink 2, pens 3 and glue 0: check the label of the boundary value 3 and the order of the result."
       ],
       "reference": {
         "title": "Promise.prototype.then()",
@@ -1099,7 +1099,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7
+      "version": 8
     },
     {
       "id": "int.async-basics.async-await.predict-01",
@@ -1186,7 +1186,7 @@
         {
           "text": "await freezes the whole program until the promise settles, so packed prints before truck waiting.",
           "correct": false,
-          "feedback": "You thought await stops the entire program until the promise settles. It pauses only the async function it sits in.",
+          "feedback": "You thought await stops the entire program until the promise settles. Line 7 is outside pack, so ask whether an await inside pack can hold it back.",
           "misconception": "await-blocks-program"
         },
         {
@@ -1202,7 +1202,7 @@
       "explanation": "Calling pack runs it until the first await, which prints packing. Then pack pauses and control returns to the caller, so truck waiting prints. The rest of pack runs afterwards.",
       "hints": [
         "Find which line runs right after pack() returns control.",
-        "await suspends only the function that contains it.",
+        "A pause has a scope: it affects some code and not other code.",
         "Count what prints before and after the await line."
       ],
       "reference": {
@@ -1213,7 +1213,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 6,
       "legacyKeys": [
         "exercise:MID:21"
       ]
@@ -1336,7 +1336,7 @@
       "hints": [
         "Look at the first word of line 2 and the word before ready on line 3.",
         "Waiting for a promise is allowed only inside a function that is marked in a special way.",
-        "Line 2 needs a word before function; line 3 needs a word before ready."
+        "Two chips are not JavaScript keywords: rule them out first, then match the other two to the two places."
       ],
       "reference": {
         "title": "async function",
@@ -1346,7 +1346,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:28"
       ]
@@ -1396,7 +1396,7 @@
       "hints": [
         "Look at what loadPrice() gives back on line 5.",
         "An async function returns a promise, and the value is inside it.",
-        "Line 6 multiplies price, so price must already hold the number."
+        "For each option, ask what price holds on line 6: a number, a promise, undefined or a function."
       ],
       "reference": {
         "title": "await",
@@ -1406,7 +1406,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2,
+      "version": 3,
       "legacyKeys": [
         "exercise:MID:23"
       ]
@@ -1537,7 +1537,7 @@
       "hints": [
         "bookings is a plain array of plain objects.",
         "Loop over the bookings and keep a running total.",
-        "Decide which bookings should add nothing to the total."
+        "Check the direction of the subtraction and what a booking with more used than nights adds."
       ],
       "reference": {
         "title": "await",
@@ -1546,7 +1546,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.async-basics.async-error-handling.predict-01",
@@ -1819,9 +1819,9 @@
       },
       "explanation": "checkSoil() returns a rejected promise and the try block ends before it is noticed, so catch cannot see it. await turns the rejection into a throw while the function is still inside try.",
       "hints": [
-        "Look at line 6: does anything wait for the promise?",
+        "Look at line 6: what does the call give back, and what happens to it before the try block ends?",
         "try/catch only sees errors thrown while the try block is running.",
-        "Only line 6 changes; the try and catch lines stay as they are."
+        "For each option, check whether checkSoil really runs and whether a rejection is thrown while the function is still inside try."
       ],
       "reference": {
         "title": "try...catch",
@@ -1831,7 +1831,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 5
     },
     {
       "id": "int.async-basics.async-error-handling.write-01",
@@ -1945,7 +1945,7 @@
       "hints": [
         "Look at what each reason holds: an object with a code.",
         "A catch handler is a plain function of the rejection value; it can branch and return like any function.",
-        "Decide the one special value of the code, then build the general case from the code."
+        "Test {code: 'timeout'} and {code: 'full'}: the two results must differ, and the second must include its code."
       ],
       "reference": {
         "title": "Promise.prototype.catch()",
@@ -1954,7 +1954,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     }
   ]
 }

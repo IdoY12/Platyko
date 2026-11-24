@@ -74,6 +74,10 @@
     {
       "id": "decimal-is-separate-type",
       "description": "Believes numbers with decimals have their own type, such as float or decimal."
+    },
+    {
+      "id": "typeof-answers-number",
+      "description": "Believes typeof answers with a number that codes the type, so the type of its answer is number."
     }
   ],
   "sources": [
@@ -484,8 +488,8 @@
       "explanation": "The / sign divides exactly and keeps the fraction, so 11 / 4 is 2.75. The % sign gives the leftover: 4 fits twice into 11, which uses 8, and 3 is left.",
       "hints": [
         "Run each line by hand and compare the two results.",
-        "One sign keeps the fraction; the other keeps the leftover.",
-        "Check line 2 by hand: how many whole 4s fit into 11, and how much of 11 is left over?"
+        "The two signs answer different questions about dividing the two numbers.",
+        "Run line 2 by hand and compare its result with how many whole 4s fit into 11."
       ],
       "reference": {
         "title": "Remainder (%)",
@@ -495,7 +499,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "beg.values-and-types.string-values.predict-01",
@@ -702,7 +706,7 @@
       "hints": [
         "Compare the letters in the output with the letters in the code.",
         "A method is called after a dot and has () after its name.",
-        "The name says what it does to the letters: it makes them upper case."
+        "The card shows the one method that changes letter case; length is a property and is read without ()."
       ],
       "reference": {
         "title": "String.prototype.toUpperCase()",
@@ -712,7 +716,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "legacyKeys": [
         "puzzle:10"
       ]
@@ -759,7 +763,7 @@
       "prerequisites": [],
       "format": "CODE_WRITE",
       "difficulty": 1,
-      "prompt": "Write an expression that gives the number of characters in title, spaces included.",
+      "prompt": "Write an expression that gives the number of characters in title, a text that may be empty. Spaces count.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -816,9 +820,9 @@
       },
       "explanation": "Every text has a length property that counts all its characters, spaces included. Reading title.length gives that count without changing the text.",
       "hints": [
-        "You need a property of the text, not a method call.",
+        "Look at the prompt: what must be counted, and do spaces count?",
         "A text keeps its character count in a built-in property.",
-        "The card names the property that counts characters; read it from title."
+        "Read the card's character-count property directly from title, with no method call or arithmetic around it."
       ],
       "reference": {
         "title": "String: length",
@@ -827,7 +831,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6,
+      "version": 8,
       "legacyKeys": [
         "puzzle:2"
       ]
@@ -1113,7 +1117,7 @@
       "explanation": "Written without quotation marks, true is a boolean value. In quotation marks it is ordinary text. They are different kinds of value, but both print as the word true.",
       "hints": [
         "Compare the two lines, one with quotation marks and one without.",
-        "Quotation marks make text; a boolean is written bare.",
+        "The card says how a boolean is written and how it is printed.",
         "Compare what each line prints, then ask what the quotation marks change."
       ],
       "reference": {
@@ -1124,7 +1128,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.values-and-types.typeof-operator.predict-01",
@@ -1185,7 +1189,7 @@
       "difficulty": 2,
       "prompt": "What does this code print?",
       "code": [
-        "console.log(typeof typeof 5);"
+        "console.log(typeof typeof false);"
       ],
       "options": [
         {
@@ -1194,26 +1198,26 @@
           "feedback": "Right. typeof gives its answer as text, so the type of that answer is string."
         },
         {
-          "text": "number",
+          "text": "boolean",
           "correct": false,
-          "feedback": "You thought typeof stops after giving a type name for 5. The outer typeof still asks what kind of value that name is.",
+          "feedback": "You stopped at the inner typeof, which names the type of false. The outer typeof still asks what kind of value that name is.",
           "misconception": "typeof-result-not-text"
         },
         {
-          "text": "boolean",
+          "text": "number",
           "correct": false,
-          "feedback": "You thought typeof answers true or false. It always answers with a type name, so ask what kind of value a name is.",
-          "misconception": "typeof-result-not-text"
+          "feedback": "You thought typeof answers with a number. It always answers with a type name, so ask what kind of value a name is.",
+          "misconception": "typeof-answers-number"
         }
       ],
       "solution": {
         "expectedOutput": "string"
       },
-      "explanation": "typeof 5 gives the text number. The outer typeof then asks for the type of that text, and a text is a string.",
+      "explanation": "typeof false gives the text boolean. The outer typeof then asks for the type of that text, and a text is a string.",
       "hints": [
         "Work from the inside out: which typeof runs first?",
-        "typeof gives its answer as text.",
-        "Replace the inner typeof 5 by what it gives, then apply the outer typeof to that."
+        "Ask what kind of value typeof itself gives back.",
+        "Replace the inner typeof false by what it gives; the outer typeof is then no longer applied to false itself."
       ],
       "reference": {
         "title": "typeof",
@@ -1223,7 +1227,7 @@
       "duelEligible": true,
       "timeLimitSec": 20,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7,
+      "version": 10,
       "legacyKeys": [
         "exercise:JUNIOR:5"
       ]
@@ -1387,7 +1391,7 @@
       "prerequisites": [],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "Write an expression that gives the type of price, a colon, a space, then the value itself. For 4.5 it gives \"number: 4.5\".",
+      "prompt": "price is a number, text or boolean. Write an expression giving its type, a colon, a space, then price itself. For 4.5 it gives \"number: 4.5\".",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -1446,7 +1450,7 @@
       "hints": [
         "You need three pieces joined with +.",
         "typeof gives the type name of a value as text, and + joins texts together.",
-        "Keep the colon and the space together inside one pair of quotation marks."
+        "The card says typeof is worked out before +. The prompt lists the type first and the value last."
       ],
       "reference": {
         "title": "typeof",
@@ -1455,7 +1459,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     }
   ]
 }

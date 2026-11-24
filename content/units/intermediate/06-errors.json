@@ -353,7 +353,7 @@
       "explanation": "A throw ends the try block immediately and passes its value to catch. Line 4 never runs, and catch prints c7.",
       "hints": [
         "Look at line 3 and at the lines on either side of it.",
-        "throw jumps out of try right away.",
+        "A throw changes the order in which lines run.",
         "Check whether b can print once line 3 has run."
       ],
       "reference": {
@@ -364,7 +364,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.throw-and-try-catch.trace-01",
@@ -555,8 +555,8 @@
       "explanation": "return gives a normal result, so the caller carries on and prints seated. A throw jumps to catch, whatever value it sends.",
       "hints": [
         "Look at what line 3 does when the group is too big.",
-        "A returned value is a normal result. To send a problem to catch, use throw.",
-        "Decide which statement hands a problem to catch."
+        "A returned value counts as a normal result, so the code after the call carries on.",
+        "For each option, check whether line 9 still prints seated afterwards."
       ],
       "reference": {
         "title": "throw",
@@ -565,7 +565,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "int.errors.throw-and-try-catch.write-01",
@@ -641,8 +641,8 @@
       "explanation": "Reading name of an item with no name gives undefined, and reading length of undefined throws a TypeError. try and catch turn that failure into 0.",
       "hints": [
         "What happens when item.name is missing?",
-        "Wrap the risky read in try and give catch a fallback.",
-        "The fallback goes in the block that runs when the read throws."
+        "A failure while reading can be turned into an ordinary result by code written for that case.",
+        "Run {} and null through your code: each must give 0 without stopping with an error."
       ],
       "reference": {
         "title": "try...catch",
@@ -651,7 +651,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.error-types.predict-01",
@@ -687,18 +687,18 @@
         {
           "text": "ReferenceError",
           "correct": false,
-          "feedback": "cart exists, so no name is missing. The failure is a value used the wrong way, which is a different error type.",
+          "feedback": "cart is declared, so no name is missing. A ReferenceError is about a name that does not exist.",
           "misconception": "reference-and-type-error-same"
         }
       ],
       "solution": {
         "expectedOutput": "TypeError"
       },
-      "explanation": "cart.coupon is undefined because cart has no such property. Reading code from undefined is a TypeError, and catch prints that error's name.",
+      "explanation": "cart.coupon is undefined because cart has no such property. Reading the property code of undefined is a TypeError, and catch prints that error's name.",
       "hints": [
         "Look at the two dots on line 3.",
-        "Reading a property of undefined throws.",
-        "Decide whether the error is about a missing name or a misused value."
+        "A property read can only fail when the value before the dot has no properties.",
+        "cart is declared on line 1, so look at what cart.coupon holds before .code is read from it."
       ],
       "reference": {
         "title": "TypeError",
@@ -708,7 +708,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 3
     },
     {
       "id": "int.errors.error-types.concept-01",
@@ -746,7 +746,7 @@
         {
           "text": "Both reads throw a TypeError, because neither name holds a usable value.",
           "correct": false,
-          "feedback": "basket prints undefined without any error. And a name that does not exist has its own error type.",
+          "feedback": "basket is declared, so reading it throws nothing. A name that does not exist is reported with an error type of its own.",
           "misconception": "reference-and-type-error-same"
         }
       ],
@@ -756,7 +756,7 @@
       "explanation": "A declared variable without a value reads as undefined and does not throw. A name that was never declared throws a ReferenceError when read.",
       "hints": [
         "Compare line 1 with the names read on lines 4 and 5.",
-        "One name exists, the other does not.",
+        "A name that cannot be found and a value that cannot be used are two separate failures.",
         "Compare how each of the two names is introduced before line 4 runs."
       ],
       "reference": {
@@ -767,7 +767,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 5
     },
     {
       "id": "int.errors.error-types.trace-01",
@@ -894,7 +894,7 @@
       "explanation": "step is set first and extended inside try. step.size is undefined, so reading its length throws before the shut line runs, and catch prints the name and the text.",
       "hints": [
         "Which line must exist before anything else uses step?",
-        "The line that throws must come before the line that prints shut.",
+        "Lines placed after a throwing line in the same try block are skipped.",
         "Think about which lines run after the throwing line and which are skipped."
       ],
       "reference": {
@@ -905,7 +905,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.errors.error-types.fix-01",
@@ -1049,8 +1049,8 @@
       "explanation": "The read throws a TypeError when size is missing or item is null. catch returns the error's name, and the line after the read returns fine when nothing was thrown.",
       "hints": [
         "Which inputs make the read fail?",
-        "Put the read in try and return from both parts.",
-        "Check what each of the two paths must return."
+        "The caught error is an object that carries its own name.",
+        "Run {size: 'abc'} and {}: the first must return a value, and the second must return the name the error itself carries."
       ],
       "reference": {
         "title": "Error",
@@ -1059,7 +1059,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.errors.finally-block.predict-01",
@@ -1165,7 +1165,7 @@
       "explanation": "The first pass throws nothing, so only finally prints. The second throws, so catch prints and finally follows it.",
       "hints": [
         "Look at lines 3 to 8 and write down what prints for the first pass and for the second.",
-        "finally is not tied to an error.",
+        "catch and finally each have their own condition for running.",
         "Check whether finally appears after a pass without a throw."
       ],
       "reference": {
@@ -1175,7 +1175,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.errors.finally-block.trace-01",
@@ -1304,9 +1304,9 @@
       },
       "explanation": "With true, the throw reaches catch, which returns the failure text. The finally block runs as the function leaves and prints closed first.",
       "hints": [
-        "Which block runs on every exit from the function?",
-        "The failing text needs the throw on line 3 to run.",
-        "One blank is a keyword, the other is an argument that triggers the throw."
+        "Look at line 7 and at the argument on line 11.",
+        "A block that follows catch and runs on every exit has a keyword of its own.",
+        "The first blank takes a keyword and the second a value passed to save; read line 3 to see which value changes the result."
       ],
       "reference": {
         "title": "try...catch",
@@ -1315,7 +1315,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.errors.finally-block.fix-01",
@@ -1362,7 +1362,7 @@
       "hints": [
         "Look at lines 2 to 6: the try block and the finally block of readLine.",
         "finally runs last and can replace a return from try.",
-        "Compare what lines 3 and 5 hand back, and which one wins."
+        "For each option, check what the call prints and whether closed still appears."
       ],
       "reference": {
         "title": "try...catch",
@@ -1372,7 +1372,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.errors.finally-block.write-01",
@@ -1468,7 +1468,7 @@
       "explanation": "The throw must come before the ok text so it is skipped on failure. finally adds done on both paths, which a line inside try or catch cannot do.",
       "hints": [
         "Which text is added on every path?",
-        "Put the throw before the line that adds -ok.",
+        "A throw skips every line after it in the same try block.",
         "Check what each path through the function must add to the text."
       ],
       "reference": {
@@ -1478,7 +1478,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.errors.custom-errors.predict-01",
@@ -1585,7 +1585,7 @@
       "explanation": "super() builds the error object. The constructor then assigns name and left on it. throw hands that object to catch, which reads both properties and prints SeatError 0.",
       "hints": [
         "Look at what the constructor stores on lines 4 and 5.",
-        "A subclass constructor calls super() first, then adds its own properties to this.",
+        "Subclass errors are ordinary error objects that can carry extra properties.",
         "Ask what the catch block can read from the object it receives."
       ],
       "reference": {
@@ -1595,7 +1595,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.custom-errors.trace-01",
@@ -1716,7 +1716,7 @@
       "explanation": "note is built up inside try and thrown. catch receives it and throws it again with -sealed added. Nothing catches that second throw, so it ends the program.",
       "hints": [
         "The text must be built before it is thrown.",
-        "The first throw sits in try, the second in catch.",
+        "A thrown value reaches catch, and catch can throw again.",
         "Each line needs the value the line before it built or threw."
       ],
       "reference": {
@@ -1727,7 +1727,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.errors.custom-errors.fix-01",
@@ -1762,7 +1762,7 @@
         {
           "text": "throw level;",
           "correct": false,
-          "feedback": "A rethrow must pass on the caught object. A bare number has no code property, so the outer line would show undefined."
+          "feedback": "level is a plain number, and a number has no code property, so the outer line would show undefined."
         },
         {
           "text": "return e;",
@@ -1777,8 +1777,8 @@
       "explanation": "The inner catch returns, so the error counts as handled and stops there. throw e passes the same error object on to the outer catch.",
       "hints": [
         "Look at what line 5 does with the caught error.",
-        "To let an error continue, a catch must throw again.",
-        "Check what the outer catch needs from e, and how line 5 could pass it on."
+        "A catch block that finishes normally counts as having handled the error.",
+        "For each option, check whether the outer catch on line 10 still runs, and what e.code is there."
       ],
       "reference": {
         "title": "throw",
@@ -1787,7 +1787,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "int.errors.custom-errors.write-01",

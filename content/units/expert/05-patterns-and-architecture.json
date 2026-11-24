@@ -343,7 +343,7 @@
       "explanation": "Subscribing returns an unsubscribe function that closes over fn. Calling it deletes that one listener from the Set. The second forEach finds only twice, so it prints bb and no plain b.",
       "hints": [
         "Compare the two forEach lines and look at what happens between them.",
-        "An unsubscribe function undoes exactly one subscription.",
+        "A listener list is data that can change between two sends.",
         "Ask which function is removed by line 11, and what the Set holds afterwards."
       ],
       "reference": {
@@ -353,7 +353,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.patterns-and-architecture.observer-pattern.fix-01",
@@ -402,7 +402,7 @@
       "hints": [
         "Read the test inside filter on line 4 and ask what it keeps.",
         "filter keeps the elements whose test is true.",
-        "Line 4 keeps the wrong group of functions; decide which group off should keep."
+        "Check what each option keeps after off(bell): which functions stay in fns, and which should print."
       ],
       "reference": {
         "title": "Array.prototype.filter()",
@@ -411,7 +411,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.patterns-and-architecture.observer-pattern.write-01",
@@ -597,7 +597,7 @@
       "explanation": "chain returns a function that applies first, then second to that result. chain(half, minus) gives 50 / 2 = 25, then 25 - 5 = 20. chain(minus, half) gives 50 - 5 = 45, then 45 / 2 = 22.5.",
       "hints": [
         "Work out each call separately, starting with the rule it receives first.",
-        "chain applies its first rule to the number and its second rule to that result, so the argument order sets the step order.",
+        "A function that returns a function builds a pipeline, and the order of its parts matters.",
         "Work through each call with 50, one rule at a time, and compare the two results."
       ],
       "reference": {
@@ -608,7 +608,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.concept-01",
@@ -653,7 +653,7 @@
       "explanation": "Composition builds an object by combining behaviours it is handed. make stores the list of move functions, and go runs each of them. A different array gives a different duck, and no parent class is needed.",
       "hints": [
         "Look at what make receives on line 6 and what it does with it.",
-        "Composition combines small pieces instead of extending a parent.",
+        "An object can get its behaviour by inheriting it or by being handed it.",
         "Ask where swim and fly come from, and whether any class defines them."
       ],
       "reference": {
@@ -664,7 +664,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.fix-01",
@@ -711,8 +711,8 @@
       "explanation": "fare.m looks for a property literally named m, which does not exist, so || always falls back to the bus rule. Square brackets use the value of m as the key, so fare[m] finds the taxi rule, and || still covers an unknown mode.",
       "hints": [
         "Look at how line 6 finds the rule inside fare.",
-        "A dot reads a fixed name; square brackets read a name stored in a variable.",
-        "Line 6 reads a property of fare; decide whether its name should be written out or taken from m."
+        "A property can be named in the code or by a value held in a variable, and each way is written differently.",
+        "Run 'taxi' and then 'boat' through each option and compare with the 27 and 6 the program should print."
       ],
       "reference": {
         "title": "Property accessors",
@@ -722,7 +722,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.patterns-and-architecture.strategy-and-composition.fill-01",
@@ -778,7 +778,7 @@
       "hints": [
         "Check which function should run first for compose(fee, half).",
         "A call written inside another call's parentheses runs first, and its result feeds the outer call.",
-        "Compare which function the prompt says runs first with which call is written inside the other."
+        "Both blanks are called as functions, so check which names on lines 1 and 2 can be called, then which of them the prompt says runs first."
       ],
       "reference": {
         "title": "Arrow functions",
@@ -788,7 +788,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.patterns-and-architecture.factory-and-singleton.predict-01",
@@ -896,7 +896,7 @@
       "explanation": "A factory centralises which class gets built. make looks the class up by name and calls new itself, so its callers only handle the finished objects. Each call returns a new instance of the chosen class.",
       "hints": [
         "Look at who writes new in this program.",
-        "A factory function builds and returns instances on behalf of its caller.",
+        "Choosing which class to build, and calling new, can happen in one place or in every caller.",
         "Check whether the callers on lines 9 and 10 write new or pass only a name."
       ],
       "reference": {
@@ -906,7 +906,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:SENIOR:4"
       ]
@@ -1190,7 +1190,7 @@
       "explanation": "withFee does not choose its fee rule; it receives one. The caller passes percent or flat, so the same code gives 110 and 105. Receiving the helper lets a fake replace the real one.",
       "hints": [
         "Compare the last two lines: only the second argument differs.",
-        "A function that receives what it uses depends on an abstraction, not on one fixed helper.",
+        "A function can pick its helper itself, or be handed it by its caller.",
         "Ask which line decides the fee rule that withFee uses."
       ],
       "reference": {
@@ -1200,7 +1200,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:SENIOR:8"
       ]
@@ -1254,7 +1254,7 @@
       "hints": [
         "Compare what line 5 stores with the parameter declared on line 4.",
         "A dependency passed in is useless unless the object keeps and uses it.",
-        "Line 4 gives the parameter a default; line 5 must use that parameter."
+        "Decide for each option whether this.send ends up as the function passed to new Alert, and test it with fake."
       ],
       "reference": {
         "title": "Functions",
@@ -1264,7 +1264,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.patterns-and-architecture.dependency-inversion.fill-01",
@@ -1330,7 +1330,7 @@
       "explanation": "report calls its first argument for a value, passes that to its second, and hands the result to its third. Passing the functions themselves works, but lines.push alone loses its array, so the third needs a wrapper.",
       "hints": [
         "Look at which parameter is called with no arguments on line 2.",
-        "Pass functions, not their results, and remember a method taken from an object loses that object.",
+        "A function passed as a dependency is called later by the code that receives it.",
         "Each blank must be a function, not a call; check that the third can still reach lines when out calls it."
       ],
       "reference": {
@@ -1341,7 +1341,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     }
   ]
 }

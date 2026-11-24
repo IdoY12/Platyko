@@ -513,7 +513,7 @@
       "explanation": "map returns a new array and leaves temps alone. Line 2 throws that new array away. Assigning the result back to temps, which is declared with let, makes line 3 print the raised values.",
       "hints": [
         "Line 3 prints temps. Does line 2 ever change temps?",
-        "map does not edit an array. It returns a new one that must be stored.",
+        "map does not edit the array it is called on. It returns a new one.",
         "Line 2 produces a result. Where does it go?"
       ],
       "reference": {
@@ -524,7 +524,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.array-methods.array-map.write-01",
@@ -1680,8 +1680,8 @@
       "explanation": "some answers whether at least one element passes, so it prints true here. To test that all elements pass, use every, which is false as soon as one reading fails.",
       "hints": [
         "Look at line 2: which method is called on readings, and what does it ask?",
-        "some needs one passing element; every needs all of them.",
-        "Only the method name on line 2 needs to change; the test on line 3 is fine."
+        "Some array methods answer true or false, and they differ in how many elements must pass the test.",
+        "The test on line 3 is fine. find and filter do not return a plain true or false, so look at the two methods that do."
       ],
       "reference": {
         "title": "Array.prototype.every()",
@@ -1691,7 +1691,7 @@
       "duelEligible": true,
       "timeLimitSec": 45,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 5,
       "legacyKeys": [
         "puzzle:15"
       ]

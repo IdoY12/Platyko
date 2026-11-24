@@ -315,7 +315,7 @@
       "explanation": "With no trap for an operation, the proxy performs it on the target, so raw.sold becomes 5. The proxy and the target are still two distinct objects, so === is false.",
       "hints": [
         "Compare the two values printed on line 4.",
-        "An operation with no trap goes to the target; identity is a separate question.",
+        "A handler lists the operations a proxy changes; what happens to the rest, and what the proxy is, are two questions.",
         "Check whether raw changed, then whether view and raw are one object."
       ],
       "reference": {
@@ -326,7 +326,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.proxy-traps.fix-01",
@@ -780,7 +780,7 @@
       },
       "explanation": "Each trap should forward to the Reflect function with the same name as its operation: has for the in operator and get for reading a property. The results then match the plain target.",
       "hints": [
-        "Look at the names of the two traps.",
+        "Look at the two operations that lines 6 to 8 run on the proxy.",
         "Reflect has one function for every trap, doing that operation's default work.",
         "Line 3 forwards the in operator and line 4 forwards a property read; neither should change the target."
       ],
@@ -791,7 +791,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.property-descriptors.predict-01",
@@ -836,7 +836,7 @@
       },
       "explanation": "Object.defineProperty sets every flag you leave out to false. A non-writable property keeps its value when assigned (strict code would throw a TypeError), and a non-enumerable one is skipped by Object.keys.",
       "hints": [
-        "Look at what the descriptor on lines 2 to 4 leaves out.",
+        "Look at lines 2 to 4, then at what line 5 tries to do.",
         "Flags missing from a descriptor default to false in defineProperty.",
         "Decide whether ml is writable and whether it is enumerable."
       ],
@@ -848,7 +848,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.property-descriptors.concept-01",
@@ -953,7 +953,7 @@
       "hints": [
         "Look at line 4 and at what Object.keys skips.",
         "One flag decides whether a key is listed by Object.keys.",
-        "Object.keys checks one flag on each property; line 4 sets that flag."
+        "Changing a value, and deleting or redefining a key, are decided by other flags."
       ],
       "reference": {
         "title": "Enumerability and ownership of properties",
@@ -963,7 +963,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.property-descriptors.write-01",
@@ -1192,7 +1192,7 @@
       "explanation": "Spread looks up the Symbol.iterator method of its operand and calls it each time it needs values. This method returns a new array iterator on every call, so both spreads print the full list.",
       "hints": [
         "Look at the method on line 3 and at the two spreads.",
-        "Spread and for-of look for one well-known symbol method and call it on every use.",
+        "Spread and for-of get their values through a symbol-keyed method that the language looks up.",
         "Ask whether anything stored in trail remembers how far an earlier spread got."
       ],
       "reference": {
@@ -1203,7 +1203,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.fix-01",
@@ -1251,7 +1251,7 @@
       "hints": [
         "Look at how line 2 names the method.",
         "instanceof looks up one well-known symbol, as a static member.",
-        "Line 2 is the only line to change; look at the part before the parenthesis."
+        "instanceof asks the class itself, not its instances, and looks the method up under a symbol key."
       ],
       "reference": {
         "title": "Symbol.hasInstance",
@@ -1261,7 +1261,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.proxy-reflect-metaprogramming.well-known-symbols.fill-01",
@@ -1322,7 +1322,7 @@
       "hints": [
         "Think about which well-known symbol concat reads.",
         "concat decides for each argument whether to add its items or the object itself.",
-        "Blank 1 completes the key written after Symbol. on line 3; blank 2 is the value stored under it."
+        "Blank 1 must be the symbol concat itself consults; blank 2 must make concat add the items one by one."
       ],
       "reference": {
         "title": "Symbol.isConcatSpreadable",
@@ -1331,7 +1331,7 @@
       },
       "duelEligible": true,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3,
+      "version": 4,
       "timeLimitSec": 35
     }
   ]

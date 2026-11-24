@@ -666,7 +666,7 @@
       "hints": [
         "Look at line 3: it must produce one element.",
         "An element's children are reached by property, by position or by first and last.",
-        "Check what each chip gives and keep the one that reaches the last train."
+        "Count the trains in the tree: which chips name a position that exists, and which of those is the last?"
       ],
       "reference": {
         "title": "Element: lastElementChild property",
@@ -676,7 +676,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "int.dom-and-events.dom-tree-and-selection.parsons-01",
@@ -854,7 +854,7 @@
       "hints": [
         "Look at the argument on line 2.",
         "getElementById and querySelector read their arguments differently.",
-        "One of the replacements writes the id exactly as it appears in the tree."
+        "For each replacement, check whether the method exists and what its argument means: an id or a selector."
       ],
       "reference": {
         "title": "Document: getElementById() method",
@@ -863,7 +863,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "int.dom-and-events.dom-updates.predict-01",
@@ -1038,8 +1038,8 @@
       "explanation": "Assigning to textContent replaces everything inside the element, child elements included. The two li elements are gone, so children.length drops to 0.",
       "hints": [
         "Compare the two printed lengths.",
-        "textContent covers the whole content of an element, not only the text next to its children.",
-        "Compare what lines 3 and 5 print for the same list."
+        "Assigning to a property overwrites what it held before.",
+        "The first and the last printed numbers differ. Check which statements allow the count of children to change."
       ],
       "reference": {
         "title": "Node: textContent property",
@@ -1049,7 +1049,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 8
     },
     {
       "id": "int.dom-and-events.dom-updates.trace-01",
@@ -1247,7 +1247,7 @@
       "hints": [
         "Look at the two blanks, on lines 1 and 5.",
         "A created element does not exist in the page until you add it to a parent.",
-        "Both blanks are method names: one is called on document, the other on steps."
+        "Check each chip against the card: is it a method it names, and does it leave row inside steps?"
       ],
       "reference": {
         "title": "Document: createElement() method",
@@ -1256,7 +1256,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "int.dom-and-events.dom-updates.parsons-01",
@@ -1418,8 +1418,8 @@
       "explanation": "A selector needs the dot, but classList takes the bare class name. add('.done') creates a class whose name starts with a dot, so contains('done') is false.",
       "hints": [
         "Look at the string passed on line 3.",
-        "The dot belongs to selectors only. classList works with plain names.",
-        "One replacement writes the name exactly as line 5 checks it."
+        "A selector and a class name are written in different forms.",
+        "For each replacement, check which class name it creates and compare it with the name on line 5."
       ],
       "reference": {
         "title": "DOMTokenList: add() method",
@@ -1428,7 +1428,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "int.dom-and-events.event-listeners.predict-01",
@@ -2128,13 +2128,13 @@
         {
           "text": "A listener only reacts to elements that existed when it was added",
           "correct": false,
-          "feedback": "You thought a listener covers only elements that existed when it was added. This listener is attached to the list, and a click inside the list reaches it wherever the child came from.",
+          "feedback": "You thought a listener covers only elements that existed when it was added. Look at which element line 4 attaches the listener to.",
           "misconception": "listener-covers-only-existing-children"
         },
         {
           "text": "The click stays on the new item, so the list's listener would not run",
           "correct": false,
-          "feedback": "You thought a click stays on the element it hit. The event also travels on to the ancestors of that element, where the list's listener waits.",
+          "feedback": "You thought a click stays on the element it hit. Ask where line 4 attaches the listener, and whether the click can reach it from the new item.",
           "misconception": "events-stay-on-target"
         }
       ],
@@ -2144,8 +2144,8 @@
       "explanation": "The click on the new li bubbles up to ul, where the listener sits. One listener on a parent therefore covers children added later. This is event delegation.",
       "hints": [
         "Find which element has the listener and which one is clicked.",
-        "A click reaches the ancestors of the element it started on.",
-        "Ask which element besides the new li hears a click made on the li."
+        "Think about which elements can hear a click, and when each received its listener.",
+        "The output is ok: check which statements still allow a click on the new item to reach the listener."
       ],
       "reference": {
         "title": "Event bubbling",
@@ -2154,7 +2154,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 7
     },
     {
       "id": "int.dom-and-events.event-propagation.trace-01",
@@ -2400,9 +2400,9 @@
       },
       "explanation": "matches checks the target itself against the selector, so only the rent button passes. querySelector looks inside the target, so an item would pass too.",
       "hints": [
-        "The condition must be true only when the clicked element is the rent button.",
-        "The method asks about the clicked element itself, not about its contents.",
-        "Line 4 asks a yes-or-no question about the clicked element, using the selector '.rent'."
+        "Look at the condition on line 4 and at which element e.target is for each of the three clicks.",
+        "Different element methods answer about the element itself, its contents or its ancestors.",
+        "Check each chip: does it accept selector text, and does it answer about the target itself or about what is inside it?"
       ],
       "reference": {
         "title": "Element: matches() method",
@@ -2411,7 +2411,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 7
     },
     {
       "id": "int.dom-and-events.event-propagation.parsons-01",
@@ -2764,8 +2764,8 @@
       "explanation": "e.target is the element that was clicked, here the button, so its id prints. The element whose listener is running is e.currentTarget, and that is the list.",
       "hints": [
         "Look at line 4 and ask which element it reads.",
-        "target is where the event started, currentTarget is where the listener sits.",
-        "Line 4 must read the property from hint 2 that names the element holding the listener."
+        "Two elements are involved in a bubbling event: where it started and where it is being heard.",
+        "For each option, check whether it prints an element's id at all and whether that element is the list."
       ],
       "reference": {
         "title": "Event: currentTarget property",
@@ -2774,7 +2774,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     }
   ]
 }

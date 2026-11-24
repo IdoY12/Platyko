@@ -947,7 +947,7 @@
       "explanation": "The queue orders timers by delay, and the sort is stable, so equal delays keep the order given. Copy the list, sort by delay ascending, then map to the names.",
       "hints": [
         "Think about which value decides who goes first.",
-        "Sort a copy by delay from smallest to largest, then keep only the names.",
+        "A timer with a smaller delay fires first, and timers with equal delays keep the order they were given in.",
         "The comparison subtracts one delay from the other. Which way round gives smallest first?"
       ],
       "reference": {
@@ -957,7 +957,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 1
+      "version": 2
     },
     {
       "id": "adv.event-loop.microtask-queue.predict-01",
@@ -1310,8 +1310,8 @@
       "explanation": "Plain code runs first, then the whole microtask queue, then timer tasks. Filter the tasks by kind in that order and keep each group in the order given.",
       "hints": [
         "Group the tasks by kind before joining them.",
-        "Run order is sync, then micro, then macro.",
-        "Build one list of names per kind, then join the lists in the order from hint 2."
+        "Plain code, promise handlers and timer callbacks each reach the event loop at a different moment.",
+        "Build one list of names per kind, then join the lists in the order the event loop runs them."
       ],
       "reference": {
         "title": "Array.prototype.filter()",
@@ -1320,7 +1320,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.event-loop.await-scheduling.predict-01",

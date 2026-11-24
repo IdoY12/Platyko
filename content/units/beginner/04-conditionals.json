@@ -539,8 +539,8 @@
       "explanation": "An if statement tests its condition. A true condition runs the block; a false one skips it. The line after the braces is not part of the block, so it always runs.",
       "hints": [
         "Compare the condition on line 2 with the value on line 1.",
-        "The condition decides if the braces run.",
-        "Which line is outside the braces?"
+        "The card says what decides whether the code in braces runs.",
+        "Only line 3 is inside the braces. Work out 40 > 50 to decide whether it can run."
       ],
       "reference": {
         "title": "if...else",
@@ -550,7 +550,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 6
     },
     {
       "id": "beg.conditionals.else-branches.predict-01",
@@ -1237,8 +1237,8 @@
       "explanation": "The same condition appears on lines 2 and 4. On line 4 it gives true. On line 2 it picks the first value, ice, because a ternary gives back one of its two values.",
       "hints": [
         "Compare what lines 3 and 4 print.",
-        "A ternary turns a condition into one of two values.",
-        "Work out the condition once, then see what each line does with it."
+        "The card says what a ternary does with its condition.",
+        "Line 4 prints only the condition. Work it out once, then see which value line 2 takes from it."
       ],
       "reference": {
         "title": "Conditional (ternary) operator",
@@ -1248,7 +1248,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 8
     },
     {
       "id": "beg.conditionals.condition-truthiness.predict-01",
@@ -1479,7 +1479,7 @@
       "explanation": "The condition can be the variable itself. A non-empty text is truthy, so the block runs. The other choices turn it into a false condition.",
       "hints": [
         "Look at the value on line 1.",
-        "A truthy value can stand alone as a condition.",
+        "A condition does not have to be the result of a comparison.",
         "Work out whether each chip is truthy or falsy, and keep the one that lets the block run."
       ],
       "reference": {
@@ -1490,7 +1490,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "beg.conditionals.condition-truthiness.parsons-01",
@@ -1560,7 +1560,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "Write an expression that gives 'Hi ' and then who. When who is empty, 0 or null, give 'Hi guest'.",
+      "prompt": "who is a text, the number 0 or null. Write an expression giving 'Hi ' and then who; for empty text, 0 or null it gives 'Hi guest'.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -1617,9 +1617,9 @@
       },
       "explanation": "The variable itself works as the condition. Empty text, 0 and null are falsy, so they choose Hi guest; any other value is truthy and is added after Hi.",
       "hints": [
-        "Look at which of the five tests give 'Hi guest' and which give a name.",
-        "A ternary picks between two results, and its condition can be the variable alone.",
-        "Check your expression against all five tests, especially the text '0' and the number 0."
+        "Look at the prompt: which values give 'Hi guest', and what do all the others give?",
+        "The card shows a way to pick between two results by a test, and the test does not have to be a comparison.",
+        "Check your expression with who set to the empty text, to the text '0' and to the number 0."
       ],
       "reference": {
         "title": "Truthy",
@@ -1628,7 +1628,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 5
     }
   ]
 }

@@ -1001,7 +1001,7 @@
       "hints": [
         "Look at line 3.",
         "The new value is built from the old value plus something.",
-        "Count the passes: i is 0, 1 and 2."
+        "Check when the condition on line 2 first becomes false, and count the passes before that."
       ],
       "reference": {
         "title": "Loops and iteration",
@@ -1011,7 +1011,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.loops.loop-accumulator.trace-01",
@@ -1377,7 +1377,7 @@
       ],
       "format": "TRACE",
       "difficulty": 1,
-      "prompt": "After line 3 has run twice, what is the value of money?",
+      "prompt": "What does money hold right after line 8 has run?",
       "code": [
         "let money = 20;",
         "for (let day = 1; day <= 5; day++) {",
@@ -1390,36 +1390,36 @@
       ],
       "options": [
         {
-          "text": "8",
-          "correct": true,
-          "feedback": "Right. Two passes have taken 12 away from 20."
-        },
-        {
-          "text": "14",
-          "correct": false,
-          "feedback": "That is the value after the first pass. The question asks about the second run of line 3.",
-          "misconception": "previous-run-value"
-        },
-        {
           "text": "2",
+          "correct": true,
+          "feedback": "Right. The third pass leaves 2, which is below 5, so break ends the loop there."
+        },
+        {
+          "text": "-10",
           "correct": false,
-          "feedback": "That is the final value, reached on the third pass. The loop is not finished yet at this point.",
-          "misconception": "final-value-at-every-step"
+          "feedback": "You ran all five passes. Once the if on line 4 is true, break ends the loop at once, so no later pass takes more away.",
+          "misconception": "break-continue-confused"
+        },
+        {
+          "text": "8",
+          "correct": false,
+          "feedback": "That is the value after the second pass. Money is not below 5 yet, so the loop goes on for another pass.",
+          "misconception": "previous-run-value"
         }
       ],
       "solution": {
         "probe": {
           "variable": "money",
-          "afterLine": 3,
-          "visit": 2
+          "afterLine": 8,
+          "visit": 1
         },
         "expectedOutput": "2"
       },
-      "explanation": "money goes 20, 14, 8, 2. After the second run of line 3 it is 8, which is not below 5. After the third it is 2, and break ends the loop.",
+      "explanation": "money goes 20, 14, 8, 2. After the third pass it is 2, which is below 5, so break ends the loop and line 8 prints 2.",
       "hints": [
-        "Count the runs of line 3.",
-        "Each pass takes 6 away from money.",
-        "Write money after each run of line 3 and stop at the second."
+        "Look at the if on line 4 and the break on line 5.",
+        "break ends a loop at once, so no pass after it runs.",
+        "Write money after each run of line 3, and stop when the test on line 4 is true."
       ],
       "reference": {
         "title": "break statement",
@@ -1428,7 +1428,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.loops.break-and-continue.fill-01",

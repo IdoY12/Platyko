@@ -856,7 +856,7 @@
       "hints": [
         "Line 4 stores show on something instances do not inherit from.",
         "new links each object to the prototype property of its constructor.",
-        "Keep the function body, and change what comes before .show."
+        "Keep the function body. Check which object each option stores show on, and whether new links t to it."
       ],
       "reference": {
         "title": "Inheritance and the prototype chain",
@@ -866,7 +866,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.prototypes-and-inheritance.constructor-functions.write-01",
@@ -984,7 +984,7 @@
       "hints": [
         "Both the stored data and the method have to be reachable from each new Tag.",
         "Data goes on this inside the constructor. The shared method goes on the prototype.",
-        "Declare both the constructor and the method inside the function body, before the loop."
+        "Check that a new Tag can reach shout through its prototype and still knows its own s."
       ],
       "reference": {
         "title": "new operator",
@@ -993,7 +993,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.prototypes-and-inheritance.object-create-and-delegation.predict-01",

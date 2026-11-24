@@ -332,7 +332,7 @@
       "explanation": "Set lookups and inserts take roughly constant time, so each id costs a fixed amount of work and the total grows in step with the list. Cost follows the input read, not the output.",
       "hints": [
         "Think about what one has call has to do.",
-        "A Set finds a value by its hash, not by walking through the earlier values.",
+        "Work is counted by how often the busiest line runs, and one lookup can cost more or less depending on the structure used.",
         "Compare the work per id when the list has 5 ids and when it has 500."
       ],
       "reference": {
@@ -343,7 +343,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.code-analysis.complexity-analysis.fix-01",
@@ -414,7 +414,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 5,
-      "prompt": "Write the body of countChecks(list, want). Test pairs, second index after the first; stop at the first pair adding to want. Return the number of pairs tested, including that one.",
+      "prompt": "countChecks(list, want): visit pairs, first index left to right, then later indexes. Stop at the first pair summing to want. Return pairs visited, including it; all if none match.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -556,7 +556,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.code-analysis.refactoring-equivalence.predict-01",
@@ -666,7 +666,7 @@
       "hints": [
         "Run both tests by hand on each value of ps, one at a time.",
         "A refactor must give the same output for the same input, edge cases included.",
-        "Compare what each test does with the value 0."
+        "For each value of ps, ask whether each test keeps it, and look for a value where the two tests disagree."
       ],
       "reference": {
         "title": "Array.prototype.filter()",
@@ -675,7 +675,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7,
+      "version": 8,
       "legacyKeys": [
         "exercise:SENIOR:2"
       ]
@@ -793,7 +793,7 @@
       "explanation": "?? falls back only for null or undefined, so an explicit 0 stays 0. || treats 0 as missing and would replace it.",
       "hints": [
         "Check what each chip does when pct is 0.",
-        "Only an absent value should get the default.",
+        "Operators that give a default differ in which values they treat as missing.",
         "Test each chip with row(), row(0) and row(20) in turn."
       ],
       "reference": {
@@ -804,7 +804,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.code-analysis.reading-unfamiliar-code.predict-01",
@@ -968,7 +968,7 @@
       "explanation": "Evaluated from the inside out, mk(1) runs once and fill copies that one function into both slots, so both names share one closure. Each counter needs its own call of the factory.",
       "hints": [
         "Evaluate line 5 from the inside out: how many times is mk called?",
-        "A closure keeps the variables of the call that created it, and fill copies one value into every slot.",
+        "A closure keeps the variables of the call that created it.",
         "Count how many times mk runs on line 5 in each replacement."
       ],
       "reference": {
@@ -979,7 +979,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "exp.code-analysis.reading-unfamiliar-code.write-01",
@@ -1117,9 +1117,9 @@
       },
       "explanation": "f keeps a score only when it beats both zero and every score kept so far. A first 0 does not count, and a tie does not count. A running top starting at 0 does the same.",
       "hints": [
-        "Work out f on a list that starts with 0.",
-        "f compares each score with the largest score kept, never below 0.",
-        "You only need one extra number besides the output array."
+        "Look at line 2: what is each score compared with?",
+        "A reducer carries a result forward, and each step reads what the earlier steps left.",
+        "Try f by hand on [0, 2, 2], on [4, 4] and on [2, 9, 3, 9], and check that your loop gives the same lists."
       ],
       "reference": {
         "title": "Array.prototype.reduce()",
@@ -1128,7 +1128,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "exp.code-analysis.side-effects-and-purity.predict-01",
@@ -1228,8 +1228,8 @@
       "explanation": "list and orders are the same array, and sort reorders an array in place. That is a hidden side effect: the caller sees different data after the call. A pure sum would sort a copy or just add the two numbers.",
       "hints": [
         "Compare the array printed on the last line with the one on line 1.",
-        "A pure function changes nothing outside itself, and an argument that is an array is shared with the caller.",
-        "Which line inside sum changes the array it was given?"
+        "A pure function leaves everything outside itself unchanged.",
+        "Check each line inside sum for what it does to list, then compare list with orders."
       ],
       "reference": {
         "title": "Array.prototype.sort()",
@@ -1239,7 +1239,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5,
+      "version": 6,
       "legacyKeys": [
         "exercise:SENIOR:5"
       ]

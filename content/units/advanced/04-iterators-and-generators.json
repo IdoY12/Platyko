@@ -721,7 +721,7 @@
       "explanation": "The iterable and the iterator are one object, and n lives outside both. After the first spread n is 4, so the second spread's first next() call already has done: true. Returning a new iterator each time avoids this.",
       "hints": [
         "Compare what [Symbol.iterator] returns with what it could return.",
-        "An iterator remembers its position; a shared iterator keeps it between loops.",
+        "An iterator remembers its position. Whether a second pass starts fresh depends on what [Symbol.iterator] hands back.",
         "Ask where n is when the second spread begins."
       ],
       "reference": {
@@ -731,7 +731,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.iterators-and-generators.custom-iterables.fill-01",
@@ -1565,7 +1565,7 @@
       "hints": [
         "Find the line that tries to collect values from the generator.",
         "Spread asks for values until done is true, and an endless generator never reports done.",
-        "Take only the values you need, without collecting them all first."
+        "Check each option: is the value it gives the pattern an iterable generator object, and does every method it calls exist on one?"
       ],
       "reference": {
         "title": "Generator",
@@ -1575,7 +1575,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.iterators-and-generators.lazy-sequences.write-01",

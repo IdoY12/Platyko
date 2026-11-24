@@ -286,7 +286,7 @@
       "explanation": "Three temperatures have indexes 0 to 2. On the last pass temps[i + 1] is temps[3], which does not exist, so undefined - 5 is NaN and push adds it. The loop should stop one pass earlier.",
       "hints": [
         "Look at line 5: which two indexes does it read on the last pass?",
-        "The last valid index is one less than the length, and i + 1 reaches one further.",
+        "The last valid index of an array is one less than its length.",
         "Work out what the subtraction gives when its left value is missing."
       ],
       "reference": {
@@ -297,7 +297,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 6
     },
     {
       "id": "exp.debugging.off-by-one-and-boundaries.concept-01",
@@ -338,7 +338,7 @@
       "explanation": "slice(start, end) copies from start up to, but not including, end, so the number of items is end minus start. A negative start counts back from the end of the array.",
       "hints": [
         "Count the items in the first printed array.",
-        "Think about which of the two numbers is a position that is left out.",
+        "Both numbers of slice are positions in the array, and the two are not treated alike.",
         "The length of a slice is end minus start."
       ],
       "reference": {
@@ -348,7 +348,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "exp.debugging.off-by-one-and-boundaries.fix-01",
@@ -890,7 +890,7 @@
       "explanation": "The first call reads 5 and pauses. The second call reads 5 too. Both resume and write 5 - 1, so one update is lost. Read the value after the await, or avoid keeping a stale copy.",
       "hints": [
         "Follow the order of lines 3 and 5 for both calls.",
-        "A value saved before an await can be stale after it.",
+        "Code after an await runs later, after other calls have had a turn.",
         "Compare what seen holds on line 5 with what qty holds by then."
       ],
       "reference": {
@@ -900,7 +900,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "exp.debugging.async-ordering-bugs.fix-01",
@@ -949,9 +949,9 @@
       },
       "explanation": "Calling an async function starts it and returns a promise. Without await, serve carries on at once, and brew adds the cup after the print. Awaiting the promise keeps the steps in order.",
       "hints": [
-        "Line 7 starts brew; what makes serve wait for it?",
-        "An async call returns a promise that serve must wait on.",
-        "Only line 7 needs to change; the new line still starts brew with \"latte\"."
+        "Look at lines 7 to 9 and the order in which brew and serve push to steps.",
+        "Calling an async function starts it and gives back a promise; the caller carries on unless it does something with that promise.",
+        "Check each option: does the print on line 9 still run, and does it run after brew has pushed?"
       ],
       "reference": {
         "title": "Using promises",
@@ -960,7 +960,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "exp.debugging.async-ordering-bugs.write-02",
@@ -971,7 +971,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 5,
-      "prompt": "Write interleave(jobs): each job is [name, steps] with steps >= 1. Jobs take turns, one step each. Return labels in run order, like 'a1'. No jobs gives [].",
+      "prompt": "interleave(jobs): jobs are [name, steps], steps >= 1. Take turns, one step each. Return labels like 'a1' (name, step from 1) in run order; [] if none.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1144,7 +1144,7 @@
       "explanation": "Keep the jobs in a queue. Take the first job, count one more step for it and record name plus step number. If it has steps left, put it at the back, so the jobs take turns.",
       "hints": [
         "Keep the jobs in a line and take them from the front.",
-        "After a job runs one step it goes to the back of the line, unless it has no steps left.",
+        "Each turn gives one job one step, and then that job waits behind the others.",
         "A loop that runs while jobs remain can handle one step per turn; decide where a job goes after its step."
       ],
       "reference": {
@@ -1154,7 +1154,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7
+      "version": 8
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.predict-01",
@@ -1205,7 +1205,7 @@
       "explanation": "The throw leaves bake and skips the rest of prep's try block. finally runs on the way out, then the error reaches the catch in the caller, which logs its name.",
       "hints": [
         "Follow the error out of bake, one caller at a time.",
-        "A throw skips the rest of its block, but finally still runs.",
+        "A thrown error leaves each function on its way up the call stack until a catch handles it.",
         "Decide which pushes still run after the throw, and which block always runs on the way out."
       ],
       "reference": {
@@ -1215,7 +1215,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.concept-01",
@@ -1263,7 +1263,7 @@
       "explanation": "A failure travels up only until a handler deals with it. The catch in parse returns 0, which fulfils the promise parse gives back, so load adds 1 and the last then prints 1. The final catch never runs.",
       "hints": [
         "Follow the failure from line 2 up through parse and load, one function at a time.",
-        "A catch that returns normally ends the failure for the callers above it.",
+        "Each then or catch step returns a new promise, which is what the next step in the chain receives.",
         "Decide what the promise returned by parse holds after line 4 has run."
       ],
       "reference": {
@@ -1274,7 +1274,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 7
+      "version": 8
     },
     {
       "id": "exp.debugging.reading-a-stack-of-calls.fix-02",

@@ -581,8 +581,8 @@
       "explanation": "A function declaration stores code for later. Without a call such as water(), the body never runs, so the program prints only ready.",
       "hints": [
         "Look for a line that calls water.",
-        "A function runs only when it is called.",
-        "Check lines 3 and 4 for a call with parentheses."
+        "Think about the difference between defining a function and calling it.",
+        "Check the lines after the function for a call with parentheses."
       ],
       "reference": {
         "title": "function declaration",
@@ -592,7 +592,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 5
+      "version": 7
     },
     {
       "id": "beg.functions.parameters-and-arguments.predict-01",
@@ -889,7 +889,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "A function has parameters price and percent. Write the expression for the price after taking percent off.",
+      "prompt": "A function has parameters price and percent, where percent is a whole number such as 10 for 10 percent. Write the expression for the price after taking percent off.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -956,7 +956,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "beg.functions.return-value.predict-01",
@@ -1000,7 +1000,7 @@
       "explanation": "feed prints a line but has no return statement. A call without a return gives back undefined, so result holds undefined.",
       "hints": [
         "Look at what result receives on line 4.",
-        "A function that never uses return gives back undefined.",
+        "A call is replaced by the value its function hands back with return.",
         "Line 2 prints text, but printing is not returning."
       ],
       "reference": {
@@ -1011,7 +1011,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4,
+      "version": 5,
       "legacyKeys": [
         "exercise:JUNIOR:28"
       ]
@@ -1301,7 +1301,7 @@
       "explanation": "return ends the function at once and gives back one value. Line 2 returns window, so line 3 is never reached and the call gives 12A.",
       "hints": [
         "Look at the two return lines.",
-        "A function leaves at the first return it runs.",
+        "Think about what return does to the lines after it, as the card describes.",
         "Ask which return runs first, and whether a second one can run."
       ],
       "reference": {
@@ -1312,7 +1312,7 @@
       "duelEligible": true,
       "timeLimitSec": 35,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "beg.functions.function-expressions.predict-01",
@@ -1413,8 +1413,8 @@
       "explanation": "A braced arrow function body is a block of statements, like a normal function. Line 2 computes a value but does not return it, so the call gives undefined.",
       "hints": [
         "Look at the braces on lines 1 and 3.",
-        "With braces, a value comes back only through return.",
-        "Is there a return in the body?"
+        "A braced body is a block of statements, like the body of a function written with the word function.",
+        "Line 4 calls pack, so the answer is what the call gives back. Is there a return in the body?"
       ],
       "reference": {
         "title": "Arrow function expressions",
@@ -1424,7 +1424,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 6
     },
     {
       "id": "beg.functions.function-expressions.trace-01",

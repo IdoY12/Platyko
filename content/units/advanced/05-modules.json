@@ -403,7 +403,7 @@
       "hints": [
         "Look at the name used after trails on the last line.",
         "The returned object lists what the module shares.",
-        "Compare the name after trails. on line 7 with the names declared inside the module."
+        "Each chip adds one property to the returned object. Line 7 calls a function through trails, so check which chips give a property a function as its value."
       ],
       "reference": {
         "title": "export",
@@ -413,7 +413,7 @@
       "duelEligible": true,
       "timeLimitSec": 30,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.module-scope.fix-01",
@@ -595,7 +595,7 @@
       "explanation": "Keep recent inside the function and expose only record and snapshot. record pushes, then drops the oldest reading when more than two remain. snapshot returns a copy, so callers cannot change the private list.",
       "hints": [
         "Test an empty list and a list shorter than two.",
-        "Trim only when the list has grown past two entries.",
+        "A private list changes only through the functions the module returns, so the size limit belongs inside record.",
         "Decide when the list has grown too long, and which end to drop from."
       ],
       "reference": {
@@ -605,7 +605,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 3
     },
     {
       "id": "adv.modules.exports-and-imports.predict-01",
@@ -1556,8 +1556,8 @@
       "explanation": "A const arrow function is not ready until its line runs, and line 2 runs first. A function declaration is hoisted with its body, so run can call fare at any point in the file.",
       "hints": [
         "Compare the line where fare is used with the line where it is created.",
-        "Only function declarations are hoisted together with their body.",
-        "Keep the name and the body, but change how the function is declared."
+        "How a name is declared decides whether it holds its value before its own line runs.",
+        "For each replacement, ask what the name fare holds at the moment line 2 runs."
       ],
       "reference": {
         "title": "function declaration",
@@ -1567,7 +1567,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     },
     {
       "id": "adv.modules.dependency-direction.write-01",
@@ -1578,7 +1578,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 4,
-      "prompt": "Write the body of hasMutualPair(deps). deps maps a module to the list it imports; no module imports itself. Return true when two modules import each other, else false.",
+      "prompt": "Write the body of hasMutualPair(deps). deps maps a module to the list it imports; unlisted modules import nothing, and none imports itself. Return true when two modules import each other.",
       "solution": {
         "entry": {
           "kind": "function",
@@ -1737,7 +1737,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 5
     }
   ]
 }

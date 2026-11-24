@@ -186,7 +186,7 @@
       "title": "References",
       "conceptCard": {
         "title": "Two names, one object",
-        "body": "Objects and arrays are stored once, and a variable holds a reference to them. Assigning it to another name shares the object. Changing it through either name is seen by both. Methods such as push and reverse change an array in place. Strict equality asks whether two names reach the same object.",
+        "body": "Objects and arrays are stored once, and a variable holds a reference to them. Assigning it to another name, or passing it to a function, shares the object. Changing it through either name is seen by both. Methods such as push and reverse change an array in place. Strict equality asks whether two names reach the same object.",
         "code": [
           "const a = { n: 1 };",
           "const b = a;",
@@ -503,8 +503,8 @@
       "explanation": "Line 2 uses an object pattern on an array. The array has no properties called first or second, so both are undefined. An array pattern with square brackets reads positions 0 and 1 and prints the lane names.",
       "hints": [
         "Compare the brackets on line 2 with the value on its right.",
-        "Curly braces read properties by name; square brackets read positions.",
-        "Only line 2 needs to change; the names first and second can stay."
+        "Destructuring has two pattern kinds: one matches by property name and the other by position. Think about which one suits an array.",
+        "The program must print north first, so first must receive the element at index 0, and the right side must be the whole array."
       ],
       "reference": {
         "title": "Destructuring assignment",
@@ -514,7 +514,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 4
+      "version": 6
     },
     {
       "id": "int.objects-in-depth.destructuring.write-01",
@@ -1270,8 +1270,8 @@
       "explanation": "Line 2 makes preview a second name for hall, so changing seats through preview changes hall too and the program prints 6. Spreading hall into a new object gives preview its own copy.",
       "hints": [
         "Ask how many objects exist after line 2.",
-        "Assigning an object to another const shares it instead of copying it.",
-        "The new variable needs its own object that starts with the same properties."
+        "Assigning an object to another name shares it instead of copying it.",
+        "Changing let or const does not create a second object. Check whether the right side of line 2 can ever be anything but hall."
       ],
       "reference": {
         "title": "Working with objects",
@@ -1281,7 +1281,7 @@
       "duelEligible": true,
       "timeLimitSec": 40,
       "author": "claude-fable-5-2/unit-author",
-      "version": 2
+      "version": 4
     },
     {
       "id": "int.objects-in-depth.reference-vs-value.write-01",

@@ -145,7 +145,7 @@
       "title": "Why == surprises: type conversion",
       "conceptCard": {
         "title": "Why == surprises: type conversion",
-        "body": "== also compares two values, but first it converts them to a common type. So 5 == '5' is true, and false == 0 is true. This surprises many people. Use === when you want an exact match.",
+        "body": "== also compares two values, but first it converts them to a common type. So 5 == '5' is true, and false == 0 is true. This surprises many people. Use === when you want an exact match. A comparison sign is worked out after + and -.",
         "code": [
           "console.log(5 == '5');",
           "console.log(false == 0);",
@@ -740,8 +740,8 @@
       "explanation": "typed is text and 25 is a number. Only == converts one side, so the digits match. === sees two types and gives false, = stores a value, and + joins the two.",
       "hints": [
         "Look at the type of typed and of 25.",
-        "One sign converts the types before comparing.",
-        "It is not the strict sign."
+        "A sign can compare two values with or without converting their types first.",
+        "Only two chips compare the values. Check which of them gives true when one side is text and the other a number."
       ],
       "reference": {
         "title": "Equality (==)",
@@ -751,7 +751,7 @@
       "duelEligible": true,
       "timeLimitSec": 25,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 4
     },
     {
       "id": "beg.operators-and-comparisons.loose-equality.parsons-01",
@@ -803,7 +803,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "typed is digit text. Write an expression that is true when typed with a 0 joined onto its end matches the number target after conversion.",
+      "prompt": "typed is digit text and target a number. Write an expression that is true when typed with a 0 joined onto its end matches target after conversion.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -867,7 +867,7 @@
       "explanation": "The + joins typed and the text 0 first, because + is worked out before ==. Then == converts the joined text to a number, so '120' matches 120. === would stay false because the types differ.",
       "hints": [
         "Look at the two variables: typed holds text and target holds a number.",
-        "The + sign joins the texts, and == converts the text to a number before comparing.",
+        "A text of digits can match a number only when the comparison converts one side first.",
         "The longer text, not typed itself, is what must match target."
       ],
       "reference": {
@@ -877,7 +877,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 6
+      "version": 7
     },
     {
       "id": "beg.operators-and-comparisons.relational-operators.predict-01",
@@ -1489,7 +1489,7 @@
       ],
       "format": "CODE_WRITE",
       "difficulty": 2,
-      "prompt": "Write an expression that gives username, or the text 'guest' when username is empty text, 0 or null.",
+      "prompt": "username is a text, 0 or null. Write an expression giving username, or 'guest' when it is empty text, 0 or null. The text '0' is not empty.",
       "solution": {
         "entry": {
           "kind": "expression",
@@ -1546,8 +1546,8 @@
       },
       "explanation": "The || sign gives back its left side when it is truthy, and its right side when it is falsy. So username || 'guest' falls back to 'guest' only for empty or falsy names.",
       "hints": [
-        "You need a sign that picks one of two values.",
-        "Two signs on the card give back one of their operands; decide which one keeps a truthy left side.",
+        "Look at the prompt: which values must give 'guest', and what must every other value give?",
+        "The card has two signs that give back one of their operands instead of true or false.",
         "Test your expression with username set to '' and to 'Mo', and check which value comes back each time."
       ],
       "reference": {
@@ -1557,7 +1557,7 @@
       },
       "duelEligible": false,
       "author": "claude-fable-5-2/unit-author",
-      "version": 3
+      "version": 5
     }
   ]
 }
